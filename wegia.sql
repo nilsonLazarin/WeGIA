@@ -1,4 +1,4 @@
-create database wegia;
+CREATE DATABASE IF NOT EXISTS wegia;
 
 use wegia;
 
