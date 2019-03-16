@@ -1,0 +1,79 @@
+.formulario{
+    margin-top: 5px;
+}
+
+.logo{
+    margin: 10px;
+    margin-top: 20px;
+}
+
+.cabecalho{
+    background-color: #d9d9d9;
+    border-bottom: solid 1px #bfbfbf;
+}
+
+.corpo{
+    margin-top: 30px;
+}
+
+.body{
+    background-color: #f8f8f8 !important;
+    padding-bottom:  100% !important;
+}
+
+.row.form-group{
+    height: 120px;
+}
+
+.input-lg, .form-group-lg .form-control {
+    height: 30px;
+    padding: 5px 10px;
+    font-size: 15px;
+    line-height: 1.33;
+    border-radius: 6px;
+}
+.mb-lg{
+    width: 300px;
+}
+
+.carrosel{
+    padding-left: 30px;
+}
+
+.informacao{
+    padding-right: 70px;
+}
+
+h1{
+    text-align: center;
+}
+
+p{
+        text-align: justify;
+    align-content: center;
+}
+
+h3{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.lar{
+    font-size: 20px;
+    position: absolute;
+}
+
+.wegia{
+    position: relative;
+    top: 10px;
+    left: 50px;
+}
+
+.entrar{
+    margin-left: -10px;
+    margin-top: 20px;
+}
+
+.descricao{
+    margin-top: 10px;
+}

@@ -1,0 +1,98 @@
+.body{
+    background-color: #f8f8f8 !important;
+    padding-bottom:  100% !important;
+}
+.body-sign{
+    height: 100%;
+    width: 100%;
+    background-color: #ecedf0;
+}
+.center-sign{
+    border-bottom: 2px;
+}
+.logo{
+    margin-left: 15px;
+    margin-top: 5px;
+}
+.panel.panel-sign{
+    margin-bottom: 0px;
+    border-width: 0px 0px 0px 1080px;
+    box-shadow: none;
+    background-color: transparent;
+}
+.panel-body{
+    padding: 5px 15px 5px 15px;
+}
+.form-group{
+    width: 250px;
+    margin-bottom: 0px;
+}
+.row.form-group{
+    height: 120px;
+}
+.clearfix{
+    height: 20px;
+    margin-bottom: 5px;
+}
+
+.input-lg, .form-group-lg .form-control {
+    height: 30px;
+    padding: 5px 10px;
+    font-size: 15px;
+    line-height: 1.33;
+    border-radius: 6px;
+}
+.mb-lg{
+    width: 300px;
+}
+.retornar{
+    padding-left: 30%;
+    width: 300px;
+    padding: 35px 12px 0px 12px;
+}
+-------------------------------------------------------
+.inferior{
+    margin: 1em;
+    background-color: #ecedf0;
+    display: table;
+    height: 500px;
+}
+.info{
+    width: 685px;
+    height: 622px;
+    float: right;
+    background-image: linear-gradient( to top, #337ab7 50% ,#ecedf0 50%);  
+    margin: 5px 12px 0px 12px;
+    border: 1px solid #DADADA;
+    border-radius: 5px;
+    text-align: center;
+    align-content: center;
+}
+.text{
+    background-color: white ; 
+    height: 465px;
+}
+.empresa{
+    width: 685px;
+    height: 622px;
+    float: right;
+    background-image: linear-gradient( to top, #337ab7 50% ,#ecedf0 50%);    
+    margin: 5px 12px 0px 12px;
+    border: 1px solid #DADADA;
+    border-radius: 5px;
+    text-align: center;
+    align-content: center;
+}
+.contato{
+    padding-left: 35%;
+}
+.manual{
+    display: block; 
+    float: left; 
+    width: 300px;
+}
+.wegia{
+    display: block; 
+    float: left; 
+    width: 300px;
+}

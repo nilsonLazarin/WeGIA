@@ -1,0 +1,18 @@
+img{
+	max-height: 100%;
+	max-width: 100%;
+}
+.imagem{
+	width: 50px;
+}
+
+.divDocumento{
+	display: none;
+}
+.icones
+{
+	font-size:22px;
+}
+.link{
+	color: inherit;
+}
