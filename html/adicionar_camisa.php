@@ -4,6 +4,7 @@
 		header ("Location: ../index.php");
 	}
 ?>
+
 <!doctype html>
 <html class="fixed">
 <head>

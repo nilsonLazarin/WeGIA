@@ -3,6 +3,7 @@ include_once '../classes/Situacao.php';
 include_once '../dao/SituacaoDAO.php';
 class SituacaoControle
 {
+    
     public function verificar(){
         extract($_REQUEST);
         

@@ -2,7 +2,6 @@
 
 class Camisa
 {
-    
    private $id_camisa;
    private $tamanhos;
    

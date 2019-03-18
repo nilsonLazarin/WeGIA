@@ -3,6 +3,7 @@ include_once '../classes/Calcado.php';
 include_once '../dao/CalcadoDAO.php';
 class CalcadoControle
 {
+    
     public function verificar(){
         extract($_REQUEST);
         

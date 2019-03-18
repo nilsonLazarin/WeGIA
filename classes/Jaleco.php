@@ -2,7 +2,6 @@
 
 class Jaleco
 {
-    
    private $id_jaleco;
    private $tamanhos;
    

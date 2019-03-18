@@ -1,5 +1,4 @@
 <?php
-
 class Situacao
 {
    private $id_situacao;

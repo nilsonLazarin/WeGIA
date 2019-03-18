@@ -3,6 +3,7 @@ include_once '../classes/Cargo.php';
 include_once '../dao/CargoDAO.php';
 class CargoControle
 {
+    
     public function verificar(){
         extract($_REQUEST);
         

@@ -5,6 +5,7 @@ require_once'../Functions/funcoes.php';
 
 class CargoDAO
 {
+    
     public function incluir($cargo)
     {        
         try {

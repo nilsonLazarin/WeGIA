@@ -3,6 +3,7 @@ include_once '../classes/Camisa.php';
 include_once '../dao/CamisaDAO.php';
 class CamisaControle
 {
+    
     public function verificar(){
         extract($_REQUEST);
         

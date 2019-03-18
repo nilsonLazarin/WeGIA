@@ -1,5 +1,4 @@
 <?php
-
 class Cargo
 {
    private $id_cargo;

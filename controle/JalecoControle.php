@@ -3,7 +3,6 @@ include_once '../classes/Jaleco.php';
 include_once '../dao/JalecoDAO.php';
 class JalecoControle
 {
-    
     public function verificar(){
         extract($_REQUEST);
         
