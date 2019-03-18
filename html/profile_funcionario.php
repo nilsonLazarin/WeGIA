@@ -9,8 +9,8 @@
     header('Location: ../controle/control.php?metodo=listarUm&nomeClasse=FuncionarioControle&nextPage=../html/profile_funcionario.php?id_funcionario='.$id_funcionario.'&id_funcionario='.$id_funcionario);
    }
    
-      $usuario = "wegia";
-      $senha = "wegia";
+      $usuario = "root";
+      $senha = "";
       $servidor = "localhost";
       $bddnome = "wegia";
       $mysqli = new mysqli($servidor,$usuario,$senha,$bddnome);

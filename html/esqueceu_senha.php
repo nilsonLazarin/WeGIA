@@ -14,8 +14,7 @@
 				$cpf = $_POST["cpf"];
 				echo $cpf;
 
-				$pdo = Conexao::connect();
-				$consulta = $pdo->query("SELECT cpf,senha FROM pessoa WHERE cpf = '$cpf'");
+				$consulta = mysql_query("SELECT cpf,senha FROM pessoa WHERE cpf = '$cpf'");
 
 				if(mysql_num_rows($consulta) == 1){
 					

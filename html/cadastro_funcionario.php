@@ -4,8 +4,8 @@
    	header ("Location: ../index.php");
    }
    
-   $usuario = "wegia";
-    	$senha = "wegia";
+      $usuario = "root";
+    	$senha =  "teste";
     	$servidor = "localhost";
     	$bddnome = "wegia";
     	$mysqli = new mysqli($servidor,$usuario,$senha,$bddnome);
