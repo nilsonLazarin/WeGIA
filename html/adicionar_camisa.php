@@ -236,7 +236,7 @@
 						<a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
 					</div>
 				</header>
-
+				
 				<!-- start: page -->
 				<div class="row">
 					<div class="col-md-4 col-lg-2" style="visibility: hidden;"></div>
