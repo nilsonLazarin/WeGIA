@@ -270,7 +270,7 @@
 									<fieldset>
 										<form method="post" id="formulario" action="../controle/control.php">
 											<div class="form-group"><br>
-												<label class="col-md-3 control-label">almoxarifado</label>
+												<label class="col-md-3 control-label">Almoxarifado</label>
 												<div class="col-md-8">
 													<input type="text" class="form-control" name="descricao_almoxarifado" id="descricao_almoxarifado" required>
 												</div>

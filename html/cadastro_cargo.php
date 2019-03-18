@@ -245,40 +245,44 @@
 
 				<!-- start: page -->
 				<div class="row">
-					<div class="col-md-4 col-lg-3">
-						<section class="panel"></section>
-					</div>
-					<div class="col-md-8 col-lg-8">
+					<div class="col-md-4 col-lg-2" style="visibility: hidden;"></div>
+					<div class="col-md-8 col-lg-8" >
 						<div class="tabs">
 							<ul class="nav nav-tabs tabs-primary">
 								<li class="active">
-									<a href="#overview" data-toggle="tab">Cadastro de cargo</a>
+									<a href="#overview" data-toggle="tab">Inserir Calcado
+									</a>
 								</li>
 							</ul>
 							<div class="tab-content">
 								<div id="overview" class="tab-pane active">
-									<form class="form-horizontal" method="post" action="../controle/control.php">
-										<fieldset>
-										<div class="form-group">
-											<label class="col-md-3 control-label">Nome do cargo:
-											</label>
-											<div class="col-md-6">
-												<input type="hidden" name="nomeClasse" value="CargoControle">
-												
-												<input type="hidden" name="metodo" value="incluir">
-												
-												<input type="text" name="descricao" class="form-control" required><br/>
-												
-												<input type="submit" name="enviar" value="Cadastrar" class="btn btn-primary">
+									<fieldset>
+										<form method="post" id="formulario" action="../controle/control.php">
+											<div class="form-group"><br>
+												<label class="col-md-3 control-label">Cargo</label>
+												<div class="col-md-8">
+													<input type="text" class="form-control" name="cargo" id="cargo" required>
+												</div>
+											</div><br/>
+											<input type="hidden" name="nomeClasse" value="CargoControle">
+											<input type="hidden" name="metodo" value="incluir">
+											<div class="row">
+												<div class="col-md-9 col-md-offset-3">
+													<button id="enviar" class="btn btn-primary" type="submit">Enviar</button>
+													<input type="reset" class="btn btn-default">
+													<a href="cadastro_funcionario.php" style="color: white; text-decoration: none;">
+														<button class="btn btn-info" type="button">Voltar</button>
+													</a>
+												</div>
 											</div>
-										</div>
-										</fieldset>
-									</form>
+										</form>
+									</fieldset>	
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
+
 				<!-- end: page -->
 			</section>
 		</div>

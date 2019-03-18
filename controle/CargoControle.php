@@ -3,18 +3,15 @@ include_once '../classes/Cargo.php';
 include_once '../dao/CargoDAO.php';
 class CargoControle
 {
-
     public function verificar(){
         extract($_REQUEST);
-        if((!isset($descricao)) || (empty($descricao))){
-            $msg = "Nome do cargo não informado. Por favor, informe um nome!";
-            header('Location: ../html/cargo.php?msg='.$msg);
+        
+        if((!isset($cargo)) || (empty($cargo))){
+            $msg .= "Descricao da cargo nÃ£o informada. Por favor, informe uma descricao!";
+            header('Location: ../html/cargo.html?msg='.$msg);
+        }else{
+            $cargo = new Cargo($cargo);
         }
-        
-    
-        $cargo = new Cargo();
-        $cargo->setDescricao($descricao);
-        
         return $cargo;
     }
     public function listarTodos(){
@@ -22,29 +19,34 @@ class CargoControle
         $cargoDAO= new CargoDAO();
         $cargos = $cargoDAO->listarTodos();
         session_start();
-        $_SESSION['cargos']=$cargos;
+        $_SESSION['cargo']=$cargos;
         header('Location: '.$nextPage);
     }
-    
-    public function listarUm($id)
-    {
-        $cargoDAO = new CargoDAO();
-        
-    }
-    
     public function incluir(){
         $cargo = $this->verificar();
         $cargoDAO = new CargoDAO();
         try{
             $cargoDAO->incluir($cargo);
             session_start();
-            $_SESSION['msg']="Cargo cadastrado com sucesso";
+            $_SESSION['msg']="cargo cadastrado com sucesso";
             $_SESSION['proxima']="Cadastrar outro cargo";
             $_SESSION['link']="../html/cadastro_cargo.php";
-            header("Location: ../html/sucesso.php");
+            header("Location: ../html/cadastro_cargo.php");
         } catch (PDOException $e){
-            $msg= "Não foi possível registrar o cargo"."<br>".$e->getMessage();
+            $msg= "NÃ£o foi possÃ­vel registrar o cargo"."<br>".$e->getMessage();
             echo $msg;
         }
     }
+    public function excluir(){
+        extract($_REQUEST);
+        try {
+            $cargoDAO=new cargoDAO();
+            $cargoDAO->excluir($id_cargo);
+            header('Location:../html/listar_almox.php');
+        } catch (PDOException $e) {
+            echo "ERROR";
+        }
+    }
+    
 }
+    

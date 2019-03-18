@@ -1,22 +1,25 @@
 <?php
-require_once ('acesso.php');
-require_once ('Funcionario.php');
 
 class Cargo
 {
+   private $id_cargo;
+   private $cargo;
+   
+    public function __construct($cargo)
+    {
 
-    private $id_cargo;
+        $this->cargo=$cargo;
 
-    private $descricao;
+    }
 
-    public function getId_cargo()
+   public function getId_cargo()
     {
         return $this->id_cargo;
     }
 
-    public function getDescricao()
+    public function getCargo()
     {
-        return $this->descricao;
+        return $this->cargo;
     }
 
     public function setId_cargo($id_cargo)
@@ -24,9 +27,8 @@ class Cargo
         $this->id_cargo = $id_cargo;
     }
 
-    public function setDescricao($descricao)
+    public function setCargo($cargo)
     {
-        $this->descricao = $descricao;
+        $this->cargo = $cargo;
     }
 }
-
