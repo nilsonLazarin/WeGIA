@@ -263,8 +263,7 @@
 											<input type="hidden" name="metodo" value="incluir">
 											<div class="row">
 												<div class="col-md-9 col-md-offset-3">
-													<button id="enviar" class="btn btn-primary" type="submit">Enviar</button>
-													<input type="reset" class="btn btn-default">
+													<button id="enviar" class="btn btn-primary" type="submit">Enviar</button>											
 													<a href="cadastro_funcionario.php" style="color: white; text-decoration: none;">
 														<button class="btn btn-info" type="button">Voltar</button>
 													</a>

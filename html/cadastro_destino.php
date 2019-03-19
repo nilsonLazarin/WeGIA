@@ -392,7 +392,7 @@
 											<div class="form-group">
 												<label class="col-md-3 control-label" for="profileCompany">Número do CPF</label>
 												<div class="col-md-6">
-													<input type="text" class="form-control" id="NCPF" name="num_cpf" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##',this,event)">
+													<input type="text" class="form-control" id="NCPF" name="cpf" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##',this,event)">
 												</div>														
 											</div>
 
@@ -406,7 +406,7 @@
 											<div class="form-group">
 												<label class="col-md-3 control-label" for="profileCompany">Telefone</label>
 												<div class="col-md-6">
-													<input type="text" class="form-control" minlength="12" name="telefone" id="telefone" id="profileCompany" placeholder="Ex: (22)999999999" onkeypress="return Onlynumbers(event)" onkeyup="mascara('(##)############',this,event)" required>
+													<input type="text" class="form-control" minlength="12" name="telefone" id="telefone" id="profileCompany" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeyup="mascara('(##)#####-####',this,event)" required>
 												</div>
 											</div>
 											

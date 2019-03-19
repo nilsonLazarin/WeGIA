@@ -12,7 +12,6 @@
          	include_once '../dao/Conexao.php';
           	include_once '../dao/DestinoDAO.php';
           
-          	session_start();
           	if(!isset($_SESSION['destino'])){
             	header('Location: ../controle/control.php?metodo=listarTodos&nomeClasse=DestinoControle&nextPage=../html/listar_destino.php');
           	}

@@ -8,7 +8,7 @@
 <!doctype html>
 <html class="fixed">
 <head>
-	<?php session_start(); 
+	<?php
 		include_once '../dao/Conexao.php';
 		include_once '../dao/AlmoxarifadoDAO.php';
 		include_once '../dao/TipoEntradaDAO.php';

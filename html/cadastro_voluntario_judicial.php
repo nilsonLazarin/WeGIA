@@ -116,29 +116,28 @@
 
     </script>
 		<script language="JavaScript">
-				var numValidos = "0123456789-()";
-				var num1invalido = "78";
-				var i;
-				function validarTelefone(){
-					//Verificando quantos dígitos existem no campo, para controlarmos o looping;
-					digitos = document.form1.telefone.value.length;
-					
-					for(i=0; i<digitos; i++) {
-						if (numValidos.indexOf(document.form1.telefone.value.charAt(i),0) == -1) {
-							alert("Apenas números são permitidos no campo Telefone!");
-							document.form1.telefone.select();
-							return false;
-						}
-						if(i==0){
-							if (num1invalido.indexOf(document.form1.telefone.value.charAt(i),0) != -1) {
-							alert("Número de telefone inválido!");
-							document.form1.telefone.select();
-							return false;
-							}
-						}
-					} 
-					
-				}
+		 var numValidos = "0123456789-()";
+         var num1invalido = "78";
+         var i;
+         	function validarTelefone(){
+         		//Verificando quantos dígitos existem no campo, para controlarmos o looping;
+         		digitos = document.form1.telefone.value.length;
+         			
+         		for(i=0; i<digitos; i++) {
+         			if (numValidos.indexOf(document.form1.telefone.value.charAt(i),0) == -1) {
+         				alert("Apenas números são permitidos no campo Telefone!");
+         				document.form1.telefone.select();
+         				return false;
+         			}
+         			if(i==0){
+         				if (num1invalido.indexOf(document.form1.telefone.value.charAt(i),0) != -1) {
+         					alert("Número de telefone inválido!");
+         					document.form1.telefone.select();
+         					return false;
+         				}
+         			}
+         		} 
+         	}
 		</script>
 
 	</head>
@@ -429,11 +428,11 @@
 													</div>
 												</div>
 												<div class="form-group">
-													<label class="col-md-3 control-label" for="profileCompany">Telefone</label>
-													<div class="col-md-8">
-														<input type="text" class="form-control" minlength="11" id="profileCompany">
-													</div>
-												</div>
+				                                    <label class="col-md-3 control-label" for="profileCompany">Telefone</label>
+				                                    <div class="col-md-8">
+				                                       <input type="text" class="form-control" maxlength="14" minlength="14" name="telefone" id="telefone" id="profileCompany" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeyup="mascara('(##)#####-####',this,event)" required>
+				                                    </div>
+				                                 </div>
 												<div class="form-group">
 													<label class="col-md-3 control-label" for="profileCompany">Nascimento</label>
 													<div class="col-md-8">

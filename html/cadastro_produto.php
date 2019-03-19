@@ -7,7 +7,7 @@
 
 <!doctype html>
 <html class="fixed">
-<?php session_start(); 
+<?php
 	include_once '../dao/Conexao.php';
 	include_once '../dao/CategoriaDAO.php';
 	include_once '../dao/UnidadeDAO.php';

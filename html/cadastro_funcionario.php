@@ -629,14 +629,6 @@
                                        <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data_admissao" id="profileCompany" id="data_admissao" max=<?php echo date('Y-m-d'); ?>  required>
                                     </div>
                                  </div>
-                                 <div class="form-group">
-                                    <label class="col-md-3 control-label" for="profileLastName">Certidão de nascimento</label>
-                                    <div class="col-md-4">
-                                       <label><input type="radio" name="certidao" id="radio" value="certidaosim" id="sim" style="margin-top: 15px; margin-left: 15px;" required
-                                          ><i class="fa fa-check" style="font-size: 20px;"></i></label>
-                                       <label><input type="radio" name="certidao" id="radio" id="nao" value="certidaonao" style="margin-top: 15px; margin-left: 15px;"><i class="fa fa-times" style="font-size: 20px;"></i></label>
-                                    </div>
-                                 </div>
                                  <hr class="dotted short">
                                  <h4 class="mb-xlg doch4">Carga Horária</h4>
                                  <div class="form-group">

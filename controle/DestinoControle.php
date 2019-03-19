@@ -10,10 +10,10 @@ class DestinoControle
             header('Location: ../html/destino.html?msg='.$msg);
         }
         if((!isset($cnpj)) || (empty($cnpj))){
-            $calcado='null';
+            $cnpj='';
         }
         if((!isset($cpf)) || (empty($cpf))){
-            $calca='null';
+            $cpf='';
         }
         if((!isset($telefone)) || (empty($telefone))){
             $msg .= "Telefone do destino nÃ£o informado. Por favor, informe um telefone!";
