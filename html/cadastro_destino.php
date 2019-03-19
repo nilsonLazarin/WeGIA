@@ -378,7 +378,7 @@
 											<div class="form-group" >
 												<label class="col-md-3 control-label" for="profileCompany">Número do CNPJ</label>
 												<div class="col-md-6">
-													<input type="text" name="cnpj" id="cnpj" onkeyup="FormataCnpj(this,event)" onblur="exibirCNPJ(this.value)" maxlength="18" class="form-control input-md" ng-model="cadastro.cnpj" placeholder="Ex: 77.777.777/7777-77" >
+													<input type="text" name="cnpj" id="cnpj" onkeyup="FormataCnpj(this,event)" onblur="calidarCNPJ(this.value)" maxlength="18" class="form-control input-md" ng-model="cadastro.cnpj" placeholder="Ex: 77.777.777/7777-77" >
 												</div>														
 											</div>
 											
