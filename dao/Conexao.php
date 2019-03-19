@@ -1,5 +1,4 @@
 <?php
-//123456
  class  Conexao
 {
     public static function connect()
