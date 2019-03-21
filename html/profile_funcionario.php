@@ -10,7 +10,7 @@
    }
    
       $usuario = "root";
-      $senha = "";
+      $senha = "root";
       $servidor = "localhost";
       $bddnome = "wegia";
       $mysqli = new mysqli($servidor,$usuario,$senha,$bddnome);
@@ -63,6 +63,16 @@
       <script src="../Functions/enviar_dados.js"></script>
       <script src="../Functions/mascara.js"></script>
       <script src="../Functions/lista.js"></script>
+
+      <style type="text/css">
+
+        .btn span.fa-check {          
+          opacity: 0;       
+        }
+        .btn.active span.fa-check {       
+          opacity: 1;       
+        }
+      </style>
       <!-- jquery functions -->
       <script>
          function editar_informacoes_pessoais()
@@ -619,7 +629,7 @@
             }
          
           }
-         
+         console.log("Funcionario");
           
       </script>
       <script language="JavaScript">
@@ -1360,59 +1370,80 @@
                                           <input type="time" placeholder="07:25" class="form-control" name="saida2" id="saida2" >
                                        </div>
                                     </div>
-                                    <div class="form-group">
-                                       <label class="col-md-3 control-label" >Dias trabalhados</label>
-                                       <div class="col-md-2"> 
-                                          <label>Seg <input type="checkbox" id="diaTrabalhado" name="trabSeg" value="Seg"></label>
-                                       </div>
-                                       <div class="col-md-2"> 
-                                          <label>Ter <input type="checkbox" id="diaTrabalhado" name="trabTer" value="Ter"></label>
-                                       </div>
-                                       <div class="col-md-2"> 
-                                          <label>Qua <input type="checkbox" id="diaTrabalhado" name="trabQua" value="Qua"></label>
-                                       </div>
-                                       <div class="col-md-2"> 
-                                          <label>Qui <input type="checkbox" id="diaTrabalhado" name="trabQui" value="Qui"></label>
-                                       </div>
-                                       <div class="col-md-2"> 
-                                          <label>Sex <input type="checkbox" id="diaTrabalhado" name="trabSex" value="Sex"></label>
-                                       </div>
-                                       <div class="col-md-2"> 
-                                          <label>Sab <input type="checkbox" id="diaTrabalhado" name="trabSab" value="Sab"></label>
-                                       </div>
-                                       <div class="col-md-2"> 
-                                          <label>Dom <input type="checkbox" id="diaTrabalhado" name="trabDom" value="Dom"></label>
-                                       </div>
-                                       <div class="col-md-2"> 
-                                          <label>Plantão 12/36<input type="checkbox" id="diaTrabalhado" name="plantao" value="Plantão 12/36"></label>
-                                       </div>
+                                    <div class="text-center">
+                                      <h3 class="col-md-12">Dias Trabalhados</h3>
+                                      <div class="btn-group " data-toggle="buttons">
+                                        <label class="btn btn-primary ">
+                                          <input type="checkbox" id="diaTrabalhado" name="trabSeg" value="Seg">Seg
+                                          <span class="fa fa-check"></span>
+                                        </label>
+                                        <label class="btn btn-primary" >
+                                          <input type="checkbox" id="diaTrabalhado" name="trabTer" value="Ter"> Ter
+                                          <span class="fa fa-check"></span>
+                                        </label>
+                                        <label class="btn btn-primary">
+                                          <input type="checkbox" id="diaTrabalhado" name="trabQua" value="Qua"> Qua
+                                          <span class="fa fa-check"></span>
+                                        </label>
+                                        <label class="btn btn-primary">
+                                          <input type="checkbox" id="diaTrabalhado" name="trabQui" value="Qui"> Qui
+                                          <span class="fa fa-check"></span>
+                                        </label>
+                                        <label class="btn btn-primary">
+                                          <input type="checkbox" id="diaTrabalhado" name="trabSex" value="Sex"> Sex
+                                          <span class="fa fa-check"></span>
+                                        </label>
+                                        <label class="btn btn-primary">
+                                          <input type="checkbox" id="diaTrabalhado" name="trabSab" value="Sab"> Sab
+                                          <span class="fa fa-check"></span>
+                                        </label>
+                                        <label class="btn btn-primary">
+                                          <input type="checkbox" id="diaTrabalhado" name="trabDom" value="Dom"> Dom
+                                          <span class="fa fa-check"></span>
+                                        </label>
+                                        <label class="btn btn-primary">
+                                          <input type="checkbox" id="diaTrabalhado" name="plantao" value="Plantão 12/36"> Plantão 12/36
+                                          <span class="fa fa-check"></span>
+                                        </label>
+                                      </div>
                                     </div>
-                                    <div class="form-group" style="margin-top: 20px;">
-                                       <label class="col-md-3 control-label" >Dias de folga</label>
-                                       <div class="col-md-2"> 
-                                          <label>Seg <input type="checkbox" id="diaTrabalhado" name="folgaSeg" value="Seg"></label>
-                                       </div>
-                                       <div class="col-md-2"> 
-                                          <label>Ter <input type="checkbox" id="diaTrabalhado" name="folgaTer" value="Ter"></label>
-                                       </div>
-                                       <div class="col-md-2"> 
-                                          <label>Qua <input type="checkbox" id="diaTrabalhado" name="folgaQua" value="Qua"></label>
-                                       </div>
-                                       <div class="col-md-2"> 
-                                          <label>Qui <input type="checkbox" id="diaTrabalhado" name="folgaQui" value="Qui"></label>
-                                       </div>
-                                       <div class="col-md-2"> 
-                                          <label>Sex <input type="checkbox" id="diaTrabalhado" name="folgaSex" value="Sex"></label>
-                                       </div>
-                                       <div class="col-md-2"> 
-                                          <label>Sab <input type="checkbox" id="diaTrabalhado" name="folgaSab" value="Sab"></label>
-                                       </div>
-                                       <div class="col-md-2"> 
-                                          <label>Dom <input type="checkbox" id="diaTrabalhado" name="folgaDom" value="Dom"></label>
-                                       </div>
-                                       <div class="col-md-2"> 
-                                          <label>Alternado <input type="checkbox" id="diaTrabalhado" name="folgaAlternado" value="Alternado"></label>
-                                       </div>
+
+                                  <div class="text-center">
+                                      <h3 class="col-md-12">Dias de Folga</h3>
+                                      <div class="btn-group " data-toggle="buttons">
+                                        <label class="btn btn-primary ">
+                                          <input type="checkbox" id="diaTrabalhado" name="folgaSeg" value="Seg">Seg
+                                          <span class="fa fa-check"></span>
+                                        </label>
+                                        <label class="btn btn-primary" >
+                                          <input type="checkbox" id="diaTrabalhado" name="folgaTer" value="Ter"> Ter
+                                          <span class="fa fa-check"></span>
+                                        </label>
+                                        <label class="btn btn-primary">
+                                          <input type="checkbox" id="diaTrabalhado" name="folgaQua" value="Qua"> Qua
+                                          <span class="fa fa-check"></span>
+                                        </label>
+                                        <label class="btn btn-primary">
+                                          <input type="checkbox" id="diaTrabalhado" name="folgaQui" value="Qui"> Qui
+                                          <span class="fa fa-check"></span>
+                                        </label>
+                                        <label class="btn btn-primary">
+                                          <input type="checkbox" id="diaTrabalhado" name="folgaSex" value="Sex"> Sex
+                                          <span class="fa fa-check"></span>
+                                        </label>
+                                        <label class="btn btn-primary">
+                                          <input type="checkbox" id="diaTrabalhado" name="folgaSab" value="Sab"> Sab
+                                          <span class="fa fa-check"></span>
+                                        </label>
+                                        <label class="btn btn-primary">
+                                          <input type="checkbox" id="diaTrabalhado" name="folgaDom" value="Dom"> Dom
+                                          <span class="fa fa-check"></span>
+                                        </label>
+                                        <label class="btn btn-primary">
+                                          <input type="checkbox" id="diaTrabalhado" name="folgaAlternado" value="Alternado"> Alternado
+                                          <span class="fa fa-check"></span>
+                                        </label>
+                                      </div>
                                     </div>
                                     <hr class="dotted short">
                                     <div class="panel-footer">

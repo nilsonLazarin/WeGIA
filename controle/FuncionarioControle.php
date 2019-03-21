@@ -266,7 +266,7 @@ class FuncionarioControle
             header('Location: ../html/funcionario.html?msg='.$msg);
         }
         if((!isset($numero_residencia)) || empty(($numero_residencia))){
-            $numero_residencia = "Não possui";
+            $numero_residencia = "NULL";
         }
         if((!isset($complemento)) || (empty($complemento))){
             $complemento='NULL';
@@ -362,34 +362,6 @@ class FuncionarioControle
             $calcado='Não informado';
         }
 
-        if((!isset($calcado)) || (empty($calcado))){
-            $calcado='Não informado';
-        }
-
-        if((!isset($calcado)) || (empty($calcado))){
-            $calcado='Não informado';
-        }
-
-        if((!isset($calcado)) || (empty($calcado))){
-            $calcado='Não informado';
-        }
-
-        if((!isset($calcado)) || (empty($calcado))){
-            $calcado='Não informado';
-        }
-
-        if((!isset($calcado)) || (empty($calcado))){
-            $calcado='Não informado';
-        }
-
-        if((!isset($calcado)) || (empty($calcado))){
-            $calcado='Não informado';
-        }
-
-        if((!isset($calcado)) || (empty($calcado))){
-            $calcado='Não informado';
-        }
-
         session_start();
         $imgperfil=base64_encode($_SESSION['imagem']);
         $cpf=str_replace(".", '', $cpf);
@@ -426,8 +398,8 @@ class FuncionarioControle
         if ($nova_senha!=$confirmar_senha) {
             return 1;
         }else{
-              $usuario = "wegia";
-              $senha = "wegia";
+              $usuario = "root";
+              $senha = "root";
               $servidor = "localhost";
               $bddnome = "wegia";
               $mysqli = new mysqli($servidor,$usuario,$senha,$bddnome);
@@ -654,7 +626,7 @@ class FuncionarioControle
     {
         extract($_REQUEST);
         if((!isset($numero_residencia)) || empty(($numero_residencia))){
-            $numero_residencia = "Não possui";
+            $numero_residencia = "null";
         }
         $funcionario = new Funcionario('','','','','','','','','','','','','',$cep,$uf,$cidade,$bairro,$rua,$numero_residencia,$complemento,$ibge);
         $funcionario->setId_funcionario($id_funcionario);
