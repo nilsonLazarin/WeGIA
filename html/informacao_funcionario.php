@@ -298,6 +298,7 @@
 								</div>
 						
 								<h2 class="panel-title">Funcionario</h2>
+								<h6> Obs: Para ver informações mais detalhadas clicar no nome da pessoa.</h6>
 							</header>
 							<div class="panel-body">
 								<table class="table table-bordered table-striped mb-none" id="datatable-default">
