@@ -230,106 +230,86 @@
          <aside id="sidebar-left" class="sidebar-left">
             <div class="sidebar-header">
                <div class="sidebar-title">
-                  Navigation
+                  Menu
                </div>
                <div class="sidebar-toggle hidden-xs" data-toggle-class="sidebar-left-collapsed" data-target="html" data-fire-event="sidebar-left-toggle">
                   <i class="fa fa-bars" aria-label="Toggle sidebar"></i>
                </div>
             </div>
+            
             <div class="nano">
                <div class="nano-content">
                   <nav id="menu" class="nav-main" role="navigation">
                      <ul class="nav nav-main">
                         <li>
                            <a href="home.php">
-                           <i class="fa fa-home" aria-hidden="true"></i>
-                           <span>Início</span>
+                              <i class="fa fa-home" aria-hidden="true"></i>
+                              <span>Início</span>
                            </a>
                         </li>
-                        <li class="nav-parent nav-expanded nav-active">
+                        <li class="nav-parent nav-active">
                            <a>
-                           <i class="fa fa-copy" aria-hidden="true"></i>
-                           <span>Cadastros Pessoas</span>
+                              <i class="fa fa-copy"></i>
+                              <span>Pessoas</span>
                            </a>
                            <ul class="nav nav-children">
                               <li>
                                  <a href="cadastro_funcionario.php">
-                                 Cadastrar funcionário
+                                     Cadastrar funcionário
                                  </a>
                               </li>
                               <li>
                                  <a href="cadastro_interno.php">
-                                 Cadastrar interno
+                                     Cadastrar interno
                                  </a>
                               </li>
-                              <li>
+                              <!--<li>
                                  <a href="cadastro_voluntario.php">
-                                 Cadastrar voluntário
+                                     Cadastrar voluntário
                                  </a>
                               </li>
                               <li>
                                  <a href="cadastro_voluntario_judicial.php">
-                                 Cadastrar voluntário judicial
+                                     Cadastrar voluntário judicial
                                  </a>
-                              </li>
-                           </ul>
-                        </li>
-                        <li class="nav-parent nav-expanded nav-active">
-                           <a>
-                           <i class="fa fa-copy" aria-hidden="true"></i>
-                           <span>Informação Pessoas</span>
-                           </a>
-                           <ul class="nav nav-children">
+                              </li>-->
                               <li>
                                  <a href="../controle/control.php?metodo=listarTodos&nomeClasse=FuncionarioControle&nextPage=../html/informacao_funcionario.php">
-                                 Informações funcionarios
+                                     Informações funcionarios
                                  </a>
                               </li>
-                           </ul>
-                           <ul class="nav nav-children">
                               <li>
                                  <a href="../controle/control.php?metodo=listarTodos&nomeClasse=InternoControle&nextPage=../html/informacao_interno.php">
-                                 Informações interno
+                                     Informações interno
                                  </a>
                               </li>
                            </ul>
                         </li>
-                        <li class="nav-parent nav-expanded nav-active">
+
+                        <li class="nav-parent nav-active">
                            <a>
-                           <i class="fa fa-copy" aria-hidden="true"></i>
-                           <span>Cadastrar Produtos</span>
+                              <i class="fa fa-copy" aria-hidden="true"></i>
+                              <span>Material e Patrimônio</span>
                            </a>
                            <ul class="nav nav-children">
                               <li>
                                  <a href="../html/cadastro_entrada.php">
-                                 Cadastrar Produtos
+                                     Cadastrar Produtos
                                  </a>
                               </li>
-                           </ul>
-                           <ul class="nav nav-children">
                               <li>
                                  <a href="../html/cadastro_saida.php">
-                                 Saida de Produtos
+                                     Saida de Produtos
                                  </a>
                               </li>
-                           </ul>
-                        </li>
-                        <li class="nav-parent nav-expanded nav-active">
-                           <a>
-                           <i class="fa fa-copy" aria-hidden="true"></i>
-                           <span>Informações Produtos</span>
-                           </a>
-                           <ul class="nav nav-children">
                               <li>
                                  <a href="../html/estoque.php">
-                                 Estoque
+                                     Estoque
                                  </a>
                               </li>
-                           </ul>
-                           <ul class="nav nav-children">
                               <li>
-                                 <a href="../html/listar_almoxs.php">
-                                 Almoxarifados
+                                 <a href="../html/listar_almox.php">
+                                     Almoxarifados
                                  </a>
                               </li>
                            </ul>
@@ -360,7 +340,7 @@
             <div class="row">
             <div class="col-md-4 col-lg-3">
                <section class="panel">
-<div class="panel-body">
+                        <div class="panel-body">
                            <div class="thumb-info mb-md">
                               <?php
                                  if($_SERVER['REQUEST_METHOD'] == 'POST')

@@ -1,6 +1,6 @@
 <?php
-	$usuario = "wegia";
-  	$senha = "wegia";
+	$usuario = "root";
+  	$senha = "root";
   	$servidor = "localhost";
   	$bddnome = "wegia";
   	$conexao = mysqli_connect($servidor,$usuario,$senha,$bddnome);

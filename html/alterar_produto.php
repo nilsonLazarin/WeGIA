@@ -213,7 +213,7 @@ include_once '../dao/ProdutoDAO.php';
 			<aside id="sidebar-left" class="sidebar-left">
 				<div class="sidebar-header">
 					<div class="sidebar-title">
-						Navigation
+						Menu
 					</div>
 					<div class="sidebar-toggle hidden-xs" data-toggle-class="sidebar-left-collapsed" data-target="html" data-fire-event="sidebar-left-toggle">
 						<i class="fa fa-bars" aria-label="Toggle sidebar"></i>
@@ -230,10 +230,10 @@ include_once '../dao/ProdutoDAO.php';
 										<span>Início</span>
 									</a>
 								</li>
-								<li class="nav-parent nav-expanded nav-active">
+								<li class="nav-parent nav-active">
 									<a>
-										<i class="fa fa-copy" aria-hidden="true"></i>
-										<span>Cadastros Pessoas</span>
+										<i class="fa fa-copy"></i>
+										<span>Pessoas</span>
 									</a>
 									<ul class="nav nav-children">
 										<li>
@@ -246,7 +246,7 @@ include_once '../dao/ProdutoDAO.php';
 												 Cadastrar interno
 											</a>
 										</li>
-										<li>
+										<!--<li>
 											<a href="cadastro_voluntario.php">
 												 Cadastrar voluntário
 											</a>
@@ -255,23 +255,12 @@ include_once '../dao/ProdutoDAO.php';
 											<a href="cadastro_voluntario_judicial.php">
 												 Cadastrar voluntário judicial
 											</a>
-										</li>
-									</ul>
-								</li>
-
-								<li class="nav-parent nav-expanded nav-active">
-									<a>
-										<i class="fa fa-copy" aria-hidden="true"></i>
-										<span>Informação Pessoas</span>
-									</a>
-									<ul class="nav nav-children">
+										</li>-->
 										<li>
 											<a href="../controle/control.php?metodo=listarTodos&nomeClasse=FuncionarioControle&nextPage=../html/informacao_funcionario.php">
 												 Informações funcionarios
 											</a>
 										</li>
-									</ul>
-									<ul class="nav nav-children">
 										<li>
 											<a href="../controle/control.php?metodo=listarTodos&nomeClasse=InternoControle&nextPage=../html/informacao_interno.php">
 												 Informações interno
@@ -280,10 +269,10 @@ include_once '../dao/ProdutoDAO.php';
 									</ul>
 								</li>
 
-								<li class="nav-parent nav-expanded nav-active">
+								<li class="nav-parent nav-active">
 									<a>
 										<i class="fa fa-copy" aria-hidden="true"></i>
-										<span>Cadastrar Produtos</span>
+										<span>Material e Patrimônio</span>
 									</a>
 									<ul class="nav nav-children">
 										<li>
@@ -291,29 +280,16 @@ include_once '../dao/ProdutoDAO.php';
 												 Cadastrar Produtos
 											</a>
 										</li>
-									</ul>
-									<ul class="nav nav-children">
 										<li>
 											<a href="../html/cadastro_saida.php">
 												 Saida de Produtos
 											</a>
 										</li>
-									</ul>
-								</li>
-
-								<li class="nav-parent nav-expanded nav-active">
-									<a>
-										<i class="fa fa-copy" aria-hidden="true"></i>
-										<span>Informações Produtos</span>
-									</a>
-									<ul class="nav nav-children">
 										<li>
 											<a href="../html/estoque.php">
 												 Estoque
 											</a>
 										</li>
-									</ul>
-									<ul class="nav nav-children">
 										<li>
 											<a href="../html/listar_almox.php">
 												 Almoxarifados
