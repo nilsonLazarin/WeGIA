@@ -99,7 +99,7 @@
 			<aside id="sidebar-left" class="sidebar-left">
 				<div class="sidebar-header">
 					<div class="sidebar-title">
-						Navegação
+						Menu
 					</div>
 					<div class="sidebar-toggle hidden-xs" data-toggle-class="sidebar-left-collapsed" data-target="html" data-fire-event="sidebar-left-toggle">
 						<i class="fa fa-bars" aria-label="Toggle sidebar"></i>
@@ -116,10 +116,10 @@
 										<span>Início</span>
 									</a>
 								</li>
-								<li class="nav-parent nav-expanded nav-active">
+								<li class="nav-parent nav-active">
 									<a>
-										<i class="fa fa-copy" aria-hidden="true"></i>
-										<span>Cadastros Pessoas</span>
+										<i class="fa fa-copy"></i>
+										<span>Pessoas</span>
 									</a>
 									<ul class="nav nav-children">
 										<li>
@@ -132,7 +132,7 @@
 												 Cadastrar interno
 											</a>
 										</li>
-										<li>
+										<!--<li>
 											<a href="cadastro_voluntario.php">
 												 Cadastrar voluntário
 											</a>
@@ -141,23 +141,12 @@
 											<a href="cadastro_voluntario_judicial.php">
 												 Cadastrar voluntário judicial
 											</a>
-										</li>
-									</ul>
-								</li>
-
-								<li class="nav-parent nav-expanded nav-active">
-									<a>
-										<i class="fa fa-copy" aria-hidden="true"></i>
-										<span>Informação Pessoas</span>
-									</a>
-									<ul class="nav nav-children">
+										</li>-->
 										<li>
 											<a href="../controle/control.php?metodo=listarTodos&nomeClasse=FuncionarioControle&nextPage=../html/informacao_funcionario.php">
 												 Informações funcionarios
 											</a>
 										</li>
-									</ul>
-									<ul class="nav nav-children">
 										<li>
 											<a href="../controle/control.php?metodo=listarTodos&nomeClasse=InternoControle&nextPage=../html/informacao_interno.php">
 												 Informações interno
@@ -166,10 +155,10 @@
 									</ul>
 								</li>
 
-								<li class="nav-parent nav-expanded nav-active">
+								<li class="nav-parent nav-active">
 									<a>
 										<i class="fa fa-copy" aria-hidden="true"></i>
-										<span>Cadastrar Produtos</span>
+										<span>Material e Patrimônio</span>
 									</a>
 									<ul class="nav nav-children">
 										<li>
@@ -177,29 +166,16 @@
 												 Cadastrar Produtos
 											</a>
 										</li>
-									</ul>
-									<ul class="nav nav-children">
 										<li>
 											<a href="../html/cadastro_saida.php">
 												 Saida de Produtos
 											</a>
 										</li>
-									</ul>
-								</li>
-
-								<li class="nav-parent nav-expanded nav-active">
-									<a>
-										<i class="fa fa-copy" aria-hidden="true"></i>
-										<span>Informações Produtos</span>
-									</a>
-									<ul class="nav nav-children">
 										<li>
 											<a href="../html/estoque.php">
 												 Estoque
 											</a>
 										</li>
-									</ul>
-									<ul class="nav nav-children">
 										<li>
 											<a href="../html/listar_almox.php">
 												 Almoxarifados
@@ -231,101 +207,115 @@
 				</header>
 
 				<!-- start: page -->
-				<div class="row">
-					<a href="../html/cadastro_funcionario.php">
-						<div class="col-lg-2 col-md-8 i">
+				<div class="row" >
+					<a href="#" >
+						<div class="col-lg-2 col-md-8 i" data-toggle="collapse" href="#pessoas" >
 							<i  class="far fa-address-book"></i>
-							<h4>Cadastrar Funcionário</h4>
+							<h4>Pessoa</h4>
 						</div>
 					</a>
+					<a href="#">
+						<div class="col-lg-2 col-md-8 i" data-toggle="collapse" href="#material">
+							<i  class="far fa-address-book"></i>
+							<h4>Material e Patrimônio</h4>
+						</div>
+					</a>
+				</div>
+				<div class="row ">
+					<div  id="pessoas" class="collapse">
+						<a href="../html/cadastro_funcionario.php">
+							<div class="col-lg-2 col-md-8 i" >
+								<i  class="far fa-address-book"></i>
+								<h4>Cadastrar Funcionário</h4>
+							</div>
+						</a>
 
-					<a href="../html/cadastro_interno.php">
-						<div class="col-lg-2 col-lg-offset-1 col-md-8 i" >
-							<i class="far fa-address-book"></i>
-							<h4>Cadastrar Interno</h4>
-						</div>
-					</a>
+						<a href="../html/cadastro_interno.php">
+							<div class="col-lg-2 col-lg-offset-1 col-md-8 i" >
+								<i class="far fa-address-book"></i>
+								<h4>Cadastrar Interno</h4>
+							</div>
+						</a>
 
-					<a href="../controle/control.php?metodo=listarTodos&nomeClasse=FuncionarioControle&nextPage=../html/informacao_funcionario.php">
-						<div class="col-lg-2 col-md-8 i">
-								<i  class="far fa-address-card" id="listarFuncionario"></i>
-								<h4>Informação funcionarios</h4>
-						</div>
-					</a>
+						<a href="../controle/control.php?metodo=listarTodos&nomeClasse=FuncionarioControle&nextPage=../html/informacao_funcionario.php">
+							<div class="col-lg-2 col-md-8 i">
+									<i  class="far fa-address-card" id="listarFuncionario"></i>
+									<h4>Informação funcionarios</h4>
+							</div>
+						</a>
 
-					<a href="../controle/control.php?metodo=listarTodos&nomeClasse=InternoControle&nextPage=../html/informacao_interno.php">
-						<div class="col-lg-2 col-md-8 i">
-							<form id="listarInterno" method="POST" action="../controle/control.php">
-								<i  class="far fa-address-card" id="listarInterno"></i>
-								<h4>Informação internos</h4>
-							</form>
-						</div>
-					</a>
+						<a href="../controle/control.php?metodo=listarTodos&nomeClasse=InternoControle&nextPage=../html/informacao_interno.php">
+							<div class="col-lg-2 col-md-8 i">
+								<form id="listarInterno" method="POST" action="../controle/control.php">
+									<i  class="far fa-address-card" id="listarInterno"></i>
+									<h4>Informação internos</h4>
+								</form>
+							</div>
+						</a>
+					</div>
 				</div><br>
-
 				<div class="row">
-					<a href="../html/cadastro_entrada.php">	
-						<div class="col-lg-2 col-md-8 i">
-							<i  class="far fa-clipboard"></i>
-							<h4>Entrada de itens</h4>
-						</div>
-					</a>
+					<div  id="material" class="collapse">
+						
+						<a href="../html/cadastro_entrada.php">	
+							<div class="col-lg-2 col-md-8 i">
+								<i  class="far fa-clipboard"></i>
+								<h4>Entrada de itens</h4>
+							</div>
+						</a>
+
+						<a href="../html/listar_entrada.php">
+							<div class="col-lg-2 col-md-8 i">
+								<i  class="fa fa-barcode"></i>
+								<h4>Informação entrada</h4>
+							</div>
+						</a>
+
+						<a href="../html/cadastro_saida.php">	
+							<div class="col-lg-2 col-md-8 i">
+								<i  class="far fa-clipboard"></i>
+								<h4>Saida de Itens</h4>
+							</div>
+						</a>
+						
+						<a href="../html/listar_saida.php">
+							<div class="col-lg-2 col-lg-offset-1 col-md-8 i">
+								<i  class="fa fa-barcode"></i>
+								<h4>Informação saida</h4>
+							</div>
+						</a>
+
+						<a href="../html/estoque.php">	
+							<div class="col-lg-2 col-md-8 i">
+								<i  class="fa fa-barcode"></i>
+								<h4>Estoque</h4>
+							</div>
+						</a>	
 					
+						<a href="../html/adicionar_almoxarifado.php">	
+							<div class="col-lg-2 col-md-8 i">
+								<i  class="far fa-clipboard"></i>
+								<h4>Adicionar Almoxarifado</h4>
+							</div>
+						</a>
 
-					<a href="../html/listar_entrada.php">
-						<div class="col-lg-2 col-md-8 i">
-							<i  class="fa fa-barcode"></i>
-							<h4>Informação entrada</h4>
-						</div>
-					</a>
+						<a href="../html/cadastro_produto.php">	
+							<div class="col-lg-2 col-md-8 i">
+								<i  class="far fa-clipboard"></i>
+								<h4>Cadastrar Produtos</h4>
+							</div>
+						</a>
+						
+						<a href="../html/listar_almox.php">	
+							<div class="col-lg-2 col-md-8 i">
+								<i  class="fa fa-barcode"></i>
+								<h4>Almoxarifado</h4>
+							</div>
+						</a>
 
-					<a href="../html/cadastro_saida.php">	
-						<div class="col-lg-2 col-md-8 i">
-							<i  class="far fa-clipboard"></i>
-							<h4>Saida de Itens</h4>
-						</div>
-					</a>
-
-					<a href="../html/listar_saida.php">
-						<div class="col-lg-2 col-lg-offset-1 col-md-8 i">
-							<i  class="fa fa-barcode"></i>
-							<h4>Informação saida</h4>
-						</div>
-
-				</div><br>
-
-				<div class="row">
-
-					<a href="../html/estoque.php">	
-						<div class="col-lg-2 col-md-8 i">
-							<i  class="fa fa-barcode"></i>
-							<h4>Estoque</h4>
-						</div>
-					</a>	
-				
-					<a href="../html/adicionar_almoxarifado.php">	
-						<div class="col-lg-2 col-md-8 i">
-							<i  class="far fa-clipboard"></i>
-							<h4>Adicionar Almoxarifado</h4>
-						</div>
-					</a>
-
-					<a href="../html/cadastro_produto.php">	
-						<div class="col-lg-2 col-md-8 i">
-							<i  class="far fa-clipboard"></i>
-							<h4>Cadastrar Produtos</h4>
-						</div>
-					</a>
-					
-					<a href="../html/listar_almox.php">	
-						<div class="col-lg-2 col-md-8 i">
-							<i  class="fa fa-barcode"></i>
-							<h4>Almoxarifado</h4>
-						</div>
-					</a>
-
-					
-					<!--</a>-->
+						
+						<!--</a>-->
+					</div>
 				</div><br>
 				<!--
 				<div class="row">
