@@ -355,7 +355,7 @@
 											<div class="form-group">
 												<label class="col-md-3 control-label" for="profileCompany">Valor</label>
 												<div class="col-md-8">
-													<input type="text" name="preco" class="form-control" id="profileCompany" id="valor" maxlength="13" placeholder="Ex: 22.00" onkeypress="return Onlynumbers(event)" required>
+													<input type="text" name="preco" class="form-control" id="profileCompany" id="valor" maxlength="13" placeholder="Ex: 22.00" onkeypress="return Onlynumbers(event)" onkeyup="mascara('#####,##',this,event)" required>
 
 													<input type="hidden" name="nomeClasse" value="ProdutoControle">
 														

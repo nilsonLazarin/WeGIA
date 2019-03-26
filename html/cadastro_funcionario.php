@@ -208,7 +208,9 @@
          
             }
          
-            
+            document.getElementById('situacao').addEventListener('click', function(){});
+            document.getElementById('cargo').addEventListener('click', function(){});
+              
       </script>
       <script language="JavaScript">
          var numValidos = "0123456789-()";
@@ -233,6 +235,7 @@
          			}
          		} 
          	}
+   
       </script>
    </head>
    <body>
@@ -396,7 +399,7 @@
                </div>
             </header>
             <!-- start: page -->
-            <div class="row">
+            <div class="row" id="formulario">
                <div class="col-md-4 col-lg-3">
                   <section class="panel">
                      <div class="panel-body">
@@ -407,16 +410,15 @@
                               	if(isset($_FILES['imgperfil']))
                               	{
                               		$image = file_get_contents ($_FILES['imgperfil']['tmp_name']);
-                              		session_start();
                               		$_SESSION['imagem']=$image;
-                              								echo '<img src="data:image/gif;base64,'.base64_encode($image).'" class="rounded img-responsive" alt="John Doe">';
-                              	}	
+                              		echo '<img src="data:image/gif;base64,'.base64_encode($image).'" class="rounded img-responsive" alt="John Doe">';
+                              	}
                               }
                               else
                               {
                               ?>
-                           <img src="../img/semfoto.jpg" class="rounded img-responsive" alt="John Doe">
-                           <?php 
+                                <img src="../img/semfoto.jpg" class="rounded img-responsive" alt="John Doe">
+                              <?php 
                               }
                               ?>
                            <i class="fas fa-camera-retro btn btn-info btn-lg" data-toggle="modal" data-target="#myModal"></i>
@@ -430,13 +432,13 @@
                                           <h4 class="modal-title">Adicionar uma Foto</h4>
                                        </div>
                                        <div class="modal-body">
-                                          <form action="#" method="POST" enctype="multipart/form-data" >
-                                             <div class="form-group">
-                                                <label class="col-md-4 control-label" for="imgperfil">Carregue uma imagem de perfil:</label>
-                                                <div class="col-md-8">
-                                                   <input type="file" name="imgperfil" size="60" id="imgform" class="form-control">
-                                                </div>
-                                             </div>
+                                        <form action="#" method="POST" enctype="multipart/form-data" >
+                                           <div class="form-group">
+                                              <label class="col-md-4 control-label" for="imgperfil">Carregue uma imagem de perfil:</label>
+                                              <div class="col-md-8">
+                                                 <input type="file" name="imgperfil" size="60" id="imgform" class="form-control">
+                                              </div>
+                                           </div>
                                        </div>
                                        <div class="modal-footer">
                                        <input type="submit" id="formsubmit" value="Ok">
@@ -529,7 +531,7 @@
                          <div class="form-group">
                             <label class="col-md-3 control-label" for="profileCompany">Número do CPF</label>
                             <div class="col-md-6">
-                               <input type="text" class="form-control" id="profileCompany" id="cpf" name="cpf" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)"" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##',this,event)" required>
+                               <input type="text" class="form-control" id="profileCompany" id="cpf" name="cpf" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##',this,event)" required>
                             </div>
                          </div>
                          <div class="form-group">
@@ -546,7 +548,7 @@
                          </div>
                          <div class="form-group">
                             <label class="col-md-3 control-label" for="inputSuccess">Situação</label>
-                            <a href="adicionar_situacao.php"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
+                            <a href="adicionar_situacao.php" target="_blank" id="situacao"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
                             <div class="col-md-6">
                                <select class="form-control input-lg mb-md" name="situacao" id="situacao" required>
                                   <option selected disabled>Selecionar</option>
@@ -560,7 +562,7 @@
                          </div>
                          <div class="form-group">
                             <label class="col-md-3 control-label" for="inputSuccess">Cargo</label>
-                            <a href="cadastro_cargo.php"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
+                            <a href="cadastro_cargo.php" target="_blank" id="cargo"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
                             <div class="col-md-6">
                                <select class="form-control input-lg mb-md" name="cargo" id="cargo" required>
                                   <option selected disabled>Selecionar</option>
