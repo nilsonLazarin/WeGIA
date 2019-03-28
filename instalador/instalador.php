@@ -4,8 +4,8 @@
 </head>
 <body>
 	<?php
-		$nomeDB = "wegia"; // nome da base de dados
-		$localsql ='../wegia.sql';  //local arquivo .sql
+		$nomeDB = $_POST["nomebd"]; // nome da base de dados
+		$localsql ='../' .$nomeDB .'.sql';  //local arquivo .sql
 		$local = $_POST["local"];//local servidor mysql
 		$user = $_POST["usuario"];
 		$senha = $_POST["senha"];
@@ -13,7 +13,7 @@
 
 		//criar conexao
 		$conn = new mysqli($local, $user, $senha);
-		
+
 		//verificar conexao
 		if ($conn->connect_errno) 
 		{
@@ -52,7 +52,18 @@
 		        $op_data = '';
 		    }
 		}
-		echo '<p style="color:green;">Base de dados ' .$nomeDB .' importada!</p>';
+		
+		//verificar se base de dados foi criada
+		if(mysqli_select_db ($conn, $nomeDB))
+		{
+			
+			echo '<p style="color:green;">Base de dados ' .$nomeDB .' importada!</p>';
+		}
+		else
+		{
+			echo '<p style="color:red;">Falha na criaçao do banco de dados! Verifique se o arquivo .sql está na pasta raiz do projeto e se o nome do banco de dados é igual ao nome do arquivo.sql</p>';
+		}
+		
 		$conn->close();
 	?>
 

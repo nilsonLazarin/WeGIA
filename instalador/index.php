@@ -6,6 +6,9 @@
  <body>
 
 	<form action="instalador.php" method="post">
+		<label for="nomebd">Nome Do Banco de Dados(nome do arquivo .sql)</label>
+		<input type="text" name="nomebd" value="wegia"> 
+
 		<label for="local">Local: </label>
 		<input type="text" name="local" value="localhost"> 
 
