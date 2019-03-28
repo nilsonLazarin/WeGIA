@@ -207,9 +207,6 @@
             	}
          
             }
-         
-            document.getElementById('situacao').addEventListener('click', function(){});
-            document.getElementById('cargo').addEventListener('click', function(){});
               
       </script>
       <script language="JavaScript">
@@ -548,7 +545,7 @@
                          </div>
                          <div class="form-group">
                             <label class="col-md-3 control-label" for="inputSuccess">Situação</label>
-                            <a href="adicionar_situacao.php" target="_blank" id="situacao"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
+                            <a href="adicionar_situacao.php"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
                             <div class="col-md-6">
                                <select class="form-control input-lg mb-md" name="situacao" id="situacao" required>
                                   <option selected disabled>Selecionar</option>
@@ -562,7 +559,8 @@
                          </div>
                          <div class="form-group">
                             <label class="col-md-3 control-label" for="inputSuccess">Cargo</label>
-                            <a href="cadastro_cargo.php" target="_blank" id="cargo"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
+                            <a href="cadastro_cargo.php"
+                               ><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
                             <div class="col-md-6">
                                <select class="form-control input-lg mb-md" name="cargo" id="cargo" required>
                                   <option selected disabled>Selecionar</option>
