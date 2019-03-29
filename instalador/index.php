@@ -1,12 +1,13 @@
 <html>
  <head>
-  <title>Instalador</title>
-  <link rel="stylesheet" type="text/css" href="css/theme.css">
+ 	<meta charset="UTF-8">
+  	<title>Instalador</title>
+  	<link rel="stylesheet" type="text/css" href="css/theme.css">
  </head>
  <body>
 
 	<form action="instalador.php" method="post">
-		<label for="nomebd">Nome Do Banco de Dados(nome do arquivo .sql)</label>
+		<label for="nomebd">Banco de Dados: </label>
 		<input type="text" name="nomebd" value="wegia"> 
 
 		<label for="local">Local: </label>
@@ -17,11 +18,10 @@
 
 		<label for="senha">Senha: </label>
 		<input type="password" name="senha">
-
 		
 		<p><input type="checkbox" name="reinstalar" value="">Reinstalar base de dados</p>
 
-		<input type="submit" value="enviar">
+		<input type="submit" value="instalar">
 	</form>
  </body>
 </html>
