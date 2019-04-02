@@ -121,7 +121,7 @@ CREATE TABLE `almoxarifado` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `calca` (
-  `id_calcado` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `id_calca` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `tamanhos` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -131,7 +131,7 @@ CREATE TABLE `calcado` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `camisa` (
-  `id_calcado` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `id_camisa` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `tamanhos` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -362,7 +362,7 @@ $$
 DELIMITER ;
 
 CREATE TABLE `jaleco` (
-  `id_calcado` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `id_jaleco` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `tamanhos` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -423,7 +423,7 @@ CREATE TABLE `quadro_horario` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `situacao` (
-  `id_calcado` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `id_situacao` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `situacoes` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
