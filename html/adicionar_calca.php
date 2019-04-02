@@ -8,10 +8,10 @@
 <!doctype html>
 <html class="fixed">
 <head>
-
 	<!-- Basic -->
 	<meta charset="UTF-8">
-	<title>Cadastro de calça</title>
+
+	<title>Cadastro de calçado</title>
 	
 	<!-- Mobile Metas -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -22,8 +22,7 @@
 	<!-- Vendor CSS -->
 	<link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css" />
 	<link rel="stylesheet" href="../assets/vendor/font-awesome/css/font-awesome.css" />
-	
-	
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
 	<link rel="stylesheet" href="../assets/vendor/magnific-popup/magnific-popup.css" />
 	<link rel="stylesheet" href="../assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
 	<link rel="icon" href="../img/logofinal.png" type="image/x-icon">
@@ -40,6 +39,7 @@
 	<!-- Head Libs -->
 	<script src="../assets/vendor/modernizr/modernizr.js"></script>
 	<script src="../Functions/lista.js"></script>
+
 	<!-- Javascript functions -->
 	<script src="../Functions/onlyNumbers.js"></script>
 	<script src="../Functions/onlyChars.js"></script>
@@ -57,6 +57,7 @@
 					<i class="fa fa-bars" aria-label="Toggle sidebar"></i>
 				</div>
 			</div>
+			
 			<!-- start: search & user box -->
 			<div class="header-right">
 				<span class="separator"></span>
@@ -206,12 +207,11 @@
 								</a>
 							</li>
 							<li><span>Páginas</span></li>
-							<li><span>Cadastro de Tamanhos de Calças</span></li>
+							<li><span>Cadastro Tamanhos Calça</span></li>
 						</ol>
 						<a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
 					</div>
 				</header>
-
 				<!-- start: page -->
 				<div class="row">
 					<div class="col-md-4 col-lg-2" style="visibility: hidden;"></div>
@@ -250,10 +250,8 @@
 						</div>
 					</div>
 				</div>
-			<!-- end: page -->
-			</section>
-		</div>
-	</section>
+			
+	<!-- end: page -->
 
 	<!-- Vendor -->
 	<script src="../assets/vendor/jquery/jquery.js"></script>
