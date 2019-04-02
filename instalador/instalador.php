@@ -6,7 +6,7 @@
 </head>
 <body>
 	<?php
-		$nomeDB = $_POST["nomebd"]; // nome da base de dados
+		$nomeDB = str_replace(' ', '_', $_POST["nomebd"]); // nome da base de dados
 		$localsql = '../wegia.sql';  //local arquivo .sql
 		$local = $_POST["local"];//local servidor mysql
 		$user = $_POST["usuario"];
