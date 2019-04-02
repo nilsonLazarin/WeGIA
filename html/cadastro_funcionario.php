@@ -407,7 +407,7 @@
                               	if(isset($_FILES['imgperfil']))
                               	{
                               		$image = file_get_contents ($_FILES['imgperfil']['tmp_name']);
-                              		$_SESSION['imagem']=$image;
+                              		$_SESSION['images']=$image;
                               		echo '<img src="data:image/gif;base64,'.base64_encode($image).'" class="rounded img-responsive" alt="John Doe">';
                               	}
                               }
@@ -510,7 +510,7 @@
                          <div class="form-group">
                             <label class="col-md-3 control-label" for="profileCompany">Número do RG</label>
                             <div class="col-md-6">
-                               <input type="text" class="form-control" name="rg" id="rg" onkeypress="return Onlynumbers(event)" placeholder="Ex: 22.222.222-2" required>
+                               <input type="text" class="form-control" name="rg" id="rg" onkeypress="return Onlynumbers(event)" placeholder="Ex: 22.222.222-2" onkeyup="mascara('##.###.###-#',this,event)" required>
                             </div>
                          </div>
                          <div class="form-group">
