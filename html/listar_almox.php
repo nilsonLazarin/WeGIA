@@ -275,7 +275,7 @@
 									<thead>
 										<tr>
 											<th>nome</th>
-											<th>acão</th>
+											<th>ação</th>
 										</tr>
 									</thead>
 									<tbody id="tabela">	

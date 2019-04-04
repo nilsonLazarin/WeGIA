@@ -84,7 +84,19 @@
 
 						console.log(funcionarios);
 						$.each(funcionarios,function(i,item){
-							$("#tabela").append($("<tr>").attr("onclick", "clicar('" + item.id_funcionario+"')").attr("class","teste").append($("<td>").text(item.nome)).append($("<td>").text(item.cpf)).append($("<td >").text(item.cargo)));
+							$("#tabela")
+								.append($("<tr>")
+									.attr("onclick", "clicar('" + item.id_funcionario+"')")
+									.attr("class","teste")
+									.append($("<td>")
+										.text(item.nome))
+									.append($("<td>")
+										.text(item.cpf))
+									.append($("<td >")
+										.text(item.cargo))
+									.append($('<td />')
+										.attr('onclick','clicar("'+item.id_almoxarifado+'")')
+									.html('<i class="glyphicon glyphicon-pencil"></i>')));
 						});
 					});
 	   		</script>
@@ -273,7 +285,6 @@
 								</div>
 						
 								<h2 class="panel-title">Funcionario</h2>
-								<h6> Obs: Para ver informações mais detalhadas clicar no nome da pessoa.</h6>
 							</header>
 							<div class="panel-body">
 								<table class="table table-bordered table-striped mb-none" id="datatable-default">
@@ -282,6 +293,7 @@
 											<th>Nome</th>
 											<th>Cpf</th>
 											<th>Cargo</th>
+											<th>Ação</th>
 										</tr>
 									</thead>
 									<tbody id="tabela">
