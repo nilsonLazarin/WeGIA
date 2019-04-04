@@ -462,28 +462,27 @@
                </div>
                <div class="col-md-8 col-lg-8">
                   <div class="tabs">
-                     <ul class="nav nav-tabs tabs-primary">
-                        <li class="active">
-                           <a href="#overview" data-toggle="tab">Cadastro de Funcionário</a>
-                        </li>
-                        <li>
-                          <a href="#endereco" data-toggle="tab">Endereço</a>
-                       </li>
-                       <li>
-                          <a href="#cargaHoraria" data-toggle="tab">Carga Horária</a>
-                       </li>
-                       <li>
-                          <a href="#outros" data-toggle="tab">Outros</a>
-                       </li>
-                     </ul>
-                     <div class="tab-content"> 
+                    <ul class="nav nav-tabs tabs-primary">
+                      <li class="active">
+                          <a href="#overview" data-toggle="tab">Cadastro de Funcionário</a>
+                      </li>
+                      <li>
+                        <a href="#endereco" data-toggle="tab">Endereço</a>
+                      </li>
+                      <li>
+                        <a href="#cargaHoraria" data-toggle="tab">Carga Horária</a>
+                      </li>
+                      <li>
+                        <a href="#outros" data-toggle="tab">Outros</a>
+                      </li>
+                    </ul>
+                    <div class="tab-content"> 
                       <div id="overview" class="tab-pane active">
                          <form class="form-horizontal" method="post" action="../controle/control.php">
                             <input type="hidden" name="nomeClasse" value="FuncionarioControle">
                             <input type="hidden" name="metodo" value="incluir">
                             <h4 class="mb-xlg">Informações Pessoais</h4>
                             <h5 class="obrig">Campos Obrigatórios(*)</h5>
-                            <fieldset>
                                <div class="form-group">
                                   <label class="col-md-3 control-label" for="profileFirstName">Nome completo<sup class="obrig">*</sup></label>
                                   <div class="col-md-8">
