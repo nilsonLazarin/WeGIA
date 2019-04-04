@@ -82,6 +82,7 @@
 	<script src="../Functions/onlyNumbers.js"></script> 
 	<script	src="../Functions/onlyChars.js"></script>
 	<script	src="../Functions/mascara.js"></script>
+	<script src="https://igorescobar.github.io/jQuery-Mask-Plugin/js/jquery.mask.min.js"></script>
 
 	<!-- jquery functions -->
 	<script>
@@ -115,6 +116,7 @@
 				return false;	
 			}
 		}
+		$('.dinheiro').mask('#.##0,00', {reverse: true});
 	</script>
 </head>
 <body>
@@ -342,7 +344,7 @@
 											<div class="form-group">
 												<label class="col-md-3 control-label" for="profileCompany">Valor</label>
 												<div class="col-md-8">
-													<input type="text" name="preco" class="form-control" id="profileCompany" id="valor" maxlength="13" placeholder="Ex: 22.00" onkeypress="return Onlynumbers(event)" onkeyup="mascara('#####,##',this,event)" required>
+													<input type="text" name="preco" class="dinheiro form-control" id="profileCompany" id="valor" maxlength="13" placeholder="Ex: 22.00" onkeypress="return Onlynumbers(event)" required>
 
 													<input type="hidden" name="nomeClasse" value="ProdutoControle">
 														

@@ -1,4 +1,4 @@
-	<?php
+<?php
 		session_start();
 	if(!isset($_SESSION['usuario'])){
 		header ("Location: ../index.php");
@@ -14,12 +14,14 @@
 		
 	<!-- Mobile Metas -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-
-	<!-- Vendor CSS -->
-	<link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css" />
+	<link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">
+  	<!-- Vendor CSS -->
+  	<link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css" />
 	<link rel="stylesheet" href="../assets/vendor/font-awesome/css/font-awesome.css" />
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
 	<link rel="stylesheet" href="../assets/vendor/magnific-popup/magnific-popup.css" />
 	<link rel="stylesheet" href="../assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
+	<link rel="icon" href="../img/logofinal.png" type="image/x-icon">
 
 	<!-- Specific Page Vendor CSS -->
 	<link rel="stylesheet" href="../assets/vendor/select2/select2.css" />
@@ -72,7 +74,6 @@
 			'use strict';
 			var LightTableFilter = (function(Arr) {
 				var _select;
-
 				function _onSelectEvent(e) {
 					_select = e.target;
 					var tables = document.getElementsByClassName(_select.getAttribute('data-table'));
@@ -87,7 +88,6 @@
 					var text_select = row.textContent.toLowerCase(), val_select = _select.options[_select.selectedIndex].value.toLowerCase();
 					row.style.display = text_select.indexOf(val_select) === -1 ? 'none' : 'table-row';
 				}
-
 				return {
 					init: function() {
 						var selects = document.getElementsByClassName('select-table-filter');
@@ -97,7 +97,6 @@
 					}
 				};
 			})(Array.prototype);
-
 			document.addEventListener('readystatechange', function() {
 				if (document.readyState === 'complete') {
 					LightTableFilter.init();
@@ -125,7 +124,6 @@
 			width: 140px;
 			float: left;
 		}-->
-
 	</style>
 </head>
 <body>
@@ -232,7 +230,6 @@
 										</li>
 									</ul>
 								</li>
-
 								<li class="nav-parent nav-active">
 									<a>
 										<i class="fa fa-copy" aria-hidden="true"></i>
@@ -314,8 +311,8 @@
 		</div>
 	</section>
 	<!-- end: page -->
-				<!-- Vendor -->
-<script src="../assets/vendor/select2/select2.js"></script>
+	<!-- Vendor -->
+		<script src="../assets/vendor/select2/select2.js"></script>
 		<script src="../assets/vendor/jquery-datatables/media/js/jquery.dataTables.js"></script>
 		<script src="../assets/vendor/jquery-datatables/extras/TableTools/js/dataTables.tableTools.min.js"></script>
 		<script src="../assets/vendor/jquery-datatables-bs3/assets/js/datatables.js"></script>
@@ -328,8 +325,6 @@
 		
 		<!-- Theme Initialization Files -->
 		<script src="../assets/javascripts/theme.init.js"></script>
-
-
 		<!-- Examples -->
 		<script src="../assets/javascripts/tables/examples.datatables.default.js"></script>
 		<script src="../assets/javascripts/tables/examples.datatables.row.with.details.js"></script>

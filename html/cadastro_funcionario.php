@@ -60,6 +60,9 @@
         .btn.active span.fa-check {
           opacity: 1;       
         }
+        .obrig{
+          color:rgb(255, 0, 0);
+        }
       </style>
       <script type="text/javascript" >
          function numero_residencial(){
@@ -479,28 +482,29 @@
                             <input type="hidden" name="nomeClasse" value="FuncionarioControle">
                             <input type="hidden" name="metodo" value="incluir">
                             <h4 class="mb-xlg">Informações Pessoais</h4>
+                            <h5 class="obrig">Campos Obrigatórios(*)</h5>
                             <fieldset>
                                <div class="form-group">
-                                  <label class="col-md-3 control-label" for="profileFirstName">Nome completo</label>
+                                  <label class="col-md-3 control-label" for="profileFirstName">Nome completo<sup class="obrig">*</sup></label>
                                   <div class="col-md-8">
                                      <input type="text" class="form-control" name="nome" id="profileFirstName" id="nome" onkeypress="return Onlychars(event)" required>
                                   </div>
                                </div>
                                <div class="form-group">
-                                  <label class="col-md-3 control-label" for="profileLastName">Sexo</label>
+                                  <label class="col-md-3 control-label" for="profileLastName">Sexo<sup class="obrig">*</sup></label>
                                   <div class="col-md-8">
                                      <label><input type="radio" name="gender" id="radio" id="M" value="m" style="margin-top: 10px; margin-left: 15px;" onclick="return exibir_reservista()" required><i class="fa fa-male" style="font-size: 20px;"></i></label>
                                      <label><input type="radio" name="gender" id="radio" id="F" value="f" style="margin-top: 10px; margin-left: 15px;" onclick="return esconder_reservista()" ><i class="fa fa-female" style="font-size: 20px;"></i> </label>
                                   </div>
                                </div>
                                <div class="form-group">
-                                  <label class="col-md-3 control-label" for="profileCompany">Telefone</label>
+                                  <label class="col-md-3 control-label" for="profileCompany">Telefone<sup class="obrig">*</sup></label>
                                   <div class="col-md-8">
                                      <input type="text" class="form-control" maxlength="14" minlength="14" name="telefone" id="telefone" id="profileCompany" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeyup="mascara('(##)#####-####',this,event)" required>
                                   </div>
                                </div>
                                <div class="form-group">
-                                  <label class="col-md-3 control-label" for="profileCompany">Nascimento</label>
+                                  <label class="col-md-3 control-label" for="profileCompany">Nascimento<sup class="obrig">*</sup></label>
                                   <div class="col-md-8">
                                      <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" id="nascimento" max=<?php echo date('Y-m-d'); ?> required>
                                   </div>
@@ -508,25 +512,25 @@
                           <hr class="dotted short">
                          <h4 class="mb-xlg doch4">Documentação</h4>
                          <div class="form-group">
-                            <label class="col-md-3 control-label" for="profileCompany">Número do RG</label>
+                            <label class="col-md-3 control-label" for="profileCompany">Número do RG<sup class="obrig">*</sup></label>
                             <div class="col-md-6">
                                <input type="text" class="form-control" name="rg" id="rg" onkeypress="return Onlynumbers(event)" placeholder="Ex: 22.222.222-2" onkeyup="mascara('##.###.###-#',this,event)" required>
                             </div>
                          </div>
                          <div class="form-group">
-                            <label class="col-md-3 control-label" for="profileCompany">Órgão emissor</label>
+                            <label class="col-md-3 control-label" for="profileCompany">Órgão Emissor<sup class="obrig">*</sup></label>
                             <div class="col-md-6">
                                <input type="text" class="form-control" name="orgao_emissor" id="profileCompany" id="orgao_emissor" onkeypress="return Onlychars(event)" required>
                             </div>
                          </div>
                          <div class="form-group">
-                            <label class="col-md-3 control-label" for="profileCompany">Data de expedição</label>
+                            <label class="col-md-3 control-label" for="profileCompany">Data de expedição<sup class="obrig">*</sup></label>
                             <div class="col-md-6">
                                <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" id="profileCompany" name="data_expedicao" id="data_expedicao" max=<?php echo date('Y-m-d'); ?> required>
                             </div>
                          </div>
                          <div class="form-group">
-                            <label class="col-md-3 control-label" for="profileCompany">Número do CPF</label>
+                            <label class="col-md-3 control-label" for="profileCompany">Número do CPF<sup class="obrig">*</sup></label>
                             <div class="col-md-6">
                                <input type="text" class="form-control" id="profileCompany" id="cpf" name="cpf" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##',this,event)" required>
                             </div>
@@ -538,13 +542,13 @@
                             </div>
                          </div>
                          <div class="form-group">
-                            <label class="col-md-3 control-label" for="profileCompany">Data de admissão</label>
+                            <label class="col-md-3 control-label" for="profileCompany">Data de Admissão<sup class="obrig">*</sup></label>
                             <div class="col-md-8">
                                <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data_admissao" id="profileCompany" id="data_admissao" max=<?php echo date('Y-m-d'); ?>  required>
                             </div>
                          </div>
                          <div class="form-group">
-                            <label class="col-md-3 control-label" for="inputSuccess">Situação</label>
+                            <label class="col-md-3 control-label" for="inputSuccess">Situação<sup class="obrig">*</sup></label>
                             <a href="adicionar_situacao.php"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
                             <div class="col-md-6">
                                <select class="form-control input-lg mb-md" name="situacao" id="situacao" required>
@@ -558,7 +562,7 @@
                             </div>
                          </div>
                          <div class="form-group">
-                            <label class="col-md-3 control-label" for="inputSuccess">Cargo</label>
+                            <label class="col-md-3 control-label" for="inputSuccess">Cargo<sup class="obrig">*</sup></label>
                             <a href="cadastro_cargo.php"
                                ><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
                             <div class="col-md-6">
