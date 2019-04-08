@@ -231,7 +231,7 @@
 
             function adicionar_situacao(){
               url = '../dao/adicionar_situacao.php';
-              var situacao = window.prompt();
+              var situacao = window.prompt("Cadastre Nova Situação:");
                 data = 'situacao=' +situacao; 
                 console.log(data);
                 $.ajax({
@@ -266,7 +266,7 @@
 
             function adicionar_cargo(){
               url = '../dao/adicionar_cargo.php';
-              var cargo = window.prompt();
+              var cargo = window.prompt("Cadastre Novo Cargo:");
                 data = 'cargo=' +cargo; 
                 console.log(data);
                 $.ajax({

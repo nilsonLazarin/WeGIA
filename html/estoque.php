@@ -3,6 +3,11 @@
 	if(!isset($_SESSION['usuario'])){
 		header ("Location: ../index.php");
 	}
+
+	if(!isset($_SESSION['estoque']))
+	{
+		header('Location: ../controle/control.php?metodo=listartodos&nomeClasse=EstoqueControle&nextPage=../html/estoque.php');
+	}
 	?>
 <!doctype html>
 <html class="fixed">
@@ -69,41 +74,24 @@
 		
 	<!-- jquery functions -->
    	<script>
-   		/* filtro almoxarifado*/
-		(function(document) {
-			'use strict';
-			var LightTableFilter = (function(Arr) {
-				var _select;
-				function _onSelectEvent(e) {
-					_select = e.target;
-					var tables = document.getElementsByClassName(_select.getAttribute('data-table'));
-					Arr.forEach.call(tables, function(table) {
-						Arr.forEach.call(table.tBodies, function(tbody) {
-							Arr.forEach.call(tbody.rows, _filterSelect);
-						});
-					});
-				}
-	    
-				function _filterSelect(row) {
-					var text_select = row.textContent.toLowerCase(), val_select = _select.options[_select.selectedIndex].value.toLowerCase();
-					row.style.display = text_select.indexOf(val_select) === -1 ? 'none' : 'table-row';
-				}
-				return {
-					init: function() {
-						var selects = document.getElementsByClassName('select-table-filter');
-						Arr.forEach.call(selects, function(select) {
-		        			select.onchange  = _onSelectEvent;
-						});
-					}
-				};
-			})(Array.prototype);
-			document.addEventListener('readystatechange', function() {
-				if (document.readyState === 'complete') {
-					LightTableFilter.init();
-				}
+	$(function()
+		{
+			var estoque=<?php echo $_SESSION['estoque'];?> ;
+			<?php unset($_SESSION['estoque']); ?>
+
+			$.each(estoque,function(i,item){
+				$("#tabela")
+					.append($("<tr>")
+						.append($("<td>")
+							.text(item.codigo))
+						.append($("<td>")
+							.text(item.descricao))
+						.append($("<td >")
+							.text(item.qtd))
+						.append($('<td />')
+							.text(item.descricao_almoxarifado)));
 			});
-		})(document);
-		
+		});
 	
 	</script>
 	
@@ -302,7 +290,7 @@
 									<th>almoxarifado</th>
 								</tr>
 							</thead>
-							<tbody>
+							<tbody id="tabela">
 							</tbody>
 						</table>
 					</div>
@@ -330,17 +318,4 @@
 		<script src="../assets/javascripts/tables/examples.datatables.row.with.details.js"></script>
 		<script src="../assets/javascripts/tables/examples.datatables.tabletools.js"></script>
 	</body>
-<script type="text/javascript">
-		function printData()
-		{
-			var divToPrint=document.getElementById("datatable-default");
-			newWin= window.open("");
-			newWin.document.write(divToPrint.outerHTML);
-			newWin.print();
-			newWin.close();
-		}
-		$('button').on('click',function(){
-		printData();
-		})
-</script>
 </html>

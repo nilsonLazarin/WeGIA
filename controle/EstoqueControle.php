@@ -1,6 +1,7 @@
 <?php
 include_once '../classes/Estoque.php';
 include_once '../dao/EstoqueDAO.php';
+
 class EstoqueControle
 {
     public function listarTodos(){

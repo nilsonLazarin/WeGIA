@@ -10,11 +10,11 @@ class EstoqueDAO
         try{
             $Estoques=array();
             $pdo = Conexao::connect();
-            $consulta = $pdo->query("SELECT p.descricao,a.descricao_almoxarifado,e.qtd FROM produto p INNER JOIN estoque e ON p.id_produto = e.id_produto
+            $consulta = $pdo->query("SELECT p.descricao,p.codigo,a.descricao_almoxarifado,e.qtd FROM produto p INNER JOIN estoque e ON p.id_produto = e.id_produto
                     INNER JOIN almoxarifado a ON a.id_almoxarifado = e.id_almoxarifado");
             $x=0;
             while($linha = $consulta->fetch(PDO::FETCH_ASSOC)){
-                $Estoques[$x]=array('descricao'=>$linha['descricao'],'descricao_almoxarifado'=>$linha['descricao_almoxarifado'],'qtd'=>$linha['qtd']);
+                $Estoques[$x]=array('codigo'=>$linha['codigo'],'descricao'=>$linha['descricao'],'descricao_almoxarifado'=>$linha['descricao_almoxarifado'],'qtd'=>$linha['qtd']);
                 $x++;
             }
             } catch (PDOExeption $e){
