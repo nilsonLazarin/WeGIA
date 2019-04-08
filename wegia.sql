@@ -467,3 +467,25 @@ CREATE TABLE `documento` (
 
 insert into pessoa( cpf, senha, nome, sexo, telefone,data_nascimento,imagem, cep ,estado,cidade, bairro, logradouro, numero_endereco, complemento,ibge,registro_geral,orgao_emissor,data_expedicao, nome_pai, nome_mae, tipo_sanguineo) values('admin', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 'admin', 'a', 'telefone','2018-12-16','null', 'cep' ,'estado','cidade', 'bairro', 'logradouro', 'numero_endereco', 'complemento','ibge','registro_geral','orgao_emissor','data_expedicao', 'nome_pai', 'nome_mae', 'tipo_sanguineo');
 
+CREATE TABLE `status_memorando`(
+    `id_status_memorando` INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `status_atual` VARCHAR(60)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `memorando`(
+    `id_memorando` INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `id_pessoa` INT(11) NOT NULL,
+    `titulo` TEXT DEFAULT NULL,
+    `data` DATETIME DEFAULT NULL,
+    `status_memorando` int(11) DEFAULT NULL,
+    FOREIGN KEY (`id_pessoa`) REFERENCES `pessoa` (`id_pessoa`),
+	FOREIGN KEY (`status_memorando`) REFERENCES `status_memorando` (`id_status_memorando`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `despacho`(
+    `id_despacho` INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `id_memorando` INT(11) NOT NULL,
+    `id_pessoa` INT(11) NOT NULL,
+    FOREIGN KEY (`id_memorando`) REFERENCES `memorando` (`id_memorando`),
+    FOREIGN KEY (`id_pessoa`) REFERENCES `pessoa` (`id_pessoa`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
