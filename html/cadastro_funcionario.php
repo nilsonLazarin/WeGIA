@@ -51,7 +51,7 @@
 
       <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
       <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
+      <script src="https://requirejs.org/docs/release/2.3.6/r.js"></script>
       <style type="text/css">
 
         .btn span.fa-check {          
@@ -207,8 +207,77 @@
             		$('#cpfInvalido').hide();
          
             		document.getElementById("enviar").disabled = false;
-            	}
-         
+            	} 
+            }
+
+            function gerarSituacao(){
+                data = '';
+                url = '../dao/exibir_situacao.php';
+                $.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                success: function(response){
+                  var situacoes = response.split(",");
+
+                  document.getElementById('situacao').innerHTML = ''; //limpar
+                  for(var i=0; i<situacoes.length-1; i++)
+                    document.getElementById('situacao').innerHTML += 
+                        '<option>' +situacoes[i] +'</option>';
+                },
+                dataType: 'text'
+              });
+            }
+
+            function adicionar_situacao(){
+              url = '../dao/adicionar_situacao.php';
+              var situacao = window.prompt();
+                data = 'situacao=' +situacao; 
+                console.log(data);
+                $.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                success: function(response){
+                  gerarSituacao();
+                },
+                dataType: 'text'
+              })
+            }
+
+            function gerarCargo(){
+                data = '';
+                url = '../dao/exibir_cargo.php';
+                $.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                success: function(response){
+                  var cargo = response.split(",");
+
+                  document.getElementById('cargo').innerHTML = ''; //limpar
+                  for(var i=0; i<cargo.length-1; i++)
+                    document.getElementById('cargo').innerHTML += 
+                        '<option>' +cargo[i] +'</option>';
+                },
+                dataType: 'text'
+              });
+            }
+
+            function adicionar_cargo(){
+              url = '../dao/adicionar_cargo.php';
+              var cargo = window.prompt();
+                data = 'cargo=' +cargo; 
+                console.log(data);
+                $.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                success: function(response){
+                  gerarCargo();
+                },
+                dataType: 'text'
+              })
             }
               
       </script>
@@ -548,7 +617,7 @@
                          </div>
                          <div class="form-group">
                             <label class="col-md-3 control-label" for="inputSuccess">Situação<sup class="obrig">*</sup></label>
-                            <a href="adicionar_situacao.php"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
+                            <a onclick="adicionar_situacao()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
                             <div class="col-md-6">
                                <select class="form-control input-lg mb-md" name="situacao" id="situacao" required>
                                   <option selected disabled>Selecionar</option>
@@ -562,8 +631,7 @@
                          </div>
                          <div class="form-group">
                             <label class="col-md-3 control-label" for="inputSuccess">Cargo<sup class="obrig">*</sup></label>
-                            <a href="cadastro_cargo.php"
-                               ><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
+                            <a onclick="adicionar_cargo()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
                             <div class="col-md-6">
                                <select class="form-control input-lg mb-md" name="cargo" id="cargo" required>
                                   <option selected disabled>Selecionar</option>

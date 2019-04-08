@@ -13,7 +13,7 @@
 	$sql = "INSERT into situacao(situacoes) values('" .$situacao ."')";
 	echo $sql;
 	if(mysqli_query($conn, $sql)){
-		echo 'foi';
+		echo 'sucesso';
 	}
 	else
 	{
