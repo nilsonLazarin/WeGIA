@@ -232,7 +232,12 @@
             function adicionar_situacao(){
               url = '../dao/adicionar_situacao.php';
               var situacao = window.prompt("Cadastre Nova Situação:");
+              if(!situacao){return}
+              situacao = situacao.trim();
+              if(situacao == ''){return}
+
                 data = 'situacao=' +situacao; 
+
                 console.log(data);
                 $.ajax({
                 type: "POST",
@@ -267,6 +272,10 @@
             function adicionar_cargo(){
               url = '../dao/adicionar_cargo.php';
               var cargo = window.prompt("Cadastre Novo Cargo:");
+              if(!cargo){return}
+              situacao = cargo.trim();
+              if(cargo == ''){return}              
+              
                 data = 'cargo=' +cargo; 
                 console.log(data);
                 $.ajax({
