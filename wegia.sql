@@ -510,3 +510,12 @@ CREATE TABLE `despacho`(
     FOREIGN KEY (`id_memorando`) REFERENCES `memorando` (`id_memorando`),
     FOREIGN KEY (`id_pessoa`) REFERENCES `pessoa` (`id_pessoa`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `anexo` (
+  `id_anexo` int(11) PRIMARY KEY NOT NULL ,
+  `id_despacho` int(11) NOT NULL,
+  `anexo` longtext
+);
+
+ALTER TABLE anexo ADD CONSTRAINT fk_id_despacho 
+FOREIGN KEY(id_despacho) REFERENCES despacho(id_despacho);
