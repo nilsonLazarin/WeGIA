@@ -21,13 +21,13 @@ insert into ientrada(id_entrada, id_produto, qtd, valor_unitario)
 	values(idE, id_produto, qtd, valor_unitario);
 end$$
 
-CREATE PROCEDURE `cadfuncionario`(IN `nome` VARCHAR(100), IN `cpf` VARCHAR(40), IN `senha` VARCHAR(70), IN `sexo` CHAR(1), IN `telefone` VARCHAR(100), IN `data_nascimento` DATE, IN `imagem` LONGTEXT, IN `cep` VARCHAR(100), IN `estado` VARCHAR(50), IN `cidade` VARCHAR(40), IN `bairro` VARCHAR(40), IN `logradouro` VARCHAR(40), IN `numero_endereco` VARCHAR(100), IN `complemento` VARCHAR(50), IN `ibge` VARCHAR(20), IN `registro_geral` VARCHAR(20), IN `orgao_emissor` VARCHAR(20), IN `data_expedicao` DATE, IN `nome_pai` VARCHAR(100), IN `nome_mae` VARCHAR(100), IN `tipo_sanguineo` VARCHAR(50), IN `vale_transporte` VARCHAR(160), IN `data_admissao` DATE, IN `pis` VARCHAR(140), IN `ctps` VARCHAR(150), IN `uf_ctps` VARCHAR(200), IN `numero_titulo` VARCHAR(150), IN `zona` VARCHAR(300), IN `secao` VARCHAR(400), IN `certificado_reservista_numero` VARCHAR(100), IN `certificado_reservista_serie` VARCHAR(100), IN `calcado` VARCHAR(200), IN `calca` VARCHAR(200), IN `jaleco` VARCHAR(20), IN `camisa` VARCHAR(200), IN `usa_vtp` VARCHAR(300), IN `cesta_basica` VARCHAR(300), IN `situacao` VARCHAR(100), IN `cargo` VARCHAR(30))
+CREATE PROCEDURE `cadfuncionario`(IN `nome` VARCHAR(100), IN `cpf` VARCHAR(40), IN `senha` VARCHAR(70), IN `sexo` CHAR(1), IN `telefone` VARCHAR(100), IN `data_nascimento` DATE, IN `imagem` LONGTEXT, IN `cep` VARCHAR(100), IN `estado` VARCHAR(50), IN `cidade` VARCHAR(40), IN `bairro` VARCHAR(40), IN `logradouro` VARCHAR(40), IN `numero_endereco` VARCHAR(100), IN `complemento` VARCHAR(50), IN `ibge` VARCHAR(20), IN `registro_geral` VARCHAR(20), IN `orgao_emissor` VARCHAR(20), IN `data_expedicao` DATE, IN `nome_pai` VARCHAR(100), IN `nome_mae` VARCHAR(100), IN `tipo_sanguineo` VARCHAR(50), IN `vale_transporte` VARCHAR(160), IN `data_admissao` DATE, IN `pis` VARCHAR(140), IN `ctps` VARCHAR(150), IN `uf_ctps` VARCHAR(200), IN `numero_titulo` VARCHAR(150), IN `zona` VARCHAR(300), IN `secao` VARCHAR(400), IN `certificado_reservista_numero` VARCHAR(100), IN `certificado_reservista_serie` VARCHAR(100), IN `situacao` VARCHAR(100), IN `cargo` VARCHAR(30))
 begin
 
 declare idP int;
 declare idF int;
 
-insert into pessoa( cpf, senha, nome, sexo, telefone,data_nascimento,imagem, cep ,estado,cidade, bairro, logradouro, numero_endereco,
+insert into pessoa( cpf, senha, nome, sexo, telefone,data_nascimento,imagem,cep ,estado,cidade, bairro, logradouro, numero_endereco,
 complemento,ibge,registro_geral,orgao_emissor,data_expedicao, nome_pai, nome_mae, tipo_sanguineo)
 values(cpf, senha, nome, sexo, telefone,data_nascimento,imagem, cep ,estado,cidade, bairro, logradouro, numero_endereco,
 complemento,ibge,registro_geral,orgao_emissor,data_expedicao, nome_pai, nome_mae, tipo_sanguineo);
@@ -35,11 +35,9 @@ complemento,ibge,registro_geral,orgao_emissor,data_expedicao, nome_pai, nome_mae
 select max(id_pessoa) into idP FROM pessoa;
 
 insert into funcionario(id_pessoa, vale_transporte,data_admissao,pis,ctps,
-uf_ctps,numero_titulo,zona,secao,certificado_reservista_numero,certificado_reservista_serie,calcado,calca,jaleco,camisa,
-usa_vtp,cesta_basica,situacao,cargo)
+uf_ctps,numero_titulo,zona,secao,certificado_reservista_numero,certificado_reservista_serie,situacao,cargo)
 values(idP,vale_transporte,data_admissao,pis,ctps,
-uf_ctps,numero_titulo,zona,secao,certificado_reservista_numero,certificado_reservista_serie,calcado,calca,jaleco,camisa,
-usa_vtp,cesta_basica,situacao,cargo);
+uf_ctps,numero_titulo,zona,secao,certificado_reservista_numero,certificado_reservista_serie,situacao,cargo);
 
 end$$
 
@@ -50,6 +48,26 @@ declare idF int;
 SELECT MAX(id_funcionario) into idF FROM funcionario;
 
 insert into quadro_horario(id_funcionario,escala, tipo, carga_horaria, entrada1, saida1, entrada2, saida2, total, dias_trabalhados, folga) VALUES (idF, escala, tipo, carga_horaria, entrada1, saida1, entrada2, saida2, total, dias_trabalhados, folga);
+
+END$$
+
+CREATE PROCEDURE `cadepi` (IN `descricao_epi` VARCHAR(100))  NO SQL
+begin
+declare idE int;
+
+SELECT MAX(id_epi) into idE FROM epi;
+
+insert into epi(descricao_epi) VALUES (descricao_epi);
+
+END$$
+
+CREATE PROCEDURE `cadbeneficios` (IN `descricao_beneficios` VARCHAR(50))  NO SQL
+begin
+declare idB int;
+
+SELECT MAX(id_beneficios) into idB FROM beneficios;
+
+insert into beneficios(descricao_beneficios) VALUES (descricao_beneficios);
 
 END$$
 
@@ -120,24 +138,9 @@ CREATE TABLE `almoxarifado` (
   `descricao_almoxarifado` varchar(240) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE `calca` (
-  `id_calca` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  `tamanhos` varchar(30) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-CREATE TABLE `calcado` (
-  `id_calcado` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  `tamanhos` varchar(30) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-CREATE TABLE `camisa` (
-  `id_camisa` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  `tamanhos` varchar(30) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
 CREATE TABLE `cargo` (
   `id_cargo` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  `cargo` varchar(30) DEFAULT NULL
+  `cargo` varchar(30) DEFAULT NULL UNIQUE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `categoria_produto` (
@@ -153,8 +156,6 @@ CREATE TABLE `destino` (
   `telefone` varchar(33) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-
-
 CREATE TABLE `unidade` (
   `id_unidade` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `descricao_unidade` varchar(240) NOT NULL
@@ -164,7 +165,7 @@ CREATE TABLE `produto` (
   `id_produto` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `id_categoria_produto` int NOT NULL,
   `id_unidade` int NOT NULL,
-  `descricao` varchar(240) DEFAULT NULL,
+  `descricao` varchar(150) DEFAULT NULL UNIQUE,
   `codigo` varchar(15) DEFAULT NULL,
   `preco` decimal(10,2) DEFAULT NULL,
   FOREIGN KEY (`id_categoria_produto`) REFERENCES `categoria_produto` (`id_categoria_produto`),
@@ -246,14 +247,9 @@ CREATE TABLE `funcionario` (
   `secao` varchar(40) DEFAULT NULL,
   `certificado_reservista_numero` varchar(100) DEFAULT NULL,
   `certificado_reservista_serie` varchar(100) DEFAULT NULL,
-  `calcado` varchar(20) DEFAULT NULL,
-  `calca` varchar(20) DEFAULT NULL,
-  `jaleco` varchar(20) DEFAULT NULL,
-  `camisa` varchar(20) DEFAULT NULL,
-  `usa_vtp` varchar(30) DEFAULT NULL,
-  `cesta_basica` varchar(30) DEFAULT NULL,
   `situacao` varchar(100) DEFAULT NULL,
   `cargo` varchar(30) DEFAULT NULL,
+
   FOREIGN KEY (`id_pessoa`) REFERENCES `pessoa` (`id_pessoa`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -361,12 +357,6 @@ END
 $$
 DELIMITER ;
 
-CREATE TABLE `jaleco` (
-  `id_jaleco` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  `tamanhos` varchar(30) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-
 CREATE TABLE `situacao_funcionario` (
   `id_situacao_funcionario` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `data_hora` datetime DEFAULT NULL,
@@ -424,7 +414,7 @@ CREATE TABLE `quadro_horario` (
 
 CREATE TABLE `situacao` (
   `id_situacao` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  `situacoes` varchar(30) DEFAULT NULL
+  `situacoes` varchar(30) DEFAULT NULL UNIQUE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `voluntario` (
@@ -462,10 +452,41 @@ CREATE TABLE `documento` (
   `imgdoc` longtext,
   `imagem_extensao` varchar(10) DEFAULT NULL,
   `descricao` varchar(40) DEFAULT NULL,
-   FOREIGN KEY (`id_pessoa`) REFERENCES `pessoa` (`id_pessoa`)
+  FOREIGN KEY (`id_pessoa`) REFERENCES `pessoa` (`id_pessoa`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 insert into pessoa( cpf, senha, nome, sexo, telefone,data_nascimento,imagem, cep ,estado,cidade, bairro, logradouro, numero_endereco, complemento,ibge,registro_geral,orgao_emissor,data_expedicao, nome_pai, nome_mae, tipo_sanguineo) values('admin', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 'admin', 'a', 'telefone','2018-12-16','null', 'cep' ,'estado','cidade', 'bairro', 'logradouro', 'numero_endereco', 'complemento','ibge','registro_geral','orgao_emissor','data_expedicao', 'nome_pai', 'nome_mae', 'tipo_sanguineo');
+
+CREATE TABLE `beneficios`(
+  `id_beneficios` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `descricao_beneficios` varchar(100)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `beneficiados`(
+  `id_pessoa` int NOT NULL,
+  `id_beneficios` int NOT NULL,
+  `data_inicio` date,
+  `data_fim` date,
+  `status` varchar(100),
+  PRIMARY KEY (`id_pessoa`,`id_beneficios`),
+  FOREIGN KEY (`id_pessoa`) REFERENCES `pessoa` (`id_pessoa`),
+  FOREIGN KEY (`id_beneficios`) REFERENCES `beneficios` (`id_beneficios`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `epi`(
+  `id_epi` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `descricao_epi` varchar(100)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `pessoa_epi`(
+  `id_pessoa` int NOT NULL,
+  `id_epi` int NOT NULL,
+  `data` date,
+  `status` varchar(100),
+  PRIMARY KEY (`id_pessoa`,`id_epi`),
+  FOREIGN KEY (`id_pessoa`) REFERENCES `pessoa` (`id_pessoa`),
+  FOREIGN KEY (`id_epi`) REFERENCES `epi` (`id_epi`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `status_memorando`(
     `id_status_memorando` INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
