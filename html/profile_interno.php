@@ -181,144 +181,19 @@
             }
          	})
          });
+         $(function () {
+            $("#header").load("header.html");
+            $(".menuu").load("menu.html");
+          });
       </script>
    </head>
    <body>
       <section class="body">
-         <!-- start: header -->
-         <header class="header">
-            <div class="logo-container">
-               <a href="home.php" class="logo">
-               <img src="../img/logofinal.png" height="35" alt="Porto Admin" />
-               </a>
-               <div class="visible-xs toggle-sidebar-left" data-toggle-class="sidebar-left-opened" data-target="html" data-fire-event="sidebar-left-opened">
-                  <i class="fa fa-bars" aria-label="Toggle sidebar"></i>
-               </div>
-            </div>
-            <!-- start: search & user box -->
-            <div class="header-right">
-               <span class="separator"></span>
-               <div id="userbox" class="userbox">
-                  <a href="#" data-toggle="dropdown">
-                     <figure class="profile-picture">
-                        <img src="../img/semfoto.jpg" alt="Joseph Doe" class="img-circle" data-lock-picture="../assets/images/!logged-user.jpg" />
-                     </figure>
-                     <div class="profile-info" data-lock-name="John Doe" data-lock-email="johndoe@okler.com">
-                        <span class="name">Usuário</span>
-                        <span class="role">Funcionário</span>
-                     </div>
-                     <i class="fa custom-caret"></i>
-                  </a>
-                  <div class="dropdown-menu">
-                     <ul class="list-unstyled">
-                        <li class="divider"></li>
-                        <li>
-                        <a role="menuitem" tabindex="-1" href="../html/alterar_senha.php"><i class="glyphicon glyphicon-lock"></i> Alterar senha</a>
-                     </li>
-                        <li>
-                           <a role="menuitem" tabindex="-1" href="./logout.php"><i class="fa fa-power-off"></i> Sair da sessão</a>
-                        </li>
-                     </ul>
-                  </div>
-               </div>
-            </div>
-            <!-- end: search & user box -->
-         </header>
-         <!-- end: header -->
-         <div class="inner-wrapper">
-         <!-- start: sidebar -->
-         <aside id="sidebar-left" class="sidebar-left">
-            <div class="sidebar-header">
-               <div class="sidebar-title">
-                  Menu
-               </div>
-               <div class="sidebar-toggle hidden-xs" data-toggle-class="sidebar-left-collapsed" data-target="html" data-fire-event="sidebar-left-toggle">
-                  <i class="fa fa-bars" aria-label="Toggle sidebar"></i>
-               </div>
-            </div>
-            
-            <div class="nano">
-               <div class="nano-content">
-                  <nav id="menu" class="nav-main" role="navigation">
-                     <ul class="nav nav-main">
-                        <li>
-                           <a href="home.php">
-                              <i class="fa fa-home" aria-hidden="true"></i>
-                              <span>Início</span>
-                           </a>
-                        </li>
-                        <li class="nav-parent nav-active">
-                           <a>
-                              <i class="fa fa-copy"></i>
-                              <span>Pessoas</span>
-                           </a>
-                           <ul class="nav nav-children">
-                              <li>
-                                 <a href="cadastro_funcionario.php">
-                                     Cadastrar funcionário
-                                 </a>
-                              </li>
-                              <li>
-                                 <a href="cadastro_interno.php">
-                                     Cadastrar interno
-                                 </a>
-                              </li>
-                              <!--<li>
-                                 <a href="cadastro_voluntario.php">
-                                     Cadastrar voluntário
-                                 </a>
-                              </li>
-                              <li>
-                                 <a href="cadastro_voluntario_judicial.php">
-                                     Cadastrar voluntário judicial
-                                 </a>
-                              </li>-->
-                              <li>
-                                 <a href="../controle/control.php?metodo=listarTodos&nomeClasse=FuncionarioControle&nextPage=../html/informacao_funcionario.php">
-                                     Informações funcionarios
-                                 </a>
-                              </li>
-                              <li>
-                                 <a href="../controle/control.php?metodo=listarTodos&nomeClasse=InternoControle&nextPage=../html/informacao_interno.php">
-                                     Informações interno
-                                 </a>
-                              </li>
-                           </ul>
-                        </li>
-
-                        <li class="nav-parent nav-active">
-                           <a>
-                              <i class="fa fa-copy" aria-hidden="true"></i>
-                              <span>Material e Patrimônio</span>
-                           </a>
-                           <ul class="nav nav-children">
-                              <li>
-                                 <a href="../html/cadastro_entrada.php">
-                                     Cadastrar Produtos
-                                 </a>
-                              </li>
-                              <li>
-                                 <a href="../html/cadastro_saida.php">
-                                     Saida de Produtos
-                                 </a>
-                              </li>
-                              <li>
-                                 <a href="../html/estoque.php">
-                                     Estoque
-                                 </a>
-                              </li>
-                              <li>
-                                 <a href="../html/listar_almox.php">
-                                     Almoxarifados
-                                 </a>
-                              </li>
-                           </ul>
-                        </li>
-                     </ul>
-                  </nav>
-               </div>
-            </div>
-         </aside>
+         <div id="header"></div>
+            <!-- end: header -->
+            <div class="inner-wrapper">
+               <!-- start: sidebar -->
+               <aside id="sidebar-left" class="sidebar-left menuu"></aside>
          <!-- end: sidebar -->
          <section role="main" class="content-body">
             <header class="page-header">

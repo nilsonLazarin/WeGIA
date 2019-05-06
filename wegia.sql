@@ -11,21 +11,35 @@ CREATE PROCEDURE `cadentrada` (IN `id_origem` INT, IN `id_almoxarifado` INT, IN 
 declare idE int;
 
 insert into entrada (id_origem, id_almoxarifado, id_tipo, id_responsavel, data, hora, valor_total)
-	values(id_origem, id_almoxarifado, id_tipo, id_responsavel, data, hora, valor_total);
+  values(id_origem, id_almoxarifado, id_tipo, id_responsavel, data, hora, valor_total);
 
 SELECT 
-	MAX(id_entrada)
+  MAX(id_entrada)
 INTO idE FROM entrada;
 
 insert into ientrada(id_entrada, id_produto, qtd, valor_unitario)
-	values(idE, id_produto, qtd, valor_unitario);
+  values(idE, id_produto, qtd, valor_unitario);
 end$$
 
-CREATE PROCEDURE `cadfuncionario`(IN `nome` VARCHAR(100), IN `cpf` VARCHAR(40), IN `senha` VARCHAR(70), IN `sexo` CHAR(1), IN `telefone` VARCHAR(100), IN `data_nascimento` DATE, IN `imagem` LONGTEXT, IN `cep` VARCHAR(100), IN `estado` VARCHAR(50), IN `cidade` VARCHAR(40), IN `bairro` VARCHAR(40), IN `logradouro` VARCHAR(40), IN `numero_endereco` VARCHAR(100), IN `complemento` VARCHAR(50), IN `ibge` VARCHAR(20), IN `registro_geral` VARCHAR(20), IN `orgao_emissor` VARCHAR(20), IN `data_expedicao` DATE, IN `nome_pai` VARCHAR(100), IN `nome_mae` VARCHAR(100), IN `tipo_sanguineo` VARCHAR(50), IN `vale_transporte` VARCHAR(160), IN `data_admissao` DATE, IN `pis` VARCHAR(140), IN `ctps` VARCHAR(150), IN `uf_ctps` VARCHAR(200), IN `numero_titulo` VARCHAR(150), IN `zona` VARCHAR(300), IN `secao` VARCHAR(400), IN `certificado_reservista_numero` VARCHAR(100), IN `certificado_reservista_serie` VARCHAR(100), IN `situacao` VARCHAR(100), IN `cargo` VARCHAR(30))
+CREATE PROCEDURE `cadfuncionario`(IN `nome` VARCHAR(100), IN `cpf` VARCHAR(40), 
+  IN `senha` VARCHAR(70), IN `sexo` CHAR(1), IN `telefone` VARCHAR(100), 
+  IN `data_nascimento` DATE, IN `imagem` LONGTEXT, IN `cep` VARCHAR(100), 
+  IN `estado` VARCHAR(50), IN `cidade` VARCHAR(40), IN `bairro` VARCHAR(40), 
+  IN `logradouro` VARCHAR(40), IN `numero_endereco` VARCHAR(100), IN `complemento` VARCHAR(50), 
+  IN `ibge` VARCHAR(20), IN `registro_geral` VARCHAR(20), IN `orgao_emissor` VARCHAR(20), 
+  IN `data_expedicao` DATE, IN `nome_pai` VARCHAR(100), IN `nome_mae` VARCHAR(100), 
+  IN `tipo_sanguineo` VARCHAR(50), IN `vale_transporte` VARCHAR(160), 
+  IN `data_admissao` DATE, IN `pis` VARCHAR(140), IN `ctps` VARCHAR(150), 
+  IN `uf_ctps` VARCHAR(200), IN `numero_titulo` VARCHAR(150), IN `zona` VARCHAR(300), 
+  IN `secao` VARCHAR(400), IN `certificado_reservista_numero` VARCHAR(100), 
+  IN `certificado_reservista_serie` VARCHAR(100), IN `situacao` VARCHAR(100), 
+  IN `cargo` VARCHAR(30))
 begin
 
 declare idP int;
 declare idF int;
+declare idE int;
+declare idB int; 
 
 insert into pessoa( cpf, senha, nome, sexo, telefone,data_nascimento,imagem,cep ,estado,cidade, bairro, logradouro, numero_endereco,
 complemento,ibge,registro_geral,orgao_emissor,data_expedicao, nome_pai, nome_mae, tipo_sanguineo)
@@ -38,6 +52,7 @@ insert into funcionario(id_pessoa, vale_transporte,data_admissao,pis,ctps,
 uf_ctps,numero_titulo,zona,secao,certificado_reservista_numero,certificado_reservista_serie,situacao,cargo)
 values(idP,vale_transporte,data_admissao,pis,ctps,
 uf_ctps,numero_titulo,zona,secao,certificado_reservista_numero,certificado_reservista_serie,situacao,cargo);
+
 
 end$$
 
@@ -116,14 +131,14 @@ CREATE PROCEDURE `cadsaida` (IN `id_destino` INT, IN `id_almoxarifado` INT, IN `
 declare idS int;
 
 insert into saida (id_destino, id_almoxarifado, id_tipo, id_responsavel, data, hora, valor_total)
-	values(id_destino, id_almoxarifado, id_tipo, id_responsavel, data, hora, valor_total);
+  values(id_destino, id_almoxarifado, id_tipo, id_responsavel, data, hora, valor_total);
 
 SELECT 
-	MAX(id_saida)
+  MAX(id_saida)
 INTO idS FROM saida;
 
 insert into isaida(id_saida, id_produto, qtd, valor_unitario)
-	values(idS, id_produto, qtd, valor_unitario);
+  values(idS, id_produto, qtd, valor_unitario);
 end$$
 
 DELIMITER ;
@@ -145,7 +160,7 @@ CREATE TABLE `cargo` (
 
 CREATE TABLE `categoria_produto` (
   `id_categoria_produto` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  `descricao_categoria` varchar(240) NOT NULL
+  `descricao_categoria` varchar(240) NOT NULL UNIQUE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `destino` (
@@ -158,7 +173,7 @@ CREATE TABLE `destino` (
 
 CREATE TABLE `unidade` (
   `id_unidade` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  `descricao_unidade` varchar(240) NOT NULL
+  `descricao_unidade` varchar(240) NOT NULL UNIQUE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `produto` (
@@ -268,19 +283,19 @@ CREATE TABLE `ientrada` (
 --
 DELIMITER $$
 CREATE TRIGGER `tgr_ientrada_delete` AFTER DELETE ON `ientrada` FOR EACH ROW BEGIN
-	
+  
     UPDATE estoque SET qtd = qtd - OLD.qtd WHERE id_produto = OLD.id_produto AND id_almoxarifado = (SELECT id_almoxarifado FROM entrada WHERE id_entrada = OLD.id_entrada);
-	
+  
 END
 $$
 DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `tgr_ientrada_insert` AFTER INSERT ON `ientrada` FOR EACH ROW BEGIN
 
-	INSERT IGNORE INTO estoque(id_produto, id_almoxarifado, qtd) values(NEW.id_produto, (SELECT id_almoxarifado FROM entrada WHERE id_entrada = NEW.id_entrada), 0);
-	
+  INSERT IGNORE INTO estoque(id_produto, id_almoxarifado, qtd) values(NEW.id_produto, (SELECT id_almoxarifado FROM entrada WHERE id_entrada = NEW.id_entrada), 0);
+  
     UPDATE estoque SET qtd = qtd+NEW.qtd WHERE id_produto = NEW.id_produto AND id_almoxarifado = (SELECT id_almoxarifado FROM entrada WHERE id_entrada = NEW.id_entrada);
-	
+  
 END
 $$
 DELIMITER ;
@@ -342,17 +357,17 @@ CREATE TABLE `isaida` (
 --
 DELIMITER $$
 CREATE TRIGGER `tgr_isaida_delete` AFTER DELETE ON `isaida` FOR EACH ROW BEGIN
-	
+  
     UPDATE estoque SET qtd = qtd+OLD.qtd WHERE id_produto = OLD.id_produto AND id_almoxarifado = (SELECT id_almoxarifado FROM saida WHERE id_saida = OLD.id_saida);
-	
+  
 END
 $$
 DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `tgr_isaida_insert` AFTER INSERT ON `isaida` FOR EACH ROW BEGIN
-	
+  
     UPDATE estoque SET qtd = qtd-NEW.qtd WHERE id_produto = NEW.id_produto AND id_almoxarifado = (SELECT id_almoxarifado FROM saida WHERE id_saida = NEW.id_saida);
-	
+  
 END
 $$
 DELIMITER ;
@@ -500,7 +515,7 @@ CREATE TABLE `memorando`(
     `data` DATETIME DEFAULT NULL,
     `status_memorando` int(11) DEFAULT NULL,
     FOREIGN KEY (`id_pessoa`) REFERENCES `pessoa` (`id_pessoa`),
-	FOREIGN KEY (`status_memorando`) REFERENCES `status_memorando` (`id_status_memorando`)
+  FOREIGN KEY (`status_memorando`) REFERENCES `status_memorando` (`id_status_memorando`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `despacho`(

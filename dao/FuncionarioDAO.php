@@ -15,7 +15,7 @@ class FuncionarioDAO
     public function incluir($funcionario)
     {
         try {
-            /*depois do sangue  :escala,:tipo,:carga_horaria,:entrada1,:saida1,:entrada2,:saida2,:total,:dias_trabalhados,:folga,:observacoes,   último   ,:situacao*/
+
             $sql = 'call cadfuncionario(:nome,:cpf,:senha,:sexo,:telefone,:data_nascimento,:imagem,:cep,:estado,:cidade,:bairro,:logradouro,:numero_endereco,:complemento,:ibge,:registro_geral,:orgao_emissor,:data_expedicao,:nome_pai,:nome_mae,:tipo_sangue,:vale_transporte,:data_admissao,:pis,:ctps,:uf_ctps,:numero_titulo,:zona,:secao,:certificado_reservista_numero,:certificado_reservista_serie,:calcado,:calca,:jaleco,:camisa,:usa_vtp,:cesta_basica,:situacao,:cargo)';
             
             $sql = str_replace("'", "\'", $sql);

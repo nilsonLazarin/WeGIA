@@ -74,6 +74,173 @@
   	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   	<link type="text/css" rel="stylesheet" charset="UTF-8" href="https://translate.googleapis.com/translate_static/css/translateelement.css">
 
+	
+	<!--CSS-->
+	<style type="text/css">
+		.body{
+			position: relative;
+		}
+		.row{
+			display: flex;
+			flex-direction: row;
+			justify-content: center;
+			align-items: center;
+		}
+		.box{		
+			padding-right: 34px;
+			border-right-width: 23px;
+			right: 50px;
+			width: 796px;
+		}
+	</style>
+</head>
+<body>
+	<section class="body">
+		<!-- start: header -->
+		<div id="header"></div>
+		<!-- end: header -->
+		
+		<div class="inner-wrapper" >
+			<!-- start: sidebar -->
+			<aside id="sidebar-left" class="sidebar-left menuu"></aside>
+				
+			<section role="main" class="content-body">
+				<header class="page-header">
+					<h2>Cadastro</h2>
+					<div class="right-wrapper pull-right">
+						<ol class="breadcrumbs">
+							<li>
+								<a href="home.php">
+									<i class="fa fa-home"></i>
+								</a>
+							</li>
+							<li><span>Cadastro</span></li>
+							<li><span>Doação</span></li>
+						</ol>
+						<a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
+					</div>
+				</header>
+
+				<!-- start: page -->
+				<div class="row">
+					<div class="col-md-8 col-lg-8 box">
+						<ul class="nav nav-tabs tabs-primary">
+							<li class="active">
+								<a href="#overview" data-toggle="tab">Cadastro de Doação</a>
+							</li>
+						</ul>
+						<div class="tab-content" style="width: 832px;">
+							<div id="overview" class="tab-pane active">
+								<form class="form-horizontal" method="post" id="formulario" onsubmit="return validar()" action="../controle/control.php" autocomplete="off">
+									<fieldset>
+										<div class="info-entrada" >
+											<div class="form-group">
+												<label class="col-md-3 control-label" >Origem</label>
+												<div class="col-md-8">
+													<input type="search" list="origens" id="origem" name="origem" class="form-control" autocomplete="off" required>
+													<datalist id="origens">
+													</datalist>
+												</div>
+												<a href="cadastro_doador.php"><i class="fas fa-plus w3-xlarge"></i></a>
+											</div>
+											
+											<div class="form-group">
+												<label class="col-md-3 control-label" >Almoxarifado</label>
+												<div class="col-md-6">
+													<select class="form-control " name="almoxarifado" id="almoxarifado">
+														<option selected disabled value="blank">Selecionar</option>
+													</select>
+												</div>
+												<a href="adicionar_almoxarifado.php"><i class="fas fa-plus w3-xlarge"></i></a>
+											</div>
+
+											<div class="form-group">
+												<label class="col-md-3 control-label" >Tipo</label>
+												<div class="col-md-6">
+													<select class="form-control " name="tipo_entrada" id="tipo_entrada">
+														<option selected disabled value="blank">Selecionar</option>
+													</select>
+												</div>
+												<a href="adicionar_tipoEntrada.php"><i class="fas fa-plus w3-xlarge"></i></a>
+											</div>
+										</div>
+										
+										<div class="panel-body" >
+											<table class="table table-bordered mb-none">
+												<thead>
+													<tr style="width: 768px;">
+														<th>Produto
+															<a href="cadastro_produto.php" class="fas fa-plus w3-xlarge" style="float:right;" id="produto" class="produto">
+															</a>
+														</th>
+														<th>quantidade</th>
+														<th>valor unitário</th>
+														<th>incluir</th>
+													</tr>
+													<tr>
+														<td>
+															<input type="search" list="produtos_autocomplete" id="input_produtos" name="produtos_autocomplete" autocomplete="off" size="20" class="form-control">
+															<datalist id="produtos_autocomplete">
+															</datalist>
+														</td>
+														<td><input type="number" name="quantidade" style="width: 74px;" value="1" min="1" id="quantidade"></td>
+														<td id="valor_unitario"></td>
+														<td >	
+															<button id="add-row incluir" type="button" class="add-row" >incluir</button>
+														</td>
+													</tr>
+												</thead>
+											</table><br>
+
+											<div class="table-responsive">
+												<table class="table table-bordered mb-none table">
+													<thead>
+														<tr>
+															
+															<th style="width: 160px;">Produto
+															<th style="width: 85px;">Quantidade</th>
+															<th>Preço</th>
+															<th>Total</th>
+															<th>Ação</th>
+														</tr>
+													</thead>
+													<tbody>
+													</tbody>
+													<tfoot>
+														<tr >
+															<td>Valor total:</td>
+															<td id="valor-total">
+															<input type="number" id="total_total"  name="total_total" readonly="readonly" required>
+															<input type="hidden" id="conta" name="conta" readonly="readonly">
+															<input type="hidden" id="verifica" disabled>
+															</td>
+
+														</tr>
+													</tfoot>
+												</table>
+											</div>
+										</div>
+										<!--<button id="array">Pegar valores da tabela</button>
+										<div id="resultado"></div>-->
+
+									</fieldset><br>
+									<div class="row">
+										<div class="col-md-9 col-md-offset-3">
+										    <input type="hidden" name="nomeClasse" value="EntradaControle">			
+											<input type="hidden" name="metodo" value="incluir">
+											<input type="submit" class="btn btn-primary" >
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+		<!-- end: page -->
+	</section>
+
 	<script type="text/javascript">
 		$(function() {
 
@@ -216,303 +383,11 @@
 				return false;
 			}
 		}
+		$(function () {
+            $("#header").load("header.html");
+            $(".menuu").load("menu.html");
+         });
 	</script>
-	<!--CSS-->
-	<style type="text/css">
-		.body{
-			position: relative;
-		}
-		.row{
-			display: flex;
-			flex-direction: row;
-			justify-content: center;
-			align-items: center;
-		}
-		.box{		
-			padding-right: 34px;
-			border-right-width: 23px;
-			right: 50px;
-			width: 796px;
-		}
-	</style>
-</head>
-<body>
-	<section class="body">
-		<!-- start: header -->
-		<header class="header">
-			<div class="logo-container">
-				<a href="home.php" class="logo">
-					<img src="../img/logofinal.png" height="35" alt="Porto Admin" />
-				</a>
-				<div class="visible-xs toggle-sidebar-left" data-toggle-class="sidebar-left-opened" data-target="html" data-fire-event="sidebar-left-opened">
-					<i class="fa fa-bars" aria-label="Toggle sidebar"></i>
-				</div>
-			</div>
-		
-			<!-- start: search & user box -->
-			<div class="header-right">
-				<span class="separator"></span>
-				<div id="userbox" class="userbox">
-					<a href="#" data-toggle="dropdown">
-						<figure class="profile-picture">
-							<img src="../img/semfoto.jpg" alt="Joseph Doe" class="img-circle" data-lock-picture="../assets/images/!logged-user.jpg" />
-						</figure>
-						<div class="profile-info" data-lock-name="John Doe" data-lock-email="johndoe@okler.com">
-							<span class="name">Usuário</span>
-							<span class="role">Funcionário</span>
-						</div>
-						<i class="fa custom-caret"></i>
-					</a>
-			
-					<div class="dropdown-menu">
-						<ul class="list-unstyled">
-							<li class="divider"></li>
-							<li>
-								<a role="menuitem" tabindex="-1" href="../html/alterar_senha.php"><i class="glyphicon glyphicon-lock"></i> Alterar senha</a>
-							</li>
-							<li>
-								<a role="menuitem" tabindex="-1" href="./logout.php"><i class="fa fa-power-off"></i> Sair da sessão</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-			<!-- end: search & user box -->
-		</header>
-		<!-- end: header -->
-		
-		<div class="inner-wrapper">
-			<!-- start: sidebar -->
-			<aside id="sidebar-left" class="sidebar-left">
-				<div class="sidebar-header">
-					<div class="sidebar-title">
-						Menu
-					</div>
-					<div class="sidebar-toggle hidden-xs" data-toggle-class="sidebar-left-collapsed" data-target="html" data-fire-event="sidebar-left-toggle">
-						<i class="fa fa-bars" aria-label="Toggle sidebar"></i>
-					</div>
-				</div>
-				
-				<div class="nano">
-					<div class="nano-content">
-						<nav id="menu" class="nav-main" role="navigation">
-							<ul class="nav nav-main">
-								<li>
-									<a href="home.php">
-										<i class="fa fa-home" aria-hidden="true"></i>
-										<span>Início</span>
-									</a>
-								</li>
-								<li class="nav-parent nav-active">
-									<a>
-										<i class="fa fa-copy"></i>
-										<span>Pessoas</span>
-									</a>
-									<ul class="nav nav-children">
-										<li>
-											<a href="cadastro_funcionario.php">
-												 Cadastrar funcionário
-											</a>
-										</li>
-										<li>
-											<a href="cadastro_interno.php">
-												 Cadastrar interno
-											</a>
-										</li>
-										<!--<li>
-											<a href="cadastro_voluntario.php">
-												 Cadastrar voluntário
-											</a>
-										</li>
-										<li>
-											<a href="cadastro_voluntario_judicial.php">
-												 Cadastrar voluntário judicial
-											</a>
-										</li>-->
-										<li>
-											<a href="../controle/control.php?metodo=listarTodos&nomeClasse=FuncionarioControle&nextPage=../html/informacao_funcionario.php">
-												 Informações funcionarios
-											</a>
-										</li>
-										<li>
-											<a href="../controle/control.php?metodo=listarTodos&nomeClasse=InternoControle&nextPage=../html/informacao_interno.php">
-												 Informações interno
-											</a>
-										</li>
-									</ul>
-								</li>
-
-								<li class="nav-parent nav-active">
-									<a>
-										<i class="fa fa-copy" aria-hidden="true"></i>
-										<span>Material e Patrimônio</span>
-									</a>
-									<ul class="nav nav-children">
-										<li>
-											<a href="../html/cadastro_entrada.php">
-												 Cadastrar Produtos
-											</a>
-										</li>
-										<li>
-											<a href="../html/cadastro_saida.php">
-												 Saida de Produtos
-											</a>
-										</li>
-										<li>
-											<a href="../html/estoque.php">
-												 Estoque
-											</a>
-										</li>
-										<li>
-											<a href="../html/listar_almox.php">
-												 Almoxarifados
-											</a>
-										</li>
-									</ul>
-								</li>
-							</ul>
-						</nav>
-					</div>
-				</div>
-			</aside>
-				
-			<section role="main" class="content-body">
-				<header class="page-header">
-					<h2>Cadastro</h2>
-					<div class="right-wrapper pull-right">
-						<ol class="breadcrumbs">
-							<li>
-								<a href="home.php">
-									<i class="fa fa-home"></i>
-								</a>
-							</li>
-							<li><span>Cadastro</span></li>
-							<li><span>Doação</span></li>
-						</ol>
-						<a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
-					</div>
-				</header>
-
-				<!-- start: page -->
-				<div class="row">
-					<div class="col-md-8 col-lg-8 box">
-						<ul class="nav nav-tabs tabs-primary">
-							<li class="active">
-								<a href="#overview" data-toggle="tab">Cadastro de Doação</a>
-							</li>
-						</ul>
-						<div class="tab-content" style="width: 832px;">
-							<div id="overview" class="tab-pane active">
-								<form class="form-horizontal" method="post" id="formulario" onsubmit="return validar()" action="../controle/control.php" autocomplete="off">
-									<fieldset>
-										<div class="info-entrada" >
-											<div class="form-group">
-												<label class="col-md-3 control-label" >Origem</label>
-												<div class="col-md-8">
-													<input type="search" list="origens" id="origem" name="origem" class="form-control" autocomplete="off" required>
-													<datalist id="origens">
-													</datalist>
-												</div>
-												<a href="cadastro_doador.php"><i class="fas fa-plus w3-xlarge"></i></a>
-											</div>
-											
-											<div class="form-group">
-												<label class="col-md-3 control-label" >Almoxarifado</label>
-												<div class="col-md-6">
-													<select class="form-control " name="almoxarifado" id="almoxarifado">
-														<option selected disabled value="blank">Selecionar</option>
-													</select>
-												</div>
-												<a href="adicionar_almoxarifado.php"><i class="fas fa-plus w3-xlarge"></i></a>
-											</div>
-
-											<div class="form-group">
-												<label class="col-md-3 control-label" >Tipo</label>
-												<div class="col-md-6">
-													<select class="form-control " name="tipo_entrada" id="tipo_entrada">
-														<option selected disabled value="blank">Selecionar</option>
-													</select>
-												</div>
-												<a href="adicionar_tipoEntrada.php"><i class="fas fa-plus w3-xlarge"></i></a>
-											</div>
-										</div>
-										
-										<div class="panel-body" >
-											<table class="table table-bordered mb-none">
-												<thead>
-													<tr style="width: 768px;">
-														<th>Produto
-															<a href="cadastro_produto.php" class="fas fa-plus w3-xlarge" style="float:right;" id="produto" class="produto">
-															</a>
-														</th>
-														<th>quantidade</th>
-														<th>valor unitário</th>
-														<th>incluir</th>
-													</tr>
-													<tr>
-														<td>
-															<input type="search" list="produtos_autocomplete" id="input_produtos" name="produtos_autocomplete" autocomplete="off" size="20" class="form-control">
-															<datalist id="produtos_autocomplete">
-															</datalist>
-														</td>
-														<td><input type="number" name="quantidade" style="width: 74px;" value="1" min="1" id="quantidade"></td>
-														<td id="valor_unitario"></td>
-														<td >	
-															<button id="add-row incluir" type="button" class="add-row" >incluir</button>
-														</td>
-													</tr>
-												</thead>
-											</table><br>
-
-											<div class="table-responsive">
-												<table class="table table-bordered mb-none table">
-													<thead>
-														<tr>
-															
-															<th style="width: 160px;">Produto
-															<th style="width: 85px;">Quantidade</th>
-															<th>Preço</th>
-															<th>Total</th>
-															<th>Ação</th>
-														</tr>
-													</thead>
-													<tbody>
-													</tbody>
-													<tfoot>
-														<tr >
-															<td>Valor total:</td>
-															<td id="valor-total">
-															<input type="number" id="total_total"  name="total_total" readonly="readonly" required>
-															<input type="hidden" id="conta" name="conta" readonly="readonly">
-															<input type="hidden" id="verifica" disabled>
-															</td>
-
-														</tr>
-													</tfoot>
-												</table>
-											</div>
-										</div>
-										<!--<button id="array">Pegar valores da tabela</button>
-										<div id="resultado"></div>-->
-
-									</fieldset><br>
-									<div class="row">
-										<div class="col-md-9 col-md-offset-3">
-										    <input type="hidden" name="nomeClasse" value="EntradaControle">			
-											<input type="hidden" name="metodo" value="incluir">
-											<input type="submit" class="btn btn-primary" >
-										</div>
-									</div>
-								</form>
-							</div>
-						</div>
-					</div>
-				</div>
-			</section>
-		</div>
-		<!-- end: page -->
-	</section>
-
 
 	<!-- Vendor -->
 	<script src="../assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
@@ -521,19 +396,6 @@
 	<script src="../assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
 	<script src="../assets/vendor/magnific-popup/magnific-popup.js"></script>
 	<script src="../assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
-		
-	<!-- Specific Page Vendor -->
-	<script src="../assets/vendor/jquery-autosize/jquery.autosize.js"></script>
-		
-	<!-- Theme Base, Components and Settings -->
-	<script src="../assets/javascripts/theme.js"></script>
-		
-	<!-- Theme Custom -->
-	<script src="../assets/javascripts/theme.custom.js"></script>
-	
-	<!-- Theme Initialization Files -->
-	<script src="../assets/javascripts/theme.init.js"></script>
-	<script type="text/javascript">
-	</script>
+
 </body>
 </html>

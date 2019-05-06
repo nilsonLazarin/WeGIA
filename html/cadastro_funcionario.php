@@ -9,457 +9,53 @@
     	$servidor = "localhost";
     	$bddnome = "wegia";
     	$mysqli = new mysqli($servidor,$usuario,$senha,$bddnome);
-    	$calcado = $mysqli->query("SELECT tamanhos FROM calcado");
+    	/*$calcado = $mysqli->query("SELECT tamanhos FROM calcado");
     	$calca = $mysqli->query("SELECT tamanhos FROM calca");
     	$jaleco = $mysqli->query("SELECT tamanhos FROM jaleco");
-    	$camisa = $mysqli->query("SELECT tamanhos FROM camisa");
+    	$camisa = $mysqli->query("SELECT tamanhos FROM camisa");*/
     	$situacao = $mysqli->query("SELECT situacoes FROM situacao");
     	$cargo = $mysqli->query("SELECT * FROM cargo");
+      $beneficios = $mysqli->query("SELECT descricao_beneficios FROM beneficios");
+      $descricao_epi = $mysqli->query("SELECT descricao_epi FROM epi");
    
    ?>
 <!doctype html>
 <html class="fixed">
-   <head>
-      <!-- Basic -->
-      <meta charset="UTF-8">
-      <title>Cadastro de Funcionário</title>
-      <!-- Mobile Metas -->
-      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-      <!-- Web Fonts  -->
-      <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">
-      <!-- Vendor CSS -->
-      <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css" />
-      <link rel="stylesheet" href="../assets/vendor/font-awesome/css/font-awesome.css" />
-      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
-      <link rel="stylesheet" href="../assets/vendor/magnific-popup/magnific-popup.css" />
-      <link rel="stylesheet" href="../assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
-      <link rel="icon" href="../img/logofinal.png" type="image/x-icon">
-      <!-- Theme CSS -->
-      <link rel="stylesheet" href="../assets/stylesheets/theme.css" />
-      <!-- Skin CSS -->
-      <link rel="stylesheet" href="../assets/stylesheets/skins/default.css" />
-      <!-- Theme Custom CSS -->
-      <link rel="stylesheet" href="../assets/stylesheets/theme-custom.css">
-      <!-- Head Libs -->
-      <script src="../assets/vendor/modernizr/modernizr.js"></script>
-      <!-- Javascript functions -->
-      <script src="../Functions/onlyNumbers.js"></script>
-      <script src="../Functions/onlyChars.js"></script>
-      <script src="../Functions/enviar_dados.js"></script>
-      <script src="../Functions/mascara.js"></script>
-      <script src="../Functions/lista.js"></script>
+  <head>
+    <!-- Basic -->
+    <meta charset="UTF-8">
+    <title>Cadastro de Funcionário</title>
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
-      <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-      <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-      <script src="https://requirejs.org/docs/release/2.3.6/r.js"></script>
-      <style type="text/css">
+    <!-- Web Fonts  -->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">
 
-        .btn span.fa-check {          
-          opacity: 0;       
-        }
-        .btn.active span.fa-check {
-          opacity: 1;       
-        }
-        .obrig{
-          color:rgb(255, 0, 0);
-        }
-      </style>
-      <script type="text/javascript" >
-         function numero_residencial(){
-         	if($("#numResidencial").prop('checked')){
-         
-         		document.getElementById("numero_residencia").disabled = true;
-         
-         	}else {
-         
-         		document.getElementById("numero_residencia").disabled = false;
-         
-         	}
-         }
-         
-         
-         function exibir_vale_transporte() {
-         
-         	$("#esconder_exibir").show();
-         
-         }
-         
-         function esconder_vale_transporte() {
-         	
-         	document.getElementById('num_transporte').value=("");
-         	$("#esconder_exibir").hide();
-         
-         }
-         
-         function exibir_reservista() {
-         
-         	$("#reservista1").show();
-         	$("#reservista2").show();
-         }
-         
-         function esconder_reservista() {
-         
-         	$('.num_reservista').val("");
-         	$('.serie_reservista').val("");
-         
-         	$("#reservista1").hide();
-         	$("#reservista2").hide();
-         }
-            
-            function limpa_formulário_cep() {
-                    //Limpa valores do formulário de cep.
-                    document.getElementById('rua').value=("");
-                    document.getElementById('bairro').value=("");
-                    document.getElementById('cidade').value=("");
-                    document.getElementById('uf').value=("");
-                    document.getElementById('ibge').value=("");
-            }
-         
-            function meu_callback(conteudo) {
-                if (!("erro" in conteudo)) {
-                    //Atualiza os campos com os valores.
-                    document.getElementById('rua').value=(conteudo.logradouro);
-                    document.getElementById('bairro').value=(conteudo.bairro);
-                    document.getElementById('cidade').value=(conteudo.localidade);
-                    document.getElementById('uf').value=(conteudo.uf);
-                    document.getElementById('ibge').value=(conteudo.ibge);
-                } //end if.
-                else {
-                    //CEP não Encontrado.
-                    limpa_formulário_cep();
-                    alert("CEP não encontrado.");
-                }
-            }
-                
-            function pesquisacep(valor) {
-         
-                //Nova variável "cep" somente com dígitos.
-                var cep = valor.replace(/\D/g, '');
-         
-                //Verifica se campo cep possui valor informado.
-                if (cep != "") {
-         
-                    //Expressão regular para validar o CEP.
-                    var validacep = /^[0-9]{8}$/;
-         
-                    //Valida o formato do CEP.
-                    if(validacep.test(cep)) {
-         
-                        //Preenche os campos com "..." enquanto consulta webservice.
-                        document.getElementById('rua').value="...";
-                        document.getElementById('bairro').value="...";
-                        document.getElementById('cidade').value="...";
-                        document.getElementById('uf').value="...";
-                        document.getElementById('ibge').value="...";
-         
-                        //Cria um elemento javascript.
-                        var script = document.createElement('script');
-         
-                        //Sincroniza com o callback.
-                        script.src = 'https://viacep.com.br/ws/'+ cep + '/json/?callback=meu_callback';
-         
-                        //Insere script no documento e carrega o conteúdo.
-                        document.body.appendChild(script);
-         
-                    } //end if.
-                    else {
-                        //cep é inválido.
-                        limpa_formulário_cep();
-                        alert("Formato de CEP inválido.");
-                    }
-                } //end if.
-                else {
-                    //cep sem valor, limpa formulário.
-                    limpa_formulário_cep();
-                }
-         
-            };
-         
-            function testaCPF(strCPF) { //strCPF é o cpf que será validado. Ele deve vir em formato string e sem nenhum tipo de pontuação.
-                    var strCPF = strCPF.replace(/[^\d]+/g,''); // Limpa a string do CPF removendo espaços em branco e caracteres especiais.
-                    var Soma;
-                    var Resto;
-                    Soma = 0;
-                    if (strCPF == "00000000000") return false;
-                    
-                    for (i=1; i<=9; i++) Soma = Soma + parseInt(strCPF.substring(i-1, i)) * (11 - i);
-                    Resto = (Soma * 10) % 11;
-                    
-                    if ((Resto == 10) || (Resto == 11))  Resto = 0;
-                    if (Resto != parseInt(strCPF.substring(9, 10)) ) return false;
-                    
-                    Soma = 0;
-                    for (i = 1; i <= 10; i++) Soma = Soma + parseInt(strCPF.substring(i-1, i)) * (12 - i);
-                    Resto = (Soma * 10) % 11;
-                    
-                    if ((Resto == 10) || (Resto == 11))  Resto = 0;
-                    if (Resto != parseInt(strCPF.substring(10, 11) ) ) return false;
-                    return true;
-            }
-         
-            function validarCPF(strCPF){
-         
-            	if (!testaCPF(strCPF)){
-            		$('#cpfInvalido').show();
-            		document.getElementById("enviar").disabled = true;
-         
-            	}else{
-            		$('#cpfInvalido').hide();
-         
-            		document.getElementById("enviar").disabled = false;
-            	} 
-            }
+    <!-- Vendor CSS -->
+    <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" href="../assets/vendor/font-awesome/css/font-awesome.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    <link rel="stylesheet" href="../assets/vendor/magnific-popup/magnific-popup.css" />
+    <link rel="stylesheet" href="../assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
+    <link rel="icon" href="../img/logofinal.png" type="image/x-icon">
 
-            function gerarSituacao(){
-                data = '';
-                url = '../dao/exibir_situacao.php';
-                $.ajax({
-                type: "POST",
-                url: url,
-                data: data,
-                success: function(response){
-                  var situacoes = response.split(",");
+    <!-- Theme CSS -->
+    <link rel="stylesheet" href="../assets/stylesheets/theme.css" />
 
-                  document.getElementById('situacao').innerHTML = ''; //limpar
-                  for(var i=0; i<situacoes.length-1; i++)
-                    document.getElementById('situacao').innerHTML += 
-                        '<option>' +situacoes[i] +'</option>';
-                },
-                dataType: 'text'
-              });
-            }
+    <!-- Skin CSS -->
+    <link rel="stylesheet" href="../assets/stylesheets/skins/default.css" />
 
-            function adicionar_situacao(){
-              url = '../dao/adicionar_situacao.php';
-              var situacao = window.prompt("Cadastre Nova Situação:");
-              if(!situacao){return}
-              situacao = situacao.trim();
-              if(situacao == ''){return}
-
-                data = 'situacao=' +situacao; 
-
-                console.log(data);
-                $.ajax({
-                type: "POST",
-                url: url,
-                data: data,
-                success: function(response){
-                  gerarSituacao();
-                },
-                dataType: 'text'
-              })
-            }
-
-            function gerarCargo(){
-                data = '';
-                url = '../dao/exibir_cargo.php';
-                $.ajax({
-                type: "POST",
-                url: url,
-                data: data,
-                success: function(response){
-                  var cargo = response.split(",");
-
-                  document.getElementById('cargo').innerHTML = ''; //limpar
-                  for(var i=0; i<cargo.length-1; i++)
-                    document.getElementById('cargo').innerHTML += 
-                        '<option>' +cargo[i] +'</option>';
-                },
-                dataType: 'text'
-              });
-            }
-
-            function adicionar_cargo(){
-              url = '../dao/adicionar_cargo.php';
-              var cargo = window.prompt("Cadastre Novo Cargo:");
-              if(!cargo){return}
-              situacao = cargo.trim();
-              if(cargo == ''){return}              
-              
-                data = 'cargo=' +cargo; 
-                console.log(data);
-                $.ajax({
-                type: "POST",
-                url: url,
-                data: data,
-                success: function(response){
-                  gerarCargo();
-                },
-                dataType: 'text'
-              })
-            }
-              
-      </script>
-      <script language="JavaScript">
-         var numValidos = "0123456789-()";
-         var num1invalido = "78";
-         var i;
-         	function validarTelefone(){
-         		//Verificando quantos dígitos existem no campo, para controlarmos o looping;
-         		digitos = document.form1.telefone.value.length;
-         			
-         		for(i=0; i<digitos; i++) {
-         			if (numValidos.indexOf(document.form1.telefone.value.charAt(i),0) == -1) {
-         				alert("Apenas números são permitidos no campo Telefone!");
-         				document.form1.telefone.select();
-         				return false;
-         			}
-         			if(i==0){
-         				if (num1invalido.indexOf(document.form1.telefone.value.charAt(i),0) != -1) {
-         					alert("Número de telefone inválido!");
-         					document.form1.telefone.select();
-         					return false;
-         				}
-         			}
-         		} 
-         	}
-   
-      </script>
-   </head>
-   <body>
+    <!-- Theme Custom CSS -->
+    <link rel="stylesheet" href="../assets/stylesheets/theme-custom.css">
+  </head>
+  <body>
       <!-- start: header -->
-      <header class="header">
-         <div class="logo-container">
-            <a href="home.php" class="logo">
-            <img src="../img/logofinal.png" height="35" alt="Porto Admin" />
-            </a>
-            <div class="visible-xs toggle-sidebar-left" data-toggle-class="sidebar-left-opened" data-target="html" data-fire-event="sidebar-left-opened">
-               <i class="fa fa-bars" aria-label="Toggle sidebar"></i>
-            </div>
-         </div>
-         <!-- start: search & user box -->
-         <div class="header-right">
-            <span class="separator"></span>
-            <div id="userbox" class="userbox">
-               <a href="#" data-toggle="dropdown">
-                  <figure class="profile-picture">
-                     <img src="../img/semfoto.jpg" alt="Joseph Doe" class="img-circle" data-lock-picture="../assets/images/!logged-user.jpg" />
-                  </figure>
-                  <div class="profile-info" data-lock-name="John Doe" data-lock-email="johndoe@okler.com">
-                     <span class="name">Usuário</span>
-                     <span class="role">Funcionário</span>
-                  </div>
-                  <i class="fa custom-caret"></i>
-               </a>
-               <div class="dropdown-menu">
-                  <ul class="list-unstyled">
-                     <li class="divider"></li>
-                     <li>
-                <a role="menuitem" tabindex="-1" href="../html/alterar_senha.php"><i class="glyphicon glyphicon-lock"></i> Alterar senha</a>
-              </li>
-                     <li>
-                        <a role="menuitem" tabindex="-1" href="./logout.php"><i class="fa fa-power-off"></i> Sair da sessão</a>
-                     </li>
-                  </ul>
-               </div>
-            </div>
-         </div>
-         <!-- end: search & user box -->
-      </header>
+      <div id="header"></div>
       <!-- end: header -->
       <div class="inner-wrapper">
          <!-- start: sidebar -->
-         <aside id="sidebar-left" class="sidebar-left">
-            <div class="sidebar-header">
-               <div class="sidebar-title">
-                  Menu
-               </div>
-               <div class="sidebar-toggle hidden-xs" data-toggle-class="sidebar-left-collapsed" data-target="html" data-fire-event="sidebar-left-toggle">
-                  <i class="fa fa-bars" aria-label="Toggle sidebar"></i>
-               </div>
-            </div>
-            <div class="nano">
-          <div class="nano-content">
-            <nav id="menu" class="nav-main" role="navigation">
-              <ul class="nav nav-main">
-                <li>
-                  <a href="home.php">
-                    <i class="fa fa-home" aria-hidden="true"></i>
-                    <span>Início</span>
-                  </a>
-                </li>
-                <li class="nav-parent nav-active">
-                  <a>
-                    <i class="fa fa-copy"></i>
-                    <span>Pessoas</span>
-                  </a>
-                  <ul class="nav nav-children">
-                    <li>
-                      <a href="cadastro_funcionario.php">
-                         Cadastrar funcionário
-                      </a>
-                    </li>
-                    <li>
-                      <a href="cadastro_interno.php">
-                         Cadastrar interno
-                      </a>
-                    </li>
-                    <!--<li>
-                      <a href="cadastro_voluntario.php">
-                         Cadastrar voluntário
-                      </a>
-                    </li>
-                    <li>
-                      <a href="cadastro_voluntario_judicial.php">
-                         Cadastrar voluntário judicial
-                      </a>
-                    </li>-->
-                    <li>
-                      <a href="../controle/control.php?metodo=listarTodos&nomeClasse=FuncionarioControle&nextPage=../html/informacao_funcionario.php">
-                         Informações funcionarios
-                      </a>
-                    </li>
-                    <li>
-                      <a href="../controle/control.php?metodo=listarTodos&nomeClasse=InternoControle&nextPage=../html/informacao_interno.php">
-                         Informações interno
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-
-                <li class="nav-parent nav-active">
-                  <a>
-                    <i class="fa fa-copy" aria-hidden="true"></i>
-                    <span>Material e Patrimônio</span>
-                  </a>
-                  <ul class="nav nav-children">
-                    <li>
-                      <a href="../html/cadastro_entrada.php">
-                         Cadastrar Produtos
-                      </a>
-                    </li>
-                    <li>
-                      <a href="../html/cadastro_saida.php">
-                         Saida de Produtos
-                      </a>
-                    </li>
-                    <li>
-                      <a href="../html/estoque.php">
-                         Estoque
-                      </a>
-                    </li>
-                    <li>
-                      <a href="../html/listar_almox.php">
-                         Almoxarifados
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-            </nav>
-          </div>
-        </div>
-            <form id="listarFuncionario" method="POST" action="../controle/control.php">
-               <input type="hidden" name="nomeClasse" value="FuncionarioControle">
-               <input type="hidden" name="metodo" value="listartodos">
-               <input type="hidden" name="nextPage" value="../html/informacao_funcionario.php">
-            </form>
-            <form id="listarInterno" method="POST" action="../controle/control.php">
-               <input type="hidden" name="nomeClasse" value="InternoControle">
-               <input type="hidden" name="metodo" value="listartodos">
-               <input type="hidden" name="nextPage" value="../html/informacao_interno.php">
-            </form>
-         </aside>
+         <aside id="sidebar-left" class="sidebar-left menuu"></aside>
+         
          <section role="main" class="content-body">
             <header class="page-header">
                <h2>Cadastro</h2>
@@ -549,6 +145,12 @@
                       </li>
                       <li>
                         <a href="#cargaHoraria" data-toggle="tab">Carga Horária</a>
+                      </li>
+                      <li>
+                        <a href="#beneficio" data-toggle="tab">Benefícios</a>
+                      </li>
+                      <li>
+                        <a href="#epi" data-toggle="tab">EPI</a>
                       </li>
                       <li>
                         <a href="#outros" data-toggle="tab">Outros</a>
@@ -837,29 +439,42 @@
                         </div>
                        
                       </div>
+                      <div id="beneficio" class="tab-pane">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="inputSuccess">Benefícios</label>
+                            <a onclick="adicionar_beneficios()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
+                            <div class="col-md-6">
+                               <select class="form-control input-lg mb-md" name="beneficios" id="beneficios">
+                                  <option selected disabled>Selecionar</option>
+                                  <?php 
+                                     while($row = $beneficios->fetch_array(MYSQLI_NUM))
+                                     {
+                                      echo "<option value=".$row[0].">".$row[0]."</option>";
+                                     }                            ?>
+                               </select>
+                            </div>
+                         </div>
+                      </div>
+                      <div id="epi" class="tab-pane">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="inputSuccess">Epi</label>
+                            <a onclick="adicionar_descricao_epi()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
+                            <div class="col-md-6">
+                               <select class="form-control input-lg mb-md" name="descricao_epi" id="descricao_epi" required>
+                                  <option selected disabled>Selecionar</option>
+                                  <?php 
+                                     while($row = $descricao_epi->fetch_array(MYSQLI_NUM))
+                                     {
+                                      echo "<option value=".$row[0].">".$row[0]."</option>";
+                                     }                            ?>
+                               </select>
+                            </div>
+                        </div>
+                      </div>
                       <div id="outros" class="tab-pane">
                          <!--<hr class="dotted short">-->
                          <h4 class="mb-xlg doch4">Outros</h4>
-                         <div class="form-group">
-                            <label class="col-md-3 control-label" for="profileLastName">Vale transporte</label>
-                            <div class="col-md-8">
-                               <label><input type="radio" name="vale_transporte" id="vale_transporte" value="Possui" style="margin-top: 10px; margin-left: 15px;"  onclick="return exibir_vale_transporte()"><i class="fa fa-check" style="font-size: 20px;"></i></label>
-                               <label><input type="radio" name="vale_transporte" id="vale_transporte" value="Não possui" class="vale_transporte" style="margin-top: 10px; margin-left: 15px;" onclick="return esconder_vale_transporte()"><i class="fa fa-times" style="font-size: 20px;" ></i> </label>
-                            </div>
-                         </div>
-                         <div class="form-group" id="esconder_exibir" style="display: none;">
-                            <label class="col-md-3 control-label" >Número vale transporte</label>
-                            <div class="col-md-6">
-                               <input type="text" id="num_transporte" name="num_vale_transporte" class="form-control">
-                            </div>
-                         </div>
-                         <div class="form-group">
-                            <label class="col-md-3 control-label" for="profileLastName">Cesta básica</label>
-                            <div class="col-md-8">
-                               <label><input type="radio" name="cesta_basica" id="cesta_basica" value="Possui" style="margin-top: 10px; margin-left: 15px;"><i class="fa fa-check" style="font-size: 20px;"></i></label>
-                               <label><input type="radio" name="cesta_basica" id="cesta_basica" value="Não possui" class="vale_transporte" style="margin-top: 10px; margin-left: 15px;"><i class="fa fa-times" style="font-size: 20px;" ></i> </label>
-                            </div>
-                         </div>
+                         
                          <div class="form-group">
                                   <label class="col-md-3 control-label" for="profileFirstName">Nome do pai</label>
                                   <div class="col-md-8">
@@ -936,69 +551,7 @@
                                <input type="text" name="certificado_reservista_serie" class="form-control serie_reservista">
                             </div>
                          </div>
-                         <div class="form-group">
-                            <label class="col-md-3 control-label" for="inputSuccess">Calçado</label>
-                            <a href="adicionar_calcado.php"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
-                            <div class="col-md-6">
-                               <select class="form-control input-lg mb-md" name="calcado" id="calcado">
-                                  <option selected disabled>Selecionar</option>
-                                  <option value="Não utiliza">Não utiliza</option>
-                                  <?php 
-                                     while($row = $calcado->fetch_array(MYSQLI_NUM))
-                                     {
-                                     	echo "<option value=".$row[0].">".$row[0]."</option>";
-                                     }
-                                     ?>
-                               </select>
-                            </div>
-                         </div>
-                         <div class="form-group">
-                            <label class="col-md-3 control-label" for="inputSuccess">Calça</label>
-                            <a href="adicionar_calca.php"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
-                            <div class="col-md-6">
-                               <select class="form-control input-lg mb-md" name="calca" id="calca">
-                                  <option selected disabled>Selecionar</option>
-                                  <option value="Não utiliza">Não utiliza</option>
-                                  <?php 
-                                     while($row = $calca->fetch_array(MYSQLI_NUM))
-                                     {
-                                     	echo "<option value=".$row[0].">".$row[0]."</option>";
-                                     }
-                                     ?>
-                               </select>
-                            </div>
-                         </div>
-                         <div class="form-group">
-                            <label class="col-md-3 control-label" for="inputSuccess">Jaleco</label>
-                            <a href="adicionar_jaleco.php"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
-                            <div class="col-md-6">
-                               <select class="form-control input-lg mb-md" name="jaleco" id="jaleco">
-                                  <option selected disabled>Selecionar</option>
-                                  <option value="Não utiliza">Não utiliza</option>
-                                  <?php 
-                                     while($row = $jaleco->fetch_array(MYSQLI_NUM))
-                                     {
-                                     	echo "<option value=".$row[0].">".$row[0]."</option>";
-                                     }
-                                     ?>
-                               </select>
-                            </div>
-                         </div>
-                         <div class="form-group">
-                            <label class="col-md-3 control-label" for="inputSuccess">Camisa</label>
-                            <a href="adicionar_camisa.php"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
-                            <div class="col-md-6">
-                               <select class="form-control input-lg mb-md" name="camisa" id="camisa">
-                                  <option selected disabled>Selecionar</option>
-                                  <option value="Não utiliza">Não utiliza</option>
-                                  <?php 
-                                     while($row = $camisa->fetch_array(MYSQLI_NUM))
-                                     {
-                                     	echo "<option value=".$row[0].">".$row[0]."</option>";
-                                     }														?>
-                               </select>
-                            </div>
-                         </div>
+                         
                       </div>    
                        <div class="panel-footer">
                           <div class="row">
@@ -1018,21 +571,366 @@
          </section>
       </div>
       </section>
-      <!-- Vendor -->
-      <script src="../assets/vendor/jquery/jquery.js"></script>
-      <script src="../assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
-      <script src="../assets/vendor/bootstrap/js/bootstrap.js"></script>
-      <script src="../assets/vendor/nanoscroller/nanoscroller.js"></script>
-      <script src="../assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-      <script src="../assets/vendor/magnific-popup/magnific-popup.js"></script>
-      <script src="../assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
-      <!-- Specific Page Vendor -->
-      <script src="../assets/vendor/jquery-autosize/jquery.autosize.js"></script>
-      <!-- Theme Base, Components and Settings -->
-      <script src="../assets/javascripts/theme.js"></script>
-      <!-- Theme Custom -->
-      <script src="../assets/javascripts/theme.custom.js"></script>
-      <!-- Theme Initialization Files -->
-      <script src="../assets/javascripts/theme.init.js"></script>
+      <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://requirejs.org/docs/release/2.3.6/r.js"></script>
+  <style type="text/css">
+
+    .btn span.fa-check {          
+      opacity: 0;       
+    }
+    .btn.active span.fa-check {
+      opacity: 1;       
+    }
+    .obrig{
+      color:rgb(255, 0, 0);
+    }
+  </style>
+  <script type="text/javascript" >
+   function numero_residencial(){
+    if($("#numResidencial").prop('checked')){
+   
+      document.getElementById("numero_residencia").disabled = true;
+   
+    }else {
+   
+      document.getElementById("numero_residencia").disabled = false;
+   
+    }
+   }
+   
+   
+   function exibir_vale_transporte() {
+   
+    $("#esconder_exibir").show();
+   
+   }
+   
+   function esconder_vale_transporte() {
+    
+    document.getElementById('num_transporte').value=("");
+    $("#esconder_exibir").hide();
+   
+   }
+   
+   function exibir_reservista() {
+   
+    $("#reservista1").show();
+    $("#reservista2").show();
+   }
+   
+   function esconder_reservista() {
+   
+    $('.num_reservista').val("");
+    $('.serie_reservista').val("");
+   
+    $("#reservista1").hide();
+    $("#reservista2").hide();
+   }
+      
+      function limpa_formulário_cep() {
+              //Limpa valores do formulário de cep.
+              document.getElementById('rua').value=("");
+              document.getElementById('bairro').value=("");
+              document.getElementById('cidade').value=("");
+              document.getElementById('uf').value=("");
+              document.getElementById('ibge').value=("");
+      }
+   
+      function meu_callback(conteudo) {
+          if (!("erro" in conteudo)) {
+              //Atualiza os campos com os valores.
+              document.getElementById('rua').value=(conteudo.logradouro);
+              document.getElementById('bairro').value=(conteudo.bairro);
+              document.getElementById('cidade').value=(conteudo.localidade);
+              document.getElementById('uf').value=(conteudo.uf);
+              document.getElementById('ibge').value=(conteudo.ibge);
+          } //end if.
+          else {
+              //CEP não Encontrado.
+              limpa_formulário_cep();
+              alert("CEP não encontrado.");
+          }
+      }
+          
+      function pesquisacep(valor) {
+   
+          //Nova variável "cep" somente com dígitos.
+          var cep = valor.replace(/\D/g, '');
+   
+          //Verifica se campo cep possui valor informado.
+          if (cep != "") {
+   
+              //Expressão regular para validar o CEP.
+              var validacep = /^[0-9]{8}$/;
+   
+              //Valida o formato do CEP.
+              if(validacep.test(cep)) {
+   
+                  //Preenche os campos com "..." enquanto consulta webservice.
+                  document.getElementById('rua').value="...";
+                  document.getElementById('bairro').value="...";
+                  document.getElementById('cidade').value="...";
+                  document.getElementById('uf').value="...";
+                  document.getElementById('ibge').value="...";
+   
+                  //Cria um elemento javascript.
+                  var script = document.createElement('script');
+   
+                  //Sincroniza com o callback.
+                  script.src = 'https://viacep.com.br/ws/'+ cep + '/json/?callback=meu_callback';
+   
+                  //Insere script no documento e carrega o conteúdo.
+                  document.body.appendChild(script);
+   
+              } //end if.
+              else {
+                  //cep é inválido.
+                  limpa_formulário_cep();
+                  alert("Formato de CEP inválido.");
+              }
+          } //end if.
+          else {
+              //cep sem valor, limpa formulário.
+              limpa_formulário_cep();
+          }
+   
+      };
+   
+      function testaCPF(strCPF) { //strCPF é o cpf que será validado. Ele deve vir em formato string e sem nenhum tipo de pontuação.
+              var strCPF = strCPF.replace(/[^\d]+/g,''); // Limpa a string do CPF removendo espaços em branco e caracteres especiais.
+              var Soma;
+              var Resto;
+              Soma = 0;
+              if (strCPF == "00000000000") return false;
+              
+              for (i=1; i<=9; i++) Soma = Soma + parseInt(strCPF.substring(i-1, i)) * (11 - i);
+              Resto = (Soma * 10) % 11;
+              
+              if ((Resto == 10) || (Resto == 11))  Resto = 0;
+              if (Resto != parseInt(strCPF.substring(9, 10)) ) return false;
+              
+              Soma = 0;
+              for (i = 1; i <= 10; i++) Soma = Soma + parseInt(strCPF.substring(i-1, i)) * (12 - i);
+              Resto = (Soma * 10) % 11;
+              
+              if ((Resto == 10) || (Resto == 11))  Resto = 0;
+              if (Resto != parseInt(strCPF.substring(10, 11) ) ) return false;
+              return true;
+      }
+   
+      function validarCPF(strCPF){
+   
+        if (!testaCPF(strCPF)){
+          $('#cpfInvalido').show();
+          document.getElementById("enviar").disabled = true;
+   
+        }else{
+          $('#cpfInvalido').hide();
+   
+          document.getElementById("enviar").disabled = false;
+        } 
+      }
+
+      function gerarSituacao(){
+          data = '';
+          url = '../dao/exibir_situacao.php';
+          $.ajax({
+          type: "POST",
+          url: url,
+          data: data,
+          success: function(response){
+            var situacoes = response.split(",");
+
+            document.getElementById('situacao').innerHTML = ''; //limpar
+            for(var i=0; i<situacoes.length-1; i++)
+              document.getElementById('situacao').innerHTML += 
+                  '<option>' +situacoes[i] +'</option>';
+          },
+          dataType: 'text'
+        });
+      }
+
+      function adicionar_situacao(){
+        url = '../dao/adicionar_situacao.php';
+        var situacao = window.prompt("Cadastre uma Nova Situação:");
+        if(!situacao){return}
+        situacao = situacao.trim();
+        if(situacao == ''){return}
+
+          data = 'situacao=' +situacao; 
+
+          console.log(data);
+          $.ajax({
+          type: "POST",
+          url: url,
+          data: data,
+          success: function(response){
+            gerarSituacao();
+          },
+          dataType: 'text'
+        })
+      }
+
+      function gerarCargo(){
+          data = '';
+          url = '../dao/exibir_cargo.php';
+          $.ajax({
+          type: "POST",
+          url: url,
+          data: data,
+          success: function(response){
+            var cargo = response.split(",");
+
+            document.getElementById('cargo').innerHTML = ''; //limpar
+            for(var i=0; i<cargo.length-1; i++)
+              document.getElementById('cargo').innerHTML += 
+                  '<option>' +cargo[i] +'</option>';
+          },
+          dataType: 'text'
+        });
+      }
+
+      function adicionar_cargo(){
+        url = '../dao/adicionar_cargo.php';
+        var cargo = window.prompt("Cadastre um Novo Cargo:");
+        if(!cargo){return}
+        situacao = cargo.trim();
+        if(cargo == ''){return}              
+        
+          data = 'cargo=' +cargo; 
+          console.log(data);
+          $.ajax({
+          type: "POST",
+          url: url,
+          data: data,
+          success: function(response){
+            gerarCargo();
+          },
+          dataType: 'text'
+        })
+      }
+      function gerarDescricao_epi(){
+        data = '';
+        url = '../dao/exibir_descricao_epi.php';
+        $.ajax({
+        type: "POST",
+        url: url,
+        data: data,
+        success: function(response){
+          var descricao_epi = response.split(",");
+
+          document.getElementById('descricao_epi').innerHTML = ''; //limpar
+          for(var i=0; i<descricao_epi.length-1; i++)
+            document.getElementById('descricao_epi').innerHTML += 
+                '<option>' +descricao_epi[i] +'</option>';
+          },
+          dataType: 'text'
+        });
+      }
+
+      function adicionar_descricao_epi(){
+        url = '../dao/adicionar_descricao_epi.php';
+        var descricao_epi = window.prompt("Cadastre uma Nova epi:");
+        if(!descricao_epi){return}
+        situacao = descricao_epi.trim();
+        if(descricao_epi == ''){return}    
+          data = 'descricao_epi=' +descricao_epi; 
+          console.log(data);
+          $.ajax({
+          type: "POST",
+          url: url,
+          data: data,
+          success: function(response){
+            gerarDescricao_epi();
+          },
+          dataType: 'text'
+        })
+      }
+       
+      function gerarBeneficios(){
+        data = '';
+        url = '../dao/exibir_beneficios.php';
+        $.ajax({
+        type: "POST",
+        url: url,
+        data: data,
+        success: function(response){
+          var beneficios = response.split(",");
+
+          document.getElementById('beneficios').innerHTML = ''; //limpar
+          for(var i=0; i<beneficios.length-1; i++)
+            document.getElementById('beneficios').innerHTML += 
+                '<option>' +beneficios[i] +'</option>';
+          },
+          dataType: 'text'
+        });
+      }
+
+      function adicionar_beneficios(){
+        url = '../dao/adicionar_beneficios.php';
+        var beneficios = window.prompt("Cadastre um Novo Benefício:");
+        if(!beneficios){return}
+        situacao = beneficios.trim();
+        if(beneficios == ''){return}  
+          data = 'beneficios=' +beneficios; 
+          console.log(data);
+          $.ajax({
+          type: "POST",
+          url: url,
+          data: data,
+          success: function(response){
+            gerarBeneficios();
+          },
+          dataType: 'text'
+        })
+      }
+      $(function () {
+        $("#header").load("header.html");
+        $(".menuu").load("menu.html");
+      });
+  </script>
+    <!-- Head Libs -->
+  <script src="../assets/vendor/modernizr/modernizr.js"></script>
+
+  <!-- javascript functions -->
+  <script src="../Functions/onlyNumbers.js"></script>
+  <script src="../Functions/onlyChars.js"></script>
+  <script src="../Functions/enviar_dados.js"></script>
+  <script src="../Functions/mascara.js"></script>
+  <script src="../Functions/lista.js"></script>
+  <script language="JavaScript">
+     var numValidos = "0123456789-()";
+     var num1invalido = "78";
+     var i;
+      function validarTelefone(){
+        //Verificando quantos dígitos existem no campo, para controlarmos o looping;
+        digitos = document.form1.telefone.value.length;
+          
+        for(i=0; i<digitos; i++) {
+          if (numValidos.indexOf(document.form1.telefone.value.charAt(i),0) == -1) {
+            alert("Apenas números são permitidos no campo Telefone!");
+            document.form1.telefone.select();
+            return false;
+          }
+          if(i==0){
+            if (num1invalido.indexOf(document.form1.telefone.value.charAt(i),0) != -1) {
+              alert("Número de telefone inválido!");
+              document.form1.telefone.select();
+              return false;
+            }
+          }
+        } 
+      }
+
+    </script>
+    <!-- Vendor -->
+    <script src="../assets/vendor/jquery/jquery.js"></script>
+    <script src="../assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
+    <script src="../assets/vendor/bootstrap/js/bootstrap.js"></script>
+    <script src="../assets/vendor/nanoscroller/nanoscroller.js"></script>
+    <script src="../assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <script src="../assets/vendor/magnific-popup/magnific-popup.js"></script>
+    <script src="../assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
    </body>
 </html>
