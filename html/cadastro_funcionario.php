@@ -9,10 +9,6 @@
     	$servidor = "localhost";
     	$bddnome = "wegia";
     	$mysqli = new mysqli($servidor,$usuario,$senha,$bddnome);
-    	/*$calcado = $mysqli->query("SELECT tamanhos FROM calcado");
-    	$calca = $mysqli->query("SELECT tamanhos FROM calca");
-    	$jaleco = $mysqli->query("SELECT tamanhos FROM jaleco");
-    	$camisa = $mysqli->query("SELECT tamanhos FROM camisa");*/
     	$situacao = $mysqli->query("SELECT situacoes FROM situacao");
     	$cargo = $mysqli->query("SELECT * FROM cargo");
       $beneficios = $mysqli->query("SELECT descricao_beneficios FROM beneficios");
@@ -53,8 +49,8 @@
       <div id="header"></div>
       <!-- end: header -->
       <div class="inner-wrapper">
-         <!-- start: sidebar -->
-         <aside id="sidebar-left" class="sidebar-left menuu"></aside>
+        <!-- start: sidebar -->
+        <aside id="sidebar-left" class="sidebar-left menuu"></aside>
          
          <section role="main" class="content-body">
             <header class="page-header">
@@ -138,9 +134,9 @@
                   <div class="tabs">
                     <ul class="nav nav-tabs tabs-primary">
                       <li class="active">
-                          <a href="#overview" data-toggle="tab">Cadastro de Funcionário</a>
+                        <a href="#overview" data-toggle="tab">Cadastro de Funcionário</a>
                       </li>
-                      <li>
+                      <!--li>
                         <a href="#endereco" data-toggle="tab">Endereço</a>
                       </li>
                       <li>
@@ -154,13 +150,11 @@
                       </li>
                       <li>
                         <a href="#outros" data-toggle="tab">Outros</a>
-                      </li>
+                      </li-->
                     </ul>
                     <div class="tab-content"> 
                       <div id="overview" class="tab-pane active">
                          <form class="form-horizontal" method="post" action="../controle/control.php">
-                            <input type="hidden" name="nomeClasse" value="FuncionarioControle">
-                            <input type="hidden" name="metodo" value="incluir">
                             <h4 class="mb-xlg">Informações Pessoais</h4>
                             <h5 class="obrig">Campos Obrigatórios(*)</h5>
                                <div class="form-group">
@@ -255,8 +249,8 @@
                             </div>
                          </div>
                       </div>
-                        <div id="endereco" class="tab-pane">
-                           <!--<hr class="dotted short">-->
+                        <!--div id="endereco" class="tab-pane">
+                        
                            <h4 class="mb-xlg">Endereço</h4>
                            <div class="form-group">
                               <label class="col-md-3 control-label" for="cep">CEP</label>
@@ -314,7 +308,6 @@
                            <br/>
                       </div>
                       <div id="cargaHoraria" class="tab-pane">
-                       <!--<hr class="dotted short">-->
                         <h4 class="mb-xlg doch4">Carga Horária</h4>
                         <div class="form-group">
                           <label class="col-md-3 control-label" for="inputSuccess">Escala</label>
@@ -454,25 +447,46 @@
                                </select>
                             </div>
                          </div>
-                      </div>
-                      <div id="epi" class="tab-pane">
-                        <div class="form-group">
-                            <label class="col-md-3 control-label" for="inputSuccess">Epi</label>
-                            <a onclick="adicionar_descricao_epi()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
+                         <div class="form-group">
+                            <label class="col-md-3 control-label" for="inputSuccess">Benefícios Status</label>
                             <div class="col-md-6">
-                               <select class="form-control input-lg mb-md" name="descricao_epi" id="descricao_epi" required>
+                               <select class="form-control input-lg mb-md" name="beneficios_status" id="beneficios_status">
                                   <option selected disabled>Selecionar</option>
-                                  <?php 
-                                     while($row = $descricao_epi->fetch_array(MYSQLI_NUM))
-                                     {
-                                      echo "<option value=".$row[0].">".$row[0]."</option>";
-                                     }                            ?>
+                                  <option value="Ativo">Ativo</option>
+                                  <option value="Inativo">Inativo</option>
                                </select>
                             </div>
+                         </div>
+                      </div>
+
+                      <div id="epi" class="tab-pane">
+                        <div class="form-group">
+                          <label class="col-md-3 control-label" for="inputSuccess">Epi</label>
+                          <a onclick="adicionar_descricao_epi()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
+                          <div class="col-md-6">
+                            <select class="form-control input-lg mb-md" name="descricao_epi" id="descricao_epi" required>
+                                <option selected disabled>Selecionar</option>
+                                <?php 
+                                   while($row = $descricao_epi->fetch_array(MYSQLI_NUM))
+                                   {
+                                    echo "<option value=".$row[0].">".$row[0]."</option>";
+                                   }                            ?>
+                            </select>
+                          </div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="inputSuccess">Epi Status</label>
+                            <div class="col-md-6">
+                               <select class="form-control input-lg mb-md" name="epi_status" id="epi_status">
+                                  <option selected disabled>Selecionar</option>
+                                  <option value="Ativo">Ativo</option>
+                                  <option value="Inativo">Inativo</option>
+                               </select>
+                            </div>
+                         </div>
                       </div>
                       <div id="outros" class="tab-pane">
-                         <!--<hr class="dotted short">-->
+                         
                          <h4 class="mb-xlg doch4">Outros</h4>
                          
                          <div class="form-group">
@@ -550,23 +564,25 @@
                             <div class="col-md-6">
                                <input type="text" name="certificado_reservista_serie" class="form-control serie_reservista">
                             </div>
-                         </div>
+                         </div-->
                          
                       </div>    
                        <div class="panel-footer">
                           <div class="row">
                              <div class="col-md-9 col-md-offset-3">
+                                <input type="hidden" name="nomeClasse" value="FuncionarioControle">
+                                <input type="hidden" name="metodo" value="incluir">
                                 <input id="enviar" type="submit" class="btn btn-primary" disabled="true" value="Cadastrar">
                                 <input type="reset" class="btn btn-default">
                              </div>
                           </div>
                        </div>
                  </form>
-                    <!--</div>-->
+                    <!--</div>
                      </div>
                   </div>
                </div>
-            </div>
+            </div>-->
             <!-- end: page -->
          </section>
       </div>
@@ -597,20 +613,6 @@
       document.getElementById("numero_residencia").disabled = false;
    
     }
-   }
-   
-   
-   function exibir_vale_transporte() {
-   
-    $("#esconder_exibir").show();
-   
-   }
-   
-   function esconder_vale_transporte() {
-    
-    document.getElementById('num_transporte').value=("");
-    $("#esconder_exibir").hide();
-   
    }
    
    function exibir_reservista() {
@@ -812,7 +814,7 @@
       }
       function gerarDescricao_epi(){
         data = '';
-        url = '../dao/exibir_descricao_epi.php';
+        url = '../dao/exibir_epi.php';
         $.ajax({
         type: "POST",
         url: url,
@@ -830,7 +832,7 @@
       }
 
       function adicionar_descricao_epi(){
-        url = '../dao/adicionar_descricao_epi.php';
+        url = '../dao/adicionar_epi.php';
         var descricao_epi = window.prompt("Cadastre uma Nova epi:");
         if(!descricao_epi){return}
         situacao = descricao_epi.trim();
@@ -885,6 +887,7 @@
           dataType: 'text'
         })
       }
+
       $(function () {
         $("#header").load("header.html");
         $(".menuu").load("menu.html");
