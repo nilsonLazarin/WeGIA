@@ -69,31 +69,6 @@
   <script src="../../Functions/mascara.js"></script>
   <script src="../../Functions/lista.js"></script>
 
-<script type="text/javascript">
-    $(function() {
-      var destino = <?php
-        echo $destino;
-      ?>;
-      $.each(origem,function(i,item){
-        $('#origens').append('<option value="' + item.id_origem + '-' + item.nome_origem + '">');
-      })
-
-      // validar origem
-      $("#destino").blur(function(){
-      var val=$("#destino").val();
-      var obj=$("#destinos").find("option[value='"+val+"']");
-      if(obj !=null && obj.length>0){
-        return true;
-      }
-      else{
-        alert("Destino inválido, por favor insira um destino válido");
-        $("#destino").val("");
-      }
-
-      });
-
-
-
 
   <!-- jquery functions -->
   <script>
@@ -102,6 +77,10 @@
           $(".menuu").load("menu.html");
         });
   </script>
+
+<!--Utilizado para o autocomplete no destino -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 </head>
 <body>
   <section class="body">
@@ -202,13 +181,21 @@
               <div class="tab-content">
                 <div id="overview" class="tab-pane active">
                   <h4 class="mb-xlg">Informações do Memorando</h4>
-                  <form id="formulario" action="../controle/control.php" enctype="multipart/form-data" method="POST">
+                  <form method="POST"   action="" id="formulario" enctype="multipart/form-data" >
                     <div class="form-group">
                       <label class="col-md-3 control-label">Destino: </label>
                       <div class="col-md-8">
-                        <input type="search" list="destinos" class="form-control" name="destino" id="destino" id="profileFirstName" onkeypress="return Onlychars(event)" placeholder="Orgão,Pessoa..." autocomplete="off" required>
-                        <datalist id="destinos">
-                          </datalist>
+                        <input type="text"name="destino" id="destino" placeholder="Orgão,Pessoa..." list="destinos" class="form-control"  id="profileFirstName" onkeypress="return Onlychars(event)"  autocomplete="off" required>
+                      </form>
+                        <script>
+                          $(function()){
+                            $("#destino").autocomplete({
+                              source: 'processa_pesquisa_msg.php'
+                            })
+                          }
+                       </script>
+                      <form>
+                         
                       </div>
                     </div>
                    
@@ -247,7 +234,7 @@
                           <a href="#" class="fa fa-caret-down"></a>
                         </div>
 
-                        <h2 class="panel-title">Informações do Interno</h2>
+                        <h2 class="panel-title">Informações do Memorando</h2>
                       </header>
                       <div class="panel-body" style="display: block;">
                         <section class="simple-compose-box mb-xlg ">
