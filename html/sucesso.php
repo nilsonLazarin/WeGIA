@@ -65,6 +65,10 @@
 			{
 				document.getElementById("listarFuncionario").submit();
 			}
+			$(function () {
+	            $("#header").load("header.html");
+	            $(".menuu").load("menu.html");
+	        });
 		</script>
 
 	</head>
@@ -148,12 +152,12 @@
                   <ul class="nav nav-children">
                     <li>
                       <a href="cadastro_funcionario.php">
-                         Cadastrar funcionário
+                         Cadastrar Funcionário
                       </a>
                     </li>
                     <li>
                       <a href="cadastro_interno.php">
-                         Cadastrar interno
+                         Cadastrar Atendido
                       </a>
                     </li>
                     <!--<li>
@@ -168,12 +172,12 @@
                     </li>-->
                     <li>
                       <a href="../controle/control.php?metodo=listarTodos&nomeClasse=FuncionarioControle&nextPage=../html/informacao_funcionario.php">
-                         Informações funcionarios
+                         Informações Funcionarios
                       </a>
                     </li>
                     <li>
                       <a href="../controle/control.php?metodo=listarTodos&nomeClasse=InternoControle&nextPage=../html/informacao_interno.php">
-                         Informações interno
+                         Informações Atendido
                       </a>
                     </li>
                   </ul>

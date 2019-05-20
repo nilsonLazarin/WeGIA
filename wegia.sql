@@ -28,18 +28,14 @@ CREATE PROCEDURE `cadfuncionario`(IN `nome` VARCHAR(100), IN `cpf` VARCHAR(40),
   IN `logradouro` VARCHAR(40), IN `numero_endereco` VARCHAR(100), IN `complemento` VARCHAR(50), 
   IN `ibge` VARCHAR(20), IN `registro_geral` VARCHAR(20), IN `orgao_emissor` VARCHAR(20), 
   IN `data_expedicao` DATE, IN `nome_pai` VARCHAR(100), IN `nome_mae` VARCHAR(100), 
-  IN `tipo_sanguineo` VARCHAR(50), IN `vale_transporte` VARCHAR(160), 
-  IN `data_admissao` DATE, IN `pis` VARCHAR(140), IN `ctps` VARCHAR(150), 
-  IN `uf_ctps` VARCHAR(200), IN `numero_titulo` VARCHAR(150), IN `zona` VARCHAR(300), 
-  IN `secao` VARCHAR(400), IN `certificado_reservista_numero` VARCHAR(100), 
-  IN `certificado_reservista_serie` VARCHAR(100), IN `situacao` VARCHAR(100), 
-  IN `cargo` VARCHAR(30))
+  IN `tipo_sanguineo` VARCHAR(50), IN `data_admissao` DATE, IN `pis` VARCHAR(140), 
+  IN `ctps` VARCHAR(150), IN `uf_ctps` VARCHAR(200), IN `numero_titulo` VARCHAR(150), 
+  IN `zona` VARCHAR(300), IN `secao` VARCHAR(400), IN `certificado_reservista_numero` VARCHAR(100), 
+  IN `certificado_reservista_serie` VARCHAR(100), IN `situacao` VARCHAR(100),IN `cargo` VARCHAR(30))
 begin
 
 declare idP int;
 declare idF int;
-declare idE int;
-declare idB int; 
 
 insert into pessoa( cpf, senha, nome, sexo, telefone,data_nascimento,imagem,cep ,estado,cidade, bairro, logradouro, numero_endereco,
 complemento,ibge,registro_geral,orgao_emissor,data_expedicao, nome_pai, nome_mae, tipo_sanguineo)
@@ -48,13 +44,35 @@ complemento,ibge,registro_geral,orgao_emissor,data_expedicao, nome_pai, nome_mae
 
 select max(id_pessoa) into idP FROM pessoa;
 
-insert into funcionario(id_pessoa, vale_transporte,data_admissao,pis,ctps,
+insert into funcionario(id_pessoa, data_admissao,pis,ctps,
 uf_ctps,numero_titulo,zona,secao,certificado_reservista_numero,certificado_reservista_serie,situacao,cargo)
-values(idP,vale_transporte,data_admissao,pis,ctps,
-uf_ctps,numero_titulo,zona,secao,certificado_reservista_numero,certificado_reservista_serie,situacao,cargo);
+values(idP,data_admissao,pis,ctps,uf_ctps,numero_titulo,zona,secao,certificado_reservista_numero,certificado_reservista_serie,situacao,cargo);
 
+END $$
 
-end$$
+CREATE PROCEDURE `cadbeneficios` (IN `data_inicio` DATETIME, IN `data_fim` DATETIME, IN `beneficios_status` VARCHAR(100))begin
+
+declare idP int;
+declare idB int;
+
+select max(id_pessoa) into idP FROM pessoa;
+
+insert into beneficiados(id_pessoa,id_beneficios,data_inicio,data_fim,beneficios_status)
+values(idP,id_beneficios,data_inicio,data_fim,beneficios_status);
+
+END$$
+
+CREATE PROCEDURE `cadepi` (IN `data` DATE, IN `epi_status` VARCHAR(100))begin
+
+declare idP int;
+declare idE int;
+
+select max(id_pessoa) into idP FROM pessoa;
+
+insert into pessoa_epi(id_pessoa,id_epi,data,epi_status)
+values(idP,id_epi,data,epi_status);
+
+END$$
 
 CREATE PROCEDURE `cadhorario` (IN `escala` VARCHAR(200), IN `tipo` VARCHAR(200), IN `carga_horaria` VARCHAR(200), IN `entrada1` VARCHAR(200), IN `saida1` VARCHAR(200), IN `entrada2` VARCHAR(200), IN `saida2` VARCHAR(200), IN `total` VARCHAR(200), IN `dias_trabalhados` VARCHAR(200), IN `folga` VARCHAR(200))  NO SQL
 begin
@@ -62,27 +80,8 @@ declare idF int;
 
 SELECT MAX(id_funcionario) into idF FROM funcionario;
 
-insert into quadro_horario(id_funcionario,escala, tipo, carga_horaria, entrada1, saida1, entrada2, saida2, total, dias_trabalhados, folga) VALUES (idF, escala, tipo, carga_horaria, entrada1, saida1, entrada2, saida2, total, dias_trabalhados, folga);
-
-END$$
-
-CREATE PROCEDURE `cadepi` (IN `descricao_epi` VARCHAR(100))  NO SQL
-begin
-declare idE int;
-
-SELECT MAX(id_epi) into idE FROM epi;
-
-insert into epi(descricao_epi) VALUES (descricao_epi);
-
-END$$
-
-CREATE PROCEDURE `cadbeneficios` (IN `descricao_beneficios` VARCHAR(50))  NO SQL
-begin
-declare idB int;
-
-SELECT MAX(id_beneficios) into idB FROM beneficios;
-
-insert into beneficios(descricao_beneficios) VALUES (descricao_beneficios);
+insert into quadro_horario(id_funcionario,escala, tipo, carga_horaria, entrada1, saida1, entrada2, saida2, total, dias_trabalhados, folga) 
+VALUES (idF, escala, tipo, carga_horaria, entrada1, saida1, entrada2, saida2, total, dias_trabalhados, folga);
 
 END$$
 
@@ -160,7 +159,7 @@ CREATE TABLE `cargo` (
 
 CREATE TABLE `categoria_produto` (
   `id_categoria_produto` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  `descricao_categoria` varchar(240) NOT NULL UNIQUE
+  `descricao_categoria` varchar(100) NOT NULL UNIQUE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `destino` (
@@ -173,7 +172,7 @@ CREATE TABLE `destino` (
 
 CREATE TABLE `unidade` (
   `id_unidade` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  `descricao_unidade` varchar(240) NOT NULL UNIQUE
+  `descricao_unidade` varchar(100) NOT NULL UNIQUE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `produto` (
@@ -252,7 +251,6 @@ CREATE TABLE `estoque` (
 CREATE TABLE `funcionario` (
   `id_funcionario` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `id_pessoa` int DEFAULT NULL,
-  `vale_transporte` varchar(160) DEFAULT NULL,
   `data_admissao` date NOT NULL,
   `pis` varchar(140) DEFAULT NULL,
   `ctps` varchar(150) NOT NULL,
@@ -474,31 +472,31 @@ insert into pessoa( cpf, senha, nome, sexo, telefone,data_nascimento,imagem, cep
 
 CREATE TABLE `beneficios`(
   `id_beneficios` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  `descricao_beneficios` varchar(100)
+  `descricao_beneficios` varchar(100) UNIQUE
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `beneficiados`(
+  `id_beneficiados` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `id_pessoa` int NOT NULL,
   `id_beneficios` int NOT NULL,
-  `data_inicio` date,
-  `data_fim` date,
-  `status` varchar(100),
-  PRIMARY KEY (`id_pessoa`,`id_beneficios`),
+  `data_inicio` datetime,
+  `data_fim` datetime,
+  `beneficios_status` varchar(100),
   FOREIGN KEY (`id_pessoa`) REFERENCES `pessoa` (`id_pessoa`),
   FOREIGN KEY (`id_beneficios`) REFERENCES `beneficios` (`id_beneficios`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `epi`(
   `id_epi` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  `descricao_epi` varchar(100)
+  `descricao_epi` varchar(100) UNIQUE
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `pessoa_epi`(
+  `id_pessoa_epi` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `id_pessoa` int NOT NULL,
   `id_epi` int NOT NULL,
   `data` date,
-  `status` varchar(100),
-  PRIMARY KEY (`id_pessoa`,`id_epi`),
+  `epi_status` varchar(100),
   FOREIGN KEY (`id_pessoa`) REFERENCES `pessoa` (`id_pessoa`),
   FOREIGN KEY (`id_epi`) REFERENCES `epi` (`id_epi`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -529,8 +527,8 @@ CREATE TABLE `despacho`(
 CREATE TABLE `anexo` (
   `id_anexo` int(11) PRIMARY KEY NOT NULL ,
   `id_despacho` int(11) NOT NULL,
-  `anexo` longtext
+  `anexo` longtext,
+  FOREIGN KEY(id_despacho) REFERENCES despacho(id_despacho)
 );
 
-ALTER TABLE anexo ADD CONSTRAINT fk_id_despacho 
-FOREIGN KEY(id_despacho) REFERENCES despacho(id_despacho);
+select * from pessoa;

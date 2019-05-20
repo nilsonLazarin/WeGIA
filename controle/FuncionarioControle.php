@@ -1,8 +1,13 @@
 <?php
 include_once '../classes/Funcionario.php';
 include_once '../classes/QuadroHorario.php';
+include_once '../classes/Beneficiados.php';
+include_once '../classes/Pessoa_epi.php';
 include_once '../dao/FuncionarioDAO.php';
 include_once '../dao/QuadroHorarioDAO.php';
+include_once '../dao/BeneficiadosDAO.php';
+include_once '../dao/Pessoa_epiDAO.php';
+
 
 class FuncionarioControle
 {
@@ -86,6 +91,35 @@ class FuncionarioControle
         $retorno=hash('sha256', $retorno);
         return $retorno;
     }
+
+    public function verificarBeneficiados(){
+        extract($_REQUEST);
+        date_default_timezone_set('America/Sao_Paulo');
+        $data_inicio = date('Y-m-d H:i');
+
+        if((!isset($data_fim)) || (empty($data_fim))){
+            $data_fim='null';
+        }
+
+        if((!isset($beneficios_status)) || (empty($beneficios_status))){
+            $beneficios_status='null';
+        }
+
+        return $beneficio;
+    }
+
+    public function verificarEpi(){
+        extract($_REQUEST);
+        date_default_timezone_set('America/Sao_Paulo');
+        $data = date('Y-m-d H:i');
+
+        if ((!isset($epi_status)) || (empty($epi_status))) {
+            $epi_status = 'null';
+        }
+
+        return $epi;
+    }
+
     public function verificarHorario(){
         extract($_REQUEST);
         if((!isset($escala)) || (empty($escala))){
@@ -194,8 +228,6 @@ class FuncionarioControle
             $carga_horaria = $horaTotal . ":" . $minutoTotal;
 
             $dias_trabalhados = implode(",", $diasTrabalhados);
-       
-        
 
         $horario = new QuadroHorario();
 
@@ -234,36 +266,28 @@ class FuncionarioControle
             header('Location: ../html/funcionario.html?msg='.$msg);
         }
         if((!isset($nome_pai)) || (empty($nome_pai))){
-            $msg .= "Nome do pai do funcionario n√£o informado. Por favor, informe um nome!";
-            header('Location: ../html/funcionario.html?msg='.$msg);
+            $nome_pai = 'null';
         }
         if((!isset($nome_mae)) || (empty($nome_mae))){
-            $msg .= "Nome da mae do funcionario n√£o informado. Por favor, informe um nome!";
-            header('Location: ../html/funcionario.html?msg='.$msg);
+            $nome_mae = 'null';
         }
         if((!isset($sangue)) || (empty($sangue))){
-            $msg .= "Tipo sanguineo do funcionario n√£o informado. Por favor, informe um tipo sanguineo!";
-            header('Location: ../html/funcionario.html?msg='.$msg);
+            $sangue = 'null';
         }
         if((!isset($cep)) || empty(($cep))){
-            $msg .= "Cep do funcionario n√£o informado. Por favor, informe um cep!";
-            header('Location: ../html/funcionario.html?msg='.$msg);
+            $cep = 'null';
         }
         if((!isset($uf)) || empty(($uf))){
-            $msg .= "Estado do funcionario n√£o informado. Por favor, informe um estado!";
-            header('Location: ../html/funcionario.html?msg='.$msg);
+            $uf = 'null';
         }
         if((!isset($cidade)) || empty(($cidade))){
-            $msg .= "Cidade do funcionario n√£o informado. Por favor, informe uma cidade!";
-            header('Location: ../html/funcionario.html?msg='.$msg);
+            $cidade = 'null';
         }
         if((!isset($bairro)) || empty(($bairro))){
-            $msg .= "Bairro do funcionario n√£o informado. Por favor, informe um bairro!";
-            header('Location: ../html/funcionario.html?msg='.$msg);
+            $bairro = 'null';
         }
         if((!isset($rua)) || empty(($rua))){
-            $msg .= "Logradouro do funcionario n√£o informado. Por favor, informe um logradouro!";
-            header('Location: ../html/funcionario.html?msg='.$msg);
+            $rua = 'null';
         }
         if((!isset($numero_residencia)) || empty(($numero_residencia))){
             $numero_residencia = "NULL";
@@ -290,40 +314,23 @@ class FuncionarioControle
             $msg .= "CPF do funcionario n√£o informado. Por favor, informe um CPF!";
             header('Location: ../html/funcionario.html?msg='.$msg);
         }
-        if((!isset($certidao)) || (empty($certidao))){
-            $msg .= "Cerdidao de nascimento do funcionario n√£o informada. Por favor, informe a persenÁa de certid„o de nascimento!";
-            header('Location: ../html/funcionario.html?msg='.$msg);
-        }
-        if((!isset($vale_transporte)) || (empty($vale_transporte))){
-            $msg .= "Usa Vale Transporte do funcionario n√£o informada. Por favor, informe se usa ou n„o vale transporte!";
-            header('Location: ../html/funcionario.html?msg='.$msg);
-        }
-        if((!isset($num_vale_transporte)) || (empty($num_vale_transporte))){
-            $num_vale_transporte='null';
-        }
         if((!isset($pis)) || (empty($pis))){
-            $msg .= "Pis do funcionario n√£o informada. Por favor, informe um pis!";
-            header('Location: ../html/funcionario.html?msg='.$msg);
+            $pis = 'null';
         }
         if((!isset($ctps)) || (empty($ctps))){
-            $msg .= "Ctps do funcionario n√£o informada. Por favor, informe um ctps!";
-            header('Location: ../html/funcionario.html?msg='.$msg);
+            $ctps = 'null';
         }
         if((!isset($uf_ctps)) || (empty($uf_ctps))){
-            $msg .= "Estado da Ctps do funcionario n√£o informada. Por favor, informe a Uf da ctps!";
-            header('Location: ../html/funcionario.html?msg='.$msg);
+            $uf_ctps = 'null';
         }
         if((!isset($titulo_eleitor)) || (empty($titulo_eleitor))){
-            $msg .= "N˙mero do tÌtulo de Eleitor do funcionario n√£o informado. Por favor, informe o n˙mero tÌtulo de eleitor!";
-            header('Location: ../html/funcionario.html?msg='.$msg);
+            $titulo_eleitor = 'null';
         }
         if((!isset($zona_eleitoral)) || (empty($zona_eleitoral))){
-            $msg .= "Zona do Eleitor do funcionario n√£o informado. Por favor, informe a zona do eleitor!";
-            header('Location: ../html/funcionario.html?msg='.$msg);
+            $zona_eleitoral = 'null';
         }
         if((!isset($secao_titulo_eleitor)) || (empty($secao_titulo_eleitor))){
-            $msg .= "SeÁ„o de Eleitor do funcionario n√£o informado. Por favor, informe a seÁ„o do eleitor!";
-            header('Location: ../html/funcionario.html?msg='.$msg);
+            $secao_titulo_eleitor = 'null';
         }
         
         if((!isset($data_admissao)) || (empty($data_admissao))){
@@ -342,33 +349,17 @@ class FuncionarioControle
             $certificado_reservista_serie='null';
         }
 
-        if((!isset($calcado)) || (empty($calcado))){
-            $calcado='null';
-        }
-        if((!isset($calca)) || (empty($calca))){
-            $calca='null';
-        }
-        if((!isset($jaleco)) || (empty($jaleco))){
-            $jaleco='null';
-        }
-        if((!isset($camisa)) || (empty($camisa))){
-            $camisa='null';
-        }
-        if((!isset($cesta_basica)) || (empty($cesta_basica))){
-            $cesta_basica='null';
-        }
-
-        if((!isset($calcado)) || (empty($calcado))){
-            $calcado='N„o informado';
-        }
-
         session_start();
-        $imgperfil=base64_encode($_SESSION['imagem']);
+        if((!isset($_SESSION['imagem'])) || (empty($_SESSION['imagem']))){
+            $imgperfil = 'null';
+        }else{
+            $imgperfil = base64_encode($_SESSION['imagem']);
+        }
         $cpf=str_replace(".", '', $cpf);
         $cpf=str_replace("-", "", $cpf);
         $senha=$this->geraChave(8);
         $funcionario = new Funcionario($cpf,$nome,$gender,$nascimento,$rg,$orgao_emissor,$data_expedicao,$nome_mae,$nome_pai,$sangue,$senha,$telefone,$imgperfil,$cep,$uf,$cidade,$bairro,$rua,$numero_residencia,$complemento,$ibge);
-        $funcionario->setVale_transporte($num_vale_transporte);
+        //$funcionario->setVale_transporte($num_vale_transporte);
         $funcionario->setData_admissao($data_admissao);
         $funcionario->setCargo($cargo);
         $funcionario->setPis($pis);
@@ -379,13 +370,14 @@ class FuncionarioControle
         $funcionario->setSecao($secao_titulo_eleitor);
         $funcionario->setCertificado_reservista_numero($certificado_reservista_numero);
         $funcionario->setCertificado_reservista_serie($certificado_reservista_serie);
-        $funcionario->setCalcado($calcado);
+        /*$funcionario->setCalcado($calcado);
         $funcionario->setCalca($calca);
         $funcionario->setJaleco($jaleco);
         $funcionario->setCamisa($camisa);
         $funcionario->setUsa_vtp($vale_transporte);
-        $funcionario->setCesta_basica($cesta_basica);
+        $funcionario->setCesta_basica($cesta_basica);*/
         $funcionario->setSituacao($situacao);
+        $funcionario->setCargo($cargo);
         
         return $funcionario;
     }
@@ -440,27 +432,49 @@ class FuncionarioControle
     
     public function incluir(){
         $funcionario = $this->verificarFuncionario();
-        $horario = $this->verificarHorario();
+        /*$horario = $this->verificarHorario();
+        $beneficio = $this->verificarBeneficiados();
+        $epi = $this->verificarEpi();*/
         $funcionarioDAO = new FuncionarioDAO();
-        $horarioDAO = new QuadroHorarioDAO();
+        /*$horarioDAO = new QuadroHorarioDAO();
+        $beneficiadosDAO = new BeneficiadosDAO();
+        $pessoa_epiDAO = new Pessoa_epiDAO();*/
         
         try{
             $funcionarioDAO->incluir($funcionario);
             $_SESSION['msg']="Funcionario cadastrado com sucesso";
             $_SESSION['proxima']="Cadastrar outro funcionario";
             $_SESSION['link']="../html/cadastro_funcionario.php";
+            header("Location: ../html/sucesso.php");
 
         } catch (PDOException $e){
             $msg= "N√£o foi poss√≠vel registrar o funcion·rio"."<br>".$e->getMessage();
             echo $msg;
         }
-        try{
+
+        /*try{
             $horarioDAO->incluir($horario);
             header("Location: ../html/sucesso.php");
         } catch (PDOException $e){
             $msg= "N√£o foi poss√≠vel registrar o horario"."<br>".$e->getMessage();
             echo $msg;
         }
+
+        try{
+            $beneficiadosDAO->incluir($beneficio);
+            header("Location: ../html/sucesso.php");
+        } catch (PDOException $e){
+            $msg= "N√£o foi poss√≠vel registrar o beneficio"."<br>".$e->getMessage();
+            echo $msg;
+        }
+
+        try{
+            $Pessoa_epiDAO->incluir($epi);
+            header("Location: ../html/sucesso.php");
+        } catch (PDOException $e){
+            $msg= "N√£o foi poss√≠vel registrar o epi"."<br>".$e->getMessage();
+            echo $msg;
+        }*/
         
     }
 
@@ -549,12 +563,7 @@ class FuncionarioControle
         extract($_REQUEST);
         $cpf=str_replace(".", '', $cpf);
         $cpf=str_replace("-", "", $cpf);
-        if((!isset($num_vale_transporte)) || (empty($num_vale_transporte))){
-            $num_vale_transporte='null';
-        }
-        if((!isset($cesta_basica)) || (empty($cesta_basica))){
-            $cesta_basica='null';
-        }
+
         $funcionario = new Funcionario('','','','','','','','','','','','','','','','','','','','','');
         $funcionario->setId_funcionario($id_funcionario);
         $funcionario->setVale_transporte($num_vale_transporte);
@@ -567,12 +576,12 @@ class FuncionarioControle
         $funcionario->setSecao($secao_titulo_eleitor);
         $funcionario->setCertificado_reservista_numero($certificado_reservista_numero);
         $funcionario->setCertificado_reservista_serie($certificado_reservista_serie);
-        $funcionario->setCalcado($calcado);
+        /*$funcionario->setCalcado($calcado);
         $funcionario->setCalca($calca);
         $funcionario->setJaleco($jaleco);
         $funcionario->setCamisa($camisa);
         $funcionario->setUsa_vtp($vale_transporte);
-        $funcionario->setCesta_basica($cesta_basica);
+        $funcionario->setCesta_basica($cesta_basica);*/
         $funcionario->setSituacao($situacao);
         $funcionarioDAO=new FuncionarioDAO();
         try {

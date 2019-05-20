@@ -14,12 +14,10 @@
       $servidor = "localhost";
       $bddnome = "wegia";
       $mysqli = new mysqli($servidor,$usuario,$senha,$bddnome);
-      $calcado = $mysqli->query("SELECT tamanhos FROM calcado");
-      $calca = $mysqli->query("SELECT tamanhos FROM calca");
-      $jaleco = $mysqli->query("SELECT tamanhos FROM jaleco");
-      $camisa = $mysqli->query("SELECT tamanhos FROM camisa");
       $situacao = $mysqli->query("SELECT situacoes FROM situacao");
       $cargo = $mysqli->query("SELECT * FROM cargo");
+      $beneficios = $mysqli->query("SELECT descricao_beneficios FROM beneficios");
+      $descricao_epi = $mysqli->query("SELECT descricao_epi FROM epi");
    
    ?>
 <!doctype html>
@@ -83,15 +81,10 @@
             $("#nomeForm").prop('disabled', false);
             $("#radioM").prop('disabled', false);
             $("#radioF").prop('disabled', false);
-         
             $("#telefone").prop('disabled', false);
-              
             $("#nascimento").prop('disabled', false);
-         
             $("#pai").prop('disabled', false);
-         
             $("#mae").prop('disabled', false);
-         
             $("#sangue").prop('disabled', false);
          
             $("#botaoEditarIP").html('Cancelar');
@@ -105,28 +98,18 @@
            {
          
             $("#nomeForm").prop('disabled', true);
-         
             $("#radioM").prop('disabled', true);
             $("#radioF").prop('disabled', true);
+            $("#telefone").prop('disabled', true);
+            $("#nascimento").prop('disabled', true);
+            $("#pai").prop('disabled', true);
+            $("#mae").prop('disabled', true);
+            $("#sangue").prop('disabled', true);
          
-         
-         
-              $("#telefone").prop('disabled', true);
-              
-         
-              $("#nascimento").prop('disabled', true);
-         
-              $("#pai").prop('disabled', true);
-         
-              $("#mae").prop('disabled', true);
-         
-         
-              $("#sangue").prop('disabled', true);
-         
-             $("#botaoEditarIP").html('Editar');
-             $("#botaoSalvarIP").prop('disabled', true);
-             $("#botaoEditarIP").removeAttr('onclick');
-             $("#botaoEditarIP").attr('onclick', "return editar_informacoes_pessoais()");
+            $("#botaoEditarIP").html('Editar');
+            $("#botaoSalvarIP").prop('disabled', true);
+            $("#botaoEditarIP").removeAttr('onclick');
+            $("#botaoEditarIP").attr('onclick', "return editar_informacoes_pessoais()");
          
            }
          
@@ -134,20 +117,12 @@
            {
          
             $("#cep").prop('disabled', false);
-         
             $("#uf").prop('disabled', false);
-         
             $("#cidade").prop('disabled', false);
-           
             $("#bairro").prop('disabled', false);
-           
             $("#rua").prop('disabled', false);
-           
             $("#complemento").prop('disabled', false);
-           
-            $("#ibge").prop('disabled', false);
-           
-           
+            $("#ibge").prop('disabled', false);         
             $("#numResidencial").prop('disabled', false);
            
             if ($('#numResidencial').is(':checked')) {
@@ -155,9 +130,7 @@
             }else{
               $("#numero_residencia").prop('disabled', false);
             }
-            
-         
-         
+
             $("#botaoEditarEndereco").html('Cancelar');
             $("#botaoSalvarEndereco").prop('disabled', false);
             $("#botaoEditarEndereco").removeAttr('onclick');
@@ -236,13 +209,11 @@
          
            function editar_outros()
            {
-         
-           
-              $("#radioTransportePossui").prop('disabled', false);
+              /*$("#radioTransportePossui").prop('disabled', false);
               $("#radioTransporteNaoPossui").prop('disabled', false);
               $("#num_transporte").prop('disabled', false);
               $("#cesta_basicaPossui").prop('disabled', false);
-              $("#cesta_basicaNaoPossui").prop('disabled', false);
+              $("#cesta_basicaNaoPossui").prop('disabled', false);*/
               $("#pis").prop('disabled', false);
               $("#ctps").prop('disabled', false);
               $("#uf_ctps").prop('disabled', false);
@@ -251,10 +222,10 @@
               $("#secao_titulo_eleitor").prop('disabled', false);
               $("#certificado_reservista_numero").prop('disabled', false);
               $("#certificado_reservista_serie").prop('disabled', false);
-              $("#jaleco").prop('disabled', false);
+              /*$("#jaleco").prop('disabled', false);
               $("#camisa").prop('disabled', false);
               $("#calcado").prop('disabled', false);
-              $("#calca").prop('disabled', false);
+              $("#calca").prop('disabled', false);*/
               $("#situacao").prop('disabled', false);
               $("#cargo").prop('disabled', false);
          
@@ -269,11 +240,11 @@
             function cancelar_outros()
            {
          
-            $("#radioTransportePossui").prop('disabled', true);
+              /*$("#radioTransportePossui").prop('disabled', true);
               $("#radioTransporteNaoPossui").prop('disabled', true);
               $("#num_transporte").prop('disabled', true);
               $("#cesta_basicaPossui").prop('disabled', true);
-              $("#cesta_basicaNaoPossui").prop('disabled', true);
+              $("#cesta_basicaNaoPossui").prop('disabled', true);*/
               $("#pis").prop('disabled', true);
               $("#ctps").prop('disabled', true);
               $("#uf_ctps").prop('disabled', true);
@@ -282,11 +253,11 @@
               $("#secao_titulo_eleitor").prop('disabled', true);
               $("#certificado_reservista_numero").prop('disabled', true);
               $("#certificado_reservista_serie").prop('disabled', true);
-              $("#jaleco").prop('disabled', true);
+              /*$("#jaleco").prop('disabled', true);
               $("#camisa").prop('disabled', true);
               $("#calcado").prop('disabled', true);
               $("#calca").prop('disabled', true);
-              $("#situacao").prop('disabled', true);
+              $("#situacao").prop('disabled', true);*/
               $("#cargo").prop('disabled', true);
          
              $("#botaoEditarOutros").html('Editar');
@@ -400,7 +371,7 @@
          
                 //Outros
          
-                if (item.usa_vtp== "Possui") {
+              /*if (item.usa_vtp== "Possui") {
            
                   $("#radioTransportePossui").prop('checked',true).prop('disabled', true);
                   $("#radioTransporteNaoPossui").prop('checked',false).prop('disabled', true);
@@ -424,7 +395,7 @@
                 }else{
                   $("#cesta_basicaPossui").prop('checked',false).prop('disabled', true);
                   $("#cesta_basicaNaoPossui").prop('checked',true).prop('disabled', true);
-                }
+                }*/
          
          
          
@@ -500,7 +471,7 @@
          }
          
          
-         function exibir_vale_transporte() {
+         /*function exibir_vale_transporte() {
          
             $("#esconder_exibir").show();
          
@@ -511,7 +482,7 @@
             document.getElementById('num_transporte').value=("");
             $("#esconder_exibir").hide();
          
-         }
+         }*/
          
          function exibir_reservista() {
          
@@ -949,7 +920,7 @@
                                     <input type="hidden" name="nomeClasse" value="FuncionarioControle">
                                     <input type="hidden" name="metodo" value="alterarOutros">
                                     <h4 class="mb-xlg doch4">Outros</h4>
-                                    <div class="form-group">
+                                    <!--div class="form-group">
                                        <label class="col-md-3 control-label" for="profileLastName">Vale transporte</label>
                                        <div class="col-md-8">
                                           <label><input type="radio" name="vale_transporte" id="radioTransportePossui" value="Possui" style="margin-top: 10px; margin-left: 15px;"  onclick="return exibir_vale_transporte()" required><i class="fa fa-check" style="font-size: 20px;"></i></label>
@@ -968,7 +939,7 @@
                                           <label> <input type="radio" name="cesta_basica" id="cesta_basicaPossui" value="Possui" style="margin-top: 10px; margin-left: 15px;" required><i class="fa fa-check" style="font-size: 20px;"></i></label>
                                           <label> <input type="radio" name="cesta_basica" id="cesta_basicaNaoPossui" value="Não possui" class="vale_transporte" style="margin-top: 10px; margin-left: 15px;"><i class="fa fa-times" style="font-size: 20px;" ></i> </label>
                                        </div>
-                                    </div>
+                                    </div-->
                                     <div class="form-group">
                                        <label class="col-md-3 control-label" >PIS</label>
                                        <div class="col-md-6">
@@ -1017,7 +988,7 @@
                                           <input type="text" id="certificado_reservista_serie" name="certificado_reservista_serie" class="form-control serie_reservista">
                                        </div>
                                     </div>
-                                    <div class="form-group">
+                                    <!--div class="form-group">
                                        <label class="col-md-3 control-label" for="inputSuccess">Calçado</label>
                                        <a href="adicionar_calcado.php"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
                                        <div class="col-md-6">
@@ -1079,7 +1050,7 @@
                                                 }                           ?>
                                           </select>
                                        </div>
-                                    </div>
+                                    </div-->
                                     <div class="form-group">
                                        <label class="col-md-3 control-label" for="inputSuccess">Situação</label>
                                        <a href="adicionar_situacao.php"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
@@ -1315,25 +1286,7 @@
          </div>
       </section>
       <!-- Vendor -->
-<script src="../assets/vendor/select2/select2.js"></script>
-		<script src="../assets/vendor/jquery-datatables/media/js/jquery.dataTables.js"></script>
-		<script src="../assets/vendor/jquery-datatables/extras/TableTools/js/dataTables.tableTools.min.js"></script>
-		<script src="../assets/vendor/jquery-datatables-bs3/assets/js/datatables.js"></script>
-		
-		<!-- Theme Base, Components and Settings -->
-		<script src="../assets/javascripts/theme.js"></script>
-		
-		<!-- Theme Custom -->
-		<script src="../assets/javascripts/theme.custom.js"></script>
-		
-		<!-- Theme Initialization Files -->
-		<script src="../assets/javascripts/theme.init.js"></script>
 
-
-		<!-- Examples -->
-		<script src="../assets/javascripts/tables/examples.datatables.default.js"></script>
-		<script src="../assets/javascripts/tables/examples.datatables.row.with.details.js"></script>
-		<script src="../assets/javascripts/tables/examples.datatables.tabletools.js"></script>
 	</body>
 </html>
 

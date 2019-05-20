@@ -6,7 +6,7 @@ class Funcionario extends Pessoa
 
     private $id_funcionario;
     private $id_pessoa;
-    private $vale_transporte;
+    //private $vale_transporte;
     private $data_admissao;
     private $pis;
     private $ctps;
@@ -16,12 +16,8 @@ class Funcionario extends Pessoa
     private $secao;
     private $certificado_reservista_numero;
     private $certificado_reservista_serie;
-    private $calcado;
-    private $calca;
-    private $jaleco;
-    private $camisa;
-    private $usa_vtp;
-    private $cesta_basica;
+    //private $usa_vtp;
+    //private $cesta_basica;
     private $situacao;
     private $cargo;
 
@@ -44,10 +40,10 @@ class Funcionario extends Pessoa
         return $this->id_quadro_horario;
     }
 
-    public function getVale_transporte()
+    /*public function getVale_transporte()
     {
         return $this->vale_transporte;
-    }
+    }*/
 
     public function getData_admissao()
     {
@@ -94,27 +90,7 @@ class Funcionario extends Pessoa
         return $this->certificado_reservista_serie;
     }
 
-    public function getCalcado()
-    {
-        return $this->calcado;
-    }
-
-    public function getCalca()
-    {
-        return $this->calca;
-    }
-
-    public function getJaleco()
-    {
-        return $this->jaleco;
-    }
-
-    public function getCamisa()
-    {
-        return $this->camisa;
-    }
-
-    public function getUsa_vtp()
+    /*public function getUsa_vtp()
     {
         return $this->usa_vtp;
     }
@@ -122,7 +98,7 @@ class Funcionario extends Pessoa
     public function getCesta_basica()
     {
         return $this->cesta_basica;
-    }
+    }*/
 
     public function getSituacao()
     {
@@ -149,11 +125,11 @@ class Funcionario extends Pessoa
     {
         $this->id_quadro_horario = $id_quadro_horario;
     }
-    */
+    
     public function setVale_transporte($vale_transporte)
     {
         $this->vale_transporte = $vale_transporte;
-    }
+    }*/
     public function setCargo($cargo)
     {
         $this->cargo = $cargo;
@@ -204,27 +180,7 @@ class Funcionario extends Pessoa
         $this->certificado_reservista_serie = $certificado_reservista_serie;
     }
 
-    public function setCalcado($calcado)
-    {
-        $this->calcado = $calcado;
-    }
-
-    public function setCalca($calca)
-    {
-        $this->calca = $calca;
-    }
-
-    public function setJaleco($jaleco)
-    {
-        $this->jaleco = $jaleco;
-    }
-
-    public function setCamisa($camisa)
-    {
-        $this->camisa = $camisa;
-    }
-
-    public function setUsa_vtp($usa_vtp)
+    /*public function setUsa_vtp($usa_vtp)
     {
         $this->usa_vtp = $usa_vtp;
     }
@@ -232,7 +188,7 @@ class Funcionario extends Pessoa
     public function setCesta_basica($cesta_basica)
     {
         $this->cesta_basica = $cesta_basica;
-    }
+    }*/
 
     public function setSituacao($situacao)
     {
