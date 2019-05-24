@@ -9,15 +9,11 @@
     header('Location: ../controle/control.php?metodo=listarUm&nomeClasse=FuncionarioControle&nextPage=../html/profile_funcionario.php?id_funcionario='.$id_funcionario.'&id_funcionario='.$id_funcionario);
    }
    
-      $usuario = "root";
-      $senha = "root";
-      $servidor = "localhost";
-      $bddnome = "wegia";
-      $mysqli = new mysqli($servidor,$usuario,$senha,$bddnome);
-      $situacao = $mysqli->query("SELECT situacoes FROM situacao");
-      $cargo = $mysqli->query("SELECT * FROM cargo");
-      $beneficios = $mysqli->query("SELECT descricao_beneficios FROM beneficios");
-      $descricao_epi = $mysqli->query("SELECT descricao_epi FROM epi");
+    $mysqli = new mysqli("localhost","root","root","wegia");
+    $situacao = $mysqli->query("SELECT situacoes FROM situacao");
+    $cargo = $mysqli->query("SELECT * FROM cargo");
+    $beneficios = $mysqli->query("SELECT descricao_beneficios FROM beneficios");
+    $descricao_epi = $mysqli->query("SELECT descricao_epi FROM epi");
    
    ?>
 <!doctype html>
@@ -1285,7 +1281,6 @@
             </section>
          </div>
       </section>
-      <!-- Vendor -->
 
 	</body>
 </html>

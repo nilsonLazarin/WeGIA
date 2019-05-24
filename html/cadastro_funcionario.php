@@ -1,21 +1,21 @@
 <?php
-   session_start();
-   if(!isset($_SESSION['usuario'])){
-   	header ("Location: ../index.php");
-   }
+  session_start();
+  if(!isset($_SESSION['usuario'])){
+    header ("Location: ../index.php");
+  }
    
       $usuario = "root";
-    	$senha =  "root";
-    	$servidor = "localhost";
-    	$bddnome = "wegia";
-    	$mysqli = new mysqli($servidor,$usuario,$senha,$bddnome);
-    	$situacao = $mysqli->query("SELECT situacoes FROM situacao");
-    	$cargo = $mysqli->query("SELECT * FROM cargo");
+      $senha =  "root";
+      $servidor = "localhost";
+      $bddnome = "wegia";
+      $mysqli = new mysqli($servidor,$usuario,$senha,$bddnome);
+      $situacao = $mysqli->query("SELECT situacoes FROM situacao");
+      $cargo = $mysqli->query("SELECT * FROM cargo");
       $beneficios = $mysqli->query("SELECT descricao_beneficios FROM beneficios");
       $descricao_epi = $mysqli->query("SELECT descricao_epi FROM epi");
    
    ?>
-<!doctype html>
+<!DOCTYPE html>
 <html class="fixed">
   <head>
     <!-- Basic -->
@@ -52,7 +52,7 @@
         <!-- start: sidebar -->
         <aside id="sidebar-left" class="sidebar-left menuu"></aside>
          
-         <section role="main" class="content-body">
+        <section role="main" class="content-body">
             <header class="page-header">
                <h2>Cadastro</h2>
                <div class="right-wrapper pull-right">
@@ -69,7 +69,7 @@
                </div>
             </header>
             <!-- start: page -->
-            <div class="row" id="formulario">
+             <div class="row" id="formulario">
                <div class="col-md-4 col-lg-3">
                   <section class="panel">
                      <div class="panel-body">
@@ -77,12 +77,12 @@
                            <?php
                               if($_SERVER['REQUEST_METHOD'] == 'POST')
                               {
-                              	if(isset($_FILES['imgperfil']))
-                              	{
-                              		$image = file_get_contents ($_FILES['imgperfil']['tmp_name']);
-                              		$_SESSION['images']=$image;
-                              		echo '<img src="data:image/gif;base64,'.base64_encode($image).'" class="rounded img-responsive" alt="John Doe">';
-                              	}
+                                if(isset($_FILES['imgperfil']))
+                                {
+                                  $image = file_get_contents ($_FILES['imgperfil']['tmp_name']);
+                                  $_SESSION['images']=$image;
+                                  echo '<img src="data:image/gif;base64,'.base64_encode($image).'" class="rounded img-responsive" alt="John Doe">';
+                                }
                               }
                               else
                               {
@@ -121,7 +121,7 @@
                         </div>
                         <div class="widget-toggle-expand mb-md">
                            <div class="widget-header">
-                              <div class="widget-content-expanded">
+                             <div class="widget-content-expanded">
                                  <ul class="simple-todo-list">
                                  </ul>
                               </div>
@@ -899,7 +899,7 @@
   <!-- javascript functions -->
   <script src="../Functions/onlyNumbers.js"></script>
   <script src="../Functions/onlyChars.js"></script>
-  <script src="../Functions/enviar_dados.js"></script>
+  <!--script src="../Functions/enviar_dados.js"></script-->
   <script src="../Functions/mascara.js"></script>
   <script src="../Functions/lista.js"></script>
   <script language="JavaScript">

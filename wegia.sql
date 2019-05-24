@@ -74,13 +74,24 @@ values(idP,id_epi,data,epi_status);
 
 END$$
 
-CREATE PROCEDURE `cadhorario` (IN `escala` VARCHAR(200), IN `tipo` VARCHAR(200), IN `carga_horaria` VARCHAR(200), IN `entrada1` VARCHAR(200), IN `saida1` VARCHAR(200), IN `entrada2` VARCHAR(200), IN `saida2` VARCHAR(200), IN `total` VARCHAR(200), IN `dias_trabalhados` VARCHAR(200), IN `folga` VARCHAR(200))  NO SQL
+CREATE PROCEDURE `cadhorariofunc` (IN `escala` VARCHAR(200), IN `tipo` VARCHAR(200), IN `carga_horaria` VARCHAR(200), IN `entrada1` VARCHAR(200), IN `saida1` VARCHAR(200), IN `entrada2` VARCHAR(200), IN `saida2` VARCHAR(200), IN `total` VARCHAR(200), IN `dias_trabalhados` VARCHAR(200), IN `folga` VARCHAR(200))  NO SQL
 begin
 declare idF int;
 
 SELECT MAX(id_funcionario) into idF FROM funcionario;
 
 insert into quadro_horario(id_funcionario,escala, tipo, carga_horaria, entrada1, saida1, entrada2, saida2, total, dias_trabalhados, folga) 
+VALUES (idF, escala, tipo, carga_horaria, entrada1, saida1, entrada2, saida2, total, dias_trabalhados, folga);
+
+END$$
+
+CREATE PROCEDURE `cadhorariovolunt` (IN `escala` VARCHAR(200), IN `tipo` VARCHAR(200), IN `carga_horaria` VARCHAR(200), IN `entrada1` VARCHAR(200), IN `saida1` VARCHAR(200), IN `entrada2` VARCHAR(200), IN `saida2` VARCHAR(200), IN `total` VARCHAR(200), IN `dias_trabalhados` VARCHAR(200), IN `folga` VARCHAR(200))  NO SQL
+begin
+declare idV int;
+
+SELECT MAX(id_voluntario) into idV FROM voluntario;
+
+insert into quadro_horario(id_voluntario,escala, tipo, carga_horaria, entrada1, saida1, entrada2, saida2, total, dias_trabalhados, folga) 
 VALUES (idF, escala, tipo, carga_horaria, entrada1, saida1, entrada2, saida2, total, dias_trabalhados, folga);
 
 END$$
@@ -409,7 +420,7 @@ CREATE TABLE `permissao` (
   FOREIGN KEY (`id_acao`) REFERENCES `acao` (`id_acao`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE `quadro_horario` (
+CREATE TABLE `quadro_horario_funcionario` (
   `id_quadro_horario` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `id_funcionario` int NOT NULL,
   `escala` varchar(200) DEFAULT NULL,
@@ -425,6 +436,22 @@ CREATE TABLE `quadro_horario` (
    FOREIGN KEY (`id_funcionario`) REFERENCES `funcionario` (`id_funcionario`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE TABLE `quadro_horario_voluntario` (
+  `id_quadro_horario` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `id_voluntario` int NOT NULL,
+  `escala` varchar(200) DEFAULT NULL,
+  `tipo` varchar(200) DEFAULT NULL,
+  `carga_horaria` varchar(200) DEFAULT NULL,
+  `entrada1` varchar(200) DEFAULT NULL,
+  `saida1` varchar(200) DEFAULT NULL,
+  `entrada2` varchar(200) DEFAULT NULL,
+  `saida2` varchar(200) DEFAULT NULL,
+  `total` varchar(200) DEFAULT NULL,
+  `dias_trabalhados` varchar(200) DEFAULT NULL,
+  `folga` varchar(200) DEFAULT NULL,
+   FOREIGN KEY (`id_voluntario`) REFERENCES `voluntario` (`id_voluntario`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 CREATE TABLE `situacao` (
   `id_situacao` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `situacoes` varchar(30) DEFAULT NULL UNIQUE
@@ -433,6 +460,10 @@ CREATE TABLE `situacao` (
 CREATE TABLE `voluntario` (
   `id_voluntario` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `id_pessoa` int DEFAULT NULL,
+  `descricao_atividade` varchar(100) DEFAULT NULL,
+  `data_admissao` date NOT NULL,
+  `situacao` varchar(100) DEFAULT NULL,
+  `cargo` varchar(30) DEFAULT NULL,
   FOREIGN KEY (`id_pessoa`) REFERENCES `pessoa` (`id_pessoa`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
