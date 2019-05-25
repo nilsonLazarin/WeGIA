@@ -542,7 +542,7 @@ CREATE TABLE `memorando`(
     `id_pessoa` INT(11) NOT NULL,
     `titulo` TEXT DEFAULT NULL,
     `data` DATETIME DEFAULT NULL,
-    `status_memorando` int(11) DEFAULT NULL,
+    `id_status_memorando` int(11) DEFAULT NULL,
     FOREIGN KEY (`id_pessoa`) REFERENCES `pessoa` (`id_pessoa`),
   FOREIGN KEY (`status_memorando`) REFERENCES `status_memorando` (`id_status_memorando`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -563,3 +563,72 @@ CREATE TABLE `anexo` (
 );
 
 select * from pessoa;
+
+-- alteração na tabela memorando o campo status_memorando torna-se id_status_memorando para melhor compreensão
+
+-- Faltou conseguir fazer a alteração da linha de cima.
+
+
+
+-- alteração na tabela despacho para incluir texto do memorando.
+
+alter table despacho add column texto_memorando longtext;
+
+
+--
+
+-- Procedures do memorando dia 24/05
+
+-- 
+delimiter $$
+
+CREATE PROCEDURE sp_despacha_memorando(IN memorando_id int, IN pessoa_id int, IN texto_memorando longtext)
+
+BEGIN
+
+-- Este insert a baixo: Insere na tabela despacho o texto referente ao memorando.
+
+INSERT INTO despacho(id_memorando,id_pessoa,texto_memorando)VALUES(memorando_id,pessoa_id,texto_memorando);
+
+END $$
+
+delimiter ; 
+
+
+delimiter $$
+
+ create procedure sp_cria_memorando(in pessoa int, in statu_memorando int, in titulo_memorando text)
+
+ BEGIN
+  
+  DECLARE hoje date;
+   
+ SET hoje=NOW();
+ 
+           INSERT INTO memorando(data,id_pessoa,id_status_memorando,titulo)VALUES(hoje,pessoa,statu_memorando,titulo_memorando);
+   
+ END $$ 
+
+delimiter ;
+
+
+delimiter $$
+
+create procedure sp_exclui_memorando(in memorando_id int, in pessoa_id int)
+
+BEGIN
+
+DELETE m FROM memorando m JOIN pessoa p on m.id_pessoa=p.id_pessoa WHERE m.id_memorando=memorando_id;
+
+END $$
+delimiter ;
+
+
+delimiter $$
+
+create procedure sp_lista_memorando(in pessoa_id int)
+BEGIN
+SELECT * FROM memorando m JOIN pessoa p on(m.id_pessoa=p.id_pessoa);
+
+END $$
+delimiter ;
