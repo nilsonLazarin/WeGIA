@@ -53,7 +53,7 @@ class FuncionarioControle
         $horaTotal = ((intval($hora2[0])*60) + intval($hora2[1])) - ((intval($hora1[0])*60) + intval($hora1[1])) ;
 
         $horaTotal = floor($horaTotal/60);
-        $minutoTotal = $tempoTotal%60;
+        $minutoTotal = $horaTotal%60;
 
         if (strlen($minutoTotal) == 1) {
                 $minutoTotal = "0" . $minutoTotal;
@@ -123,28 +123,22 @@ class FuncionarioControle
     public function verificarHorario(){
         extract($_REQUEST);
         if((!isset($escala)) || (empty($escala))){
-            $msg = "Escala do funcionario nÃ£o informado. Por favor, informe umm escala!";
-            header('Location: ../html/funcionario.html?msg='.$msg);
+            $escala = 'NUll';
         }
         if((!isset($tipoCargaHoraria)) || (empty($tipoCargaHoraria))){
-            $msg .= "Tipo da carga horária do funcionario nÃ£o informado. Por favor, informe um tipo!";
-            header('Location: ../html/funcionario.html?msg='.$msg);
+            $tipoCargaHoraria = 'NUll';
         }
         if((!isset($entrada1)) || (empty($entrada1))){
-            $msg .= "Primeira entrada do funcionario nÃ£o informado. Por favor, informe uma entrada!";
-            header('Location: ../html/funcionario.html?msg='.$msg);
+            $entrada1 = 'NUll';
         }
         if((!isset($saida1)) || (empty($saida1))){
-            $msg .= "Primeira saída do funcionario nÃ£o informado. Por favor, informe uma saída!";
-            header('Location: ../html/funcionario.html?msg='.$msg);
+            $saida1 = 'NUll';
         }
         if((!isset($entrada2)) || (empty($entrada2))){
-            $msg .= "Segunda entrada do funcionario nÃ£o informado. Por favor, informe uma entrada!";
-            header('Location: ../html/funcionario.html?msg='.$msg);
+            $entrada2 = 'NUll';
         }
         if((!isset($saida2)) || (empty($saida2))){
-            $msg .= "Segunda saída do funcionario nÃ£o informado. Por favor, informe uma saída!";
-            header('Location: ../html/funcionario.html?msg='.$msg);
+            $saida2 = 'NUll';
         }
 
             $subtotal1 = $this->calcularHora($entrada1, $saida1);
@@ -351,7 +345,7 @@ class FuncionarioControle
 
         session_start();
         if((!isset($_SESSION['imagem'])) || (empty($_SESSION['imagem']))){
-            $imgperfil = 'null';
+            $imgperfil = '';
         }else{
             $imgperfil = base64_encode($_SESSION['imagem']);
         }
@@ -359,7 +353,6 @@ class FuncionarioControle
         $cpf=str_replace("-", "", $cpf);
         $senha=$this->geraChave(8);
         $funcionario = new Funcionario($cpf,$nome,$gender,$nascimento,$rg,$orgao_emissor,$data_expedicao,$nome_mae,$nome_pai,$sangue,$senha,$telefone,$imgperfil,$cep,$uf,$cidade,$bairro,$rua,$numero_residencia,$complemento,$ibge);
-        //$funcionario->setVale_transporte($num_vale_transporte);
         $funcionario->setData_admissao($data_admissao);
         $funcionario->setCargo($cargo);
         $funcionario->setPis($pis);
@@ -370,12 +363,6 @@ class FuncionarioControle
         $funcionario->setSecao($secao_titulo_eleitor);
         $funcionario->setCertificado_reservista_numero($certificado_reservista_numero);
         $funcionario->setCertificado_reservista_serie($certificado_reservista_serie);
-        /*$funcionario->setCalcado($calcado);
-        $funcionario->setCalca($calca);
-        $funcionario->setJaleco($jaleco);
-        $funcionario->setCamisa($camisa);
-        $funcionario->setUsa_vtp($vale_transporte);
-        $funcionario->setCesta_basica($cesta_basica);*/
         $funcionario->setSituacao($situacao);
         $funcionario->setCargo($cargo);
         
@@ -432,16 +419,17 @@ class FuncionarioControle
     
     public function incluir(){
         $funcionario = $this->verificarFuncionario();
-        /*$horario = $this->verificarHorario();
-        $beneficio = $this->verificarBeneficiados();
+        $horario = $this->verificarHorario();
+        /*$beneficio = $this->verificarBeneficiados();
         $epi = $this->verificarEpi();*/
         $funcionarioDAO = new FuncionarioDAO();
-        /*$horarioDAO = new QuadroHorarioDAO();
-        $beneficiadosDAO = new BeneficiadosDAO();
+        $horarioDAO = new QuadroHorarioDAO();
+        /*$beneficiadosDAO = new BeneficiadosDAO();
         $pessoa_epiDAO = new Pessoa_epiDAO();*/
         
         try{
             $funcionarioDAO->incluir($funcionario);
+            $horarioDAO->incluir($horario);
             $_SESSION['msg']="Funcionario cadastrado com sucesso";
             $_SESSION['proxima']="Cadastrar outro funcionario";
             $_SESSION['link']="../html/cadastro_funcionario.php";
@@ -452,7 +440,7 @@ class FuncionarioControle
             echo $msg;
         }
 
-        /*try{
+        try{
             $horarioDAO->incluir($horario);
             header("Location: ../html/sucesso.php");
         } catch (PDOException $e){
@@ -460,7 +448,7 @@ class FuncionarioControle
             echo $msg;
         }
 
-        try{
+        /*try{
             $beneficiadosDAO->incluir($beneficio);
             header("Location: ../html/sucesso.php");
         } catch (PDOException $e){
@@ -483,7 +471,7 @@ class FuncionarioControle
         extract($_REQUEST);
         $funcionario = new Funcionario('',$nome,$gender,$nascimento,'','','',$nome_mae,$nome_pai,$sangue,'',$telefone,'','','','','','','','','');
         $funcionario->setId_funcionario($id_funcionario);
-        echo $funcionario->getId_Funcionario();
+        //echo $funcionario->getId_Funcionario();
         $funcionarioDAO=new FuncionarioDAO();
         try {
             $funcionarioDAO->alterarInfPessoal($funcionario);
@@ -576,12 +564,6 @@ class FuncionarioControle
         $funcionario->setSecao($secao_titulo_eleitor);
         $funcionario->setCertificado_reservista_numero($certificado_reservista_numero);
         $funcionario->setCertificado_reservista_serie($certificado_reservista_serie);
-        /*$funcionario->setCalcado($calcado);
-        $funcionario->setCalca($calca);
-        $funcionario->setJaleco($jaleco);
-        $funcionario->setCamisa($camisa);
-        $funcionario->setUsa_vtp($vale_transporte);
-        $funcionario->setCesta_basica($cesta_basica);*/
         $funcionario->setSituacao($situacao);
         $funcionarioDAO=new FuncionarioDAO();
         try {
@@ -659,8 +641,8 @@ class FuncionarioControle
             $quadroHorarioDAO->alterar($carga_horaria, $id_funcionario);
             session_start();
             $_SESSION['msg']="Informacoes do funcionario alteradas com sucesso.";
-            $_SESSION['proxima']="Continuar vendo informacao do funcionario";
-            $_SESSION['link']="../html/profile_funcionario.php?cpf=".$cpf;
+            $_SESSION['proxima']="Ver lista de funcionario";
+            $_SESSION['link']="../html/informacao_funcionario.php";
             header("Location: ../html/sucesso.php");
         } catch (PDOException $e) {
             echo $e->getMessage();
@@ -668,7 +650,7 @@ class FuncionarioControle
 
     }
 
-    protected function retornaIdFuncionario($cpf){
+    /*protected function retornaIdFuncionario($cpf){
         try {
             $funcionarioDAO=new FuncionarioDAO();
             $cpf=str_replace(".", '', $cpf);
@@ -678,12 +660,12 @@ class FuncionarioControle
             echo $e->getMessage();
         }
         return $id;
-    }
+    }*/
 
     public function excluir()
     {
         extract($_REQUEST);
-        $funcionarioDAO=new FuncionarioDAO();
+        $funcionarioDAO = new FuncionarioDAO();
         try {
             $funcionarioDAO->excluir($id_funcionario);
             header("Location:../controle/control.php?metodo=listarTodos&nomeClasse=FuncionarioControle&nextPage=../html/informacao_funcionario.php");

@@ -6,7 +6,7 @@
 		public function incluir($quadro_horario)
 		{
       		try {
-                  $sql = 'call cadhorario(:escala, :tipo, :carga_horaria, :entrada1, :saida1,:entrada2,:saida2, :total, :dias_trabalhados, :folga)';
+                  $sql = 'call cadhorariofunc(:escala, :tipo, :carga_horaria, :entrada1, :saida1,:entrada2,:saida2, :total, :dias_trabalhados, :folga)';
                   $sql = str_replace("'", "\'", $sql);            
                   $pdo = Conexao::connect();
                   $stmt = $pdo->prepare($sql);
@@ -42,7 +42,7 @@
             public function alterar($quadro_horario, $id_funcionario)
             {
                   try {
-                  $sql = 'update quadro_horario set escala=:escala, tipo=:tipo, carga_horaria=:carga_horaria, entrada1=:entrada1, saida1=:saida1,entrada2=:entrada2,saida2=:saida2, total=:total, dias_trabalhados=:dias_trabalhados, folga=:folga where id_funcionario=:id_funcionario';
+                  $sql = 'UPDATE quadro_horario_funcionario SET escala=:escala, tipo=:tipo, carga_horaria=:carga_horaria, entrada1=:entrada1, saida1=:saida1,entrada2=:entrada2,saida2=:saida2, total=:total, dias_trabalhados=:dias_trabalhados, folga=:folga WHERE id_funcionario=:id_funcionario';
                   $sql = str_replace("'", "\'", $sql);            
                   $pdo = Conexao::connect();
                   $stmt = $pdo->prepare($sql);

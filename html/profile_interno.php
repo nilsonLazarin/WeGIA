@@ -68,7 +68,6 @@
             }
          $(function(){
          	var interno=<?php echo $infInterno = $cache->read($id);?>;
-            console.log(interno);
          	$.each(interno,function(i,item){
          		if(i=1)
          		{
@@ -171,6 +170,8 @@
          			$("#ctps").text("CTPS: "+item.ctps);
          
          			$("#titulo").text("Titulo de eleitor: "+item.titulo);
+                  
+                  $("#observacao").text("Observações: "+item.observacao);
          		}
                if(item.imgdoc==null)
                {
@@ -340,6 +341,7 @@
                            <li id="bpc">BPC:</li>
                            <li id="ctps">CTPS:</li>
                            <li id="titulo">Titulo de eleitor:</li>
+                           <li id="observacao">Observações:</li>
                            <br/>
                         </ul>
                      </div>
@@ -427,7 +429,7 @@
                      <div class="form-group">
                         <label class="col-md-3 control-label">Número do RG</label>
                         <div class="col-md-6">
-                           <input type="text" class="form-control" name="rg" id="rgform" onkeypress="return Onlynumbers(event)" placeholder="Ex: 22.222.222-2" required>
+                           <input type="text" class="form-control" name="rg" id="rgform" onkeypress="return Onlynumbers(event)" placeholder="Ex: 22.222.222-2" >
                         </div>
                      </div>
                      <div class="form-group">
@@ -439,13 +441,13 @@
                      <div class="form-group">
                         <label class="col-md-3 control-label" for="dataExpedicao">Data de Expedição</label>
                         <div class="col-md-6">
-                           <input type="date" max=<?php echo date('Y-m-d'); ?> class="form-control" maxlength="10" name="dataExpedicao" id="expedicaoform" required>
+                           <input type="date" max=<?php echo date('Y-m-d'); ?> class="form-control" maxlength="10" name="dataExpedicao" id="expedicaoform" >
                         </div>
                      </div>
                      <div class="form-group">
                         <label class="col-md-3 control-label">Número do CPF</label>
                         <div class="col-md-6">
-                           <input type="text" class="form-control" id="cpfform" id="cpfform" name="numeroCPF" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)"" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##',this,event)" required>
+                           <input type="text" class="form-control" id="cpfform" id="cpfform" name="numeroCPF" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)"" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##',this,event)">
                         </div>
                      </div>
                      <div class="form-group">
@@ -585,7 +587,7 @@
                         </header>
                         <div class="panel-body" style="display: block;">
                            <section class="simple-compose-box mb-xlg ">
-                              <textarea name="observacoes" data-plugin-textarea-autosize placeholder="Observações" rows="1" style="height: 10vw"></textarea>
+                              <textarea name="observacao" data-plugin-textarea-autosize placeholder="Observações" rows="1" style="height: 10vw"></textarea>
                            </section>
                         </div>
                      </section>
@@ -750,8 +752,8 @@
                <option value="BPC">BPC</option> 
                <option value="CPF">CPF</option>
                <option value="RG">RG</option>
-            </select>
-            <br/>
+            </select><br/>
+            
             <p> Selecione a nova imagem</p>
             <div class="col-md-12">
                <input type="file" name="doc" size="60"  class="form-control" > 

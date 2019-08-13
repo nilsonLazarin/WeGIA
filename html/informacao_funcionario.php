@@ -5,8 +5,7 @@
 		header ("Location: ../index.php");
 	}
 
-		if(!isset($_SESSION['funcionarios']))
-	{
+	if(!isset($_SESSION['funcionarios']))	{
 		header('Location: ../controle/control.php?metodo=listartodos&nomeClasse=FuncionarioControle&nextPage=../html/informacao_funcionario.php');
 	}
 

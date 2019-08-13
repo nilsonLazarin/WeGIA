@@ -506,7 +506,7 @@
 											<div class="panel-body" style="display: block;">
 												<section class="simple-compose-box mb-xlg ">
 
-														<textarea name="observacoes" data-plugin-textarea-autosize placeholder="Observações" rows="1" style="height: 10vw"></textarea>
+														<textarea name="observacao" data-plugin-textarea-autosize placeholder="Observações" rows="1" style="height: 10vw"></textarea>
 												</section>
 											</div>
 										</section>

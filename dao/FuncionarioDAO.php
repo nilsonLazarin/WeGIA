@@ -280,7 +280,6 @@ class FuncionarioDAO
 
             $id_funcionario=$funcionario->getId_funcionario();
             $cargo=$funcionario->getCargo();
-            //$vale_transporte=$funcionario->getVale_transporte();
             $pis=$funcionario->getPis();
             $ctps=$funcionario->getCtps();
             $uf_ctps=$funcionario->getUf_ctps();
@@ -289,17 +288,10 @@ class FuncionarioDAO
             $secao=$funcionario->getSecao();
             $certificado_reservista_numero=$funcionario->getCertificado_reservista_numero();
             $certificado_reservista_serie=$funcionario->getCertificado_reservista_serie();
-            /*$calcado=$funcionario->getCalcado();
-            $calca=$funcionario->getCalca();
-            $jaleco=$funcionario->getJaleco();
-            $camisa=$funcionario->getCamisa();
-            $usa_vtp=$funcionario->getUsa_vtp();
-            $cesta_basica=$funcionario->getCesta_basica();*/
             $situacao=$funcionario->getSituacao();
 
             $stmt->bindParam(':id_funcionario',$id_funcionario);
             $stmt->bindParam(':cargo',$cargo);
-            //$stmt->bindParam(':vale_transporte',$vale_transporte);
             $stmt->bindParam(':pis',$pis);
             $stmt->bindParam(':ctps',$ctps);
             $stmt->bindParam(':uf_ctps',$uf_ctps);
@@ -308,12 +300,6 @@ class FuncionarioDAO
             $stmt->bindParam(':secao',$secao);
             $stmt->bindParam(':certificado_reservista_numero',$certificado_reservista_numero);
             $stmt->bindParam(':certificado_reservista_serie',$certificado_reservista_serie);
-            /*$stmt->bindParam(':calcado',$calcado);
-            $stmt->bindParam(':calca',$calca);
-            $stmt->bindParam(':jaleco',$jaleco);
-            $stmt->bindParam(':camisa',$camisa);
-            $stmt->bindParam(':usa_vtp',$usa_vtp);
-            $stmt->bindParam(':cesta_basica',$cesta_basica);*/
             $stmt->bindParam(':situacao',$situacao);
             $stmt->execute();
         } catch (PDOException $e) {
@@ -342,13 +328,7 @@ class FuncionarioDAO
    public function listar($id_funcionario){
         try{
             $pdo = Conexao::connect();
-            $sql = "SELECT p.imagem,p.nome,p.cpf, p.senha, p.sexo, p.telefone,p.data_nascimento, p.cep,p.ibge, p.estado, p.cidade,p.bairro,p.logradouro,p.numero_endereco,p.complemento,p.ibge,p.registro_geral,p.orgao_emissor,p.data_expedicao,p.nome_pai,p.nome_mae,p.tipo_sanguineo,f.data_admissao,f.pis,f.ctps,f.uf_ctps,f.numero_titulo,f.zona,f.secao,f.certificado_reservista_numero,f.certificado_reservista_serie,f.situacao,f.cargo, qh.escala,qh.tipo,qh.carga_horaria,qh.entrada1,qh.saida1,qh.entrada2,qh.saida2,qh.total,qh.dias_trabalhados,qh.folga,b.data_inicio,b.data_fim,b.beneficios_status,pe.data,pe.epi_status
-                FROM pessoa p 
-                INNER JOIN funcionario f ON p.id_pessoa = f.id_pessoa 
-                INNER JOIN quadro_horario qh on qh.id_funcionario=f.id_funcionario
-                INNER JOIN beneficiados b on b.id_pessoa = f.id_pessoa
-                INNER JOIN pessoa_epi pe on pe.id_pessoa = f.id_pessoa 
-                WHERE f.id_funcionario = :id_funcionario";
+            $sql = "SELECT p.imagem,p.nome,p.cpf, p.senha, p.sexo, p.telefone,p.data_nascimento, p.cep,p.ibge, p.estado, p.cidade,p.bairro,p.logradouro,p.numero_endereco,p.complemento,p.ibge,p.registro_geral,p.orgao_emissor,p.data_expedicao,p.nome_pai,p.nome_mae,p.tipo_sanguineo,f.data_admissao,f.pis,f.ctps,f.uf_ctps,f.numero_titulo,f.zona,f.secao,f.certificado_reservista_numero,f.certificado_reservista_serie,f.situacao,f.cargo, qh.escala,qh.tipo,qh.carga_horaria,qh.entrada1,qh.saida1,qh.entrada2,qh.saida2,qh.total,qh.dias_trabalhados,qh.folga,b.data_inicio,b.data_fim,b.beneficios_status,pe.data,pe.epi_status FROM pessoa p INNER JOIN funcionario f ON p.id_pessoa = f.id_pessoa LEFT JOIN quadro_horario_funcionario qh ON qh.id_funcionario = f.id_funcionario LEFT JOIN beneficiados b ON b.id_pessoa = f.id_pessoa LEFT JOIN pessoa_epi pe ON pe.id_pessoa = f.id_pessoa WHERE f.id_funcionario = :id_funcionario";
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':id_funcionario',$id_funcionario);
 

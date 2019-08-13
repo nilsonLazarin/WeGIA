@@ -101,8 +101,8 @@ class InternoControle
         if((!isset($sus)) || (empty($sus))){
             $sus="Não possui";
         }
-        if((!isset($observacoes)) || (empty($observacoes))){
-            $observacoes="Descrição não informada";
+        if((!isset($observacao)) || (empty($observacao))){
+            $observacao="Descrição não informada";
         }
         if((!isset($telefone1)) || (empty($telefone1))){
             $telefone1='Não informado';
@@ -151,7 +151,7 @@ class InternoControle
             $interno->setCertidaoCasamento($certidaoCasamento);
             $interno->setCtps($ctps);
             $interno->setTitulo($tituloEleitor);
-            $interno->setObservacao($observacoes);
+            $interno->setObservacao($observacao);
             return $interno;
         }
     

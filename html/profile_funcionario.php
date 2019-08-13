@@ -722,559 +722,418 @@
                      </section>
                   </div>
                   <div class="col-md-8 col-lg-8">
-                     <div class="tabs">
-                        <ul class="nav nav-tabs tabs-primary">
-                           <li class="active">
-                              <a href="#overview" data-toggle="tab">Visão Geral</a>
-                           </li>
-                           <li>
-                              <a href="#carga_horaria" data-toggle="tab">Carga Horária</a>
-                           </li>
-                           <li>
-                              <a href="#editar_cargaHoraria" data-toggle="tab">Editar carga</a>
-                           </li>
-                           
-                        </ul>
-                        <div class="tab-content">
-                           <div id="overview" class="tab-pane active">
-                              <div>
-                                 <form class="form-horizontal" method="post" action="../controle/control.php">
-                                    <input type="hidden" name="nomeClasse" value="FuncionarioControle">
-                                    <input type="hidden" name="metodo" value="alterarInfPessoal">
-                                    <h4 class="mb-xlg">Informações Pessoais</h4>
-                                    <fieldset>
-                                    <div class="form-group">
-                                       <label class="col-md-3 control-label" for="profileFirstName">Nome completo</label>
-                                       <div class="col-md-8">
-                                          <input type="text" class="form-control" name="nome" id="nomeForm" onkeypress="return Onlychars(event)" required>
-                                       </div>
-                                    </div>
-                                    <div class="form-group">
-                                       <label class="col-md-3 control-label" for="profileLastName">Sexo</label>
-                                       <div class="col-md-8">
-                                          <label><input type="radio" name="gender" id="radioM" id="M" value="m" style="margin-top: 10px; margin-left: 15px;" onclick="return exibir_reservista()" required><i class="fa fa-male" style="font-size: 20px;"></i></label>
-                                          <label><input type="radio" name="gender" id="radioF" id="F" value="f" style="margin-top: 10px; margin-left: 15px;" onclick="return esconder_reservista()" ><i class="fa fa-female" style="font-size: 20px;"></i> </label>
-                                       </div>
-                                    </div>
-                                    <div class="form-group">
-                                       <label class="col-md-3 control-label" for="profileCompany">Telefone</label>
-                                       <div class="col-md-8">
-                                          <input type="text" class="form-control" maxlength="14" minlength="14" name="telefone" id="telefone" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeyup="mascara('(##)#####-####',this,event)" required>
-                                       </div>
-                                    </div>
-                                    <div class="form-group">
-                                       <label class="col-md-3 control-label" for="profileCompany">Nascimento</label>
-                                       <div class="col-md-8">
-                                          <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" id="nascimento" max=<?php echo date('Y-m-d'); ?> required>
-                                       </div>
-                                    </div>
-                                    <div class="form-group">
-                                       <label class="col-md-3 control-label" for="profileFirstName">Nome do pai</label>
-                                       <div class="col-md-8">
-                                          <input type="text" class="form-control" name="nome_pai" id="pai" onkeypress="return Onlychars(event)" required>
-                                       </div>
-                                    </div>
-                                    <div class="form-group">
-                                       <label class="col-md-3 control-label" for="profileFirstName">Nome da mãe</label>
-                                       <div class="col-md-8">
-                                          <input type="text" class="form-control" name="nome_mae" id="mae" onkeypress="return Onlychars(event)" required>
-                                       </div>
-                                    </div>
-                                    <div class="form-group">
-                                       <label class="col-md-3 control-label" for="inputSuccess">Tipo sanguíneo</label>
-                                       <div class="col-md-6">
-                                          <select class="form-control input-lg mb-md" name="sangue" id="sangue">
-                                             <option selected disabled>Selecionar</option>
-                                             <option value="A+">A+</option>
-                                             <option value="A-">A-</option>
-                                             <option value="B+">B+</option>
-                                             <option value="B-">B-</option>
-                                             <option value="O+">O+</option>
-                                             <option value="O-">O-</option>
-                                             <option value="AB+">AB+</option>
-                                             <option value="AB-">AB-</option>
-                                          </select>
-                                       </div>
-                                    </div>
-                                    <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?> >
-                                    <button type="button" class="btn btn-primary" id="botaoEditarIP" onclick="return editar_informacoes_pessoais()">Editar</button>
-                                    <input type="submit" class="btn btn-primary" disabled="true"  value="Salvar" id="botaoSalvarIP">
-                                 </form>
-                                 <br/>
-                                 <hr class="dotted short">
-                                 <h4 class="mb-xlg">Endereço</h4>
-                                 <form class="form-horizontal" method="post" action="../controle/control.php">
-                                    <input type="hidden" name="nomeClasse" value="FuncionarioControle">
-                                    <input type="hidden" name="metodo" value="alterarEndereco">
-                                    <div class="form-group">
-                                       <label class="col-md-3 control-label" for="cep">CEP</label>
-                                       <div class="col-md-8">
-                                          <input type="text" name="cep"  value="" size="10" onblur="pesquisacep(this.value);" class="form-control" id="cep" maxlength="9" placeholder="Ex: 22222-222" onkeypress="return Onlynumbers(event)" onkeyup="mascara('#####-###',this,event)" required>
-                                       </div>
-                                    </div>
-                                    <div class="form-group">
-                                       <label class="col-md-3 control-label" for="uf">Estado</label>
-                                       <div class="col-md-8">
-                                          <input type="text" name="uf" size="60" class="form-control" id="uf" required>
-                                       </div>
-                                    </div>
-                                    <div class="form-group">
-                                       <label class="col-md-3 control-label" for="cidade">Cidade</label>
-                                       <div class="col-md-8">
-                                          <input type="text" size="40" class="form-control" name="cidade" id="cidade" required>
-                                       </div>
-                                    </div>
-                                    <div class="form-group">
-                                       <label class="col-md-3 control-label" for="bairro">Bairro</label>
-                                       <div class="col-md-8">
-                                          <input type="text" name="bairro" size="40" class="form-control" id="bairro" required>
-                                       </div>
-                                    </div>
-                                    <div class="form-group">
-                                       <label class="col-md-3 control-label" for="rua">Logradouro</label>
-                                       <div class="col-md-8">
-                                          <input type="text" name="rua" size="2" class="form-control" id="rua" required>
-                                       </div>
-                                    </div>
-                                    <div class="form-group">
-                                       <label class="col-md-3 control-label" for="profileCompany">Número residencial</label>
-                                       <div class="col-md-4">
-                                          <input type="number" min="0" oninput="this.value = Math.abs(this.value)" class="form-control" name="numero_residencia"  id="numero_residencia">
-                                       </div>
-                                       <div class="col-md-3"> 
-                                          <label>Não possuo número
-                                          <input type="checkbox" id="numResidencial" name="naoPossuiNumeroResidencial"  style="margin-left: 4px" onclick="return numero_residencial()">
-                                          </label>
-                                       </div>
-                                    </div>
-                                    <div class="form-group">
-                                       <label class="col-md-3 control-label" for="profileCompany">Complemento</label>
-                                       <div class="col-md-8">
-                                          <input type="text" class="form-control" name="complemento" id="complemento" id="profileCompany">
-                                       </div>
-                                    </div>
-                                    <div class="form-group">
-                                       <label class="col-md-3 control-label" for="ibge">IBGE</label>
-                                       <div class="col-md-8">
-                                          <input type="text" size="8" name="ibge" class="form-control"  id="ibge">
-                                       </div>
-                                    </div>
-                                    <br/>
-                                    <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?> >
-                                    <button type="button" class="btn btn-primary" id="botaoEditarEndereco" onclick="return editar_endereco()">Editar</button>
-                                    <input type="submit" class="btn btn-primary" disabled="true"  value="Salvar" id="botaoSalvarEndereco" disabled="true">
-                                 </form>
-                                 <br/>
-                                 <hr class="dotted short">
-                                 <h4 class="mb-xlg doch4">Documentação</h4>
-                                 <form class="form-horizontal" method="post" action="../controle/control.php">
-                                    <input type="hidden" name="nomeClasse" value="FuncionarioControle">
-                                    <input type="hidden" name="metodo" value="alterarDocumentacao">
-                                    <div class="form-group">
-                                       <label class="col-md-3 control-label" for="profileCompany">Número do RG</label>
-                                       <div class="col-md-6">
-                                          <input type="text" class="form-control" name="rg" id="rg" onkeypress="return Onlynumbers(event)" placeholder="Ex: 22.222.222-2" required>
-                                       </div>
-                                    </div>
-                                    <div class="form-group">
-                                       <label class="col-md-3 control-label" for="profileCompany">Órgão emissor</label>
-                                       <div class="col-md-6">
-                                          <input type="text" class="form-control" name="orgao_emissor" id="orgao_emissor" onkeypress="return Onlychars(event)" required>
-                                       </div>
-                                    </div>
-                                    <div class="form-group">
-                                       <label class="col-md-3 control-label" for="profileCompany">Data de expedição</label>
-                                       <div class="col-md-6">
-                                          <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" name="data_expedicao" id="data_expedicao" max=<?php echo date('Y-m-d'); ?> required>
-                                       </div>
-                                    </div>
-                                    <div class="form-group">
-                                       <label class="col-md-3 control-label" for="profileCompany">Número do CPF</label>
-                                       <div class="col-md-6">
-                                          <input type="text" class="form-control" id="cpf" name="cpfForm" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)"" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##',this,event)" required>
-                                       </div>
-                                    </div>
-                                    <div class="form-group" id="cpfInvalido" style="display: none;">
-                                       <label class="col-md-3 control-label" for="profileCompany"></label>
-                                       <div class="col-md-6" >
-                                          <p style="color: #b30000">CPF INVÁLIDO!</p>
-                                       </div>
-                                    </div>
-                                    <div class="form-group">
-                                       <label class="col-md-3 control-label" for="profileCompany">Data de admissão</label>
-                                       <div class="col-md-8">
-                                          <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data_admissao" id="data_admissao" max=<?php echo date('Y-m-d'); ?>  required>
-                                       </div>
-                                    </div>
-                                    <br/>
-                                    <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?> >
-                                    <button type="button" class="btn btn-primary" id="botaoEditarDocumentacao" onclick="return editar_documentacao()">Editar</button>
-                                    <input type="submit" class="btn btn-primary" disabled="true"  value="Salvar" id="botaoSalvarDocumentacao" disabled="true">
-                                 </form>
-                                 <hr class="dotted short">
-                                 <form class="form-horizontal" method="post" action="../controle/control.php">
-                                    <input type="hidden" name="nomeClasse" value="FuncionarioControle">
-                                    <input type="hidden" name="metodo" value="alterarOutros">
-                                    <h4 class="mb-xlg doch4">Outros</h4>
-                                    <!--div class="form-group">
-                                       <label class="col-md-3 control-label" for="profileLastName">Vale transporte</label>
-                                       <div class="col-md-8">
-                                          <label><input type="radio" name="vale_transporte" id="radioTransportePossui" value="Possui" style="margin-top: 10px; margin-left: 15px;"  onclick="return exibir_vale_transporte()" required><i class="fa fa-check" style="font-size: 20px;"></i></label>
-                                          <label>  <input type="radio" name="vale_transporte" id="radioTransporteNaoPossui" value="Não possui" class="vale_transporte" style="margin-top: 10px; margin-left: 15px;" onclick="return esconder_vale_transporte()"><i class="fa fa-times" style="font-size: 20px;" ></i> </label>
-                                       </div>
-                                    </div>
-                                    <div class="form-group" id="esconder_exibir" style="display: none;">
-                                       <label class="col-md-3 control-label" >Número vale transporte</label>
-                                       <div class="col-md-6">
-                                          <input type="text" id="num_transporte" name="num_vale_transporte" class="form-control">
-                                       </div>
-                                    </div>
-                                    <div class="form-group">
-                                       <label class="col-md-3 control-label" for="profileLastName">Cesta básica</label>
-                                       <div class="col-md-8">
-                                          <label> <input type="radio" name="cesta_basica" id="cesta_basicaPossui" value="Possui" style="margin-top: 10px; margin-left: 15px;" required><i class="fa fa-check" style="font-size: 20px;"></i></label>
-                                          <label> <input type="radio" name="cesta_basica" id="cesta_basicaNaoPossui" value="Não possui" class="vale_transporte" style="margin-top: 10px; margin-left: 15px;"><i class="fa fa-times" style="font-size: 20px;" ></i> </label>
-                                       </div>
-                                    </div-->
-                                    <div class="form-group">
-                                       <label class="col-md-3 control-label" >PIS</label>
-                                       <div class="col-md-6">
-                                          <input type="text" id="pis" name="pis" class="form-control" required>
-                                       </div>
-                                    </div>
-                                    <div class="form-group">
-                                       <label class="col-md-3 control-label" >CTPS</label>
-                                       <div class="col-md-6">
-                                          <input type="text" id="ctps" name="ctps" class="form-control" required>
-                                       </div>
-                                    </div>
-                                    <div class="form-group">
-                                       <label class="col-md-3 control-label" for="uf">Estado CTPS</label>
-                                       <div class="col-md-6">
-                                          <input type="text" name="uf_ctps" size="60" class="form-control" id="uf_ctps" required>
-                                       </div>
-                                    </div>
-                                    <div class="form-group">
-                                       <label class="col-md-3 control-label" >Título de eleitor</label>
-                                       <div class="col-md-6">
-                                          <input type="text" name="titulo_eleitor" id="titulo_eleitor" class="form-control" required>
-                                       </div>
-                                    </div>
-                                    <div class="form-group">
-                                       <label class="col-md-3 control-label" >Zona eleitoral</label>
-                                       <div class="col-md-6">
-                                          <input type="text" name="zona_eleitoral" id="zona_eleitoral" class="form-control" required>
-                                       </div>
-                                    </div>
-                                    <div class="form-group">
-                                       <label class="col-md-3 control-label" >Seção do título de eleitor</label>
-                                       <div class="col-md-6">
-                                          <input type="text" name="secao_titulo_eleitor" id="secao_titulo_eleitor" class="form-control" required>
-                                       </div>
-                                    </div>
-                                    <div class="form-group" id="reservista1" style="display: none">
-                                       <label class="col-md-3 control-label" >Número do certificado reservista</label>
-                                       <div class="col-md-6">
-                                          <input type="text" id="certificado_reservista_numero" name="certificado_reservista_numero" class="form-control num_reservista">
-                                       </div>
-                                    </div>
-                                    <div class="form-group" id="reservista2" style="display: none">
-                                       <label class="col-md-3 control-label" >Série do certificado reservista</label>
-                                       <div class="col-md-6">
-                                          <input type="text" id="certificado_reservista_serie" name="certificado_reservista_serie" class="form-control serie_reservista">
-                                       </div>
-                                    </div>
-                                    <!--div class="form-group">
-                                       <label class="col-md-3 control-label" for="inputSuccess">Calçado</label>
-                                       <a href="adicionar_calcado.php"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
-                                       <div class="col-md-6">
-                                          <select class="form-control input-lg mb-md" name="calcado" id="calcado">
-                                             <option selected disabled>Selecionar</option>
-                                             <option value="Não utiliza">Não utiliza</option>
-                                             <?php 
-                                                while($row = $calcado->fetch_array(MYSQLI_NUM))
-                                                {
-                                                  echo "<option value=".$row[0].">".$row[0]."</option>";
-                                                }
-                                                ?>
-                                          </select>
-                                       </div>
-                                    </div>
-                                    <div class="form-group">
-                                       <label class="col-md-3 control-label" for="inputSuccess">Calça</label>
-                                       <a href="adicionar_calca.php"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
-                                       <div class="col-md-6">
-                                          <select class="form-control input-lg mb-md" name="calca" id="calca">
-                                             <option selected disabled>Selecionar</option>
-                                             <option value="Não utiliza">Não utiliza</option>
-                                             <?php 
-                                                while($row = $calca->fetch_array(MYSQLI_NUM))
-                                                {
-                                                  echo "<option value=".$row[0].">".$row[0]."</option>";
-                                                }
-                                                ?>
-                                          </select>
-                                       </div>
-                                    </div>
-                                    <div class="form-group">
-                                       <label class="col-md-3 control-label" for="inputSuccess">Jaleco</label>
-                                       <a href="adicionar_jaleco.php"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
-                                       <div class="col-md-6">
-                                          <select class="form-control input-lg mb-md" name="jaleco" id="jaleco">
-                                             <option selected disabled>Selecionar</option>
-                                             <option value="Não utiliza">Não utiliza</option>
-                                             <?php 
-                                                while($row = $jaleco->fetch_array(MYSQLI_NUM))
-                                                {
-                                                  echo "<option value=".$row[0].">".$row[0]."</option>";
-                                                }
-                                                ?>
-                                          </select>
-                                       </div>
-                                    </div>
-                                    <div class="form-group">
-                                       <label class="col-md-3 control-label" for="inputSuccess">Camisa</label>
-                                       <a href="adicionar_camisa.php"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
-                                       <div class="col-md-6">
-                                          <select class="form-control input-lg mb-md" name="camisa" id="camisa">
-                                             <option selected disabled>Selecionar</option>
-                                             <option value="Não utiliza">Não utiliza</option>
-                                             <?php 
-                                                while($row = $camisa->fetch_array(MYSQLI_NUM))
-                                                {
-                                                  echo "<option value=".$row[0].">".$row[0]."</option>";
-                                                }                           ?>
-                                          </select>
-                                       </div>
-                                    </div-->
-                                    <div class="form-group">
-                                       <label class="col-md-3 control-label" for="inputSuccess">Situação</label>
-                                       <a href="adicionar_situacao.php"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
-                                       <div class="col-md-6">
-                                          <select class="form-control input-lg mb-md" name="situacao" id="situacao">
-                                             <option selected disabled>Selecionar</option>
-                                             <?php 
-                                                while($row = $situacao->fetch_array(MYSQLI_NUM))
-                                                {
-                                                  echo "<option value=".$row[0].">".$row[0]."</option>";
-                                                }                           ?>
-                                          </select>
-                                       </div>
-                                    </div>
-                                    <div class="form-group">
-                                       <label class="col-md-3 control-label" for="inputSuccess">Cargo</label>
-                                       <a href="cadastro_cargo.php"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
-                                       <div class="col-md-6">
-                                          <select class="form-control input-lg mb-md" name="cargo" id="cargo">
-                                             <option selected disabled>Selecionar</option>
-                                             <?php 
-                                                while($row = $cargo->fetch_array(MYSQLI_NUM))
-                                                {
-                                                  echo "<option value=".$row[1].">".$row[1]."</option>";
-                                                }                           ?>
-                                          </select>
-                                       </div>
-                                    </div>
-                                    <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?> >
-                                    <button type="button" class="btn btn-primary" id="botaoEditarOutros" onclick="return editar_outros()">Editar</button>
-                                    <input type="submit" class="btn btn-primary" disabled="true"  value="Salvar" id="botaoSalvarOutros" disabled="true">
+                    <div class="tabs">
+                      <ul class="nav nav-tabs tabs-primary">
+                         <li class="active">
+                            <a href="#overview" data-toggle="tab">Visão Geral</a>
+                         </li>
+                         <li>
+                            <a href="#carga_horaria" data-toggle="tab">Carga Horária</a>
+                         </li>
+                         <li>
+                            <a href="#editar_cargaHoraria" data-toggle="tab">Editar carga</a>
+                         </li>
+                      </ul>
+                      <div class="tab-content">
+                        <div id="overview" class="tab-pane active">
+                          <form class="form-horizontal" method="post" action="../controle/control.php">
+                            <input type="hidden" name="nomeClasse" value="FuncionarioControle">
+                            <input type="hidden" name="metodo" value="alterarInfPessoal">
+                            <h4 class="mb-xlg">Informações Pessoais</h4>
+                            <fieldset>
+                            <div class="form-group">
+                               <label class="col-md-3 control-label" for="profileFirstName">Nome completo</label>
+                               <div class="col-md-8">
+                                  <input type="text" class="form-control" name="nome" id="nomeForm" onkeypress="return Onlychars(event)" required>
+                               </div>
+                            </div>
+                            <div class="form-group">
+                               <label class="col-md-3 control-label" for="profileLastName">Sexo</label>
+                               <div class="col-md-8">
+                                  <label><input type="radio" name="gender" id="radioM" id="M" value="m" style="margin-top: 10px; margin-left: 15px;" onclick="return exibir_reservista()" required><i class="fa fa-male" style="font-size: 20px;"></i></label>
+                                  <label><input type="radio" name="gender" id="radioF" id="F" value="f" style="margin-top: 10px; margin-left: 15px;" onclick="return esconder_reservista()" ><i class="fa fa-female" style="font-size: 20px;"></i> </label>
+                               </div>
+                            </div>
+                            <div class="form-group">
+                               <label class="col-md-3 control-label" for="profileCompany">Telefone</label>
+                               <div class="col-md-8">
+                                  <input type="text" class="form-control" maxlength="14" minlength="14" name="telefone" id="telefone" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeyup="mascara('(##)#####-####',this,event)" required>
+                               </div>
+                            </div>
+                            <div class="form-group">
+                               <label class="col-md-3 control-label" for="profileCompany">Nascimento</label>
+                               <div class="col-md-8">
+                                  <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" id="nascimento" max=<?php echo date('Y-m-d'); ?> required>
+                               </div>
+                            </div>
+                            <div class="form-group">
+                               <label class="col-md-3 control-label" for="profileFirstName">Nome do pai</label>
+                               <div class="col-md-8">
+                                  <input type="text" class="form-control" name="nome_pai" id="pai" onkeypress="return Onlychars(event)" required>
+                               </div>
+                            </div>
+                            <div class="form-group">
+                               <label class="col-md-3 control-label" for="profileFirstName">Nome da mãe</label>
+                               <div class="col-md-8">
+                                  <input type="text" class="form-control" name="nome_mae" id="mae" onkeypress="return Onlychars(event)" required>
+                               </div>
+                            </div>
+                            <div class="form-group">
+                               <label class="col-md-3 control-label" for="inputSuccess">Tipo sanguíneo</label>
+                               <div class="col-md-6">
+                                  <select class="form-control input-lg mb-md" name="sangue" id="sangue">
+                                     <option selected disabled>Selecionar</option>
+                                     <option value="A+">A+</option>
+                                     <option value="A-">A-</option>
+                                     <option value="B+">B+</option>
+                                     <option value="B-">B-</option>
+                                     <option value="O+">O+</option>
+                                     <option value="O-">O-</option>
+                                     <option value="AB+">AB+</option>
+                                     <option value="AB-">AB-</option>
+                                  </select>
+                               </div>
+                            </div>
+                            <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?> >
+                            <button type="button" class="btn btn-primary" id="botaoEditarIP" onclick="return editar_informacoes_pessoais()">Editar</button>
+                            <input type="submit" class="btn btn-primary" disabled="true"  value="Salvar" id="botaoSalvarIP">
+                          </form>
 
-                                 </form>
-                              <div class="panel-footer">
-                                    <div class="row">
-                                       <div class="col-md-9 col-md-offset-3">
-                                          <button id="excluir" type="button" class="btn btn-danger" data-toggle="modal" data-target="#exclusao">Excluir</button>
-                                       </div>
-                                    </div>
-                                 </div>
+                          <br/>
+                          <hr class="dotted short">
+                          <h4 class="mb-xlg">Endereço</h4>
+                          <form class="form-horizontal" method="post" action="../controle/control.php">
+                            <input type="hidden" name="nomeClasse" value="FuncionarioControle">
+                            <input type="hidden" name="metodo" value="alterarEndereco">
+                            <div class="form-group">
+                              <label class="col-md-3 control-label" for="cep">CEP</label>
+                              <div class="col-md-8">
+                                <input type="text" name="cep"  value="" size="10" onblur="pesquisacep(this.value);" class="form-control" id="cep" maxlength="9" placeholder="Ex: 22222-222" onkeypress="return Onlynumbers(event)" onkeyup="mascara('#####-###',this,event)" required>
                               </div>
-                           </div>
-                                 <div class="modal fade" id="exclusao" role="dialog">
-                                   <div class="modal-dialog">
-                                   <!-- Modal content-->
-                                    <div class="modal-content">
-                                       <div class="modal-header">
-                                           <button type="button" class="close" data-dismiss="modal">×</button>
-                                           <h3>Excluir um Funcionário</h3>
-                                        </div>
-                                        <div class="modal-body">
-                                            <p> Tem certeza que deseja excluir esse funcionário? Essa ação não poderá ser desfeita e todas as informações referentes a esse funcionário serão perdidas!</p>
-                                            <a href="../controle/control.php?metodo=excluir&nomeClasse=FuncionarioControle&id_funcionario=<?php echo $_GET['id_funcionario']; ?>"><button button type="button" class="btn btn-success">Confirmar</button></a>
-                                            <button button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                                         </div>
-                                      </div>
-                                     </div>
-                                 </div>
-                           <div id="carga_horaria" class="tab-pane">
-                              <section class="panel">
-                                 <div class="panel-body" style="display: block;">
-                                    <ul class="nav nav-children" id="info">
-                                       <li id="cap">Carga horária:</li>
-                                       </br>
-                                       <li id="escala">Escala:</li>
-                                       </br>
-                                       <li id="tipo">Tipo:</li>
-                                       </br>
-                                       <li id="dias_trabalhados">Dias trabalhados:</li>
-                                       </br>
-                                       <li id="dias_folga">Dias de folga:</li>
-                                       </br>
-                                       <li id="entrada1">Primeira entrada:</li>
-                                       </br>
-                                       <li id="saida1">Primeira saída</li>
-                                       </br>
-                                       <li id="entrada2">Segunda entrada:</li>
-                                       </br>
-                                       <li id="saida2">Segunda saída:</li>
-                                       </br>
-                                       <li id="total">Carga horária diária:</li>
-                                       </br>
-                                       <li id="carga_horaria_mensal">Carga horária mensal:</li>
-                                    </ul>
-                                 </div>
-                              </section>
-                           </div>
-                           <div id="editar_cargaHoraria" class="tab-pane">
-                              <section class="panel">
-                                 <form class="form-horizontal" method="post" action="../controle/control.php">
-                                    <h4 class="mb-xlg doch4">Carga Horária</h4>
-                                    <div class="form-group">
-                                       <label class="col-md-3 control-label" >Escala</label>
-                                       <div class="col-md-6">
-                                          <select class="form-control input-lg mb-md" name="escala" id="escala">
-                                             <option selected disabled>Selecionar</option>
-                                             <option value="Plantonista">Plantonista</option>
-                                             <option value="Diarista">Diarista</option>
-                                          </select>
-                                       </div>
-                                    </div>
-                                    <div class="form-group">
-                                       <label class="col-md-3 control-label" >Tipo</label>
-                                       <div class="col-md-6">
-                                          <select class="form-control input-lg mb-md" name="tipoCargaHoraria" id="tipoCargaHoraria">
-                                             <option selected disabled>Selecionar</option>
-                                             <option value="Mensalista">Mensalista</option>
-                                             <option value="Diarista">Diarista</option>
-                                             <option value="Horista">Horista</option>
-                                          </select>
-                                       </div>
-                                    </div>
-                                    <div class="form-group">
-                                       <label class="col-md-3 control-label" >Primeira entrada</label>
-                                       <div class="col-md-3">
-                                          <input type="time" placeholder="07:25" class="form-control" name="entrada1" id="entrada1" >
-                                       </div>
-                                    </div>
-                                    <div class="form-group">
-                                       <label class="col-md-3 control-label" >Primeira saída</label>
-                                       <div class="col-md-3">
-                                          <input type="time" placeholder="07:25" class="form-control" name="saida1" id="saida1" >
-                                       </div>
-                                    </div>
-                                    <div class="form-group">
-                                       <label class="col-md-3 control-label" >Segunda entrada</label>
-                                       <div class="col-md-3">
-                                          <input type="time" placeholder="07:25" class="form-control" name="entrada2" id="entrada2" >
-                                       </div>
-                                    </div>
-                                    <div class="form-group">
-                                       <label class="col-md-3 control-label" >Segunda saída</label>
-                                       <div class="col-md-3">
-                                          <input type="time" placeholder="07:25" class="form-control" name="saida2" id="saida2" >
-                                       </div>
-                                    </div>
-                                    <div class="text-center">
-                                      <h3 class="col-md-12">Dias Trabalhados</h3>
-                                      <div class="btn-group " data-toggle="buttons">
-                                        <label class="btn btn-primary ">
-                                          <input type="checkbox" id="diaTrabalhado" name="trabSeg" value="Seg">Seg
-                                          <span class="fa fa-check"></span>
-                                        </label>
-                                        <label class="btn btn-primary" >
-                                          <input type="checkbox" id="diaTrabalhado" name="trabTer" value="Ter"> Ter
-                                          <span class="fa fa-check"></span>
-                                        </label>
-                                        <label class="btn btn-primary">
-                                          <input type="checkbox" id="diaTrabalhado" name="trabQua" value="Qua"> Qua
-                                          <span class="fa fa-check"></span>
-                                        </label>
-                                        <label class="btn btn-primary">
-                                          <input type="checkbox" id="diaTrabalhado" name="trabQui" value="Qui"> Qui
-                                          <span class="fa fa-check"></span>
-                                        </label>
-                                        <label class="btn btn-primary">
-                                          <input type="checkbox" id="diaTrabalhado" name="trabSex" value="Sex"> Sex
-                                          <span class="fa fa-check"></span>
-                                        </label>
-                                        <label class="btn btn-primary">
-                                          <input type="checkbox" id="diaTrabalhado" name="trabSab" value="Sab"> Sab
-                                          <span class="fa fa-check"></span>
-                                        </label>
-                                        <label class="btn btn-primary">
-                                          <input type="checkbox" id="diaTrabalhado" name="trabDom" value="Dom"> Dom
-                                          <span class="fa fa-check"></span>
-                                        </label>
-                                        <label class="btn btn-primary">
-                                          <input type="checkbox" id="diaTrabalhado" name="plantao" value="Plantão 12/36"> Plantão 12/36
-                                          <span class="fa fa-check"></span>
-                                        </label>
-                                      </div>
-                                    </div>
-
-                                  <div class="text-center">
-                                      <h3 class="col-md-12">Dias de Folga</h3>
-                                      <div class="btn-group " data-toggle="buttons">
-                                        <label class="btn btn-primary ">
-                                          <input type="checkbox" id="diaTrabalhado" name="folgaSeg" value="Seg">Seg
-                                          <span class="fa fa-check"></span>
-                                        </label>
-                                        <label class="btn btn-primary" >
-                                          <input type="checkbox" id="diaTrabalhado" name="folgaTer" value="Ter"> Ter
-                                          <span class="fa fa-check"></span>
-                                        </label>
-                                        <label class="btn btn-primary">
-                                          <input type="checkbox" id="diaTrabalhado" name="folgaQua" value="Qua"> Qua
-                                          <span class="fa fa-check"></span>
-                                        </label>
-                                        <label class="btn btn-primary">
-                                          <input type="checkbox" id="diaTrabalhado" name="folgaQui" value="Qui"> Qui
-                                          <span class="fa fa-check"></span>
-                                        </label>
-                                        <label class="btn btn-primary">
-                                          <input type="checkbox" id="diaTrabalhado" name="folgaSex" value="Sex"> Sex
-                                          <span class="fa fa-check"></span>
-                                        </label>
-                                        <label class="btn btn-primary">
-                                          <input type="checkbox" id="diaTrabalhado" name="folgaSab" value="Sab"> Sab
-                                          <span class="fa fa-check"></span>
-                                        </label>
-                                        <label class="btn btn-primary">
-                                          <input type="checkbox" id="diaTrabalhado" name="folgaDom" value="Dom"> Dom
-                                          <span class="fa fa-check"></span>
-                                        </label>
-                                        <label class="btn btn-primary">
-                                          <input type="checkbox" id="diaTrabalhado" name="folgaAlternado" value="Alternado"> Alternado
-                                          <span class="fa fa-check"></span>
-                                        </label>
-                                      </div>
-                                    </div>
-                                    <hr class="dotted short">
-                                    <div class="panel-footer">
-                                       <div class="row">
-                                          <div class="col-md-9 col-md-offset-3">
-                                             <input type="hidden" name="nomeClasse" value="FuncionarioControle">
-                                             <input type="hidden" name="metodo" value="alterarCargaHoraria">
-                                             <input type="hidden" name="id" value=<?php echo $_GET['id_funcionario'] ?> >
-                                             <input id="enviarCarga" type="submit" class="btn btn-primary" value="Alterar carga">
-                                             <input type="reset" class="btn btn-default">
-                                          </div>
-                                       </div>
-                                    </div>
-                                 </form>
-                              </section>
-                           </div>
+                            </div>
+                            <div class="form-group">
+                              <label class="col-md-3 control-label" for="uf">Estado</label>
+                              <div class="col-md-8">
+                                <input type="text" name="uf" size="60" class="form-control" id="uf" required>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label class="col-md-3 control-label" for="cidade">Cidade</label>
+                              <div class="col-md-8">
+                                <input type="text" size="40" class="form-control" name="cidade" id="cidade" required>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label class="col-md-3 control-label" for="bairro">Bairro</label>
+                              <div class="col-md-8">
+                                <input type="text" name="bairro" size="40" class="form-control" id="bairro" required>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label class="col-md-3 control-label" for="rua">Logradouro</label>
+                              <div class="col-md-8">
+                                <input type="text" name="rua" size="2" class="form-control" id="rua" required>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label class="col-md-3 control-label" for="profileCompany">Número residencial</label>
+                              <div class="col-md-4">
+                                <input type="number" min="0" oninput="this.value = Math.abs(this.value)" class="form-control" name="numero_residencia"  id="numero_residencia">
+                              </div>
+                              <div class="col-md-3"> 
+                                <label>Não possuo número
+                                  <input type="checkbox" id="numResidencial" name="naoPossuiNumeroResidencial"  style="margin-left: 4px" onclick="return numero_residencial()">
+                                </label>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label class="col-md-3 control-label" for="profileCompany">Complemento</label>
+                              <div class="col-md-8">
+                                <input type="text" class="form-control" name="complemento" id="complemento" id="profileCompany">
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label class="col-md-3 control-label" for="ibge">IBGE</label>
+                              <div class="col-md-8">
+                                <input type="text" size="8" name="ibge" class="form-control"  id="ibge">
+                              </div>
+                            </div>
+                            <br/>
+                            <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?> >
+                            <button type="button" class="btn btn-primary" id="botaoEditarEndereco" onclick="return editar_endereco()">Editar</button>
+                            <input type="submit" class="btn btn-primary" disabled="true"  value="Salvar" id="botaoSalvarEndereco" disabled="true">
+                          </form>
+                          <hr class="dotted short">
+                          <form class="form-horizontal" method="post" action="../controle/control.php">
+                            <input type="hidden" name="nomeClasse" value="FuncionarioControle">
+                            <input type="hidden" name="metodo" value="alterarOutros">
+                            <h4 class="mb-xlg doch4">Outros</h4>
+                            <div class="form-group">
+                              <label class="col-md-3 control-label" >PIS</label>
+                              <div class="col-md-6">
+                                <input type="text" id="pis" name="pis" class="form-control" required>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label class="col-md-3 control-label" >CTPS</label>
+                              <div class="col-md-6">
+                                <input type="text" id="ctps" name="ctps" class="form-control" required>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label class="col-md-3 control-label" for="uf">Estado CTPS</label>
+                              <div class="col-md-6">
+                                <input type="text" name="uf_ctps" size="60" class="form-control" id="uf_ctps" required>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label class="col-md-3 control-label" >Título de eleitor</label>
+                              <div class="col-md-6">
+                                <input type="text" name="titulo_eleitor" id="titulo_eleitor" class="form-control" required>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label class="col-md-3 control-label" >Zona eleitoral</label>
+                              <div class="col-md-6">
+                                <input type="text" name="zona_eleitoral" id="zona_eleitoral" class="form-control" required>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label class="col-md-3 control-label" >Seção do título de eleitor</label>
+                              <div class="col-md-6">
+                                <input type="text" name="secao_titulo_eleitor" id="secao_titulo_eleitor" class="form-control" required>
+                              </div>
+                            </div>
+                            <div class="form-group" id="reservista1" style="display: none">
+                              <label class="col-md-3 control-label" >Número do certificado reservista</label>
+                              <div class="col-md-6">
+                                <input type="text" id="certificado_reservista_numero" name="certificado_reservista_numero" class="form-control num_reservista">
+                              </div>
+                            </div>
+                            <div class="form-group" id="reservista2" style="display: none">
+                              <label class="col-md-3 control-label" >Série do certificado reservista</label>
+                              <div class="col-md-6">
+                                <input type="text" id="certificado_reservista_serie" name="certificado_reservista_serie" class="form-control serie_reservista">
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label class="col-md-3 control-label" for="inputSuccess">Situação</label>
+                              <a href="adicionar_situacao.php"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
+                              <div class="col-md-6">
+                                <select class="form-control input-lg mb-md" name="situacao" id="situacao">
+                                <option selected disabled>Selecionar</option>
+                                <?php while($row = $situacao->fetch_array(MYSQLI_NUM)){
+                                        echo "<option value=".$row[0].">".$row[0]."</option>";
+                                      }   
+                                ?>
+                                </select>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label class="col-md-3 control-label" for="inputSuccess">Cargo</label>
+                              <a href="cadastro_cargo.php"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
+                              <div class="col-md-6">
+                                <select class="form-control input-lg mb-md" name="cargo" id="cargo">
+                                <option selected disabled>Selecionar</option>
+                                  <?php while($row = $cargo->fetch_array(MYSQLI_NUM)){
+                                          echo "<option value=".$row[1].">".$row[1]."</option>";
+                                        }     
+                                  ?>
+                                </select>
+                              </div>
+                            </div>
+                            <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?> >
+                            <button type="button" class="btn btn-primary" id="botaoEditarOutros" onclick="return editar_outros()">Editar</button>
+                            <input type="submit" class="btn btn-primary" disabled="true"  value="Salvar" id="botaoSalvarOutros" disabled="true">
+                          </form>
+                          <div class="panel-footer">
+                              <div class="row">
+                                <div class="col-md-9 col-md-offset-3">
+                                  <button id="excluir" type="button" class="btn btn-danger" data-toggle="modal" data-target="#exclusao">Excluir</button>
+                                </div>
+                              </div>
+                          </div>
+                          <div class="modal fade" id="exclusao" role="dialog">
+                            <div class="modal-dialog">
+                              <!-- Modal content-->
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <button type="button" class="close" data-dismiss="modal">×</button>
+                                  <h3>Excluir um Funcionário</h3>
+                                </div>
+                                <div class="modal-body">
+                                  <p> Tem certeza que deseja excluir esse funcionário? Essa ação não poderá ser desfeita e todas as informações referentes a esse funcionário serão perdidas!</p>
+                                  <a href="../controle/control.php?metodo=excluir&nomeClasse=FuncionarioControle&id_funcionario=<?php echo $_GET['id_funcionario']; ?>"><button button type="button" class="btn btn-success">Confirmar</button></a>
+                                  <button button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>  
                         </div>
-                     </div>
+
+                        <div id="carga_horaria" class="tab-pane">
+                          <section class="panel">
+                            <div class="panel-body" style="display: block;">
+                              <ul class="nav nav-children" id="info">
+                                <li id="cap">Carga horária:</li></br>
+                                <li id="escala">Escala:</li></br>
+                                <li id="tipo">Tipo:</li></br>
+                                <li id="dias_trabalhados">Dias trabalhados:</li></br>
+                                <li id="dias_folga">Dias de folga:</li></br>
+                                <li id="entrada1">Primeira entrada:</li></br>
+                                <li id="saida1">Primeira saída</li></br>
+                                <li id="entrada2">Segunda entrada:</li></br>
+                                <li id="saida2">Segunda saída:</li></br>
+                                <li id="total">Carga horária diária:</li></br>
+                                <li id="carga_horaria_mensal">Carga horária mensal:</li>
+                              </ul>
+                            </div>
+                          </section>
+                        </div>
+
+                        <div id="editar_cargaHoraria" class="tab-pane">
+                          <section class="panel">
+                            <form class="form-horizontal" method="post" action="../controle/control.php">
+                              <h4 class="mb-xlg doch4">Carga Horária</h4>
+                              <div class="form-group">
+                                <label class="col-md-3 control-label" >Escala</label>
+                                <div class="col-md-6">
+                                  <select class="form-control input-lg mb-md" name="escala" id="escala">
+                                    <option selected disabled>Selecionar</option>
+                                    <option value="Plantonista">Plantonista</option>
+                                    <option value="Diarista">Diarista</option>
+                                  </select>
+                                </div>
+                              </div>
+                              <div class="form-group">
+                                <label class="col-md-3 control-label">Tipo</label>
+                                  <div class="col-md-6">
+                                    <select class="form-control input-lg mb-md" name="tipoCargaHoraria" id="tipoCargaHoraria">
+                                      <option selected disabled>Selecionar</option>
+                                      <option value="Mensalista">Mensalista</option>
+                                      <option value="Diarista">Diarista</option>
+                                      <option value="Horista">Horista</option>
+                                    </select>
+                                  </div>
+                              </div>
+                              <div class="form-group">
+                                <label class="col-md-3 control-label" >Primeira entrada</label>
+                                <div class="col-md-3">
+                                  <input type="time" placeholder="07:25" class="form-control" name="entrada1" id="entrada1" >
+                                </div>
+                              </div>
+                              <div class="form-group">
+                                <label class="col-md-3 control-label" >Primeira saída</label>
+                                <div class="col-md-3">
+                                  <input type="time" placeholder="07:25" class="form-control" name="saida1" id="saida1" >
+                                </div>
+                              </div>
+                              <div class="form-group">
+                                <label class="col-md-3 control-label" >Segunda entrada</label>
+                                <div class="col-md-3">
+                                  <input type="time" placeholder="07:25" class="form-control" name="entrada2" id="entrada2" >
+                                </div>
+                              </div>
+                              <div class="form-group">
+                                <label class="col-md-3 control-label" >Segunda saída</label>
+                                <div class="col-md-3">
+                                  <input type="time" placeholder="07:25" class="form-control" name="saida2" id="saida2" >
+                                </div>
+                              </div>
+                                <div class="text-center">
+                                  <h3 class="col-md-12">Dias Trabalhados</h3>
+                                  <div class="btn-group " data-toggle="buttons">
+                                    <label class="btn btn-primary ">
+                                      <input type="checkbox" id="diaTrabalhado" name="trabSeg" value="Seg">Seg
+                                      <span class="fa fa-check"></span>
+                                    </label>
+                                    <label class="btn btn-primary" >
+                                        <input type="checkbox" id="diaTrabalhado" name="trabTer" value="Ter"> Ter
+                                        <span class="fa fa-check"></span>
+                                    </label>
+                                    <label class="btn btn-primary">
+                                      <input type="checkbox" id="diaTrabalhado" name="trabQua" value="Qua"> Qua
+                                      <span class="fa fa-check"></span>
+                                    </label>
+                                    <label class="btn btn-primary">
+                                      <input type="checkbox" id="diaTrabalhado" name="trabQui" value="Qui"> Qui
+                                      <span class="fa fa-check"></span>
+                                    </label>
+                                    <label class="btn btn-primary">
+                                      <input type="checkbox" id="diaTrabalhado" name="trabSex" value="Sex"> Sex
+                                      <span class="fa fa-check"></span>
+                                    </label>
+                                    <label class="btn btn-primary">
+                                      <input type="checkbox" id="diaTrabalhado" name="trabSab" value="Sab"> Sab
+                                      <span class="fa fa-check"></span>
+                                    </label>
+                                    <label class="btn btn-primary">
+                                      <input type="checkbox" id="diaTrabalhado" name="trabDom" value="Dom"> Dom
+                                      <span class="fa fa-check"></span>
+                                    </label>
+                                    <label class="btn btn-primary">
+                                      <input type="checkbox" id="diaTrabalhado" name="plantao" value="Plantão 12/36"> Plantão 12/36
+                                      <span class="fa fa-check"></span>
+                                    </label>
+                                  </div>
+                                </div>
+
+                                <div class="text-center">
+                                  <h3 class="col-md-12">Dias de Folga</h3>
+                                  <div class="btn-group " data-toggle="buttons">
+                                    <label class="btn btn-primary ">
+                                      <input type="checkbox" id="diaTrabalhado" name="folgaSeg" value="Seg">Seg
+                                      <span class="fa fa-check"></span>
+                                    </label>
+                                    <label class="btn btn-primary" >
+                                      <input type="checkbox" id="diaTrabalhado" name="folgaTer" value="Ter"> Ter
+                                      <span class="fa fa-check"></span>
+                                    </label>
+                                    <label class="btn btn-primary">
+                                      <input type="checkbox" id="diaTrabalhado" name="folgaQua" value="Qua"> Qua
+                                        <span class="fa fa-check"></span>
+                                    </label>
+                                    <label class="btn btn-primary">
+                                      <input type="checkbox" id="diaTrabalhado" name="folgaQui" value="Qui"> Qui
+                                      <span class="fa fa-check"></span>
+                                    </label>
+                                    <label class="btn btn-primary">
+                                      <input type="checkbox" id="diaTrabalhado" name="folgaSex" value="Sex"> Sex
+                                      <span class="fa fa-check"></span>
+                                    </label>
+                                    <label class="btn btn-primary">
+                                      <input type="checkbox" id="diaTrabalhado" name="folgaSab" value="Sab"> Sab
+                                      <span class="fa fa-check"></span>
+                                    </label>
+                                    <label class="btn btn-primary">
+                                      <input type="checkbox" id="diaTrabalhado" name="folgaDom" value="Dom"> Dom
+                                      <span class="fa fa-check"></span>
+                                    </label>
+                                    <label class="btn btn-primary">
+                                      <input type="checkbox" id="diaTrabalhado" name="folgaAlternado" value="Alternado"> Alternado
+                                      <span class="fa fa-check"></span>
+                                    </label>
+                                  </div>
+                                </div>
+                                <hr class="dotted short">
+                                <div class="panel-footer">
+                                  <div class="row">
+                                    <div class="col-md-9 col-md-offset-3">
+                                      <input type="hidden" name="nomeClasse" value="FuncionarioControle">
+                                      <input type="hidden" name="metodo" value="alterarCargaHoraria">
+                                      <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?> >
+                                      <input id="enviarCarga" type="submit" class="btn btn-primary" value="Alterar carga">
+
+                                      <input type="reset" class="btn btn-default">
+                                    </div>
+                                  </div>
+                                </div>
+                              </form>
+                           </section>
+                        </div>
+
+                      </div>
+                    </div>
                   </div>
                </div>
                <!-- end: page -->
