@@ -429,7 +429,6 @@ class FuncionarioControle
         
         try{
             $funcionarioDAO->incluir($funcionario);
-            $horarioDAO->incluir($horario);
             $_SESSION['msg']="Funcionario cadastrado com sucesso";
             $_SESSION['proxima']="Cadastrar outro funcionario";
             $_SESSION['link']="../html/cadastro_funcionario.php";
