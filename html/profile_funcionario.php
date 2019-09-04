@@ -12,7 +12,7 @@
     $mysqli = new mysqli("localhost","root","root","wegia");
     $situacao = $mysqli->query("SELECT situacoes FROM situacao");
     $cargo = $mysqli->query("SELECT * FROM cargo");
-    $beneficios = $mysqli->query("SELECT descricao_beneficios FROM beneficios");
+    $beneficios = $mysqli->query("SELECT * FROM beneficios");
     $descricao_epi = $mysqli->query("SELECT descricao_epi FROM epi");
    
    ?>
@@ -202,14 +202,32 @@
              $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
          
            }
+            
+            function editar_beneficios(){
+              $("#beneficio").prop('disabled', false);
+              $("#beneficios").prop('disabled', false);
+              $("#beneficios_status").prop('disabled', false);
+
+              $("#botaoEditarBeneficios").html('Cancelar');
+              $("#botaoSalvarBeneficios").prop('disabled', false);
+              $("#botaoEditarBeneficios").removeAttr('onclick');
+              $("#botaoEditarBeneficios").attr('onclick', "return cancelar_beneficios()");
+            }
+
+            function cancelar_beneficios(){
+              $("#beneficio").prop('disabled', true);
+              $("#beneficios").prop('disabled', true);
+              $("#beneficios_status").prop('disabled', true);
          
+              $("#botaoEditarBeneficios").html('Editar');
+              $("#botaoSalvarBeneficios").prop('disabled', true);
+              $("#botaoEditarBeneficios").removeAttr('onclick');
+              $("#botaoEditarBeneficios").attr('onclick', "return editar_beneficios()");
+         
+           }
+
            function editar_outros()
            {
-              /*$("#radioTransportePossui").prop('disabled', false);
-              $("#radioTransporteNaoPossui").prop('disabled', false);
-              $("#num_transporte").prop('disabled', false);
-              $("#cesta_basicaPossui").prop('disabled', false);
-              $("#cesta_basicaNaoPossui").prop('disabled', false);*/
               $("#pis").prop('disabled', false);
               $("#ctps").prop('disabled', false);
               $("#uf_ctps").prop('disabled', false);
@@ -218,10 +236,6 @@
               $("#secao_titulo_eleitor").prop('disabled', false);
               $("#certificado_reservista_numero").prop('disabled', false);
               $("#certificado_reservista_serie").prop('disabled', false);
-              /*$("#jaleco").prop('disabled', false);
-              $("#camisa").prop('disabled', false);
-              $("#calcado").prop('disabled', false);
-              $("#calca").prop('disabled', false);*/
               $("#situacao").prop('disabled', false);
               $("#cargo").prop('disabled', false);
          
@@ -236,11 +250,6 @@
             function cancelar_outros()
            {
          
-              /*$("#radioTransportePossui").prop('disabled', true);
-              $("#radioTransporteNaoPossui").prop('disabled', true);
-              $("#num_transporte").prop('disabled', true);
-              $("#cesta_basicaPossui").prop('disabled', true);
-              $("#cesta_basicaNaoPossui").prop('disabled', true);*/
               $("#pis").prop('disabled', true);
               $("#ctps").prop('disabled', true);
               $("#uf_ctps").prop('disabled', true);
@@ -249,11 +258,7 @@
               $("#secao_titulo_eleitor").prop('disabled', true);
               $("#certificado_reservista_numero").prop('disabled', true);
               $("#certificado_reservista_serie").prop('disabled', true);
-              /*$("#jaleco").prop('disabled', true);
-              $("#camisa").prop('disabled', true);
-              $("#calcado").prop('disabled', true);
-              $("#calca").prop('disabled', true);
-              $("#situacao").prop('disabled', true);*/
+              $("#situacao").prop('disabled', true);
               $("#cargo").prop('disabled', true);
          
              $("#botaoEditarOutros").html('Editar');
@@ -364,7 +369,7 @@
          
                 $("#data_admissao").val(alterardate(item.data_admissao)).prop('disabled', true);
          
-         
+          
                 //Outros
          
               /*if (item.usa_vtp== "Possui") {
@@ -394,7 +399,10 @@
                 }*/
          
          
-         
+                //Beneficios
+                $("#beneficios").val(item.beneficios).prop('disabled', true);
+             
+                $("#beneficios_status").val(item.beneficios_status).prop('disabled', true);
            
                 $("#pis").val(item.pis).prop('disabled', true);
                 $("#ctps").val(item.ctps).prop('disabled', true);
@@ -625,10 +633,127 @@
             } 
             
          }
-        $(function () {
-          $("#header").load("header.html");
-          $(".menuu").load("menu.html");
-        });
+          $(function () {
+            $("#header").load("header.html");
+            $(".menuu").load("menu.html");
+          });
+
+          function gerarSituacao(){
+            data = '';
+            url = '../dao/exibir_situacao.php';
+            $.ajax({
+            type: "POST",
+            url: url,
+            data: data,
+            success: function(response){
+              var situacoes = response.split(",");
+
+              document.getElementById('situacao').innerHTML = ''; //limpar
+              for(var i=0; i<situacoes.length-1; i++)
+                document.getElementById('situacao').innerHTML += 
+                    '<option>' +situacoes[i] +'</option>';
+            },
+            dataType: 'text'
+          });
+        }
+
+        function adicionar_situacao(){
+          url = '../dao/adicionar_situacao.php';
+          var situacao = window.prompt("Cadastre uma Nova Situação:");
+          if(!situacao){return}
+          situacao = situacao.trim();
+          if(situacao == ''){return}
+
+            data = 'situacao=' +situacao; 
+
+            console.log(data);
+            $.ajax({
+            type: "POST",
+            url: url,
+            data: data,
+            success: function(response){
+              gerarSituacao();
+            },
+            dataType: 'text'
+          })
+        }
+
+        function gerarCargo(){
+            data = '';
+            url = '../dao/exibir_cargo.php';
+            $.ajax({
+            type: "POST",
+            url: url,
+            data: data,
+            success: function(response){
+              var cargo = response.split(",");
+
+              document.getElementById('cargo').innerHTML = ''; //limpar
+              for(var i=0; i<cargo.length-1; i++)
+                document.getElementById('cargo').innerHTML += 
+                    '<option>' +cargo[i] +'</option>';
+            },
+            dataType: 'text'
+          });
+        }
+
+        function adicionar_cargo(){
+          url = '../dao/adicionar_cargo.php';
+          var cargo = window.prompt("Cadastre um Novo Cargo:");
+          if(!cargo){return}
+          situacao = cargo.trim();
+          if(cargo == ''){return}              
+          
+            data = 'cargo=' +cargo; 
+            console.log(data);
+            $.ajax({
+            type: "POST",
+            url: url,
+            data: data,
+            success: function(response){
+              gerarCargo();
+            },
+            dataType: 'text'
+          })
+        }
+
+        function gerarBeneficios(){
+          data = '';
+          url = '../dao/exibir_beneficios.php';
+          $.ajax({
+          type: "POST",
+          url: url,
+          data: data,
+          success: function(response){
+            var beneficios = response.split(",");
+
+            document.getElementById('beneficios').innerHTML = ''; //limpar
+            for(var i=0; i<beneficios.length-1; i++)
+              document.getElementById('beneficios').innerHTML += 
+                  '<option>' +beneficios[i] +'</option>';
+            },
+            dataType: 'text'
+          });
+        }
+
+        function adicionar_beneficios(){
+          url = '../dao/adicionar_beneficios.php';
+          var beneficios = window.prompt("Cadastre um Novo Benefício:");
+          if(!beneficios){return}
+          situacao = beneficios.trim();
+          if(beneficios == ''){return}  
+            data = 'beneficios=' +beneficios; 
+            console.log(data);
+            $.ajax({
+            type: "POST",
+            url: url,
+            data: data,
+            success: function(response){
+              gerarBeneficios();
+            },
+            dataType: 'text'
+          })
+        }
       </script>
    </head>
    <body>
@@ -744,38 +869,38 @@
                             <div class="form-group">
                                <label class="col-md-3 control-label" for="profileFirstName">Nome completo</label>
                                <div class="col-md-8">
-                                  <input type="text" class="form-control" name="nome" id="nomeForm" onkeypress="return Onlychars(event)" required>
+                                  <input type="text" class="form-control" name="nome" id="nomeForm" onkeypress="return Onlychars(event)" >
                                </div>
                             </div>
                             <div class="form-group">
                                <label class="col-md-3 control-label" for="profileLastName">Sexo</label>
                                <div class="col-md-8">
-                                  <label><input type="radio" name="gender" id="radioM" id="M" value="m" style="margin-top: 10px; margin-left: 15px;" onclick="return exibir_reservista()" required><i class="fa fa-male" style="font-size: 20px;"></i></label>
+                                  <label><input type="radio" name="gender" id="radioM" id="M" value="m" style="margin-top: 10px; margin-left: 15px;" onclick="return exibir_reservista()" ><i class="fa fa-male" style="font-size: 20px;"></i></label>
                                   <label><input type="radio" name="gender" id="radioF" id="F" value="f" style="margin-top: 10px; margin-left: 15px;" onclick="return esconder_reservista()" ><i class="fa fa-female" style="font-size: 20px;"></i> </label>
                                </div>
                             </div>
                             <div class="form-group">
                                <label class="col-md-3 control-label" for="profileCompany">Telefone</label>
                                <div class="col-md-8">
-                                  <input type="text" class="form-control" maxlength="14" minlength="14" name="telefone" id="telefone" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeyup="mascara('(##)#####-####',this,event)" required>
+                                  <input type="text" class="form-control" maxlength="14" minlength="14" name="telefone" id="telefone" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeyup="mascara('(##)#####-####',this,event)" >
                                </div>
                             </div>
                             <div class="form-group">
                                <label class="col-md-3 control-label" for="profileCompany">Nascimento</label>
                                <div class="col-md-8">
-                                  <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" id="nascimento" max=<?php echo date('Y-m-d'); ?> required>
+                                  <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" id="nascimento" max=<?php echo date('Y-m-d'); ?> >
                                </div>
                             </div>
                             <div class="form-group">
                                <label class="col-md-3 control-label" for="profileFirstName">Nome do pai</label>
                                <div class="col-md-8">
-                                  <input type="text" class="form-control" name="nome_pai" id="pai" onkeypress="return Onlychars(event)" required>
+                                  <input type="text" class="form-control" name="nome_pai" id="pai" onkeypress="return Onlychars(event)" >
                                </div>
                             </div>
                             <div class="form-group">
                                <label class="col-md-3 control-label" for="profileFirstName">Nome da mãe</label>
                                <div class="col-md-8">
-                                  <input type="text" class="form-control" name="nome_mae" id="mae" onkeypress="return Onlychars(event)" required>
+                                  <input type="text" class="form-control" name="nome_mae" id="mae" onkeypress="return Onlychars(event)" >
                                </div>
                             </div>
                             <div class="form-group">
@@ -808,31 +933,31 @@
                             <div class="form-group">
                               <label class="col-md-3 control-label" for="cep">CEP</label>
                               <div class="col-md-8">
-                                <input type="text" name="cep"  value="" size="10" onblur="pesquisacep(this.value);" class="form-control" id="cep" maxlength="9" placeholder="Ex: 22222-222" onkeypress="return Onlynumbers(event)" onkeyup="mascara('#####-###',this,event)" required>
+                                <input type="text" name="cep"  value="" size="10" onblur="pesquisacep(this.value);" class="form-control" id="cep" maxlength="9" placeholder="Ex: 22222-222" onkeypress="return Onlynumbers(event)" onkeyup="mascara('#####-###',this,event)" >
                               </div>
                             </div>
                             <div class="form-group">
                               <label class="col-md-3 control-label" for="uf">Estado</label>
                               <div class="col-md-8">
-                                <input type="text" name="uf" size="60" class="form-control" id="uf" required>
+                                <input type="text" name="uf" size="60" class="form-control" id="uf" >
                               </div>
                             </div>
                             <div class="form-group">
                               <label class="col-md-3 control-label" for="cidade">Cidade</label>
                               <div class="col-md-8">
-                                <input type="text" size="40" class="form-control" name="cidade" id="cidade" required>
+                                <input type="text" size="40" class="form-control" name="cidade" id="cidade" >
                               </div>
                             </div>
                             <div class="form-group">
                               <label class="col-md-3 control-label" for="bairro">Bairro</label>
                               <div class="col-md-8">
-                                <input type="text" name="bairro" size="40" class="form-control" id="bairro" required>
+                                <input type="text" name="bairro" size="40" class="form-control" id="bairro" >
                               </div>
                             </div>
                             <div class="form-group">
                               <label class="col-md-3 control-label" for="rua">Logradouro</label>
                               <div class="col-md-8">
-                                <input type="text" name="rua" size="2" class="form-control" id="rua" required>
+                                <input type="text" name="rua" size="2" class="form-control" id="rua" >
                               </div>
                             </div>
                             <div class="form-group">
@@ -863,6 +988,42 @@
                             <button type="button" class="btn btn-primary" id="botaoEditarEndereco" onclick="return editar_endereco()">Editar</button>
                             <input type="submit" class="btn btn-primary" disabled="true"  value="Salvar" id="botaoSalvarEndereco" disabled="true">
                           </form>
+                          <!--Beneficios-->
+                          <form class="form-horizontal" method="post" action="../controle/control.php">
+                            <input type="hidden" name="nomeClasse" value="FuncionarioControle">
+                            <input type="hidden" name="metodo" value="alterarBeneficiados">
+                            <div id="beneficio" class="tab-pane"><!--  -->
+                              <div class="form-group">
+                                  <label class="col-md-3 control-label" for="inputSuccess">Benefícios</label>
+                                  <a onclick="adicionar_beneficios()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
+                                  <div class="col-md-6">
+                                     <select class="form-control input-lg mb-md" name="beneficios" id="beneficios">
+                                        <option selected disabled>Selecionar</option>
+                                        <?php 
+                                           while($row = $beneficios->fetch_array(MYSQLI_NUM))
+                                           {
+                                            echo "<option value=".$row[1].">".$row[1]."</option>";
+                                           }                            ?>
+                                     </select>
+                                  </div>
+                               </div>
+                               <div class="form-group">
+                                  <label class="col-md-3 control-label" for="inputSuccess">Benefícios Status</label>
+                                  <div class="col-md-6">
+                                     <select class="form-control input-lg mb-md" name="beneficios_status" id="beneficios_status">
+                                        <option selected disabled>Selecionar</option>
+                                        <option value="Ativo">Ativo</option>
+                                        <option value="Inativo">Inativo</option>
+                                     </select>
+                                  </div>
+                               </div>
+                            </div>
+                            <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?> >
+                            <button type="button" class="btn btn-primary" id="botaoEditarBeneficios" onclick="return editar_beneficios()">Editar</button>
+                            <input type="submit" class="btn btn-primary" disabled="true"  value="Salvar" id="botaoSalvarBeneficios" disabled="true">
+                          </form>
+
+                          
                           <hr class="dotted short">
                           <form class="form-horizontal" method="post" action="../controle/control.php">
                             <input type="hidden" name="nomeClasse" value="FuncionarioControle">
@@ -871,37 +1032,37 @@
                             <div class="form-group">
                               <label class="col-md-3 control-label" >PIS</label>
                               <div class="col-md-6">
-                                <input type="text" id="pis" name="pis" class="form-control" required>
+                                <input type="text" id="pis" name="pis" class="form-control">
                               </div>
                             </div>
                             <div class="form-group">
                               <label class="col-md-3 control-label" >CTPS</label>
                               <div class="col-md-6">
-                                <input type="text" id="ctps" name="ctps" class="form-control" required>
+                                <input type="text" id="ctps" name="ctps" class="form-control">
                               </div>
                             </div>
                             <div class="form-group">
                               <label class="col-md-3 control-label" for="uf">Estado CTPS</label>
                               <div class="col-md-6">
-                                <input type="text" name="uf_ctps" size="60" class="form-control" id="uf_ctps" required>
+                                <input type="text" name="uf_ctps" size="60" class="form-control" id="uf_ctps" >
                               </div>
                             </div>
                             <div class="form-group">
                               <label class="col-md-3 control-label" >Título de eleitor</label>
                               <div class="col-md-6">
-                                <input type="text" name="titulo_eleitor" id="titulo_eleitor" class="form-control" required>
+                                <input type="text" name="titulo_eleitor" id="titulo_eleitor" class="form-control" >
                               </div>
                             </div>
                             <div class="form-group">
                               <label class="col-md-3 control-label" >Zona eleitoral</label>
                               <div class="col-md-6">
-                                <input type="text" name="zona_eleitoral" id="zona_eleitoral" class="form-control" required>
+                                <input type="text" name="zona_eleitoral" id="zona_eleitoral" class="form-control" >
                               </div>
                             </div>
                             <div class="form-group">
                               <label class="col-md-3 control-label" >Seção do título de eleitor</label>
                               <div class="col-md-6">
-                                <input type="text" name="secao_titulo_eleitor" id="secao_titulo_eleitor" class="form-control" required>
+                                <input type="text" name="secao_titulo_eleitor" id="secao_titulo_eleitor" class="form-control" >
                               </div>
                             </div>
                             <div class="form-group" id="reservista1" style="display: none">
@@ -916,32 +1077,37 @@
                                 <input type="text" id="certificado_reservista_serie" name="certificado_reservista_serie" class="form-control serie_reservista">
                               </div>
                             </div>
+
                             <div class="form-group">
                               <label class="col-md-3 control-label" for="inputSuccess">Situação</label>
-                              <a href="adicionar_situacao.php"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
+                              <a onclick="adicionar_situacao()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
                               <div class="col-md-6">
-                                <select class="form-control input-lg mb-md" name="situacao" id="situacao">
-                                <option selected disabled>Selecionar</option>
-                                <?php while($row = $situacao->fetch_array(MYSQLI_NUM)){
-                                        echo "<option value=".$row[0].">".$row[0]."</option>";
-                                      }   
-                                ?>
-                                </select>
+                                <select class="form-control input-lg mb-md" name="situacao" id="situacao" >
+                                  <option selected disabled>Selecionar</option>
+                                  <?php 
+                                    while($row = $situacao->fetch_array(MYSQLI_NUM))
+                                    {
+                                      echo "<option value=".$row[0].">".$row[0]."</option>";
+                                    }                            ?>
+                               </select>
                               </div>
                             </div>
+
                             <div class="form-group">
                               <label class="col-md-3 control-label" for="inputSuccess">Cargo</label>
-                              <a href="cadastro_cargo.php"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
+                              <a onclick="adicionar_cargo()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
                               <div class="col-md-6">
-                                <select class="form-control input-lg mb-md" name="cargo" id="cargo">
-                                <option selected disabled>Selecionar</option>
-                                  <?php while($row = $cargo->fetch_array(MYSQLI_NUM)){
-                                          echo "<option value=".$row[1].">".$row[1]."</option>";
-                                        }     
-                                  ?>
+                                <select class="form-control input-lg mb-md" name="cargo" id="cargo" >
+                                  <option selected disabled>Selecionar</option>
+                                  <?php 
+                                     while($row = $cargo->fetch_array(MYSQLI_NUM))
+                                     {
+                                      echo "<option value=".$row[1].">".$row[1]."</option>";
+                                     }                            ?>
                                 </select>
                               </div>
                             </div>
+
                             <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?> >
                             <button type="button" class="btn btn-primary" id="botaoEditarOutros" onclick="return editar_outros()">Editar</button>
                             <input type="submit" class="btn btn-primary" disabled="true"  value="Salvar" id="botaoSalvarOutros" disabled="true">

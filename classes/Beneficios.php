@@ -1,6 +1,8 @@
 <?php
 
-class Beneficios
+require_once 'Beneficiados.php';
+
+class Beneficios extends Beneficiados
 {
 	
 	private $id_beneficios;
@@ -8,7 +10,7 @@ class Beneficios
 
 	public function getId_beneficios()
     {
-        return $this->id_beneficios
+        return $this->id_beneficios;
     }
 
     public function getDescricao_beneficios()

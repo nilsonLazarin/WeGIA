@@ -1,8 +1,6 @@
 <?php
 
-require_once 'Pessoa.php';
-
-class Beneficiados extends Pessoa
+class Beneficiados
 {
 	private $id_beneficiados;
 	private $id_pessoa;

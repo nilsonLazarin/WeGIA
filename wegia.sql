@@ -37,7 +37,7 @@ begin
 declare idP int;
 declare idF int;
 
-insert into pessoa( cpf, senha, nome, sexo, telefone,data_nascimento,imagem,cep ,estado,cidade, bairro, logradouro, numero_endereco,
+insert into pessoa(cpf, senha, nome, sexo, telefone,data_nascimento,imagem,cep ,estado,cidade, bairro, logradouro, numero_endereco,
 complemento,ibge,registro_geral,orgao_emissor,data_expedicao, nome_pai, nome_mae, tipo_sanguineo)
 values(cpf, senha, nome, sexo, telefone,data_nascimento,imagem, cep ,estado,cidade, bairro, logradouro, numero_endereco,
 complemento,ibge,registro_geral,orgao_emissor,data_expedicao, nome_pai, nome_mae, tipo_sanguineo);
@@ -50,15 +50,16 @@ values(idP,data_admissao,pis,ctps,uf_ctps,numero_titulo,zona,secao,certificado_r
 
 END $$
 
-CREATE PROCEDURE `cadbeneficios` (IN `data_inicio` DATETIME, IN `data_fim` DATETIME, IN `beneficios_status` VARCHAR(100))begin
+CREATE PROCEDURE `cadbeneficiados` (IN `id_beneficios` INT, IN `data_inicio` DATETIME, IN `data_fim` DATETIME, IN `beneficios_status` VARCHAR(100))begin
 
 declare idP int;
-declare idB int;
 
 select max(id_pessoa) into idP FROM pessoa;
 
 insert into beneficiados(id_pessoa,id_beneficios,data_inicio,data_fim,beneficios_status)
 values(idP,id_beneficios,data_inicio,data_fim,beneficios_status);
+
+
 
 END$$
 
@@ -70,7 +71,7 @@ declare idE int;
 select max(id_pessoa) into idP FROM pessoa;
 
 insert into pessoa_epi(id_pessoa,id_epi,data,epi_status)
-values(idP,id_epi,data,epi_status);
+values(idP,idE,data,epi_status);
 
 END$$
 
@@ -273,6 +274,7 @@ CREATE TABLE `funcionario` (
   `cargo` varchar(30) DEFAULT NULL,
 
   FOREIGN KEY (`id_pessoa`) REFERENCES `pessoa` (`id_pessoa`)
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `ientrada` (
@@ -497,8 +499,6 @@ CREATE TABLE `documento` (
   FOREIGN KEY (`id_pessoa`) REFERENCES `pessoa` (`id_pessoa`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-insert into pessoa( cpf, senha, nome, sexo, telefone,data_nascimento,imagem, cep ,estado,cidade, bairro, logradouro, numero_endereco, complemento,ibge,registro_geral,orgao_emissor,data_expedicao, nome_pai, nome_mae, tipo_sanguineo) values('admin', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 'admin', 'a', 'telefone','2018-12-16','null', 'cep' ,'estado','cidade', 'bairro', 'logradouro', 'numero_endereco', 'complemento','ibge','registro_geral','orgao_emissor','data_expedicao', 'nome_pai', 'nome_mae', 'tipo_sanguineo');
-
 CREATE TABLE `beneficios`(
   `id_beneficios` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `descricao_beneficios` varchar(100) UNIQUE
@@ -511,8 +511,8 @@ CREATE TABLE `beneficiados`(
   `data_inicio` datetime,
   `data_fim` datetime,
   `beneficios_status` varchar(100),
-  FOREIGN KEY (`id_pessoa`) REFERENCES `pessoa` (`id_pessoa`),
-  FOREIGN KEY (`id_beneficios`) REFERENCES `beneficios` (`id_beneficios`)
+  FOREIGN KEY (`id_beneficios`) REFERENCES `beneficios` (`id_beneficios`),
+  FOREIGN KEY (`id_pessoa`) REFERENCES `pessoa` (`id_pessoa`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `epi`(
@@ -559,5 +559,9 @@ CREATE TABLE `anexo` (
   `anexo` longtext,
   FOREIGN KEY(id_despacho) REFERENCES despacho(id_despacho)
 );
+
+insert into pessoa( cpf, senha, nome, sexo, telefone,data_nascimento,imagem, cep ,estado,cidade, bairro, logradouro, numero_endereco, complemento,ibge,registro_geral,orgao_emissor,data_expedicao, nome_pai, nome_mae, tipo_sanguineo) values('admin', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 'admin', 'a', 'telefone','2018-12-16','null', 'cep' ,'estado','cidade', 'bairro', 'logradouro', 'numero_endereco', 'complemento','ibge','registro_geral','orgao_emissor','data_expedicao', 'nome_pai', 'nome_mae', 'tipo_sanguineo');
+
+
 
 select * from pessoa;

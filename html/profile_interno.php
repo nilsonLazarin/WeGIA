@@ -75,13 +75,12 @@
          			var cpf=item.cpf;
          			$("#nome").text("Nome: "+item.nome);
          			$("#nomeform").val(item.nome);
-         			if(typeof(item.imagem) != "undefined" && item.imagem !== "null")
-         			{
-         				$("#imagem").attr("src","data:image/gif;base64,"+item.imagem);
-         			}
-         			else{
-         				$("#imagem").attr("src","../img/semfoto.jpg");
-         			}
+
+         			if(item.imagem!=""){
+                     $("#imagem").attr("src","data:image/gif;base64,"+item.imagem);
+                  }else{
+                     $("#imagem").attr("src","../img/semfoto.jpg");
+                  }
          			if(item.sexo=="m")
          			{
          				$("#sexo").html("Sexo: <i class='fa fa-male'></i>  Masculino");
@@ -224,7 +223,7 @@
                                    if(isset($_FILES['imgperfil']))
                                    {
                                      $image = file_get_contents ($_FILES['imgperfil']['tmp_name']);
-                                     session_start();
+                                     //session_start();
                                      $_SESSION['imagem']=$image;
                                                  echo '<img src="data:image/gif;base64,'.base64_encode($image).'" class="rounded img-responsive" alt="John Doe">';
                                    } 
@@ -248,7 +247,7 @@
                                           </div>
                                           <div class="modal-body">
                                              <form class="form-horizontal" method="POST" action="../controle/control.php" enctype="multipart/form-data">
-                                                <input type="hidden" name="nomeClasse" value="FuncionarioControle">
+                                                <input type="hidden" name="nomeClasse" value="InternoControle">
                                                 <input type="hidden" name="metodo" value="alterarImagem">
                                                 <div class="form-group">
                                                    <label class="col-md-4 control-label" for="imgperfil">Carregue nova imagem de perfil:</label>
@@ -258,7 +257,7 @@
                                                 </div>
                                           </div>
                                           <div class="modal-footer">
-                                          <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?> >
+                                          <input type="hidden" name="id_interno" value=<?php echo $_GET['id'] ?> >
                                           <input type="submit" id="formsubmit" value="Alterar imagem">
                                           </div>
                                        </div>

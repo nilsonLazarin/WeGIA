@@ -11,7 +11,7 @@
       $mysqli = new mysqli($servidor,$usuario,$senha,$bddnome);
       $situacao = $mysqli->query("SELECT situacoes FROM situacao");
       $cargo = $mysqli->query("SELECT * FROM cargo");
-      $beneficios = $mysqli->query("SELECT descricao_beneficios FROM beneficios");
+      $beneficios = $mysqli->query("SELECT * FROM beneficios");
       $descricao_epi = $mysqli->query("SELECT descricao_epi FROM epi");
    
    ?>
@@ -136,25 +136,10 @@
                       <li class="active">
                         <a href="#overview" data-toggle="tab">Cadastro de Funcionário</a>
                       </li>
-                      <!--li>
-                        <a href="#endereco" data-toggle="tab">Endereço</a>
-                      </li>
-                      <li>
-                        <a href="#cargaHoraria" data-toggle="tab">Carga Horária</a>
-                      </li>
-                      <li>
-                        <a href="#beneficio" data-toggle="tab">Benefícios</a>
-                      </li>
-                      <li>
-                        <a href="#epi" data-toggle="tab">EPI</a>
-                      </li>
-                      <li>
-                        <a href="#outros" data-toggle="tab">Outros</a>
-                      </li-->
                     </ul>
                     <div class="tab-content"> 
                       <div id="overview" class="tab-pane active">
-                         <form class="form-horizontal" method="post" action="../controle/control.php">
+                         <form class="form-horizontal" method="POST" action="../controle/control.php">
                             <h4 class="mb-xlg">Informações Pessoais</h4>
                             <h5 class="obrig">Campos Obrigatórios(*)</h5>
                                <div class="form-group">
@@ -241,13 +226,39 @@
                                <select class="form-control input-lg mb-md" name="cargo" id="cargo" required>
                                   <option selected disabled>Selecionar</option>
                                   <?php 
-                                     while($row = $cargo->fetch_array(MYSQLI_NUM))
-                                     {
+                                    while($row = $cargo->fetch_array(MYSQLI_NUM))
+                                    {
                                       echo "<option value=".$row[1].">".$row[1]."</option>";
-                                     }                            ?>
+                                    }
+                                  ?>
                                </select>
                             </div>
                          </div>
+                         <div class="form-group">
+                            <label class="col-md-3 control-label" for="inputSuccess">Beneficios<sup class="obrig">*</sup></label>
+                            <a onclick="adicionar_beneficios()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
+                            <div class="col-md-6">
+                               <select class="form-control input-lg mb-md" name="ibeneficios" id="beneficios" required>
+                                  <option selected disabled>Selecionar</option>
+                                  <?php 
+                                    while($row = $beneficios->fetch_array(MYSQLI_NUM))
+                                    {
+                                      echo "<option value=".$row[0].">".$row[1]."</option>";
+                                    }
+                                  ?>
+                               </select>
+                            </div>
+                         </div>
+                         <div class="form-group">
+                          <label class="col-md-3 control-label" for="inputSuccess">Benefícios Status</label>
+                          <div class="col-md-6">
+                             <select class="form-control input-lg mb-md" name="beneficios_status" id="beneficios_status">
+                                <option selected disabled>Selecionar</option>
+                                <option value="Ativo">Ativo</option>
+                                <option value="Inativo">Inativo</option>
+                             </select>
+                          </div>
+                       </div>
                       </div>
                         <!--div id="endereco" class="tab-pane">
                         
@@ -552,7 +563,7 @@
                             <div class="col-md-6">
                                <input type="text" name="secao_titulo_eleitor" class="form-control">
                             </div>
-                         </div>
+                         </div-->
                          <div class="form-group" id="reservista1" style="display: none">
                             <label class="col-md-3 control-label" >Número do certificado reservista</label>
                             <div class="col-md-6">
@@ -564,7 +575,7 @@
                             <div class="col-md-6">
                                <input type="text" name="certificado_reservista_serie" class="form-control serie_reservista">
                             </div>
-                         </div-->
+                         </div>
                          
                       </div>    
                        <div class="panel-footer">
@@ -578,11 +589,6 @@
                           </div>
                        </div>
                  </form>
-                    <!--</div>
-                     </div>
-                  </div>
-               </div>
-            </div>-->
             <!-- end: page -->
          </section>
       </div>

@@ -189,8 +189,8 @@ class InternoControle
     
     public function incluir(){
         $interno = $this->verificar();
-        $intDAO= new InternoDAO();
-        $docDAO= new DocumentoDAO();
+        $intDAO = new InternoDAO();
+        $docDAO = new DocumentoDAO();
         try{
             $idPessoa=$intDAO->incluir($interno);
             if(!empty($_FILES['imgRg']['tmp_name']) && $rg!="Não informado")
@@ -327,6 +327,23 @@ class InternoControle
             echo $e->getMessage();
         }
 
+    }
+
+    public function alterarImagem()
+    {
+        extract($_REQUEST);
+        $image = file_get_contents ($_FILES['imgperfil']['tmp_name']);
+        $perfil = base64_encode($image);
+        $interno = new Interno('','','','','','','','','','','','',$perfil,'','','','','','','','');
+        $interno->setIdInterno($id_interno);
+        $internoDAO = new InternoDAO();
+        try {
+            $internoDAO->alterarImagem($interno);
+            header("Location: ../html/profile_interno.php?id=".$id_interno);
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+        
     }
     public function excluir()
     {

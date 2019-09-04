@@ -124,6 +124,27 @@ class InternoDAO
         }
     }
 
+    public function alterarImagem($interno)
+    {
+        try {
+            $sql = 'update pessoa as p inner join interno as i on p.id_pessoa=i.id_pessoa set imagem=:imagem where id_interno=:id_interno';
+            
+           $sql = str_replace("'", "\'", $sql);
+            $pdo = Conexao::connect();
+            $stmt = $pdo->prepare($sql);
+            
+            $stmt = $pdo->prepare($sql);
+            $imagem=$interno->getImagem();
+            $id_interno=$interno->getIdInterno();
+
+            $stmt->bindParam(':imagem',$imagem);
+            $stmt->bindParam(':id_interno',$id_interno);
+            $stmt->execute();
+        } catch (PDOException $e) {
+            echo 'Error: <b>  na tabela pessoas = ' . $sql . '</b> <br /><br />' . $e->getMessage();
+        }
+    }
+
     // Editar
     public function alterar($interno)
     {

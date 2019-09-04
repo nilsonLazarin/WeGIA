@@ -50,7 +50,7 @@ class FuncionarioControle
         $hora1 = explode(":",$entrada);
         $hora2 = explode(":",$saida);
 
-        $horaTotal = ((intval($hora2[0])*60) + intval($hora2[1])) - ((intval($hora1[0])*60) + intval($hora1[1])) ;
+        $horaTotal = ((intval($hora2[0])*60) + intval($hora2[1])) - ((intval($hora1[0])*60) + intval($hora1[1]));
 
         $horaTotal = floor($horaTotal/60);
         $minutoTotal = $horaTotal%60;
@@ -92,22 +92,6 @@ class FuncionarioControle
         return $retorno;
     }
 
-    public function verificarBeneficiados(){
-        extract($_REQUEST);
-        date_default_timezone_set('America/Sao_Paulo');
-        $data_inicio = date('Y-m-d H:i');
-
-        if((!isset($data_fim)) || (empty($data_fim))){
-            $data_fim='null';
-        }
-
-        if((!isset($beneficios_status)) || (empty($beneficios_status))){
-            $beneficios_status='null';
-        }
-
-        return $beneficio;
-    }
-
     public function verificarEpi(){
         extract($_REQUEST);
         date_default_timezone_set('America/Sao_Paulo');
@@ -123,22 +107,22 @@ class FuncionarioControle
     public function verificarHorario(){
         extract($_REQUEST);
         if((!isset($escala)) || (empty($escala))){
-            $escala = 'NUll';
+            $escala = '';
         }
         if((!isset($tipoCargaHoraria)) || (empty($tipoCargaHoraria))){
-            $tipoCargaHoraria = 'NUll';
+            $tipoCargaHoraria = '';
         }
         if((!isset($entrada1)) || (empty($entrada1))){
-            $entrada1 = 'NUll';
+            $entrada1 = '';
         }
         if((!isset($saida1)) || (empty($saida1))){
-            $saida1 = 'NUll';
+            $saida1 = '';
         }
         if((!isset($entrada2)) || (empty($entrada2))){
-            $entrada2 = 'NUll';
+            $entrada2 = '';
         }
         if((!isset($saida2)) || (empty($saida2))){
-            $saida2 = 'NUll';
+            $saida2 = '';
         }
 
             $subtotal1 = $this->calcularHora($entrada1, $saida1);
@@ -238,6 +222,7 @@ class FuncionarioControle
 
         return $horario;
     }
+
     public function verificarFuncionario(){
         extract($_REQUEST);
         if((!isset($nome)) || (empty($nome))){
@@ -260,37 +245,37 @@ class FuncionarioControle
             header('Location: ../html/funcionario.html?msg='.$msg);
         }
         if((!isset($nome_pai)) || (empty($nome_pai))){
-            $nome_pai = 'null';
+            $nome_pai = '';
         }
         if((!isset($nome_mae)) || (empty($nome_mae))){
-            $nome_mae = 'null';
+            $nome_mae = '';
         }
         if((!isset($sangue)) || (empty($sangue))){
-            $sangue = 'null';
+            $sangue = '';
         }
         if((!isset($cep)) || empty(($cep))){
-            $cep = 'null';
+            $cep = '';
         }
         if((!isset($uf)) || empty(($uf))){
-            $uf = 'null';
+            $uf = '';
         }
         if((!isset($cidade)) || empty(($cidade))){
-            $cidade = 'null';
+            $cidade = '';
         }
         if((!isset($bairro)) || empty(($bairro))){
-            $bairro = 'null';
+            $bairro = '';
         }
         if((!isset($rua)) || empty(($rua))){
-            $rua = 'null';
+            $rua = '';
         }
         if((!isset($numero_residencia)) || empty(($numero_residencia))){
-            $numero_residencia = "NULL";
+            $numero_residencia = "";
         }
         if((!isset($complemento)) || (empty($complemento))){
-            $complemento='NULL';
+            $complemento='';
         }
         if((!isset($ibge)) || (empty($ibge))){
-            $ibge='NULL';
+            $ibge='';
         }
         if((!isset($rg)) || empty(($rg))){
             $msg .= "RG do funcionario não informado. Por favor, informe um rg!";
@@ -309,22 +294,22 @@ class FuncionarioControle
             header('Location: ../html/funcionario.html?msg='.$msg);
         }
         if((!isset($pis)) || (empty($pis))){
-            $pis = 'null';
+            $pis = '';
         }
         if((!isset($ctps)) || (empty($ctps))){
-            $ctps = 'null';
+            $ctps = '';
         }
         if((!isset($uf_ctps)) || (empty($uf_ctps))){
-            $uf_ctps = 'null';
+            $uf_ctps = '';
         }
         if((!isset($titulo_eleitor)) || (empty($titulo_eleitor))){
-            $titulo_eleitor = 'null';
+            $titulo_eleitor = '';
         }
         if((!isset($zona_eleitoral)) || (empty($zona_eleitoral))){
-            $zona_eleitoral = 'null';
+            $zona_eleitoral = '';
         }
         if((!isset($secao_titulo_eleitor)) || (empty($secao_titulo_eleitor))){
-            $secao_titulo_eleitor = 'null';
+            $secao_titulo_eleitor = '';
         }
         
         if((!isset($data_admissao)) || (empty($data_admissao))){
@@ -337,10 +322,10 @@ class FuncionarioControle
         }
         
         if((!isset($certificado_reservista_numero)) || (empty($certificado_reservista_numero))){
-            $certificado_reservista_numero='null';
+            $certificado_reservista_numero='';
         }
         if((!isset($certificado_reservista_serie)) || (empty($certificado_reservista_serie))){
-            $certificado_reservista_serie='null';
+            $certificado_reservista_serie='';
         }
 
         session_start();
@@ -354,7 +339,6 @@ class FuncionarioControle
         $senha=$this->geraChave(8);
         $funcionario = new Funcionario($cpf,$nome,$gender,$nascimento,$rg,$orgao_emissor,$data_expedicao,$nome_mae,$nome_pai,$sangue,$senha,$telefone,$imgperfil,$cep,$uf,$cidade,$bairro,$rua,$numero_residencia,$complemento,$ibge);
         $funcionario->setData_admissao($data_admissao);
-        $funcionario->setCargo($cargo);
         $funcionario->setPis($pis);
         $funcionario->setCtps($ctps);
         $funcionario->setUf_ctps($uf_ctps);
@@ -367,6 +351,33 @@ class FuncionarioControle
         $funcionario->setCargo($cargo);
         
         return $funcionario;
+    }
+
+    public function verificarBeneficiados(){
+        extract($_REQUEST);
+        
+        if((!isset($ibeneficios)) || (empty($ibeneficios))){
+            $msg .= "Descricao_beneficios do funcionario não informado. Por favor, informe um descricao_beneficios!";
+            header('Location: ../html/funcionario.html?msg='.$msg);
+        }
+        if((!isset($data_inicio)) || (empty($data_inicio))){
+            $data_inicio = '';
+            //date_default_timezone_set('America/Sao_Paulo');
+            //$data_inicio = date('d-m-Y H:i');
+        }
+        if((!isset($data_fim)) || (empty($data_fim))){
+            $data_fim='';
+        }
+        if((!isset($beneficios_status)) || (empty($beneficios_status))){
+            $beneficios_status='null';
+        }
+        $beneficiados = new Beneficiados();
+        $beneficiados->setId_beneficios($ibeneficios);
+        $beneficiados->setData_inicio($data_inicio);
+        $beneficiados->setData_fim($data_fim);
+        $beneficiados->setBeneficios_status($beneficios_status);
+
+        return $beneficiados;
     }
 
     public function verificarSenha(){
@@ -420,41 +431,42 @@ class FuncionarioControle
     public function incluir(){
         $funcionario = $this->verificarFuncionario();
         $horario = $this->verificarHorario();
-        /*$beneficio = $this->verificarBeneficiados();
-        $epi = $this->verificarEpi();*/
+        $beneficiados = $this->verificarBeneficiados();
+        //$epi = $this->verificarEpi();
         $funcionarioDAO = new FuncionarioDAO();
         $horarioDAO = new QuadroHorarioDAO();
-        /*$beneficiadosDAO = new BeneficiadosDAO();
-        $pessoa_epiDAO = new Pessoa_epiDAO();*/
+        $beneficiadosDAO = new BeneficiadosDAO();
+        //$pessoa_epiDAO = new Pessoa_epiDAO();
         
         try{
             $funcionarioDAO->incluir($funcionario);
-            $_SESSION['msg']="Funcionario cadastrado com sucesso";
-            $_SESSION['proxima']="Cadastrar outro funcionario";
-            $_SESSION['link']="../html/cadastro_funcionario.php";
-            header("Location: ../html/sucesso.php");
+            //$horarioDAO->incluir($horario);
+            //$beneficiadosDAO->incluir($beneficiados);
+            
 
         } catch (PDOException $e){
             $msg= "Não foi possível registrar o funcion�rio"."<br>".$e->getMessage();
             echo $msg;
         }
-
+        
         try{
             $horarioDAO->incluir($horario);
-            header("Location: ../html/sucesso.php");
+            //header("Location: ../html/sucesso.php");
         } catch (PDOException $e){
             $msg= "Não foi possível registrar o horario"."<br>".$e->getMessage();
             echo $msg;
         }
-
-        /*try{
-            $beneficiadosDAO->incluir($beneficio);
+        try{
+            $beneficiadosDAO->incluir($beneficiados);
+            $_SESSION['msg']="Funcionario cadastrado com sucesso";
+            $_SESSION['proxima']="Cadastrar outro funcionario";
+            $_SESSION['link']="../html/cadastro_funcionario.php";
             header("Location: ../html/sucesso.php");
         } catch (PDOException $e){
             $msg= "Não foi possível registrar o beneficio"."<br>".$e->getMessage();
             echo $msg;
         }
-
+        /*
         try{
             $Pessoa_epiDAO->incluir($epi);
             header("Location: ../html/sucesso.php");
@@ -544,7 +556,26 @@ class FuncionarioControle
             }
         }
     }
-*/
+*/  
+
+    public function alterarBeneficiados(){
+        extract($_REQUEST);
+        $beneficiados = new Beneficiados('','','','','','','','','','','','','','','','','','','','','');
+        $beneficiados->setId_pessoa($id_pessoa);
+        $beneficiados->setId_Beneficiados($id_beneficiados);
+        $beneficiados->setId_beneficios($id_beneficios);
+        $beneficiados->setData_inicio($data_inicio);
+        $beneficiados->setData_fim($data_fim);
+        $beneficiados->setBeneficios_status($beneficios_status);
+        $beneficiadosDAO = new BeneficiadosDAO();
+        try {
+            $beneficiadosDAO->alterarBeneficiados($beneficiados);
+            header("Location: ../html/profile_funcionario.php?id_funcionario=".$id_funcionario."&id_pessoa=".$id_pessoa);
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
     public function alterarOutros()
     {
         extract($_REQUEST);
@@ -553,7 +584,7 @@ class FuncionarioControle
 
         $funcionario = new Funcionario('','','','','','','','','','','','','','','','','','','','','');
         $funcionario->setId_funcionario($id_funcionario);
-        $funcionario->setVale_transporte($num_vale_transporte);
+        //$funcionario->setVale_transporte($num_vale_transporte);
         $funcionario->setCargo($cargo);
         $funcionario->setPis($pis);
         $funcionario->setCtps($ctps);
@@ -626,9 +657,7 @@ class FuncionarioControle
             header("Location: ../html/profile_funcionario.php?id_funcionario=".$id_funcionario);
         } catch (PDOException $e) {
             echo $e->getMessage();
-        }
-        
-        
+        }    
     }
 
     public function alterarCargaHoraria()
@@ -648,6 +677,8 @@ class FuncionarioControle
         }
 
     }
+
+
 
     /*protected function retornaIdFuncionario($cpf){
         try {
