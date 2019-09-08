@@ -235,7 +235,7 @@
                             </div>
                          </div>
                          <div class="form-group">
-                            <label class="col-md-3 control-label" for="inputSuccess">Beneficios<sup class="obrig">*</sup></label>
+                            <label class="col-md-3 control-label" for="inputSuccess">Beneficios</label>
                             <a onclick="adicionar_beneficios()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
                             <div class="col-md-6">
                                <select class="form-control input-lg mb-md" name="ibeneficios" id="beneficios" required>
@@ -249,7 +249,7 @@
                                </select>
                             </div>
                          </div>
-                         <div class="form-group">
+                        <div class="form-group">
                           <label class="col-md-3 control-label" for="inputSuccess">Benefícios Status</label>
                           <div class="col-md-6">
                              <select class="form-control input-lg mb-md" name="beneficios_status" id="beneficios_status">
@@ -257,6 +257,12 @@
                                 <option value="Ativo">Ativo</option>
                                 <option value="Inativo">Inativo</option>
                              </select>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label class="col-md-3 control-label" for="profileCompany">Data Início</label>
+                          <div class="col-md-8">
+                             <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data_inicio" id="data_inicio" max=<?php echo date('Y-m-d'); ?>>
                           </div>
                        </div>
                       </div>

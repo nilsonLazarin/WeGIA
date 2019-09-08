@@ -363,7 +363,7 @@ class FuncionarioControle
         if((!isset($data_inicio)) || (empty($data_inicio))){
             $data_inicio = '';
             //date_default_timezone_set('America/Sao_Paulo');
-            //$data_inicio = date('d-m-Y H:i');
+            //$data_inicio = date('d-m-Y');
         }
         if((!isset($data_fim)) || (empty($data_fim))){
             $data_fim='';
@@ -371,6 +371,7 @@ class FuncionarioControle
         if((!isset($beneficios_status)) || (empty($beneficios_status))){
             $beneficios_status='null';
         }
+
         $beneficiados = new Beneficiados();
         $beneficiados->setId_beneficios($ibeneficios);
         $beneficiados->setData_inicio($data_inicio);
@@ -440,8 +441,12 @@ class FuncionarioControle
         
         try{
             $funcionarioDAO->incluir($funcionario);
-            //$horarioDAO->incluir($horario);
-            //$beneficiadosDAO->incluir($beneficiados);
+            $horarioDAO->incluir($horario);
+            $beneficiadosDAO->incluir($beneficiados);
+            $_SESSION['msg']="Funcionario cadastrado com sucesso";
+            $_SESSION['proxima']="Cadastrar outro funcionario";
+            $_SESSION['link']="../html/cadastro_funcionario.php";
+            header("Location: ../html/sucesso.php");
             
 
         } catch (PDOException $e){
@@ -449,7 +454,7 @@ class FuncionarioControle
             echo $msg;
         }
         
-        try{
+        /*try{
             $horarioDAO->incluir($horario);
             //header("Location: ../html/sucesso.php");
         } catch (PDOException $e){
@@ -466,7 +471,7 @@ class FuncionarioControle
             $msg= "Não foi possível registrar o beneficio"."<br>".$e->getMessage();
             echo $msg;
         }
-        /*
+        
         try{
             $Pessoa_epiDAO->incluir($epi);
             header("Location: ../html/sucesso.php");
@@ -561,9 +566,9 @@ class FuncionarioControle
     public function alterarBeneficiados(){
         extract($_REQUEST);
         $beneficiados = new Beneficiados('','','','','','','','','','','','','','','','','','','','','');
-        $beneficiados->setId_pessoa($id_pessoa);
-        $beneficiados->setId_Beneficiados($id_beneficiados);
-        $beneficiados->setId_beneficios($id_beneficios);
+        $beneficiados->setId_pessoa($id_funcionario);
+        //$beneficiados->setId_Beneficiados($id_beneficiados);
+        $beneficiados->setId_beneficios($descricao_beneficios);
         $beneficiados->setData_inicio($data_inicio);
         $beneficiados->setData_fim($data_fim);
         $beneficiados->setBeneficios_status($beneficios_status);

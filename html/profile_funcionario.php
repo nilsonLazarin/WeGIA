@@ -207,6 +207,8 @@
               $("#beneficio").prop('disabled', false);
               $("#beneficios").prop('disabled', false);
               $("#beneficios_status").prop('disabled', false);
+              $("#inicio").prop('disabled', false);
+              $("#data_fim").prop('disabled', false);
 
               $("#botaoEditarBeneficios").html('Cancelar');
               $("#botaoSalvarBeneficios").prop('disabled', false);
@@ -218,6 +220,8 @@
               $("#beneficio").prop('disabled', true);
               $("#beneficios").prop('disabled', true);
               $("#beneficios_status").prop('disabled', true);
+              $("#inicio").prop('disabled', true);
+              $("#data_fim").prop('disabled', true);
          
               $("#botaoEditarBeneficios").html('Editar');
               $("#botaoSalvarBeneficios").prop('disabled', true);
@@ -400,10 +404,12 @@
          
          
                 //Beneficios
-                $("#beneficios").val(item.beneficios).prop('disabled', true);
-             
+                $("#beneficios").val(item.descricao_beneficios).prop('disabled', true);
                 $("#beneficios_status").val(item.beneficios_status).prop('disabled', true);
-           
+                $("#inicio").val(item.data_inicio).prop('disabled', true);
+                $("#data_fim").val(item.data_fim).prop('disabled', true);
+                
+                //Outros
                 $("#pis").val(item.pis).prop('disabled', true);
                 $("#ctps").val(item.ctps).prop('disabled', true);
                 $("#uf_ctps").val(item.uf_ctps).prop('disabled', true);
@@ -992,21 +998,23 @@
                           <form class="form-horizontal" method="post" action="../controle/control.php">
                             <input type="hidden" name="nomeClasse" value="FuncionarioControle">
                             <input type="hidden" name="metodo" value="alterarBeneficiados">
-                            <div id="beneficio" class="tab-pane"><!--  -->
+                            <hr class="dotted short">
+                            <h4 class="mb-xlg">Benefícios</h4>
+                            <div id="beneficio" class="tab-pane">
                               <div class="form-group">
                                   <label class="col-md-3 control-label" for="inputSuccess">Benefícios</label>
                                   <a onclick="adicionar_beneficios()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
                                   <div class="col-md-6">
-                                     <select class="form-control input-lg mb-md" name="beneficios" id="beneficios">
+                                     <select class="form-control input-lg mb-md" name="descricao_beneficios" id="beneficios">
                                         <option selected disabled>Selecionar</option>
                                         <?php 
-                                           while($row = $beneficios->fetch_array(MYSQLI_NUM))
-                                           {
-                                            echo "<option value=".$row[1].">".$row[1]."</option>";
-                                           }                            ?>
+                                        while($row = $beneficios->fetch_array(MYSQLI_NUM)){
+                                          echo "<option value=".$row[1].">".$row[1]."</option>";
+                                        }?>
                                      </select>
                                   </div>
                                </div>
+
                                <div class="form-group">
                                   <label class="col-md-3 control-label" for="inputSuccess">Benefícios Status</label>
                                   <div class="col-md-6">
@@ -1017,13 +1025,26 @@
                                      </select>
                                   </div>
                                </div>
+                              <div class="form-group">
+                                <label class="col-md-3 control-label" for="profileCompany">Data Início</label>
+                                <div class="col-md-8">
+                                  <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data_inicio" id="inicio" max=<?php echo date('Y-m-d'); ?> >
+                                </div>
+                              </div>
+                              <div class="form-group">
+                                <label class="col-md-3 control-label" for="profileCompany">Data Fim</label>
+                                <div class="col-md-8">
+                                  <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data_fim" id="data_fim" max=<?php echo date('Y-m-d'); ?> >
+                                </div>
+                              </div>
+
                             </div>
+                            <br>
                             <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?> >
                             <button type="button" class="btn btn-primary" id="botaoEditarBeneficios" onclick="return editar_beneficios()">Editar</button>
                             <input type="submit" class="btn btn-primary" disabled="true"  value="Salvar" id="botaoSalvarBeneficios" disabled="true">
                           </form>
 
-                          
                           <hr class="dotted short">
                           <form class="form-horizontal" method="post" action="../controle/control.php">
                             <input type="hidden" name="nomeClasse" value="FuncionarioControle">

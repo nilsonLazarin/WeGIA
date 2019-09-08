@@ -508,8 +508,8 @@ CREATE TABLE `beneficiados`(
   `id_beneficiados` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `id_pessoa` int NOT NULL,
   `id_beneficios` int NOT NULL,
-  `data_inicio` datetime,
-  `data_fim` datetime,
+  `data_inicio` date,
+  `data_fim` date,
   `beneficios_status` varchar(100),
   FOREIGN KEY (`id_beneficios`) REFERENCES `beneficios` (`id_beneficios`),
   FOREIGN KEY (`id_pessoa`) REFERENCES `pessoa` (`id_pessoa`)
