@@ -92,18 +92,6 @@ class FuncionarioControle
         return $retorno;
     }
 
-    public function verificarEpi(){
-        extract($_REQUEST);
-        date_default_timezone_set('America/Sao_Paulo');
-        $data = date('Y-m-d H:i');
-
-        if ((!isset($epi_status)) || (empty($epi_status))) {
-            $epi_status = 'null';
-        }
-
-        return $epi;
-    }
-
     public function verificarHorario(){
         extract($_REQUEST);
         if((!isset($escala)) || (empty($escala))){
@@ -357,8 +345,9 @@ class FuncionarioControle
         extract($_REQUEST);
         
         if((!isset($ibeneficios)) || (empty($ibeneficios))){
-            $msg .= "Descricao_beneficios do funcionario não informado. Por favor, informe um descricao_beneficios!";
-            header('Location: ../html/funcionario.html?msg='.$msg);
+            $ibeneficios = 0;
+            //$msg .= "Descricao do beneficio não informado. Por favor, informe uma descricao!";
+            //header('Location: ../html/funcionario.html?msg='.$msg);
         }
         if((!isset($data_inicio)) || (empty($data_inicio))){
             $data_inicio = '';
@@ -369,7 +358,7 @@ class FuncionarioControle
             $data_fim='';
         }
         if((!isset($beneficios_status)) || (empty($beneficios_status))){
-            $beneficios_status='null';
+            $beneficios_status='';
         }
 
         $beneficiados = new Beneficiados();
@@ -379,6 +368,31 @@ class FuncionarioControle
         $beneficiados->setBeneficios_status($beneficios_status);
 
         return $beneficiados;
+    }
+
+    public function VerificarEpi(){
+        extract($_REQUEST);
+        
+        if((!isset($descricao_epi)) || (empty($descricao_epi))){
+            $descricao_epi = 0;
+            //$msg .= "Descricao da epi não informado. Por favor, informe uma descricao!";
+            //header('Location: ../html/funcionario.html?msg='.$msg);
+        }
+        if((!isset($data)) || (empty($data))){
+            $data = '';
+            //date_default_timezone_set('America/Sao_Paulo');
+            //$data = date('d-m-Y');
+        }
+        if((!isset($epi_status)) || (empty($epi_status))){
+            $epi_status='';
+        }
+
+        $epi = new Pessoa_epi();
+        $epi->setId_epi($descricao_epi);
+        $epi->setData($data);
+        $epi->setepi_status($epi_status);
+
+        return $epi;
     }
 
     public function verificarSenha(){
@@ -433,21 +447,22 @@ class FuncionarioControle
         $funcionario = $this->verificarFuncionario();
         $horario = $this->verificarHorario();
         $beneficiados = $this->verificarBeneficiados();
+        $epi = $this->verificarEpi();
         //$epi = $this->verificarEpi();
         $funcionarioDAO = new FuncionarioDAO();
         $horarioDAO = new QuadroHorarioDAO();
         $beneficiadosDAO = new BeneficiadosDAO();
-        //$pessoa_epiDAO = new Pessoa_epiDAO();
+        $epiDAO = new Pessoa_epiDAO();
         
         try{
             $funcionarioDAO->incluir($funcionario);
             $horarioDAO->incluir($horario);
             $beneficiadosDAO->incluir($beneficiados);
+            $epiDAO->incluir($epi);
             $_SESSION['msg']="Funcionario cadastrado com sucesso";
             $_SESSION['proxima']="Cadastrar outro funcionario";
             $_SESSION['link']="../html/cadastro_funcionario.php";
             header("Location: ../html/sucesso.php");
-            
 
         } catch (PDOException $e){
             $msg= "Não foi possível registrar o funcion�rio"."<br>".$e->getMessage();
@@ -471,15 +486,15 @@ class FuncionarioControle
             $msg= "Não foi possível registrar o beneficio"."<br>".$e->getMessage();
             echo $msg;
         }
-        
+
         try{
-            $Pessoa_epiDAO->incluir($epi);
-            header("Location: ../html/sucesso.php");
+            $episDAO->incluir($epis);
+            
         } catch (PDOException $e){
             $msg= "Não foi possível registrar o epi"."<br>".$e->getMessage();
             echo $msg;
-        }*/
-        
+        }
+        */
     }
 
     public function alterarInfPessoal()
@@ -565,7 +580,7 @@ class FuncionarioControle
 
     public function alterarBeneficiados(){
         extract($_REQUEST);
-        $beneficiados = new Beneficiados('','','','','','','','','','','','','','','','','','','','','');
+        $beneficiados = new Beneficiados();
         $beneficiados->setId_pessoa($id_funcionario);
         //$beneficiados->setId_Beneficiados($id_beneficiados);
         $beneficiados->setId_beneficios($descricao_beneficios);
@@ -575,7 +590,23 @@ class FuncionarioControle
         $beneficiadosDAO = new BeneficiadosDAO();
         try {
             $beneficiadosDAO->alterarBeneficiados($beneficiados);
-            header("Location: ../html/profile_funcionario.php?id_funcionario=".$id_funcionario."&id_pessoa=".$id_pessoa);
+            header("Location: ../html/profile_funcionario.php?id_funcionario=".$id_funcionario);
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    public function alterarEpi(){
+        extract($_REQUEST);
+        $epi = new Pessoa_epi();
+        $epi->setId_pessoa($id_funcionario);
+        $epi->setId_epi($descricao_epi);
+        $epi->setData($data);
+        $epi->setepi_status($epi_status);
+        $epiDAO = new Pessoa_epiDAO();
+        try {
+            $epiDAO->alterarEpi($epi);
+            header("Location: ../html/profile_funcionario.php?id_funcionario=".$id_funcionario);
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -630,10 +661,10 @@ class FuncionarioControle
     public function alterarDocumentacao()
     {
         extract($_REQUEST);
-        $cpfForm=str_replace(".", '', $cpfForm);
-        $cpfForm=str_replace("-", "", $cpfForm);
+        $cpf=str_replace(".", '', $cpf);
+        $cpf=str_replace("-", "", $cpf);
 
-        $funcionario = new Funcionario($cpfForm,'','','',$rg,$orgao_emissor,$data_expedicao,'','','','','','','','','','','','','','');
+        $funcionario = new Funcionario($cpf,'','','',$rg,$orgao_emissor,$data_expedicao,'','','','','','','','','','','','','','');
             
             $funcionario->setData_admissao($data_admissao);
             $funcionario->setId_funcionario($id_funcionario);

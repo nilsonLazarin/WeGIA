@@ -13,21 +13,15 @@ class BeneficiadosDAO
           $pdo = Conexao::connect();
           $stmt = $pdo->prepare($sql);
 
-          //$id_beneficiados = $beneficiados->getId_beneficiados();
-          //$id_pessoa = $beneficiados->getId_pessoa();
           $ibeneficios=$beneficiados->getId_beneficios();
           $data_inicio=$beneficiados->getData_inicio();
           $data_fim=$beneficiados->getData_fim();
           $beneficios_status=$beneficiados->getBeneficios_status();
-          //$beneficios_descricao = $beneficiados->getBeneficios_descricao();
 
-          //$stmt->bindParam(':id_beneficiados',$getId_beneficiados);
-          //$stmt->bindParam(':id_pessoa',$getId_pessoa);
           $stmt->bindParam(':id_beneficios',$ibeneficios);  
           $stmt->bindParam(':data_inicio',$data_inicio);                
           $stmt->bindParam(':data_fim',$data_fim);
           $stmt->bindParam(':beneficios_status',$beneficios_status);
-          //$stmt->bindParam(':beneficios_descricao',$beneficios_descricao);
 
           $stmt->execute();
       }catch (PDOExeption $e) {

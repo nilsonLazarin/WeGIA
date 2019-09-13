@@ -1,8 +1,6 @@
 <?php
 
-require_once 'Pessoa.php';
-
-class Pessoa_epi extends Pessoa
+class Pessoa_epi
 {
 	private $id_pessoa_epi;
     private $id_pessoa;

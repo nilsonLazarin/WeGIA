@@ -13,7 +13,7 @@
     $situacao = $mysqli->query("SELECT situacoes FROM situacao");
     $cargo = $mysqli->query("SELECT * FROM cargo");
     $beneficios = $mysqli->query("SELECT * FROM beneficios");
-    $descricao_epi = $mysqli->query("SELECT descricao_epi FROM epi");
+    $descricao_epi = $mysqli->query("SELECT * FROM epi");
    
    ?>
 <!doctype html>
@@ -230,6 +230,33 @@
          
            }
 
+          function editar_epi(){
+         
+            $("#descricao_epi").prop('disabled', false);
+            $("#epi_status").prop('disabled', false);
+            $("#data").prop('disabled', false);
+         
+            $("#botaoEditarEpi").html('Cancelar');
+            $("#botaoSalvarEpi").prop('disabled', false);
+            $("#botaoEditarEpi").removeAttr('onclick');
+            $("#botaoEditarEpi").attr('onclick', "return cancelar_epi()");
+         
+          }
+         
+            function cancelar_epi(){
+              
+              $("#descricao_epi").prop('disabled', true);
+              $("#epi_status").prop('disabled', true);
+              $("#data").prop('disabled', true);
+
+         
+             $("#botaoEditarEpi").html('Editar');
+             $("#botaoSalvarEpi").prop('disabled', true);
+             $("#botaoEditarEpi").removeAttr('onclick');
+             $("#botaoEditarEpi").attr('onclick', "return editar_epi()");
+         
+           }
+
            function editar_outros()
            {
               $("#pis").prop('disabled', false);
@@ -402,13 +429,18 @@
                   $("#cesta_basicaNaoPossui").prop('checked',true).prop('disabled', true);
                 }*/
          
-         
+                
                 //Beneficios
-                $("#beneficios").val(item.descricao_beneficios).prop('disabled', true);
+                $("#beneficios").val(item.id_beneficios).prop('disabled', true);
                 $("#beneficios_status").val(item.beneficios_status).prop('disabled', true);
                 $("#inicio").val(item.data_inicio).prop('disabled', true);
                 $("#data_fim").val(item.data_fim).prop('disabled', true);
                 
+                //EPI
+                $("#descricao_epi").val(item.id_epi).prop('disabled', true);
+                $("#epi_status").val(item.epi_status).prop('disabled', true);
+                $("#data").val(item.data).prop('disabled', true);
+
                 //Outros
                 $("#pis").val(item.pis).prop('disabled', true);
                 $("#ctps").val(item.ctps).prop('disabled', true);
@@ -760,6 +792,44 @@
             dataType: 'text'
           })
         }
+
+        function gerarEpi(){
+        data = '';
+        url = '../dao/exibir_epi.php';
+        $.ajax({
+        type: "POST",
+        url: url,
+        data: data,
+        success: function(response){
+          var descricao_epi = response.split(",");
+
+          document.getElementById('descricao_epi').innerHTML = ''; //limpar
+          for(var i=0; i<descricao_epi.length-1; i++)
+            document.getElementById('descricao_epi').innerHTML += 
+                '<option>' +descricao_epi[i] +'</option>';
+          },
+          dataType: 'text'
+        });
+      }
+
+      function adicionar_epi(){
+        url = '../dao/adicionar_epi.php';
+        var descricao_epi = window.prompt("Cadastre uma Nova Epi:");
+        if(!descricao_epi){return}
+        situacao = descricao_epi.trim();
+        if(descricao_epi == ''){return}  
+          data = 'descricao_epi=' +descricao_epi; 
+          console.log(data);
+          $.ajax({
+          type: "POST",
+          url: url,
+          data: data,
+          success: function(response){
+            gerarEpi();
+          },
+          dataType: 'text'
+        })
+      }
       </script>
    </head>
    <body>
@@ -857,6 +927,9 @@
                       <ul class="nav nav-tabs tabs-primary">
                          <li class="active">
                             <a href="#overview" data-toggle="tab">Visão Geral</a>
+                         </li>
+                         <li>
+                            <a href="#beneficio_epi" data-toggle="tab">Benefício & EPI</a>
                          </li>
                          <li>
                             <a href="#carga_horaria" data-toggle="tab">Carga Horária</a>
@@ -994,57 +1067,55 @@
                             <button type="button" class="btn btn-primary" id="botaoEditarEndereco" onclick="return editar_endereco()">Editar</button>
                             <input type="submit" class="btn btn-primary" disabled="true"  value="Salvar" id="botaoSalvarEndereco" disabled="true">
                           </form>
-                          <!--Beneficios-->
+
+                          <!--Documentação-->
+                          <hr class="dotted short">
                           <form class="form-horizontal" method="post" action="../controle/control.php">
                             <input type="hidden" name="nomeClasse" value="FuncionarioControle">
-                            <input type="hidden" name="metodo" value="alterarBeneficiados">
-                            <hr class="dotted short">
-                            <h4 class="mb-xlg">Benefícios</h4>
-                            <div id="beneficio" class="tab-pane">
-                              <div class="form-group">
-                                  <label class="col-md-3 control-label" for="inputSuccess">Benefícios</label>
-                                  <a onclick="adicionar_beneficios()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
-                                  <div class="col-md-6">
-                                     <select class="form-control input-lg mb-md" name="descricao_beneficios" id="beneficios">
-                                        <option selected disabled>Selecionar</option>
-                                        <?php 
-                                        while($row = $beneficios->fetch_array(MYSQLI_NUM)){
-                                          echo "<option value=".$row[1].">".$row[1]."</option>";
-                                        }?>
-                                     </select>
-                                  </div>
-                               </div>
-
-                               <div class="form-group">
-                                  <label class="col-md-3 control-label" for="inputSuccess">Benefícios Status</label>
-                                  <div class="col-md-6">
-                                     <select class="form-control input-lg mb-md" name="beneficios_status" id="beneficios_status">
-                                        <option selected disabled>Selecionar</option>
-                                        <option value="Ativo">Ativo</option>
-                                        <option value="Inativo">Inativo</option>
-                                     </select>
-                                  </div>
-                               </div>
-                              <div class="form-group">
-                                <label class="col-md-3 control-label" for="profileCompany">Data Início</label>
-                                <div class="col-md-8">
-                                  <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data_inicio" id="inicio" max=<?php echo date('Y-m-d'); ?> >
-                                </div>
+                            <input type="hidden" name="metodo" value="alterarDocumentacao">
+                            <h4 class="mb-xlg doch4">Documentação</h4>
+                            <div class="form-group">
+                              <label class="col-md-3 control-label" for="profileCompany">Número do RG</label>
+                              <div class="col-md-6">
+                                <input type="text" class="form-control" name="rg" id="rg" onkeypress="return Onlynumbers(event)" placeholder="Ex: 22.222.222-2" onkeyup="mascara('##.###.###-#',this,event)" >
                               </div>
-                              <div class="form-group">
-                                <label class="col-md-3 control-label" for="profileCompany">Data Fim</label>
-                                <div class="col-md-8">
-                                  <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data_fim" id="data_fim" max=<?php echo date('Y-m-d'); ?> >
-                                </div>
-                              </div>
-
                             </div>
-                            <br>
+                            <div class="form-group">
+                              <label class="col-md-3 control-label" for="profileCompany">Órgão Emissor</label>
+                              <div class="col-md-6">
+                                <input type="text" class="form-control" name="orgao_emissor" id="orgao_emissor" onkeypress="return Onlychars(event)" >
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label class="col-md-3 control-label" for="profileCompany">Data de expedição</label>
+                              <div class="col-md-6">
+                                <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" name="data_expedicao" id="data_expedicao" max=<?php echo date('Y-m-d'); ?> >
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label class="col-md-3 control-label" for="profileCompany">Número do CPF</label>
+                              <div class="col-md-6">
+                                <input type="text" class="form-control" id="cpf" name="cpf" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##',this,event)" >
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label class="col-md-3 control-label" for="profileCompany"></label>
+                              <div class="col-md-6">
+                                <p id="cpfInvalido" style="display: none; color: #b30000">CPF INVÁLIDO!</p>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label class="col-md-3 control-label" for="profileCompany">Data de Admissão</label>
+                              <div class="col-md-8">
+                                <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data_admissao" id="data_admissao" max=<?php echo date('Y-m-d'); ?>  >
+                              </div>
+                            </div>
+                            <br/>
                             <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?> >
-                            <button type="button" class="btn btn-primary" id="botaoEditarBeneficios" onclick="return editar_beneficios()">Editar</button>
-                            <input type="submit" class="btn btn-primary" disabled="true"  value="Salvar" id="botaoSalvarBeneficios" disabled="true">
+                            <button type="button" class="btn btn-primary" id="botaoEditarDocumentacao" onclick="return editar_documentacao()">Editar</button>
+                            <input type="submit" class="btn btn-primary" disabled="true"  value="Salvar" id="botaoSalvarDocumentacao" disabled="true">
                           </form>
-
+                          <!--Outros-->
                           <hr class="dotted short">
                           <form class="form-horizontal" method="post" action="../controle/control.php">
                             <input type="hidden" name="nomeClasse" value="FuncionarioControle">
@@ -1156,6 +1227,105 @@
                               </div>
                             </div>
                           </div>  
+                        </div>
+
+                        <div id="beneficio_epi" class="tab-pane">
+                          <!--Beneficios-->
+                          <form class="form-horizontal" method="post" action="../controle/control.php">
+                            <input type="hidden" name="nomeClasse" value="FuncionarioControle">
+                            <input type="hidden" name="metodo" value="alterarBeneficiados">
+                            <hr class="dotted short">
+                            <h4 class="mb-xlg">Benefícios</h4>
+                            <div id="beneficio" class="tab-pane">
+                              <div class="form-group">
+                                  <label class="col-md-3 control-label" for="inputSuccess">Benefícios</label>
+                                  <a onclick="adicionar_beneficios()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
+                                  <div class="col-md-6">
+                                     <select class="form-control input-lg mb-md" name="descricao_beneficios" id="beneficios">
+                                        <option selected disabled>Selecionar</option>
+                                        <?php 
+                                        while($row = $beneficios->fetch_array(MYSQLI_NUM)){
+                                          echo "<option value=".$row[0].">".$row[1]."</option>";
+                                        }?>
+                                     </select>
+                                  </div>
+                               </div>
+
+                               <div class="form-group">
+                                  <label class="col-md-3 control-label" for="inputSuccess">Benefícios Status</label>
+                                  <div class="col-md-6">
+                                     <select class="form-control input-lg mb-md" name="beneficios_status" id="beneficios_status">
+                                        <option selected disabled>Selecionar</option>
+                                        <option value="Ativo">Ativo</option>
+                                        <option value="Inativo">Inativo</option>
+                                     </select>
+                                  </div>
+                               </div>
+                              <div class="form-group">
+                                <label class="col-md-3 control-label" for="profileCompany">Data Início</label>
+                                <div class="col-md-8">
+                                  <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data_inicio" id="inicio" max=<?php echo date('Y-m-d'); ?> >
+                                </div>
+                              </div>
+                              <div class="form-group">
+                                <label class="col-md-3 control-label" for="profileCompany">Data Fim</label>
+                                <div class="col-md-8">
+                                  <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data_fim" id="data_fim" max=<?php echo date('Y-m-d'); ?> >
+                                </div>
+                              </div>
+
+                            </div>
+                            <br>
+                            <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?> >
+                            <button type="button" class="btn btn-primary" id="botaoEditarBeneficios" onclick="return editar_beneficios()">Editar</button>
+                            <input type="submit" class="btn btn-primary" disabled="true"  value="Salvar" id="botaoSalvarBeneficios" disabled="true">
+                          </form>
+
+                          <!-- EPI -->
+                          <form class="form-horizontal" method="POST" action="../controle/control.php">
+                            <input type="hidden" name="nomeClasse" value="FuncionarioControle">
+                            <input type="hidden" name="metodo" value="alterarEpi">
+                            <hr class="dotted short">
+                            <h4 class="mb-xlg">EPI</h4>
+                            <div id="epi" class="tab-pane">
+                              <div class="form-group">
+                                  <label class="col-md-3 control-label" for="inputSuccess">EPI</label>
+                                  <a onclick="adicionar_epi()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
+                                  <div class="col-md-6">
+                                     <select class="form-control input-lg mb-md" name="descricao_epi" id="descricao_epi">
+                                        <option selected disabled>Selecionar</option>
+                                        <?php 
+                                        while($row = $descricao_epi->fetch_array(MYSQLI_NUM)){
+                                          echo "<option value=".$row[0].">".$row[1]."</option>";
+                                        }?>
+                                     </select>
+                                  </div>
+                               </div>
+
+                              <div class="form-group">
+                                <label class="col-md-3 control-label" for="inputSuccess">EPI Status</label>
+                                <div class="col-md-6">
+                                  <select class="form-control input-lg mb-md" name="epi_status" id="epi_status">
+                                    <option selected disabled>Selecionar</option>
+                                    <option value="Ativo">Ativo</option>
+                                    <option value="Inativo">Inativo</option>
+                                  </select>
+                                </div>
+                              </div>
+                              <div class="form-group">
+                                <label class="col-md-3 control-label" for="profileCompany">Data</label>
+                                <div class="col-md-8">
+                                  <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data" id="data" max=<?php echo date('Y-m-d'); ?> >
+                                </div>
+                              </div>
+
+                            </div>
+                            <br>
+                            <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?> >
+                            <button type="button" class="btn btn-primary" id="botaoEditarEpi" onclick="return editar_epi()">Editar</button>
+                            <input type="submit" class="btn btn-primary" disabled="true"  value="Salvar" id="botaoSalvarEpi" disabled="true">
+                          </form>
+
                         </div>
 
                         <div id="carga_horaria" class="tab-pane">

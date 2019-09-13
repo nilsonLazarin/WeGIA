@@ -12,7 +12,7 @@
       $situacao = $mysqli->query("SELECT situacoes FROM situacao");
       $cargo = $mysqli->query("SELECT * FROM cargo");
       $beneficios = $mysqli->query("SELECT * FROM beneficios");
-      $descricao_epi = $mysqli->query("SELECT descricao_epi FROM epi");
+      $descricao_epi = $mysqli->query("SELECT * FROM epi");
    
    ?>
 <!DOCTYPE html>
@@ -235,10 +235,10 @@
                             </div>
                          </div>
                          <div class="form-group">
-                            <label class="col-md-3 control-label" for="inputSuccess">Beneficios</label>
+                            <label class="col-md-3 control-label" for="inputSuccess">Beneficios<sup class="obrig">*</sup></label>
                             <a onclick="adicionar_beneficios()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
                             <div class="col-md-6">
-                               <select class="form-control input-lg mb-md" name="ibeneficios" id="beneficios" required>
+                               <select class="form-control input-lg mb-md" name="ibeneficios" id="beneficios">
                                   <option selected disabled>Selecionar</option>
                                   <?php 
                                     while($row = $beneficios->fetch_array(MYSQLI_NUM))
@@ -265,6 +265,37 @@
                              <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data_inicio" id="data_inicio" max=<?php echo date('Y-m-d'); ?>>
                           </div>
                        </div>
+                       <div class="form-group">
+                          <label class="col-md-3 control-label" for="inputSuccess">EPI<sup class="obrig">*</sup></label>
+                          <a onclick="adicionar_epi()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
+                          <div class="col-md-6">
+                            <select class="form-control input-lg mb-md" name="descricao_epi" id="descricao_epi">
+                                <option selected disabled>Selecionar</option>
+                                <?php 
+                                   while($row = $descricao_epi->fetch_array(MYSQLI_NUM))
+                                   {
+                                    echo "<option value=".$row[0].">".$row[1]."</option>";
+                                   }                            ?>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="inputSuccess">Epi Status</label>
+                            <div class="col-md-6">
+                               <select class="form-control input-lg mb-md" name="epi_status" id="epi_status">
+                                  <option selected disabled>Selecionar</option>
+                                  <option value="Ativo">Ativo</option>
+                                  <option value="Inativo">Inativo</option>
+                               </select>
+                            </div>
+                         </div>
+                         <div class="form-group">
+                          <label class="col-md-3 control-label" for="profileCompany">Data</label>
+                          <div class="col-md-8">
+                             <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data" id="data" max=<?php echo date('Y-m-d'); ?>>
+                          </div>
+                       </div>
+                       <br>
                       </div>
                         <!--div id="endereco" class="tab-pane">
                         
@@ -448,32 +479,6 @@
                           </div>
                         </div>
                        
-                      </div>
-                      <div id="beneficio" class="tab-pane">
-                        <div class="form-group">
-                            <label class="col-md-3 control-label" for="inputSuccess">Benefícios</label>
-                            <a onclick="adicionar_beneficios()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
-                            <div class="col-md-6">
-                               <select class="form-control input-lg mb-md" name="beneficios" id="beneficios">
-                                  <option selected disabled>Selecionar</option>
-                                  <?php 
-                                     while($row = $beneficios->fetch_array(MYSQLI_NUM))
-                                     {
-                                      echo "<option value=".$row[0].">".$row[0]."</option>";
-                                     }                            ?>
-                               </select>
-                            </div>
-                         </div>
-                         <div class="form-group">
-                            <label class="col-md-3 control-label" for="inputSuccess">Benefícios Status</label>
-                            <div class="col-md-6">
-                               <select class="form-control input-lg mb-md" name="beneficios_status" id="beneficios_status">
-                                  <option selected disabled>Selecionar</option>
-                                  <option value="Ativo">Ativo</option>
-                                  <option value="Inativo">Inativo</option>
-                               </select>
-                            </div>
-                         </div>
                       </div>
 
                       <div id="epi" class="tab-pane">
@@ -824,7 +829,8 @@
           dataType: 'text'
         })
       }
-      function gerarDescricao_epi(){
+
+      function gerarEpi(){
         data = '';
         url = '../dao/exibir_epi.php';
         $.ajax({
@@ -843,12 +849,12 @@
         });
       }
 
-      function adicionar_descricao_epi(){
+      function adicionar_epi(){
         url = '../dao/adicionar_epi.php';
-        var descricao_epi = window.prompt("Cadastre uma Nova epi:");
+        var descricao_epi = window.prompt("Cadastre uma Nova Epi:");
         if(!descricao_epi){return}
         situacao = descricao_epi.trim();
-        if(descricao_epi == ''){return}    
+        if(descricao_epi == ''){return}  
           data = 'descricao_epi=' +descricao_epi; 
           console.log(data);
           $.ajax({
@@ -856,7 +862,7 @@
           url: url,
           data: data,
           success: function(response){
-            gerarDescricao_epi();
+            gerarEpi();
           },
           dataType: 'text'
         })
