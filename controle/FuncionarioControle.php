@@ -214,22 +214,26 @@ class FuncionarioControle
     public function verificarFuncionario(){
         extract($_REQUEST);
         if((!isset($nome)) || (empty($nome))){
-            $msg = "Nome do funcionario não informado. Por favor, informe um nome!";
+            $msg = "Nome do funcionario nÃ£o informado. Por favor, informe um nome!";
+            header('Location: ../html/funcionario.html?msg='.$msg);
+        }
+        if((!isset($sobrenome)) || (empty($sobrenome))){
+            $msg = "Sobrenome do funcionario nÃ£o informado. Por favor, informe um sobrenome!";
             header('Location: ../html/funcionario.html?msg='.$msg);
         }
         if((!isset($gender)) || (empty($gender))){
-            $msg .= "Sexo do funcionario não informado. Por favor, informe um sexo!";
+            $msg .= "Sexo do funcionario nÃ£o informado. Por favor, informe um sexo!";
             header('Location: ../html/funcionario.html?msg='.$msg);
         }
         if((!isset($cargo)) || (empty($cargo))){
-            $msg .= "Cargo do funcionario não informado. Por favor, informe um cargo!";
+            $msg .= "Cargo do funcionario nÃ£o informado. Por favor, informe um cargo!";
             header('Location: ../html/funcionario.html?msg='.$msg);
         }
         if((!isset($telefone)) || (empty($telefone))){
             $telefone='null';
         }
         if((!isset($nascimento)) || (empty($nascimento))){
-            $msg .= "Data de nascimento do funcionario não informado. Por favor, informe uma data de nascimento!";
+            $msg .= "Data de nascimento do funcionario nÃ£o informado. Por favor, informe uma data de nascimento!";
             header('Location: ../html/funcionario.html?msg='.$msg);
         }
         if((!isset($nome_pai)) || (empty($nome_pai))){
@@ -266,19 +270,19 @@ class FuncionarioControle
             $ibge='';
         }
         if((!isset($rg)) || empty(($rg))){
-            $msg .= "RG do funcionario não informado. Por favor, informe um rg!";
+            $msg .= "RG do funcionario nÃ£o informado. Por favor, informe um rg!";
             header('Location: ../html/funcionario.html?msg='.$msg);
         }
         if((!isset($orgao_emissor)) || empty(($orgao_emissor))){
-            $msg .= "�rg�o emissor do funcionario não informado. Por favor, informe o �rg�o emissor!";
+            $msg .= "Órgão emissor do funcionario nÃ£o informado. Por favor, informe o órgão emissor!";
             header('Location: ../html/funcionario.html?msg='.$msg);
         }
         if((!isset($data_expedicao)) || (empty($data_expedicao))){
-            $msg .= "Data de expedição do rg do funcionario não informado. Por favor, informe um data de expedição!";
+            $msg .= "Data de expediÃ§Ã£o do rg do funcionario nÃ£o informado. Por favor, informe um data de expediÃ§Ã£o!";
             header('Location: ../html/funcionario.html?msg='.$msg);
         }
         if((!isset($cpf)) || (empty($cpf))){
-            $msg .= "CPF do funcionario não informado. Por favor, informe um CPF!";
+            $msg .= "CPF do funcionario nÃ£o informado. Por favor, informe um CPF!";
             header('Location: ../html/funcionario.html?msg='.$msg);
         }
         if((!isset($pis)) || (empty($pis))){
@@ -301,11 +305,11 @@ class FuncionarioControle
         }
         
         if((!isset($data_admissao)) || (empty($data_admissao))){
-            $msg .= "Data de Admissao do funcionario não informada. Por favor, informe a data de admissao!";
+            $msg .= "Data de Admissao do funcionario nÃ£o informada. Por favor, informe a data de admissao!";
             header('Location: ../html/funcionario.html?msg='.$msg);
         }
         if((!isset($situacao)) || (empty($situacao))){
-            $msg .= "Situa��o do funcionario não informada. Por favor, informe a situa��o!";
+            $msg .= "Situação do funcionario nÃ£o informada. Por favor, informe a situação!";
             header('Location: ../html/funcionario.html?msg='.$msg);
         }
         
@@ -325,7 +329,7 @@ class FuncionarioControle
         $cpf=str_replace(".", '', $cpf);
         $cpf=str_replace("-", "", $cpf);
         $senha=$this->geraChave(8);
-        $funcionario = new Funcionario($cpf,$nome,$gender,$nascimento,$rg,$orgao_emissor,$data_expedicao,$nome_mae,$nome_pai,$sangue,$senha,$telefone,$imgperfil,$cep,$uf,$cidade,$bairro,$rua,$numero_residencia,$complemento,$ibge);
+        $funcionario = new Funcionario($cpf,$nome,$sobrenome,$gender,$nascimento,$rg,$orgao_emissor,$data_expedicao,$nome_mae,$nome_pai,$sangue,$senha,$telefone,$imgperfil,$cep,$uf,$cidade,$bairro,$rua,$numero_residencia,$complemento,$ibge);
         $funcionario->setData_admissao($data_admissao);
         $funcionario->setPis($pis);
         $funcionario->setCtps($ctps);
@@ -335,8 +339,8 @@ class FuncionarioControle
         $funcionario->setSecao($secao_titulo_eleitor);
         $funcionario->setCertificado_reservista_numero($certificado_reservista_numero);
         $funcionario->setCertificado_reservista_serie($certificado_reservista_serie);
-        $funcionario->setSituacao($situacao);
-        $funcionario->setCargo($cargo);
+        $funcionario->setId_situacao($situacao);
+        $funcionario->setId_cargo($cargo);
         
         return $funcionario;
     }
@@ -345,8 +349,8 @@ class FuncionarioControle
         extract($_REQUEST);
         
         if((!isset($ibeneficios)) || (empty($ibeneficios))){
-            $ibeneficios = 0;
-            //$msg .= "Descricao do beneficio não informado. Por favor, informe uma descricao!";
+            $ibeneficios = '0';
+            //$msg .= "Descricao do beneficio nÃ£o informado. Por favor, informe uma descricao!";
             //header('Location: ../html/funcionario.html?msg='.$msg);
         }
         if((!isset($data_inicio)) || (empty($data_inicio))){
@@ -360,22 +364,26 @@ class FuncionarioControle
         if((!isset($beneficios_status)) || (empty($beneficios_status))){
             $beneficios_status='';
         }
+        if((!isset($valor)) || (empty($valor))){
+            $valor='0000';
+        }
 
         $beneficiados = new Beneficiados();
         $beneficiados->setId_beneficios($ibeneficios);
         $beneficiados->setData_inicio($data_inicio);
         $beneficiados->setData_fim($data_fim);
         $beneficiados->setBeneficios_status($beneficios_status);
+        $beneficiados->setValor($valor);
 
         return $beneficiados;
     }
 
-    public function VerificarEpi(){
+    public function verificarEpi(){
         extract($_REQUEST);
         
         if((!isset($descricao_epi)) || (empty($descricao_epi))){
-            $descricao_epi = 0;
-            //$msg .= "Descricao da epi não informado. Por favor, informe uma descricao!";
+            $descricao_epi = '0';
+            //$msg .= "Descricao da epi nÃ£o informado. Por favor, informe uma descricao!";
             //header('Location: ../html/funcionario.html?msg='.$msg);
         }
         if((!isset($data)) || (empty($data))){
@@ -390,7 +398,7 @@ class FuncionarioControle
         $epi = new Pessoa_epi();
         $epi->setId_epi($descricao_epi);
         $epi->setData($data);
-        $epi->setepi_status($epi_status);
+        $epi->setEpi_status($epi_status);
 
         return $epi;
     }
@@ -446,34 +454,95 @@ class FuncionarioControle
     public function incluir(){
         $funcionario = $this->verificarFuncionario();
         $horario = $this->verificarHorario();
-        $beneficiados = $this->verificarBeneficiados();
-        $epi = $this->verificarEpi();
+        //$beneficiados = $this->verificarBeneficiados();
         //$epi = $this->verificarEpi();
         $funcionarioDAO = new FuncionarioDAO();
         $horarioDAO = new QuadroHorarioDAO();
-        $beneficiadosDAO = new BeneficiadosDAO();
-        $epiDAO = new Pessoa_epiDAO();
+        //$beneficiadosDAO = new BeneficiadosDAO();
+        //$epiDAO = new Pessoa_epiDAO();
         
         try{
             $funcionarioDAO->incluir($funcionario);
             $horarioDAO->incluir($horario);
-            $beneficiadosDAO->incluir($beneficiados);
-            $epiDAO->incluir($epi);
+            //$beneficiadosDAO->incluir($beneficiados);
+            //$epiDAO->incluir($epi);
             $_SESSION['msg']="Funcionario cadastrado com sucesso";
             $_SESSION['proxima']="Cadastrar outro funcionario";
             $_SESSION['link']="../html/cadastro_funcionario.php";
-            header("Location: ../html/sucesso.php");
+            header("Location: ../html/cadastro_beneficio.php");
 
         } catch (PDOException $e){
-            $msg= "Não foi possível registrar o funcion�rio"."<br>".$e->getMessage();
+            $msg= "NÃ£o foi possÃ­vel registrar o funcionário"."<br>".$e->getMessage();
             echo $msg;
         }
-        
+    }
+
+        public function incluirBeneficio(){
+            $beneficiados = $this->verificarBeneficiados();
+            $beneficiadosDAO = new BeneficiadosDAO();
+            
+            try{
+                $beneficiadosDAO->incluir($beneficiados);
+                $_SESSION['msg']="Funcionario cadastrado com sucesso";
+                $_SESSION['proxima']="Cadastrar outro funcionario";
+                $_SESSION['link']="../html/cadastro_funcionario.php";
+                header("Location: ../html/cadastro_beneficio.php");
+
+            } catch (PDOException $e){
+                $msg= "NÃ£o foi possÃ­vel registrar o funcionário"."<br>".$e->getMessage();
+                echo $msg;
+            }
+        }
+
+        public function incluirBeneficio1(){
+            $beneficiados = $this->verificarBeneficiados();
+            $beneficiadosDAO = new BeneficiadosDAO();
+            
+            try{
+                $beneficiadosDAO->incluir($beneficiados);
+
+                header("Location: ../html/informacao_funcionario.php");
+
+            } catch (PDOException $e){
+                $msg= "NÃ£o foi possÃ­vel registrar o funcionário"."<br>".$e->getMessage();
+                echo $msg;
+            }
+        }
+
+        public function incluirEpi(){
+            $epi = $this->verificarEpi();
+            $epiDAO = new Pessoa_epiDAO();
+            
+            try{
+                $epiDAO->incluir($epi);
+                $_SESSION['msg']="Funcionario cadastrado com sucesso";
+                $_SESSION['proxima']="Cadastrar outro funcionario";
+                $_SESSION['link']="../html/cadastro_funcionario.php";
+                header("Location: ../html/cadastro_epi.php");
+
+            } catch (PDOException $e){
+                $msg= "NÃ£o foi possÃ­vel registrar o funcionário"."<br>".$e->getMessage();
+                echo $msg;
+            }
+        }
+        public function incluirEpi1(){
+            $epi = $this->verificarEpi();
+            $epiDAO = new Pessoa_epiDAO();
+            
+            try{
+                $epiDAO->incluir($epi);
+                header("Location: ../html/informacao_funcionario.php");
+
+            } catch (PDOException $e){
+                $msg= "NÃ£o foi possÃ­vel registrar o funcionário"."<br>".$e->getMessage();
+                echo $msg;
+            }
+        }
         /*try{
             $horarioDAO->incluir($horario);
             //header("Location: ../html/sucesso.php");
         } catch (PDOException $e){
-            $msg= "Não foi possível registrar o horario"."<br>".$e->getMessage();
+            $msg= "NÃ£o foi possÃ­vel registrar o horario"."<br>".$e->getMessage();
             echo $msg;
         }
         try{
@@ -483,7 +552,7 @@ class FuncionarioControle
             $_SESSION['link']="../html/cadastro_funcionario.php";
             header("Location: ../html/sucesso.php");
         } catch (PDOException $e){
-            $msg= "Não foi possível registrar o beneficio"."<br>".$e->getMessage();
+            $msg= "NÃ£o foi possÃ­vel registrar o beneficio"."<br>".$e->getMessage();
             echo $msg;
         }
 
@@ -491,16 +560,15 @@ class FuncionarioControle
             $episDAO->incluir($epis);
             
         } catch (PDOException $e){
-            $msg= "Não foi possível registrar o epi"."<br>".$e->getMessage();
+            $msg= "NÃ£o foi possÃ­vel registrar o epi"."<br>".$e->getMessage();
             echo $msg;
         }
         */
-    }
 
     public function alterarInfPessoal()
     {
         extract($_REQUEST);
-        $funcionario = new Funcionario('',$nome,$gender,$nascimento,'','','',$nome_mae,$nome_pai,$sangue,'',$telefone,'','','','','','','','','');
+        $funcionario = new Funcionario('',$nome,$sobrenome,$gender,$nascimento,'','','',$nome_mae,$nome_pai,$sangue,'',$telefone,'','','','','','','','','');
         $funcionario->setId_funcionario($id_funcionario);
         //echo $funcionario->getId_Funcionario();
         $funcionarioDAO=new FuncionarioDAO();
@@ -583,10 +651,11 @@ class FuncionarioControle
         $beneficiados = new Beneficiados();
         $beneficiados->setId_pessoa($id_funcionario);
         //$beneficiados->setId_Beneficiados($id_beneficiados);
-        $beneficiados->setId_beneficios($descricao_beneficios);
+        $beneficiados->setId_beneficios($ibeneficios);
         $beneficiados->setData_inicio($data_inicio);
         $beneficiados->setData_fim($data_fim);
         $beneficiados->setBeneficios_status($beneficios_status);
+        $beneficiados->setValor($valor);
         $beneficiadosDAO = new BeneficiadosDAO();
         try {
             $beneficiadosDAO->alterarBeneficiados($beneficiados);
@@ -618,10 +687,10 @@ class FuncionarioControle
         $cpf=str_replace(".", '', $cpf);
         $cpf=str_replace("-", "", $cpf);
 
-        $funcionario = new Funcionario('','','','','','','','','','','','','','','','','','','','','');
+        $funcionario = new Funcionario('','','','','','','','','','','','','','','','','','','','','','');
         $funcionario->setId_funcionario($id_funcionario);
         //$funcionario->setVale_transporte($num_vale_transporte);
-        $funcionario->setCargo($cargo);
+        $funcionario->setId_cargo($cargo);
         $funcionario->setPis($pis);
         $funcionario->setCtps($ctps);
         $funcionario->setUf_ctps($uf_ctps);
@@ -630,7 +699,7 @@ class FuncionarioControle
         $funcionario->setSecao($secao_titulo_eleitor);
         $funcionario->setCertificado_reservista_numero($certificado_reservista_numero);
         $funcionario->setCertificado_reservista_serie($certificado_reservista_serie);
-        $funcionario->setSituacao($situacao);
+        $funcionario->setId_situacao($situacao);
         $funcionarioDAO=new FuncionarioDAO();
         try {
             $funcionarioDAO->alterarOutros($funcionario);
@@ -646,7 +715,7 @@ class FuncionarioControle
         extract($_REQUEST);
         $image = file_get_contents ($_FILES['imgperfil']['tmp_name']);
         $perfil = base64_encode($image);
-        $funcionario = new Funcionario('','','','','','','','','','','','',$perfil,'','','','','','','','');
+        $funcionario = new Funcionario('','','','','','','','','','','','','',$perfil,'','','','','','','','');
         $funcionario->setId_funcionario($id_funcionario);
         $funcionarioDAO=new FuncionarioDAO();
         try {
@@ -664,7 +733,7 @@ class FuncionarioControle
         $cpf=str_replace(".", '', $cpf);
         $cpf=str_replace("-", "", $cpf);
 
-        $funcionario = new Funcionario($cpf,'','','',$rg,$orgao_emissor,$data_expedicao,'','','','','','','','','','','','','','');
+        $funcionario = new Funcionario($cpf,'','','','',$rg,$orgao_emissor,$data_expedicao,'','','','','','','','','','','','','','');
             
             $funcionario->setData_admissao($data_admissao);
             $funcionario->setId_funcionario($id_funcionario);
@@ -685,7 +754,7 @@ class FuncionarioControle
         if((!isset($numero_residencia)) || empty(($numero_residencia))){
             $numero_residencia = "null";
         }
-        $funcionario = new Funcionario('','','','','','','','','','','','','',$cep,$uf,$cidade,$bairro,$rua,$numero_residencia,$complemento,$ibge);
+        $funcionario = new Funcionario('','','','','','','','','','','','','','',$cep,$uf,$cidade,$bairro,$rua,$numero_residencia,$complemento,$ibge);
         $funcionario->setId_funcionario($id_funcionario);
         $funcionarioDAO=new FuncionarioDAO();
         try {
@@ -734,6 +803,18 @@ class FuncionarioControle
         $funcionarioDAO = new FuncionarioDAO();
         try {
             $funcionarioDAO->excluir($id_funcionario);
+            header("Location:../controle/control.php?metodo=listarTodos&nomeClasse=FuncionarioControle&nextPage=../html/informacao_funcionario.php");
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    public function excluirBeneficio()
+    {
+        extract($_REQUEST);
+        $beneficioDAO = new BeneficiadosDAO();
+        try {
+            $beneficioDAO->excluir($id_beneficiados);
             header("Location:../controle/control.php?metodo=listarTodos&nomeClasse=FuncionarioControle&nextPage=../html/informacao_funcionario.php");
         } catch (Exception $e) {
             echo $e->getMessage();

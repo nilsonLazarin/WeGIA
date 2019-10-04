@@ -21,7 +21,7 @@ insert into ientrada(id_entrada, id_produto, qtd, valor_unitario)
   values(idE, id_produto, qtd, valor_unitario);
 end$$
 
-CREATE PROCEDURE `cadfuncionario`(IN `nome` VARCHAR(100), IN `cpf` VARCHAR(40), 
+CREATE PROCEDURE `cadfuncionario`(IN `nome` VARCHAR(100), IN `sobrenome` VARCHAR(100), IN `cpf` VARCHAR(40), 
   IN `senha` VARCHAR(70), IN `sexo` CHAR(1), IN `telefone` VARCHAR(100), 
   IN `data_nascimento` DATE, IN `imagem` LONGTEXT, IN `cep` VARCHAR(100), 
   IN `estado` VARCHAR(50), IN `cidade` VARCHAR(40), IN `bairro` VARCHAR(40), 
@@ -31,33 +31,33 @@ CREATE PROCEDURE `cadfuncionario`(IN `nome` VARCHAR(100), IN `cpf` VARCHAR(40),
   IN `tipo_sanguineo` VARCHAR(50), IN `data_admissao` DATE, IN `pis` VARCHAR(140), 
   IN `ctps` VARCHAR(150), IN `uf_ctps` VARCHAR(200), IN `numero_titulo` VARCHAR(150), 
   IN `zona` VARCHAR(300), IN `secao` VARCHAR(400), IN `certificado_reservista_numero` VARCHAR(100), 
-  IN `certificado_reservista_serie` VARCHAR(100), IN `situacao` VARCHAR(100),IN `cargo` VARCHAR(30))
+  IN `certificado_reservista_serie` VARCHAR(100), IN `id_situacao` INT,IN `id_cargo` INT)
 begin
 
 declare idP int;
 declare idF int;
 
-insert into pessoa(cpf, senha, nome, sexo, telefone,data_nascimento,imagem,cep ,estado,cidade, bairro, logradouro, numero_endereco,
+insert into pessoa(cpf, senha, nome, sobrenome, sexo, telefone,data_nascimento,imagem,cep ,estado,cidade, bairro, logradouro, numero_endereco,
 complemento,ibge,registro_geral,orgao_emissor,data_expedicao, nome_pai, nome_mae, tipo_sanguineo)
-values(cpf, senha, nome, sexo, telefone,data_nascimento,imagem, cep ,estado,cidade, bairro, logradouro, numero_endereco,
+values(cpf, senha, nome, sobrenome, sexo, telefone,data_nascimento,imagem, cep ,estado,cidade, bairro, logradouro, numero_endereco,
 complemento,ibge,registro_geral,orgao_emissor,data_expedicao, nome_pai, nome_mae, tipo_sanguineo);
 
 select max(id_pessoa) into idP FROM pessoa;
 
-insert into funcionario(id_pessoa, data_admissao,pis,ctps,
-uf_ctps,numero_titulo,zona,secao,certificado_reservista_numero,certificado_reservista_serie,situacao,cargo)
-values(idP,data_admissao,pis,ctps,uf_ctps,numero_titulo,zona,secao,certificado_reservista_numero,certificado_reservista_serie,situacao,cargo);
+insert into funcionario(id_pessoa,id_cargo,id_situacao,data_admissao,pis,ctps,
+uf_ctps,numero_titulo,zona,secao,certificado_reservista_numero,certificado_reservista_serie)
+values(idP,id_cargo,id_situacao,data_admissao,pis,ctps,uf_ctps,numero_titulo,zona,secao,certificado_reservista_numero,certificado_reservista_serie);
 
 END $$
 
-CREATE PROCEDURE `cadbeneficiados` (IN `id_beneficios` INT, IN `data_inicio` DATETIME, IN `data_fim` DATETIME, IN `beneficios_status` VARCHAR(100))begin
+CREATE PROCEDURE `cadbeneficiados` (IN `id_beneficios` INT, IN `data_inicio` DATETIME, IN `data_fim` DATETIME, IN `beneficios_status` VARCHAR(100), IN `valor` DECIMAL(10,2))begin
 
 declare idP int;
 
 select max(id_pessoa) into idP FROM pessoa;
 
-insert into beneficiados(id_pessoa,id_beneficios,data_inicio,data_fim,beneficios_status)
-values(idP,id_beneficios,data_inicio,data_fim,beneficios_status);
+insert into beneficiados(id_pessoa,id_beneficios,data_inicio,data_fim,beneficios_status,valor)
+values(idP,id_beneficios,data_inicio,data_fim,beneficios_status,valor);
 
 
 
@@ -109,10 +109,24 @@ END$$
 
 CREATE PROCEDURE `excluirfuncionario`(IN `idf` INT)
 BEGIN
+DECLARE idp int;
 
 delete from quadro_horario_funcionario where id_funcionario=idf;
 
+select id_pessoa into idp from funcionario where id_funcionario=idf;
+
+delete from beneficiados where id_pessoa=idp;
+
+delete from pessoa_epi where id_pessoa=idp;
+
 delete f,p from funcionario as f inner join pessoa as p on p.id_pessoa=f.id_pessoa where f.id_funcionario=idf;
+END$$
+
+CREATE PROCEDURE `excluirbeneficio`(IN `idb` INT)
+BEGIN
+DECLARE idb int;
+
+delete b from funcionario as f inner join pessoa as p on p.id_pessoa=f.id_pessoa inner join beneficiados as b on p.id_pessoa=b.id_pessoa where b.id_beneficiados=idb;
 END$$
 
 CREATE PROCEDURE `cadimagem` (IN `id_pessoa` INT, IN `imagem` LONGTEXT, IN `imagem_extensao` VARCHAR(10), IN `descricao` VARCHAR(40))  begin
@@ -120,13 +134,13 @@ declare idD int;
 insert into documento(id_pessoa,imgdoc,imagem_extensao,descricao) VALUES (id_pessoa,imagem,imagem_extensao,descricao);
 END$$
 
-CREATE PROCEDURE `cadinterno` (IN `nome` VARCHAR(100), IN `cpf` VARCHAR(40), IN `senha` VARCHAR(70), IN `sexo` CHAR(1), IN `telefone` VARCHAR(25), IN `data_nascimento` DATE, IN `imagem` LONGTEXT, IN `cep` VARCHAR(20), IN `estado` VARCHAR(5), IN `cidade` VARCHAR(40), IN `bairro` VARCHAR(40), IN `logradouro` VARCHAR(40), IN `numero_endereco` VARCHAR(11), IN `complemento` VARCHAR(50), IN `ibge` VARCHAR(20), IN `registro_geral` VARCHAR(20), IN `orgao_emissor` VARCHAR(20), IN `data_expedicao` DATE, IN `nome_pai` VARCHAR(100), IN `nome_mae` VARCHAR(100), IN `tipo_sanguineo` VARCHAR(5), IN `nome_contato_urgente` VARCHAR(60), IN `telefone_contato_urgente_1` VARCHAR(33), IN `telefone_contato_urgente_2` VARCHAR(33), IN `telefone_contato_urgente_3` VARCHAR(33), IN `observacao` VARCHAR(240), IN `certidao_nascimento` VARCHAR(60), IN `curatela` VARCHAR(60), IN `inss` VARCHAR(60), IN `loas` VARCHAR(60), IN `bpc` VARCHAR(60), IN `funrural` VARCHAR(60), IN `saf` VARCHAR(60), IN `sus` VARCHAR(60), IN `certidao_casamento` VARCHAR(123), IN `ctps` VARCHAR(123), IN `titulo` VARCHAR(123))  begin
+CREATE PROCEDURE `cadinterno` (IN `nome` VARCHAR(100), IN `sobrenome` VARCHAR(100), IN `cpf` VARCHAR(40), IN `senha` VARCHAR(70), IN `sexo` CHAR(1), IN `telefone` VARCHAR(25), IN `data_nascimento` DATE, IN `imagem` LONGTEXT, IN `cep` VARCHAR(20), IN `estado` VARCHAR(5), IN `cidade` VARCHAR(40), IN `bairro` VARCHAR(40), IN `logradouro` VARCHAR(40), IN `numero_endereco` VARCHAR(11), IN `complemento` VARCHAR(50), IN `ibge` VARCHAR(20), IN `registro_geral` VARCHAR(20), IN `orgao_emissor` VARCHAR(20), IN `data_expedicao` DATE, IN `nome_pai` VARCHAR(100), IN `nome_mae` VARCHAR(100), IN `tipo_sanguineo` VARCHAR(5), IN `nome_contato_urgente` VARCHAR(60), IN `telefone_contato_urgente_1` VARCHAR(33), IN `telefone_contato_urgente_2` VARCHAR(33), IN `telefone_contato_urgente_3` VARCHAR(33), IN `observacao` VARCHAR(240), IN `certidao_nascimento` VARCHAR(60), IN `curatela` VARCHAR(60), IN `inss` VARCHAR(60), IN `loas` VARCHAR(60), IN `bpc` VARCHAR(60), IN `funrural` VARCHAR(60), IN `saf` VARCHAR(60), IN `sus` VARCHAR(60), IN `certidao_casamento` VARCHAR(123), IN `ctps` VARCHAR(123), IN `titulo` VARCHAR(123))  begin
 
 declare idP int;
 
-insert into pessoa(nome,cpf,senha,sexo,telefone,data_nascimento,imagem,cep,estado,cidade, bairro, logradouro, numero_endereco,
+insert into pessoa(nome,sobrenome,cpf,senha,sexo,telefone,data_nascimento,imagem,cep,estado,cidade, bairro, logradouro, numero_endereco,
 complemento,ibge,registro_geral,orgao_emissor,data_expedicao, nome_pai, nome_mae, tipo_sanguineo)
-values(nome,cpf, senha, sexo, telefone,data_nascimento,imagem,cep,estado,cidade,bairro,logradouro,numero_endereco,complemento,ibge,registro_geral,orgao_emissor,data_expedicao,nome_pai,nome_mae,tipo_sanguineo);
+values(nome, sobrenome, cpf, senha, sexo, telefone,data_nascimento,imagem,cep,estado,cidade,bairro,logradouro,numero_endereco,complemento,ibge,registro_geral,orgao_emissor,data_expedicao,nome_pai,nome_mae,tipo_sanguineo);
 select max(id_pessoa) into idP FROM pessoa;
 
 insert into interno(id_pessoa,nome_contato_urgente,telefone_contato_urgente_1,telefone_contato_urgente_2,telefone_contato_urgente_3,observacao,certidao_nascimento,curatela,inss,loas,bpc,funrural,saf,sus,certidao_casamento,ctps,titulo) 
@@ -208,6 +222,7 @@ CREATE TABLE `pessoa` (
   `cpf` varchar(120) DEFAULT NULL,
   `senha` varchar(70) DEFAULT NULL,
   `nome` varchar(100) DEFAULT NULL,
+  `sobrenome` varchar(100) DEFAULT NULL,
   `sexo` char(1) DEFAULT NULL,
   `telefone` varchar(25) DEFAULT NULL,
   `data_nascimento` date DEFAULT NULL,
@@ -260,6 +275,8 @@ CREATE TABLE `estoque` (
 CREATE TABLE `funcionario` (
   `id_funcionario` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `id_pessoa` int DEFAULT NULL,
+  `id_cargo` int DEFAULT NULL,
+  `id_situacao` int DEFAULT NULL,
   `data_admissao` date NOT NULL,
   `pis` varchar(140) DEFAULT NULL,
   `ctps` varchar(150) NOT NULL,
@@ -269,8 +286,8 @@ CREATE TABLE `funcionario` (
   `secao` varchar(40) DEFAULT NULL,
   `certificado_reservista_numero` varchar(100) DEFAULT NULL,
   `certificado_reservista_serie` varchar(100) DEFAULT NULL,
-  `situacao` varchar(100) DEFAULT NULL,
-  `cargo` varchar(30) DEFAULT NULL,
+  #`situacao` varchar(100) DEFAULT NULL,
+  #`cargo` varchar(30) DEFAULT NULL,
 
   FOREIGN KEY (`id_pessoa`) REFERENCES `pessoa` (`id_pessoa`)
 
@@ -510,6 +527,7 @@ CREATE TABLE `beneficiados`(
   `data_inicio` date,
   `data_fim` date,
   `beneficios_status` varchar(100),
+  `valor` decimal(10,2),
   FOREIGN KEY (`id_beneficios`) REFERENCES `beneficios` (`id_beneficios`),
   FOREIGN KEY (`id_pessoa`) REFERENCES `pessoa` (`id_pessoa`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -559,7 +577,7 @@ CREATE TABLE `anexo` (
   FOREIGN KEY(id_despacho) REFERENCES despacho(id_despacho)
 );
 
-insert into pessoa( cpf, senha, nome, sexo, telefone,data_nascimento,imagem, cep ,estado,cidade, bairro, logradouro, numero_endereco, complemento,ibge,registro_geral,orgao_emissor,data_expedicao, nome_pai, nome_mae, tipo_sanguineo) values('admin', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 'admin', 'a', 'telefone','2018-12-16','null', 'cep' ,'estado','cidade', 'bairro', 'logradouro', 'numero_endereco', 'complemento','ibge','registro_geral','orgao_emissor','data_expedicao', 'nome_pai', 'nome_mae', 'tipo_sanguineo');
+insert into pessoa( cpf, senha, nome, sobrenome, sexo, telefone,data_nascimento,imagem, cep ,estado,cidade, bairro, logradouro, numero_endereco, complemento,ibge,registro_geral,orgao_emissor,data_expedicao, nome_pai, nome_mae, tipo_sanguineo) values('admin', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 'admin', 'admin', 'a', 'telefone','2018-12-16','null', 'cep' ,'estado','cidade', 'bairro', 'logradouro', 'numero_endereco', 'complemento','ibge','registro_geral','orgao_emissor','data_expedicao', 'nome_pai', 'nome_mae', 'tipo_sanguineo');
 
 
 

@@ -10,6 +10,8 @@ abstract class Pessoa
 
     private $nome;
 
+    private $sobrenome;
+
     private $sexo;
 
     private $telefone;
@@ -46,10 +48,11 @@ abstract class Pessoa
     
     private $tipoSanguineo;
 
-    public function __construct($cpf,$nome,$sexo,$dataNascimento,$registroGeral,$orgaoEmissor,$dataExpedicao,$nomeMae,$nomePai,$tipoSanguineo,$senha,$telefone,$imagem,$cep,$estado,$cidade,$bairro,$logradouro,$numeroEndereco,$complemento,$ibge)
+    public function __construct($cpf,$nome,$sobrenome,$sexo,$dataNascimento,$registroGeral,$orgaoEmissor,$dataExpedicao,$nomeMae,$nomePai,$tipoSanguineo,$senha,$telefone,$imagem,$cep,$estado,$cidade,$bairro,$logradouro,$numeroEndereco,$complemento,$ibge)
     {
         $this->cpf=$cpf;
         $this->nome=$nome;
+        $this->sobrenome=$sobrenome;
         $this->sexo=$sexo;
         $this->dataNascimento=$dataNascimento;
         $this->registroGeral=$registroGeral;
@@ -107,6 +110,11 @@ abstract class Pessoa
     public function getNome()
     {
         return $this->nome;
+    }
+
+    public function getSobrenome()
+    {
+        return $this->sobrenome;
     }
 
     public function getSexo()
@@ -207,6 +215,11 @@ abstract class Pessoa
     public function setNome($nome)
     {
         $this->nome = $nome;
+    }
+
+    public function setSobrenome($sobrenome)
+    {
+        $this->sobrenome = $sobrenome;
     }
 
     public function setSexo($sexo)

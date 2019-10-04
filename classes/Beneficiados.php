@@ -8,6 +8,7 @@ class Beneficiados
     private $data_inicio;
     private $data_fim;
     private $beneficios_status;
+    private $valor;
 
     public function getId_Beneficiados()
     {
@@ -39,6 +40,11 @@ class Beneficiados
         return $this->beneficios_status;
     }
 
+    public function getValor()
+    {
+        return $this->valor;
+    }
+
     public function setId_beneficiados($id_beneficiados)
     {
         $this->id_beneficiados = $id_beneficiados;
@@ -67,6 +73,11 @@ class Beneficiados
     public function setBeneficios_status($beneficios_status)
     {
         $this->beneficios_status = $beneficios_status;
+    }
+
+    public function setValor($valor)
+    {
+        $this->valor = $valor;
     }
 
 }

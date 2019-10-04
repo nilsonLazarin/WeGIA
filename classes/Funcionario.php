@@ -6,6 +6,8 @@ class Funcionario extends Pessoa
 
     private $id_funcionario;
     private $id_pessoa;
+    private $id_cargo;
+    private $id_situacao;
     //private $vale_transporte;
     private $data_admissao;
     private $pis;
@@ -18,16 +20,14 @@ class Funcionario extends Pessoa
     private $certificado_reservista_serie;
     //private $usa_vtp;
     //private $cesta_basica;
-    private $situacao;
-    private $cargo;
 
     public function getId_funcionario()
     {
         return $this->id_funcionario;
     }
-    public function getCargo()
+    public function getId_cargo()
     {
-        return $this->cargo;
+        return $this->id_cargo;
     }
 
     public function getId_pessoa()
@@ -100,9 +100,9 @@ class Funcionario extends Pessoa
         return $this->cesta_basica;
     }*/
 
-    public function getSituacao()
+    public function getId_situacao()
     {
-        return $this->situacao;
+        return $this->id_situacao;
     }
     /*
     public function getQuadro_horario()
@@ -130,9 +130,9 @@ class Funcionario extends Pessoa
     {
         $this->vale_transporte = $vale_transporte;
     }*/
-    public function setCargo($cargo)
+    public function setId_cargo($id_cargo)
     {
-        $this->cargo = $cargo;
+        $this->id_cargo = $id_cargo;
     }
 
     public function setData_admissao($data_admissao)
@@ -190,9 +190,9 @@ class Funcionario extends Pessoa
         $this->cesta_basica = $cesta_basica;
     }*/
 
-    public function setSituacao($situacao)
+    public function setId_situacao($id_situacao)
     {
-        $this->situacao = $situacao;
+        $this->id_situacao = $id_situacao;
     }
 
     public function setQuadro_horario($quadro_horario)

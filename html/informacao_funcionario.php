@@ -88,7 +88,7 @@
 					.attr("onclick", "clicar('" + item.id_funcionario+"')")
 					.attr("class","teste")
 					.append($("<td>")
-						.text(item.nome))
+						.text(item.nome+' '+item.sobrenome))
 					.append($("<td>")
 						.text(item.cpf))
 					.append($("<td >")

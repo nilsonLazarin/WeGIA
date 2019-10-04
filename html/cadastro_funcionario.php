@@ -9,7 +9,7 @@
       $servidor = "localhost";
       $bddnome = "wegia";
       $mysqli = new mysqli($servidor,$usuario,$senha,$bddnome);
-      $situacao = $mysqli->query("SELECT situacoes FROM situacao");
+      $situacao = $mysqli->query("SELECT * FROM situacao");
       $cargo = $mysqli->query("SELECT * FROM cargo");
       $beneficios = $mysqli->query("SELECT * FROM beneficios");
       $descricao_epi = $mysqli->query("SELECT * FROM epi");
@@ -139,73 +139,79 @@
                     </ul>
                     <div class="tab-content"> 
                       <div id="overview" class="tab-pane active">
-                         <form class="form-horizontal" method="POST" action="../controle/control.php">
-                            <h4 class="mb-xlg">Informações Pessoais</h4>
-                            <h5 class="obrig">Campos Obrigatórios(*)</h5>
-                               <div class="form-group">
-                                  <label class="col-md-3 control-label" for="profileFirstName">Nome completo<sup class="obrig">*</sup></label>
-                                  <div class="col-md-8">
-                                     <input type="text" class="form-control" name="nome" id="profileFirstName" id="nome" onkeypress="return Onlychars(event)" required>
-                                  </div>
-                               </div>
-                               <div class="form-group">
-                                  <label class="col-md-3 control-label" for="profileLastName">Sexo<sup class="obrig">*</sup></label>
-                                  <div class="col-md-8">
-                                     <label><input type="radio" name="gender" id="radio" id="M" value="m" style="margin-top: 10px; margin-left: 15px;" onclick="return exibir_reservista()" required><i class="fa fa-male" style="font-size: 20px;"></i></label>
-                                     <label><input type="radio" name="gender" id="radio" id="F" value="f" style="margin-top: 10px; margin-left: 15px;" onclick="return esconder_reservista()" ><i class="fa fa-female" style="font-size: 20px;"></i> </label>
-                                  </div>
-                               </div>
-                               <div class="form-group">
-                                  <label class="col-md-3 control-label" for="profileCompany">Telefone<sup class="obrig">*</sup></label>
-                                  <div class="col-md-8">
-                                     <input type="text" class="form-control" maxlength="14" minlength="14" name="telefone" id="telefone" id="profileCompany" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeyup="mascara('(##)#####-####',this,event)" required>
-                                  </div>
-                               </div>
-                               <div class="form-group">
-                                  <label class="col-md-3 control-label" for="profileCompany">Nascimento<sup class="obrig">*</sup></label>
-                                  <div class="col-md-8">
-                                     <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" id="nascimento" max=<?php echo date('Y-m-d'); ?> required>
-                                  </div>
-                               </div>
+                        <form class="form-horizontal" method="GET" action="../controle/control.php">
+                          <h4 class="mb-xlg">Informações Pessoais</h4>
+                          <h5 class="obrig">Campos Obrigatórios(*)</h5>
+                            <div class="form-group">
+                              <label class="col-md-3 control-label" for="profileFirstName">Nome<sup class="obrig">*</sup></label>
+                              <div class="col-md-8">
+                                <input type="text" class="form-control" name="nome" id="profileFirstName" id="nome" onkeypress="return Onlychars(event)" required>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label class="col-md-3 control-label">Sobrenome<sup class="obrig">*</sup></label>
+                              <div class="col-md-8">
+                                <input type="text" class="form-control" name="sobrenome"  id="sobrenome" onkeypress="return Onlychars(event)" required>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label class="col-md-3 control-label" for="profileLastName">Sexo<sup class="obrig">*</sup></label>
+                              <div class="col-md-8">
+                                <label><input type="radio" name="gender" id="radio" id="M" value="m" style="margin-top: 10px; margin-left: 15px;" onclick="return exibir_reservista()" required><i class="fa fa-male" style="font-size: 20px;"></i></label>
+                                <label><input type="radio" name="gender" id="radio" id="F" value="f" style="margin-top: 10px; margin-left: 15px;" onclick="return esconder_reservista()" ><i class="fa fa-female" style="font-size: 20px;"></i> </label>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label class="col-md-3 control-label" for="profileCompany">Telefone<sup class="obrig">*</sup></label>
+                              <div class="col-md-8">
+                                <input type="text" class="form-control" maxlength="14" minlength="14" name="telefone" id="telefone" id="profileCompany" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeyup="mascara('(##)#####-####',this,event)" required>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label class="col-md-3 control-label" for="profileCompany">Nascimento<sup class="obrig">*</sup></label>
+                              <div class="col-md-8">
+                                <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" id="nascimento" max=<?php echo date('Y-m-d'); ?> required>
+                              </div>
+                            </div>
                           <hr class="dotted short">
-                         <h4 class="mb-xlg doch4">Documentação</h4>
-                         <div class="form-group">
+                          <h4 class="mb-xlg doch4">Documentação</h4>
+                          <div class="form-group">
                             <label class="col-md-3 control-label" for="profileCompany">Número do RG<sup class="obrig">*</sup></label>
                             <div class="col-md-6">
                                <input type="text" class="form-control" name="rg" id="rg" onkeypress="return Onlynumbers(event)" placeholder="Ex: 22.222.222-2" onkeyup="mascara('##.###.###-#',this,event)" required>
                             </div>
-                         </div>
-                         <div class="form-group">
+                          </div>
+                          <div class="form-group">
                             <label class="col-md-3 control-label" for="profileCompany">Órgão Emissor<sup class="obrig">*</sup></label>
                             <div class="col-md-6">
                                <input type="text" class="form-control" name="orgao_emissor" id="profileCompany" id="orgao_emissor" onkeypress="return Onlychars(event)" required>
                             </div>
-                         </div>
-                         <div class="form-group">
+                          </div>
+                          <div class="form-group">
                             <label class="col-md-3 control-label" for="profileCompany">Data de expedição<sup class="obrig">*</sup></label>
                             <div class="col-md-6">
                                <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" id="profileCompany" name="data_expedicao" id="data_expedicao" max=<?php echo date('Y-m-d'); ?> required>
                             </div>
-                         </div>
-                         <div class="form-group">
+                          </div>
+                          <div class="form-group">
                             <label class="col-md-3 control-label" for="profileCompany">Número do CPF<sup class="obrig">*</sup></label>
                             <div class="col-md-6">
                                <input type="text" class="form-control" id="profileCompany" id="cpf" name="cpf" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##',this,event)" required>
                             </div>
-                         </div>
-                         <div class="form-group">
+                          </div>
+                          <div class="form-group">
                             <label class="col-md-3 control-label" for="profileCompany"></label>
                             <div class="col-md-6">
                                <p id="cpfInvalido" style="display: none; color: #b30000">CPF INVÁLIDO!</p>
                             </div>
-                         </div>
-                         <div class="form-group">
+                          </div>
+                          <div class="form-group">
                             <label class="col-md-3 control-label" for="profileCompany">Data de Admissão<sup class="obrig">*</sup></label>
                             <div class="col-md-8">
                                <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data_admissao" id="profileCompany" id="data_admissao" max=<?php echo date('Y-m-d'); ?>  required>
                             </div>
-                         </div>
-                         <div class="form-group">
+                          </div>
+                          <div class="form-group">
                             <label class="col-md-3 control-label" for="inputSuccess">Situação<sup class="obrig">*</sup></label>
                             <a onclick="adicionar_situacao()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
                             <div class="col-md-6">
@@ -214,12 +220,12 @@
                                   <?php 
                                      while($row = $situacao->fetch_array(MYSQLI_NUM))
                                      {
-                                      echo "<option value=".$row[0].">".$row[0]."</option>";
+                                      echo "<option value=".$row[0].">".$row[1]."</option>";
                                      }                            ?>
                                </select>
                             </div>
-                         </div>
-                         <div class="form-group">
+                          </div>
+                          <div class="form-group">
                             <label class="col-md-3 control-label" for="inputSuccess">Cargo<sup class="obrig">*</sup></label>
                             <a onclick="adicionar_cargo()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
                             <div class="col-md-6">
@@ -228,75 +234,13 @@
                                   <?php 
                                     while($row = $cargo->fetch_array(MYSQLI_NUM))
                                     {
-                                      echo "<option value=".$row[1].">".$row[1]."</option>";
-                                    }
-                                  ?>
-                               </select>
-                            </div>
-                         </div>
-                         <div class="form-group">
-                            <label class="col-md-3 control-label" for="inputSuccess">Beneficios<sup class="obrig">*</sup></label>
-                            <a onclick="adicionar_beneficios()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
-                            <div class="col-md-6">
-                               <select class="form-control input-lg mb-md" name="ibeneficios" id="beneficios">
-                                  <option selected disabled>Selecionar</option>
-                                  <?php 
-                                    while($row = $beneficios->fetch_array(MYSQLI_NUM))
-                                    {
                                       echo "<option value=".$row[0].">".$row[1]."</option>";
                                     }
                                   ?>
                                </select>
                             </div>
-                         </div>
-                        <div class="form-group">
-                          <label class="col-md-3 control-label" for="inputSuccess">Benefícios Status</label>
-                          <div class="col-md-6">
-                             <select class="form-control input-lg mb-md" name="beneficios_status" id="beneficios_status">
-                                <option selected disabled>Selecionar</option>
-                                <option value="Ativo">Ativo</option>
-                                <option value="Inativo">Inativo</option>
-                             </select>
                           </div>
-                        </div>
-                        <div class="form-group">
-                          <label class="col-md-3 control-label" for="profileCompany">Data Início</label>
-                          <div class="col-md-8">
-                             <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data_inicio" id="data_inicio" max=<?php echo date('Y-m-d'); ?>>
-                          </div>
-                       </div>
-                       <div class="form-group">
-                          <label class="col-md-3 control-label" for="inputSuccess">EPI<sup class="obrig">*</sup></label>
-                          <a onclick="adicionar_epi()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
-                          <div class="col-md-6">
-                            <select class="form-control input-lg mb-md" name="descricao_epi" id="descricao_epi">
-                                <option selected disabled>Selecionar</option>
-                                <?php 
-                                   while($row = $descricao_epi->fetch_array(MYSQLI_NUM))
-                                   {
-                                    echo "<option value=".$row[0].">".$row[1]."</option>";
-                                   }                            ?>
-                            </select>
-                          </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label" for="inputSuccess">Epi Status</label>
-                            <div class="col-md-6">
-                               <select class="form-control input-lg mb-md" name="epi_status" id="epi_status">
-                                  <option selected disabled>Selecionar</option>
-                                  <option value="Ativo">Ativo</option>
-                                  <option value="Inativo">Inativo</option>
-                               </select>
-                            </div>
-                         </div>
-                         <div class="form-group">
-                          <label class="col-md-3 control-label" for="profileCompany">Data</label>
-                          <div class="col-md-8">
-                             <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data" id="data" max=<?php echo date('Y-m-d'); ?>>
-                          </div>
-                       </div>
-                       <br>
-                      </div>
+
                         <!--div id="endereco" class="tab-pane">
                         
                            <h4 class="mb-xlg">Endereço</h4>
@@ -481,32 +425,6 @@
                        
                       </div>
 
-                      <div id="epi" class="tab-pane">
-                        <div class="form-group">
-                          <label class="col-md-3 control-label" for="inputSuccess">Epi</label>
-                          <a onclick="adicionar_descricao_epi()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
-                          <div class="col-md-6">
-                            <select class="form-control input-lg mb-md" name="descricao_epi" id="descricao_epi" required>
-                                <option selected disabled>Selecionar</option>
-                                <?php 
-                                   while($row = $descricao_epi->fetch_array(MYSQLI_NUM))
-                                   {
-                                    echo "<option value=".$row[0].">".$row[0]."</option>";
-                                   }                            ?>
-                            </select>
-                          </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label" for="inputSuccess">Epi Status</label>
-                            <div class="col-md-6">
-                               <select class="form-control input-lg mb-md" name="epi_status" id="epi_status">
-                                  <option selected disabled>Selecionar</option>
-                                  <option value="Ativo">Ativo</option>
-                                  <option value="Inativo">Inativo</option>
-                               </select>
-                            </div>
-                         </div>
-                      </div>
                       <div id="outros" class="tab-pane">
                          
                          <h4 class="mb-xlg doch4">Outros</h4>
@@ -587,14 +505,14 @@
                                <input type="text" name="certificado_reservista_serie" class="form-control serie_reservista">
                             </div>
                          </div>
-                         
-                      </div>    
+                      </div>  
+
                        <div class="panel-footer">
                           <div class="row">
                              <div class="col-md-9 col-md-offset-3">
                                 <input type="hidden" name="nomeClasse" value="FuncionarioControle">
                                 <input type="hidden" name="metodo" value="incluir">
-                                <input id="enviar" type="submit" class="btn btn-primary" disabled="true" value="Cadastrar">
+                                <input id="enviar" type="submit" class="btn btn-primary" disabled="true" value="Próximo">
                                 <input type="reset" class="btn btn-default">
                              </div>
                           </div>
@@ -621,6 +539,7 @@
   </style>
   <script type="text/javascript" >
    function numero_residencial(){
+
     if($("#numResidencial").prop('checked')){
    
       document.getElementById("numero_residencia").disabled = true;
@@ -752,21 +671,21 @@
       }
 
       function gerarSituacao(){
-          data = '';
           url = '../dao/exibir_situacao.php';
           $.ajax({
+          data: '',
           type: "POST",
           url: url,
-          data: data,
+          async: true,
           success: function(response){
-            var situacoes = response.split(",");
-
-            document.getElementById('situacao').innerHTML = ''; //limpar
-            for(var i=0; i<situacoes.length-1; i++)
-              document.getElementById('situacao').innerHTML += 
-                  '<option>' +situacoes[i] +'</option>';
+            var situacoes = response;
+            $('#situacao').empty();
+            $('#situacao').append('<option selected disabled>Selecionar</option>');
+            $.each(situacoes,function(i,item){
+              $('#situacao').append('<option value="' + item.id_situacao + '">' + item.situacoes + '</option>');
+            }); 
           },
-          dataType: 'text'
+          dataType: 'json'
         });
       }
 
@@ -792,21 +711,20 @@
       }
 
       function gerarCargo(){
-          data = '';
           url = '../dao/exibir_cargo.php';
           $.ajax({
+          data: '',
           type: "POST",
           url: url,
-          data: data,
           success: function(response){
-            var cargo = response.split(",");
-
-            document.getElementById('cargo').innerHTML = ''; //limpar
-            for(var i=0; i<cargo.length-1; i++)
-              document.getElementById('cargo').innerHTML += 
-                  '<option>' +cargo[i] +'</option>';
+            var cargo = response;
+            $('#cargo').empty();
+            $('#cargo').append('<option selected disabled>Selecionar</option>');
+            $.each(cargo,function(i,item){
+              $('#cargo').append('<option value="' + item.id_cargo + '">' + item.cargo + '</option>');
+            });
           },
-          dataType: 'text'
+          dataType: 'json'
         });
       }
 
@@ -825,82 +743,6 @@
           data: data,
           success: function(response){
             gerarCargo();
-          },
-          dataType: 'text'
-        })
-      }
-
-      function gerarEpi(){
-        data = '';
-        url = '../dao/exibir_epi.php';
-        $.ajax({
-        type: "POST",
-        url: url,
-        data: data,
-        success: function(response){
-          var descricao_epi = response.split(",");
-
-          document.getElementById('descricao_epi').innerHTML = ''; //limpar
-          for(var i=0; i<descricao_epi.length-1; i++)
-            document.getElementById('descricao_epi').innerHTML += 
-                '<option>' +descricao_epi[i] +'</option>';
-          },
-          dataType: 'text'
-        });
-      }
-
-      function adicionar_epi(){
-        url = '../dao/adicionar_epi.php';
-        var descricao_epi = window.prompt("Cadastre uma Nova Epi:");
-        if(!descricao_epi){return}
-        situacao = descricao_epi.trim();
-        if(descricao_epi == ''){return}  
-          data = 'descricao_epi=' +descricao_epi; 
-          console.log(data);
-          $.ajax({
-          type: "POST",
-          url: url,
-          data: data,
-          success: function(response){
-            gerarEpi();
-          },
-          dataType: 'text'
-        })
-      }
-       
-      function gerarBeneficios(){
-        data = '';
-        url = '../dao/exibir_beneficios.php';
-        $.ajax({
-        type: "POST",
-        url: url,
-        data: data,
-        success: function(response){
-          var beneficios = response.split(",");
-
-          document.getElementById('beneficios').innerHTML = ''; //limpar
-          for(var i=0; i<beneficios.length-1; i++)
-            document.getElementById('beneficios').innerHTML += 
-                '<option>' +beneficios[i] +'</option>';
-          },
-          dataType: 'text'
-        });
-      }
-
-      function adicionar_beneficios(){
-        url = '../dao/adicionar_beneficios.php';
-        var beneficios = window.prompt("Cadastre um Novo Benefício:");
-        if(!beneficios){return}
-        situacao = beneficios.trim();
-        if(beneficios == ''){return}  
-          data = 'beneficios=' +beneficios; 
-          console.log(data);
-          $.ajax({
-          type: "POST",
-          url: url,
-          data: data,
-          success: function(response){
-            gerarBeneficios();
           },
           dataType: 'text'
         })

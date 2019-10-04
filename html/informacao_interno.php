@@ -81,10 +81,16 @@
 			var internos = <?php echo $_SESSION['internos'];?>;
 			<?php unset($_SESSION['internos']); ?>
 			$.each(internos, function(i, item) {
-				$("#tabela").append(
-						$("<tr>").attr("onclick", "clicar('" + item.id + "')").attr(
-								"class", "teste").append($("<td>").text(item.nome))
-								.append($("<td>").text(item.cpf)));
+				$("#tabela")
+				.append($("<tr>")
+					.attr("onclick", "clicar('" + item.id + "')")
+					.attr("class", "teste")
+					.append($("<td>")
+						.text(item.nome+' '+item.sobrenome))
+					.append($("<td>")
+						.text(item.cpf))
+					.append($("<td>")
+					.html('<i class="glyphicon glyphicon-pencil"></i>')));
 			});
 
 		});
@@ -139,6 +145,7 @@
 								<tr>
 									<th>Nome</th>
 									<th>Cpf</th>
+									<th>Ação</th>
 								</tr>
 							</thead>
 							<tbody id="tabela">

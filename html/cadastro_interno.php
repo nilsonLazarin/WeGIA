@@ -241,9 +241,15 @@
 									<h4 class="mb-xlg">Informações Pessoais</h4>
 									<form id="formulario" action="../controle/control.php" enctype="multipart/form-data" method="POST">
 										<div class="form-group">
-											<label class="col-md-3 control-label">Nome completo</label>
+											<label class="col-md-3 control-label">Nome</label>
 											<div class="col-md-8">
 												<input type="text" class="form-control" name="nome" id="nome" id="profileFirstName" onkeypress="return Onlychars(event)" >
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-md-3 control-label">Sobrenome</label>
+											<div class="col-md-8">
+												<input type="text" class="form-control" name="sobrenome" id="sobrenome" onkeypress="return Onlychars(event)" >
 											</div>
 										</div>
 										<div class="form-group">

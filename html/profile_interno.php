@@ -73,7 +73,7 @@
          		{
                   $("#formulario").append($("<input type='hidden' name='idInterno' value='"+item.idInterno+"'>"));
          			var cpf=item.cpf;
-         			$("#nome").text("Nome: "+item.nome);
+         			$("#nome").text("Nome: "+item.nome+' '+item.sobrenome);
          			$("#nomeform").val(item.nome);
 
          			if(item.imagem!=""){

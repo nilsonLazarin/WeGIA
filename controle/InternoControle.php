@@ -23,6 +23,10 @@ class InternoControle
             $msg = "Nome do interno não informado. Por favor, informe um nome!";
             header('Location: ../html/interno.php?msg='.$msg);
         }
+        if((!isset($sobrenome)) || (empty($sobrenome))){
+            $msg = "Sobrenome do interno não informado. Por favor, informe um sobrenome!";
+            header('Location: ../html/interno.php?msg='.$msg);
+        }
         if((!isset($sexo)) || (empty($sexo))){
             $msg .= "Sexo do interno não informado. Por favor, informe um sexo!";
             header('Location: ../html/interno.php?msg='.$msg);
@@ -123,7 +127,7 @@ class InternoControle
             	$imagem=base64_encode($_SESSION['imagem']);
             }
             else{
-            	$imagem="null";
+            	$imagem="";
             }
             $cep='28625-520';
             $estado="RJ";
@@ -135,7 +139,7 @@ class InternoControle
             $ibge="3303401";
             $numeroCPF=str_replace(".", '', $numeroCPF);
             $numeroCPF=str_replace("-", "", $numeroCPF);
-            $interno = new Interno($numeroCPF,$nome,$sexo,$nascimento,$rg,$orgaoEmissor,$dataExpedicao,$nomeMae,$pai,$sangue,$senha,$telefone,$imagem,$cep,$estado,$cidade,$bairro,$logradouro,$numeroEndereco,$complemento,$ibge);
+            $interno = new Interno($numeroCPF,$nome,$sobrenome,$sexo,$nascimento,$rg,$orgaoEmissor,$dataExpedicao,$nomeMae,$pai,$sangue,$senha,$telefone,$imagem,$cep,$estado,$cidade,$bairro,$logradouro,$numeroEndereco,$complemento,$ibge);
             $interno->setNomeContatoUrgente($nomeContato);
             $interno->setTelefoneContatoUrgente1($telefone1);
             $interno->setTelefoneContatoUrgente2($telefone2);
@@ -334,7 +338,7 @@ class InternoControle
         extract($_REQUEST);
         $image = file_get_contents ($_FILES['imgperfil']['tmp_name']);
         $perfil = base64_encode($image);
-        $interno = new Interno('','','','','','','','','','','','',$perfil,'','','','','','','','');
+        $interno = new Interno('','','','','','','','','','','','','',$perfil,'','','','','','','','');
         $interno->setIdInterno($id_interno);
         $internoDAO = new InternoDAO();
         try {

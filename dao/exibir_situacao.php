@@ -4,7 +4,9 @@
 
 	$sql = 'select * from situacao';
 	$stmt = $pdo->query($sql);
+	$resultado = array();
 	while ($row = $stmt->fetch()) {
-    	echo $row['situacoes'].",";
+    	$resultado[] = array('id_situacao'=>$row['id_situacao'],'situacoes'=>$row['situacoes']);
 	}
+	echo json_encode($resultado);
 ?>

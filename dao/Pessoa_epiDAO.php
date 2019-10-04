@@ -19,7 +19,7 @@ class Pessoa_epiDAO
                 $epi_status = $epi->getEpi_status();
 
                 $stmt->bindParam(':id_epi',$id_epi);
-                $stmt->bindParam(':data',$data_inicio);
+                $stmt->bindParam(':data',$data);
                 $stmt->bindParam(':epi_status',$epi_status);
 
                 $stmt->execute();
@@ -45,7 +45,7 @@ class Pessoa_epiDAO
                 $stmt->bindParam(':id_funcionario',$id_pessoa);
                 $stmt->bindParam(':id_epi',$id_epi);                 
                 $stmt->bindParam(':epi_status',$epi_status);
-                $stmt->bindParam(':data',$data); 
+                $stmt->bindParam(':data',$data);
 
                 $stmt->execute();
             }catch (PDOExeption $e) {
