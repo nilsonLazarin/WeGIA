@@ -512,7 +512,7 @@
                              <div class="col-md-9 col-md-offset-3">
                                 <input type="hidden" name="nomeClasse" value="FuncionarioControle">
                                 <input type="hidden" name="metodo" value="incluir">
-                                <input id="enviar" type="submit" class="btn btn-primary" disabled="true" value="Próximo">
+                                <input id="enviar" type="submit" class="btn btn-primary" disabled="true" value="Salvar" onclick="funcao1()">
                                 <input type="reset" class="btn btn-default">
                              </div>
                           </div>
@@ -538,6 +538,11 @@
     }
   </style>
   <script type="text/javascript" >
+
+    function funcao1(){
+    alert("Cadastrado com Sucesso!");
+    }
+
    function numero_residencial(){
 
     if($("#numResidencial").prop('checked')){

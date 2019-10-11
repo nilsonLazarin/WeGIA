@@ -440,8 +440,23 @@ class FuncionarioControle
     {
         extract($_REQUEST);
         try {
-            $funcionarioDAO=new FuncionarioDAO();
+            $funcionarioDAO = new FuncionarioDAO();
             $funcionario=$funcionarioDAO->listar($id_funcionario);
+            session_start();
+            $_SESSION['funcionario']=$funcionario;
+            header('Location:'.$nextPage);
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+        
+    }
+
+    public function listarBeneficio()
+    {
+        extract($_REQUEST);
+        try {
+            $beneficioDAO = new BeneficiadosDAO();
+            $beneficio=$beneficioDAO->listar($id_funcionario);
             session_start();
             $_SESSION['funcionario']=$funcionario;
             header('Location:'.$nextPage);
@@ -469,7 +484,7 @@ class FuncionarioControle
             $_SESSION['msg']="Funcionario cadastrado com sucesso";
             $_SESSION['proxima']="Cadastrar outro funcionario";
             $_SESSION['link']="../html/cadastro_funcionario.php";
-            header("Location: ../html/cadastro_beneficio.php");
+            header("Location: ../html/informacao_funcionario.php");
 
         } catch (PDOException $e){
             $msg= "NÃ£o foi possÃ­vel registrar o funcionário"."<br>".$e->getMessage();
@@ -486,21 +501,6 @@ class FuncionarioControle
                 $_SESSION['msg']="Funcionario cadastrado com sucesso";
                 $_SESSION['proxima']="Cadastrar outro funcionario";
                 $_SESSION['link']="../html/cadastro_funcionario.php";
-                header("Location: ../html/cadastro_beneficio.php");
-
-            } catch (PDOException $e){
-                $msg= "NÃ£o foi possÃ­vel registrar o funcionário"."<br>".$e->getMessage();
-                echo $msg;
-            }
-        }
-
-        public function incluirBeneficio1(){
-            $beneficiados = $this->verificarBeneficiados();
-            $beneficiadosDAO = new BeneficiadosDAO();
-            
-            try{
-                $beneficiadosDAO->incluir($beneficiados);
-
                 header("Location: ../html/informacao_funcionario.php");
 
             } catch (PDOException $e){
@@ -518,7 +518,7 @@ class FuncionarioControle
                 $_SESSION['msg']="Funcionario cadastrado com sucesso";
                 $_SESSION['proxima']="Cadastrar outro funcionario";
                 $_SESSION['link']="../html/cadastro_funcionario.php";
-                header("Location: ../html/cadastro_epi.php");
+                header("Location: ../html/informacao_funcionario.php");
 
             } catch (PDOException $e){
                 $msg= "NÃ£o foi possÃ­vel registrar o funcionário"."<br>".$e->getMessage();
@@ -812,9 +812,20 @@ class FuncionarioControle
     public function excluirBeneficio()
     {
         extract($_REQUEST);
-        $beneficioDAO = new BeneficiadosDAO();
+        $beneficiadosDAO = new BeneficiadosDAO();
         try {
-            $beneficioDAO->excluir($id_beneficiados);
+            $beneficiadosDAO->excluir($id_beneficiados);
+            header("Location:../controle/control.php?metodo=listarTodos&nomeClasse=FuncionarioControle&nextPage=../html/informacao_funcionario.php");
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+    }
+    public function excluirEpi()
+    {
+        extract($_REQUEST);
+        $pessoa_epiDAO = new pessoa_epiDAO();
+        try {
+            $pessoa_epiDAO->excluir($id_pessoa_epi);
             header("Location:../controle/control.php?metodo=listarTodos&nomeClasse=FuncionarioControle&nextPage=../html/informacao_funcionario.php");
         } catch (Exception $e) {
             echo $e->getMessage();

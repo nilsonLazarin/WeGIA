@@ -125,7 +125,7 @@
 							<div class="col-lg-2 col-md-8 i">
 								<form id="listarInterno" method="POST" action="../controle/control.php">
 									<i  class="far fa-address-card" id="listarInterno"></i>
-									<h4>Informação internos</h4>
+									<h4>Informação Atendidos</h4>
 								</form>
 							</div>
 						</a>

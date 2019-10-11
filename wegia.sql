@@ -122,13 +122,6 @@ delete from pessoa_epi where id_pessoa=idp;
 delete f,p from funcionario as f inner join pessoa as p on p.id_pessoa=f.id_pessoa where f.id_funcionario=idf;
 END$$
 
-CREATE PROCEDURE `excluirbeneficio`(IN `idb` INT)
-BEGIN
-DECLARE idb int;
-
-delete b from funcionario as f inner join pessoa as p on p.id_pessoa=f.id_pessoa inner join beneficiados as b on p.id_pessoa=b.id_pessoa where b.id_beneficiados=idb;
-END$$
-
 CREATE PROCEDURE `cadimagem` (IN `id_pessoa` INT, IN `imagem` LONGTEXT, IN `imagem_extensao` VARCHAR(10), IN `descricao` VARCHAR(40))  begin
 declare idD int;
 insert into documento(id_pessoa,imgdoc,imagem_extensao,descricao) VALUES (id_pessoa,imagem,imagem_extensao,descricao);

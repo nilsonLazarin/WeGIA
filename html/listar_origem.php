@@ -131,7 +131,7 @@
                         <th>CNPJ</th>
                         <th>CPF</th>
                         <th>Telefone</th>
-                        <th>Acão</th>
+                        <th>Ação</th>
                      </tr>
                   </thead>
                   <tbody id="tabela">	

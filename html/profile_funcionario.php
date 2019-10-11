@@ -254,6 +254,10 @@
          
           }
           
+          function listarBeneficios(id){
+            window.location.href = "../controle/control.php?metodo=listarBeneficio&nomeClasse=FuncionarioControle&nextPage=../html/profile_funcionario.php?id_funcionario="+id;
+          }
+
           function clicar_epi(id){
             window.location.href = "../html/editar_epi.php?id_funcionario="+id;
           }
@@ -264,6 +268,10 @@
 
           function excluir_beneficio(id){
             window.location.href = "../controle/control.php?metodo=excluirBeneficio&nomeClasse=FuncionarioControle&id_beneficiados="+id;
+          }
+
+          function excluir_epi(id){
+            window.location.href = "../controle/control.php?metodo=excluirEpi&nomeClasse=FuncionarioControle&id_pessoa_epi="+id;
           }
 
           function alterardate(data){
@@ -277,11 +285,10 @@
             <?php unset($_SESSION['funcionario']); ?>;
             console.log(funcionario);
             $.each(funcionario,function(i,item){
+
               //Informações pessoais
-         
               $("#nomeForm").val(item.nome).prop('disabled', true);
               $("#sobrenomeForm").val(item.sobrenome).prop('disabled', true);
-         
               if(item.sexo=="m"){
          
                 $("#radioM").prop('checked',true).prop('disabled', true);
@@ -337,7 +344,29 @@
                 $("#data_admissao").val(alterardate(item.data_admissao)).prop('disabled', true);
 
                 //Outros
-         
+                $("#pis").val(item.pis).prop('disabled', true);
+                $("#ctps").val(item.ctps).prop('disabled', true);
+                $("#uf_ctps").val(item.uf_ctps).prop('disabled', true);
+                $("#zona_eleitoral").val(item.zona).prop('disabled', true);
+                $("#titulo_eleitor").val(item.numero_titulo).prop('disabled', true);
+                $("#secao_titulo_eleitor").val(item.secao).prop('disabled', true);
+                $("#certificado_reservista_numero").val(item.certificado_reservista_numero).prop('disabled', true);
+                $("#certificado_reservista_serie").val(item.certificado_reservista_serie).prop('disabled', true);
+                $("#situacao").val(item.id_situacao).prop('disabled', true);
+                $("#cargo").val(item.id_cargo).prop('disabled', true);
+
+                //CARGA HORÁRIA
+                $("#escala").text("Escala: "+item.escala);
+                $("#tipo").text("Tipo: "+item.tipo);
+                $("#dias_trabalhados").text("Dias trabalhados: "+item.dias_trabalhados);
+                $("#dias_folga").text("Dias de folga: "+item.folga);
+                $("#entrada1").text("Primeira entrada: "+item.entrada1);
+                $("#saida1").text("Primeira Saída: "+item.saida1);
+                $("#entrada2").text("Segunda entrada: "+item.entrada2);
+                $("#saida2").text("Segunda saída: "+item.saida2);
+                $("#total").text("Carga horária diária: "+item.total);
+                $("#carga_horaria_mensal").text("Carga horária mensal: "+item.carga_horaria);
+
               /*if (item.usa_vtp== "Possui") {
            
                   $("#radioTransportePossui").prop('checked',true).prop('disabled', true);
@@ -361,7 +390,8 @@
                 }*/
 
                 //Beneficios
-                //$("#ibeneficio").each(funcionario,function(i,item){
+                //$.each(item,function(i,item){
+                  //$.each(funcionario,function(id_beneficiados,item){
                   $("#tabela")
                     .append($("<tr>")
                       .attr("class","teste")
@@ -378,10 +408,7 @@
                       .append($('<td />')
                         //.attr("onclick", "clicar_beneficio('" + item.id_funcionario+"')")
                         .html('<button style="background-color: rgb(0,160,0); border-color: rgb(0,170,0); border-radius: 10%; color: white; " onclick="clicar_beneficio(' + item.id_funcionario+')" class="glyphicon glyphicon-pencil"></button>'+' '
-                          +'<button style="background-color: rgb(190,0,0); border-color: rgb(165,0,0); border-radius: 10%; color: white; " onclick="excluir_beneficio('+item.id_beneficiados+')" class="glyphicon glyphicon-trash"></button>')
-                        //.attr("onclick", "excluir_beneficio('" + item.id_funcionario+"')")
-                        //.html('<button class="glyphicon glyphicon-trash"></button>')
-                        )
+                          +'<button style="background-color: rgb(190,0,0); border-color: rgb(165,0,0); border-radius: 10%; color: white; " onclick="excluir_beneficio('+item.id_beneficiados+')" onclick="" class="glyphicon glyphicon-trash"></button>'))
 
                       );
                 //});
@@ -403,40 +430,16 @@
                       .append($("<td >")
                         .text(item.data))
                       .append($('<td />')
-                        .attr("onclick", "clicar_epi('" + item.id_funcionario+"')")
+                        //.attr("onclick", "clicar_epi('" + item.id_funcionario+"')")
                       .html('<button style="background-color: rgb(0,160,0); border-color: rgb(0,170,0); border-radius: 10%; color: white; " onclick="clicar_epi(' + item.id_funcionario+')" class="glyphicon glyphicon-pencil"></button>'+' '
-                          +'<button style="background-color: rgb(190,0,0); border-color: rgb(165,0,0); border-radius: 10%; color: white; " onclick="excluir_epi(' + item.id_pessoa_epi+')" class="glyphicon glyphicon-trash"></button>'))
+                          +'<button style="background-color: rgb(190,0,0); border-color: rgb(165,0,0); border-radius: 10%; color: white; " onclick="excluir_epi('+item.id_pessoa_epi+')" class="glyphicon glyphicon-trash"></button>'))
                     );
                 //});
                 /*
                 $("#descricao_epi").val(item.id_epi).prop('disabled', true);
                 $("#epi_status").val(item.epi_status).prop('disabled', true);
                 $("#data").val(item.data).prop('disabled', true);
-                */
-                
-                //Outros
-                $("#pis").val(item.pis).prop('disabled', true);
-                $("#ctps").val(item.ctps).prop('disabled', true);
-                $("#uf_ctps").val(item.uf_ctps).prop('disabled', true);
-                $("#zona_eleitoral").val(item.zona).prop('disabled', true);
-                $("#titulo_eleitor").val(item.numero_titulo).prop('disabled', true);
-                $("#secao_titulo_eleitor").val(item.secao).prop('disabled', true);
-                $("#certificado_reservista_numero").val(item.certificado_reservista_numero).prop('disabled', true);
-                $("#certificado_reservista_serie").val(item.certificado_reservista_serie).prop('disabled', true);
-                $("#situacao").val(item.id_situacao).prop('disabled', true);
-                $("#cargo").val(item.id_cargo).prop('disabled', true);
-
-                //CARGA HORÁRIA
-                $("#escala").text("Escala: "+item.escala);
-                $("#tipo").text("Tipo: "+item.tipo);
-                $("#dias_trabalhados").text("Dias trabalhados: "+item.dias_trabalhados);
-                $("#dias_folga").text("Dias de folga: "+item.folga);
-                $("#entrada1").text("Primeira entrada: "+item.entrada1);
-                $("#saida1").text("Primeira Saída: "+item.saida1);
-                $("#entrada2").text("Segunda entrada: "+item.entrada2);
-                $("#saida2").text("Segunda saída: "+item.saida2);
-                $("#total").text("Carga horária diária: "+item.total);
-                $("#carga_horaria_mensal").text("Carga horária mensal: "+item.carga_horaria);
+                */ 
             })
           });
       </script>
@@ -767,6 +770,13 @@
           dataType: 'text'
         })
       }
+
+      function funcao1(){
+        alert("Cadastrado com sucesso o Benefício!");
+      }
+      function funcao2(){
+        alert("Cadastrado com sucesso o EPI!");
+       }
       </script>
    </head>
    <body>
@@ -1199,6 +1209,7 @@
                                 <tbody id="tabela">
                                   
                                 </tbody>
+
                               </table>
                             </div><br>
                             <div class="panel-footer">
@@ -1259,7 +1270,7 @@
                                         <div class="form-group">
                                         <label class="col-md-3 control-label" for="profileCompany">Valor</label>
                                         <div class="col-md-8">
-                                           <input type="text" name="preco" class="dinheiro form-control" id="profileCompany" id="valor" maxlength="13" placeholder="Ex: 22.00" onkeypress="return Onlynumbers(event)">
+                                           <input type="text" name="valor" class="dinheiro form-control" id="profileCompany" id="valor" maxlength="13" placeholder="Ex: 22.00" onkeypress="return Onlynumbers(event)">
                                         </div>
                                      </div>
                                       </div>
@@ -1268,8 +1279,8 @@
                                         <div class="row">
                                            <div class="col-md-9 col-md-offset-3">
                                             <input type="hidden" name="nomeClasse" value="FuncionarioControle">
-                                            <input type="hidden" name="metodo" value="incluirBeneficio1">
-                                            <input id="enviar" type="submit" class="btn btn-primary" value="Adicionar">
+                                            <input type="hidden" name="metodo" value="incluirBeneficio">
+                                            <input id="enviar" type="submit" class="btn btn-primary" value="Salvar" onclick="funcao1()">
                                             <button button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                                           </div>
                                         </div>
@@ -1279,8 +1290,6 @@
                               </div>
                             </div>
                           </div>
-                            <!--<a href="../html/cadastro_beneficio1.php?id_funcionario=<?php //echo $_GET['id_funcionario']; ?>"><input type="button" class="btn btn-primary" value="Adicionar" style="background-color: green; text-decoration:none;"></a>
-                          </section>-->
                         </div>
 
                         <div id="epi" class="tab-pane">
@@ -1305,7 +1314,6 @@
                                 <tbody id="tabela_epi">
                                   
                                 </tbody>
-                                <button></button>
                               </table>
                             </div><br>
                             <div class="panel-footer">
@@ -1362,8 +1370,8 @@
                                       <div class="row">
                                         <div class="col-md-9 col-md-offset-3">
                                           <input type="hidden" name="nomeClasse" value="FuncionarioControle">
-                                          <input type="hidden" name="metodo" value="incluirEpi1">
-                                          <input id="enviar" type="submit" class="btn btn-primary" value="Adicionar">
+                                          <input type="hidden" name="metodo" value="incluirEpi">
+                                          <input id="enviar" type="submit" class="btn btn-primary" value="Salvar" onclick="funcao2()">
                                           <button button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                                         </div>
                                       </div>
