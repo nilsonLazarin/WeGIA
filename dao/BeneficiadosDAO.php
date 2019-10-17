@@ -4,6 +4,14 @@ require_once'Conexao.php';
 require_once'../Functions/funcoes.php';
 class BeneficiadosDAO
 {
+  public function formatoDataDMY($data)
+    {
+        $data_arr = explode("-", $data);
+        
+        $datad = $data_arr[2] . '/' . $data_arr[1] . '/' . $data_arr[0];
+        
+        return $datad;
+    }
 
     public function incluir($beneficiados){        
       try {
@@ -60,15 +68,6 @@ class BeneficiadosDAO
       }
     }
 
-    public function formatoDataDMY($data)
-    {
-        $data_arr = explode("-", $data);
-        
-        $datad = $data_arr[2] . '/' . $data_arr[1] . '/' . $data_arr[0];
-        
-        return $datad;
-    }
-
     // excluir
     public function excluir($id_beneficiados)
     {
@@ -88,25 +87,25 @@ class BeneficiadosDAO
         }
     }
 
-    public function listar($id_funcionario){
+    public function listarBeneficio($id_funcionario){
         try{
             $pdo = Conexao::connect();
-            $sql = "SELECT b.id_beneficiados,b.data_inicio,b.data_fim,b.beneficios_status,b.valor,be.id_beneficios,be.descricao_beneficios FROM pessoa p INNER JOIN funcionario f ON p.id_pessoa = f.id_pessoa LEFT JOIN beneficiados b ON b.id_pessoa = p.id_pessoa WHERE f.id_funcionario = :id_funcionario";
+            $sql = "SELECT f.id_funcionario,b.id_beneficiados,b.data_inicio,b.data_fim,b.beneficios_status,b.valor,be.id_beneficios,be.descricao_beneficios FROM pessoa p INNER JOIN funcionario f ON p.id_pessoa = f.id_pessoa LEFT JOIN beneficiados b ON b.id_pessoa = p.id_pessoa LEFT JOIN beneficios be ON be.id_beneficios = b.id_beneficios WHERE f.id_funcionario = :id_funcionario";
            
 
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':id_funcionario',$id_funcionario);
 
             $stmt->execute();
-            //$funcionario=array();
+            $beneficio=array();
 
             while($linha = $stmt->fetch(PDO::FETCH_ASSOC)){
-                $funcionario[]=array('id_beneficiados'=>$linha['id_beneficiados'],'data_inicio'=>$this->formatoDataDMY($linha['data_inicio']),'data_fim'=>$this->formatoDataDMY($linha['data_fim']),'beneficios_status'=>$linha['beneficios_status'],'valor'=>$linha['valor'],'id_beneficios'=>$linha['id_beneficios'],'descricao_beneficios'=>$linha['descricao_beneficios']);
+                $beneficio[] = array('id_funcionario'=>$linha['id_funcionario'],'id_beneficiados'=>$linha['id_beneficiados'],'data_inicio'=>$this->formatoDataDMY($linha['data_inicio']),'data_fim'=>$this->formatoDataDMY($linha['data_fim']),'beneficios_status'=>$linha['beneficios_status'],'valor'=>$linha['valor'],'id_beneficios'=>$linha['id_beneficios'],'descricao_beneficios'=>$linha['descricao_beneficios']);
             }
         }catch (PDOExeption $e){
             echo 'Error: ' .  $e->getMessage();
         }
-        return json_encode($funcionario);
+        return json_encode($beneficio);
     }
 
 }

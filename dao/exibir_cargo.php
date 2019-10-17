@@ -8,5 +8,5 @@
 	while ($row = $stmt->fetch()) {
     	$resultado[] = array('id_cargo'=>$row['id_cargo'],'cargo'=>$row['cargo']);
 	}
-	echo json_encode($resultado);
+	var_dump($resultado);
 ?>

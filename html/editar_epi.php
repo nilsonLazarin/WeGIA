@@ -4,9 +4,9 @@
 		header ("Location: ../index.php");
 	}
 
-	if (!isset($_SESSION['funcionario'])) {
+	if (!isset($_SESSION['epi'])) {
     $id_funcionario=$_GET['id_funcionario'];
-    header('Location: ../controle/control.php?metodo=listarUm&nomeClasse=FuncionarioControle&nextPage=../html/editar_epi.php?id_funcionario='.$id_funcionario.'&id_funcionario='.$id_funcionario);
+    header('Location: ../controle/control.php?metodo=listarEpi&nomeClasse=FuncionarioControle&nextPage=../html/editar_epi.php?id_funcionario='.$id_funcionario.'&id_funcionario='.$id_funcionario);
    }
 
     $mysqli = new mysqli("localhost","root","root","wegia");
@@ -92,10 +92,10 @@
 
        	$(function(){
             
-            var funcionario = <?php echo $_SESSION['funcionario'];?>;
-            <?php unset($_SESSION['funcionario']); ?>;
-            console.log(funcionario);
-            $.each(funcionario,function(i,item){
+            var epi = <?php echo $_SESSION['epi'];?>;
+            <?php unset($_SESSION['epi']); ?>;
+            console.log(epi);
+            $.each(epi,function(i,item){
             	$("#descricao_epi").val(item.id_epi).prop('disabled', true);
                 $("#epi_status").val(item.epi_status).prop('disabled', true);
                 $("#data").val(alterardate(item.data)).prop('disabled', true);

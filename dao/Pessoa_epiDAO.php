@@ -69,6 +69,27 @@ class Pessoa_epiDAO
             echo 'Error: <b>  na tabela epi = ' . $sql . '</b> <br /><br />' . $e->getMessage();
         }
     }
+
+    public function listarEpi($id_funcionario){
+        try{
+            $pdo = Conexao::connect();
+            $sql = "SELECT f.id_funcionario,pe.id_pessoa_epi,pe.data,pe.epi_status,e.id_epi, e.descricao_epi FROM pessoa p INNER JOIN funcionario f ON p.id_pessoa = f.id_pessoa LEFT JOIN pessoa_epi pe ON pe.id_pessoa = f.id_pessoa LEFT JOIN epi e ON e.id_epi = pe.id_epi WHERE f.id_funcionario = :id_funcionario";
+           
+
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindParam(':id_funcionario',$id_funcionario);
+
+            $stmt->execute();
+            $epi=array();
+
+            while($linha = $stmt->fetch(PDO::FETCH_ASSOC)){
+                $epi[] = array('id_funcionario'=>$linha['id_funcionario'],'id_pessoa_epi'=>$linha['id_pessoa_epi'],'data'=>$linha['data'],'epi_status'=>$linha['epi_status'],'id_epi'=>$linha['id_epi'], 'descricao_epi'=>$linha['descricao_epi']);
+            }
+        }catch (PDOExeption $e){
+            echo 'Error: ' .  $e->getMessage();
+        }
+        return json_encode($epi);
+    }
 }
 
 ?>

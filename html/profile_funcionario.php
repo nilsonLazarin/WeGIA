@@ -1,20 +1,29 @@
 <?php
-   session_start();
-   if(!isset($_SESSION['usuario'])){
+  session_start();
+  if(!isset($_SESSION['usuario'])){
     header ("Location: ../index.php");
-   }
-   
-   if (!isset($_SESSION['funcionario'])) {
+  }else if(!isset($_SESSION['funcionario'])) {
     $id_funcionario=$_GET['id_funcionario'];
     header('Location: ../controle/control.php?metodo=listarUm&nomeClasse=FuncionarioControle&nextPage=../html/profile_funcionario.php?id_funcionario='.$id_funcionario.'&id_funcionario='.$id_funcionario);
-   }
-   
+  }else if(!isset($_SESSION['beneficio'])) {
+    $id_funcionario=$_GET['id_funcionario'];
+    header('Location: ../controle/control.php?metodo=listarBeneficio&nomeClasse=FuncionarioControle&nextPage=../html/profile_funcionario.php?id_funcionario='.$id_funcionario.'&id_funcionario='.$id_funcionario);
+  }else if(!isset($_SESSION['epi'])) {
+    $id_funcionario=$_GET['id_funcionario'];
+    header('Location: ../controle/control.php?metodo=listarEpi&nomeClasse=FuncionarioControle&nextPage=../html/profile_funcionario.php?id_funcionario='.$id_funcionario.'&id_funcionario='.$id_funcionario);
+  }else if(isset($_SESSION['funcionario']) && isset($_SESSION['beneficio']) && isset($_SESSION['epi'])){
+    $teste = $_SESSION['funcionario'];
+    $bene = $_SESSION['beneficio'];
+    $ep = $_SESSION['epi'];
+  }
+    
+
     $mysqli = new mysqli("localhost","root","root","wegia");
     $situacao = $mysqli->query("SELECT * FROM situacao");
     $cargo = $mysqli->query("SELECT * FROM cargo");
     $beneficios = $mysqli->query("SELECT * FROM beneficios");
     $descricao_epi = $mysqli->query("SELECT * FROM epi");
-   
+
    ?>
 <!doctype html>
 <html class="fixed">
@@ -100,6 +109,9 @@
         }
         .btn.active span.fa-check {       
           opacity: 1;       
+        }
+        #frame{
+          width: 100%;
         }
       </style>
       <!-- jquery functions -->
@@ -254,10 +266,6 @@
          
           }
           
-          function listarBeneficios(id){
-            window.location.href = "../controle/control.php?metodo=listarBeneficio&nomeClasse=FuncionarioControle&nextPage=../html/profile_funcionario.php?id_funcionario="+id;
-          }
-
           function clicar_epi(id){
             window.location.href = "../html/editar_epi.php?id_funcionario="+id;
           }
@@ -281,11 +289,11 @@
          
           $(function(){
             
-            var funcionario = <?php echo $_SESSION['funcionario'];?>;
-            <?php unset($_SESSION['funcionario']); ?>;
+            var funcionario = <?php echo $teste;?>;
+            <?php unset($teste) ?>;
             console.log(funcionario);
             $.each(funcionario,function(i,item){
-
+            
               //Informações pessoais
               $("#nomeForm").val(item.nome).prop('disabled', true);
               $("#sobrenomeForm").val(item.sobrenome).prop('disabled', true);
@@ -367,6 +375,8 @@
                 $("#total").text("Carga horária diária: "+item.total);
                 $("#carga_horaria_mensal").text("Carga horária mensal: "+item.carga_horaria);
 
+  						})
+            });
               /*if (item.usa_vtp== "Possui") {
            
                   $("#radioTransportePossui").prop('checked',true).prop('disabled', true);
@@ -388,10 +398,14 @@
                   $("#cesta_basicaPossui").prop('checked',false).prop('disabled', true);
                   $("#cesta_basicaNaoPossui").prop('checked',true).prop('disabled', true);
                 }*/
-
+            
                 //Beneficios
-                //$.each(item,function(i,item){
-                  //$.each(funcionario,function(id_beneficiados,item){
+              $(function(){
+              
+                var beneficio = <?php echo $bene;?>;
+                <?php unset($bene); ?>;
+                console.log(beneficio);
+                $.each(beneficio,function(i,item){
                   $("#tabela")
                     .append($("<tr>")
                       .attr("class","teste")
@@ -411,6 +425,8 @@
                           +'<button style="background-color: rgb(190,0,0); border-color: rgb(165,0,0); border-radius: 10%; color: white; " onclick="excluir_beneficio('+item.id_beneficiados+')" onclick="" class="glyphicon glyphicon-trash"></button>'))
 
                       );
+                })
+              });
                 //});
                 /*
                 $("#beneficios").val(item.id_beneficios).prop('disabled', true);
@@ -419,7 +435,12 @@
                 $("#data_fim").val(item.data_fim).prop('disabled', true);
                 */
                 //EPI
-                //$.each(funcionario,function(i,item){
+              $(function(){
+            
+                var epi = <?php echo $ep;?>;
+                <?php unset($ep); ?>;
+                console.log(epi);
+                $.each(epi,function(i,item){
                   $("#tabela_epi")
                     .append($("<tr>")
                       .attr("class","teste")
@@ -434,14 +455,16 @@
                       .html('<button style="background-color: rgb(0,160,0); border-color: rgb(0,170,0); border-radius: 10%; color: white; " onclick="clicar_epi(' + item.id_funcionario+')" class="glyphicon glyphicon-pencil"></button>'+' '
                           +'<button style="background-color: rgb(190,0,0); border-color: rgb(165,0,0); border-radius: 10%; color: white; " onclick="excluir_epi('+item.id_pessoa_epi+')" class="glyphicon glyphicon-trash"></button>'))
                     );
+                    
                 //});
                 /*
                 $("#descricao_epi").val(item.id_epi).prop('disabled', true);
                 $("#epi_status").val(item.epi_status).prop('disabled', true);
                 $("#data").val(item.data).prop('disabled', true);
                 */ 
-            })
-          });
+                })
+              });
+              
       </script>
       <script type="text/javascript" >
         function numero_residencial(){
@@ -619,21 +642,21 @@
           function gerarSituacao(){
             url = '../dao/exibir_situacao.php';
             $.ajax({
-            data: '',
-            type: "POST",
-            url: url,
-            async: true,
-            success: function(response){
-              var situacoes = response;
-              $('#situacao').empty();
-              $('#situacao').append('<option selected disabled>Selecionar</option>');
-              $.each(situacoes,function(i,item){
-                $('#situacao').append('<option value="' + item.id_situacao + '">' + item.situacoes + '</option>');
-              }); 
-            },
-            dataType: 'json'
-          });
-        }
+	            data: '',
+	            type: "POST",
+	            url: url,
+	            async: true,
+	            success: function(response){
+	              var situacoes = response;
+	              $('#situacao').empty();
+	              $('#situacao').append('<option selected disabled>Selecionar</option>');
+	              $.each(situacoes,function(i,item){
+	                $('#situacao').append('<option value="' + item.id_situacao + '">' + item.situacoes + '</option>');
+	              }); 
+	            },
+	            dataType: 'json'
+	          });
+        	}
 
         function adicionar_situacao(){
           url = '../dao/adicionar_situacao.php';

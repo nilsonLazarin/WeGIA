@@ -4,9 +4,9 @@
 		header ("Location: ../index.php");
 	}
 
-	if (!isset($_SESSION['funcionario'])) {
+	if (!isset($_SESSION['beneficio'])) {
     $id_funcionario=$_GET['id_funcionario'];
-    header('Location: ../controle/control.php?metodo=listarUm&nomeClasse=FuncionarioControle&nextPage=../html/editar_beneficio.php?id_funcionario='.$id_funcionario.'&id_funcionario='.$id_funcionario);
+    header('Location: ../controle/control.php?metodo=listarBeneficio&nomeClasse=FuncionarioControle&nextPage=../html/editar_beneficio.php?id_funcionario='.$id_funcionario.'&id_funcionario='.$id_funcionario);
    }
 
     $mysqli = new mysqli("localhost","root","root","wegia");
@@ -104,10 +104,10 @@
 
         $(function(){
             
-            var funcionario = <?php echo $_SESSION['funcionario'];?>;
-            <?php unset($_SESSION['funcionario']); ?>;
-            console.log(funcionario);
-            $.each(funcionario,function(i,item){
+            var beneficio = <?php echo $_SESSION['beneficio'];?>;
+            <?php unset($_SESSION['beneficio']); ?>;
+            console.log(beneficio);
+            $.each(beneficio,function(i,item){
             	$("#ibeneficios").val(item.id_beneficios).prop('disabled', true);
                 $("#beneficios_status").val(item.beneficios_status).prop('disabled', true);
                 $("#inicio").val(alterardate(item.data_inicio)).prop('disabled', true);

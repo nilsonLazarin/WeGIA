@@ -451,21 +451,36 @@ class FuncionarioControle
         
     }
 
-    public function listarBeneficio()
+    public function listarEpi()
     {
         extract($_REQUEST);
         try {
-            $beneficioDAO = new BeneficiadosDAO();
-            $beneficio=$beneficioDAO->listar($id_funcionario);
+            $epiDAO = new Pessoa_epiDAO();
+            $epi=$epiDAO->listarEpi($id_funcionario);
             session_start();
-            $_SESSION['funcionario']=$funcionario;
+            $_SESSION['epi']=$epi;
             header('Location:'.$nextPage);
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
         
     }
-    
+
+    public function listarBeneficio()
+    {
+        extract($_REQUEST);
+        try {
+            $beneficiadoDAO = new BeneficiadosDAO();
+            $beneficio=$beneficiadoDAO->listarBeneficio($id_funcionario);
+            session_start();
+            $_SESSION['beneficio']=$beneficio;
+            header('Location:'.$nextPage);
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+        
+    }
+   
     public function incluir(){
         $funcionario = $this->verificarFuncionario();
         $horario = $this->verificarHorario();
