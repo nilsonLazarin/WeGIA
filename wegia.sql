@@ -279,8 +279,6 @@ CREATE TABLE `funcionario` (
   `secao` varchar(40) DEFAULT NULL,
   `certificado_reservista_numero` varchar(100) DEFAULT NULL,
   `certificado_reservista_serie` varchar(100) DEFAULT NULL,
-  #`situacao` varchar(100) DEFAULT NULL,
-  #`cargo` varchar(30) DEFAULT NULL,
 
   FOREIGN KEY (`id_pessoa`) REFERENCES `pessoa` (`id_pessoa`)
 
@@ -475,6 +473,12 @@ CREATE TABLE `situacao` (
   `id_situacao` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `situacoes` varchar(30) DEFAULT NULL UNIQUE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+insert into situacao(situacoes)
+values("Ativo"),
+("Inativo"),
+("FÃ©rias"),
+("Afastado");
 
 CREATE TABLE `voluntario_cargo` (
   `id_cargo` int NOT NULL,

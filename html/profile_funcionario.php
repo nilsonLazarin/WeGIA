@@ -293,8 +293,6 @@
           $(function(){
             
             var funcionario = <?= $func ?>;
-
-            console.log(funcionario);
             $.each(funcionario,function(i,item){
             
               //Informações pessoais
@@ -406,8 +404,6 @@
               $(function(){
               
                 var beneficio = <?= $bene ?>;
-
-                console.log(beneficio);
                 $.each(beneficio,function(i,item){
                   $("#tabela")
                     .append($("<tr>")
@@ -441,8 +437,6 @@
               $(function(){
                 
                 var epi = <?= $epi ?>;
-
-                console.log(epi);
                 $.each(epi,function(i,item){
                   $("#tabela_epi")
                     .append($("<tr>")

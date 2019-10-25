@@ -255,7 +255,7 @@ class InternoDAO
                     $internos[$x]=array('cpf'=>$linha['cpf'],'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'id'=>$linha['id_interno']);
                 }
                 else{
-                $internos[$x]=array('cpf'=>mask($linha['cpf'],'###.###.###-##'),'nome'=>$linha['nome'],'id'=>$linha['id_interno']);
+                $internos[$x]=array('cpf'=>mask($linha['cpf'],'###.###.###-##'),'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'id'=>$linha['id_interno']);
                 }
                 $x++;
             }
