@@ -244,7 +244,7 @@
 		                              <div class="form-group">
 		                                <label class="col-md-3 control-label" for="profileCompany">Data Fim</label>
 		                                <div class="col-md-8">
-		                                  <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data_fim" id="data_fim" max=<?php echo date('Y-m-d'); ?> >
+		                                  <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data_fim" id="data_fim">
 		                                </div>
 		                              </div>
 		                              <div class="form-group">

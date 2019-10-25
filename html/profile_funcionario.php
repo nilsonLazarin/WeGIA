@@ -11,12 +11,16 @@
   }else if(!isset($_SESSION['epi'])) {
     $id_funcionario=$_GET['id_funcionario'];
     header('Location: ../controle/control.php?metodo=listarEpi&nomeClasse=FuncionarioControle&nextPage=../html/profile_funcionario.php?id_funcionario='.$id_funcionario.'&id_funcionario='.$id_funcionario);
-  }else if(isset($_SESSION['funcionario']) && isset($_SESSION['beneficio']) && isset($_SESSION['epi'])){
-    $teste = $_SESSION['funcionario'];
-    $bene = $_SESSION['beneficio'];
-    $ep = $_SESSION['epi'];
-  }
+  }else{
     
+      $func = $_SESSION['funcionario'];
+      $bene = $_SESSION['beneficio'];
+      $epi = $_SESSION['epi'];
+      unset($_SESSION['funcionario']);
+      unset($_SESSION['beneficio']);
+      unset($_SESSION['epi']);
+      
+  } 
 
     $mysqli = new mysqli("localhost","root","root","wegia");
     $situacao = $mysqli->query("SELECT * FROM situacao");
@@ -265,11 +269,10 @@
             $("#botaoEditarOutros").attr('onclick', "return editar_outros()");
          
           }
-          
-          function clicar_epi(id){
-            window.location.href = "../html/editar_epi.php?id_funcionario="+id;
-          }
 
+          function clicar_epi(id){
+            window.location.href ="../html/editar_epi.php?id_funcionario="+id ;
+          }
           function clicar_beneficio(id){
             window.location.href = "../html/editar_beneficio.php?id_funcionario="+id;
           }
@@ -286,11 +289,11 @@
             var date=data.split("/")
             return date[2]+"-"+date[1]+"-"+date[0];
           }
-         
+
           $(function(){
             
-            var funcionario = <?php echo $teste;?>;
-            <?php unset($teste) ?>;
+            var funcionario = <?= $func ?>;
+
             console.log(funcionario);
             $.each(funcionario,function(i,item){
             
@@ -402,8 +405,8 @@
                 //Beneficios
               $(function(){
               
-                var beneficio = <?php echo $bene;?>;
-                <?php unset($bene); ?>;
+                var beneficio = <?= $bene ?>;
+
                 console.log(beneficio);
                 $.each(beneficio,function(i,item){
                   $("#tabela")
@@ -436,9 +439,9 @@
                 */
                 //EPI
               $(function(){
-            
-                var epi = <?php echo $ep;?>;
-                <?php unset($ep); ?>;
+                
+                var epi = <?= $epi ?>;
+
                 console.log(epi);
                 $.each(epi,function(i,item){
                   $("#tabela_epi")
@@ -607,7 +610,6 @@
             }
          
           }
-         console.log(funcionario);
           
       </script>
       <script language="JavaScript">
@@ -1287,7 +1289,7 @@
                                         <div class="form-group">
                                           <label class="col-md-3 control-label" for="profileCompany">Data Fim</label>
                                           <div class="col-md-8">
-                                            <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data_fim" id="data_fim" max=<?php echo date('Y-m-d'); ?> >
+                                            <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data_fim" id="data_fim" >
                                           </div>
                                         </div>
                                         <div class="form-group">
