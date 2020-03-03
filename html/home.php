@@ -85,7 +85,7 @@
 
 				<!-- start: page -->
 				<div class="row" >
-					<a href="#" >
+					<a href="" >
 						<div class="col-lg-2 col-md-8 i" data-toggle="collapse" href="#pessoas" >
 							<i  class="far fa-address-book"></i>
 							<h4>Pessoa</h4>
@@ -95,6 +95,13 @@
 						<div class="col-lg-2 col-md-8 i" data-toggle="collapse" href="#material">
 							<i  class="far fa-address-book"></i>
 							<h4>Material e Patrimônio</h4>
+						</div>
+					</a>
+					<a href="../memorando/envio.php" >
+						<div class="col-lg-2 col-md-8 i" data-toggle="collapse" href="#memorando">
+							<i  class="far fa-address-book"></i>
+							<h4>Memorando
+							</h4>
 						</div>
 					</a>
 				</div>
