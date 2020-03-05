@@ -6,6 +6,26 @@ DELIMITER $$
 --
 -- Procedimentos
 --
+ 
+CREATE PROCEDURE `insdespacho`(IN `id_memorando` INT, IN `id_remetente` INT, IN `id_destinatario` INT, IN `texto` LONGTEXT)
+	BEGIN 
+		declare idD int;
+        INSERT INTO despacho(id_memorando, id_remetente, id_destinatario, texto)
+        values (id_memorando, id_remetente, id_destinatario, texto);
+        
+        SELECT max(id_despacho) into idD from despacho;
+        
+END $$
+CREATE PROCEDURE `insmemorando`(IN `id_pessoa` INT, IN `id_status_memorando` INT, IN `titulo` TEXT, IN `data` varchar(255))
+	BEGIN 
+		declare idM int;
+        INSERT INTO memorando(id_pessoa, id_status_memorando, titulo, data)
+        values (id_pessoa, id_status_memorando, titulo, data);
+        
+        SELECT max(id_memorando) into idM from memorando;
+        
+END $$
+
 CREATE PROCEDURE `cadentrada` (IN `id_origem` INT, IN `id_almoxarifado` INT, IN `id_tipo` INT, IN `id_responsavel` INT, IN `data` DATE, IN `hora` TIME, IN `valor_total` DECIMAL(10,2), IN `id_entrada` INT, IN `id_produto` INT, IN `qtd` INT, IN `valor_unitario` DECIMAL(10,2))  begin
 
 declare idE int;
@@ -21,7 +41,7 @@ insert into ientrada(id_entrada, id_produto, qtd, valor_unitario)
   values(idE, id_produto, qtd, valor_unitario);
 end$$
 
-CREATE PROCEDURE `cadfuncionario`(IN `nome` VARCHAR(100), IN `sobrenome` VARCHAR(100), IN `cpf` VARCHAR(40), 
+CREATE PROCEDURE `cadfuncionario`(IN `nome` VARCHAR(100),  IN `sobrenome` VARCHAR(100), IN `cpf` VARCHAR(40), 
   IN `senha` VARCHAR(70), IN `sexo` CHAR(1), IN `telefone` VARCHAR(100), 
   IN `data_nascimento` DATE, IN `imagem` LONGTEXT, IN `cep` VARCHAR(100), 
   IN `estado` VARCHAR(50), IN `cidade` VARCHAR(40), IN `bairro` VARCHAR(40), 
