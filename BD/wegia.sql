@@ -253,8 +253,45 @@ CREATE TABLE `pessoa` (
   `data_expedicao` date DEFAULT NULL,
   `nome_mae` varchar(100) DEFAULT NULL,
   `nome_pai` varchar(100) DEFAULT NULL,
-  `tipo_sanguineo` varchar(5) DEFAULT NULL
+  `tipo_sanguineo` varchar(5) DEFAULT NULL,
+  `nivel_acesso` tinyint default 0,
+  `adm_configurado` tinyint default 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `campo_imagem` (
+  `id_campo` int(11) NOT NULL AUTO_INCREMENT,
+  `nome_campo` varchar(40) NOT NULL,
+  `tipo` enum('img','car') NOT NULL,
+  PRIMARY KEY (`id_campo`),
+  UNIQUE KEY `nome_campo` (`nome_campo`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `imagem` (
+  `id_imagem` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(50) NOT NULL,
+  `imagem` longblob NOT NULL,
+  `tipo` varchar(25) NOT NULL,
+  PRIMARY KEY (`id_imagem`),
+  UNIQUE KEY `nome` (`nome`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `selecao_paragrafo` (
+  `id_selecao` int(11) NOT NULL AUTO_INCREMENT,
+  `nome_campo` varchar(40) NOT NULL,
+  `paragrafo` text NOT NULL,
+  PRIMARY KEY (`id_selecao`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `tabela_imagem_campo` (
+  `id_relacao` int(11) NOT NULL AUTO_INCREMENT,
+  `id_campo` int(11) NOT NULL,
+  `id_imagem` int(11) NOT NULL,
+  PRIMARY KEY (`id_relacao`),
+  KEY `id_campo` (`id_campo`),
+  KEY `id_imagem` (`id_imagem`),
+  CONSTRAINT `tabela_imagem_campo_ibfk_1` FOREIGN KEY (`id_campo`) REFERENCES `campo_imagem` (`id_campo`),
+  CONSTRAINT `tabela_imagem_campo_ibfk_2` FOREIGN KEY (`id_imagem`) REFERENCES `imagem` (`id_imagem`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `tipo_entrada` (
   `id_tipo` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -574,7 +611,7 @@ CREATE TABLE `memorando`(
     `id_pessoa` INT(11) NOT NULL,
     `id_status_memorando` int(11) DEFAULT NULL,
     `titulo` TEXT DEFAULT NULL,
-    `data` DATETIME DEFAULT NULL,
+    `data` TIMESTAMP DEFAULT NULL,
     FOREIGN KEY (`id_pessoa`) REFERENCES `pessoa` (`id_pessoa`),
   FOREIGN KEY (`id_status_memorando`) REFERENCES `status_memorando` (`id_status_memorando`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -585,6 +622,7 @@ CREATE TABLE `despacho`(
     `id_remetente` INT(11) NOT NULL,
     `id_destinatario` INT(11) NOT NULL,
     `texto` LONGTEXT DEFAULT NULL,
+    `data` TIMESTAMP NOT NULL,
     FOREIGN KEY (`id_memorando`) REFERENCES `memorando` (`id_memorando`),
     FOREIGN KEY (`id_remetente`) REFERENCES `pessoa` (`id_pessoa`),
     FOREIGN KEY (`id_destinatario`) REFERENCES `pessoa` (`id_pessoa`)
