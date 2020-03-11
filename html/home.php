@@ -97,8 +97,8 @@
 							<h4>Material e Patrimônio</h4>
 						</div>
 					</a>
-					<a href="../memorando/envio.php" >
-						<div class="col-lg-2 col-md-8 i" data-toggle="collapse" href="#memorando">
+					<a href="#" onclick="window.location.href = '../memorando/envio.php'" >
+						<div class="col-lg-2 col-md-8 i" data-toggle="collapse">
 							<i  class="far fa-address-book"></i>
 							<h4>Memorando
 							</h4>

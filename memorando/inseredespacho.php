@@ -1,6 +1,18 @@
 <?php
+    session_start();
+    if(!isset($_SESSION['usuario'])){
+    header ("Location: ../index.php");
+    }
     include("conexao.php");
-    $remetente=$_POST["remetente"];
+    $cpf_remetente=$_SESSION['usuario'];
+    $comando5="select id_pessoa from pessoa where cpf='$cpf_remetente'";
+    $query5=mysqli_query($conexao, $comando5);
+    $linhas5=mysqli_num_rows($query5);
+    for($i=0; $i<$linhas5; $i++)
+    {
+        $consulta5=mysqli_fetch_row($query5);
+        $remetente=$consulta5[0];
+    }
     $destinatario=$_POST["destinatario"];
     $despacho=$_POST["despacho"];
     $id_memorando=$_GET["id"];

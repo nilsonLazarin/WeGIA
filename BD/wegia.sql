@@ -279,6 +279,7 @@ CREATE TABLE `selecao_paragrafo` (
   `id_selecao` int(11) NOT NULL AUTO_INCREMENT,
   `nome_campo` varchar(40) NOT NULL,
   `paragrafo` text NOT NULL,
+  `original` tinyint default '1',
   PRIMARY KEY (`id_selecao`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
 
@@ -621,11 +622,13 @@ CREATE TABLE `despacho`(
     `id_memorando` INT(11) NOT NULL,
     `id_remetente` INT(11) NOT NULL,
     `id_destinatario` INT(11) NOT NULL,
+    `id_status_despacho` INT(11) NOT NULL,
     `texto` LONGTEXT DEFAULT NULL,
     `data` TIMESTAMP NOT NULL,
     FOREIGN KEY (`id_memorando`) REFERENCES `memorando` (`id_memorando`),
     FOREIGN KEY (`id_remetente`) REFERENCES `pessoa` (`id_pessoa`),
-    FOREIGN KEY (`id_destinatario`) REFERENCES `pessoa` (`id_pessoa`)
+    FOREIGN KEY (`id_destinatario`) REFERENCES `pessoa` (`id_pessoa`),
+    FOREIGN KEY (`id_status_memorando`) REFERENCES `status_memorando` (`id_status_memorando`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `anexo` (

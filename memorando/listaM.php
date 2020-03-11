@@ -9,9 +9,9 @@ for($i=0; $i<$linhas; $i++)
 {
     echo "<tr>";
     $consulta=mysqli_fetch_row($query);
-    $mensagem=$consulta[0];
-    $reme=$consulta[1];
-    $data=$consulta[2];
+    $reme=$consulta[0];
+    $mensagem=$consulta[1];
+    $data=$consulta[3];
     echo "<td>".$reme."</td>";
     echo "<td>".$mensagem."</td>";
     echo "<td>".$data."</td>";
