@@ -1,0 +1,103 @@
+
+
+.table-hover > tbody > tr:hover {
+  cursor: pointer;
+}
+
+.text-area{
+  width: -webkit-fill-available;
+  resize: none;
+}
+
+.text-area-disabled{
+  border: none;
+  background-color: #ffffff00;
+}
+
+.space-evenly{
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.frame{
+  width: fit-content;
+  padding: 5px;
+  border: 1px solid #ccc;
+  margin: 5px;
+}
+
+.car-selected{
+  width: 200px;
+}
+
+.btn{
+  margin: 5px;
+}
+
+.m-md{
+  margin: 10px;
+}
+
+.mr-md{
+  margin-right: 10px;
+}
+
+.mt-md{
+  margin-top: 10px;
+}
+
+.mb-md{
+  margin-bottom: 10px;
+}
+
+.my-sm{
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.selection-field {
+  padding: 0 4px;
+  margin: 0 auto;
+  padding: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  background-color: #eee;
+  text-align: center;
+}
+
+.selection-field img{
+  width: 22%;
+  vertical-align: middle;
+  margin: 5px;
+}
+
+.selected-img{
+  width: 23%;
+  vertical-align: middle;
+}
+
+.icon{
+  margin-right: 10px;
+}
+
+.v-center {
+  position: relative;
+  padding: 20px 0;
+}
+
+.v-center div {
+  margin-left: 10px;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  word-break: break-all;
+}
+
+.fill-space{
+  width: -webkit-fill-available;
+}
+
+.none{
+  display: none;
+}

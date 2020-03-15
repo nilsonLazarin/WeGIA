@@ -12,7 +12,7 @@
    			$cpf=str_replace("-", "", $cpf);
    			
 			$pdo = Conexao::connect();
-			$consulta = $pdo->query('SELECT id_pessoa, cpf, senha, nome from pessoa');
+			$consulta = $pdo->query('SELECT id_pessoa, cpf, senha, nome, adm_configurado, nivel_acesso from pessoa');
 			$pwd=hash('sha256', $pwd);
 			while($linha = $consulta->fetch(PDO::FETCH_ASSOC)){
 				if($linha["cpf"] == $cpf && $linha["senha"] == $pwd){
@@ -34,7 +34,10 @@
 				else{
 					$_SESSION['usuario'] = $cpf;
 					$_SESSION['id_pessoa'] = $id_pessoa;
-					header ("Location: ../html/home.php");
+					if($linha['adm_configurado'] == 0 && $linha['cpf'] == "admin" && $linha['nivel_acesso'] == 2){
+						header("Location: ../html/alterar_senha.php");
+
+					}else header("Location: ../html/home.php");
 				}
 			}
 			else{

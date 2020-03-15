@@ -8,6 +8,9 @@
 	{
 		header('Location: ../controle/control.php?metodo=listartodos&nomeClasse=InternoControle&nextPage=../html/informacao_interno.php');
 	}
+	
+	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
+	require_once "personalizacao_display.php";
 
 ?>
 <!doctype html>
@@ -26,7 +29,7 @@
 	<link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css" />
 	<link rel="stylesheet" href="../assets/vendor/magnific-popup/magnific-popup.css" />
 	<link rel="stylesheet" href="../assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
-	<link rel="icon" href="../img/logofinal.png" type="image/x-icon">
+	<link rel="icon" href="<?php display_campo("Logo",'file');?>" type="image/x-icon" id="logo-icon">
 
 	<!-- Specific Page Vendor CSS -->
 	<link rel="stylesheet" href="../assets/vendor/select2/select2.css" />
@@ -95,7 +98,7 @@
 
 		});
 		$(function () {
-	      $("#header").load("header.html");
+	      $("#header").load("header.php");
 	      $(".menuu").load("menu.html");
 	    });
 	</script>

@@ -598,7 +598,7 @@ class FuncionarioControle
 
     public function alterarSenha()
     {
-        extract($_REQUEST);
+        extract($_REQUEST); 
         $nova_senha=hash('sha256', $nova_senha);
         $verificacao=$this->verificarSenha();
         if ($verificacao==1) {
@@ -609,7 +609,13 @@ class FuncionarioControle
             $funcionarioDAO=new FuncionarioDAO();
             try {
                 $funcionarioDAO->alterarSenha($id_pessoa, $nova_senha);
-                 header("Location: ../html/alterar_senha.php?verificacao=".$verificacao);
+                 $conexao =  mysqli_connect("localhost","root","root","wegia");
+                 $resultado = mysqli_query($conexao, "UPDATE pessoa set adm_configurado=1 where cpf='admin'");
+                 $resultado = mysqli_query($conexao, "SELECT original from selecao_paragrafo where id_selecao = 1");
+                 $registro = mysqli_fetch_array($resultado);
+                 if($registro['original'] == 1){
+                    header("Location: ../html/alterar_senha.php?verificacao=".$verificacao."&redir_config=true");
+                 }else  header("Location: ../html/alterar_senha.php?verificacao=".$verificacao);
             } catch (PDOException $e) {
                 echo $e->getMessage();
             }

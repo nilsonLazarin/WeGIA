@@ -4,13 +4,25 @@
 	if(isset($_SESSION['usuario'])){
 		header ("Location: ./html/home.php");
 	}
+	
+	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
+	require_once "html/personalizacao_display.php";
+
+
+	function display_carrossel($campo){
+		$car = new Display_campo($campo,"car");
+		$files = $car->getCar();
+		foreach ($files as $key => $val){
+			echo('<div class="item ' . ($key == 0 ? 'active' : '') . '"><img src="data:image;base64,' . $val["arquivo"] . '" ></div>');
+		}
+	}
 ?>
 <!doctype html>
 <html>
 	<head>
-		<title>Lar Abrigo Amor a Jesus - WEGIA</title>
+		<title><?php display_campo("Titulo","str");?> - WEGIA</title>
 		<meta charset="UTF-8"/>
-		<link rel="icon" href="./img/logofinal.png" type="image/x-icon">
+		<link rel="icon" href="<?php display_campo("Logo","file");?>" type="image/x-icon">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
 			<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -60,15 +72,15 @@
 			
 			<div class="col-md-1">
 				<a class="logo pull-left">
-					<img src="./img/logofinal.png" height="30" />
+					<img src="<?php display_campo("Logo","file");?>" height="30" />
 				</a>
 			</div>
 
 			<div class="col-md-4 descricao">
 				<div>
-					<p class="lar">LAJE - Lar Abrigo Amor a Jesus</p>
+					<p class="lar"><?php display_campo("Titulo","str");?></p>
 					<br/>
-					<p class="wegia">Web Gerenciador de instituições assistenciais</p>
+					<p class="wegia"><?php display_campo("Subtitulo","str");?></p>
 				</div>
 			</div>
 
@@ -122,13 +134,11 @@
 
 							<div class="carousel-inner">
 
-								<div class="item active">
-									<img src="./img/LAJE1.jpg" >
-								</div>
+								 <!-- start: carrossel -->
+								 
+								<?php display_carrossel("Carrossel");?>
 
-								<div class="item">
-									<img src="./img/LAJE2.jpg">
-								</div>
+				 				<!-- end: carrossel -->
 
 							</div>
 
@@ -142,17 +152,13 @@
 			<div class="col-md-4 informacao">
 
 					<div class="text">
-						<div><h1>Conheça</h1></div>
-						<p>O LAJE, Entidade Filantrópica fundada em 14 de julho de 1929, por um pequeno grupo de pessoas, todas friburguenses, preocupadas com a morte constante de mendigos nas ruas de nossa cidade, em função de frio e fome.</p>
 
-						<p>Dirigida por um grupo de voluntários, a diretoria é eleita de dois em dois anos para mandato que poderá ser renovado por mais dois anos. Um dos claros objetivos desde sua criação sempre foi o envolvimento da comunidade no trabalho voluntário.</p>
+						<!-- start: paragrafos -->
 
-						<p>Hoje, o Lar Abrigo Amor a Jesus é uma ILPI (Instituição de Longa Permanência para Idosos) e segue as normas previstas pela ANVISA. A Casa abriga cerca de 80 idosos, todos carentes, necessitados de cuidados especiais.</p>
-						<h1>Objetivo</h1>
+						<?php display_campo("Conheça","txt");?>
+						<?php display_campo("Objetivo","txt");?>
 
-						<p>O objetivo principal do Lar Abrigo é a recuperação física e psicológica dos abrigados, tirando-lhes das condições sub-humanas em que muitas vezes são encontrados.</p>
-
-						<p>No Laje, há uma equipe de psicólogos, fisioterapeutas, nutricionistas, recreadores, médicos, enfermeiros, auxiliares e técnicos de enfermagem, cuidadores, além de equipes de apoio de lavanderia, limpeza, cozinha e as equipes administrativas e de serviços logísticos.</p>
+						<!-- end: paragrafos -->
 						<br><br>
 					</div>
 
@@ -165,7 +171,7 @@
 	<div class="footer row" style="background-color: black">
 
 		<div class="col-md-8">
-			<p style="color: white; margin-left: 10px; margin-top: 8px;">LAR ABRIGO AMOR A JESUS D.O.U. 04/04/2000 SEÇÃO 01 - CNPJ 00.068.903/0001-04</p>
+			<p style="color: white; margin-left: 10px; margin-top: 8px;"><?php display_campo("Rodapé","str");?></p>
 		</div>
 		<div class="col-md-4">
 			<div class="pull-right">

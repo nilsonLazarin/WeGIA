@@ -3,6 +3,10 @@
 	if(!isset($_SESSION['usuario'])){
 		header ("Location: ../index.php");
 	}
+	
+	
+	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
+	require_once "personalizacao_display.php";
 ?>
 
 <!doctype html>
@@ -52,7 +56,7 @@
 	<link rel="stylesheet" href="../assets/vendor/font-awesome/css/font-awesome.css" />
 	<link rel="stylesheet" href="../assets/vendor/magnific-popup/magnific-popup.css" />
 	<link rel="stylesheet" href="../assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
-	<link rel="icon" href="../img/logofinal.png" type="image/x-icon">
+	<link rel="icon" href="<?php display_campo("Logo",'file');?>" type="image/x-icon" id="logo-icon">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
 
 	<!-- Theme CSS -->
@@ -384,7 +388,7 @@
 			}
 		}
 		$(function () {
-            $("#header").load("header.html");
+            $("#header").load("header.php");
             $(".menuu").load("menu.html");
          });
 	</script>

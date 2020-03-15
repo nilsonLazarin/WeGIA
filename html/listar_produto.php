@@ -3,6 +3,9 @@
 	if(!isset($_SESSION['usuario'])){
 		header ("Location: ../index.php");
 	}
+	
+	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
+	require_once "personalizacao_display.php";
 ?>
 <!doctype html>
 <html class="fixed">
@@ -35,7 +38,7 @@
 	<!-- Specific Page Vendor CSS -->
 	<link rel="stylesheet" href="../assets/vendor/select2/select2.css" />
 	<link rel="stylesheet" href="../assets/vendor/jquery-datatables-bs3/assets/css/datatables.css" />
-	<link rel="icon" href="../img/logofinal.png" type="image/x-icon">
+	<link rel="icon" href="<?php display_campo("Logo",'file');?>" type="image/x-icon" id="logo-icon">
 
 	<!-- Theme CSS -->
 	<link rel="stylesheet" href="../assets/stylesheets/theme.css" />
@@ -116,7 +119,7 @@
 			});
 		});
 		$(function () {
-	      $("#header").load("header.html");
+	      $("#header").load("header.php");
 	      $(".menuu").load("menu.html");
 	    });
 	</script>

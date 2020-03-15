@@ -28,6 +28,9 @@
     $beneficios = $mysqli->query("SELECT * FROM beneficios");
     $descricao_epi = $mysqli->query("SELECT * FROM epi");
 
+	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
+  require_once "personalizacao_display.php";
+  
    ?>
 <!doctype html>
 <html class="fixed">
@@ -42,7 +45,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
       <!-- Web Fonts  -->
       <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">
-      <link rel="icon" href="../img/logofinal.png" type="image/x-icon">
+      <link rel="icon" href="<?php display_campo("Logo",'file');?>" type="image/x-icon" id="logo-icon">
 
       <!-- Vendor CSS -->
       <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css" />
@@ -50,7 +53,7 @@
       <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
       <link rel="stylesheet" href="../assets/vendor/magnific-popup/magnific-popup.css" />
       <link rel="stylesheet" href="../assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
-      <link rel="icon" href="../img/logofinal.png" type="image/x-icon">
+      <link rel="icon" href="<?php display_campo("Logo",'file');?>" type="image/x-icon" id="logo-icon">
       <script src="../assets/vendor/jquery/jquery.min.js"></script>
       <script src="../assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
       <script src="../assets/vendor/bootstrap/js/bootstrap.js"></script>
@@ -77,7 +80,7 @@
       <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css" />
       <link rel="stylesheet" href="../assets/vendor/magnific-popup/magnific-popup.css" />
       <link rel="stylesheet" href="../assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
-      <link rel="icon" href="../img/logofinal.png" type="image/x-icon">
+      <link rel="icon" href="<?php display_campo("Logo",'file');?>" type="image/x-icon" id="logo-icon">
 
       <!-- Specific Page Vendor CSS -->
       <link rel="stylesheet" href="../assets/vendor/select2/select2.css" />
@@ -631,7 +634,7 @@
             
          }
           $(function () {
-            $("#header").load("header.html");
+            $("#header").load("header.php");
             $(".menuu").load("menu.html");
           });
 
