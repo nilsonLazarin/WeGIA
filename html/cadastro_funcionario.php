@@ -3,16 +3,17 @@
   if(!isset($_SESSION['usuario'])){
     header ("Location: ../index.php");
   }
-      require_once "../dao/Conexao.php";
-      $mysqli = Conexao::connect();
+   
+      $usuario = "root";
+      $senha =  "root";
+      $servidor = "localhost";
+      $bddnome = "wegia";
+      $mysqli = new mysqli($servidor,$usuario,$senha,$bddnome);
       $situacao = $mysqli->query("SELECT * FROM situacao");
       $cargo = $mysqli->query("SELECT * FROM cargo");
       $beneficios = $mysqli->query("SELECT * FROM beneficios");
       $descricao_epi = $mysqli->query("SELECT * FROM epi");
    
-	
-	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
-	require_once "personalizacao_display.php";
    ?>
 <!DOCTYPE html>
 <html class="fixed">
@@ -32,7 +33,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
     <link rel="stylesheet" href="../assets/vendor/magnific-popup/magnific-popup.css" />
     <link rel="stylesheet" href="../assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
-    <link rel="icon" href="<?php display_campo("Logo",'file');?>" type="image/x-icon" id="logo-icon">
+    <link rel="icon" href="../img/logofinal.png" type="image/x-icon">
 
     <!-- Theme CSS -->
     <link rel="stylesheet" href="../assets/stylesheets/theme.css" />
@@ -42,14 +43,6 @@
 
     <!-- Theme Custom CSS -->
     <link rel="stylesheet" href="../assets/stylesheets/theme-custom.css">
-
-    <script>
-      $(function () {
-        $("#header").load("header.php");
-        $(".menuu").load("menu.html");
-      });
-    </script>
-
   </head>
   <body>
       <!-- start: header -->
@@ -391,7 +384,6 @@
                             </label>
                           </div>
                         </div>
-
                       <div class="text-center">
                           <h3 class="col-md-12">Dias de Folga</h3>
                           <div class="btn-group " data-toggle="buttons">
@@ -431,7 +423,6 @@
                         </div>
                        
                       </div>
-
                       <div id="outros" class="tab-pane">
                          
                          <h4 class="mb-xlg doch4">Outros</h4>
@@ -760,6 +751,10 @@
         })
       }
 
+      $(function () {
+        $("#header").load("header.html");
+        $(".menuu").load("menu.html");
+      });
   </script>
     <!-- Head Libs -->
   <script src="../assets/vendor/modernizr/modernizr.js"></script>

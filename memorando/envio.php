@@ -24,6 +24,8 @@ header ("Location: ../index.php");
 <!-- Web Fonts  -->
 <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">
 
+<link rel="stylesheet" href="main.css">
+
 <!-- Vendor CSS -->
 <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css" />
 <link rel="stylesheet" href="../assets/vendor/font-awesome/css/font-awesome.css" />
@@ -259,7 +261,6 @@ header ("Location: ../index.php");
         <?php
 
             include ("conexao.php");
-            include ("listarMantigos.php");
             $cpf_remetente=$_SESSION['usuario'];
             $comando5="select id_pessoa from pessoa where cpf='$cpf_remetente'";
             $query5=mysqli_query($conexao, $comando5);
@@ -284,14 +285,17 @@ header ("Location: ../index.php");
 			<input type='submit' value='Criar memorando' name='enviar' id='enviar'>
 			<span id='mostra_assunto'></span>;
 			</form>
-            <table class="table table-sm">
+			<h4>Memorandos novos</h4>
+            <table class="table table-hover">
 			<thead>
     			<tr>
+				<th scope="col"></th>
       			<th scope="col">Memorando</th>
       			<th scope="col">Data</th>
     			</tr>
 			  </thead>
 			  <tbody>
+			  <th class="sorting_asc" tabindex="0" aria-controls="datatable-default" rowspan="1" colspan="1" aria-sort="ascending" aria-label="codigo: activate to sort column ascending" style="width: 215.008px;">codigo</th>
 			<?php
             $comando5="select despacho.id_memorando, despacho.id_destinatario, despacho.texto, memorando.titulo, despacho.data, despacho.id_remetente from despacho join memorando on (despacho.id_memorando=memorando.id_memorando)where (despacho.id_despacho in (select max(id_despacho) from despacho group by id_memorando)) and despacho.id_destinatario=$remetente and memorando.id_status_memorando!='8' order by memorando.data desc";
             $query5=mysqli_query($conexao, $comando5);
@@ -303,17 +307,19 @@ header ("Location: ../index.php");
                 $titulo_des=$consulta5[3];
                 $data_des=$consulta5[4];
                 $reme_des=$consulta5[5];
-                $dest_des=$consulta5[1];
-                echo "<tr>";
-                echo "<td value=".$id_mem."><a href=listaM.php?desp=".$id_mem.">".$titulo_des."</a></td>";
+				$dest_des=$consulta5[1];
+				$num=$i+1;
+				echo "<tr><th scope=row>".$num."</th>";
+                echo "<td value=".$id_mem."><a href=../html/listar_despachos.php?desp=".$id_mem.">".$titulo_des."</a></td>";
                 echo "<td>$data_des</td>";
                 if($reme_des==$dest_des)
                 {
                 echo "<td value=".$id_mem."><a href=arquivaMemorando.php?desp=".$id_mem.">Arquivar memorando</a></td>";
                 }
                 echo "</tr>";
-            }
-            echo "</table>";
+			}
+			echo "</tbody>";
+			echo "</table>";
                 if(isset($_POST["enviar"]))
                 {
                     $assunto=$_POST["assunto"];
@@ -329,7 +335,8 @@ header ("Location: ../index.php");
                         <script>
                             $("#assunto").hide();
                             $("#enviar").hide();
-                            var assunto_memorando=$("#titulo").val();
+							$("h4").hide();
+							var assunto_memorando=$("#titulo").val();
                             $("#mostra_assunto").html(assunto_memorando);
                             $("table").hide();
                         </script>
@@ -344,8 +351,8 @@ header ("Location: ../index.php");
                         } 
                         ?>
                         <form action="inseredespacho.php?id=<?php echo ($id);?>" method="post">
-                        <label for="destinatario" id="etiqueta_destinatario">Para </label>
                         <select id="destinatario" name="destinatario" id="destinatario" required>
+						<option>Para</option>
                         <?php
                         $comando="select pessoa.nome, funcionario.id_funcionario from funcionario join pessoa where funcionario.id_funcionario=pessoa.id_pessoa";
                         $query=mysqli_query($conexao, $comando);
@@ -358,8 +365,8 @@ header ("Location: ../index.php");
                             echo "<option id='$id' value='$id' name='$id'>$nome</option>";
                         }
                         ?>
-                        </select>
-                        <br><label for=despacho>Mensagem </label><input type=text id=despacho name="despacho" required placeholder=Mensagem>
+                        </select><br>
+                        <textarea id=despacho name="despacho" required placeholder=Mensagem></textarea><br>
                         <input type="submit" value="Criar despacho"> 
                         <?php                           
                     }

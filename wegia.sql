@@ -313,9 +313,11 @@ CREATE TABLE IF NOT EXISTS `despacho` (
   `id_despacho` int(11) NOT NULL AUTO_INCREMENT,
   `id_memorando` int(11) NOT NULL,
   `id_pessoa` int(11) NOT NULL,
+  `id_status_despacho` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_despacho`),
   KEY `id_memorando` (`id_memorando`),
-  KEY `id_pessoa` (`id_pessoa`)
+  KEY `id_pessoa` (`id_pessoa`),
+  KEY id_status_despacho (id_status_memorando)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -533,7 +535,7 @@ CREATE TABLE IF NOT EXISTS `memorando` (
   `id_pessoa` int(11) NOT NULL,
   `id_status_memorando` int(11) DEFAULT NULL,
   `titulo` text,
-  `data` datetime DEFAULT NULL,
+  `data` timestamp,
   PRIMARY KEY (`id_memorando`),
   KEY `id_pessoa` (`id_pessoa`),
   KEY `id_status_memorando` (`id_status_memorando`)
@@ -976,7 +978,8 @@ ALTER TABLE `beneficiados`
 --
 ALTER TABLE `despacho`
   ADD CONSTRAINT `despacho_ibfk_1` FOREIGN KEY (`id_memorando`) REFERENCES `memorando` (`id_memorando`),
-  ADD CONSTRAINT `despacho_ibfk_2` FOREIGN KEY (`id_pessoa`) REFERENCES `pessoa` (`id_pessoa`);
+  ADD CONSTRAINT `despacho_ibfk_2` FOREIGN KEY (`id_pessoa`) REFERENCES `pessoa` (`id_pessoa`),
+  ADD CONSTRAINT `despacho_ibfk_3` FOREIGN KEY (`id_status_despacho`) REFERENCES `status_memorando` (`id_status_memorando`);
 
 --
 -- Limitadores para a tabela `documento`

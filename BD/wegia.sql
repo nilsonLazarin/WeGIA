@@ -7,11 +7,11 @@ DELIMITER $$
 -- Procedimentos
 --
  
-CREATE PROCEDURE `insdespacho`(IN `id_memorando` INT, IN `id_remetente` INT, IN `id_destinatario` INT, IN `texto` LONGTEXT)
+CREATE PROCEDURE `insdespacho`(IN `id_memorando` INT, IN `id_remetente` INT, IN `id_destinatario` INT, IN id_status_despacho INT, IN `texto` LONGTEXT)
 	BEGIN 
 		declare idD int;
-        INSERT INTO despacho(id_memorando, id_remetente, id_destinatario, texto)
-        values (id_memorando, id_remetente, id_destinatario, texto);
+        INSERT INTO despacho(id_memorando, id_remetente, id_destinatario, id_status_despacho, texto)
+        values (id_memorando, id_remetente, id_destinatario, id_status_despacho, texto);
         
         SELECT max(id_despacho) into idD from despacho;
         
@@ -612,7 +612,7 @@ CREATE TABLE `memorando`(
     `id_pessoa` INT(11) NOT NULL,
     `id_status_memorando` int(11) DEFAULT NULL,
     `titulo` TEXT DEFAULT NULL,
-    `data` TIMESTAMP DEFAULT NULL,
+    `data` TIMESTAMP NOT NULL,
     FOREIGN KEY (`id_pessoa`) REFERENCES `pessoa` (`id_pessoa`),
   FOREIGN KEY (`id_status_memorando`) REFERENCES `status_memorando` (`id_status_memorando`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -628,7 +628,7 @@ CREATE TABLE `despacho`(
     FOREIGN KEY (`id_memorando`) REFERENCES `memorando` (`id_memorando`),
     FOREIGN KEY (`id_remetente`) REFERENCES `pessoa` (`id_pessoa`),
     FOREIGN KEY (`id_destinatario`) REFERENCES `pessoa` (`id_pessoa`),
-    FOREIGN KEY (`id_status_memorando`) REFERENCES `status_memorando` (`id_status_memorando`)
+    FOREIGN KEY (`id_status_despacho`) REFERENCES `status_memorando` (`id_status_memorando`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `anexo` (

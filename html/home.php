@@ -97,8 +97,9 @@
 							<h4>Material e Patrimônio</h4>
 						</div>
 					</a>
-					<a href="#" onclick="window.location.href = '../memorando/envio.php'" >
-						<div class="col-lg-2 col-md-8 i" data-toggle="collapse">
+					<!--onclick="window.location.href = '../memorando/envio.php'"-->
+					<a href="#" >
+						<div class="col-lg-2 col-md-8 i" data-toggle="collapse" id="memorando_maior">
 							<i  class="far fa-address-book"></i>
 							<h4>Memorando
 							</h4>
@@ -200,7 +201,30 @@
 						
 						<!--</a>-->
 					</div>
+					<div id="memorando" class="colapse">
+					<a href="../html/listar_memorandos_ativos.php">	
+							<div class="col-lg-2 col-md-8 i">
+								<i  class="fa fa-barcode"></i>
+								<h4>Caixa de Entrada</h4>
+							</div>
+						</a>
+
+					<a href="../html/listar_memorandos_antigos.php">	
+							<div class="col-lg-2 col-md-8 i">
+								<i  class="fa fa-barcode"></i>
+								<h4>Memorandos despachados</h4>
+							</div>
+						</a>
+					</div>
 				</div><br>
+				<script>
+					$(document).ready(function(){
+						$("#memorando").hide();
+						$("#memorando_maior").click(function(){
+							$("#memorando").toggle();
+						});
+					});
+				</script>
 				<!--
 				<div class="row">
 					<a href="">
