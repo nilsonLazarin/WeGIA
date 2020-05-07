@@ -2,7 +2,7 @@
 
 $servidor="localhost";
 $usuario="root";
-$senha="root";
+$senha='root';
 $banco="wegia";
 
 $conexao = mysqli_connect($servidor, $usuario, $senha);

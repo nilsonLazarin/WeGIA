@@ -114,7 +114,7 @@ $memorando=json_encode($memorandos);
 					.append($("<td>")
 						.text(item.num))
 					.append($("<td>")
-						.html("<a href=listar_despachos.php?desp="+item.id+"&arq=1>"+item.titulo+"</a>")));
+						.html("<a href=teste.php?desp="+item.id+"&arq=1>"+item.titulo+"</a>")));
 		});
 	});
 	$(function () {

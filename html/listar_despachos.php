@@ -1,4 +1,7 @@
 <?php
+ini_set('display_errors',1);
+  ini_set('display_startup_erros',1);
+  error_reporting(E_ALL);
 		session_start();
 	if(!isset($_SESSION['usuario'])){
 		header ("Location: ../index.php");
@@ -9,14 +12,14 @@ $id_memorando=$_GET["desp"];
 $arquivado=$_GET["arq"];
 $memorandos=array();
 
-$comando="select pessoa.nome, despacho.texto, despacho.id_remetente, despacho.data, despacho.arquivo from despacho join pessoa where id_memorando=".$id_memorando." and despacho.id_remetente=pessoa.id_pessoa order by despacho.data desc";
+$comando="select pessoa.nome, despacho.texto, despacho.id_remetente, despacho.data from despacho join pessoa where id_memorando=".$id_memorando." and despacho.id_remetente=pessoa.id_pessoa order by despacho.data desc";
 $query=mysqli_query($conexao, $comando);
 $linhas=mysqli_num_rows($query);
 for($i=0; $i<$linhas; $i++)
 {
 	$consulta=mysqli_fetch_row($query);
-	$imgBase64="data:image/jpg;base64,".$consulta[4];
-	$memorandos[$i]=array('remetente'=>$consulta[0], 'mensagem'=>$consulta[1], 'data'=>$consulta[3], 'arquivo'=>$imgBase64);
+	//$imgBase64="data:image/jpg;base64,".$consulta[4];
+	$memorandos[$i]=array('remetente'=>$consulta[0], 'mensagem'=>$consulta[1], 'data'=>$consulta[3]);
 }
 $memorando=json_encode($memorandos);
 	
@@ -32,7 +35,7 @@ $memorando=json_encode($memorandos);
 	<!-- Basic -->
 	<meta charset="UTF-8">
 
-	<title>Estoque</title>
+	<title>Despacho</title>
 		
 	<!-- Mobile Metas -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -90,27 +93,23 @@ $memorando=json_encode($memorandos);
 		
 	<!-- jquery functions -->
 
-	<?php
-
-?>
-
    	<script>
 	$(function(){
 		var memorando=<?php echo $memorando?> ;
 		console.log(memorando);
 		$.each(memorando,function(i,item){
-		if(item.arquivo.length>22)
-			{
+		/*if(item.arquivo.length>22)
+			{*/
 				
 			$("#tabela")
 				.append($("<tr>")
 					.append($("<td>")
 						.text(item.remetente))
 					.append($("<td>")
-						.html(item.mensagem + "  <a href="+item.arquivo+">Arquivo</a>"))
+						.html(item.mensagem))
 					.append($("<td >")
 						.text(item.data)));
-			}
+			/*}
 		else
 			{
 				$("#tabela")
@@ -121,7 +120,7 @@ $memorando=json_encode($memorandos);
 						.html(item.mensagem))
 					.append($("<td >")
 						.text(item.data)));
-			}
+			}*/
 		});
 	});
 	$(function () {

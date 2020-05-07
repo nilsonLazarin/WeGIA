@@ -6,7 +6,7 @@
     $linhas=mysqli_affected_rows($conexao);
     if($linhas==1)
     {
-        header("Location: envio.php");
+        header("Location: ../html/listar_memorandos_ativos.php");
     }
     else
     {

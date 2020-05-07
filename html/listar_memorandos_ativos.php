@@ -1,4 +1,7 @@
 <?php
+ini_set('display_errors',1);
+  ini_set('display_startup_erros',1);
+  error_reporting(E_ALL);
         session_start();
     if(!isset($_SESSION['usuario'])){
         header ("Location: ../index.php");
@@ -16,7 +19,9 @@
             }
             $memorandos=array();
             $memorandos2=array();
-            $comando5="select despacho.id_memorando, despacho.id_destinatario, despacho.texto, memorando.titulo, despacho.data, despacho.id_remetente, memorando.id_status_memorando from despacho join memorando on(despacho.id_memorando=memorando.id_memorando) where (despacho.id_despacho in (select max(id_despacho) from despacho group by id_memorando)) and despacho.id_destinatario=$remetente and memorando.id_status_memorando!='8' order by memorando.data desc";
+            $comando5="select despacho.id_memorando, despacho.id_destinatario, despacho.texto, memorando.titulo, despacho.data, despacho.id_remetente, memorando.id_status_memorando, despacho.id_despacho from despacho join memorando on(despacho.id_memorando=memorando.id_memorando) where (despacho.id_despacho in (select max(id_despacho) from despacho group by id_memorando)) and despacho.id_destinatario=$remetente and memorando.id_status_memorando!='8' order by memorando.data desc";
+
+            //$comando5="select despacho.id_memorando, despacho.id_destinatario, despacho.texto, memorando.titulo, despacho.data, despacho.id_remetente, memorando.id_status_memorando, despacho.id_despacho, anexo.anexo, anexo.extensao from despacho left join anexo on(anexo.id_despacho=despacho.id_despacho) join memorando on(despacho.id_memorando=memorando.id_memorando) where (despacho.id_despacho in (select max(id_despacho) from despacho group by id_memorando)) and despacho.id_destinatario=$remetente and memorando.id_status_memorando!='8' group by despacho.id_despacho order by memorando.data desc";
             $query5=mysqli_query($conexao, $comando5);
             $linhas5=mysqli_num_rows($query5);
             for($i=0; $i<$linhas5; $i++)
@@ -26,10 +31,25 @@
                 if($consulta5[5]==$consulta5[1])
                 {
                     $memorandos2[$i]=array('codigo'=>$num, 'memorando'=>$consulta5[3], 'data'=>$consulta5[4], 'id'=>$consulta5[0], 'reme_des'=>$consulta5[5], 'dest_des'=>$consulta5[1], 'arquivar'=>"Arquivar Memorando", 'status'=>$consulta5[6]);
+
+                    /*$comando6="select * from anexo where id_despacho=$remetente";
+                    $query6=mysqli_query($conexao, $comando6);
+                    $linhas6=mysqli_num_rows($query6);
+                    if($linhas6!=0)
+                    {
+                    $comando7="select anexo.anexo, anexo.extensao from despacho join anexo on anexo.id_despacho=despacho.id_despacho";
+                    $query7=mysqli_query($conexao, $comando7);
+                    $linhas7=mysqli_num_rows($query7);
+                    for($i=0; $i<$linhas7; $i++)
+                    {
+                    $consulta7=mysqli_fetch_row($query7);
+                    $memorandos2[$i]=array_push('anexo'=>$consulta7[0])
+                    }
+                    }*/
                 }
                 else
                 {
-                $memorandos[$i]=array('codigo'=>$num, 'memorando'=>$consulta5[3], 'data'=>$consulta5[4], 'id'=>$consulta5[0], 'reme_des'=>$consulta5[5], 'dest_des'=>$consulta5[1], 'status'=>$consulta5[6]);
+                $memorandos[$i]=array('codigo'=>$num, 'memorando'=>$consulta5[3], 'data'=>$consulta5[4], 'id'=>$consulta5[0], 'reme_des'=>$consulta5[5], 'dest_des'=>$consulta5[1], 'status'=>$consulta5[6], 'arquivar'=>"Não é possível arquivar esse memorando");
             }
             }
             $memorando2=json_encode($memorandos2);
@@ -117,9 +137,11 @@
                     .append($("<td>")
                         .text(item.codigo))
                     .append($("<td>")
-                        .html("<a href=../html/teste.php?desp="+item.id+" id=memorando>"+item.memorando+"</a> <a href=../memorando/arquivaMemorando.php?desp="+item.id+">"+item.arquivar+"</a>"))
+                        .html("<a href=../html/teste.php?desp="+item.id+" id=memorando>"+item.memorando+"</a>"))
                     .append($("<td>")
-                        .text(item.data)));
+                        .text(item.data))
+                    .append($("<td>")
+                        .html("<a href=../memorando/arquivaMemorando.php?desp="+item.id+">"+item.arquivar+"</a>")));
             }
             else
             {
@@ -128,9 +150,11 @@
                     .append($("<td>")
                         .text(item.codigo))
                     .append($("<td>")
-                        .html("<a href=../html/teste.php?desp="+item.id+" id=memorando>"+item.memorando+"</a> <a href=../memorando/arquivaMemorando.php?desp="+item.id+">"+item.arquivar+"</a>"))
+                        .html("<a href=../html/teste.php?desp="+item.id+" id=memorando>"+item.memorando+"</a>"))
                     .append($("<td>")
-                        .text(item.data)));
+                        .text(item.data))
+                    .append($("<td>")
+                        .html("<a href=../memorando/arquivaMemorando.php?desp="+item.id+">"+item.arquivar+"</a>")));
             }
 
         });
@@ -144,7 +168,9 @@
                     .append($("<td>")
                         .html("<a href=../html/teste.php?desp="+item.id+" id=memorando>"+item.memorando+"</a>"))
                     .append($("<td>")
-                        .text(item.data)));
+                        .text(item.data))
+                    .append($("<td>")
+                        .html(item.arquivar)));
             }
             else
             {
@@ -155,7 +181,9 @@
                     .append($("<td>")
                         .html("<a href=../html/teste.php?desp="+item.id+" id=memorando>"+item.memorando+"</a>"))
                     .append($("<td>")
-                        .text(item.data)));
+                        .text(item.data))
+                    .append($("<td>")
+                        .html(item.arquivar)));
             }
         });
         $("#header").load("header.php");
@@ -180,6 +208,11 @@
             width: 140px;
             float: left;
         }-->
+
+        .panel-body
+        {
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 <body>
@@ -226,6 +259,7 @@
                                     <th>codigo</th>
                                     <th>titulo</th>
                                     <th>data</th>
+                                    <th>arquivar</th>
                                 </tr>
                             </thead>
                             <tbody id="tabela">
@@ -233,20 +267,25 @@
                         </table>
                     </div>
 
-
+            <header class="panel-heading">
+                        <h2 class="panel-title">Criar memorando</h2>
+                    </header>
+                    <div class="panel-body">
                 <form action="#" method="post">
-            <input type="text" id="assunto" name="assunto" required placeholder="Assunto">
-            <input type='submit' value='Criar memorando' name='enviar' id='enviar'>
+            <input type="text" id="assunto" name="assunto" required placeholder="Assunto" class="form-control">
+            <input type='submit' value='Criar memorando' name='enviar' id='enviar' class='mb-xs mt-xs mr-xs btn btn-default'>
             <span id='mostra_assunto'></span>;
             </form>
+        </div>
             <?php
                     if(isset($_POST["enviar"]))
                 {
                     $assunto=$_POST["assunto"];
                     date_default_timezone_set('America/Sao_Paulo');
                     $data_criacao3=date('Y-m-d H:i:s');
-                    $comando2="insert into memorando(id_pessoa, id_status_memorando, titulo, data) values('$remetente', '1', '$assunto', '$data_criacao3')";
-                    $query2=mysqli_query($conexao, $comando2);
+                    //$comando2="insert into memorando(id_pessoa, id_status_memorando, titulo, data) values('$remetente', '1', '$assunto', '$data_criacao3')";
+                    //$query2=mysqli_query($conexao, $comando2);
+                    $result = mysqli_query($conexao, "CALL insmemorando('$remetente', '1', '$assunto', '$data_criacao3');") or die("Erro na query da procedure: " . mysqli_error());
                     $linhas2=mysqli_affected_rows($conexao);
                     echo "<input type=hidden value='$assunto' id=titulo>";
                     if($linhas2==1)
@@ -272,8 +311,13 @@
                             $id=$consulta3[0];
                         } 
                         ?>
+                        <section class="panel">
+                        <header class="panel-heading">
+                            <h2 class="panel-title">Criar memorando</h2>
+                        </header>
+                        <div class="panel-body">
                         <form action="../memorando/inseredespacho.php?id=<?php echo ($id);?>" method="post" enctype="multipart/form-data">
-                        <select name="destinatario" id="destinatario" required>
+                        <select name="destinatario" id="destinatario" required class='select-table-filter form-control mb-md'>
                         <!--option>Para</option-->
                         <?php
                         $comando="select pessoa.nome, funcionario.id_funcionario from funcionario join pessoa where funcionario.id_funcionario=pessoa.id_pessoa";
@@ -288,9 +332,11 @@
                         }
                         ?>
                         </select><br>
-                        <textarea id=despacho name="despacho" required placeholder=Mensagem></textarea><br>
-                        <input type="file" name="arquivo" id="arquivo">
-                        <input type="submit" value="Criar despacho"> 
+                        <textarea id=despacho name="despacho" required placeholder=Mensagem class='form-control'></textarea><br>
+                        <!--input type="file" name="arquivo" id="arquivo"-->
+                        <input type="file" name="arquivo[]" id="arquivo" multiple>
+                        <input type="submit" value="Criar despacho" class="mb-xs mt-xs mr-xs btn btn-default"> 
+                    </div>
                         <?php                           
                     }
                 }
