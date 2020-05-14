@@ -1,65 +1,46 @@
 <?php
 ini_set('display_errors',1);
-  ini_set('display_startup_erros',1);
-  error_reporting(E_ALL);
-        session_start();
-    if(!isset($_SESSION['usuario'])){
-        header ("Location: ../index.php");
-    }
+ini_set('display_startup_erros',1);
+error_reporting(E_ALL);
 
-    include "../memorando/conexao.php";
-    $cpf_remetente=$_SESSION['usuario'];
-            $comando5="select id_pessoa from pessoa where cpf='$cpf_remetente'";
-            $query5=mysqli_query($conexao, $comando5);
-            $linhas5=mysqli_num_rows($query5);
-            for($i=0; $i<$linhas5; $i++)
-            {
-                $consulta5=mysqli_fetch_row($query5);
-                $remetente=$consulta5[0];
-            }
-            $memorandos=array();
-            $memorandos2=array();
-            $comando5="select despacho.id_memorando, despacho.id_destinatario, despacho.texto, memorando.titulo, despacho.data, despacho.id_remetente, memorando.id_status_memorando, despacho.id_despacho from despacho join memorando on(despacho.id_memorando=memorando.id_memorando) where (despacho.id_despacho in (select max(id_despacho) from despacho group by id_memorando)) and despacho.id_destinatario=$remetente and memorando.id_status_memorando!='8' order by memorando.data desc";
+session_start();
+if(!isset($_SESSION['usuario'])){
+    header ("Location: ../index.php");
+}
 
-            //$comando5="select despacho.id_memorando, despacho.id_destinatario, despacho.texto, memorando.titulo, despacho.data, despacho.id_remetente, memorando.id_status_memorando, despacho.id_despacho, anexo.anexo, anexo.extensao from despacho left join anexo on(anexo.id_despacho=despacho.id_despacho) join memorando on(despacho.id_memorando=memorando.id_memorando) where (despacho.id_despacho in (select max(id_despacho) from despacho group by id_memorando)) and despacho.id_destinatario=$remetente and memorando.id_status_memorando!='8' group by despacho.id_despacho order by memorando.data desc";
-            $query5=mysqli_query($conexao, $comando5);
-            $linhas5=mysqli_num_rows($query5);
-            for($i=0; $i<$linhas5; $i++)
-            {
-                $consulta5=mysqli_fetch_row($query5);
-                $num=$i+1;
-                if($consulta5[5]==$consulta5[1])
-                {
-                    $memorandos2[$i]=array('codigo'=>$num, 'memorando'=>$consulta5[3], 'data'=>$consulta5[4], 'id'=>$consulta5[0], 'reme_des'=>$consulta5[5], 'dest_des'=>$consulta5[1], 'arquivar'=>"Arquivar Memorando", 'status'=>$consulta5[6]);
+include "../memorando/conexao.php";
 
-                    /*$comando6="select * from anexo where id_despacho=$remetente";
-                    $query6=mysqli_query($conexao, $comando6);
-                    $linhas6=mysqli_num_rows($query6);
-                    if($linhas6!=0)
-                    {
-                    $comando7="select anexo.anexo, anexo.extensao from despacho join anexo on anexo.id_despacho=despacho.id_despacho";
-                    $query7=mysqli_query($conexao, $comando7);
-                    $linhas7=mysqli_num_rows($query7);
-                    for($i=0; $i<$linhas7; $i++)
-                    {
-                    $consulta7=mysqli_fetch_row($query7);
-                    $memorandos2[$i]=array_push('anexo'=>$consulta7[0])
-                    }
-                    }*/
-                }
-                else
-                {
-                $memorandos[$i]=array('codigo'=>$num, 'memorando'=>$consulta5[3], 'data'=>$consulta5[4], 'id'=>$consulta5[0], 'reme_des'=>$consulta5[5], 'dest_des'=>$consulta5[1], 'status'=>$consulta5[6], 'arquivar'=>"Não é possível arquivar esse memorando");
-            }
-            }
-            $memorando2=json_encode($memorandos2);
-            $memorando=json_encode($memorandos);
+$cpf_remetente=$_SESSION['usuario'];
 
-            // Adiciona a Função display_campo($nome_campo, $tipo_campo)
-    require_once "personalizacao_display.php";
+$comando6="select id_pessoa from pessoa where cpf='$cpf_remetente'";
+$query6=mysqli_query($conexao, $comando6);
+$linhas6=mysqli_num_rows($query6);
+for($i=0; $i<$linhas6; $i++)
+{
+    $consulta6=mysqli_fetch_row($query6);
+    $remetente=$consulta6[0];
+}
 
-            ?>
-<!doctype html>
+$memorandos=array();
+$memorandos2=array();
+
+$comando5="select despacho.id_memorando, despacho.id_destinatario, despacho.texto, memorando.titulo, despacho.data, despacho.id_remetente, memorando.id_status_memorando, despacho.id_despacho, memorando.id_pessoa, despacho.id_destinatario from despacho join memorando on(despacho.id_memorando=memorando.id_memorando) where (despacho.id_despacho in (select max(id_despacho) from despacho group by id_memorando)) and despacho.id_destinatario=$remetente and memorando.id_status_memorando!='8' order by memorando.data desc";
+$query5=mysqli_query($conexao, $comando5);
+$linhas5=mysqli_num_rows($query5);
+for($i=0; $i<$linhas5; $i++)
+{
+        $consulta5=mysqli_fetch_row($query5);
+        $memorandos2[$i]=array('memorando'=>$consulta5[3], 'data'=>$consulta5[4], 'id'=>$consulta5[0], 'reme_des'=>$consulta5[5], 'dest_des'=>$consulta5[1],'status'=>$consulta5[6], 'criador'=>$consulta5[8]);
+}
+
+$memorando2=json_encode($memorandos2);
+
+// Adiciona a Função display_campo($nome_campo, $tipo_campo)
+require_once "personalizacao_display.php";
+
+?>
+
+<!DOCTYPE html>
 
 <html class="fixed">
 <head>
@@ -127,64 +108,40 @@ ini_set('display_errors',1);
 
     <script>
     $(function(){
-        var memorando=<?php echo $memorando?> ;
         var memorando2=<?php echo $memorando2?>;
+        console.log(memorando2);
         $.each(memorando2,function(i,item){
-            if(item.status!=6)
-            {
             $("#tabela")
-                .append($("<tr style='background-color:#FA8F8F;'>")
+                .append($("<tr id="+item.id+">")
                     .append($("<td>")
-                        .text(item.codigo))
-                    .append($("<td>")
-                        .html("<a href=../html/teste.php?desp="+item.id+" id=memorando>"+item.memorando+"</a>"))
-                    .append($("<td>")
-                        .text(item.data))
-                    .append($("<td>")
-                        .html("<a href=../memorando/arquivaMemorando.php?desp="+item.id+">"+item.arquivar+"</a>")));
-            }
-            else
-            {
-                $("#tabela")
-                .append($("<tr>")
-                    .append($("<td>")
-                        .text(item.codigo))
+                        .text(item.id))
                     .append($("<td>")
                         .html("<a href=../html/teste.php?desp="+item.id+" id=memorando>"+item.memorando+"</a>"))
                     .append($("<td>")
                         .text(item.data))
-                    .append($("<td>")
-                        .html("<a href=../memorando/arquivaMemorando.php?desp="+item.id+">"+item.arquivar+"</a>")));
-            }
+                    .append($("<td id=opcoes_"+item.id+">")
+                        .html("<a href=../html/naolido.php?desp="+item.id+" id=naolido><img src=../img/nao-lido.png width=25px height=25px title='Não Lido'></a> <a href=../html/importante.php?desp="+item.id+"><img src=../img/importante.png width=25px height=25px title='Importante'></a> <a href=../html/pendente.php?desp="+item.id+"><img src=../img/pendente.png width=25px height=25px title='Pendente'></a>")));
+                	if(item.status==9)
+                	{
+                		document.getElementById(item.id).style.backgroundColor = '#ffa0a0d4';
+                	}
 
-        });
-        $.each(memorando,function(i,item){
-            if(item.status!=6)
-            {
-            $("#tabela")
-                .append($("<tr style='background-color=#FA8F8F;'>")
-                    .append($("<td>")
-                        .text(item.codigo))
-                    .append($("<td>")
-                        .html("<a href=../html/teste.php?desp="+item.id+" id=memorando>"+item.memorando+"</a>"))
-                    .append($("<td>")
-                        .text(item.data))
-                    .append($("<td>")
-                        .html(item.arquivar)));
-            }
-            else
-            {
-                $("#tabela")
-                .append($("<tr>")
-                    .append($("<td>")
-                        .text(item.codigo))
-                    .append($("<td>")
-                        .html("<a href=../html/teste.php?desp="+item.id+" id=memorando>"+item.memorando+"</a>"))
-                    .append($("<td>")
-                        .text(item.data))
-                    .append($("<td>")
-                        .html(item.arquivar)));
-            }
+                	if(item.status==10)
+                	{
+                		document.getElementById(item.id).style.backgroundColor = "rgba(249, 255, 160, 0.9)";
+                	}
+
+                	if(item.status==7)
+                	{
+                		document.getElementById(item.id).style.backgroundColor = "rgba(195, 230, 255, 0.83)";
+                		$("#naolido").html("<img src=../img/lido.png width=25px height=25px title='Lido'>");
+                	}
+                	
+                	if(item.criador==item.dest_des)
+                	{
+                		$("#opcoes_"+item.id).append("<a href=../memorando/arquivaMemorando.php?desp="+item.id+"><img src='../img/arquivar.png' width=25px height=25px title='Arquivar memorando'></a>")
+                	}
+
         });
         $("#header").load("header.php");
         $(".menuu").load("menu.html");
@@ -212,6 +169,11 @@ ini_set('display_errors',1);
         .panel-body
         {
             margin-bottom: 15px;
+        }
+
+        img
+        {
+        	margin-left:10px;
         }
     </style>
 </head>
@@ -259,7 +221,7 @@ ini_set('display_errors',1);
                                     <th>codigo</th>
                                     <th>titulo</th>
                                     <th>data</th>
-                                    <th>arquivar</th>
+                                    <th>opções</th>
                                 </tr>
                             </thead>
                             <tbody id="tabela">

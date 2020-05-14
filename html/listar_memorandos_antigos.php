@@ -1,28 +1,29 @@
 <?php
-		session_start();
+	session_start();
 	if(!isset($_SESSION['usuario'])){
 		header ("Location: ../index.php");
 	}
 
-
 	include "../memorando/conexao.php";
 
-$memorandos=array();
+	$memorandos=array();
 
-$cpf_remetente=$_SESSION['usuario'];
-            $comando5="select id_pessoa from pessoa where cpf='$cpf_remetente'";
-            $query5=mysqli_query($conexao, $comando5);
-            $linhas5=mysqli_num_rows($query5);
-            for($i=0; $i<$linhas5; $i++)
-            {
-                $consulta5=mysqli_fetch_row($query5);
-                $remetente=$consulta5[0];
-            }
-$comando="SELECT distinct memorando.id_memorando, memorando.titulo from memorando join despacho on(despacho.id_memorando=memorando.id_memorando) where despacho.id_destinatario=$remetente or despacho.id_remetente=$remetente";
-$query=mysqli_query($conexao, $comando);
-$linhas=mysqli_num_rows($query);
+	$cpf_remetente=$_SESSION['usuario'];
 
-for($i=0; $i<$linhas; $i++)
+    $comando5="select id_pessoa from pessoa where cpf='$cpf_remetente'";
+    $query5=mysqli_query($conexao, $comando5);
+    $linhas5=mysqli_num_rows($query5);
+
+    for($i=0; $i<$linhas5; $i++)
+    {
+        $consulta5=mysqli_fetch_row($query5);
+        $remetente=$consulta5[0];
+    }
+	$comando="SELECT distinct memorando.id_memorando, memorando.titulo from memorando join despacho on(despacho.id_memorando=memorando.id_memorando) where despacho.id_destinatario=$remetente or despacho.id_remetente=$remetente";
+	$query=mysqli_query($conexao, $comando);
+	$linhas=mysqli_num_rows($query);
+
+		for($i=0; $i<$linhas; $i++)
 {
 	$consulta=mysqli_fetch_row($query);
 	$memorandos[$i]=array('titulo'=>$consulta[1], 'num'=>$i+1, 'id'=>$consulta[0]);
@@ -112,9 +113,9 @@ $memorando=json_encode($memorandos);
 			$("#tabela")
 				.append($("<tr>")
 					.append($("<td>")
-						.text(item.num))
+						.text(item.id))
 					.append($("<td>")
-						.html("<a href=teste.php?desp="+item.id+"&arq=1>"+item.titulo+"</a>")));
+						.html("<a href=listar_despachos.php?desp="+item.id+"&arq=1>"+item.titulo+"</a>")));
 		});
 	});
 	$(function () {
@@ -184,7 +185,7 @@ $memorando=json_encode($memorandos);
 						<table class="table table-bordered table-striped mb-none" id="datatable-default">
 							<thead>
 								<tr>
-									<th></th>
+									<th>codigo</th>
 									<th>titulo</th>
 								</tr>
 							</thead>

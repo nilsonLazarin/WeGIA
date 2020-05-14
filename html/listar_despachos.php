@@ -3,39 +3,70 @@ ini_set('display_errors',1);
   ini_set('display_startup_erros',1);
   error_reporting(E_ALL);
 		session_start();
+
+
+
 	if(!isset($_SESSION['usuario'])){
 		header ("Location: ../index.php");
 	}
 
 	include "../memorando/conexao.php";
 $id_memorando=$_GET["desp"];
+if(isset($_GET["arq"]))
+{
 $arquivado=$_GET["arq"];
+}
 $memorandos=array();
 
-$comando="select pessoa.nome, despacho.texto, despacho.id_remetente, despacho.data from despacho join pessoa where id_memorando=".$id_memorando." and despacho.id_remetente=pessoa.id_pessoa order by despacho.data desc";
+$anexos=array();
+
+$comando="select pessoa.nome, despacho.texto, despacho.id_remetente, despacho.data, despacho.id_destinatario, despacho.id_despacho from despacho join pessoa on despacho.id_remetente=pessoa.id_pessoa where id_memorando=".$id_memorando." order by despacho.data desc";
 $query=mysqli_query($conexao, $comando);
 $linhas=mysqli_num_rows($query);
+$comando3="select pessoa.nome from despacho join pessoa on despacho.id_destinatario=pessoa.id_pessoa where id_memorando=".$id_memorando;
+$query3=mysqli_query($conexao, $comando3);
+$linhas3=mysqli_num_rows($query3);
 for($i=0; $i<$linhas; $i++)
 {
+	//$arquivo=base64_decode($consulta[5]);
+
+	//$baseImagem = base64_decode($consulta[5]);
+	//$extensao =  pathinfo($baseImagem, PATHINFO_EXTENSION);
+	
+
+//var_dump(substr($imgBase64, 11, strpos($imgBase64, ';') - 11));  // Saída = gif
+
 	$consulta=mysqli_fetch_row($query);
-	//$imgBase64="data:image/jpg;base64,".$consulta[4];
-	$memorandos[$i]=array('remetente'=>$consulta[0], 'mensagem'=>$consulta[1], 'data'=>$consulta[3]);
-}
+	$consulta3=mysqli_fetch_row($query3);
+	$memorandos[$i]=array('remetente'=>$consulta[0], 'mensagem'=>$consulta[1], 'data'=>$consulta[3], 'destinatario'=>$consulta3[0], 'id'=>$consulta[5]);
+	//$comando2="select anexo.anexo, anexo.extensao from anexo join despacho on anexo.id_despacho=despacho.id_despacho where anexo.id_despacho=".$consulta[5];
+	//$query2=mysqli_query($conexao, $comando2);
+	//$linhas2=mysqli_num_rows($query2);
+	//for($j=0; $j<$linhas2; $j++)
+	//{
+		//$consulta2=mysqli_fetch_row($query2);
+		//$imgBase642= "data:image/".$consulta2[1].";base64,".$consulta2[0];
+		//$anexos[$j]=array('anexo'.$j=>$imgBase642);
+		//$memorandos[$i]=array_merge($memorandos[$i], $anexos[$j]);
+	//}
+	//echo array_merge($memorandos[$i], $anexos);
+	//print_r(array_merge($memorandos[$i], $anexos));
+	//$memorandos[$i]=[$memorandos[$i]=>[$anexos]];
+	//$memorandos[$i]=array_merge($memorandos[$i], $anexos);
+	}
 $memorando=json_encode($memorandos);
 	
 	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
 	require_once "personalizacao_display.php";
 	?>
 <!doctype html>
-<?php
-	
-?>
+
 <html class="fixed">
 <head>
 	<!-- Basic -->
 	<meta charset="UTF-8">
 
-	<title>Despacho</title>
+	<title>Despachos</title>
 		
 	<!-- Mobile Metas -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -97,16 +128,27 @@ $memorando=json_encode($memorandos);
 	$(function(){
 		var memorando=<?php echo $memorando?> ;
 		console.log(memorando);
+					var tamanho=0;
 		$.each(memorando,function(i,item){
-		/*if(item.arquivo.length>22)
+			/*if(item.anexo.length>22)
 			{*/
+			for (var i in item) {
+    		if (item.hasOwnProperty(i)) {
+        	tamanho++;
+    		}
+			}
+					tamanho=tamanho-4;
 				
 			$("#tabela")
-				.append($("<tr>")
+				.append($("<tr id="+item.id+">")
+					.append($("<td>")
+						.text(item.id))
 					.append($("<td>")
 						.text(item.remetente))
 					.append($("<td>")
-						.html(item.mensagem))
+						.text(item.destinatario))
+					.append($("<td>")
+						.html(item.mensagem+"<a href=lista_anexo.php?despacho="+item.id+"&memorando="+<?php echo $id_memorando; ?>+"&arq=1><img src=../img/clip.png heigh=30px width=30px></a>"))
 					.append($("<td >")
 						.text(item.data)));
 			/*}
@@ -127,8 +169,8 @@ $memorando=json_encode($memorandos);
         $("#header").load("header.php");
         $(".menuu").load("menu.html");
     });
+
 	</script>
-	
 	<style type="text/css">
 		/*.table{
 			z-index: 0;
@@ -146,6 +188,69 @@ $memorando=json_encode($memorandos);
 			width: 140px;
 			float: left;
 		}-->
+
+		#arquivos
+		{
+	margin-top: -25px; 
+    position: absolute;
+    z-index: 1;
+    background-color: #e6e5e5;
+    width: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+		}
+
+		#x
+		{
+			display: block;
+			box-shadow: none;
+			float: right;
+		}
+		#titulo
+		{
+			float: left;
+			color: #abb4be;
+			font-weight: 550;
+		}
+
+		#link
+		{
+			background-color: #e6e5e5;
+			border-radius: 0px;
+			border: none;
+		}
+		#link:hover
+		{
+			background-color: #cacaca;
+		}
+
+		.pagination > li.active a, html.dark .pagination > li.active a
+		{
+			z-index: 1;
+		}
+
+		.panel-body
+		{
+			margin-bottom: 15px;
+		}
+
+		input[type="file"] {
+			margin-bottom: 10px;
+			margin-top: 15px;
+		}
+
+		#semarquivos
+		{
+			margin: 15px;
+    		font-size: 15px;
+		}
+
+		#barra
+		{
+			background-color: #1d2127;
+		}
+
 	</style>
 </head>
 <body>
@@ -189,7 +294,9 @@ $memorando=json_encode($memorandos);
 						<table class="table table-bordered table-striped mb-none" id="datatable-default">
 							<thead>
 								<tr>
+									<th>codigo</th>
 									<th>remetente</th>
+									<th>destinatario</th>
 									<th>despacho</th>
 									<th>data</th>
 								</tr>
@@ -198,13 +305,28 @@ $memorando=json_encode($memorandos);
 							</tbody>
 						</table>
 					</div>
-							<?php
-			if($arquivado!=1)
+					<div id="arquivos" hidden>
+			<header class="panel-heading" id="barra">
+			<div class="row">
+			<div class="col-md-6">
+			<h2 class="panel-title" id="titulo" style="margin: 15px 0 0 15px;">Arquivos</h2>
+			</div>
+			<div class="col-md-6">
+			<button type="button" id="x" class='mb-xs mt-xs mr-xs btn btn-default'><img src="../img/x.png" width="15px" height="15px"></button>
+			</div>
+		</header>
+			</div>							<?php
+							if(!isset($_GET["arq"]))
 {
-	
-echo "<form action=../memorando/inseredespacho.php?id=".$id_memorando." method=post enctype=multipart/form-data>";
+?>
+<header class="panel-heading">
+	<h2 class="panel-title">Novo despacho</h2>
+</header>
+<div class="panel-body">
+<?php	
+echo "<form action=../memorando/inseredespacho.php?id=".$id_memorando." method=post>";
 echo "<label for=destinatario id=etiqueta_destinatario>Para </label>";
-echo "<select id=destinatario name=destinatario id=destinatario required>";
+echo "<select id=destinatario name=destinatario id=destinatario required class='select-table-filter form-control mb-md'>";
 $comando="select pessoa.nome, funcionario.id_funcionario from funcionario join pessoa where funcionario.id_funcionario=pessoa.id_pessoa";
 $query=mysqli_query($conexao, $comando);
 $linhas=mysqli_num_rows($query);
@@ -216,14 +338,18 @@ $id=$consulta[1];
 echo "<option id='$id' value='$id' name='$id'>$nome</option>";
 }
 echo "</select>";
-echo "<tr><td><input type='text' id='despacho' name='despacho' required placeholder='Mensagem'></td>";
-echo "<input type=file name=arquivo size=60 id=arquivo class=form-control>";
-echo "<td><input type='submit' value='Novo despacho' name='enviar' id='enviar'></td></tr>";
+echo "<tr><td><input type='text' id='despacho' name='despacho' required placeholder='Mensagem' class='form-control'></td>";
+echo "<input type='file' name='arquivo[]' id='arquivo' multiple>";
+echo "<td><input type='submit' value='Novo despacho' name='enviar' id='enviar' class='mb-xs mt-xs mr-xs btn btn-default'></td></tr>";
 echo "<span id='mostra_assunto'></span>";
 echo "</form>";
 }
 ?>
-</form>
+</div>
+		<!--/header-->
+	</div>
+	</div>
+	</div>
 				</section>
 			</section>
 		</div>
@@ -248,5 +374,33 @@ echo "</form>";
 		<script src="../assets/javascripts/tables/examples.datatables.default.js"></script>
 		<script src="../assets/javascripts/tables/examples.datatables.row.with.details.js"></script>
 		<script src="../assets/javascripts/tables/examples.datatables.tabletools.js"></script>
+	<?php
+		if(isset($_SESSION["anexos"]))
+			{
+			$anexo=$_SESSION["anexos"];
+	?>
+			<script>
+				$(function(){	
+					$("#arquivos").show();
+					var anexo=<?php echo $anexo ?>;
+					$.each(anexo,function(i,item){
+            			$("#arquivos")
+                			.append("<button type='button' class='btn btn-primary btn-lg btn-block' id='link'><a href="+item.link+" target='_blank'>"+item.nome+"."+item.extensao+"</a></button>");
+                	});
+                	if(anexo.length==0)
+                	{
+                		$("#arquivos").append("<p id='semarquivos'>Não há arquivos anexados nesse despacho</p>")
+                	}
+            $("#x").click(function(){
+			document.getElementById("arquivos").style.display = "none";
+			});
+        	});
+			</script>
+	<?php
+		}
+		unset($_SESSION["anexos"]);
+	?>
+	<script>                	
+	</script>
 	</body>
 </html>

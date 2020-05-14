@@ -1,65 +1,54 @@
 <?php
+
 ini_set('display_errors',1);
-  ini_set('display_startup_erros',1);
-  error_reporting(E_ALL);
-		session_start();
+ini_set('display_startup_erros',1);
+error_reporting(E_ALL);
 
+session_start();
 
+if(!isset($_SESSION['usuario'])){
+	header ("Location: ../index.php");
+}
 
-	if(!isset($_SESSION['usuario'])){
-		header ("Location: ../index.php");
-	}
+include "../memorando/conexao.php";
 
-	include "../memorando/conexao.php";
 $id_memorando=$_GET["desp"];
+
 if(isset($_GET["arq"]))
 {
-$arquivado=$_GET["arq"];
+	$arquivado=$_GET["arq"];
 }
 
 $comando1="update memorando set id_status_memorando='6' where id_memorando='$id_memorando'";
 $query1=mysqli_query($conexao, $comando1);
 $linhas1=mysqli_affected_rows($conexao);
-$memorandos=array();
 
+$memorandos=array();
 $anexos=array();
 
 $comando="select pessoa.nome, despacho.texto, despacho.id_remetente, despacho.data, despacho.id_destinatario, despacho.id_despacho from despacho join pessoa on despacho.id_remetente=pessoa.id_pessoa where id_memorando=".$id_memorando." order by despacho.data desc";
 $query=mysqli_query($conexao, $comando);
 $linhas=mysqli_num_rows($query);
+
+$comando3="select pessoa.nome from despacho join pessoa on despacho.id_destinatario=pessoa.id_pessoa where id_memorando=".$id_memorando;
+$query3=mysqli_query($conexao, $comando3);
+$linhas3=mysqli_num_rows($query3);
+
 for($i=0; $i<$linhas; $i++)
 {
-	//$arquivo=base64_decode($consulta[5]);
-
-	//$baseImagem = base64_decode($consulta[5]);
-	//$extensao =  pathinfo($baseImagem, PATHINFO_EXTENSION);
-	
-
-//var_dump(substr($imgBase64, 11, strpos($imgBase64, ';') - 11));  // Saída = gif
 
 	$consulta=mysqli_fetch_row($query);
-	$memorandos[$i]=array('remetente'=>$consulta[0], 'mensagem'=>$consulta[1], 'data'=>$consulta[3], 'destinatario'=>$consulta[4], 'id'=>$consulta[5]);
-	//$comando2="select anexo.anexo, anexo.extensao from anexo join despacho on anexo.id_despacho=despacho.id_despacho where anexo.id_despacho=".$consulta[5];
-	//$query2=mysqli_query($conexao, $comando2);
-	//$linhas2=mysqli_num_rows($query2);
-	//for($j=0; $j<$linhas2; $j++)
-	//{
-		//$consulta2=mysqli_fetch_row($query2);
-		//$imgBase642= "data:image/".$consulta2[1].";base64,".$consulta2[0];
-		//$anexos[$j]=array('anexo'.$j=>$imgBase642);
-		//$memorandos[$i]=array_merge($memorandos[$i], $anexos[$j]);
-	//}
-	//echo array_merge($memorandos[$i], $anexos);
-	//print_r(array_merge($memorandos[$i], $anexos));
-	//$memorandos[$i]=[$memorandos[$i]=>[$anexos]];
-	//$memorandos[$i]=array_merge($memorandos[$i], $anexos);
+	$consulta3=mysqli_fetch_row($query3);
+	$memorandos[$i]=array('remetente'=>$consulta[0], 'mensagem'=>$consulta[1], 'data'=>$consulta[3], 'destinatario'=>$consulta3[0], 'id'=>$consulta[5]);
 	}
+
 $memorando=json_encode($memorandos);
 	
-	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
-	require_once "personalizacao_display.php";
-	?>
-<!doctype html>
+// Adiciona a Função display_campo($nome_campo, $tipo_campo)
+require_once "personalizacao_display.php";
+?>
+
+<!DOCTYPE html>
 
 <html class="fixed">
 <head>
@@ -127,79 +116,52 @@ $memorando=json_encode($memorandos);
    	<script>
 	$(function(){
 		var memorando=<?php echo $memorando?> ;
-		console.log(memorando);
-					var tamanho=0;
+		var tamanho=0;
 		$.each(memorando,function(i,item){
-			/*if(item.anexo.length>22)
-			{*/
-			for (var i in item) {
-    		if (item.hasOwnProperty(i)) {
-        	tamanho++;
-    		}
-			}
-					tamanho=tamanho-4;
 				
 			$("#tabela")
 				.append($("<tr id="+item.id+">")
 					.append($("<td>")
+						.text(item.id))
+					.append($("<td>")
 						.text(item.remetente))
+					.append($("<td>")
+						.text(item.destinatario))
 					.append($("<td>")
 						.html(item.mensagem+"<a href=lista_anexo.php?despacho="+item.id+"&memorando="+<?php echo $id_memorando; ?>+" target=_self><img src=../img/clip.png heigh=30px width=30px></a>"))
 					.append($("<td >")
 						.text(item.data)));
-			/*}
-		else
-			{
-				$("#tabela")
-				.append($("<tr>")
-					.append($("<td>")
-						.text(item.remetente))
-					.append($("<td>")
-						.html(item.mensagem))
-					.append($("<td >")
-						.text(item.data)));
-			}*/
 		});
-	});
-	$(function () {
         $("#header").load("header.php");
         $(".menuu").load("menu.html");
     });
-
 	</script>
+
 	<style type="text/css">
-		/*.table{
-			z-index: 0;
-		}
-		.text-right{
-			z-index: 1;
-		}*/
+
 		.select{
-			/*z-index: 2;*/
-			/*float: left;*/
 			position: absolute;
 			width: 235px;
-		}*/
+		}
 		.select-table-filter{
 			width: 140px;
 			float: left;
-		}-->
+		}
 
 		#arquivos
 		{
-	margin-top: -25px; 
-    position: absolute;
-    z-index: 1;
-    background-color: #e6e5e5;
-    width: 50%;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+			margin-top: -25px; 
+    		position: absolute;
+    		z-index: 1;
+    		background-color: #e6e5e5;
+    		width: 50%;
+    		top: 50%;
+    		left: 50%;
+    		transform: translate(-50%, -50%);
 		}
 
 		#x
 		{
-			margin-left: 85%;
 			display: block;
 			box-shadow: none;
 			float: right;
@@ -207,6 +169,8 @@ $memorando=json_encode($memorandos);
 		#titulo
 		{
 			float: left;
+			color: #abb4be;
+			font-weight: 550;
 		}
 
 		#link
@@ -239,6 +203,11 @@ $memorando=json_encode($memorandos);
 		{
 			margin: 15px;
     		font-size: 15px;
+		}
+
+		#barra
+		{
+			background-color: #1d2127;
 		}
 
 	</style>
@@ -284,7 +253,9 @@ $memorando=json_encode($memorandos);
 						<table class="table table-bordered table-striped mb-none" id="datatable-default">
 							<thead>
 								<tr>
+									<th>codigo</th>
 									<th>remetente</th>
+									<th>destinatario</th>
 									<th>despacho</th>
 									<th>data</th>
 								</tr>
@@ -292,21 +263,22 @@ $memorando=json_encode($memorandos);
 							<tbody id="tabela">
 							</tbody>
 						</table>
-					</div>							<?php
-							if(!isset($_GET["arq"]))
-{
-?>
-<header class="panel-heading">
-	<h2 class="panel-title">Novo despacho</h2>
-</header>
-<div class="panel-body">
-<?php	
-echo "<form action=../memorando/inseredespacho.php?id=".$id_memorando." method=post>";
-echo "<label for=destinatario id=etiqueta_destinatario>Para </label>";
-echo "<select id=destinatario name=destinatario id=destinatario required class='select-table-filter form-control mb-md'>";
-$comando="select pessoa.nome, funcionario.id_funcionario from funcionario join pessoa where funcionario.id_funcionario=pessoa.id_pessoa";
-$query=mysqli_query($conexao, $comando);
-$linhas=mysqli_num_rows($query);
+					</div>							
+					<?php
+						if(!isset($_GET["arq"]))
+							{
+					?>
+						<header class="panel-heading">
+							<h2 class="panel-title">Novo despacho</h2>
+						</header>
+						<div class="panel-body">
+							<?php	
+								echo "<form action=../memorando/inseredespacho.php?id=".$id_memorando." method=post>";
+								echo "<label for=destinatario id=etiqueta_destinatario>Para </label>";
+								echo "<select id=destinatario name=destinatario id=destinatario required class='select-table-filter form-control mb-md'>";
+								$comando="select pessoa.nome, funcionario.id_funcionario from funcionario join pessoa where funcionario.id_funcionario=pessoa.id_pessoa";
+								$query=mysqli_query($conexao, $comando);
+								$linhas=mysqli_num_rows($query);
 for($i=0; $i<$linhas; $i++)
 {
 $consulta = mysqli_fetch_row($query);
@@ -325,13 +297,15 @@ echo "</form>";
 </div>
 	<div id="arquivos" hidden>
 		<!--header class="panel-heading"-->
+		<header class="panel-heading" id="barra">
 			<div class="row">
 			<div class="col-md-6">
-			<h2 class="panel-title col-md-6" id="titulo" style="margin: 20px 0 0 15px;">Arquivos</h2>
+			<h2 class="panel-title col-md-6" id="titulo" style="margin: 15px 0 0 15px;">Arquivos</h2>
 			</div>
 			<div class="col-md-6">
-			<button type="button" id="x" class='mb-xs mt-xs mr-xs btn btn-default'><img src="../img/x.png" width="20px" height="20px"></button>
+			<button type="button" id="x" class='mb-xs mt-xs mr-xs btn btn-default'><img src="../img/x.png" width="15px" height="15px"></button>
 			</div>
+						</header>
 		</div>
 		<!--/header-->
 	</div>
@@ -372,7 +346,7 @@ echo "</form>";
 					var anexo=<?php echo $anexo ?>;
 					$.each(anexo,function(i,item){
             			$("#arquivos")
-                			.append("<button type='button' class='btn btn-primary btn-lg btn-block' id='link'><a href="+item.link+" target=_blank>"+item.nome+"."+item.anexo+"</a></button>");
+                			.append("<button type='button' class='btn btn-primary btn-lg btn-block' id='link'><a href="+item.link+" target='_blank'>"+item.nome+"."+item.extensao+"</a></button>");
                 	});
                 	if(anexo.length==0)
                 	{
