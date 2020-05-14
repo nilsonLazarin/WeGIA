@@ -10,4 +10,5 @@ Fruto da parceria estágio-empresa entre o Cefet/RJ e o Lar Abrigo Amor a Jesus,
 Durante os anos de 2018-2019 os módulos de recursos humanos, registro de internos e controle de estoque foram desenvolvidos e a versão beta foi liberada para download. No ano de 2020 busca-se desenvolver os módulos de memorando interno e módulo para troca de mensagens administrativas institucionais, visando agilizar os processos internos da instituição.
 
 Referencias Bibliográficas
+
 Camarano, A. A. and Barbosa, P. (2016) ‘INSTITUIÇÕES DE LONGA PERMANÊNCIA PARA IDOSOS NO BRASIL: DO QUE SE ESTÁ FALANDO?’, in Política nacional do idoso: velhas e novas questões. Rio de Janeiro: Ipea, pp. 479–514. Available at: http://www.ipea.gov.br/portal/images/stories/PDFs/livros/livros/161006_livro_politica_nacional_idosos.PDF.
