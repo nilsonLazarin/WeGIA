@@ -33,14 +33,18 @@ include("conexao.php");
     //$linhas1=mysqli_affected_rows($conexao);
 
     $id_despacho=mysqli_insert_id ($conexao);
+    $comando2="select id_status_memorando from memorando where id_memorando='$id_memorando'";
+    $query2=mysqli_query($conexao, $comando2);
+    $consulta2=mysqli_fetch_row($query2);
+
+    if($destinatario==$remetente && $consulta2[0]==7)
+    {
+        $comando1="update memorando set id_status_memorando='6' where id_memorando='$id_memorando'";
+        $query1=mysqli_query($conexao, $comando1);
+    }
     if($destinatario!=$remetente)
     {
         $comando1="update memorando set id_status_memorando='7' where id_memorando='$id_memorando'";
-        $query1=mysqli_query($conexao, $comando1);
-    }
-    else
-    {
-        $comando1="update memorando set id_status_memorando='6' where id_memorando='$id_memorando'";
         $query1=mysqli_query($conexao, $comando1);
     }
 

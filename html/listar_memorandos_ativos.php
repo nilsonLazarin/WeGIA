@@ -120,23 +120,28 @@ require_once "personalizacao_display.php";
                     .append($("<td>")
                         .text(item.data))
                     .append($("<td id=opcoes_"+item.id+">")
-                        .html("<a href=../html/naolido.php?desp="+item.id+" id=naolido><img src=../img/nao-lido.png width=25px height=25px title='Não Lido'></a> <a href=../html/importante.php?desp="+item.id+"><img src=../img/importante.png width=25px height=25px title='Importante'></a> <a href=../html/pendente.php?desp="+item.id+"><img src=../img/pendente.png width=25px height=25px title='Pendente'></a>")));
+                        .html("<a href=../html/naolido.php?desp="+item.id+" id=naolido"+item.id+"><img src=../img/nao-lido.png width=25px height=25px title='Não Lido'></a> <a href=../html/importante.php?desp="+item.id+"&imp=1 id=importante"+item.id+"><img src=../img/importante.png width=25px height=25px title='Importante'></a> <a href=../html/pendente.php?desp="+item.id+"&pen=1 id=pendente"+item.id+"><img src=../img/pendente.png width=25px height=25px title='Pendente'></a>")));
                 	if(item.status==9)
                 	{
                 		document.getElementById(item.id).style.backgroundColor = '#ffa0a0d4';
+                		$("#importante"+item.id).html("<a href=../html/importante.php?desp="+item.id+"&imp=0 id=importante"+item.id+"><img src=../img/importante.png width=25px height=25px title='Importante'></a>");
                 	}
 
                 	if(item.status==10)
                 	{
                 		document.getElementById(item.id).style.backgroundColor = "rgba(249, 255, 160, 0.9)";
+                		$("#pendente"+item.id).html("<a href=../html/pendente.php?desp="+item.id+"&pen=0 id=pendente"+item.id+"><img src=../img/pendente.png width=25px height=25px title='Pendente'></a>");
                 	}
 
                 	if(item.status==7)
                 	{
                 		document.getElementById(item.id).style.backgroundColor = "rgba(195, 230, 255, 0.83)";
-                		$("#naolido").html("<img src=../img/lido.png width=25px height=25px title='Lido'>");
+                		$("#naolido"+item.id).html("<a href=../html/lido.php?desp="+item.id+" class=naolido><img src='../img/lido.png' width=25px height=25px title='Lido'></a>");
                 	}
-                	
+                	if(item.status==6)
+                	{
+                		$("#naolido"+item.id).html("<a href=../html/naolido.php?desp="+item.id+" class=naolido><img src='../img/nao-lido.png' width=25px height=25px title='Não lido'></a>");
+                	}
                 	if(item.criador==item.dest_des)
                 	{
                 		$("#opcoes_"+item.id).append("<a href=../memorando/arquivaMemorando.php?desp="+item.id+"><img src='../img/arquivar.png' width=25px height=25px title='Arquivar memorando'></a>")
@@ -275,10 +280,13 @@ require_once "personalizacao_display.php";
                         ?>
                         <section class="panel">
                         <header class="panel-heading">
-                            <h2 class="panel-title">Criar memorando</h2>
+                            <h2 class="panel-title">Despachar memorando</h2>
                         </header>
                         <div class="panel-body">
                         <form action="../memorando/inseredespacho.php?id=<?php echo ($id);?>" method="post" enctype="multipart/form-data">
+                      	<div class="form-group">
+                      	<label for=destinatario id=etiqueta_destinatario class='col-md-3 control-label'>Destino </label>
+                      	<div class='col-md-6'>
                         <select name="destinatario" id="destinatario" required class='select-table-filter form-control mb-md'>
                         <!--option>Para</option-->
                         <?php
@@ -293,11 +301,26 @@ require_once "personalizacao_display.php";
                             echo "<option id='$id' value='$id' name='$id'>$nome</option>";
                         }
                         ?>
-                        </select><br>
-                        <textarea id=despacho name="despacho" required placeholder=Mensagem class='form-control'></textarea><br>
-                        <!--input type="file" name="arquivo" id="arquivo"-->
-                        <input type="file" name="arquivo[]" id="arquivo" multiple>
-                        <input type="submit" value="Criar despacho" class="mb-xs mt-xs mr-xs btn btn-default"> 
+                        </select>
+                    	</div>
+                    	</div>
+                    	<div class="form-group">
+                    	<label for=arquivo id=etiqueta_arquivo class='col-md-3 control-label'>Arquivo </label>
+                    	<div class='col-md-6'>
+                    	<input type="file" name="arquivo[]" id="arquivo" multiple>
+                    	</div>
+                    	</div>
+                    	<div class="form-group">
+                    	<label for=despacho id=etiqueta_despacho class='col-md-3 control-label'>Despacho </label>
+                    	<div class='col-md-6'>
+                        <textarea cols='30' rows='5' id='despacho' name='despacho' required class='form-control'></textarea>
+                        </div>
+                    	</div>
+                    	<div class='row'>
+                        <div class='col-md-9 col-md-offset-8'>
+                        <input type='submit' value='Enviar' name='enviar' id='enviar' class='btn btn-primary'>
+                        </div>
+                    	</div>
                     </div>
                         <?php                           
                     }

@@ -18,7 +18,7 @@
     {
         echo "Não foi possível marcar o despacho como não lido";
     }
-
+    }
     else
     {
         header("Location: ../html/listar_memorandos_ativos.php");

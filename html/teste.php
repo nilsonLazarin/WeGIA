@@ -19,9 +19,16 @@ if(isset($_GET["arq"]))
 	$arquivado=$_GET["arq"];
 }
 
+$comando2="select id_status_memorando from memorando where id_memorando='$id_memorando'";
+$query2=mysqli_query($conexao, $comando2);
+$consulta2=mysqli_fetch_row($query2);
+
+if($consulta2[0]==7)
+{
 $comando1="update memorando set id_status_memorando='6' where id_memorando='$id_memorando'";
 $query1=mysqli_query($conexao, $comando1);
 $linhas1=mysqli_affected_rows($conexao);
+}
 
 $memorandos=array();
 $anexos=array();
@@ -30,7 +37,7 @@ $comando="select pessoa.nome, despacho.texto, despacho.id_remetente, despacho.da
 $query=mysqli_query($conexao, $comando);
 $linhas=mysqli_num_rows($query);
 
-$comando3="select pessoa.nome from despacho join pessoa on despacho.id_destinatario=pessoa.id_pessoa where id_memorando=".$id_memorando;
+$comando3="select pessoa.nome from despacho join pessoa on despacho.id_destinatario=pessoa.id_pessoa where id_memorando=".$id_memorando." order by despacho.data desc";
 $query3=mysqli_query($conexao, $comando3);
 $linhas3=mysqli_num_rows($query3);
 
@@ -168,9 +175,8 @@ require_once "personalizacao_display.php";
 		}
 		#titulo
 		{
-			float: left;
-			color: #abb4be;
-			font-weight: 550;
+			color: #ffff;
+			font-weight: 450;
 		}
 
 		#link
@@ -210,6 +216,23 @@ require_once "personalizacao_display.php";
 			background-color: #1d2127;
 		}
 
+		.col-md-3 {
+    		width: 5%;
+		}
+
+		@media (min-width: 992px)
+		{
+			.col-md-3 {
+    			width: 10%;
+			}
+		}
+
+		#despacho
+		{
+			width: 700px;
+			height: 400px;
+		}
+
 	</style>
 </head>
 <body>
@@ -245,7 +268,7 @@ require_once "personalizacao_display.php";
 						<div class="select" >
 							<select class="select-table-filter form-control mb-md" data-table="order-table">
 								<option selected disabled>Despacho</option>
-							</select>float:right;"></h5>
+							</select float:right;></h5>
 	  					</div>
 	  					<button style="float: right;" class="mb-xs mt-xs mr-xs btn btn-default">Imprimir</button>
 	  					<br><br>
@@ -269,13 +292,15 @@ require_once "personalizacao_display.php";
 							{
 					?>
 						<header class="panel-heading">
-							<h2 class="panel-title">Novo despacho</h2>
+							<h2 class="panel-title">Despachar memorando</h2>
 						</header>
 						<div class="panel-body">
 							<?php	
 								echo "<form action=../memorando/inseredespacho.php?id=".$id_memorando." method=post>";
-								echo "<label for=destinatario id=etiqueta_destinatario>Para </label>";
-								echo "<select id=destinatario name=destinatario id=destinatario required class='select-table-filter form-control mb-md'>";
+								echo "<div class='form-group'>";
+								echo "<label for=destinatario id=etiqueta_destinatario class='col-md-3 control-label'>Destino </label>";
+								echo "<div class='col-md-6'>";
+								echo "<select id=destinatario name=destinatario required class='select-table-filter form-control mb-md'>";
 								$comando="select pessoa.nome, funcionario.id_funcionario from funcionario join pessoa where funcionario.id_funcionario=pessoa.id_pessoa";
 								$query=mysqli_query($conexao, $comando);
 								$linhas=mysqli_num_rows($query);
@@ -287,13 +312,32 @@ $id=$consulta[1];
 echo "<option id='$id' value='$id' name='$id'>$nome</option>";
 }
 echo "</select>";
-echo "<tr><td><input type='text' id='despacho' name='despacho' required placeholder='Mensagem' class='form-control'></td>";
+echo "</div>";
+echo "</div>";
+echo "<div class='form-group'>";
+echo "<label for=arquivo id=etiqueta_arquivo class='col-md-3 control-label'>Arquivo </label>";
+echo "<div class='col-md-6'>";
 echo "<input type='file' name='arquivo[]' id='arquivo' multiple>";
-echo "<td><input type='submit' value='Novo despacho' name='enviar' id='enviar' class='mb-xs mt-xs mr-xs btn btn-default'></td></tr>";
+echo "</div>";
+echo "</div>";
+echo "<div class='form-group'>";
+echo "<label for=despacho id=etiqueta_despacho class='col-md-3 control-label'>Despacho </label>";
+echo "<div class='col-md-6'>";
+echo "<textarea cols='30' rows='5' id='despacho' name='despacho' required class='form-control'></textarea>";
+echo "</div>";
+echo "</div>";
+echo "<div class='row'>";
+echo "<div class='col-md-9 col-md-offset-7'>";
+echo "<input type='submit' value='Enviar' name='enviar' id='enviar' class='btn btn-primary'>";
+echo "</div>";
+echo "</div>";
 echo "<span id='mostra_assunto'></span>";
+?>
+<?php
 echo "</form>";
 }
 ?>
+
 </div>
 	<div id="arquivos" hidden>
 		<!--header class="panel-heading"-->
