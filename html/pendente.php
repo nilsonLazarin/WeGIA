@@ -21,7 +21,7 @@
     }
     else
     {
-        $comando="update memorando set id_status_memorando='1' where id_memorando=$desp";
+    $comando="update memorando set id_status_memorando='1' where id_memorando=$desp";
     $query=mysqli_query($conexao, $comando);
     $linhas=mysqli_affected_rows($conexao);
     if($linhas==1)

@@ -1,6 +1,6 @@
 <?php
 
- class  Conexao
+class  Conexao
 {
     public static function connect()
     {

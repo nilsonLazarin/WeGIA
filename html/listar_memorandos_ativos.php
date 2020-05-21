@@ -1,4 +1,5 @@
 <?php
+
 ini_set('display_errors',1);
 ini_set('display_startup_erros',1);
 error_reporting(E_ALL);
@@ -7,37 +8,11 @@ session_start();
 if(!isset($_SESSION['usuario'])){
     header ("Location: ../index.php");
 }
-
 include "../memorando/conexao.php";
-
-$cpf_remetente=$_SESSION['usuario'];
-
-$comando6="select id_pessoa from pessoa where cpf='$cpf_remetente'";
-$query6=mysqli_query($conexao, $comando6);
-$linhas6=mysqli_num_rows($query6);
-for($i=0; $i<$linhas6; $i++)
-{
-    $consulta6=mysqli_fetch_row($query6);
-    $remetente=$consulta6[0];
-}
-
-$memorandos=array();
-$memorandos2=array();
-
-$comando5="select despacho.id_memorando, despacho.id_destinatario, despacho.texto, memorando.titulo, despacho.data, despacho.id_remetente, memorando.id_status_memorando, despacho.id_despacho, memorando.id_pessoa, despacho.id_destinatario from despacho join memorando on(despacho.id_memorando=memorando.id_memorando) where (despacho.id_despacho in (select max(id_despacho) from despacho group by id_memorando)) and despacho.id_destinatario=$remetente and memorando.id_status_memorando!='8' order by memorando.data desc";
-$query5=mysqli_query($conexao, $comando5);
-$linhas5=mysqli_num_rows($query5);
-for($i=0; $i<$linhas5; $i++)
-{
-        $consulta5=mysqli_fetch_row($query5);
-        $memorandos2[$i]=array('memorando'=>$consulta5[3], 'data'=>$consulta5[4], 'id'=>$consulta5[0], 'reme_des'=>$consulta5[5], 'dest_des'=>$consulta5[1],'status'=>$consulta5[6], 'criador'=>$consulta5[8]);
-}
-
-$memorando2=json_encode($memorandos2);
+include "../controle/MemorandoControle.php";
 
 // Adiciona a Função display_campo($nome_campo, $tipo_campo)
 require_once "personalizacao_display.php";
-
 ?>
 
 <!DOCTYPE html>
@@ -108,43 +83,43 @@ require_once "personalizacao_display.php";
 
     <script>
     $(function(){
-        var memorando2=<?php echo $memorando2?>;
+        var memorando2=<?php echo $_SESSION['memorando']?>;
         console.log(memorando2);
         $.each(memorando2,function(i,item){
             $("#tabela")
-                .append($("<tr id="+item.id+">")
+                .append($("<tr id="+item.id_memorando+">")
                     .append($("<td>")
-                        .text(item.id))
+                        .text(item.id_memorando))
                     .append($("<td>")
-                        .html("<a href=../html/teste.php?desp="+item.id+" id=memorando>"+item.memorando+"</a>"))
+                        .html("<a href=../html/teste.php?desp="+item.id_memorando+" id=memorando>"+item.titulo+"</a>"))
                     .append($("<td>")
                         .text(item.data))
-                    .append($("<td id=opcoes_"+item.id+">")
-                        .html("<a href=../html/naolido.php?desp="+item.id+" id=naolido"+item.id+"><img src=../img/nao-lido.png width=25px height=25px title='Não Lido'></a> <a href=../html/importante.php?desp="+item.id+"&imp=1 id=importante"+item.id+"><img src=../img/importante.png width=25px height=25px title='Importante'></a> <a href=../html/pendente.php?desp="+item.id+"&pen=1 id=pendente"+item.id+"><img src=../img/pendente.png width=25px height=25px title='Pendente'></a>")));
-                	if(item.status==9)
+                    .append($("<td id=opcoes_"+item.id_memorando+">")
+                        .html("<a href=../html/naolido.php?desp="+item.id_memorando+" id=naolido"+item.id_memorando+"><img src=../img/nao-lido.png width=25px height=25px title='Não Lido'></a> <a href=../html/importante.php?desp="+item.id_memorando+"&imp=1 id=importante"+item.id_memorando+"><img src=../img/importante.png width=25px height=25px title='Importante'></a> <a href=../html/pendente.php?desp="+item.id_memorando+"&pen=1 id=pendente"+item.id_memorando+"><img src=../img/pendente.png width=25px height=25px title='Pendente'></a>")));
+                	if(item.id_status_memorando==9)
                 	{
-                		document.getElementById(item.id).style.backgroundColor = '#ffa0a0d4';
-                		$("#importante"+item.id).html("<a href=../html/importante.php?desp="+item.id+"&imp=0 id=importante"+item.id+"><img src=../img/importante.png width=25px height=25px title='Importante'></a>");
+                		document.getElementById(item.id_memorando).style.backgroundColor = '#ffa0a0d4';
+                		$("#importante"+item.id_memorando).html("<a href=../html/importante.php?desp="+item.id_memorando+"&imp=0 id=importante"+item.id_memorando+"><img src=../img/importante.png width=25px height=25px title='Importante'></a>");
                 	}
 
-                	if(item.status==10)
+                	if(item.id_status_memorando==10)
                 	{
-                		document.getElementById(item.id).style.backgroundColor = "rgba(249, 255, 160, 0.9)";
-                		$("#pendente"+item.id).html("<a href=../html/pendente.php?desp="+item.id+"&pen=0 id=pendente"+item.id+"><img src=../img/pendente.png width=25px height=25px title='Pendente'></a>");
+                		document.getElementById(item.id_memorando).style.backgroundColor = "rgba(249, 255, 160, 0.9)";
+                		$("#pendente"+item.id_memorando).html("<a href=../html/pendente.php?desp="+item.id_memorando+"&pen=0 id=pendente"+item.id_memorando+"><img src=../img/pendente.png width=25px height=25px title='Pendente'></a>");
                 	}
 
-                	if(item.status==7)
+                	if(item.id_status_memorando==7)
                 	{
-                		document.getElementById(item.id).style.backgroundColor = "rgba(195, 230, 255, 0.83)";
-                		$("#naolido"+item.id).html("<a href=../html/lido.php?desp="+item.id+" class=naolido><img src='../img/lido.png' width=25px height=25px title='Lido'></a>");
+                		document.getElementById(item.id_memorando).style.backgroundColor = "rgba(195, 230, 255, 0.83)";
+                		$("#naolido"+item.id_memorando).html("<a href=../html/lido.php?desp="+item.id_memorando+" class=naolido><img src='../img/lido.png' width=25px height=25px title='Lido'></a>");
                 	}
-                	if(item.status==6)
+                	if(item.id_status_memorando==6)
                 	{
-                		$("#naolido"+item.id).html("<a href=../html/naolido.php?desp="+item.id+" class=naolido><img src='../img/nao-lido.png' width=25px height=25px title='Não lido'></a>");
+                		$("#naolido"+item.id).html("<a href=../html/naolido.php?desp="+item.id_memorando+" class=naolido><img src='../img/nao-lido.png' width=25px height=25px title='Não lido'></a>");
                 	}
-                	if(item.criador==item.dest_des)
+                	if(item.id_pessoa==item.id_destinatario)
                 	{
-                		$("#opcoes_"+item.id).append("<a href=../memorando/arquivaMemorando.php?desp="+item.id+"><img src='../img/arquivar.png' width=25px height=25px title='Arquivar memorando'></a>")
+                		$("#opcoes_"+item.id_memorando).append("<a href=../memorando/arquivaMemorando.php?desp="+item.id_memorando+"><img src='../img/arquivar.png' width=25px height=25px title='Arquivar memorando'></a>")
                 	}
 
         });
@@ -235,40 +210,22 @@ require_once "personalizacao_display.php";
                     </div>
 
             <header class="panel-heading">
-                        <h2 class="panel-title">Criar memorando</h2>
-                    </header>
-                    <div class="panel-body">
-                <form action="#" method="post">
-            <input type="text" id="assunto" name="assunto" required placeholder="Assunto" class="form-control">
-            <input type='submit' value='Criar memorando' name='enviar' id='enviar' class='mb-xs mt-xs mr-xs btn btn-default'>
-            <span id='mostra_assunto'></span>;
-            </form>
-        </div>
+                <h2 class="panel-title">Criar memorando</h2>
+            </header>
+            <div class="panel-body">
+                <form action="../controle/control.php" method="post">
+                    <input type="text" id="assunto" name="assunto" required placeholder="Assunto" class="form-control">
+                    <input type="hidden" name="nomeClasse" value="MemorandoControle">
+                    <input type="hidden" name="metodo" value="incluir">
+                    <input type='submit' value='Criar memorando' name='enviar' id='enviar' class='mb-xs mt-xs mr-xs btn btn-default'>
+                    <span id='mostra_assunto'></span>;
+                </form>
+            </div>
             <?php
-                    if(isset($_POST["enviar"]))
+                    /*if(isset($_POST["enviar"]))
                 {
-                    $assunto=$_POST["assunto"];
-                    date_default_timezone_set('America/Sao_Paulo');
-                    $data_criacao3=date('Y-m-d H:i:s');
-                    //$comando2="insert into memorando(id_pessoa, id_status_memorando, titulo, data) values('$remetente', '1', '$assunto', '$data_criacao3')";
-                    //$query2=mysqli_query($conexao, $comando2);
-                    $result = mysqli_query($conexao, "CALL insmemorando('$remetente', '1', '$assunto', '$data_criacao3');") or die("Erro na query da procedure: " . mysqli_error());
-                    $linhas2=mysqli_affected_rows($conexao);
-                    echo "<input type=hidden value='$assunto' id=titulo>";
                     if($linhas2==1)
                     {
-            ?>
-                        <script>
-                            $("#assunto").hide();
-                            $("#enviar").hide();
-                            $("h4").hide();
-                            $(".panel-heading").hide();
-                            $(".panel-body").hide();
-                            var assunto_memorando=$("#titulo").val();
-                            $("#mostra_assunto").html(assunto_memorando);
-                            $("table").hide();
-                        </script>
-                        <?php 
                         $comando3="select id_memorando from memorando where titulo='$assunto'";
                         $query3=mysqli_query($conexao, $comando3);
                         $linhas3=mysqli_num_rows($query3);
@@ -276,55 +233,9 @@ require_once "personalizacao_display.php";
                         {
                             $consulta3=mysqli_fetch_row($query3);
                             $id=$consulta3[0];
-                        } 
-                        ?>
-                        <section class="panel">
-                        <header class="panel-heading">
-                            <h2 class="panel-title">Despachar memorando</h2>
-                        </header>
-                        <div class="panel-body">
-                        <form action="../memorando/inseredespacho.php?id=<?php echo ($id);?>" method="post" enctype="multipart/form-data">
-                      	<div class="form-group">
-                      	<label for=destinatario id=etiqueta_destinatario class='col-md-3 control-label'>Destino </label>
-                      	<div class='col-md-6'>
-                        <select name="destinatario" id="destinatario" required class='select-table-filter form-control mb-md'>
-                        <!--option>Para</option-->
-                        <?php
-                        $comando="select pessoa.nome, funcionario.id_funcionario from funcionario join pessoa where funcionario.id_funcionario=pessoa.id_pessoa";
-                        $query=mysqli_query($conexao, $comando);
-                        $linhas=mysqli_num_rows($query);
-                        for($i=0; $i<$linhas; $i++)
-                        {
-                            $consulta = mysqli_fetch_row($query);
-                            $nome=$consulta[0];
-                            $id=$consulta[1];
-                            echo "<option id='$id' value='$id' name='$id'>$nome</option>";
-                        }
-                        ?>
-                        </select>
-                    	</div>
-                    	</div>
-                    	<div class="form-group">
-                    	<label for=arquivo id=etiqueta_arquivo class='col-md-3 control-label'>Arquivo </label>
-                    	<div class='col-md-6'>
-                    	<input type="file" name="arquivo[]" id="arquivo" multiple>
-                    	</div>
-                    	</div>
-                    	<div class="form-group">
-                    	<label for=despacho id=etiqueta_despacho class='col-md-3 control-label'>Despacho </label>
-                    	<div class='col-md-6'>
-                        <textarea cols='30' rows='5' id='despacho' name='despacho' required class='form-control'></textarea>
-                        </div>
-                    	</div>
-                    	<div class='row'>
-                        <div class='col-md-9 col-md-offset-8'>
-                        <input type='submit' value='Enviar' name='enviar' id='enviar' class='btn btn-primary'>
-                        </div>
-                    	</div>
-                    </div>
-                        <?php                           
+                        }                          
                     }
-                }
+                }*/
                 ?>
                 </section>
             </section>

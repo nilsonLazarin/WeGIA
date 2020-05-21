@@ -11,6 +11,6 @@ class EstoqueControle
         session_start();
         $_SESSION['estoque']=$estoques;
         header('Location: '.$nextPage);
-    }
-    
+    }    
 }
+?>
