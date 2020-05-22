@@ -62,10 +62,10 @@ class MemorandoDAO
 			$sql = "CALL insmemorando(:id_pessoa, :id_status_memorando, :titulo, :data)";
 			$sql = str_replace("'", "\'", $sql);
             $pdo = Conexao::connect();
-            $id_pessoa=$memorando->getId_pessoa();
-            $id_status_memorando=$memorando->getId_status_memorando();
-            $titulo=$memorando->getTitulo();
-            $data=$memorando->getData();
+            $id_pessoa = $memorando->getId_pessoa();
+            $id_status_memorando = $memorando->getId_status_memorando();
+            $titulo = $memorando->getTitulo();
+            $data = $memorando->getData();
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':id_pessoa',$id_pessoa);
             $stmt->bindParam(':id_status_memorando',$id_status_memorando);

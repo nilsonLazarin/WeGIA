@@ -11,8 +11,9 @@ if(!isset($_SESSION['usuario'])){
 }
 
 include "../memorando/conexao.php";
+include "../controle/DespachoControle.php";
 
-$id_memorando=$_GET["desp"];
+$id_memorando=$_GET["id_memorando"];
 
 if(isset($_GET["arq"]))
 {
@@ -30,26 +31,7 @@ $query1=mysqli_query($conexao, $comando1);
 $linhas1=mysqli_affected_rows($conexao);
 }
 
-$memorandos=array();
 $anexos=array();
-
-$comando="select pessoa.nome, despacho.texto, despacho.id_remetente, despacho.data, despacho.id_destinatario, despacho.id_despacho from despacho join pessoa on despacho.id_remetente=pessoa.id_pessoa where id_memorando=".$id_memorando." order by despacho.data desc";
-$query=mysqli_query($conexao, $comando);
-$linhas=mysqli_num_rows($query);
-
-$comando3="select pessoa.nome from despacho join pessoa on despacho.id_destinatario=pessoa.id_pessoa where id_memorando=".$id_memorando." order by despacho.data desc";
-$query3=mysqli_query($conexao, $comando3);
-$linhas3=mysqli_num_rows($query3);
-
-for($i=0; $i<$linhas; $i++)
-{
-
-	$consulta=mysqli_fetch_row($query);
-	$consulta3=mysqli_fetch_row($query3);
-	$memorandos[$i]=array('remetente'=>$consulta[0], 'mensagem'=>$consulta[1], 'data'=>$consulta[3], 'destinatario'=>$consulta3[0], 'id'=>$consulta[5]);
-	}
-
-$memorando=json_encode($memorandos);
 	
 // Adiciona a Função display_campo($nome_campo, $tipo_campo)
 require_once "personalizacao_display.php";
@@ -122,7 +104,7 @@ require_once "personalizacao_display.php";
 
    	<script>
 	$(function(){
-		var memorando=<?php echo $memorando?> ;
+		var memorando=<?php echo $_SESSION['despacho']?>;
 		var tamanho=0;
 		$.each(memorando,function(i,item){
 				
@@ -135,7 +117,7 @@ require_once "personalizacao_display.php";
 					.append($("<td>")
 						.text(item.destinatario))
 					.append($("<td>")
-						.html(item.mensagem+"<a href=lista_anexo.php?despacho="+item.id+"&memorando="+<?php echo $id_memorando; ?>+" target=_self><img src=../img/clip.png heigh=30px width=30px></a>"))
+						.html(item.texto+"<a href=lista_anexo.php?despacho="+item.id+"&memorando="+<?php echo $id_memorando; ?>+" target=_self><img src=../img/clip.png heigh=30px width=30px></a>"))
 					.append($("<td >")
 						.text(item.data)));
 		});

@@ -91,7 +91,7 @@ require_once "personalizacao_display.php";
                     .append($("<td>")
                         .text(item.id_memorando))
                     .append($("<td>")
-                        .html("<a href=../html/teste.php?desp="+item.id_memorando+" id=memorando>"+item.titulo+"</a>"))
+                        .html("<a href=../html/teste.php?id_memorando="+item.id_memorando+" id=memorando>"+item.titulo+"</a>"))
                     .append($("<td>")
                         .text(item.data))
                     .append($("<td id=opcoes_"+item.id_memorando+">")

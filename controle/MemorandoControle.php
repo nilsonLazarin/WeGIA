@@ -41,12 +41,12 @@ class MemorandoControle
     	extract($_REQUEST);
     	if((!isset($assunto)) || (empty($assunto)))
     	{
-    		$msg .= "Assunto do memorando não informado. Por favor, informe um assunto!";
+    		$msg = "Assunto do memorando não informado. Por favor, informe um assunto!";
             //header('Location: ../html/listar_memorandos_ativos.html?msg='.$msg);
     	}
     	$pessoa = new MemorandoDAO();
-    	$id_pessoa=$pessoa->obterUsuario($cpf_usuario);
-    	$id_pessoa=$id_pessoa['0']['id_pessoa'];
+    	$id_pessoa = $pessoa->obterUsuario($cpf_usuario);
+    	$id_pessoa = $id_pessoa['0']['id_pessoa'];
     	$memorando = new Memorando($assunto);
     	$memorando->setId_pessoa($id_pessoa);
     	$memorando->setData();
