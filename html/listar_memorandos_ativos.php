@@ -91,35 +91,35 @@ require_once "personalizacao_display.php";
                     .append($("<td>")
                         .text(item.id_memorando))
                     .append($("<td>")
-                        .html("<a href=../html/teste.php?id_memorando="+item.id_memorando+" id=memorando>"+item.titulo+"</a>"))
+                        .html("<a href=../html/listar_despachos.php?id_memorando="+item.id_memorando+" id=memorando>"+item.titulo+"</a>"))
                     .append($("<td>")
                         .text(item.data))
                     .append($("<td id=opcoes_"+item.id_memorando+">")
-                        .html("<a href=../html/naolido.php?desp="+item.id_memorando+" id=naolido"+item.id_memorando+"><img src=../img/nao-lido.png width=25px height=25px title='Não Lido'></a> <a href=../html/importante.php?desp="+item.id_memorando+"&imp=1 id=importante"+item.id_memorando+"><img src=../img/importante.png width=25px height=25px title='Importante'></a> <a href=../html/pendente.php?desp="+item.id_memorando+"&pen=1 id=pendente"+item.id_memorando+"><img src=../img/pendente.png width=25px height=25px title='Pendente'></a>")));
+                        .html("<a href=../controle/control.php?nomeClasse=MemorandoControle&metodo=alterarIdStatusMemorando&id_memorando="+item.id_memorando+"&id_status_memorando=7 id=naolido"+item.id_memorando+"><img src=../img/nao-lido.png width=25px height=25px title='Não Lido'></a> <a href=../controle/control.php?nomeClasse=MemorandoControle&metodo=alterarIdStatusMemorando&id_memorando="+item.id_memorando+"&id_status_memorando=9 id=importante"+item.id_memorando+"><img src=../img/importante.png width=25px height=25px title='Importante'></a> <a href=../controle/control.php?nomeClasse=MemorandoControle&metodo=alterarIdStatusMemorando&id_memorando="+item.id_memorando+"&id_status_memorando=10 id=pendente"+item.id_memorando+"><img src=../img/pendente.png width=25px height=25px title='Pendente'></a>")));
                 	if(item.id_status_memorando==9)
                 	{
                 		document.getElementById(item.id_memorando).style.backgroundColor = '#ffa0a0d4';
-                		$("#importante"+item.id_memorando).html("<a href=../html/importante.php?desp="+item.id_memorando+"&imp=0 id=importante"+item.id_memorando+"><img src=../img/importante.png width=25px height=25px title='Importante'></a>");
+                		$("#importante"+item.id_memorando).html("<a href=../controle/control.php?nomeClasse=MemorandoControle&metodo=alterarIdStatusMemorando&id_memorando="+item.id_memorando+"&id_status_memorando=1 id=importante"+item.id_memorando+"><img src=../img/importante.png width=25px height=25px title='Importante'></a>");
                 	}
 
                 	if(item.id_status_memorando==10)
                 	{
                 		document.getElementById(item.id_memorando).style.backgroundColor = "rgba(249, 255, 160, 0.9)";
-                		$("#pendente"+item.id_memorando).html("<a href=../html/pendente.php?desp="+item.id_memorando+"&pen=0 id=pendente"+item.id_memorando+"><img src=../img/pendente.png width=25px height=25px title='Pendente'></a>");
+                		$("#pendente"+item.id_memorando).html("<a href=../controle/control.php?nomeClasse=MemorandoControle&metodo=alterarIdStatusMemorando&id_memorando="+item.id_memorando+"&id_status_memorando=1 id=pendente"+item.id_memorando+"><img src=../img/pendente.png width=25px height=25px title='Pendente'></a>");
                 	}
 
                 	if(item.id_status_memorando==7)
                 	{
                 		document.getElementById(item.id_memorando).style.backgroundColor = "rgba(195, 230, 255, 0.83)";
-                		$("#naolido"+item.id_memorando).html("<a href=../html/lido.php?desp="+item.id_memorando+" class=naolido><img src='../img/lido.png' width=25px height=25px title='Lido'></a>");
+                		$("#naolido"+item.id_memorando).html("<a href=../controle/control.php?nomeClasse=MemorandoControle&metodo=alterarIdStatusMemorando&id_memorando="+item.id_memorando+"&id_status_memorando=1 class=naolido><img src='../img/lido.png' width=25px height=25px title='Lido'></a>");
                 	}
                 	if(item.id_status_memorando==6)
                 	{
-                		$("#naolido"+item.id).html("<a href=../html/naolido.php?desp="+item.id_memorando+" class=naolido><img src='../img/nao-lido.png' width=25px height=25px title='Não lido'></a>");
+                		$("#naolido"+item.id).html("<a href=../controle/control.php?nomeClasse=MemorandoControle&metodo=alterarIdStatusMemorando&id_memorando="+item.id_memorando+"&id_status_memorando=7 class=naolido><img src='../img/nao-lido.png' width=25px height=25px title='Não lido'></a>");
                 	}
                 	if(item.id_pessoa==item.id_destinatario)
                 	{
-                		$("#opcoes_"+item.id_memorando).append("<a href=../memorando/arquivaMemorando.php?desp="+item.id_memorando+"><img src='../img/arquivar.png' width=25px height=25px title='Arquivar memorando'></a>")
+                		$("#opcoes_"+item.id_memorando).append("<a href=../controle/control.php?nomeClasse=MemorandoControle&metodo=alterarIdStatusMemorando&id_memorando="+item.id_memorando+"&id_status_memorando=8><img src='../img/arquivar.png' width=25px height=25px title='Arquivar memorando'></a>")
                 	}
 
         });
@@ -221,22 +221,6 @@ require_once "personalizacao_display.php";
                     <span id='mostra_assunto'></span>;
                 </form>
             </div>
-            <?php
-                    /*if(isset($_POST["enviar"]))
-                {
-                    if($linhas2==1)
-                    {
-                        $comando3="select id_memorando from memorando where titulo='$assunto'";
-                        $query3=mysqli_query($conexao, $comando3);
-                        $linhas3=mysqli_num_rows($query3);
-                        for($i=0; $i<$linhas3; $i++)
-                        {
-                            $consulta3=mysqli_fetch_row($query3);
-                            $id=$consulta3[0];
-                        }                          
-                    }
-                }*/
-                ?>
                 </section>
             </section>
         </div>

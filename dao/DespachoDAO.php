@@ -30,18 +30,18 @@ class DespachoDAO
 		return json_encode($Despachos);
 	}
 
-	public function incluir($funcionario)
+	public function incluir($despacho)
 	{
 		try
 		{
 			$sql = "call insdespacho(:id_memorando, :id_remetente, :id_destinatario, :texto, :data)";
 			$sql = str_replace("'", "\'", $sql);
 			$pdo = Conexao::connect();
-			$id_memorando = $memorando->getId_memorando();
-			$id_remetente = $memorando->getId_remetente();
-			$id_destinatario = $memorando->getId_memorando();
-			$texto = $memorando->getTexto();
-			$data = $memorando->getData();
+			$id_memorando = $despacho->getId_memorando();
+			$id_remetente = $despacho->getId_remetente();
+			$id_destinatario = $despacho->getId_destinatario();
+			$texto = $despacho->getTexto();
+			$data = $despacho->getData();
 			$stmt = $pdo->prepare($sql);
 			$stmt->bindParam(':id_memorando', $id_memorando);
 			$stmt->bindParam(':id_remetente', $id_remetente);
@@ -52,8 +52,9 @@ class DespachoDAO
 		}
 		catch(PDOException $e)
 		{
-			echo 'Error:' . $e->getMessage;
+			echo 'Error:' . $e->getMessage();
 		}
+	}
 }
 
 ?>

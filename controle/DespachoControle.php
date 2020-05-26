@@ -2,6 +2,7 @@
 
 include_once "../classes/Despacho.php";
 include_once "../dao/DespachoDAO.php";
+include_once "../dao/MemorandoDAO.php";
 
 class DespachoControle
 {
@@ -22,7 +23,7 @@ class DespachoControle
 		try
 		{
 			$despachoDAO->incluir($despacho);
-			header("Location: ../html/teste?".$_SESSION['despacho']."php");
+			header("Location: ../html/teste.php?id_memorando=".$_GET['id_memorando']);
 		}
 		catch(PDOException $e)
 		{
@@ -40,8 +41,17 @@ class DespachoControle
 		{
 			$msg = "Texto do despacho não informado. Por favor informe um texto";
 		}
-		$despacho = new DespachoDAO();
-		$id_pessoa = 
+
+		$pessoa = new MemorandoDAO();
+    	$id_pessoa = $pessoa->obterUsuario($cpf_usuario);
+    	$id_pessoa = $id_pessoa['0']['id_pessoa'];
+    	$despacho = new Despacho($texto);
+    	$despacho->setId_remetente($id_pessoa);
+    	$despacho->setData();
+    	$despacho->setId_destinatario($destinatario);
+    	$despacho->setId_memorando($id_memorando);
+
+    	return $despacho;
 	}
 }
 

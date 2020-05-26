@@ -71,7 +71,7 @@ class Despacho
 
 	public function setData()
 	{
-		date_defaut_timezone_set('America/Sao_Paulo');
+		date_default_timezone_set('America/Sao_Paulo');
 		$data = date('Y-m-d H:i:s');
 		$this->data = $data;
 	}

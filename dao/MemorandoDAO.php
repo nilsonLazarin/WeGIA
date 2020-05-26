@@ -78,5 +78,25 @@ class MemorandoDAO
 			echo 'Error: <b>  na tabela memorando = ' . $sql . '</b> <br /><br />' . $e->getMessage();
 		}
 	}
+
+	public function alterarIdStatusMemorando($memorando)
+	{
+		try
+		{
+			$sql = "update memorando set id_status_memorando=:id_status_memorando where id_memorando=:id_memorando";
+			$sql = str_replace("'", "\'", $sql);
+			$pdo = Conexao::connect();
+			$stmt = $pdo->prepare($sql);
+			$id_status_memorando = $memorando->getId_status_memorando();
+			$id_memorando = $memorando->getId_memorando();
+			$stmt->bindParam(':id_status_memorando', $id_status_memorando);
+			$stmt->bindParam(':id_memorando', $id_memorando);
+			$stmt->execute();
+		}
+		catch(PDOException $e)
+		{
+			echo 'Error: <b>  na tabela memorando = ' . $sql . '</b> <br /><br />' . $e->getMessage();
+		}
+	}
 }
 ?>

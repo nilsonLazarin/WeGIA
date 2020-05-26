@@ -1,65 +1,43 @@
 <?php
+
 ini_set('display_errors',1);
-  ini_set('display_startup_erros',1);
-  error_reporting(E_ALL);
-		session_start();
+ini_set('display_startup_erros',1);
+error_reporting(E_ALL);
 
+session_start();
 
+if(!isset($_SESSION['usuario'])){
+	header ("Location: ../index.php");
+}
 
-	if(!isset($_SESSION['usuario'])){
-		header ("Location: ../index.php");
-	}
+include "../memorando/conexao.php";
+include "../controle/DespachoControle.php";
 
-	include "../memorando/conexao.php";
-$id_memorando=$_GET["desp"];
+$id_memorando=$_GET["id_memorando"];
+
 if(isset($_GET["arq"]))
 {
-$arquivado=$_GET["arq"];
+	$arquivado=$_GET["arq"];
 }
-$memorandos=array();
+
+$comando2="select id_status_memorando from memorando where id_memorando='$id_memorando'";
+$query2=mysqli_query($conexao, $comando2);
+$consulta2=mysqli_fetch_row($query2);
+
+if($consulta2[0]==7)
+{
+$comando1="update memorando set id_status_memorando='6' where id_memorando='$id_memorando'";
+$query1=mysqli_query($conexao, $comando1);
+$linhas1=mysqli_affected_rows($conexao);
+}
 
 $anexos=array();
-
-$comando="select pessoa.nome, despacho.texto, despacho.id_remetente, despacho.data, despacho.id_destinatario, despacho.id_despacho from despacho join pessoa on despacho.id_remetente=pessoa.id_pessoa where id_memorando=".$id_memorando." order by despacho.data desc";
-$query=mysqli_query($conexao, $comando);
-$linhas=mysqli_num_rows($query);
-$comando3="select pessoa.nome from despacho join pessoa on despacho.id_destinatario=pessoa.id_pessoa where id_memorando=".$id_memorando;
-$query3=mysqli_query($conexao, $comando3);
-$linhas3=mysqli_num_rows($query3);
-for($i=0; $i<$linhas; $i++)
-{
-	//$arquivo=base64_decode($consulta[5]);
-
-	//$baseImagem = base64_decode($consulta[5]);
-	//$extensao =  pathinfo($baseImagem, PATHINFO_EXTENSION);
 	
+// Adiciona a Função display_campo($nome_campo, $tipo_campo)
+require_once "personalizacao_display.php";
+?>
 
-//var_dump(substr($imgBase64, 11, strpos($imgBase64, ';') - 11));  // Saída = gif
-
-	$consulta=mysqli_fetch_row($query);
-	$consulta3=mysqli_fetch_row($query3);
-	$memorandos[$i]=array('remetente'=>$consulta[0], 'mensagem'=>$consulta[1], 'data'=>$consulta[3], 'destinatario'=>$consulta3[0], 'id'=>$consulta[5]);
-	//$comando2="select anexo.anexo, anexo.extensao from anexo join despacho on anexo.id_despacho=despacho.id_despacho where anexo.id_despacho=".$consulta[5];
-	//$query2=mysqli_query($conexao, $comando2);
-	//$linhas2=mysqli_num_rows($query2);
-	//for($j=0; $j<$linhas2; $j++)
-	//{
-		//$consulta2=mysqli_fetch_row($query2);
-		//$imgBase642= "data:image/".$consulta2[1].";base64,".$consulta2[0];
-		//$anexos[$j]=array('anexo'.$j=>$imgBase642);
-		//$memorandos[$i]=array_merge($memorandos[$i], $anexos[$j]);
-	//}
-	//echo array_merge($memorandos[$i], $anexos);
-	//print_r(array_merge($memorandos[$i], $anexos));
-	//$memorandos[$i]=[$memorandos[$i]=>[$anexos]];
-	//$memorandos[$i]=array_merge($memorandos[$i], $anexos);
-	}
-$memorando=json_encode($memorandos);
-	
-	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
-	require_once "personalizacao_display.php";
-	?>
-<!doctype html>
+<!DOCTYPE html>
 
 <html class="fixed">
 <head>
@@ -126,18 +104,9 @@ $memorando=json_encode($memorandos);
 
    	<script>
 	$(function(){
-		var memorando=<?php echo $memorando?> ;
-		console.log(memorando);
-					var tamanho=0;
+		var memorando=<?php echo $_SESSION['despacho']?>;
+		var tamanho=0;
 		$.each(memorando,function(i,item){
-			/*if(item.anexo.length>22)
-			{*/
-			for (var i in item) {
-    		if (item.hasOwnProperty(i)) {
-        	tamanho++;
-    		}
-			}
-					tamanho=tamanho-4;
 				
 			$("#tabela")
 				.append($("<tr id="+item.id+">")
@@ -148,57 +117,36 @@ $memorando=json_encode($memorandos);
 					.append($("<td>")
 						.text(item.destinatario))
 					.append($("<td>")
-						.html(item.mensagem+"<a href=lista_anexo.php?despacho="+item.id+"&memorando="+<?php echo $id_memorando; ?>+"&arq=1><img src=../img/clip.png heigh=30px width=30px></a>"))
+						.html(item.texto+"<a href=lista_anexo.php?despacho="+item.id+"&memorando="+<?php echo $id_memorando; ?>+" target=_self><img src=../img/clip.png heigh=30px width=30px></a>"))
 					.append($("<td >")
 						.text(item.data)));
-			/*}
-		else
-			{
-				$("#tabela")
-				.append($("<tr>")
-					.append($("<td>")
-						.text(item.remetente))
-					.append($("<td>")
-						.html(item.mensagem))
-					.append($("<td >")
-						.text(item.data)));
-			}*/
 		});
-	});
-	$(function () {
         $("#header").load("header.php");
         $(".menuu").load("menu.html");
     });
-
 	</script>
+
 	<style type="text/css">
-		/*.table{
-			z-index: 0;
-		}
-		.text-right{
-			z-index: 1;
-		}*/
+
 		.select{
-			/*z-index: 2;*/
-			/*float: left;*/
 			position: absolute;
 			width: 235px;
-		}*/
+		}
 		.select-table-filter{
 			width: 140px;
 			float: left;
-		}-->
+		}
 
 		#arquivos
 		{
-	margin-top: -25px; 
-    position: absolute;
-    z-index: 1;
-    background-color: #e6e5e5;
-    width: 50%;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+			margin-top: -25px; 
+    		position: absolute;
+    		z-index: 1;
+    		background-color: #e6e5e5;
+    		width: 50%;
+    		top: 50%;
+    		left: 50%;
+    		transform: translate(-50%, -50%);
 		}
 
 		#x
@@ -209,9 +157,8 @@ $memorando=json_encode($memorandos);
 		}
 		#titulo
 		{
-			float: left;
-			color: #abb4be;
-			font-weight: 550;
+			color: #ffff;
+			font-weight: 450;
 		}
 
 		#link
@@ -251,6 +198,23 @@ $memorando=json_encode($memorandos);
 			background-color: #1d2127;
 		}
 
+		.col-md-3 {
+    		width: 5%;
+		}
+
+		@media (min-width: 992px)
+		{
+			.col-md-3 {
+    			width: 10%;
+			}
+		}
+
+		#despacho
+		{
+			width: 700px;
+			height: 400px;
+		}
+
 	</style>
 </head>
 <body>
@@ -286,7 +250,7 @@ $memorando=json_encode($memorandos);
 						<div class="select" >
 							<select class="select-table-filter form-control mb-md" data-table="order-table">
 								<option selected disabled>Despacho</option>
-							</select>float:right;"></h5>
+							</select float:right;></h5>
 	  					</div>
 	  					<button style="float: right;" class="mb-xs mt-xs mr-xs btn btn-default">Imprimir</button>
 	  					<br><br>
@@ -304,32 +268,26 @@ $memorando=json_encode($memorandos);
 							<tbody id="tabela">
 							</tbody>
 						</table>
-					</div>
-					<div id="arquivos" hidden>
-			<header class="panel-heading" id="barra">
-			<div class="row">
-			<div class="col-md-6">
-			<h2 class="panel-title" id="titulo" style="margin: 15px 0 0 15px;">Arquivos</h2>
-			</div>
-			<div class="col-md-6">
-			<button type="button" id="x" class='mb-xs mt-xs mr-xs btn btn-default'><img src="../img/x.png" width="15px" height="15px"></button>
-			</div>
-		</header>
-			</div>							<?php
-							if(!isset($_GET["arq"]))
-{
-?>
-<header class="panel-heading">
-	<h2 class="panel-title">Novo despacho</h2>
-</header>
-<div class="panel-body">
-<?php	
-echo "<form action=../memorando/inseredespacho.php?id=".$id_memorando." method=post>";
-echo "<label for=destinatario id=etiqueta_destinatario>Para </label>";
-echo "<select id=destinatario name=destinatario id=destinatario required class='select-table-filter form-control mb-md'>";
-$comando="select pessoa.nome, funcionario.id_funcionario from funcionario join pessoa where funcionario.id_funcionario=pessoa.id_pessoa";
-$query=mysqli_query($conexao, $comando);
-$linhas=mysqli_num_rows($query);
+					</div>							
+					<?php
+						if(!isset($_GET["arq"]))
+							{
+					?>
+						<header class="panel-heading">
+							<h2 class="panel-title">Despachar memorando</h2>
+						</header>
+						<div class="panel-body">
+								
+						<?php echo "<form action='../controle/control.php?id_memorando=$id_memorando' method='post'>";
+						?>
+							<div class='form-group'>
+								<label for=destinatario id=etiqueta_destinatario class='col-md-3 control-label'>Destino </label>
+								<div class='col-md-6'>
+								<select id=destinatario name=destinatario required class='select-table-filter form-control mb-md'>
+								<?php
+								$comando="select pessoa.nome, funcionario.id_funcionario from funcionario join pessoa where funcionario.id_funcionario=pessoa.id_pessoa";
+								$query=mysqli_query($conexao, $comando);
+								$linhas=mysqli_num_rows($query);
 for($i=0; $i<$linhas; $i++)
 {
 $consulta = mysqli_fetch_row($query);
@@ -337,15 +295,48 @@ $nome=$consulta[0];
 $id=$consulta[1];
 echo "<option id='$id' value='$id' name='$id'>$nome</option>";
 }
-echo "</select>";
-echo "<tr><td><input type='text' id='despacho' name='despacho' required placeholder='Mensagem' class='form-control'></td>";
-echo "<input type='file' name='arquivo[]' id='arquivo' multiple>";
-echo "<td><input type='submit' value='Novo despacho' name='enviar' id='enviar' class='mb-xs mt-xs mr-xs btn btn-default'></td></tr>";
-echo "<span id='mostra_assunto'></span>";
-echo "</form>";
-}
 ?>
+</select>
 </div>
+</div>
+<div class='form-group'>
+<label for=arquivo id=etiqueta_arquivo class='col-md-3 control-label'>Arquivo </label>
+<div class='col-md-6'>
+<input type='file' name='arquivo[]' id='arquivo' multiple>
+</div>
+</div>
+<div class='form-group'>
+<label for=texto id=etiqueta_despacho class='col-md-3 control-label'>Despacho </label>
+<div class='col-md-6'>
+<textarea cols='30' rows='5' id='despacho' name='texto' required class='form-control'></textarea>
+</div>
+</div>
+<div class='row'>
+<div class='col-md-9 col-md-offset-7'>
+<input type="hidden" name="nomeClasse" value="DespachoControle">
+<input type="hidden" name="metodo" value="incluir">
+<input type='submit' value='Enviar' name='enviar' id='enviar' class='btn btn-primary'>
+</div>
+</div>
+<span id='mostra_assunto'></span>
+</form>
+
+
+</div>
+<?php
+}?>
+	<div id="arquivos" hidden>
+		<!--header class="panel-heading"-->
+		<header class="panel-heading" id="barra">
+			<div class="row">
+			<div class="col-md-6">
+			<h2 class="panel-title col-md-6" id="titulo" style="margin: 15px 0 0 15px;">Arquivos</h2>
+			</div>
+			<div class="col-md-6">
+			<button type="button" id="x" class='mb-xs mt-xs mr-xs btn btn-default'><img src="../img/x.png" width="15px" height="15px"></button>
+			</div>
+						</header>
+		</div>
 		<!--/header-->
 	</div>
 	</div>
