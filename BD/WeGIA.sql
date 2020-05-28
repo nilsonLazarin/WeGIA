@@ -100,8 +100,8 @@ CREATE TABLE IF NOT EXISTS `wegia`.`memorando` (
   `titulo` TEXT NULL DEFAULT NULL,
   `data` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_memorando`),
-  INDEX `id_pessoa` (`id_pessoa` ASC) VISIBLE,
-  INDEX `id_status_memorando` (`id_status_memorando` ASC) VISIBLE,
+-- INDEX `id_pessoa` (`id_pessoa` ASC) VISIBLE,
+--  INDEX `id_status_memorando` (`id_status_memorando` ASC) VISIBLE,
   CONSTRAINT `memorando_ibfk_1`
     FOREIGN KEY (`id_pessoa`)
     REFERENCES `wegia`.`pessoa` (`id_pessoa`),
