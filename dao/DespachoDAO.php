@@ -49,8 +49,17 @@ class DespachoDAO
 			$stmt->bindParam(':texto', $texto);
 			$stmt->bindParam(':data', $data);
 			$stmt->execute();
-			$lastId = $pdo->lastInsertId();
-			echo $lastId;
+
+			$id=array();
+			$consulta=$pdo->query("SELECT MAX(id_despacho) FROM despacho");
+			$x=0;
+
+			while($linha = $consulta->fetch(PDO::FETCH_ASSOC))
+			{
+				$id[$x]=array('id'=>$linha['MAX(id_despacho)']);
+				$x++;
+			}
+			$lastId = $id[0]['id'];
 		}
 		catch(PDOException $e)
 		{
