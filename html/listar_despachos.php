@@ -278,7 +278,7 @@ require_once "personalizacao_display.php";
 						</header>
 						<div class="panel-body">
 								
-						<?php echo "<form action='../controle/control.php?id_memorando=$id_memorando' method='post'>";
+						<?php echo "<form action='../controle/control.php?id_memorando=$id_memorando' method='post' enctype='multipart/form-data'>";
 						?>
 							<div class='form-group'>
 								<label for=destinatario id=etiqueta_destinatario class='col-md-3 control-label'>Destino </label>

@@ -3,6 +3,7 @@
 require_once "../classes/Despacho.php";
 require_once "Conexao.php";
 require_once "../Functions/funcoes.php";
+require_once "../memorando/conexao.php";
 
 class DespachoDAO
 {
@@ -49,11 +50,14 @@ class DespachoDAO
 			$stmt->bindParam(':texto', $texto);
 			$stmt->bindParam(':data', $data);
 			$stmt->execute();
+			$id_despacho=mysqli_insert_id($conexao);
+			echo $id_despacho;
 		}
 		catch(PDOException $e)
 		{
 			echo 'Error:' . $e->getMessage();
 		}
+		return $lastId;
 	}
 }
 

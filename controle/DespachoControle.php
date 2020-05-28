@@ -25,7 +25,13 @@ class DespachoControle
 
 		try
 		{
-			$despachoDAO->incluir($despacho);
+			$lastId = $despachoDAO->incluir($despacho);
+			$anexo = $_FILES["anexo"];
+    		if(isset($anexo) || !empty($anexo))
+    		{
+    			$arquivo = new AnexoControle();
+    			$arquivo->incluir($anexo, $lastId);
+    		}
 			//header("Location: ../html/listar_despachos.php?id_memorando=".$_GET['id_memorando']);
 		}
 		catch(PDOException $e)
@@ -54,12 +60,6 @@ class DespachoControle
     	$despacho->setData();
     	$despacho->setId_destinatario($destinatario);
     	$despacho->setId_memorando($id_memorando);
-
-    	if(isset($anexo) || !empty($anexo))
-    	{
-    		$arquivo = new AnexoControle();
-    		$arquivo->incluir($anexo);
-    	}
     	return $despacho;
 	}
 }

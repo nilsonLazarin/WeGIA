@@ -37,15 +37,14 @@ class AnexoDAO
 			$sql = str_replace("'", "\'", $sql);
 			$pdo = Conexao::connect();
 			$id_despacho = $anexo->getId_despacho();
-			$anexo = $anexo->getAnexo();
+			$arquivo = $anexo->getAnexo();
 			$extensao = $anexo->getExtensao();
 			$nome = $anexo->getNome();
-
 			$stmt = $pdo->prepare($sql);
-			$stmt = bindParam(':id_despacho', $id_despacho);
-			$stmt = bindParam(':anexo', $anexo);
-			$stmt = bindParam(':extensao', $extensao);
-			$stmt = bindParam(':nome', $nome);
+			$stmt->bindParam(':id_despacho', $id_despacho);
+			$stmt->bindParam(':anexo', $arquivo);
+			$stmt->bindParam(':extensao', $extensao);
+			$stmt->bindParam(':nome', $nome);
 			$stmt->execute();
 		}
 		catch(PDOException $e)
