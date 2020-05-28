@@ -300,9 +300,9 @@ echo "<option id='$id' value='$id' name='$id'>$nome</option>";
 </div>
 </div>
 <div class='form-group'>
-<label for=arquivo id=etiqueta_arquivo class='col-md-3 control-label'>Arquivo </label>
+<label for=anexo id=etiqueta_anexo class='col-md-3 control-label'>Arquivo </label>
 <div class='col-md-6'>
-<input type='file' name='arquivo[]' id='arquivo' multiple>
+<input type='file' name='anexo[]' id='anexo' multiple>
 </div>
 </div>
 <div class='form-group'>

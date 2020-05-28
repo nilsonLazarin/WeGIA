@@ -25,10 +25,10 @@ $_SESSION["anexos"]=$anexo;
 
 if(isset($_GET["arq"]))
 {
-	header("Location: ../html/listar_despachos.php?desp=".$memorando."&arq=1");
+	header("Location: ../html/listar_despachos.php?id_memorando=".$memorando."&arq=1");
 }
 else
 {
-header("Location: ../html/teste.php?desp=".$memorando);
+header("Location: ../html/listar_despachos.php?id_memorando=".$memorando);
 }
 ?>

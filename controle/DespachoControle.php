@@ -23,7 +23,7 @@ class DespachoControle
 		try
 		{
 			$despachoDAO->incluir($despacho);
-			header("Location: ../html/teste.php?id_memorando=".$_GET['id_memorando']);
+			//header("Location: ../html/listar_despachos.php?id_memorando=".$_GET['id_memorando']);
 		}
 		catch(PDOException $e)
 		{
@@ -45,6 +45,8 @@ class DespachoControle
 		$pessoa = new MemorandoDAO();
     	$id_pessoa = $pessoa->obterUsuario($cpf_usuario);
     	$id_pessoa = $id_pessoa['0']['id_pessoa'];
+    	$anexo = $anexo;
+    	
     	$despacho = new Despacho($texto);
     	$despacho->setId_remetente($id_pessoa);
     	$despacho->setData();
