@@ -1,5 +1,5 @@
 create database if not exists wegia;
-
+use wegia;
 DELIMITER $$
 --
 -- Procedures

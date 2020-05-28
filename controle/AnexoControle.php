@@ -13,17 +13,21 @@ class AnexoControle
 		$_SESSION['anexo'] = $anexos;
 	}
 
-	public function incluir()
+	public function incluir($anexo)
 	{
 		extract($_REQUEST);
-		if(isset($_FILES['anexo']) && !empty($_FILES))
+		$total = count($anexo);
+		for($i=0; $i<$total; $i++)
 		{
-		$anexo = $this->verificarAnexo();
+			$arquivo=file_get_contents($anexo['tmp_name'][$i]);
+			echo $arquivo;
+		}
+		$arquivo = $anexo->verificarAnexo();
 		$anexoDAO = new AnexoDAO();
 
 		try
 		{
-			$anexoDAO->incluir($anexo);
+			$anexoDAO->incluir($arquivo);
 			//header("Location: ../html/listar_despachos.php?id_memorando=".$_GET['id_memorando']);
 		}
 		catch(PDOException $e)
@@ -31,17 +35,12 @@ class AnexoControle
 			$msg= "Não foi possível criar o despacho"."<br>".$e->getMessage();
             echo $msg;
 		}
-		}
 	}
 
 	public function verificarAnexo()
 	{
-		$arquivos = $_FILES['anexo'];
-        $total = count($arquivos['name']);
-        for($i=0; $i<$total; $i++)
-        {
-        $arquivo=file_get_contents($arquivos['tmp_name'][$i]);
-        $arquivo1=$arquivos['name'][$i];
+        $arquivo=file_get_contents($this['tmp_name'][$i]);
+        $arquivo1=$this['name'][$i];
         $arquivo64=base64_encode($arquivo);
         $tamanho=strlen($arquivo1);
         $pos = strpos ($arquivo1 , $ponto)+1;
@@ -56,7 +55,6 @@ class AnexoControle
     	return $anexo;
     	}
 	}
-}
 
 //$despacho = new DespachoControle();
 //$despacho->listarTodos();
