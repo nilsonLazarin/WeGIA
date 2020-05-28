@@ -3,7 +3,6 @@
 require_once "../classes/Despacho.php";
 require_once "Conexao.php";
 require_once "../Functions/funcoes.php";
-require_once "../memorando/conexao.php";
 
 class DespachoDAO
 {
@@ -35,9 +34,9 @@ class DespachoDAO
 	{
 		try
 		{
+			$pdo = Conexao::connect();
 			$sql = "call insdespacho(:id_memorando, :id_remetente, :id_destinatario, :texto, :data)";
 			$sql = str_replace("'", "\'", $sql);
-			$pdo = Conexao::connect();
 			$id_memorando = $despacho->getId_memorando();
 			$id_remetente = $despacho->getId_remetente();
 			$id_destinatario = $despacho->getId_destinatario();
@@ -50,8 +49,8 @@ class DespachoDAO
 			$stmt->bindParam(':texto', $texto);
 			$stmt->bindParam(':data', $data);
 			$stmt->execute();
-			$id_despacho=mysqli_insert_id($conexao);
-			echo $id_despacho;
+			$lastId = $pdo->lastInsertId();
+			echo $lastId;
 		}
 		catch(PDOException $e)
 		{
