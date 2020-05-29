@@ -5,7 +5,7 @@
   }
    
       $usuario = "root";
-      $senha =  "";
+      $senha =  "root123";
       $servidor = "localhost";
       $bddnome = "wegia";
       $mysqli = new mysqli($servidor,$usuario,$senha,$bddnome);
