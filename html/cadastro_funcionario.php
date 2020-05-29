@@ -4,11 +4,14 @@
     header ("Location: ../index.php");
   }
    
-      $usuario = "root";
-      $senha =  "root123";
-      $servidor = "localhost";
-      $bddnome = "wegia";
-      $mysqli = new mysqli($servidor,$usuario,$senha,$bddnome);
+      // $usuario = "root";
+      // $senha =  "root123";
+      // $servidor = "localhost";
+      // $bddnome = "wegia";
+      // $mysqli = new mysqli($servidor,$usuario,$senha,$bddnome);
+
+      require_once '../config.php';
+      $mysqli = new mysqli(DB_HOST,DB_USER,DB_PASSWORD,DB_NAME);
       $situacao = $mysqli->query("SELECT * FROM situacao");
       $cargo = $mysqli->query("SELECT * FROM cargo");
       $beneficios = $mysqli->query("SELECT * FROM beneficios");

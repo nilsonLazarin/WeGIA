@@ -8,8 +8,8 @@
     $id_funcionario=$_GET['id_funcionario'];
     header('Location: ../controle/control.php?metodo=listarBeneficio&nomeClasse=FuncionarioControle&nextPage=../html/editar_beneficio.php?id_funcionario='.$id_funcionario.'&id_funcionario='.$id_funcionario);
    }
-
-    $mysqli = new mysqli("localhost","root","root","wegia");
+   	require_once("../config.php");
+    $mysqli = new mysqli(DB_HOST,DB_USER,DB_PASSWORD,DB_NAME);
     $beneficios = $mysqli->query("SELECT * FROM beneficios");
    
 	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
