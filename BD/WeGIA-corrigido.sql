@@ -848,7 +848,7 @@ USE `wegia` ;
 
 DELIMITER $$
 USE `wegia`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `cadbeneficiados`(IN `id_beneficios` INT, IN `data_inicio` DATETIME, IN `data_fim` DATETIME, IN `beneficios_status` VARCHAR(100), IN `valor` DECIMAL(10,2))
+CREATE PROCEDURE `cadbeneficiados`(IN `id_beneficios` INT, IN `data_inicio` DATETIME, IN `data_fim` DATETIME, IN `beneficios_status` VARCHAR(100), IN `valor` DECIMAL(10,2))
 begin
 
 declare idP int;
@@ -870,7 +870,7 @@ DELIMITER ;
 
 DELIMITER $$
 USE `wegia`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `cadentrada`(IN `id_origem` INT, IN `id_almoxarifado` INT, IN `id_tipo` INT, IN `id_responsavel` INT, IN `data` DATE, IN `hora` TIME, IN `valor_total` DECIMAL(10,2), IN `id_entrada` INT, IN `id_produto` INT, IN `qtd` INT, IN `valor_unitario` DECIMAL(10,2))
+CREATE PROCEDURE `cadentrada`(IN `id_origem` INT, IN `id_almoxarifado` INT, IN `id_tipo` INT, IN `id_responsavel` INT, IN `data` DATE, IN `hora` TIME, IN `valor_total` DECIMAL(10,2), IN `id_entrada` INT, IN `id_produto` INT, IN `qtd` INT, IN `valor_unitario` DECIMAL(10,2))
 begin
 
 declare idE int;
@@ -894,7 +894,7 @@ DELIMITER ;
 
 DELIMITER $$
 USE `wegia`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `cadepi`(IN `id_epi` INT, IN `data` DATE, IN `epi_status` VARCHAR(100))
+CREATE PROCEDURE `cadepi`(IN `id_epi` INT, IN `data` DATE, IN `epi_status` VARCHAR(100))
 begin
 
 declare idP int;
@@ -914,7 +914,7 @@ DELIMITER ;
 
 DELIMITER $$
 USE `wegia`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `cadfuncionario`(IN `nome` VARCHAR(100), IN `sobrenome` VARCHAR(100), IN `cpf` VARCHAR(40), 
+CREATE PROCEDURE `cadfuncionario`(IN `nome` VARCHAR(100), IN `sobrenome` VARCHAR(100), IN `cpf` VARCHAR(40), 
   IN `senha` VARCHAR(70), IN `sexo` CHAR(1), IN `telefone` VARCHAR(100), 
   IN `data_nascimento` DATE, IN `imagem` LONGTEXT, IN `cep` VARCHAR(100), 
   IN `estado` VARCHAR(50), IN `cidade` VARCHAR(40), IN `bairro` VARCHAR(40), 
@@ -951,7 +951,7 @@ DELIMITER ;
 
 DELIMITER $$
 USE `wegia`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `cadhorariofunc`(IN `escala` VARCHAR(200), IN `tipo` VARCHAR(200), IN `carga_horaria` VARCHAR(200), IN `entrada1` VARCHAR(200), IN `saida1` VARCHAR(200), IN `entrada2` VARCHAR(200), IN `saida2` VARCHAR(200), IN `total` VARCHAR(200), IN `dias_trabalhados` VARCHAR(200), IN `folga` VARCHAR(200))
+CREATE PROCEDURE `cadhorariofunc`(IN `escala` VARCHAR(200), IN `tipo` VARCHAR(200), IN `carga_horaria` VARCHAR(200), IN `entrada1` VARCHAR(200), IN `saida1` VARCHAR(200), IN `entrada2` VARCHAR(200), IN `saida2` VARCHAR(200), IN `total` VARCHAR(200), IN `dias_trabalhados` VARCHAR(200), IN `folga` VARCHAR(200))
     NO SQL
 begin
 declare idF int;
@@ -971,7 +971,7 @@ DELIMITER ;
 
 DELIMITER $$
 USE `wegia`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `cadhorariovolunt`(IN `escala` VARCHAR(200), IN `tipo` VARCHAR(200), IN `carga_horaria` VARCHAR(200), IN `entrada1` VARCHAR(200), IN `saida1` VARCHAR(200), IN `entrada2` VARCHAR(200), IN `saida2` VARCHAR(200), IN `total` VARCHAR(200), IN `dias_trabalhados` VARCHAR(200), IN `folga` VARCHAR(200))
+CREATE PROCEDURE `cadhorariovolunt`(IN `escala` VARCHAR(200), IN `tipo` VARCHAR(200), IN `carga_horaria` VARCHAR(200), IN `entrada1` VARCHAR(200), IN `saida1` VARCHAR(200), IN `entrada2` VARCHAR(200), IN `saida2` VARCHAR(200), IN `total` VARCHAR(200), IN `dias_trabalhados` VARCHAR(200), IN `folga` VARCHAR(200))
     NO SQL
 begin
 declare idV int;
@@ -991,7 +991,7 @@ DELIMITER ;
 
 DELIMITER $$
 USE `wegia`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `cadimagem`(IN `id_pessoa` INT, IN `imagem` LONGTEXT, IN `imagem_extensao` VARCHAR(10), IN `descricao` VARCHAR(40))
+CREATE PROCEDURE `cadimagem`(IN `id_pessoa` INT, IN `imagem` LONGTEXT, IN `imagem_extensao` VARCHAR(10), IN `descricao` VARCHAR(40))
 begin
 declare idD int;
 insert into documento(id_pessoa,imgdoc,imagem_extensao,descricao) VALUES (id_pessoa,imagem,imagem_extensao,descricao);
@@ -1005,7 +1005,7 @@ DELIMITER ;
 
 DELIMITER $$
 USE `wegia`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `cadinterno`(IN `nome` VARCHAR(100), IN `sobrenome` VARCHAR(100), IN `cpf` VARCHAR(40), IN `senha` VARCHAR(70), IN `sexo` CHAR(1), IN `telefone` VARCHAR(25), IN `data_nascimento` DATE, IN `imagem` LONGTEXT, IN `cep` VARCHAR(20), IN `estado` VARCHAR(5), IN `cidade` VARCHAR(40), IN `bairro` VARCHAR(40), IN `logradouro` VARCHAR(40), IN `numero_endereco` VARCHAR(11), IN `complemento` VARCHAR(50), IN `ibge` VARCHAR(20), IN `registro_geral` VARCHAR(20), IN `orgao_emissor` VARCHAR(20), IN `data_expedicao` DATE, IN `nome_pai` VARCHAR(100), IN `nome_mae` VARCHAR(100), IN `tipo_sanguineo` VARCHAR(5), IN `nome_contato_urgente` VARCHAR(60), IN `telefone_contato_urgente_1` VARCHAR(33), IN `telefone_contato_urgente_2` VARCHAR(33), IN `telefone_contato_urgente_3` VARCHAR(33), IN `observacao` VARCHAR(240), IN `certidao_nascimento` VARCHAR(60), IN `curatela` VARCHAR(60), IN `inss` VARCHAR(60), IN `loas` VARCHAR(60), IN `bpc` VARCHAR(60), IN `funrural` VARCHAR(60), IN `saf` VARCHAR(60), IN `sus` VARCHAR(60), IN `certidao_casamento` VARCHAR(123), IN `ctps` VARCHAR(123), IN `titulo` VARCHAR(123))
+CREATE PROCEDURE `cadinterno`(IN `nome` VARCHAR(100), IN `sobrenome` VARCHAR(100), IN `cpf` VARCHAR(40), IN `senha` VARCHAR(70), IN `sexo` CHAR(1), IN `telefone` VARCHAR(25), IN `data_nascimento` DATE, IN `imagem` LONGTEXT, IN `cep` VARCHAR(20), IN `estado` VARCHAR(5), IN `cidade` VARCHAR(40), IN `bairro` VARCHAR(40), IN `logradouro` VARCHAR(40), IN `numero_endereco` VARCHAR(11), IN `complemento` VARCHAR(50), IN `ibge` VARCHAR(20), IN `registro_geral` VARCHAR(20), IN `orgao_emissor` VARCHAR(20), IN `data_expedicao` DATE, IN `nome_pai` VARCHAR(100), IN `nome_mae` VARCHAR(100), IN `tipo_sanguineo` VARCHAR(5), IN `nome_contato_urgente` VARCHAR(60), IN `telefone_contato_urgente_1` VARCHAR(33), IN `telefone_contato_urgente_2` VARCHAR(33), IN `telefone_contato_urgente_3` VARCHAR(33), IN `observacao` VARCHAR(240), IN `certidao_nascimento` VARCHAR(60), IN `curatela` VARCHAR(60), IN `inss` VARCHAR(60), IN `loas` VARCHAR(60), IN `bpc` VARCHAR(60), IN `funrural` VARCHAR(60), IN `saf` VARCHAR(60), IN `sus` VARCHAR(60), IN `certidao_casamento` VARCHAR(123), IN `ctps` VARCHAR(123), IN `titulo` VARCHAR(123))
 begin
 
 declare idP int;
@@ -1028,7 +1028,7 @@ DELIMITER ;
 
 DELIMITER $$
 USE `wegia`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `cadsaida`(IN `id_destino` INT, IN `id_almoxarifado` INT, IN `id_tipo` INT, IN `id_responsavel` INT, IN `data` DATE, IN `hora` TIME, IN `valor_total` DECIMAL(10,2), IN `id_saida` INT, IN `id_produto` INT, IN `qtd` INT, IN `valor_unitario` DECIMAL(10,2))
+CREATE PROCEDURE `cadsaida`(IN `id_destino` INT, IN `id_almoxarifado` INT, IN `id_tipo` INT, IN `id_responsavel` INT, IN `data` DATE, IN `hora` TIME, IN `valor_total` DECIMAL(10,2), IN `id_saida` INT, IN `id_produto` INT, IN `qtd` INT, IN `valor_unitario` DECIMAL(10,2))
 begin
 
 declare idS int;
@@ -1052,7 +1052,7 @@ DELIMITER ;
 
 DELIMITER $$
 USE `wegia`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `excluirfuncionario`(IN `idf` INT)
+CREATE PROCEDURE `excluirfuncionario`(IN `idf` INT)
 BEGIN
 DECLARE idp int;
 
@@ -1075,7 +1075,7 @@ DELIMITER ;
 
 DELIMITER $$
 USE `wegia`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `excluirinterno`(IN `idi` INT)
+CREATE PROCEDURE `excluirinterno`(IN `idi` INT)
 BEGIN
 DECLARE idp int;
 
@@ -1094,7 +1094,7 @@ DELIMITER ;
 
 DELIMITER $$
 USE `wegia`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `insanexo`(IN `id_despacho` INT, IN `anexo` LONGTEXT, IN `extensao` VARCHAR(11), IN `nome` VARCHAR(11))
+CREATE PROCEDURE `insanexo`(IN `id_despacho` INT, IN `anexo` LONGTEXT, IN `extensao` VARCHAR(11), IN `nome` VARCHAR(11))
 BEGIN
 		declare idA int;
         INSERT INTO anexo(id_despacho, anexo, extensao, nome)
@@ -1111,7 +1111,7 @@ DELIMITER ;
 
 DELIMITER $$
 USE `wegia`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `insdespacho`(IN `id_memorando` INT, IN `id_remetente` INT, IN `id_destinatario` INT, IN `texto` LONGTEXT, IN `data` TIMESTAMP)
+CREATE PROCEDURE `insdespacho`(IN `id_memorando` INT, IN `id_remetente` INT, IN `id_destinatario` INT, IN `texto` LONGTEXT, IN `data` TIMESTAMP)
 BEGIN 
 		declare idD int;
         INSERT INTO despacho(id_memorando, id_remetente, id_destinatario, texto, data)
@@ -1129,7 +1129,7 @@ DELIMITER ;
 
 DELIMITER $$
 USE `wegia`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `insmemorando`(IN `id_pessoa` INT, IN `id_status_memorando` INT, IN `titulo` TEXT, IN `data` VARCHAR(255))
+CREATE PROCEDURE `insmemorando`(IN `id_pessoa` INT, IN `id_status_memorando` INT, IN `titulo` TEXT, IN `data` VARCHAR(255))
 BEGIN 
 		declare idM int;
         INSERT INTO memorando(id_pessoa, id_status_memorando, titulo, data)
@@ -1145,7 +1145,6 @@ USE `wegia`;
 DELIMITER $$
 USE `wegia`$$
 CREATE
-DEFINER=`root`@`localhost`
 TRIGGER `wegia`.`tgr_ientrada_delete`
 AFTER DELETE ON `wegia`.`ientrada`
 FOR EACH ROW
@@ -1157,7 +1156,6 @@ END$$
 
 USE `wegia`$$
 CREATE
-DEFINER=`root`@`localhost`
 TRIGGER `wegia`.`tgr_ientrada_insert`
 AFTER INSERT ON `wegia`.`ientrada`
 FOR EACH ROW
@@ -1171,7 +1169,6 @@ END$$
 
 USE `wegia`$$
 CREATE
-DEFINER=`root`@`localhost`
 TRIGGER `wegia`.`tgr_isaida_delete`
 AFTER DELETE ON `wegia`.`isaida`
 FOR EACH ROW
@@ -1183,7 +1180,6 @@ END$$
 
 USE `wegia`$$
 CREATE
-DEFINER=`root`@`localhost`
 TRIGGER `wegia`.`tgr_isaida_insert`
 AFTER INSERT ON `wegia`.`isaida`
 FOR EACH ROW
