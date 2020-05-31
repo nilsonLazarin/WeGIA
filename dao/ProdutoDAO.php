@@ -128,7 +128,7 @@ class ProdutoDAO
 		            echo 'Error: ' .  $e->getMessage();
 		        }
 		        return $produtos;
-		    }
+			}
 
 		    public function listarDescricao(){
 	        try{

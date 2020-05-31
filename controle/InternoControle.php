@@ -314,7 +314,7 @@ class InternoControle
             $_SESSION['link']="../html/cadastro_interno.php";
             header("Location: ../html/sucesso.php");
         } catch (PDOException $e){
-            $msg= "Não foi possível registrar o interno"."<br>".$e->getMessage();
+            $msg= "Não foi possível registrar o interno <form> <input type='button' value='Voltar' onClick='history.go(-1)'> </form>"."<br>".$e->getMessage();
             echo $msg;
         }
     }

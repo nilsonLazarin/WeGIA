@@ -104,7 +104,7 @@ class ProdutoControle
             session_start();
             header("Location: ../html/cadastro_produto.php");
         } catch (PDOException $e){
-            $msg= "Não foi possível registrar o funcionário"."<br>".$e->getMessage();
+            $msg= "Não foi possível registrar o produto <form> <input type='button' value='Voltar' onClick='history.go(-1)'> </form>"."<br>".$e->getMessage();
             echo $msg;
         }
     }

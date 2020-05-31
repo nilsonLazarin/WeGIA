@@ -225,6 +225,8 @@
 	      });
 	</script>
 
+
+
 	<!--CSS-->
 	<style type="text/css">
 		.body{
@@ -264,8 +266,8 @@
 									<i class="fa fa-home"></i>
 								</a>
 							</li>
-							<li><span>Cadastro</span></li>
-							<li><span>Doação</span></li>
+							<li><span>Registro</span></li>
+							<li><span>Saída</span></li>
 						</ol>
 						<a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
 					</div>
@@ -276,7 +278,7 @@
 					<div class="col-md-8 col-lg-8 box">
 						<ul class="nav nav-tabs tabs-primary">
 							<li class="active">
-								<a href="#overview" data-toggle="tab">Cadastro de Doação</a>
+								<a href="#overview" data-toggle="tab">Registrar Saída</a>
 							</li>
 						</ul>
 						<div class="tab-content" style="width: 832px;">
@@ -412,6 +414,33 @@
 	<!-- Theme Initialization Files -->
 	<script src="../assets/javascripts/theme.init.js"></script>
 	<script type="text/javascript">
+		$(document).ready(function(){
+			$("#almoxarifado").change(function(){
+			var almox = $(this).val();
+			$.ajax({
+				async: true,
+				url: "../controle/getProdutosPorAlmox.php",
+				data: {
+					"almox": almox
+				},
+				type: "GET",
+				success: function(respostaProds){
+					var produtos = JSON.parse(respostaProds);
+					console.log(produtos);
+					$("#produtos_autocomplete").children().remove();
+					for(produto of produtos){
+						$("#produtos_autocomplete").append(
+							$("<option/>").val(produto.id_produto + '-' + produto.descricao)
+						);
+					}
+				},
+				error: function(e){
+					alert(e);
+				}
+			});
+		});
+		});
+		
 	</script>
 </body>
 </html>
