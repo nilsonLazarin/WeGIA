@@ -407,9 +407,9 @@ CREATE TABLE IF NOT EXISTS `wegia`.`funcionario` (
   `certificado_reservista_numero` VARCHAR(100) NULL DEFAULT NULL,
   `certificado_reservista_serie` VARCHAR(100) NULL DEFAULT NULL,
   PRIMARY KEY (`id_funcionario`),
-  INDEX `id_pessoa` (`id_pessoa` ASC) VISIBLE,
-  INDEX `fk_funcionario_cargo1_idx` (`id_cargo` ASC) VISIBLE,
-  INDEX `fk_funcionario_situacao1_idx` (`id_situacao` ASC) VISIBLE,
+  INDEX `id_pessoa` (`id_pessoa` ASC),
+  INDEX `fk_funcionario_cargo1_idx` (`id_cargo` ASC),
+  INDEX `fk_funcionario_situacao1_idx` (`id_situacao` ASC),
   CONSTRAINT `funcionario_ibfk_1`
     FOREIGN KEY (`id_pessoa`)
     REFERENCES `wegia`.`pessoa` (`id_pessoa`),
@@ -424,7 +424,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`funcionario` (
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
-AUTO_INCREMENT = 4
+AUTO_INCREMENT = 4s
 DEFAULT CHARACTER SET = utf8mb4;
 
 
