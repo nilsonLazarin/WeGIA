@@ -259,22 +259,6 @@ DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
--- Table `wegia`.`endereco`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `wegia`.`endereco` (
-  `idsocio` INT(11) NOT NULL,
-  `logradouro` VARCHAR(256) NOT NULL,
-  `numero` INT(11) NOT NULL,
-  `complemento` VARCHAR(256) NOT NULL,
-  `cep` VARCHAR(256) NOT NULL,
-  `bairro` VARCHAR(256) NOT NULL,
-  `cidade` VARCHAR(256) NOT NULL,
-  `estado` VARCHAR(256) NOT NULL)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
-
-
--- -----------------------------------------------------
 -- Table `wegia`.`origem`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `wegia`.`origem` (
