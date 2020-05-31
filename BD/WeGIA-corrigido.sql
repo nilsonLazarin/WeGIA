@@ -394,9 +394,9 @@ DEFAULT CHARACTER SET = utf8mb4;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `wegia`.`funcionario` (
   `id_funcionario` INT(11) NOT NULL AUTO_INCREMENT,
-  `id_pessoa` INT(11) NULL DEFAULT NULL,
-  `id_cargo` INT(11) NULL DEFAULT NULL,
-  `id_situacao` INT(11) NULL DEFAULT NULL,
+  `id_pessoa` INT(11) NOT NULL,
+  `id_cargo` INT(11) NOT NULL,
+  `id_situacao` INT(11) NOT NULL,
   `data_admissao` DATE NOT NULL,
   `pis` VARCHAR(140) NULL DEFAULT NULL,
   `ctps` VARCHAR(150) NOT NULL,
@@ -408,12 +408,25 @@ CREATE TABLE IF NOT EXISTS `wegia`.`funcionario` (
   `certificado_reservista_serie` VARCHAR(100) NULL DEFAULT NULL,
   PRIMARY KEY (`id_funcionario`),
   INDEX `id_pessoa` (`id_pessoa` ASC),
+  INDEX `fk_funcionario_cargo1_idx` (`id_cargo` ASC),
+  INDEX `fk_funcionario_situacao1_idx` (`id_situacao` ASC),
   CONSTRAINT `funcionario_ibfk_1`
     FOREIGN KEY (`id_pessoa`)
-    REFERENCES `wegia`.`pessoa` (`id_pessoa`))
+    REFERENCES `wegia`.`pessoa` (`id_pessoa`),
+  CONSTRAINT `fk_funcionario_cargo1`
+    FOREIGN KEY (`id_cargo`)
+    REFERENCES `wegia`.`cargo` (`id_cargo`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_funcionario_situacao1`
+    FOREIGN KEY (`id_situacao`)
+    REFERENCES `wegia`.`situacao` (`id_situacao`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB
 AUTO_INCREMENT = 4
 DEFAULT CHARACTER SET = utf8mb4;
+
 
 
 -- -----------------------------------------------------
@@ -617,22 +630,39 @@ DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
+-- Table `wegia`.`recurso`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `wegia`.`recurso` (
+  `id_recurso` INT NOT NULL,
+  `Descrição` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id_recurso`))
+ENGINE = InnoDB;
+
+
+
+-- -----------------------------------------------------
 -- Table `wegia`.`permissao`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `wegia`.`permissao` (
   `id_cargo` INT(11) NOT NULL,
   `id_acao` INT(11) NOT NULL,
+  `id_recurso` INT NOT NULL,
   PRIMARY KEY (`id_cargo`),
   INDEX `id_acao` (`id_acao` ASC),
+  INDEX `fk_permissao_recurso1_idx` (`id_recurso` ASC),
   CONSTRAINT `permissao_ibfk_1`
     FOREIGN KEY (`id_cargo`)
     REFERENCES `wegia`.`cargo` (`id_cargo`),
   CONSTRAINT `permissao_ibfk_2`
     FOREIGN KEY (`id_acao`)
-    REFERENCES `wegia`.`acao` (`id_acao`))
+    REFERENCES `wegia`.`acao` (`id_acao`),
+  CONSTRAINT `fk_permissao_recurso1`
+    FOREIGN KEY (`id_recurso`)
+    REFERENCES `wegia`.`recurso` (`id_recurso`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
-
 
 -- -----------------------------------------------------
 -- Table `wegia`.`pessoa_epi`
@@ -687,18 +717,31 @@ DEFAULT CHARACTER SET = utf8mb4;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `wegia`.`voluntario` (
   `id_voluntario` INT(11) NOT NULL AUTO_INCREMENT,
-  `id_pessoa` INT(11) NULL DEFAULT NULL,
+  `id_pessoa` INT(11) NOT NULL,
+  `id_situacao` INT(11) NOT NULL,
+  `id_cargo` INT(11) NOT NULL,
   `descricao_atividade` VARCHAR(100) NULL DEFAULT NULL,
   `data_admissao` DATE NOT NULL,
-  `situacao` VARCHAR(100) NULL DEFAULT NULL,
-  `cargo` VARCHAR(30) NULL DEFAULT NULL,
   PRIMARY KEY (`id_voluntario`),
   INDEX `id_pessoa` (`id_pessoa` ASC),
+  INDEX `fk_voluntario_situacao1_idx` (`id_situacao` ASC),
+  INDEX `fk_voluntario_cargo1_idx` (`id_cargo` ASC),
   CONSTRAINT `voluntario_ibfk_1`
     FOREIGN KEY (`id_pessoa`)
-    REFERENCES `wegia`.`pessoa` (`id_pessoa`))
+    REFERENCES `wegia`.`pessoa` (`id_pessoa`),
+  CONSTRAINT `fk_voluntario_situacao1`
+    FOREIGN KEY (`id_situacao`)
+    REFERENCES `wegia`.`situacao` (`id_situacao`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_voluntario_cargo1`
+    FOREIGN KEY (`id_cargo`)
+    REFERENCES `wegia`.`cargo` (`id_cargo`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
+
 
 
 -- -----------------------------------------------------
@@ -774,56 +817,6 @@ AUTO_INCREMENT = 11
 DEFAULT CHARACTER SET = utf8mb4;
 
 
--- -----------------------------------------------------
--- Table `wegia`.`voluntario_cargo`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `wegia`.`voluntario_cargo` (
-  `id_cargo` INT(11) NOT NULL,
-  `id_voluntario` INT(11) NOT NULL,
-  PRIMARY KEY (`id_cargo`, `id_voluntario`),
-  INDEX `id_voluntario` (`id_voluntario` ASC),
-  CONSTRAINT `voluntario_cargo_ibfk_1`
-    FOREIGN KEY (`id_cargo`)
-    REFERENCES `wegia`.`cargo` (`id_cargo`),
-  CONSTRAINT `voluntario_cargo_ibfk_2`
-    FOREIGN KEY (`id_voluntario`)
-    REFERENCES `wegia`.`voluntario` (`id_voluntario`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4;
-
-
--- -----------------------------------------------------
--- Table `wegia`.`voluntario_judicial`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `wegia`.`voluntario_judicial` (
-  `id_voluntario_judicial` INT(11) NOT NULL AUTO_INCREMENT,
-  `id_pessoa` INT(11) NULL DEFAULT NULL,
-  `documento_judicial` VARCHAR(40) NULL DEFAULT NULL,
-  PRIMARY KEY (`id_voluntario_judicial`),
-  INDEX `id_pessoa` (`id_pessoa` ASC),
-  CONSTRAINT `voluntario_judicial_ibfk_1`
-    FOREIGN KEY (`id_pessoa`)
-    REFERENCES `wegia`.`pessoa` (`id_pessoa`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4;
-
-
--- -----------------------------------------------------
--- Table `wegia`.`voluntario_judicial_cargo`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `wegia`.`voluntario_judicial_cargo` (
-  `id_cargo` INT(11) NOT NULL,
-  `id_voluntarioJ` INT(11) NOT NULL,
-  PRIMARY KEY (`id_cargo`, `id_voluntarioJ`),
-  INDEX `id_voluntarioJ` (`id_voluntarioJ` ASC),
-  CONSTRAINT `voluntario_judicial_cargo_ibfk_1`
-    FOREIGN KEY (`id_cargo`)
-    REFERENCES `wegia`.`cargo` (`id_cargo`),
-  CONSTRAINT `voluntario_judicial_cargo_ibfk_2`
-    FOREIGN KEY (`id_voluntarioJ`)
-    REFERENCES `wegia`.`voluntario_judicial` (`id_voluntario_judicial`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4;
 
 USE `wegia` ;
 
