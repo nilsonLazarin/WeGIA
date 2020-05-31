@@ -372,6 +372,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`produto` (
   `preco` DECIMAL(10,2) NULL DEFAULT NULL,
   PRIMARY KEY (`id_produto`),
   UNIQUE INDEX `descricao` (`descricao` ASC),
+  UNIQUE INDEX `codigo_UNIQUE` (`codigo` ASC),
   INDEX `id_categoria_produto` (`id_categoria_produto` ASC),
   INDEX `id_unidade` (`id_unidade` ASC),
   CONSTRAINT `produto_ibfk_1`
