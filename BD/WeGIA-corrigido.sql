@@ -394,9 +394,9 @@ DEFAULT CHARACTER SET = utf8mb4;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `wegia`.`funcionario` (
   `id_funcionario` INT(11) NOT NULL AUTO_INCREMENT,
-  `id_pessoa` INT(11) NULL DEFAULT NULL,
-  `id_cargo` INT(11) NULL DEFAULT NULL,
-  `id_situacao` INT(11) NULL DEFAULT NULL,
+  `id_pessoa` INT(11) NOT NULL,
+  `id_cargo` INT(11) NOT NULL,
+  `id_situacao` INT(11) NOT NULL,
   `data_admissao` DATE NOT NULL,
   `pis` VARCHAR(140) NULL DEFAULT NULL,
   `ctps` VARCHAR(150) NOT NULL,
@@ -407,13 +407,26 @@ CREATE TABLE IF NOT EXISTS `wegia`.`funcionario` (
   `certificado_reservista_numero` VARCHAR(100) NULL DEFAULT NULL,
   `certificado_reservista_serie` VARCHAR(100) NULL DEFAULT NULL,
   PRIMARY KEY (`id_funcionario`),
-  INDEX `id_pessoa` (`id_pessoa` ASC),
+  INDEX `id_pessoa` (`id_pessoa` ASC) VISIBLE,
+  INDEX `fk_funcionario_cargo1_idx` (`id_cargo` ASC) VISIBLE,
+  INDEX `fk_funcionario_situacao1_idx` (`id_situacao` ASC) VISIBLE,
   CONSTRAINT `funcionario_ibfk_1`
     FOREIGN KEY (`id_pessoa`)
-    REFERENCES `wegia`.`pessoa` (`id_pessoa`))
+    REFERENCES `wegia`.`pessoa` (`id_pessoa`),
+  CONSTRAINT `fk_funcionario_cargo1`
+    FOREIGN KEY (`id_cargo`)
+    REFERENCES `wegia`.`cargo` (`id_cargo`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_funcionario_situacao1`
+    FOREIGN KEY (`id_situacao`)
+    REFERENCES `wegia`.`situacao` (`id_situacao`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB
 AUTO_INCREMENT = 4
 DEFAULT CHARACTER SET = utf8mb4;
+
 
 
 -- -----------------------------------------------------
