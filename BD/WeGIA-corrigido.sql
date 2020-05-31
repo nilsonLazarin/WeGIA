@@ -630,22 +630,39 @@ DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
+-- Table `wegia`.`recurso`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `wegia`.`recurso` (
+  `id_recurso` INT NOT NULL,
+  `Descrição` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id_recurso`))
+ENGINE = InnoDB;
+
+
+
+-- -----------------------------------------------------
 -- Table `wegia`.`permissao`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `wegia`.`permissao` (
   `id_cargo` INT(11) NOT NULL,
   `id_acao` INT(11) NOT NULL,
+  `id_recurso` INT NOT NULL,
   PRIMARY KEY (`id_cargo`),
   INDEX `id_acao` (`id_acao` ASC),
+  INDEX `fk_permissao_recurso1_idx` (`id_recurso` ASC),
   CONSTRAINT `permissao_ibfk_1`
     FOREIGN KEY (`id_cargo`)
     REFERENCES `wegia`.`cargo` (`id_cargo`),
   CONSTRAINT `permissao_ibfk_2`
     FOREIGN KEY (`id_acao`)
-    REFERENCES `wegia`.`acao` (`id_acao`))
+    REFERENCES `wegia`.`acao` (`id_acao`),
+  CONSTRAINT `fk_permissao_recurso1`
+    FOREIGN KEY (`id_recurso`)
+    REFERENCES `wegia`.`recurso` (`id_recurso`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
-
 
 -- -----------------------------------------------------
 -- Table `wegia`.`pessoa_epi`
