@@ -213,7 +213,7 @@
 											<div class="form-group">
 												<label class="col-md-3 control-label" for="profileCompany">Valor</label>
 												<div class="col-md-8">
-													<input type="text" name="preco" class="dinheiro form-control" id="profileCompany" id="valor" maxlength="13" placeholder="Ex: 22.00" onkeypress="return Onlynumbers(event)" required>
+													<input type="number" name="preco" class="form-control" step="any" placeholder="Ex: 22.00" required>
 
 													<input type="hidden" name="nomeClasse" value="ProdutoControle">
 														

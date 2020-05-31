@@ -1,7 +1,7 @@
 <?php
-require_once'../classes/Interno.php';
-require_once'Conexao.php';
-require_once'../Functions/funcoes.php';
+require_once('../classes/Interno.php');
+require_once('Conexao.php');
+require_once('../Functions/funcoes.php');
 
 class InternoDAO
 {

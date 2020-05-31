@@ -14,7 +14,7 @@ class InternoControle
         
         	$datac = $data_arr[2] . '-' . $data_arr[1] . '-' . $data_arr[0];
         
-       		return $datac;
+               return $datac;
     	}
    public function verificar(){
         extract($_REQUEST);
@@ -50,7 +50,7 @@ class InternoControle
         if(isset($naoPossuiRegistroGeral)){
             $rg='Não informado';
             $orgaoEmissor="Não informado";
-            $dataExpedicao="0000-00-00";
+            $dataExpedicao = null;
         }
         elseif((!isset($rg)) || (empty($rg))){
             $msg .= "Registro geral do interno não informado. Por favor, informe um registro geral!";
