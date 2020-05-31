@@ -23,3 +23,14 @@ INSERT INTO `imagem` (`id_imagem`, `nome`, `imagem`, `tipo`) VALUES
 INSERT INTO `tabela_imagem_campo` (`id_relacao`, `id_campo`, `id_imagem`) VALUES
 (1, 1, 1),
 (2, 2, 1);
+
+INSERT INTO `recurso` (`id_recurso`, `Descrição`) VALUES ('1', 'Módulo Pessoa');
+INSERT INTO `recurso` (`id_recurso`, `Descrição`) VALUES ('11', 'Funcionário');
+INSERT INTO `recurso` (`id_recurso`, `Descrição`) VALUES ('12', 'Atendido');
+INSERT INTO `recurso` (`id_recurso`, `Descrição`) VALUES ('13', 'Voluntário');
+INSERT INTO `recurso` (`id_recurso`, `Descrição`) VALUES ('2', 'Módulo Material e Patrimônio');
+INSERT INTO `recurso` (`id_recurso`, `Descrição`) VALUES ('21', 'Almoxarifado');
+INSERT INTO `recurso` (`id_recurso`, `Descrição`) VALUES ('22', 'Produto');
+INSERT INTO `recurso` (`id_recurso`, `Descrição`) VALUES ('23', 'Entrada');
+INSERT INTO `recurso` (`id_recurso`, `Descrição`) VALUES ('24', 'Saída');
+INSERT INTO `recurso` (`id_recurso`, `Descrição`) VALUES ('3', 'Módulo Memorando');
