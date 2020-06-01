@@ -128,13 +128,14 @@
 			var conta = 0;
 			var verificar = 0;
 			$(".add-row").click(function(){
-				var val=$("#input_produtos").val();
-
-				var obj=$("#produtos_autocomplete").find("option[value='"+val+"']");
-
 				var produto = $("#input_produtos").val();
 
 				produto = produto.split("-");
+				if(Number(produto[2]) >= Number($("#quantidade").val())){
+					var val=$("#input_produtos").val();
+
+				var obj=$("#produtos_autocomplete").find("option[value='"+val+"']");
+
 
  				if(obj !=null && obj.length>0){
 
@@ -169,6 +170,9 @@
 	    		 	verificar--;
 	    		 	$("#verifica").val(verificar);
     			}
+				}else{
+					alert("Não há estoque suficiente de " + produto[1] + " para saída. Tente uma quantidade menor." + produto[2] + " < " + $("#quantidade").val());
+				}
 			});
 
 			//remover tabela
@@ -430,7 +434,7 @@
 					$("#produtos_autocomplete").children().remove();
 					for(produto of produtos){
 						$("#produtos_autocomplete").append(
-							$("<option/>").val(produto.id_produto + '-' + produto.descricao)
+							$("<option/>").val(produto.id_produto + '-' + produto.descricao+ '-' + produto.qtd).attr("qtd", produto.qtd)
 						);
 					}
 				},

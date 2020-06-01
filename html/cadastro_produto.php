@@ -202,7 +202,7 @@
 											<div class="form-group">
 												<label class="col-md-3 control-label" for="profileCompany">Código</label>
 												<div class="col-md-8">
-													<input type="text" name="codigo" class="form-control" id="profileCompany" id="codigo">
+													<input type="number" name="codigo" class="form-control" id="profileCompany" id="codigo" required>
 
 													<input type="hidden" name="nomeClasse" value="ProdutoControle">
 														
