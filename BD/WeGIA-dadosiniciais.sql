@@ -34,3 +34,5 @@ INSERT INTO `recurso` (`id_recurso`, `Descrição`) VALUES ('22', 'Produto');
 INSERT INTO `recurso` (`id_recurso`, `Descrição`) VALUES ('23', 'Entrada');
 INSERT INTO `recurso` (`id_recurso`, `Descrição`) VALUES ('24', 'Saída');
 INSERT INTO `recurso` (`id_recurso`, `Descrição`) VALUES ('3', 'Módulo Memorando');
+INSERT INTO `recurso` (`id_recurso`, `Descrição`) VALUES ('9', 'Configurações');
+
