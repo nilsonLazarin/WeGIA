@@ -8,11 +8,14 @@ session_start();
 if(!isset($_SESSION['usuario'])){
     header ("Location: ../index.php");
 }
-include "../memorando/conexao.php";
-include "../controle/MemorandoControle.php";
+
+require_once "../controle/MemorandoControle.php";
 
 // Adiciona a Função display_campo($nome_campo, $tipo_campo)
 require_once "personalizacao_display.php";
+
+$memorando = new MemorandoControle;
+$memorando->listarTodos();
 ?>
 
 <!DOCTYPE html>
@@ -129,22 +132,16 @@ require_once "personalizacao_display.php";
     </script>
     
     <style type="text/css">
-        /*.table{
-            z-index: 0;
-        }
-        .text-right{
-            z-index: 1;
-        }*/
         .select{
             /*z-index: 2;*/
             /*float: left;*/
             position: absolute;
             width: 235px;
-        }*/
+        }
         .select-table-filter{
             width: 140px;
             float: left;
-        }-->
+        }
 
         .panel-body
         {
@@ -190,7 +187,7 @@ require_once "personalizacao_display.php";
                         <div class="select" >
                             <select class="select-table-filter form-control mb-md" data-table="order-table">
                                 <option selected disabled>Caixa de entrada</option>
-                            </select>float:right;"></h5>
+                            </select></h5>
                         </div>
                         <button style="float: right;" class="mb-xs mt-xs mr-xs btn btn-default">Imprimir</button>
                         <br><br>

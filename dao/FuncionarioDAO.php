@@ -327,6 +327,25 @@ class FuncionarioDAO
             }
             return json_encode($funcionarios);
     }
+
+    public function listarTodos2(){
+
+        try{
+            $funcionarios=array();
+            $pdo = Conexao::connect();
+            $consulta = $pdo->query("SELECT f.id_pessoa, p.nome FROM funcionario f INNER JOIN pessoa p ON f.id_pessoa = p.id_pessoa");
+            $produtos = Array();
+            $x=0;
+            while($linha = $consulta->fetch(PDO::FETCH_ASSOC)){
+                $funcionarios[$x]=array('id_pessoa'=>$linha['id_pessoa'],'nome'=>$linha['nome']);
+                $x++;
+            }
+            } catch (PDOExeption $e){
+                echo 'Error:' . $e->getMessage;
+            }
+            return json_encode($funcionarios);
+    }
+
     //Consultar um utilizando o id
     public function listar($id_funcionario){
         try{

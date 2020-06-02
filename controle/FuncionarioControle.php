@@ -435,6 +435,13 @@ class FuncionarioControle
         $_SESSION['funcionarios']=$funcionarios;
         header('Location: '.$nextPage);
     }
+
+    public function listarTodos2(){
+        extract($_REQUEST);
+        $funcionariosDAO = new FuncionarioDAO();
+        $funcionarios = $funcionariosDAO->listarTodos2();
+        $_SESSION['funcionarios2']=$funcionarios;
+    }
     
     public function listarUm()
     {

@@ -3,6 +3,7 @@
 require_once "../classes/Despacho.php";
 require_once "Conexao.php";
 require_once "../Functions/funcoes.php";
+require_once "../dao/MemorandoDAO.php";
 
 class DespachoDAO
 {
@@ -60,6 +61,29 @@ class DespachoDAO
 				$x++;
 			}
 			$lastId = $id[0]['id'];
+
+			$MemorandoDAO = new MemorandoDAO();
+			$dadosMemorando = $MemorandoDAO->listarTodosId($id_memorando);
+
+			if($id_remetente==$id_destinatario && $dadosMemorando[0]['id_status_memorando']==7)
+			{
+				$memorando = new Memorando('','',$dadosMemorando[0]['id_status_memorando'],'','');
+       			$memorando->setId_memorando($id_memorando);
+        		$memorando->setId_status_memorando(6);
+				$MemorandoDAO2 = new MemorandoDAO();
+				$id_status_memorando = 6;
+				$MemorandoDAO2->alterarIdStatusMemorando($memorando);
+			}
+
+			if($id_remetente!=$id_destinatario)
+			{
+				$memorando = new Memorando('','',$dadosMemorando[0]['id_status_memorando'],'','');
+       			$memorando->setId_memorando($id_memorando);
+        		$memorando->setId_status_memorando(7);
+				$MemorandoDAO2 = new MemorandoDAO();
+				$id_status_memorando = 7;
+				$MemorandoDAO2->alterarIdStatusMemorando($memorando);
+			}
 		}
 		catch(PDOException $e)
 		{

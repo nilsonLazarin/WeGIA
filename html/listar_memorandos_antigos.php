@@ -4,45 +4,22 @@
 		header ("Location: ../index.php");
 	}
 
-	include "../memorando/conexao.php";
+	require_once "../controle/MemorandoControle.php";
 
-	$memorandos=array();
-
-	$cpf_remetente=$_SESSION['usuario'];
-
-    $comando5="select id_pessoa from pessoa where cpf='$cpf_remetente'";
-    $query5=mysqli_query($conexao, $comando5);
-    $linhas5=mysqli_num_rows($query5);
-
-    for($i=0; $i<$linhas5; $i++)
-    {
-        $consulta5=mysqli_fetch_row($query5);
-        $remetente=$consulta5[0];
-    }
-	$comando="SELECT distinct memorando.id_memorando, memorando.titulo from memorando join despacho on(despacho.id_memorando=memorando.id_memorando) where despacho.id_destinatario=$remetente or despacho.id_remetente=$remetente";
-	$query=mysqli_query($conexao, $comando);
-	$linhas=mysqli_num_rows($query);
-
-		for($i=0; $i<$linhas; $i++)
-{
-	$consulta=mysqli_fetch_row($query);
-	$memorandos[$i]=array('titulo'=>$consulta[1], 'num'=>$i+1, 'id'=>$consulta[0]);
-}
-$memorando=json_encode($memorandos);
+	$memorandos = new MemorandoControle;
+	$memorandos->listarTodosInativos();
 	
 	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
 	require_once "personalizacao_display.php";
-	?>
-<!doctype html>
-<?php
-	
 ?>
+
+<!DOCTYPE html>
 <html class="fixed">
 <head>
 	<!-- Basic -->
 	<meta charset="UTF-8">
 
-	<title>Estoque</title>
+	<title>Memorandos despachados</title>
 		
 	<!-- Mobile Metas -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -101,50 +78,38 @@ $memorando=json_encode($memorandos);
 		
 	<!-- jquery functions -->
 
-	<?php
-
-?>
-
    	<script>
 	$(function(){
-		var memorando=<?php echo $memorando?> ;
+		var memorando=<?php echo $_SESSION['memorandoInativo']?>;
 		console.log(memorando);
 		$.each(memorando,function(i,item){
 			$("#tabela")
 				.append($("<tr>")
 					.append($("<td>")
-						.text(item.id))
+						.text(item.id_memorando))
 					.append($("<td>")
-						.html("<a href=listar_despachos.php?desp="+item.id+"&arq=1>"+item.titulo+"</a>")));
+						.html("<a href=../html/listar_despachos.php?id_memorando="+item.id_memorando+"&arq=1>"+item.titulo+"</a>")));
 		});
-	});
-	$(function () {
+	
         $("#header").load("header.php");
         $(".menuu").load("menu.html");
     });
 	</script>
 	
 	<style type="text/css">
-		/*.table{
-			z-index: 0;
-		}
-		.text-right{
-			z-index: 1;
-		}*/
 		.select{
 			/*z-index: 2;*/
 			/*float: left;*/
 			position: absolute;
 			width: 235px;
-		}*/
+		}
 		.select-table-filter{
 			width: 140px;
 			float: left;
-		}-->
+		}
 	</style>
 </head>
 <body>
-	<p>ouuuuu</p>
 	<section class="body">
 		<!-- start: header -->
 		<div id="header"></div>
@@ -155,7 +120,7 @@ $memorando=json_encode($memorandos);
 			<!-- end: sidebar -->
 			<section role="main" class="content-body">
 				<header class="page-header">
-					<h2>Despacho</h2>
+					<h2>Memorando despachado</h2>
 					<div class="right-wrapper pull-right">
 						<ol class="breadcrumbs">
 							<li>
@@ -163,7 +128,7 @@ $memorando=json_encode($memorandos);
 									<i class="fa fa-home"></i>
 								</a>
 							</li>
-							<li><span>Despacho</span></li>
+							<li><span>Memorando despachado</span></li>
 						</ol>
 						<a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
 					</div>
@@ -171,12 +136,12 @@ $memorando=json_encode($memorandos);
 				<!-- start: page -->
 				<section class="panel" >
 					<header class="panel-heading">
-						<h2 class="panel-title">Despacho</h2>
+						<h2 class="panel-title">Memorando despachado</h2>
 					</header>
 					<div class="panel-body" >
 						<div class="select" >
 							<select class="select-table-filter form-control mb-md" data-table="order-table">
-								<option selected disabled>Despacho</option>
+								<option selected disabled>Memorando despachado</option>
 							</select>float:right;"></h5>
 	  					</div>
 	  					<button style="float: right;" class="mb-xs mt-xs mr-xs btn btn-default">Imprimir</button>
@@ -193,8 +158,6 @@ $memorando=json_encode($memorandos);
 							</tbody>
 						</table>
 					</div>
-						
-
 				</section>
 			</section>
 		</div>

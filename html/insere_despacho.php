@@ -9,7 +9,10 @@
         header ("Location: ../index.php");
     }
 
-    include("../memorando/conexao.php");
+    require_once "../controle/FuncionarioControle.php";
+
+    $funcionarios = new FuncionarioControle;
+    $funcionarios->listarTodos2();
 
     // Adiciona a Função display_campo($nome_campo, $tipo_campo)
     require_once "personalizacao_display.php";
@@ -82,6 +85,12 @@
 
     <script>
         $(function(){
+            var funcionario=<?php echo $_SESSION['funcionarios2']?>;
+            console.log(funcionario);
+            $.each(funcionario,function(i,item){
+                $("#destinatario")
+                    .append($("<option id="+item.id_pessoa+" value="+item.id_pessoa+" name="+item.id_pessoa+">"+item.nome+"</option>"));
+            });
             $("#header").load("header.php");
             $(".menuu").load("menu.html");
         });
@@ -136,44 +145,34 @@
                         <h2 class="panel-title">Despachar memorando</h2>
                     </header>
                     <div class="panel-body">
-                        <form action="../controle/control.php" method="post" enctype="multipart/form-data">
+                        <form action="../controle/control.php?memorando=$_GET[id_memorando]" method="post" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label for=destinatario id=etiqueta_destinatario class='col-md-3 control-label'>Destino </label>
                                 <div class='col-md-6'>
-                                    <select name="destinatario" id="destinatario" required class='select-table-filter form-control mb-md'>
-                                        <?php
-                                            $comando="select pessoa.nome, funcionario.id_funcionario from funcionario join pessoa where funcionario.id_funcionario=pessoa.id_pessoa";
-                                            $query=mysqli_query($conexao, $comando);
-                                            $linhas=mysqli_num_rows($query);
-                                            for($i=0; $i<$linhas; $i++)
-                                            {
-                                                $consulta = mysqli_fetch_row($query);
-                                                $nome=$consulta[0];
-                                                $id=$consulta[1];
-                                                echo "<option id='$id' value='$id' name='$id'>$nome</option>";
-                                            }
-                                        ?>
-                                    </select>
+                                    <select name="destinatario" id="destinatario" required class='select-table-filter form-control mb-md'></select>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for=arquivo id=etiqueta_arquivo class='col-md-3 control-label'>Arquivo </label>
                                 <div class='col-md-6'>
-                                    <input type="file" name="arquivo[]" id="arquivo" multiple>
+                                    <input type="file" name="anexo[]" id="anexo" multiple>
                                 </div>
                             </div>
                             <div class="form-group">
-                                    <label for=despacho id=etiqueta_despacho class='col-md-3 control-label'>Despacho </label>
+                                    <label for=texto id=etiqueta_despacho class='col-md-3 control-label'>Despacho </label>
                                     <div class='col-md-6'>
-                                        <textarea cols='30' rows='5' id='despacho' name='despacho' required class='form-control'></textarea>
+                                        <textarea cols='30' rows='5' id='despacho' name='texto' required class='form-control'></textarea>
                                     </div>
                             </div>
                             <div class='row'>
                                 <div class='col-md-9 col-md-offset-8'>
-                                    <input type='hidden' value='MemorandoControle' name='nomeClasse' class='mb-xs mt-xs mr-xs btn btn-default'>
+                                    <input type='hidden' value='DespachoControle' name='nomeClasse' class='mb-xs mt-xs mr-xs btn btn-default'>
                                 </div>
                                 <div class='col-md-9 col-md-offset-8'>
                                     <input type='hidden' value='incluir' name='metodo' class='mb-xs mt-xs mr-xs btn btn-default'>
+                                </div>
+                                <div class='col-md-9 col-md-offset-8'>
+                                    <input type='hidden' value='<?php echo $_GET['id_memorando'];?>' name='id_memorando' class='mb-xs mt-xs mr-xs btn btn-default'>
                                 </div>
                                 <div class='col-md-9 col-md-offset-8'>
                                     <input type='submit' value='Enviar' name='enviar' id='enviar' class='mb-xs mt-xs mr-xs btn btn-default'>

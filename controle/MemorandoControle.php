@@ -1,14 +1,17 @@
+
 <?php
 
 ini_set('display_errors',1);
 ini_set('display_startup_erros',1);
 error_reporting(E_ALL);
 
-include_once "../classes/Memorando.php";
-include_once "../dao/MemorandoDAO.php";
+require_once "../classes/Memorando.php";
+require_once "../dao/MemorandoDAO.php";
+require_once "../dao/UsuarioDAO.php";
 
 class MemorandoControle
 {
+    //Listar memorandos ativos (Caixa de entrada)
 	public function listarTodos()
 	{
 		extract($_REQUEST);
@@ -17,23 +20,44 @@ class MemorandoControle
 		$_SESSION['memorando']=$memorandos;
 	}
 
+    //LIstar memorando pelo Id
+    public function listarTodosId($id_memorando)
+    {
+        extract($_REQUEST);
+        $memorandoDAO = new MemorandoDAO();
+        $memorandos = $memorandoDAO->listarTodosId($id_memorando);
+        $_SESSION['memorandoId'] = $memorandos;
+    }
+
+    //LIstar memorandos inativos
+    public function listarTodosInativos()
+    {
+        extract($_REQUEST);
+        $memorandoDAO = new MemorandoDAO();
+        $memorandos = $memorandoDAO->listarTodosInativos();
+        $_SESSION['memorandoInativo'] = $memorandos;
+    }
+
+    //Criar memorando
     public function incluir()
     {
         $memorando = $this->verificarMemorando();
         $memorandoDAO = new MemorandoDAO();
         
-        try{
-            $memorandoDAO->incluir($memorando);
-            //$_SESSION['msg']="Funcionario cadastrado com sucesso";
-            //$_SESSION['link']="../html/cadastro_funcionario.php";
-            header("Location: ../html/adicionar_despacho.php");
+        try
+        {
+            $lastId = $memorandoDAO->incluir($memorando);
+            //$_SESSION['msg']="Memorando criado com sucesso";
+            header("Location: ../html/insere_despacho.php?id_memorando=$lastId");
 
-        } catch (PDOException $e){
+        } 
+        catch (PDOException $e){
             $msg= "Não foi possível criar o memorando"."<br>".$e->getMessage();
             echo $msg;
         }
     }
 
+    //Verifica memorando
     public function verificarMemorando()
     {
     	session_start();
@@ -44,7 +68,7 @@ class MemorandoControle
     		$msg = "Assunto do memorando não informado. Por favor, informe um assunto!";
             //header('Location: ../html/listar_memorandos_ativos.html?msg='.$msg);
     	}
-    	$pessoa = new MemorandoDAO();
+    	$pessoa = new UsuarioDAO();
     	$id_pessoa = $pessoa->obterUsuario($cpf_usuario);
     	$id_pessoa = $id_pessoa['0']['id_pessoa'];
     	$memorando = new Memorando($assunto);
@@ -55,6 +79,7 @@ class MemorandoControle
     	return $memorando;
     }
 
+    //Alterar status do memorando
     public function alterarIdStatusMemorando()
     {
         extract($_REQUEST);
@@ -62,17 +87,15 @@ class MemorandoControle
         $memorando->setId_memorando($id_memorando);
         $memorando->setId_status_memorando($id_status_memorando);
         $memorandoDAO=new MemorandoDAO();
-        try {
+        try 
+        {
             $memorandoDAO->alterarIdStatusMemorando($memorando);
             header("Location: ../html/listar_memorandos_ativos.php");
-        } catch (PDOException $e) {
+        } 
+        catch (PDOException $e) 
+        {
             echo $e->getMessage();
-        }
-        
+        } 
     }
-
 }
-
-$memorando = new MemorandoControle();
-$memorando->listarTodos();
 ?>
