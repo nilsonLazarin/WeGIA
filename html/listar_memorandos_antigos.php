@@ -142,7 +142,7 @@
 						<div class="select" >
 							<select class="select-table-filter form-control mb-md" data-table="order-table">
 								<option selected disabled>Memorando despachado</option>
-							</select>float:right;"></h5>
+							</select></h5>
 	  					</div>
 	  					<button style="float: right;" class="mb-xs mt-xs mr-xs btn btn-default">Imprimir</button>
 	  					<br><br>

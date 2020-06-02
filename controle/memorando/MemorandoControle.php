@@ -1,13 +1,8 @@
-
 <?php
 
-ini_set('display_errors',1);
-ini_set('display_startup_erros',1);
-error_reporting(E_ALL);
-
-require_once "../classes/Memorando.php";
-require_once "../dao/MemorandoDAO.php";
-require_once "../dao/UsuarioDAO.php";
+require_once "../../classes/memorando/Memorando.php";
+require_once "../../dao/memorando/MemorandoDAO.php";
+require_once "../../dao/UsuarioDAO.php";
 
 class MemorandoControle
 {

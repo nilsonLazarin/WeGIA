@@ -2,10 +2,10 @@
 
 include "../memorando/conexao.php";
 
-$despacho=$_GET["despacho"];
-$memorando=$_GET["memorando"];
+$id_despacho=$_GET["id_despacho"];
+$id_memorando=$_GET["id_memorando"];
 
-$comando="select anexo, extensao, nome from anexo where id_despacho='".$despacho."'";
+$comando="select anexo, extensao, nome from anexo where id_despacho='".$id_despacho."'";
 $query=mysqli_query($conexao, $comando);
 $linhas=mysqli_num_rows($query);
 
@@ -25,10 +25,10 @@ $_SESSION["anexos"]=$anexo;
 
 if(isset($_GET["arq"]))
 {
-	header("Location: ../html/listar_despachos.php?id_memorando=".$memorando."&arq=1");
+	header("Location: ../html/listar_despachos.php?id_memorando=".$id_memorando."&arq=1");
 }
 else
 {
-header("Location: ../html/listar_despachos.php?id_memorando=".$memorando);
+header("Location: ../html/listar_despachos.php?id_memorando=".$id_memorando);
 }
 ?>

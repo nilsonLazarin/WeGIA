@@ -13,7 +13,6 @@
 
     $funcionarios = new FuncionarioControle;
     $funcionarios->listarTodos2();
-
     // Adiciona a Função display_campo($nome_campo, $tipo_campo)
     require_once "personalizacao_display.php";
 ?>
@@ -93,6 +92,10 @@
             });
             $("#header").load("header.php");
             $(".menuu").load("menu.html");
+
+            var id_memorando = <?php echo $_GET['id_memorando']?>;
+            console.log(id_memorando);
+            $("#id_memorando").val(id_memorando);
         });
     </script>
     
@@ -145,7 +148,10 @@
                         <h2 class="panel-title">Despachar memorando</h2>
                     </header>
                     <div class="panel-body">
-                        <form action="../controle/control.php?memorando=$_GET[id_memorando]" method="post" enctype="multipart/form-data">
+                        <?php
+
+                        echo "<form action='../controle/control.php' method='post' enctype='multipart/form-data'>";
+                        ?>
                             <div class="form-group">
                                 <label for=destinatario id=etiqueta_destinatario class='col-md-3 control-label'>Destino </label>
                                 <div class='col-md-6'>
@@ -172,7 +178,7 @@
                                     <input type='hidden' value='incluir' name='metodo' class='mb-xs mt-xs mr-xs btn btn-default'>
                                 </div>
                                 <div class='col-md-9 col-md-offset-8'>
-                                    <input type='hidden' value='<?php echo $_GET['id_memorando'];?>' name='id_memorando' class='mb-xs mt-xs mr-xs btn btn-default'>
+                                    <input type='hidden' name='id_memorando' id='id_memorando' class='mb-xs mt-xs mr-xs btn btn-default'>
                                 </div>
                                 <div class='col-md-9 col-md-offset-8'>
                                     <input type='submit' value='Enviar' name='enviar' id='enviar' class='mb-xs mt-xs mr-xs btn btn-default'>

@@ -1,9 +1,9 @@
 <?php
 
-require_once "../classes/Memorando.php";
-require_once "Conexao.php";
-require_once "../Functions/funcoes.php";
-require_once "../dao/UsuarioDAO.php";
+require_once "../../classes/memorando/Memorando.php";
+require_once "../../dao/Conexao.php";
+require_once "../../Functions/funcoes.php";
+require_once "../../dao/UsuarioDAO.php";
 
 class MemorandoDAO
 {

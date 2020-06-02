@@ -2,9 +2,6 @@
 require_once "../classes/Despacho.php";
 require_once "../dao/DespachoDAO.php";
 require_once "../dao/MemorandoDAO.php";
-require_once "../dao/AnexoDAO.php";
-require_once "../controle/AnexoControle.php";
-require_once "../classes/Anexo.php";
 require_once "MemorandoControle.php";
 
 class DespachoControle
@@ -44,10 +41,13 @@ class DespachoControle
 			$anexo2 = $_FILES["anexo"]["tmp_name"][0];
     		if(isset($anexo2) && !empty($anexo2))
     		{
+    			require_once "../dao/AnexoDAO.php";
+				require_once "../controle/AnexoControle.php";
+				require_once "../classes/Anexo.php";
     			$arquivo = new AnexoControle();
     			$arquivo->incluir($anexo, $lastId);
     		}
-			header("Location: ../html/memorando/listar_despachos.php?id_memorando=".$_GET['id_memorando']);
+			header("Location: ../html/listar_despachos.php?id_memorando=".$id_memorando);
 		}
 		catch(PDOException $e)
 		{

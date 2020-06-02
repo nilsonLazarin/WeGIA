@@ -202,7 +202,7 @@
 						<!--</a>-->
 					</div>
 					<div id="memorando" class="colapse">
-					<a href="../html/listar_memorandos_ativos.php">	
+					<a href="../html/memorando/listar_memorandos_ativos.php">	
 							<div class="col-lg-2 col-md-8 i">
 								<i  class="fa fa-barcode"></i>
 								<h4>Caixa de Entrada</h4>

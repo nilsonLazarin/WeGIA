@@ -4,6 +4,7 @@
     ini_set('display_startup_erros',1);
     error_reporting(E_ALL);
 
+
 session_start();
 if(!isset($_SESSION['usuario'])){
     header ("Location: ../index.php");
@@ -15,7 +16,7 @@ $memorando = new MemorandoControle;
 $memorando->listarTodos();
 
 // Adiciona a Função display_campo($nome_campo, $tipo_campo)
-require_once "personalizacao_display.php";
+require_once "../personalizacao_display.php";
 ?>
 
 <!DOCTYPE html>
@@ -31,55 +32,55 @@ require_once "personalizacao_display.php";
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">
     <!-- Vendor CSS -->
-    <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css" />
-    <link rel="stylesheet" href="../assets/vendor/font-awesome/css/font-awesome.css" />
+    <link rel="stylesheet" href="../../assets/vendor/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" href="../../assets/vendor/font-awesome/css/font-awesome.css" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
-    <link rel="stylesheet" href="../assets/vendor/magnific-popup/magnific-popup.css" />
-    <link rel="stylesheet" href="../assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
+    <link rel="stylesheet" href="../../assets/vendor/magnific-popup/magnific-popup.css" />
+    <link rel="stylesheet" href="../../assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
     <link rel="icon" href="<?php display_campo("Logo",'file');?>" type="image/x-icon" id="logo-icon">
 
     <!-- Specific Page Vendor CSS -->
-    <link rel="stylesheet" href="../assets/vendor/select2/select2.css" />
-    <link rel="stylesheet" href="../assets/vendor/jquery-datatables-bs3/assets/css/datatables.css" />
+    <link rel="stylesheet" href="../../assets/vendor/select2/select2.css" />
+    <link rel="stylesheet" href="../../assets/vendor/jquery-datatables-bs3/assets/css/datatables.css" />
 
     <!-- Theme CSS -->
-    <link rel="stylesheet" href="../assets/stylesheets/theme.css" />
+    <link rel="stylesheet" href="../../assets/stylesheets/theme.css" />
 
     <!-- Skin CSS -->
-    <link rel="stylesheet" href="../assets/stylesheets/skins/default.css" />
+    <link rel="stylesheet" href="../../assets/stylesheets/skins/default.css" />
 
     <!-- Theme Custom CSS -->
-    <link rel="stylesheet" href="../assets/stylesheets/theme-custom.css">
+    <link rel="stylesheet" href="../../assets/stylesheets/theme-custom.css">
 
     <!-- Head Libs -->
-    <script src="../assets/vendor/modernizr/modernizr.js"></script>
+    <script src="../../assets/vendor/modernizr/modernizr.js"></script>
         
     <!-- Vendor -->
-    <script src="../assets/vendor/jquery/jquery.min.js"></script>
-    <script src="../assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
-    <script src="../assets/vendor/bootstrap/js/bootstrap.js"></script>
-    <script src="../assets/vendor/nanoscroller/nanoscroller.js"></script>
-    <script src="../assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-    <script src="../assets/vendor/magnific-popup/magnific-popup.js"></script>
-    <script src="../assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
+    <script src="../../assets/vendor/jquery/jquery.min.js"></script>
+    <script src="../../assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
+    <script src="../../assets/vendor/bootstrap/js/bootstrap.js"></script>
+    <script src="../../assets/vendor/nanoscroller/nanoscroller.js"></script>
+    <script src="../../assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <script src="../../assets/vendor/magnific-popup/magnific-popup.js"></script>
+    <script src="../../assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
         
     <!-- Specific Page Vendor -->
-    <script src="../assets/vendor/jquery-autosize/jquery.autosize.js"></script>
+    <script src="../../assets/vendor/jquery-autosize/jquery.autosize.js"></script>
         
     <!-- Theme Base, Components and Settings -->
-    <script src="../assets/javascripts/theme.js"></script>
+    <script src="../../assets/javascripts/theme.js"></script>
         
     <!-- Theme Custom -->
-    <script src="../assets/javascripts/theme.custom.js"></script>
+    <script src="../../assets/javascripts/theme.custom.js"></script>
         
     <!-- Theme Initialization Files -->
-    <script src="../assets/javascripts/theme.init.js"></script>
+    <script src="../../assets/javascripts/theme.init.js"></script>
 
 
     <!-- javascript functions -->
-    <script src="../Functions/onlyNumbers.js"></script>
-    <script src="../Functions/onlyChars.js"></script>
-    <script src="../Functions/mascara.js"></script>
+    <script src="../../Functions/onlyNumbers.js"></script>
+    <script src="../../Functions/onlyChars.js"></script>
+    <script src="../../Functions/mascara.js"></script>
         
     <!-- jquery functions -->
 
@@ -93,41 +94,42 @@ require_once "personalizacao_display.php";
                     .append($("<td>")
                         .text(item.id_memorando))
                     .append($("<td>")
-                        .html("<a href=../html/listar_despachos.php?id_memorando="+item.id_memorando+" id=memorando>"+item.titulo+"</a>"))
+                        .html("<a href=../../html/listar_despachos.php?id_memorando="+item.id_memorando+" id=memorando>"+item.titulo+"</a>"))
                     .append($("<td>")
                         .text(item.data))
                     .append($("<td id=opcoes_"+item.id_memorando+">")
-                        .html("<a href=../controle/control.php?nomeClasse=MemorandoControle&metodo=alterarIdStatusMemorando&id_memorando="+item.id_memorando+"&id_status_memorando=7 id=naolido"+item.id_memorando+"><img src=../img/nao-lido.png width=25px height=25px title='Não Lido'></a> <a href=../controle/control.php?nomeClasse=MemorandoControle&metodo=alterarIdStatusMemorando&id_memorando="+item.id_memorando+"&id_status_memorando=9 id=importante"+item.id_memorando+"><img src=../img/importante.png width=25px height=25px title='Importante'></a> <a href=../controle/control.php?nomeClasse=MemorandoControle&metodo=alterarIdStatusMemorando&id_memorando="+item.id_memorando+"&id_status_memorando=10 id=pendente"+item.id_memorando+"><img src=../img/pendente.png width=25px height=25px title='Pendente'></a>")));
+                        .html("<a href=../../controle/control.php?nomeClasse=MemorandoControle&metodo=alterarIdStatusMemorando&id_memorando="+item.id_memorando+"&id_status_memorando=7 id=naolido"+item.id_memorando+"><img src=../../img/nao-lido.png width=25px height=25px title='Não Lido'></a> <a href=../../controle/control.php?nomeClasse=MemorandoControle&metodo=alterarIdStatusMemorando&id_memorando="+item.id_memorando+"&id_status_memorando=9 id=importante"+item.id_memorando+"><img src=../../img/importante.png width=25px height=25px title='Importante'></a> <a href=../../controle/control.php?nomeClasse=MemorandoControle&metodo=alterarIdStatusMemorando&id_memorando="+item.id_memorando+"&id_status_memorando=10 id=pendente"+item.id_memorando+"><img src=../../img/pendente.png width=25px height=25px title='Pendente'></a>")));
 
                 	if(item.id_status_memorando==9)
                 	{
                 		document.getElementById(item.id_memorando).style.backgroundColor = '#ffa0a0d4';
-                		$("#importante"+item.id_memorando).html("<a href=../controle/control.php?nomeClasse=MemorandoControle&metodo=alterarIdStatusMemorando&id_memorando="+item.id_memorando+"&id_status_memorando=1 id=importante"+item.id_memorando+"><img src=../img/importante.png width=25px height=25px title='Importante'></a>");
+                		$("#importante"+item.id_memorando).html("<a href=../../controle/control.php?nomeClasse=MemorandoControle&metodo=alterarIdStatusMemorando&id_memorando="+item.id_memorando+"&id_status_memorando=1 id=importante"+item.id_memorando+"><img src=../../img/importante.png width=25px height=25px title='Importante'></a>");
                 	}
 
                 	if(item.id_status_memorando==10)
                 	{
                 		document.getElementById(item.id_memorando).style.backgroundColor = "rgba(249, 255, 160, 0.9)";
-                		$("#pendente"+item.id_memorando).html("<a href=../controle/control.php?nomeClasse=MemorandoControle&metodo=alterarIdStatusMemorando&id_memorando="+item.id_memorando+"&id_status_memorando=1 id=pendente"+item.id_memorando+"><img src=../img/pendente.png width=25px height=25px title='Pendente'></a>");
+                		$("#pendente"+item.id_memorando).html("<a href=../../controle/control.php?nomeClasse=MemorandoControle&metodo=alterarIdStatusMemorando&id_memorando="+item.id_memorando+"&id_status_memorando=1 id=pendente"+item.id_memorando+"><img src=../../img/pendente.png width=25px height=25px title='Pendente'></a>");
                 	}
 
                 	if(item.id_status_memorando==7)
                 	{
                 		document.getElementById(item.id_memorando).style.backgroundColor = "rgba(195, 230, 255, 0.83)";
-                		$("#naolido"+item.id_memorando).html("<a href=../controle/control.php?nomeClasse=MemorandoControle&metodo=alterarIdStatusMemorando&id_memorando="+item.id_memorando+"&id_status_memorando=1 class=naolido><img src='../img/lido.png' width=25px height=25px title='Lido'></a>");
+                		$("#naolido"+item.id_memorando).html("<a href=../../controle/control.php?nomeClasse=MemorandoControle&metodo=alterarIdStatusMemorando&id_memorando="+item.id_memorando+"&id_status_memorando=1 class=naolido><img src='../../img/lido.png' width=25px height=25px title='Lido'></a>");
                 	}
                 	if(item.id_status_memorando==6)
                 	{
-                		$("#naolido"+item.id).html("<a href=../controle/control.php?nomeClasse=MemorandoControle&metodo=alterarIdStatusMemorando&id_memorando="+item.id_memorando+"&id_status_memorando=7 class=naolido><img src='../img/nao-lido.png' width=25px height=25px title='Não lido'></a>");
+                		$("#naolido"+item.id).html("<a href=../../controle/control.php?nomeClasse=MemorandoControle&metodo=alterarIdStatusMemorando&id_memorando="+item.id_memorando+"&id_status_memorando=7 class=naolido><img src='../../img/nao-lido.png' width=25px height=25px title='Não lido'></a>");
                 	}
                 	if(item.id_pessoa==item.id_destinatario)
                 	{
-                		$("#opcoes_"+item.id_memorando).append("<a href=../controle/control.php?nomeClasse=MemorandoControle&metodo=alterarIdStatusMemorando&id_memorando="+item.id_memorando+"&id_status_memorando=8><img src='../img/arquivar.png' width=25px height=25px title='Arquivar memorando'></a>")
+                		$("#opcoes_"+item.id_memorando).append("<a href=../../controle/control.php?nomeClasse=MemorandoControle&metodo=alterarIdStatusMemorando&id_memorando="+item.id_memorando+"&id_status_memorando=8><img src='../../img/arquivar.png' width=25px height=25px title='Arquivar memorando'></a>")
                 	}
 
         });
-        $("#header").load("header.php");
-        $(".menuu").load("menu.html");
+
+        $("#header").load("../header.php");
+        $(".menuu").load("../menu.html");
     });
     </script>
     
@@ -208,7 +210,7 @@ require_once "personalizacao_display.php";
                 <h2 class="panel-title">Criar memorando</h2>
             </header>
             <div class="panel-body">
-                <form action="../controle/control.php" method="post">
+                <form action="../../controle/control.php" method="post">
                     <input type="text" id="assunto" name="assunto" required placeholder="Assunto" class="form-control">
                     <input type="hidden" name="nomeClasse" value="MemorandoControle">
                     <input type="hidden" name="metodo" value="incluir">
@@ -223,22 +225,22 @@ require_once "personalizacao_display.php";
     
     <!-- end: page -->
     <!-- Vendor -->
-        <script src="../assets/vendor/select2/select2.js"></script>
-        <script src="../assets/vendor/jquery-datatables/media/js/jquery.dataTables.js"></script>
-        <script src="../assets/vendor/jquery-datatables/extras/TableTools/js/dataTables.tableTools.min.js"></script>
-        <script src="../assets/vendor/jquery-datatables-bs3/assets/js/datatables.js"></script>
+        <script src="../../assets/vendor/select2/select2.js"></script>
+        <script src="../../assets/vendor/jquery-datatables/media/js/jquery.dataTables.js"></script>
+        <script src="../../assets/vendor/jquery-datatables/extras/TableTools/js/dataTables.tableTools.min.js"></script>
+        <script src="../../assets/vendor/jquery-datatables-bs3/assets/js/datatables.js"></script>
         
         <!-- Theme Base, Components and Settings -->
-        <script src="../assets/javascripts/theme.js"></script>
+        <script src="../../assets/javascripts/theme.js"></script>
         
         <!-- Theme Custom -->
-        <script src="../assets/javascripts/theme.custom.js"></script>
+        <script src="../../assets/javascripts/theme.custom.js"></script>
         
         <!-- Theme Initialization Files -->
-        <script src="../assets/javascripts/theme.init.js"></script>
+        <script src="../../assets/javascripts/theme.init.js"></script>
         <!-- Examples -->
-        <script src="../assets/javascripts/tables/examples.datatables.default.js"></script>
-        <script src="../assets/javascripts/tables/examples.datatables.row.with.details.js"></script>
-        <script src="../assets/javascripts/tables/examples.datatables.tabletools.js"></script>
+        <script src="../../assets/javascripts/tables/examples.datatables.default.js"></script>
+        <script src="../../assets/javascripts/tables/examples.datatables.row.with.details.js"></script>
+        <script src="../../assets/javascripts/tables/examples.datatables.tabletools.js"></script>
     </body>
 </html>

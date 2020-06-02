@@ -112,7 +112,7 @@ require_once "personalizacao_display.php";
 					.append($("<td>")
 						.text(item.destinatario))
 					.append($("<td>")
-						.html(item.texto+"<a href=lista_anexo.php?despacho="+item.id+"&memorando="+<?php echo $id_memorando; ?>+" target=_self><img src=../img/clip.png heigh=30px width=30px></a>"))
+						.html(item.texto+"<a href=../html/lista_anexo.php?id_despacho="+item.id+"&id_memorando="+<?php echo $id_memorando;?>+" target=_self><img src=../img/clip.png heigh=30px width=30px></a>"))
 					.append($("<td >")
 						.text(item.data)));
 		});
@@ -273,8 +273,9 @@ require_once "personalizacao_display.php";
 									<h2 class="panel-title">Despachar memorando</h2>
 								</header>
 								<div class="panel-body">
-								
-									<form action='../controle/control.php?id_memorando=<?php echo $_GET['id_memorando'];?>' method='post' enctype='multipart/form-data'>
+								<?php
+									echo "<form action='../controle/control.php?id_memorando=".$_GET['id_memorando']."' method='post' enctype='multipart/form-data'>";
+									?>
 										<div class='form-group'>
 											<label for=destinatario id=etiqueta_destinatario class='col-md-3 control-label'>Destino </label>
 											<div class='col-md-6'>

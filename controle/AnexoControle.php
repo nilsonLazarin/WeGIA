@@ -9,8 +9,9 @@ class AnexoControle
 	{
 		extract($_REQUEST);
 		$AnexoDAO = new AnexoDAO();
-		$anexos = $anexoDAO->listarTodos($id_despacho);
+		$anexos = $AnexoDAO->listarTodos($id_despacho);
 		$_SESSION['anexo'] = $anexos;
+		//header("Location: ../html/listar_despachos.php?id_memorando=".$_GET['id_memorando']);
 	}
 
 	public function incluir($anexo, $lastId)
@@ -65,7 +66,7 @@ class AnexoControle
     	}
 	}*/
 }
-$despacho = new DespachoControle();
-$despacho->listarTodos();
+$anexo = new AnexoControle();
+$anexo->listarTodos();
 
 ?>

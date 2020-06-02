@@ -3,6 +3,8 @@ if(file_exists("../config.php")){
     require_once("../config.php");
 }else if(file_exists("config.php")){
     require_once("config.php");
+}else if(file_exists("../../config.php")){
+	require_once("../../config.php");
 }
 class  Conexao
 {
