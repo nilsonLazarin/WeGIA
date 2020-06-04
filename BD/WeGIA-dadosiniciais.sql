@@ -24,6 +24,13 @@ INSERT INTO `socio_tipo` (`id_sociotipo`, `tipo`) VALUES
 (2, 'Pessoa Física - Contribuinte Mensal'),
 (3, 'Pessoa Jurídica - Contribuinte Mensal ');
 
+INSERT INTO `socio_status` (`id_sociostatus`, `status`) VALUES
+(0, 'Ativo'),
+(1, 'Inativo'),
+(2, 'Inadimplente'),
+(3, 'Inativo Temporariamente');
+
+
 INSERT INTO `unidade` (`descricao_unidade`) VALUES ('Quilo'), ('Litro'), ('Metro'), ('Pacote'), ('Unidade');
 
 INSERT INTO `recurso` (`id_recurso`, `Descrição`) VALUES ('1', 'Módulo Pessoa');
