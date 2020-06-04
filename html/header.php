@@ -1,5 +1,6 @@
-
 <?php
+
+	require_once "/home/anniefb/htdocs/WeGIA/dao/Conexao.php";
 
 	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
 	require_once "personalizacao_display.php";
@@ -21,7 +22,7 @@
 		<div id="userbox" class="userbox">
 			<a href="#" data-toggle="dropdown">
 				<figure class="profile-picture">
-					<img src="../img/semfoto.jpg" alt="Joseph Doe" class="img-circle" data-lock-picture="../assets/images/!logged-user.jpg" />
+					<img src="<?php echo $caminho2;?>img/semfoto.jpg" alt="Joseph Doe" class="img-circle" data-lock-picture="../assets/images/!logged-user.jpg" />
 				</figure>
 				<div class="profile-info" data-lock-name="John Doe" data-lock-email="johndoe@okler.com">
 					<span class="name">Usuário</span>
@@ -34,10 +35,10 @@
 				<ul class="list-unstyled">
 					<li class="divider"></li>
 					<li>
-						<a role="menuitem" tabindex="-1" href="../html/alterar_senha.php"><i class="glyphicon glyphicon-lock"></i> Alterar senha</a>
+						<a role="menuitem" tabindex="-1" href="<?php echo $caminho2;?>html/alterar_senha.php"><i class="glyphicon glyphicon-lock"></i> Alterar senha</a>
 					</li>
 					<li>
-						<a role="menuitem" tabindex="-1" href="./logout.php"><i class="fa fa-power-off"></i> Sair da sessão</a>
+						<a role="menuitem" tabindex="-1" href="<?php echo $caminho2;?>html/logout.php"><i class="fa fa-power-off"></i> Sair da sessão</a>
 					</li>
 				</ul>
 			</div>

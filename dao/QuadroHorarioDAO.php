@@ -1,6 +1,6 @@
 <?php
-	require_once'../classes/Documento.php';
-	require_once'Conexao.php';
+      require_once "/var/www/html/WeGIA/dao/Conexao.php";
+	require_once $caminho.'classes/Documento.php';
 	class QuadroHorarioDAO
 	{
 		public function incluir($quadro_horario)

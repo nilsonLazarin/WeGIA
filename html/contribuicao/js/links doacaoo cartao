@@ -1,0 +1,7 @@
+unica cartao = paypal = https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=XX32RXEYVQS6G&source=url;
+unica cartao = pagseguro = https://pag.ae/bhs9DVY;
+
+trinta = http://pag.ae/7V5m9b7sQ;
+quarenta = http://pag.ae/7V7K17L2K
+cinquenta = http://pag.ae/bks9DRw
+cem = http://pag.ae/bms9DTx

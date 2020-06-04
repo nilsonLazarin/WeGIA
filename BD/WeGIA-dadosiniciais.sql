@@ -18,8 +18,13 @@ INSERT INTO `imagem` (`id_imagem`, `nome`, `imagem`, `tipo`) VALUES (1, 'Logo Fi
 
 INSERT INTO `tabela_imagem_campo` (`id_relacao`, `id_campo`, `id_imagem`) VALUES (1, 1, 1), (2, 2, 1);
 
-INSERT INTO `unidade` (`descricao_unidade`) VALUES ('Kilo'), ('Litro'), ('Metro'), ('Pacote'), ('Unidade');
+INSERT INTO `socio_tipo` (`id_sociotipo`, `tipo`) VALUES
+(0, 'Pessoa Física - Contribuinte Casual'),
+(1, 'Pessoa Jurídica - Contribuinte Casual'),
+(2, 'Pessoa Física - Contribuinte Mensal'),
+(3, 'Pessoa Jurídica - Contribuinte Mensal ');
 
+INSERT INTO `unidade` (`descricao_unidade`) VALUES ('Quilo'), ('Litro'), ('Metro'), ('Pacote'), ('Unidade');
 
 INSERT INTO `recurso` (`id_recurso`, `Descrição`) VALUES ('1', 'Módulo Pessoa');
 INSERT INTO `recurso` (`id_recurso`, `Descrição`) VALUES ('11', 'Funcionário');
@@ -31,5 +36,6 @@ INSERT INTO `recurso` (`id_recurso`, `Descrição`) VALUES ('22', 'Produto');
 INSERT INTO `recurso` (`id_recurso`, `Descrição`) VALUES ('23', 'Entrada');
 INSERT INTO `recurso` (`id_recurso`, `Descrição`) VALUES ('24', 'Saída');
 INSERT INTO `recurso` (`id_recurso`, `Descrição`) VALUES ('3', 'Módulo Memorando');
+INSERT INTO `recurso` (`id_recurso`, `Descrição`) VALUES ('4', 'Módulo Sócio');
 INSERT INTO `recurso` (`id_recurso`, `Descrição`) VALUES ('9', 'Configurações');
 

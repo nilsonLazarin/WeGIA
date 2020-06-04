@@ -1,8 +1,8 @@
 <?php
 
-require_once "../../classes/memorando/Memorando.php";
-require_once "../../dao/memorando/MemorandoDAO.php";
-require_once "../../dao/UsuarioDAO.php";
+require_once "/home/anniefb/htdocs/WeGIA/dao/memorando/MemorandoDAO.php";
+require_once $caminho."classes/memorando/Memorando.php";
+require_once $caminho."dao/UsuarioDAO.php";
 
 class MemorandoControle
 {
@@ -43,7 +43,7 @@ class MemorandoControle
         {
             $lastId = $memorandoDAO->incluir($memorando);
             //$_SESSION['msg']="Memorando criado com sucesso";
-            header("Location: ../html/insere_despacho.php?id_memorando=$lastId");
+            header("Location: /WeGIA/html/memorando/insere_despacho.php?id_memorando=$lastId");
 
         } 
         catch (PDOException $e){

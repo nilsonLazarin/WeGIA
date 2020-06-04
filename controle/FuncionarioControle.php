@@ -1,12 +1,12 @@
 <?php
-include_once '../classes/Funcionario.php';
-include_once '../classes/QuadroHorario.php';
-include_once '../classes/Beneficiados.php';
-include_once '../classes/Pessoa_epi.php';
-include_once '../dao/FuncionarioDAO.php';
-include_once '../dao/QuadroHorarioDAO.php';
-include_once '../dao/BeneficiadosDAO.php';
-include_once '../dao/Pessoa_epiDAO.php';
+
+include_once "/var/www/html/WeGIA/dao/Conexao.php";
+include_once $caminho.'classes/Funcionario.php';
+include_once $caminho.'classes/Pessoa_epi.php';
+include_once $caminho.'dao/FuncionarioDAO.php';
+include_once $caminho.'dao/QuadroHorarioDAO.php';
+include_once $caminho.'dao/BeneficiadosDAO.php';
+include_once $caminho.'dao/Pessoa_epiDAO.php';
 
 
 class FuncionarioControle
