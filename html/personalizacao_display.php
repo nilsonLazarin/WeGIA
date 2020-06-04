@@ -1,11 +1,15 @@
 <?php
+$config_path = realpath("../config.php");
+if($config_path){
+    require_once($config_path);
+}
 
 if (file_exists("classes/Personalizacao_display.php")){
-    require_once "classes/Personalizacao_display.php";
+     require_once "classes/Personalizacao_display.php";
 }elseif (file_exists("../classes/Personalizacao_display.php")) {
-    require_once "../classes/Personalizacao_display.php";
+     require_once "../classes/Personalizacao_display.php";
 }elseif (file_exists("../../classes/Personalizacao_display.php")){
-    require_once "../../classes/Personalizacao_display.php";
+     require_once "../../classes/Personalizacao_display.php";
 }
 function display_campo($campo, $tipo){
 
@@ -21,9 +25,9 @@ function display_campo($campo, $tipo){
             file: exibe apenas o nome do arquivo de imagem, que está contido em ./img/database_images/
 
     */
-
     $display = new Display_campo($campo, $tipo);
     $display->display();
 }
+
 
 ?>

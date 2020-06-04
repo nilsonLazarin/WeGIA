@@ -1,11 +1,15 @@
 <?php
-if(file_exists("../config.php")){
-    require_once("../config.php");
-}else if(file_exists("config.php")){
-    require_once("config.php");
-}else if(file_exists("../../config.php")){
-	require_once("../../config.php");
+$config_path = "config.php";
+if(file_exists($config_path)){
+    require_once($config_path);
+}else{
+    while(true){
+        $config_path = "../" . $config_path;
+        if(file_exists($config_path)) break;
+    }
+    require_once($config_path);
 }
+
 class  Conexao
 {
     public static function connect()

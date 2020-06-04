@@ -3,14 +3,17 @@
   if(!isset($_SESSION['usuario'])){
     header ("Location: ../index.php");
   }
-   
-      // $usuario = "root";
-      // $senha =  "root123";
-      // $servidor = "localhost";
-      // $bddnome = "wegia";
-      // $mysqli = new mysqli($servidor,$usuario,$senha,$bddnome);
 
-      require_once '../config.php';
+      $config_path = "config.php";
+      if(file_exists($config_path)){
+          require_once($config_path);
+      }else{
+          while(true){
+              $config_path = "../" . $config_path;
+              if(file_exists($config_path)) break;
+          }
+          require_once($config_path);
+      }
       $mysqli = new mysqli(DB_HOST,DB_USER,DB_PASSWORD,DB_NAME);
       $situacao = $mysqli->query("SELECT * FROM situacao");
       $cargo = $mysqli->query("SELECT * FROM cargo");

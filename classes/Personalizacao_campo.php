@@ -1,4 +1,8 @@
 <?php
+$config_path = realpath("../config.php");
+if($config_path){
+    require_once($config_path);
+}
 
 class Campo {
 
