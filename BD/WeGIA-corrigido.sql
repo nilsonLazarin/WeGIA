@@ -7,6 +7,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 DROP DATABASE IF EXISTS wegia;
 
 CREATE SCHEMA IF NOT EXISTS `wegia` DEFAULT CHARACTER SET utf8mb4 ;
+
 USE `wegia` ;
 
 -- -----------------------------------------------------
@@ -16,9 +17,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`acao` (
   `id_acao` INT(11) NOT NULL AUTO_INCREMENT,
   `descricao` VARCHAR(240) NULL DEFAULT NULL,
   PRIMARY KEY (`id_acao`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4;
-
+ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `wegia`.`almoxarifado`
@@ -27,9 +26,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`almoxarifado` (
   `id_almoxarifado` INT(11) NOT NULL AUTO_INCREMENT,
   `descricao_almoxarifado` VARCHAR(240) NOT NULL,
   PRIMARY KEY (`id_almoxarifado`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 2
-DEFAULT CHARACTER SET = utf8mb4;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -62,9 +59,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`pessoa` (
   `nivel_acesso` TINYINT(4) NULL DEFAULT '0',
   `adm_configurado` TINYINT(4) NULL DEFAULT '0',
   PRIMARY KEY (`id_pessoa`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 6
-DEFAULT CHARACTER SET = utf8mb4;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -74,10 +69,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`status_memorando` (
   `id_status_memorando` INT(11) NOT NULL AUTO_INCREMENT,
   `status_atual` VARCHAR(60) NULL DEFAULT NULL,
   PRIMARY KEY (`id_status_memorando`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 11
-DEFAULT CHARACTER SET = utf8mb4;
-
+ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `wegia`.`memorando`
@@ -97,9 +89,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`memorando` (
   CONSTRAINT `memorando_ibfk_2`
     FOREIGN KEY (`id_status_memorando`)
     REFERENCES `wegia`.`status_memorando` (`id_status_memorando`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 329
-DEFAULT CHARACTER SET = utf8mb4;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -125,9 +115,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`despacho` (
   CONSTRAINT `despacho_ibfk_3`
     FOREIGN KEY (`id_destinatario`)
     REFERENCES `wegia`.`pessoa` (`id_pessoa`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 309
-DEFAULT CHARACTER SET = utf8mb4;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -144,9 +132,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`anexo` (
   CONSTRAINT `anexo_ibfk_1`
     FOREIGN KEY (`id_despacho`)
     REFERENCES `wegia`.`despacho` (`id_despacho`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 76
-DEFAULT CHARACTER SET = utf8mb4;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -157,9 +143,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`beneficios` (
   `descricao_beneficios` VARCHAR(100) NULL DEFAULT NULL,
   PRIMARY KEY (`id_beneficios`),
   UNIQUE INDEX `descricao_beneficios` (`descricao_beneficios` ASC))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4;
-
+ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `wegia`.`beneficiados`
@@ -181,8 +165,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`beneficiados` (
   CONSTRAINT `beneficiados_ibfk_2`
     FOREIGN KEY (`id_pessoa`)
     REFERENCES `wegia`.`pessoa` (`id_pessoa`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -194,10 +177,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`campo_imagem` (
   `tipo` ENUM('img', 'car') NOT NULL,
   PRIMARY KEY (`id_campo`),
   UNIQUE INDEX `nome_campo` (`nome_campo` ASC))
-ENGINE = InnoDB
-AUTO_INCREMENT = 3
-DEFAULT CHARACTER SET = utf8mb4;
-
+ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `wegia`.`cargo`
@@ -207,10 +187,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`cargo` (
   `cargo` VARCHAR(30) NULL DEFAULT NULL,
   PRIMARY KEY (`id_cargo`),
   UNIQUE INDEX `cargo` (`cargo` ASC))
-ENGINE = InnoDB
-AUTO_INCREMENT = 2
-DEFAULT CHARACTER SET = utf8mb4;
-
+ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `wegia`.`categoria_produto`
@@ -220,9 +197,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`categoria_produto` (
   `descricao_categoria` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`id_categoria_produto`),
   UNIQUE INDEX `descricao_categoria` (`descricao_categoria` ASC))
-ENGINE = InnoDB
-AUTO_INCREMENT = 2
-DEFAULT CHARACTER SET = utf8mb4;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -235,9 +210,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`destino` (
   `cpf` VARCHAR(20) NULL DEFAULT NULL,
   `telefone` VARCHAR(33) NULL DEFAULT NULL,
   PRIMARY KEY (`id_destino`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 2
-DEFAULT CHARACTER SET = utf8mb4;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -254,8 +227,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`documento` (
   CONSTRAINT `documento_ibfk_1`
     FOREIGN KEY (`id_pessoa`)
     REFERENCES `wegia`.`pessoa` (`id_pessoa`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -268,9 +240,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`origem` (
   `cpf` VARCHAR(20) NULL DEFAULT NULL,
   `telefone` VARCHAR(33) NULL DEFAULT NULL,
   PRIMARY KEY (`id_origem`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 2
-DEFAULT CHARACTER SET = utf8mb4;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -280,9 +250,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`tipo_entrada` (
   `id_tipo` INT(11) NOT NULL AUTO_INCREMENT,
   `descricao` VARCHAR(120) NOT NULL,
   PRIMARY KEY (`id_tipo`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 2
-DEFAULT CHARACTER SET = utf8mb4;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -314,9 +282,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`entrada` (
   CONSTRAINT `entrada_ibfk_4`
     FOREIGN KEY (`id_responsavel`)
     REFERENCES `wegia`.`pessoa` (`id_pessoa`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 2
-DEFAULT CHARACTER SET = utf8mb4;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -327,8 +293,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`epi` (
   `descricao_epi` VARCHAR(100) NULL DEFAULT NULL,
   PRIMARY KEY (`id_epi`),
   UNIQUE INDEX `descricao_epi` (`descricao_epi` ASC))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -339,9 +304,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`unidade` (
   `descricao_unidade` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`id_unidade`),
   UNIQUE INDEX `descricao_unidade` (`descricao_unidade` ASC))
-ENGINE = InnoDB
-AUTO_INCREMENT = 2
-DEFAULT CHARACTER SET = utf8mb4;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -365,9 +328,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`produto` (
   CONSTRAINT `produto_ibfk_2`
     FOREIGN KEY (`id_unidade`)
     REFERENCES `wegia`.`unidade` (`id_unidade`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 2
-DEFAULT CHARACTER SET = utf8mb4;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -385,8 +346,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`estoque` (
   CONSTRAINT `estoque_ibfk_2`
     FOREIGN KEY (`id_almoxarifado`)
     REFERENCES `wegia`.`almoxarifado` (`id_almoxarifado`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -423,9 +383,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`funcionario` (
     REFERENCES `wegia`.`situacao` (`id_situacao`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-ENGINE = InnoDB
-AUTO_INCREMENT = 4
-DEFAULT CHARACTER SET = utf8mb4;
+ENGINE = InnoDB;
 
 
 
@@ -447,9 +405,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`ientrada` (
   CONSTRAINT `ientrada_ibfk_2`
     FOREIGN KEY (`id_produto`)
     REFERENCES `wegia`.`produto` (`id_produto`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 2
-DEFAULT CHARACTER SET = utf8mb4;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -462,9 +418,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`imagem` (
   `tipo` VARCHAR(25) NOT NULL,
   PRIMARY KEY (`id_imagem`),
   UNIQUE INDEX `nome` (`nome` ASC))
-ENGINE = InnoDB
-AUTO_INCREMENT = 6
-DEFAULT CHARACTER SET = utf8mb4;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -494,9 +448,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`interno` (
   CONSTRAINT `interno_ibfk_1`
     FOREIGN KEY (`id_pessoa`)
     REFERENCES `wegia`.`pessoa` (`id_pessoa`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 2
-DEFAULT CHARACTER SET = utf8mb4;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -506,8 +458,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`tipo_saida` (
   `id_tipo` INT(11) NOT NULL AUTO_INCREMENT,
   `descricao` VARCHAR(120) NOT NULL,
   PRIMARY KEY (`id_tipo`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -539,8 +490,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`saida` (
   CONSTRAINT `saida_ibfk_4`
     FOREIGN KEY (`id_responsavel`)
     REFERENCES `wegia`.`pessoa` (`id_pessoa`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -561,8 +511,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`isaida` (
   CONSTRAINT `isaida_ibfk_2`
     FOREIGN KEY (`id_produto`)
     REFERENCES `wegia`.`produto` (`id_produto`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -575,8 +524,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`situacao_funcionario` (
   `imagem` LONGTEXT NULL DEFAULT NULL,
   `imagem_extensao` VARCHAR(40) NULL DEFAULT NULL,
   PRIMARY KEY (`id_situacao_funcionario`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -594,7 +542,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`movimentacao_funcionario` (
     FOREIGN KEY (`id_situacao_funcionario`)
     REFERENCES `wegia`.`situacao_funcionario` (`id_situacao_funcionario`))
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4;
+;
 
 
 -- -----------------------------------------------------
@@ -607,8 +555,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`situacao_interno` (
   `imagem` LONGTEXT NULL DEFAULT NULL,
   `imagem_extensao` VARCHAR(10) NULL DEFAULT NULL,
   PRIMARY KEY (`id_situacao_interno`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -625,8 +572,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`movimentacao_interno` (
   CONSTRAINT `movimentacao_interno_ibfk_2`
     FOREIGN KEY (`id_situacao_interno`)
     REFERENCES `wegia`.`situacao_interno` (`id_situacao_interno`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -661,8 +607,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`permissao` (
     REFERENCES `wegia`.`recurso` (`id_recurso`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4;
+ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `wegia`.`pessoa_epi`
@@ -682,8 +627,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`pessoa_epi` (
   CONSTRAINT `pessoa_epi_ibfk_2`
     FOREIGN KEY (`id_epi`)
     REFERENCES `wegia`.`epi` (`id_epi`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -707,9 +651,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`quadro_horario_funcionario` (
   CONSTRAINT `quadro_horario_funcionario_ibfk_1`
     FOREIGN KEY (`id_funcionario`)
     REFERENCES `wegia`.`funcionario` (`id_funcionario`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 2
-DEFAULT CHARACTER SET = utf8mb4;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -739,8 +681,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`voluntario` (
     REFERENCES `wegia`.`cargo` (`id_cargo`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4;
+ENGINE = InnoDB;
 
 
 
@@ -765,8 +706,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`quadro_horario_voluntario` (
   CONSTRAINT `quadro_horario_voluntario_ibfk_1`
     FOREIGN KEY (`id_voluntario`)
     REFERENCES `wegia`.`voluntario` (`id_voluntario`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -778,9 +718,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`selecao_paragrafo` (
   `paragrafo` TEXT NOT NULL,
   `original` TINYINT(4) NULL DEFAULT '1',
   PRIMARY KEY (`id_selecao`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 6
-DEFAULT CHARACTER SET = utf8mb4;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -791,9 +729,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`situacao` (
   `situacoes` VARCHAR(30) NULL DEFAULT NULL,
   PRIMARY KEY (`id_situacao`),
   UNIQUE INDEX `situacoes` (`situacoes` ASC))
-ENGINE = InnoDB
-AUTO_INCREMENT = 5
-DEFAULT CHARACTER SET = utf8mb4;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -812,9 +748,163 @@ CREATE TABLE IF NOT EXISTS `wegia`.`tabela_imagem_campo` (
   CONSTRAINT `tabela_imagem_campo_ibfk_2`
     FOREIGN KEY (`id_imagem`)
     REFERENCES `wegia`.`imagem` (`id_imagem`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 11
-DEFAULT CHARACTER SET = utf8mb4;
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `wegia`.`sistema_pagamento`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `wegia`.`sistema_pagamento` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `nome_sistema` VARCHAR(256) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `wegia`.`doacao_boleto_regras`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `wegia`.`doacao_boleto_regras` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `min_boleto_uni` DECIMAL(10,2) NOT NULL,
+  `max_dias_venc` INT(11) NOT NULL,
+  `juros` DECIMAL(10,2) NOT NULL,
+  `multa` DECIMAL(10,2) NOT NULL,
+  `max_parcela` DECIMAL(10,2) NOT NULL,
+  `min_parcela` DECIMAL(10,2) NOT NULL,
+  `agradecimento` LONGTEXT NOT NULL,
+  `dias_boleto_a_vista` INT(11) NOT NULL,
+  `dias_venc_carne_op1` INT(11) NOT NULL,
+  `dias_venc_carne_op2` INT(11) NOT NULL,
+  `dias_venc_carne_op3` INT(11) NOT NULL,
+  `dias_venc_carne_op4` INT(11) NOT NULL,
+  `dias_venc_carne_op5` INT(11) NOT NULL,
+  `dias_venc_carne_op6` INT(11) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `wegia`.`doacao_boleto_info`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `wegia`.`doacao_boleto_info` (
+  `id` INT(11) NOT NULL,
+  `api` VARCHAR(256) NOT NULL,
+  `token_api` VARCHAR(256) NOT NULL,
+  `sandbox` VARCHAR(256) NOT NULL,
+  `token_sandbox` VARCHAR(256) NOT NULL,
+  `id_sistema` INT(11) NOT NULL,
+  `id_regras` INT(11) NOT NULL,
+  INDEX `id_sistema` (`id_sistema` ASC),
+  INDEX `id_regras` (`id_regras` ASC),
+  CONSTRAINT `doacao_boleto_info_ibfk_1`
+    FOREIGN KEY (`id_sistema`)
+    REFERENCES `wegia`.`sistema_pagamento` (`id`),
+  CONSTRAINT `doacao_boleto_info_ibfk_2`
+    FOREIGN KEY (`id_regras`)
+    REFERENCES `wegia`.`doacao_boleto_regras` (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `wegia`.`doacao_cartao_avulso`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `wegia`.`doacao_cartao_avulso` (
+  `id` INT(11) NOT NULL,
+  `url` VARCHAR(256) NOT NULL,
+  `id_sistema` INT(11) NOT NULL,
+  INDEX `id_sistema` (`id_sistema` ASC),
+  CONSTRAINT `doacao_cartao_avulso_ibfk_1`
+    FOREIGN KEY (`id_sistema`)
+    REFERENCES `wegia`.`sistema_pagamento` (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `wegia`.`doacao_cartao_mensal`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `wegia`.`doacao_cartao_mensal` (
+  `id` INT(11) NOT NULL,
+  `link` VARCHAR(256) NOT NULL,
+  `valor` DECIMAL(10,2) NULL DEFAULT NULL,
+  `id_sistema` INT(11) NOT NULL,
+  INDEX `id_sistema` (`id_sistema` ASC),
+  CONSTRAINT `doacao_cartao_mensal_ibfk_1`
+    FOREIGN KEY (`id_sistema`)
+    REFERENCES `wegia`.`sistema_pagamento` (`id`))
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `wegia`.`socio_status`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `wegia`.`socio_status` (
+  `id_sociostatus` INT NOT NULL,
+  `status` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`id_sociostatus`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `wegia`.`socio_tipo`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `wegia`.`socio_tipo` (
+  `id_sociotipo` INT NOT NULL,
+  `tipo` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`id_sociotipo`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `wegia`.`socio`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `wegia`.`socio` (
+  `id_socio` INT(11) NOT NULL AUTO_INCREMENT,
+  `id_pessoa` INT(11) NOT NULL,
+  `id_sociostatus` INT NOT NULL,
+  `id_sociotipo` INT NOT NULL,
+  `email` VARCHAR(256) NULL,
+  PRIMARY KEY (`id_socio`),
+  INDEX `fk_socio_socio_status1_idx` (`id_sociostatus` ASC),
+  INDEX `fk_socio_pessoa1_idx` (`id_pessoa` ASC),
+  INDEX `fk_socio_socio_tipo1_idx` (`id_sociotipo` ASC),
+  CONSTRAINT `fk_socio_socio_status1`
+    FOREIGN KEY (`id_sociostatus`)
+    REFERENCES `wegia`.`socio_status` (`id_sociostatus`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_socio_pessoa1`
+    FOREIGN KEY (`id_pessoa`)
+    REFERENCES `wegia`.`pessoa` (`id_pessoa`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_socio_socio_tipo1`
+    FOREIGN KEY (`id_sociotipo`)
+    REFERENCES `wegia`.`socio_tipo` (`id_sociotipo`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `wegia`.`log_contribuicao`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `wegia`.`log_contribuicao` (
+  `id_socio` INT(11) NOT NULL,
+  `ip` VARCHAR(256) NOT NULL,
+  `data` DATE NOT NULL,
+  `hora` TIME NOT NULL,
+  `id_sistema` INT(11) NOT NULL,
+  INDEX `id_sistema` (`id_sistema` ASC),
+  INDEX `FK_socio_log` (`id_socio` ASC),
+  CONSTRAINT `FK_socio_log`
+    FOREIGN KEY (`id_socio`)
+    REFERENCES `wegia`.`socio` (`id_socio`),
+  CONSTRAINT `log_ibfk_1`
+    FOREIGN KEY (`id_sistema`)
+    REFERENCES `wegia`.`sistema_pagamento` (`id`))
+ENGINE = InnoDB;
+
+
 
 
 
@@ -1167,8 +1257,31 @@ BEGIN
   
 END$$
 
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure cadsocio
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `wegia`$$
+CREATE PROCEDURE `cadsocio`(IN `cpf_cnpj` VARCHAR(256), IN `data_nascimento` VARCHAR(256), IN `nome` VARCHAR(256), IN `email` VARCHAR(256), IN `telefone` VARCHAR(256), IN `tipo` VARCHAR(256), IN `logradouro` VARCHAR(256), IN `numero` INT(11), IN `complemento` VARCHAR(256), IN `cep` VARCHAR(256), IN `bairro` VARCHAR(256), IN `cidade` VARCHAR(256), IN `estado` VARCHAR(256))
+begin
+
+declare idSJ int;
+
+INSERT INTO socio(cpf_cnpj, nome, email, telefone, tipo, data_nascimento)
+	values (cpf_cnpj, nome, email, telefone, tipo, data_nascimento);
+    
+select max(id) into idSJ from socio;
+
+INSERT INTO endereco(idsocio, logradouro, numero, complemento, cep, bairro, cidade, estado)
+	values (idSJ, logradouro, numero, complemento, cep, bairro, cidade, estado);
+    
+END$$
 
 DELIMITER ;
+
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
