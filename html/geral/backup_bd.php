@@ -6,7 +6,7 @@
     require_once("../../config.php");
     echo "iniciando backup banco de dados";
 
-    exec("mysqldump -u root  wegia -p".DB_PASSWORD." > ".BKP_DIR.date("Ymd").".bd.sql", $output[0]);
+    exec("mysqldump -u ".DB_USER."  ".DB_NAME." -p".DB_PASSWORD." > ".BKP_DIR.date("Ymd").".bd.sql", $output[0]);
 
     echo("<pre>");
     var_dump($output);
