@@ -1,7 +1,7 @@
 <?php
-require_once'../classes/Pessoa_epi.php';
-require_once'Conexao.php';
-require_once'../Functions/funcoes.php';
+require_once "/var/www/html/WeGIA/dao/Conexao.php";
+require_once $caminho.'classes/Pessoa_epi.php';
+require_once $caminho.'Functions/funcoes.php';
 class Pessoa_epiDAO
 {
 

@@ -1,7 +1,7 @@
 <?php
-require_once'../classes/Beneficiados.php';;
-require_once'Conexao.php';
-require_once'../Functions/funcoes.php';
+require_once "/var/www/html/WeGIA/dao/Conexao.php";
+require_once $caminho.'classes/Beneficiados.php';;
+require_once $caminho.'Functions/funcoes.php';
 class BeneficiadosDAO
 {
   public function formatoDataDMY($data)

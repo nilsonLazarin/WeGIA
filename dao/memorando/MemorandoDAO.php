@@ -1,9 +1,8 @@
 <?php
 
-require_once "../../classes/memorando/Memorando.php";
-require_once "../../dao/Conexao.php";
-require_once "../../Functions/funcoes.php";
-require_once "../../dao/UsuarioDAO.php";
+require_once "/home/anniefb/htdocs/WeGIA/dao/Conexao.php";
+require_once $caminho."classes/memorando/Memorando.php";
+require_once $caminho."dao/UsuarioDAO.php";
 
 class MemorandoDAO
 {
