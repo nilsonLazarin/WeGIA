@@ -1,5 +1,5 @@
 function cartaodmensal(){
-    $.post("./php/cartaomensal.php").done(function(data)
+	$.post("./php/links_mensal.php").done(function(data)
 		{
 			
 			var dados = data.split(",");
@@ -8,7 +8,7 @@ function cartaodmensal(){
 			var cinquenta = dados[2];
 			var cem = dados[3];
 
-			
+			console.log(dados);
 			$("#trinta").html("<a href="+trinta+">R$30,00</a>");
 			$("#quarenta").html("<a href="+quarenta+">R$40,00</a>");
 			$("#cinquenta").html("<a href="+cinquenta+">R$50,00</a>");

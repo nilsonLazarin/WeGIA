@@ -209,7 +209,7 @@
 							</div>
 						</a>
 
-					<a href="../html/listar_memorandos_antigos.php">	
+					<a href="../html/memorando/listar_memorandos_antigos.php">	
 							<div class="col-lg-2 col-md-8 i">
 								<i  class="fa fa-barcode"></i>
 								<h4>Memorandos despachados</h4>
