@@ -188,7 +188,7 @@
 															</datalist>
 														</td>
 														<td><input type="number" name="quantidade" style="width: 74px;" value="1" min="1" id="quantidade"></td>
-														<td id="valor_unitario"></td>
+														<td><input id="valor_unitario" type="number" name="quantidade" style="width: 74px;" value="0" min="0"></td>
 														<td >	
 															<button id="add-row incluir" type="button" class="add-row" >incluir</button>
 														</td>
@@ -285,7 +285,7 @@
 				$.each(produtos_autocomplete,function(i,item){
 					if(teste[0]==item.id_produto && teste[1]==item.descricao)
 					{
-						$("#valor_unitario").text(item.preco);
+						$("#valor_unitario").val(item.preco);
 						$("#quantidade").focus();
 					}
 				})
@@ -310,7 +310,7 @@
 					if(produto[0]==item.id_produto && produto[1]==item.descricao)
 					{
 						var quantidade = $("#quantidade").val();
-						var preco = parseFloat(item.preco);
+						var preco = parseFloat($("#valor_unitario").val());
 						
 						conta = conta + 1;
 
