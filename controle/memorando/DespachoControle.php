@@ -1,10 +1,21 @@
 <?php
 
-require_once "/var/www/html/WeGIA/dao/Conexao.php";
-require_once $caminho."classes/Despacho.php";
-require_once $caminho."dao/memorando/DespachoDAO.php";
-require_once $caminho."dao/memorando/MemorandoDAO.php";
-require_once $caminho."controle/memorando/MemorandoControle.php";
+$config_path = "config.php";
+if(file_exists($config_path)){
+    require_once($config_path);
+}else{
+    while(true){
+        $config_path = "../" . $config_path;
+        if(file_exists($config_path)) break;
+    }
+    require_once($config_path);
+}
+
+require_once caminho."dao/Conexao.php";
+require_once caminho."classes/memorando/Despacho.php";
+require_once caminho."dao/memorando/DespachoDAO.php";
+require_once caminho."dao/memorando/MemorandoDAO.php";
+require_once caminho."controle/memorando/MemorandoControle.php";
 
 class DespachoControle
 {
@@ -39,17 +50,15 @@ class DespachoControle
 		try
 		{
 			$lastId = $despachoDAO->incluir($despacho);
-			$anexo = $_FILES["anexo"];
+			$anexoss = $_FILES["anexo"];
 			$anexo2 = $_FILES["anexo"]["tmp_name"][0];
     		if(isset($anexo2) && !empty($anexo2))
     		{
-    			require_once $caminho."dao/AnexoDAO.php";
-				require_once $caminho."controle/AnexoControle.php";
-				require_once $caminho."classes/Anexo.php";
+				require_once caminho."controle/memorando/AnexoControle.php";
     			$arquivo = new AnexoControle();
-    			$arquivo->incluir($anexo, $lastId);
+    			$arquivo->incluir($anexoss, $lastId);
     		}
-			header("Location: /WeGIA/html/memorando/listar_despachos.php?id_memorando=".$id_memorando);
+			header("Location: ".caminho2."html/memorando/listar_despachos.php?id_memorando=".$id_memorando);
 		}
 		catch(PDOException $e)
 		{

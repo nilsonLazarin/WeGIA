@@ -1,5 +1,5 @@
 function cartaodunica(){
-    $.post("./php/doacaocartao.php").done(function(data)
+    $.post("./php/links_unico.php").done(function(data)
 		{
 			
 			var dados = data.split(":");

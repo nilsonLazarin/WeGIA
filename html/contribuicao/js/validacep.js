@@ -26,6 +26,7 @@ function valida_cep(){
 			$.get(url+cep+"/json/", function(dados){
 				if(!("erro" in dados))
 				{
+					console.log(dados.logradouro);
 					$("#rua").val(dados.logradouro);
 					$("#rua").attr("info", dados.logradouro);
 					$("#complemento").val(dados.complemento);

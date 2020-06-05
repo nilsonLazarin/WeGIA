@@ -1208,6 +1208,61 @@ BEGIN
 END$$
 
 DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure cadsocio
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `wegia`$$
+CREATE PROCEDURE `cadsocio`(IN `cpf_cnpj` VARCHAR(256), IN `data_nascimento` VARCHAR(256), IN `nome` VARCHAR(256), IN `email` VARCHAR(256), IN `telefone` VARCHAR(256), IN `tipo` VARCHAR(256), IN `logradouro` VARCHAR(256), IN `numero` INT(11), IN `complemento` VARCHAR(256), IN `cep` VARCHAR(256), IN `bairro` VARCHAR(256), IN `cidade` VARCHAR(256), IN `estado` VARCHAR(256))
+begin
+
+declare idSJ int;
+
+INSERT INTO socio(cpf_cnpj, nome, email, telefone, tipo, data_nascimento)
+	values (cpf_cnpj, nome, email, telefone, tipo, data_nascimento);
+    
+select max(id) into idSJ from socio;
+
+INSERT INTO endereco(idsocio, logradouro, numero, complemento, cep, bairro, cidade, estado)
+	values (idSJ, logradouro, numero, complemento, cep, bairro, cidade, estado);
+    
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure caddoador
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `wegia`$$
+CREATE PROCEDURE `caddoador`(
+	IN `nome` VARCHAR(100), 
+    IN `sobrenome` VARCHAR(100), 
+    IN `cpf` VARCHAR(40), 
+    IN `telefone` VARCHAR(25), 
+    IN `data_nascimento` DATE, 
+    IN `cep` VARCHAR(20), 
+    IN `estado` VARCHAR(5), 
+    IN `cidade` VARCHAR(40), 
+    IN `bairro` VARCHAR(40), 
+    IN `logradouro` VARCHAR(40), 
+    IN `numero_endereco` VARCHAR(11), 
+    IN `complemento` VARCHAR(50)
+)
+begin
+
+declare idP int;
+
+insert into pessoa(nome, sobrenome, cpf, sexo, telefone, data_nascimento, cep, estado, cidade, bairro, logradouro, numero_endereco, complemento)
+values(nome, sobrenome, cpf, sexo, telefone, data_nascimento, cep, estado, cidade, bairro, logradouro, numero_endereco, complemento);
+select max(id_pessoa) into idP FROM pessoa;
+end$$
+
+DELIMITER ;
+
 USE `wegia`;
 
 DELIMITER $$
@@ -1255,29 +1310,6 @@ BEGIN
   
     UPDATE estoque SET qtd = qtd-NEW.qtd WHERE id_produto = NEW.id_produto AND id_almoxarifado = (SELECT id_almoxarifado FROM saida WHERE id_saida = NEW.id_saida);
   
-END$$
-
-DELIMITER ;
-
--- -----------------------------------------------------
--- procedure cadsocio
--- -----------------------------------------------------
-
-DELIMITER $$
-USE `wegia`$$
-CREATE PROCEDURE `cadsocio`(IN `cpf_cnpj` VARCHAR(256), IN `data_nascimento` VARCHAR(256), IN `nome` VARCHAR(256), IN `email` VARCHAR(256), IN `telefone` VARCHAR(256), IN `tipo` VARCHAR(256), IN `logradouro` VARCHAR(256), IN `numero` INT(11), IN `complemento` VARCHAR(256), IN `cep` VARCHAR(256), IN `bairro` VARCHAR(256), IN `cidade` VARCHAR(256), IN `estado` VARCHAR(256))
-begin
-
-declare idSJ int;
-
-INSERT INTO socio(cpf_cnpj, nome, email, telefone, tipo, data_nascimento)
-	values (cpf_cnpj, nome, email, telefone, tipo, data_nascimento);
-    
-select max(id) into idSJ from socio;
-
-INSERT INTO endereco(idsocio, logradouro, numero, complemento, cep, bairro, cidade, estado)
-	values (idSJ, logradouro, numero, complemento, cep, bairro, cidade, estado);
-    
 END$$
 
 DELIMITER ;

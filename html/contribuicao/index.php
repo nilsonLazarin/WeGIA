@@ -316,6 +316,10 @@
                             <span class="label-input100">NOME *</span>
                             <input class="input100" type="text" name="cnpj_nome" id="cnpj_nome" placeholder="Digite seu nome" required>
                     </div>
+					<div class="wrap-input100 validate-input bg1" data-validate="Por Favor Digite o Sobrenome" id="sobrenome">
+                            <span class="label-input100">SOBRENOME *</span>
+                            <input class="input100" type="text" name="sobrenome" id="sobrenome" placeholder="Digite seu sobrenome" required>
+                    </div>
 
                     <div class="wrap-input100 validate-input bg1" style="height: 90px" id = "nascimento">
                             <span class="label-input100">DATA DE NASCIMENTO *</span><br>
@@ -628,6 +632,7 @@
 		$("#op_cpf").click(function()
 		{
 			$("#nc").show();
+			$("#sobrenome").show();
 			$("#jnome").hide();
 		    $("#cpf").fadeIn();
 		    $("#cnpj").hide();  
@@ -653,6 +658,7 @@
 			$("#avisoPJ").show();
 			$("#nc").hide();
 			$("#jnome").show();
+			$("#sobrenome").hide();
 		});  
 
 		$("#u").click(function()

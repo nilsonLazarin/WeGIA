@@ -1,8 +1,19 @@
 <?php
 
-require_once "/home/anniefb/htdocs/WeGIA/dao/memorando/MemorandoDAO.php";
-require_once $caminho."classes/memorando/Memorando.php";
-require_once $caminho."dao/UsuarioDAO.php";
+$config_path = "config.php";
+if(file_exists($config_path)){
+    require_once($config_path);
+}else{
+    while(true){
+        $config_path = "../" . $config_path;
+        if(file_exists($config_path)) break;
+    }
+    require_once($config_path);
+}
+
+require_once caminho."dao/memorando/MemorandoDAO.php";
+require_once caminho."classes/memorando/Memorando.php";
+require_once caminho."dao/UsuarioDAO.php";
 
 class MemorandoControle
 {
@@ -43,7 +54,7 @@ class MemorandoControle
         {
             $lastId = $memorandoDAO->incluir($memorando);
             //$_SESSION['msg']="Memorando criado com sucesso";
-            header("Location: /WeGIA/html/memorando/insere_despacho.php?id_memorando=$lastId");
+            header("Location: ".caminho2."html/memorando/insere_despacho.php?id_memorando=$lastId");
 
         } 
         catch (PDOException $e){
@@ -85,7 +96,7 @@ class MemorandoControle
         try 
         {
             $memorandoDAO->alterarIdStatusMemorando($memorando);
-            header("Location: ../html/listar_memorandos_ativos.php");
+            header("Location: ".caminho2."html/memorando/listar_memorandos_ativos.php");
         } 
         catch (PDOException $e) 
         {
