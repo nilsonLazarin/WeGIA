@@ -188,7 +188,7 @@
 															</datalist>
 														</td>
 														<td><input type="number" name="quantidade" style="width: 74px;" value="1" min="1" id="quantidade"></td>
-														<td><input id="valor_unitario" type="number" name="quantidade" style="width: 74px;" value="0" min="0"></td>
+														<td><input id="valor_unitario" type="number" name="quantidade" style="width: 74px;" value="0" step="any" min="0"></td>
 														<td >	
 															<button id="add-row incluir" type="button" class="add-row" >incluir</button>
 														</td>
