@@ -135,10 +135,11 @@ class ProdutoDAO
 	            $produtos=array();
 	            $x = array();
 	            $pdo = Conexao::connect();
-	            $consulta = $pdo->query("SELECT id_produto, descricao, preco FROM produto");
+	            $consulta = $pdo->query("SELECT id_produto, descricao, codigo, preco FROM produto");
 	            $x=0;
 	            while($linha = $consulta->fetch(PDO::FETCH_ASSOC)){
-	            	$produtos[$x]=array('id_produto'=>$linha['id_produto'],'descricao'=>$linha['descricao'],'preco'=>$linha['preco']);
+					$produtos[$x]=array('id_produto'=>$linha['id_produto'],'descricao'=>$linha['descricao'],'preco'=>$linha['preco'], 'codigo'=> $linha['codigo']);
+					echo($linha['codigo']);
 	                $x++;
 	            }
 	            } catch (PDOExeption $e){
