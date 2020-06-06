@@ -3,12 +3,27 @@
     if (!isset($_SESSION["usuario"])) {
         header("Locatiion ../../index.php");
     }
-    require_once("../../config.php");
+
+    /*Buscando arquivo de configuração.. */
+    $config_path = "config.php";
+    if(file_exists($config_path)){
+        require_once($config_path);
+    }
+    else{
+        while(true){
+            $config_path = "../" . $config_path;
+            if(file_exists($config_path)) break;
+        }
+    require_once($config_path);
+    }
+
+
+    /*require_once("../../config.php");*/
     
     /*Executando Backup do Banco de Dados*/
-    exec("mysqldump -u ".DB_USER."  ".DB_NAME." -p".DB_PASSWORD." > ".BKP_DIR.date("Ymd").".bd.sql", $output[0]);
+    exec("mysqldump -u ".DB_USER."  ".DB_NAME." -p".DB_PASSWORD." > ".BKP_DIR.date("YmdHi").".bd.sql", $output[0]);
     /*Executando Backup do Diretório do site*/
-    exec("tar -cvzf ".BKP_DIR.date("Ymd").".site.tar.gz ".caminho);
+    exec("tar -cvzf ".BKP_DIR.date("YmdHi").".site.tar.gz ".caminho);
     
     /*
     echo("<pre>");
