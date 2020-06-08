@@ -29,7 +29,7 @@ include_once '../dao/ProdutoDAO.php';
 		$produto = $_SESSION['produto'];
 		$unidade = $_SESSION['unidade'];
 		$categoria = $_SESSION['categoria'];
-
+		$vars = $_SESSION;
 		unset($_SESSION['produto']);
 		unset($_SESSION['categoria']);
 		unset($_SESSION['unidade']);
@@ -78,10 +78,92 @@ include_once '../dao/ProdutoDAO.php';
 	<script src="../assets/vendor/magnific-popup/magnific-popup.js"></script>
 	<script src="../assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
 	<script type="text/javascript">
+	function editar_produto(){
+
+$("#produto").prop('disabled', false);
+$("#id_categoria").prop('disabled', false);
+$("#id_unidade").prop('disabled', false);
+$("#codigo").prop('disabled', false); 
+$("#valor").prop('disabled', false);
+
+$("#botaoEditarIP").html('Cancelar');
+$("#botaoSalvarIP").prop('disabled', false);
+$("#botaoEditarIP").removeAttr('onclick');
+$("#botaoEditarIP").attr('onclick', "return cancelar_produto()");
+
+}
+
+function cancelar_produto(){
+
+$("#produto").prop('disabled', true);
+$("#id_categoria").prop('disabled', true);
+$("#id_unidade").prop('disabled', true);
+$("#codigo").prop('disabled', true);     
+$("#valor").prop('disabled', true);
+
+$("#botaoEditarIP").html('Editar');
+$("#botaoSalvarIP").prop('disabled', true);
+$("#botaoEditarIP").removeAttr('onclick');
+$("#botaoEditarIP").attr('onclick', "return editar_produto()");
+
+}
 		$(function () {
 	      $("#header").load("header.php");
 	      $(".menuu").load("menu.html");
+
+		  var produtos = <?php echo $produto; ?>;
+var categoria = <?php echo $categoria; ?>;
+   var unidade = <?php echo $unidade; ?>;
+
+$("#produto").prop('disabled', true);
+$("#id_categoria").prop('disabled', true);
+$("#id_unidade").prop('disabled', true);
+$("#codigo").prop('disabled', true);     
+$("#valor").prop('disabled', true);
+$("#botaoEditarIP").html('Editar');
+$("#botaoSalvarIP").prop('disabled', true);
+
+   $.each(produtos, function(i,item){
+	   $("#nextPage")
+		   .val('../html/alterar_produto.php?id_produto='+item.id_produto);
+	   $('#id_produto')
+		   .val(item.id_produto)
+	$('#nome')
+		.text('Nome do Produto: ' + item.descricao)
+	$('#Categoria')
+		.text('Categoria: ' + item.descricao_categoria)
+	$('#Unidade')
+		.text('Unidade: ' + item.descricao_unidade)
+	$('#Codigo')
+		.text('Codigo: ' + item.codigo)
+	$('#Valor')
+		.text('Valor: ' + item.preco)
+	$('#produto')
+		.val(item.descricao)
+	$('#codigo')
+		.val(item.codigo)
+	$('#valor')
+		.val(item.preco)
+})
+
+
+$.each(categoria, function(i,item){
+	if(produtos[0].id_categoria_produto == item.id_categoria_produto){
+		$('#id_categoria').append('<option value="' + item.id_categoria_produto + '" selected>' + item.descricao_categoria + '</option>');	
+	}else{
+		$('#id_categoria').append('<option value="' + item.id_categoria_produto + '">' + item.descricao_categoria + '</option>');
+	}
+})
+
+$.each(unidade, function(i,item){
+	if(produtos[0].id_unidade == item.id_unidade){
+		$('#id_unidade').append('<option value="' + item.id_unidade + '" selected>' + item.descricao_unidade + '</option>');	
+	}else{
+		$('#id_unidade').append('<option value="' + item.id_unidade + '">' + item.descricao_unidade + '</option>');
+	}
+})
 	    });	
+
 	</script>
 
 </head>
