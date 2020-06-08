@@ -1,12 +1,21 @@
 <?php
-
-include_once "/var/www/html/WeGIA/dao/Conexao.php";
-include_once $caminho.'classes/Funcionario.php';
-include_once $caminho.'classes/Pessoa_epi.php';
-include_once $caminho.'dao/FuncionarioDAO.php';
-include_once $caminho.'dao/QuadroHorarioDAO.php';
-include_once $caminho.'dao/BeneficiadosDAO.php';
-include_once $caminho.'dao/Pessoa_epiDAO.php';
+$config_path = "config.php";
+if(file_exists($config_path)){
+    require_once($config_path);
+}else{
+    while(true){
+        $config_path = "../" . $config_path;
+        if(file_exists($config_path)) break;
+    }
+    require_once($config_path);
+}
+include_once ROOT."/dao/Conexao.php";
+include_once ROOT.'/classes/Funcionario.php';
+include_once ROOT.'/classes/Pessoa_epi.php';
+include_once ROOT.'/dao/FuncionarioDAO.php';
+include_once ROOT.'/dao/QuadroHorarioDAO.php';
+include_once ROOT.'/dao/BeneficiadosDAO.php';
+include_once ROOT.'/dao/Pessoa_epiDAO.php';
 
 
 class FuncionarioControle
@@ -411,11 +420,7 @@ class FuncionarioControle
         if ($nova_senha!=$confirmar_senha) {
             return 1;
         }else{
-              $usuario = "root";
-              $senha = "root";
-              $servidor = "localhost";
-              $bddnome = "wegia";
-              $mysqli = new mysqli($servidor,$usuario,$senha,$bddnome);
+              $mysqli = new mysqli(DB_HOST,DB_USER,DB_PASSWORD, DB_NAME);
               $senha = $mysqli->query("SELECT senha FROM pessoa where id_pessoa=".$id_pessoa);
               while($row = $senha->fetch_array(MYSQLI_NUM))
                 {
@@ -616,7 +621,7 @@ class FuncionarioControle
             $funcionarioDAO=new FuncionarioDAO();
             try {
                 $funcionarioDAO->alterarSenha($id_pessoa, $nova_senha);
-                 $conexao =  mysqli_connect("localhost","root","root","wegia");
+                 $conexao =  mysqli_connect(DB_HOST,DB_USER,DB_PASSWORD,DB_NAME);
                  $resultado = mysqli_query($conexao, "UPDATE pessoa set adm_configurado=1 where cpf='admin'");
                  $resultado = mysqli_query($conexao, "SELECT original from selecao_paragrafo where id_selecao = 1");
                  $registro = mysqli_fetch_array($resultado);

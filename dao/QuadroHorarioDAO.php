@@ -1,6 +1,16 @@
 <?php
-      require_once "/var/www/html/WeGIA/dao/Conexao.php";
-	require_once $caminho.'classes/Documento.php';
+$config_path = "config.php";
+if(file_exists($config_path)){
+    require_once($config_path);
+}else{
+    while(true){
+        $config_path = "../" . $config_path;
+        if(file_exists($config_path)) break;
+    }
+    require_once($config_path);
+}
+require_once ROOT."/dao/Conexao.php";
+require_once ROOT.'/classes/Documento.php';
 	class QuadroHorarioDAO
 	{
 		public function incluir($quadro_horario)

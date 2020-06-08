@@ -1,8 +1,17 @@
 <?php
-
-require_once '/var/www/html/WeGIA/dao/Conexao.php';
-require_once $caminho.'classes/Funcionario.php';
-require_once $caminho.'Functions/funcoes.php';
+$config_path = "config.php";
+if(file_exists($config_path)){
+    require_once($config_path);
+}else{
+    while(true){
+        $config_path = "../" . $config_path;
+        if(file_exists($config_path)) break;
+    }
+    require_once($config_path);
+}
+require_once ROOT."/dao/Conexao.php";
+require_once ROOT."/classes/Funcionario.php";
+require_once ROOT."/Functions/funcoes.php";
 
 class FuncionarioDAO
 {
