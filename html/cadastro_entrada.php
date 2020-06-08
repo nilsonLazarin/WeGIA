@@ -366,6 +366,22 @@
 	});
 	</script>
 	
+	<script>
+		$(function() {
+       $('form').submit(function(event){
+           return checkFocus(event);
+        });
+     });
+     
+     function checkFocus(event) {
+      if ($('#input_produtos').is(':focus')) {
+		 event.preventDefault();
+         return false;
+      }
+      return true;
+     }
+	</script>
+
 	<!-- Script para validar formulário -->
 	<script>
 		function validar(){
@@ -382,7 +398,7 @@
 				tipo.focus();
 				return false;
 			}
-			else if(verificar.value == 0){
+			else if(verificar.value == 0 && !$('#input_produtos').is(':focus')){
 				alert("Nenhum produto inserido");
 				document.getElementById("input_produtos").focus();
 				return false;

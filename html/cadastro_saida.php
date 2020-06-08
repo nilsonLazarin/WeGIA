@@ -417,6 +417,23 @@
 	
 	<!-- Theme Initialization Files -->
 	<script src="../assets/javascripts/theme.init.js"></script>
+
+	<script>
+		$(function() {
+       $('form').submit(function(event){
+           return checkFocus(event);
+        });
+     });
+     
+     function checkFocus(event) {
+      if ($('#input_produtos').is(':focus')) {
+		 event.preventDefault();
+         return false;
+      }
+      return true;
+     }
+	</script>
+
 	<script type="text/javascript">
 		$(document).ready(function(){
 			$("#almoxarifado").change(function(){

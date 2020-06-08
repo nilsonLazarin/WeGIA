@@ -59,7 +59,7 @@ class DestinoControle
         try {
             $destinoDAO=new DestinoDAO();
             $destinoDAO->excluir($id_destino);
-            header('Location:../html/listar_destino.php');
+            // header('Location:../html/listar_destino.php');
         } catch (PDOException $e) {
             echo "ERROR";
         }
