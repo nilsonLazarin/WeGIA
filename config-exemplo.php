@@ -7,12 +7,6 @@ define( 'DB_USER', 'WEGIAUSER' );
 define( 'DB_PASSWORD', 'YqPq01pDDk' );
 define( 'DB_HOST', 'localhost');
 define( 'DB_CHARSET', 'utf8');
-define( 'caminho', '/var/www/html/WeGIA/');
-define( 'caminho2', '/WeGIA/');
-define( 'BKP_DIR', '/var/www/bkpWeGIA/');
+define( 'ROOT',dirname(__FILE__));
+define( 'BKP_DIR', '/path/to/backup/folder/');
 
-/*
-* NILSON COMENTOU.... para padronizacao...
-*$caminho = '/var/www/html/WeGIA/';
-*$caminho2 = '/WeGIA/';
-*/
