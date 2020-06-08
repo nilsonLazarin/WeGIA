@@ -249,11 +249,11 @@
 		$(function() {
 
 			var almoxarifado = <?php 
-				echo $this->almoxarifado;
+				echo $almoxarifado;
 			?>;
 				
 			var tipo_entrada = <?php 
-				echo $this->tipo_entrada; 
+				echo $tipo_entrada; 
 			?>;
 			
 			var produtos_autocomplete = <?php
