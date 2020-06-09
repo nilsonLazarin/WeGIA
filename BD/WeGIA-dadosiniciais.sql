@@ -30,7 +30,7 @@ INSERT INTO `socio_status` (`id_sociostatus`, `status`) VALUES
 (2, 'Inadimplente'),
 (3, 'Inativo Temporariamente');
 
-INSERT INTO `status_memorando` (`status_atual`) VALUES ('Ativo'), ('Lido'), ('Não Lido'), ('Importante'), ('Pendente');
+INSERT INTO `status_memorando` (`status_atual`) VALUES ('Ativo'), ('Lido'), ('Não Lido'), ('Importante'), ('Pendente'), ('Arquivado');
 
 INSERT INTO `unidade` (`descricao_unidade`) VALUES ('Quilo'), ('Litro'), ('Metro'), ('Pacote'), ('Unidade');
 
