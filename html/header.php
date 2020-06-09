@@ -1,9 +1,21 @@
 <?php
 
+	$config_path = "config.php";
+	if(file_exists($config_path)){
+    require_once($config_path);
+	}else{
+    while(true){
+        $config_path = "../" . $config_path;
+        if(file_exists($config_path)) break;
+    }
+    require_once($config_path);
+    
 	require_once "../dao/Conexao.php";
 
 	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
 	require_once "personalizacao_display.php";
+}
+
 ?>
 
 <header class="header">

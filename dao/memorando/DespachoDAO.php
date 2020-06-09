@@ -11,10 +11,10 @@ if(file_exists($config_path)){
     require_once($config_path);
 }
 
-require_once caminho."dao/Conexao.php";
-require_once caminho."classes/memorando/Despacho.php";
-require_once caminho."Functions/funcoes.php";
-require_once caminho."dao/memorando/MemorandoDAO.php";
+require_once ROOT."/dao/Conexao.php";
+require_once ROOT."/classes/memorando/Despacho.php";
+require_once ROOT."/Functions/funcoes.php";
+require_once ROOT."/dao/memorando/MemorandoDAO.php";
 
 class DespachoDAO
 {
