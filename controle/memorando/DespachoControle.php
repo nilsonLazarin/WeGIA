@@ -11,11 +11,11 @@ if(file_exists($config_path)){
     require_once($config_path);
 }
 
-require_once caminho."dao/Conexao.php";
-require_once caminho."classes/memorando/Despacho.php";
-require_once caminho."dao/memorando/DespachoDAO.php";
-require_once caminho."dao/memorando/MemorandoDAO.php";
-require_once caminho."controle/memorando/MemorandoControle.php";
+require_once ROOT."/dao/Conexao.php";
+require_once ROOT."/classes/memorando/Despacho.php";
+require_once ROOT."/dao/memorando/DespachoDAO.php";
+require_once ROOT."/dao/memorando/MemorandoDAO.php";
+require_once ROOT."/controle/memorando/MemorandoControle.php";
 
 class DespachoControle
 {
@@ -54,11 +54,11 @@ class DespachoControle
 			$anexo2 = $_FILES["anexo"]["tmp_name"][0];
     		if(isset($anexo2) && !empty($anexo2))
     		{
-				require_once caminho."controle/memorando/AnexoControle.php";
+				require_once ROOT."/controle/memorando/AnexoControle.php";
     			$arquivo = new AnexoControle();
     			$arquivo->incluir($anexoss, $lastId);
     		}
-			header("Location: ".caminho2."html/memorando/listar_despachos.php?id_memorando=".$id_memorando);
+			header("Location: ".ROOT2."html/memorando/listar_despachos.php?id_memorando=".$id_memorando);
 		}
 		catch(PDOException $e)
 		{

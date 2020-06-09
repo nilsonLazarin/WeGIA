@@ -11,9 +11,9 @@ if(file_exists($config_path)){
     require_once($config_path);
 }
 
-require_once caminho."classes/memorando/Anexo.php";
-require_once caminho."dao/Conexao.php";
-require_once caminho."Functions/funcoes.php";
+require_once ROOT."/classes/memorando/Anexo.php";
+require_once ROOT."/dao/Conexao.php";
+require_once ROOT."/Functions/funcoes.php";
 
 class AnexoDAO
 {
@@ -27,7 +27,7 @@ class AnexoDAO
 
 			while($linha = $consulta->fetch(PDO::FETCH_ASSOC))
 			{
-				$link = "data:image/".$linha['extesao'].";base64,".$linha['anexo'];
+				$link = "data:image/".$linha['extensao'].";base64,".$linha['anexo'];
 				$Anexos[$x] = array('anexo'=>$link, 'extensao'=>$linha['extensao'], 'nome'=>$linha['nome']);
 				$x++;
 			}

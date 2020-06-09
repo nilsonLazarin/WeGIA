@@ -343,7 +343,7 @@ class FuncionarioDAO
         try{
             $funcionarios=array();
             $pdo = Conexao::connect();
-            $consulta = $pdo->query("SELECT f.id_pessoa, p.nome FROM funcionario f INNER JOIN pessoa p ON f.id_pessoa = p.id_pessoa");
+            $consulta = $pdo->query("SELECT p.id_pessoa, p.nome FROM funcionario f INNER JOIN pessoa p ON f.id_pessoa = p.id_pessoa");
             $produtos = Array();
             $x=0;
             while($linha = $consulta->fetch(PDO::FETCH_ASSOC)){

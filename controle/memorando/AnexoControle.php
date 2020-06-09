@@ -11,8 +11,8 @@ if(file_exists($config_path)){
     require_once($config_path);
 }
 
-require_once caminho."classes/memorando/Anexo.php";
-require_once caminho."dao/memorando/AnexoDAO.php";
+require_once ROOT."/classes/memorando/Anexo.php";
+require_once ROOT."/dao/memorando/AnexoDAO.php";
 
 class AnexoControle
 {
@@ -22,8 +22,9 @@ class AnexoControle
 		extract($_REQUEST);
 		$AnexoDAO = new AnexoDAO();
 		$anexos = $AnexoDAO->listarTodos($id_despacho);
-		$_SESSION['anexo'] = $anexos;
-		//header("Location: /WeGIA/html/memorando/listar_despachos.php?id_memorando=".$_GET['id_memorando']);
+		session_start();
+		$_SESSION['arquivos'] = $anexos;
+		header("Location: /WeGIA/html/memorando/listar_despachos.php?id_memorando=".$_GET['id_memorando']);
 	}
 
 	public function incluir($anexo, $lastId)
