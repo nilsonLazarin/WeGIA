@@ -26,11 +26,5 @@
     /*Executando Backup do Diretório do site*/
     exec("tar -cvzf ".BKP_DIR.date("YmdHi").".site.tar.gz ".ROOT);
     
-    /*
-    echo("<pre>");
-    var_dump($output);
-    echo("Iniciando Backup");
-    header("Location: backup_wegia.php");
-    */
     header("Location: ../atualizacao_sistema.php?msg=success");
 ?>
