@@ -124,8 +124,8 @@
                         <button id="btn1" class="btn btn-primary" onClick="setLoader(this)"><a href="geral/backup.php"><i class="fa fa-floppy-o" aria-hidden="true"></i></a></button>
                     </div>
                     <div class="space-between">
-                        <div>Atualizar site:</div>
-                        <button id="btn2" class="btn btn-primary" onClick="setLoader(this)"><a href="#"><i class="fa fa-upload" aria-hidden="true"></i></a></button>
+                        <div>Atualizar sistema:</div>
+                        <button id="btn2" class="btn btn-primary" onClick="setLoader(this)"><a href="geral/atualizacao.php"><i class="fa fa-upload" aria-hidden="true"></i></a></button>
                     </div>
                 </div>
 				<!--end: page-->

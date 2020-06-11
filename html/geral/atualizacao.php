@@ -22,7 +22,7 @@
     define("TMP_PAGE_BKP", BKP_DIR.date("YmdHi").".site.tar.gz"); //Caminho para arquivo de backup temporário da página
 
     function createBdBackup() {
-        exec("mysqldump -u ".DB_USER."  ".DB_NAME." -p".DB_PASSWORD." > ".TMP_BD_BKP);
+        exec("mysqldump -u ".DB_USER."  ".DB_NAME." -p".DB_PASSWORD." --no-create-info > ".TMP_BD_BKP);
     }
 
     function createPageBackup() {
@@ -35,8 +35,9 @@
     }
 
     function gitPull() {
-        $x = exec("cd ".ROOT." && git fetch --all && git reset --hard origin/master && git pull https://github.com/nilsonmori/WeGIA.git master", $y);
-        return $x;
+        //$x = exec("cd ".ROOT." && git fetch --all && git reset --hard origin/master && git pull https://github.com/nilsonmori/WeGIA.git master", $y);
+        exec("git -C ".ROOT." pull", $output);
+        return $output;
     }
 
     tempBackup();

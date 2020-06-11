@@ -21,7 +21,7 @@
     /*require_once("../../config.php");*/
     
     /*Executando Backup do Banco de Dados*/
-    exec("mysqldump -u ".DB_USER."  ".DB_NAME." -p".DB_PASSWORD." > ".BKP_DIR.date("YmdHi").".bd.sql", $output[0]);
+    exec("mysqldump -u ".DB_USER."  ".DB_NAME." -p".DB_PASSWORD." --no-create-info > ".BKP_DIR.date("YmdHi").".bd.sql", $output[0]);
 
     /*Executando Backup do Diretório do site*/
     exec("tar -cvzf ".BKP_DIR.date("YmdHi").".site.tar.gz ".ROOT);
