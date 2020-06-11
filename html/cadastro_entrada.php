@@ -183,14 +183,14 @@
 													</tr>
 													<tr>
 														<td>
-															<input type="search" list="produtos_autocomplete" id="input_produtos" name="produtos_autocomplete" autocomplete="off" size="20" class="form-control">
-															<datalist id="produtos_autocomplete">
-															</datalist>
+															<input type="text" id="input_produtos" name="produtos_autocomplete" autocomplete="on" size="20" class="form-control">
+															<!-- <datalist id="produtos_autocomplete">
+															</datalist> -->
 														</td>
 														<td><input type="number" name="quantidade" style="width: 74px;" value="1" min="1" id="quantidade"></td>
 														<td><input id="valor_unitario" type="number" name="quantidade" style="width: 74px;" step="any" value="0" min="0"></td>
 														<td >	
-															<button id="add-row incluir" type="button" class="add-row" >incluir</button>
+															<button id="incluir" type="button" class="add-row" >incluir</button>
 														</td>
 													</tr>
 												</thead>
@@ -271,19 +271,34 @@
 			$.each(tipo_entrada,function(i,item){
 				$('#tipo_entrada').append('<option value="' + item.id_tipo + '">' + item.descricao + '</option>');
 			})
-
+			var prods = [];
 			$.each(produtos_autocomplete,function(i,item){
-				console.log(item);
-				$('#produtos_autocomplete').append('<option value="' + item.id_produto + '-' + item.descricao + '-' + item.codigo + '">');
+				// $('#produtos_autocomplete').append('<option value="' + item.id_produto + '-' + item.descricao + '-' + item.codigo + '">');
+				prods[i] = item.id_produto + '-' + item.descricao + '-' + item.codigo
 			})
+
+			$("#input_produtos" ).autocomplete({
+				source: prods,
+				response: function(event,ui) {
+				if (ui.content.length == 1)
+				{
+					ui.item = ui.content[0];
+					console.log(ui.item);
+					$(this).val(ui.item.value)
+					$(this).data('ui-autocomplete')._trigger('select', 'autocompleteselect', ui);
+				}
+			}
+  			});
 
 			$.each(origem,function(i,item){
 				$('#origens').append('<option value="' + item.id_origem + '-' + item.nome_origem + '">');
 			})
 
-			$('#input_produtos').on('input',function(){
+			$('#input_produtos').on('change',function(){
 				var teste=this.value.split('-');
+				console.log(teste);
 				$.each(produtos_autocomplete,function(i,item){
+					console.log(item);
 					if(teste[0]==item.id_produto && teste[1]==item.descricao)
 					{
 						$("#valor_unitario").val(item.preco);
@@ -299,7 +314,7 @@
 			$(".add-row").click(function(){
 				var val=$("#input_produtos").val();
 
-				var obj=$("#produtos_autocomplete").find("option[value='"+val+"']");
+				var obj=prods.find(prod => prod === val);
 
 				var produto = $("#input_produtos").val();
 
@@ -417,6 +432,7 @@
 	<script src="../assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
 	<script src="../assets/vendor/magnific-popup/magnific-popup.js"></script>
 	<script src="../assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
+	<script src="../assets/script/logistica.js"></script>
 
 </body>
 </html>

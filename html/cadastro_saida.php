@@ -342,7 +342,7 @@
 														<td><input type="number" name="quantidade" style="width: 74px;" value="1" min="1" id="quantidade"></td>
 														<td id="valor_unitario"></td>
 														<td >	
-															<button id="add-row incluir" type="button" class="add-row" >incluir</button>
+															<button id="incluir" type="button" class="add-row" >incluir</button>
 														</td>
 													</tr>
 												</thead>
@@ -463,5 +463,6 @@
 		});
 		
 	</script>
+	<script src="../assets/script/logistica.js"></script>
 </body>
 </html>
