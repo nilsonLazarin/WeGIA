@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    var input_produtos = document.getElementById('input_produtos');
     // Selecionar o conteúdo da quantidade ao ter foco
     $("#quantidade").focus(function(){
         $(this).select();
@@ -15,17 +16,20 @@ $(document).ready(function(){
                 //     $("input_produtos").focus();
                 //     $("input_produtos").select();
                 // } 
-                if(next[0].id == "quantidade"){
+                if($("#input_produtos").is(":focus")){
+                    console.log("foco");
                     $("#input_produtos").on('keydown', function(e){
-                        if(e.key === "Enter"){
-                            setTimeout(function(){
-                                $("#quantidade").focus();
-                            }, 50);
-                        }
+                        // if(e.key === "Enter"){
+                        //     setTimeout(function(){
+                        //         $("#quantidade").focus();
+                        //     },100)
+                        // }
                     });
                 }else{
-                    next.focus();
-                    next.select();
+                    setTimeout(function(){
+                        next.focus();
+                        next.select();
+                    },100)
                 } 
             } else {
                 // caso seja o último input, enter envia o form
