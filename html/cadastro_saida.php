@@ -79,7 +79,7 @@
 
 	<script type="text/javascript">
 		$(function() {
-
+			prods = [];
 			var almoxarifado = <?php 
 				echo $almoxarifado;
 			?>;
@@ -111,13 +111,13 @@
 			$.each(destino,function(i,item){
 				$('#origens').append('<option value="' + item.id_destino + '-' + item.nome_destino + '">');
 			})
-
-			$('#input_produtos').on('input',function(){
+			
+			$('#input_produtos').on('change',function(){
 				var teste=this.value.split('-');
 				$.each(produtos_autocomplete,function(i,item){
 					if(teste[0]==item.id_produto && teste[1]==item.descricao)
 					{
-						$("#valor_unitario").text(item.preco);
+						$("#valor_unitario").val(item.preco);
 						$("#quantidade").focus();
 					}
 				})
@@ -129,39 +129,40 @@
 			var verificar = 0;
 			$(".add-row").click(function(){
 				var produto = $("#input_produtos").val();
-
+				var val=$("#input_produtos").val();
+				var obj=prods.find(prod => prod === val);
+				// console.log(prods);
+				// console.log(prods.find(prod => prod === val),val);
+				// console.log(obj);
 				produto = produto.split("-");
-				if(Number(produto[2]) >= Number($("#quantidade").val())){
-					var val=$("#input_produtos").val();
-
-				var obj=$("#produtos_autocomplete").find("option[value='"+val+"']");
-
-
  				if(obj !=null && obj.length>0){
-
- 					$.each(produtos_autocomplete,function(i,item){
-					if(produto[0]==item.id_produto && produto[1]==item.descricao)
-					{
-						var quantidade = $("#quantidade").val();
-						var preco = parseFloat(item.preco);
-						
-						conta = conta + 1;
-
-						$("#conta").val(conta);
-
-						var markup = "<tr class='produtoRow'><td class='prod' style='width: 160px;'><input type='text' value='"+val+"' name='id"+conta+"' readonly='readonly'></td><td class='quant'><input type='text' class='number'  id='qtd' maxlength='2' size='2' class='form-control' min='1' value='"+quantidade+"' name='qtd"+conta+"' readonly='readonly'></td><td><input type='text' class='preco' value='"+preco+"' name='valor_unitario"+conta+"'  size='2' readonly='readonly'></td><th><input type='text' size='3' id='total' class='total' value='"+quantidade*preco+"' readonly='readonly'></th><td><button type='button' class='delete-row'>remover</button></td></tr>";
-							$("table tbody ").append(markup);
-							$("#valor_unitario").empty();
-							$("#input_produtos").val("");
-							var x=$("#total_total").val();
-							x=Number(x);
-							x += (quantidade*preco);
+					if(Number(produto[2]) >= Number($("#quantidade").val())){
+						$.each(produtos_autocomplete,function(i,item){
+						if(produto[0]==item.id_produto && produto[1]==item.descricao)
+						{
+							var quantidade = $("#quantidade").val();
+							var preco = parseFloat(item.preco);
 							
-							$("#total_total").val(x);
-							verificar++;
-							$("#verifica").val(verificar);				
-						}
-					})
+							conta = conta + 1;
+
+							$("#conta").val(conta);
+
+							var markup = "<tr class='produtoRow'><td class='prod' style='width: 160px;'><input type='text' value='"+val+"' name='id"+conta+"' readonly='readonly'></td><td class='quant'><input type='text' class='number'  id='qtd' maxlength='2' size='2' class='form-control' min='1' value='"+quantidade+"' name='qtd"+conta+"' readonly='readonly'></td><td><input type='text' class='preco' value='"+preco+"' name='valor_unitario"+conta+"'  size='2' readonly='readonly'></td><th><input type='text' size='3' id='total' class='total' value='"+quantidade*preco+"' readonly='readonly'></th><td><button type='button' class='delete-row'>remover</button></td></tr>";
+								$("table tbody ").append(markup);
+								$("#valor_unitario").empty();
+								$("#input_produtos").val("");
+								var x=$("#total_total").val();
+								x=Number(x);
+								x += (quantidade*preco);
+								
+								$("#total_total").val(x);
+								verificar++;
+								$("#verifica").val(verificar);				
+							}
+						})
+					}else{
+						alert("Não há estoque suficiente de " + produto[1] + " para saída. Tente uma quantidade menor." + produto[2] + " < " + $("#quantidade").val());
+					}
 				}else{
     		 		alert("Produto inválido!");
 	    		 	$("#input_produtos").val("");
@@ -170,9 +171,6 @@
 	    		 	verificar--;
 	    		 	$("#verifica").val(verificar);
     			}
-				}else{
-					alert("Não há estoque suficiente de " + produto[1] + " para saída. Tente uma quantidade menor." + produto[2] + " < " + $("#quantidade").val());
-				}
 			});
 
 			//remover tabela
@@ -335,12 +333,12 @@
 													</tr>
 													<tr>
 														<td>
-															<input type="search" list="produtos_autocomplete" id="input_produtos" name="produtos_autocomplete" autocomplete="off" size="20" class="form-control">
-															<datalist id="produtos_autocomplete">
-															</datalist>
+															<input type="text" id="input_produtos" name="produtos_autocomplete" autocomplete="on" size="20" class="form-control">
+															<!-- <datalist id="produtos_autocomplete">
+															</datalist> -->
 														</td>
 														<td><input type="number" name="quantidade" style="width: 74px;" value="1" min="1" id="quantidade"></td>
-														<td id="valor_unitario"></td>
+														<td><input id="valor_unitario" type="number" name="quantidade" style="width: 74px;" step="any" value="0" min="0"></td>
 														<td >	
 															<button id="incluir" type="button" class="add-row" >incluir</button>
 														</td>
@@ -439,7 +437,7 @@
 			$("#almoxarifado").change(function(){
 			var almox = $(this).val();
 			$.ajax({
-				async: true,
+				async: false,
 				url: "../controle/getProdutosPorAlmox.php",
 				data: {
 					"almox": almox
@@ -447,13 +445,28 @@
 				type: "GET",
 				success: function(respostaProds){
 					var produtos = JSON.parse(respostaProds);
-					console.log(produtos);
+					prods = [];
+					// console.log(produtos);
 					$("#produtos_autocomplete").children().remove();
-					for(produto of produtos){
-						$("#produtos_autocomplete").append(
-							$("<option/>").val(produto.id_produto + '-' + produto.descricao+ '-' + produto.qtd).attr("qtd", produto.qtd)
-						);
+					for(let [i, produto] of produtos.entries()){
+						// $("#produtos_autocomplete").append(
+						// 	$("<option/>").val(produto.id_produto + '-' + produto.descricao+ '-' + produto.qtd+ '-' + produto.codigo).attr("qtd", produto.qtd)
+						// );
+						console.log(i, produto);
+						prods[i] = produto.id_produto + '-' + produto.descricao+ '-' + produto.qtd+ '-' + produto.codigo;
 					}
+					$("#input_produtos" ).autocomplete({
+						source: prods,
+						response: function(event,ui) {
+						if (ui.content.length == 1)
+						{
+							ui.item = ui.content[0];
+							console.log(ui.item);
+							$(this).val(ui.item.value)
+							$(this).data('ui-autocomplete')._trigger('select', 'autocompleteselect', ui);
+						}
+					}
+  					});
 				},
 				error: function(e){
 					alert(e);
