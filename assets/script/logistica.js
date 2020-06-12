@@ -12,14 +12,21 @@ $(document).ready(function(){
             if (next.length) {
                 // dando foco e selecionando o próximo input ao teclar enter
                 // if(next[0].id == "incluir"){
-                //     console.log("aaa");
                 //     $("input_produtos").focus();
                 //     $("input_produtos").select();
                 // } 
-                setTimeout(function(){
+                if(next[0].id == "quantidade"){
+                    $("#input_produtos").on('keydown', function(e){
+                        if(e.key === "Enter"){
+                            setTimeout(function(){
+                                $("#quantidade").focus();
+                            }, 50);
+                        }
+                    });
+                }else{
                     next.focus();
                     next.select();
-                }, 100)
+                } 
             } else {
                 // caso seja o último input, enter envia o form
                 form.submit();

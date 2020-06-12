@@ -274,7 +274,7 @@
 			var prods = [];
 			$.each(produtos_autocomplete,function(i,item){
 				// $('#produtos_autocomplete').append('<option value="' + item.id_produto + '-' + item.descricao + '-' + item.codigo + '">');
-				prods[i] = item.id_produto + '-' + item.descricao + '-' + item.codigo
+				prods[i] = item.id_produto + '|' + item.descricao + '|' + item.codigo;
 			})
 
 			$("#input_produtos" ).autocomplete({
@@ -295,7 +295,7 @@
 			})
 
 			$('#input_produtos').on('change',function(){
-				var teste=this.value.split('-');
+				var teste=this.value.split('|');
 				console.log(teste);
 				$.each(produtos_autocomplete,function(i,item){
 					console.log(item);
@@ -318,7 +318,7 @@
 
 				var produto = $("#input_produtos").val();
 
-				produto = produto.split("-");
+				produto = produto.split("|");
 
  				if(obj !=null && obj.length>0){
 
