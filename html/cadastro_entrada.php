@@ -283,7 +283,6 @@
 				if (ui.content.length == 1)
 				{
 					ui.item = ui.content[0];
-					console.log(ui.item);
 					$(this).val(ui.item.value)
 					$(this).data('ui-autocomplete')._trigger('select', 'autocompleteselect', ui);
 				}
@@ -296,9 +295,7 @@
 
 			$('#input_produtos').on('change',function(){
 				var teste=this.value.split('|');
-				console.log(teste);
 				$.each(produtos_autocomplete,function(i,item){
-					console.log(item);
 					if(teste[0]==item.id_produto && teste[1]==item.descricao)
 					{
 						$("#valor_unitario").val(item.preco);
