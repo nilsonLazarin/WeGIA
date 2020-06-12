@@ -141,7 +141,7 @@
 						if(produto[0]==item.id_produto && produto[1]==item.descricao)
 						{
 							var quantidade = $("#quantidade").val();
-							var preco = parseFloat(item.preco);
+							var preco = parseFloat($("#valor_unitario").val());
 							
 							conta = conta + 1;
 
