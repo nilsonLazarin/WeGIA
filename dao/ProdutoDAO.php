@@ -141,7 +141,6 @@ class ProdutoDAO
 	            $x=0;
 	            while($linha = $consulta->fetch(PDO::FETCH_ASSOC)){
 					$produtos[$x]=array('id_produto'=>$linha['id_produto'],'descricao'=>$linha['descricao'],'preco'=>$linha['preco'], 'codigo'=> $linha['codigo']);
-					echo($linha['codigo']);
 	                $x++;
 	            }
 	            } catch (PDOExeption $e){
