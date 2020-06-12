@@ -18,7 +18,9 @@ class ProdutoDAO
 	            $id_unidade=$produto->get_unidade()->getId_unidade();
 	            $descricao=$produto->getDescricao();
 	            $codigo=$produto->getCodigo();
-	            $preco=$produto->getPreco();
+				$preco=$produto->getPreco();
+				
+				$descricao = preg_replace('/( )+/', ' ', trim($descricao));
 
 	            $stmt->bindParam(':id_categoria_produto',$id_categoria_produto);
 	            $stmt->bindParam(':id_unidade',$id_unidade);	            

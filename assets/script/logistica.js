@@ -16,8 +16,10 @@ $(document).ready(function(){
                 //     $("input_produtos").focus();
                 //     $("input_produtos").select();
                 // } 
-                next.focus();
-                next.select();
+                setTimeout(function(){
+                    next.focus();
+                    next.select();
+                }, 100)
             } else {
                 // caso seja o último input, enter envia o form
                 form.submit();
