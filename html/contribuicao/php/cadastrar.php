@@ -24,5 +24,8 @@ include("conexao.php");
     $sistema = $_POST['sistema'];
 
     mysql_query("CALL cadDoador ('$nome', '$sobrenome', '$doc','$tel', '$dataN', '$cep', '$uf', '$cidade', '$bairro','$rua', '$numero', '$compl')");
+
+
+    echo $sistema;
        
 ?>

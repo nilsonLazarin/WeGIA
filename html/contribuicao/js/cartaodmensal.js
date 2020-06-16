@@ -1,7 +1,7 @@
 function cartaodmensal(){
-	$.post("./php/links_mensal.php").done(function(data)
+	$.post("./php/cartaomensal.php").done(function(data)
 		{
-			
+			console.log("oi no cartaodmensal");
 			var dados = data.split(",");
 			var trinta = dados[0];
 			var quarenta = dados[1];
