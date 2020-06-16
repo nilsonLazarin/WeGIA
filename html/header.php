@@ -1,26 +1,26 @@
 <?php
 
-	$config_path = "config.php";
-	if(file_exists($config_path)){
-    require_once($config_path);
-	}else{
-    while(true){
-        $config_path = "../" . $config_path;
-        if(file_exists($config_path)) break;
-    }
-    require_once($config_path);
+$config_path = "config.php";
+if(file_exists($config_path)){
+require_once($config_path);
+}else{
+while(true){
+$config_path = "../" . $config_path;
+if(file_exists($config_path)) break;
+}
+require_once($config_path);
     
-	require_once "../dao/Conexao.php";
+require_once ROOT."/dao/Conexao.php";
 
-	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
-	require_once "personalizacao_display.php";
+// Adiciona a Função display_campo($nome_campo, $tipo_campo)
+require_once ROOT."/html/personalizacao_display.php";
 }
 
 ?>
 
 <header class="header">
 	<div class="logo-container">
-		<a href="home.php" class="logo">
+		<a href="<?php echo WWW;?>html/home.php" class="logo">
 			<img src="<?php display_campo("Logo",'file');?>" height="35" alt="Porto Admin" />
 		</a>
 		<div class="visible-xs toggle-sidebar-left" data-toggle-class="sidebar-left-opened" data-target="html" data-fire-event="sidebar-left-opened">
@@ -34,7 +34,7 @@
 		<div id="userbox" class="userbox">
 			<a href="#" data-toggle="dropdown">
 				<figure class="profile-picture">
-					<img src="../img/semfoto.jpg" alt="Joseph Doe" class="img-circle" data-lock-picture="../assets/images/!logged-user.jpg" />
+					<img src="<?php echo WWW;?>img/semfoto.jpg" alt="Joseph Doe" class="img-circle" data-lock-picture="<?php echo WWW;?>assets/images/!logged-user.jpg" />
 				</figure>
 				<div class="profile-info" data-lock-name="John Doe" data-lock-email="johndoe@okler.com">
 					<span class="name">Usuário</span>
@@ -47,10 +47,10 @@
 				<ul class="list-unstyled">
 					<li class="divider"></li>
 					<li>
-						<a role="menuitem" tabindex="-1" href="./alterar_senha.php"><i class="glyphicon glyphicon-lock"></i> Alterar senha</a>
+						<a role="menuitem" tabindex="-1" href="<?php echo WWW;?>html/alterar_senha.php"><i class="glyphicon glyphicon-lock"></i> Alterar senha</a>
 					</li>
 					<li>
-						<a role="menuitem" tabindex="-1" href="./logout.php"><i class="fa fa-power-off"></i> Sair da sessão</a>
+						<a role="menuitem" tabindex="-1" href="<?php echo WWW;?>html/logout.php"><i class="fa fa-power-off"></i> Sair da sessão</a>
 					</li>
 				</ul>
 			</div>
