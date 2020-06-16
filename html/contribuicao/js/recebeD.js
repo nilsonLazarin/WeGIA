@@ -2,6 +2,8 @@ function recebe_dados()
 {
   console.log("oi no recebeD");
   
+  var id_sociotipo = tipo_socio();
+ 
   var horadata = new Date();
   var horaAtual = horadata.getHours();
   var minutoAtual = horadata.getMinutes();
@@ -18,7 +20,8 @@ function recebe_dados()
   var uf = $("#uf").val();
   var num = $("#numero").val();
   var comp = $("#complemento").val(); 
-  var sistema = $("#forma2").val();
+  var sistema = 5;
+  var status = 0;
     
 
     if($("#op_cpf").prop('checked'))
@@ -32,7 +35,7 @@ function recebe_dados()
       var doc = $("#dcpf").val();
       var dataN = dia.concat("/",mes,"/",ano);
 
-      $.post("./php/cadastrar.php", {'tipo':fisjur, 'nome':nome, 'sobrenome': sobrenome, 'telefone':telefone, 'cep':cep, 'log':log, 'comp':comp, 'bairro':bairro, 'cidade':cidade, 'uf':uf, 'numero': num, 'doc':doc,'datanascimento':dataN, 'hora':hora, 'sistema':sistema, 'contato':email}).done(function(data){console.log(data)});
+      $.post("./php/cadastrar.php", {'tipo':fisjur, 'nome':nome, 'sobrenome': sobrenome, 'telefone':telefone, 'cep':cep, 'log':log, 'comp':comp, 'bairro':bairro, 'cidade':cidade, 'uf':uf, 'numero': num, 'doc':doc,'datanascimento':dataN, 'hora':hora, 'sistema':sistema, 'contato':email, 'id_sociotipo': id_sociotipo, 'status': status}).done(function(data){console.log(data)});
 
       //gera_boleto();
     }
@@ -44,7 +47,7 @@ function recebe_dados()
       doc = $("#dcnpj").val();
       dataN = "00/00/0000"
 
-      $.post("./php/cadastrar.php", {'tipo':fisjur, 'nome':nome, 'sobrenome':sobrenome, 'telefone':telefone, 'cep':cep, 'log':log, 'comp':comp, 'bairro':bairro, 'cidade':cidade, 'uf':uf, 'numero': num, 'doc':doc,'datanascimento':dataN, 'hora':hora, 'sistema':sistema, 'contato':email}).done(function(data){console.log(data);});
+      $.post("./php/cadastrar.php", {'tipo':fisjur, 'nome':nome, 'sobrenome':sobrenome, 'telefone':telefone, 'cep':cep, 'log':log, 'comp':comp, 'bairro':bairro, 'cidade':cidade, 'uf':uf, 'numero': num, 'doc':doc,'datanascimento':dataN, 'hora':hora, 'sistema':sistema, 'contato':email, 'id_sociotipo': id_sociotipo, 'status': status}).done(function(data){console.log(data);});
 
       //gera_boleto();
     }
