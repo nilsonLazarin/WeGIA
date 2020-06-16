@@ -1250,16 +1250,28 @@ CREATE PROCEDURE `caddoador`(
     IN `bairro` VARCHAR(40), 
     IN `logradouro` VARCHAR(40), 
     IN `numero_endereco` VARCHAR(11), 
-    IN `complemento` VARCHAR(50)
+    IN `complemento` VARCHAR(50),
+    IN `id_sociostatus` INT(11),
+    IN `id_sociotipo` INT(11),
+    IN `email` VARCHAR(256),
+    IN `ip` VARCHAR(256),
+    IN `data` DATE,
+    IN `hora` TIME,
+    IN `id_sistema` INT(11)
 )
 begin
 
-declare idP int;
+insert ignore into pessoa(nome,sobrenome,cpf,telefone,data_nascimento,cep,estado,cidade, bairro, logradouro, numero_endereco,
+complemento)
+values(nome, sobrenome, cpf, telefone,data_nascimento,cep,estado,cidade,bairro,logradouro,numero_endereco,complemento);
 
-insert into pessoa(nome, sobrenome, cpf, sexo, telefone, data_nascimento, cep, estado, cidade, bairro, logradouro, numero_endereco, complemento)
-values(nome, sobrenome, cpf, sexo, telefone, data_nascimento, cep, estado, cidade, bairro, logradouro, numero_endereco, complemento);
-select max(id_pessoa) into idP FROM pessoa;
-end$$
+insert ignore into socio(id_pessoa, id_sociostatus, id_sociotipo, email)
+values ((SELECT id_pessoa FROM pessoa WHERE cpf.pessoa= cpf), id_sociostatus, id_sociotipo, email);
+
+insert into log_contribuicao(id_socio, ip, data, hora, id_sistema)
+values((SELECT id_socio FROM socio WHERE cpf.pessoa= cpf), ip, data, hora, id_sistema);
+
+END$$
 
 DELIMITER ;
 

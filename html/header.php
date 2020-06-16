@@ -12,6 +12,18 @@ require_once($config_path);
     
 require_once ROOT."/dao/Conexao.php";
 
+	$config_path = "config.php";
+	if(file_exists($config_path)){
+    require_once($config_path);
+	}else{
+    while(true){
+        $config_path = "../" . $config_path;
+        if(file_exists($config_path)) break;
+    }
+    require_once($config_path);
+    session_start();
+	require_once "../dao/Conexao.php";
+
 // Adiciona a Função display_campo($nome_campo, $tipo_campo)
 require_once ROOT."/html/personalizacao_display.php";
 }
@@ -37,7 +49,7 @@ require_once ROOT."/html/personalizacao_display.php";
 					<img src="<?php echo WWW;?>img/semfoto.jpg" alt="Joseph Doe" class="img-circle" data-lock-picture="<?php echo WWW;?>assets/images/!logged-user.jpg" />
 				</figure>
 				<div class="profile-info" data-lock-name="John Doe" data-lock-email="johndoe@okler.com">
-					<span class="name">Usuário</span>
+					<span class="name"><?php echo($_SESSION['usuario']); ?></span>
 					<span class="role">Funcionário</span>
 				</div>
 				<i class="fa custom-caret"></i>
