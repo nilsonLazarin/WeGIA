@@ -18,7 +18,7 @@ if(file_exists($config_path)){
 session_start();
 
 if(!isset($_SESSION['usuario'])){
-	header ("Location: ".ROOT2."index.php");
+	header ("Location: ".WWW."index.php");
 }
 
 require_once ROOT."/controle/memorando/DespachoControle.php";
@@ -54,55 +54,55 @@ require_once ROOT."/html/personalizacao_display.php";
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">
     <!-- Vendor CSS -->
-    <link rel="stylesheet" href="<?php echo ROOT2;?>assets/vendor/bootstrap/css/bootstrap.css" />
-    <link rel="stylesheet" href="<?php echo ROOT2;?>assets/vendor/font-awesome/css/font-awesome.css" />
+    <link rel="stylesheet" href="<?php echo WWW;?>assets/vendor/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" href="<?php echo WWW;?>assets/vendor/font-awesome/css/font-awesome.css" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
-    <link rel="stylesheet" href="<?php echo ROOT2;?>assets/vendor/magnific-popup/magnific-popup.css" />
-    <link rel="stylesheet" href="<?php echo ROOT2;?>assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
+    <link rel="stylesheet" href="<?php echo WWW;?>assets/vendor/magnific-popup/magnific-popup.css" />
+    <link rel="stylesheet" href="<?php echo WWW;?>assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
     <link rel="icon" href="<?php display_campo("Logo",'file');?>" type="image/x-icon" id="logo-icon">
 
     <!-- Specific Page Vendor CSS -->
-    <link rel="stylesheet" href="<?php echo ROOT2;?>assets/vendor/select2/select2.css" />
-    <link rel="stylesheet" href="<?php echo ROOT2;?>assets/vendor/jquery-datatables-bs3/assets/css/datatables.css" />
+    <link rel="stylesheet" href="<?php echo WWW;?>assets/vendor/select2/select2.css" />
+    <link rel="stylesheet" href="<?php echo WWW;?>assets/vendor/jquery-datatables-bs3/assets/css/datatables.css" />
 
     <!-- Theme CSS -->
-    <link rel="stylesheet" href="<?php echo ROOT2;?>assets/stylesheets/theme.css" />
+    <link rel="stylesheet" href="<?php echo WWW;?>assets/stylesheets/theme.css" />
 
     <!-- Skin CSS -->
-    <link rel="stylesheet" href="<?php echo ROOT2;?>assets/stylesheets/skins/default.css" />
+    <link rel="stylesheet" href="<?php echo WWW;?>assets/stylesheets/skins/default.css" />
 
     <!-- Theme Custom CSS -->
-    <link rel="stylesheet" href="<?php echo ROOT2;?>assets/stylesheets/theme-custom.css">
+    <link rel="stylesheet" href="<?php echo WWW;?>assets/stylesheets/theme-custom.css">
 
     <!-- Head Libs -->
-    <script src="<?php echo ROOT2;?>assets/vendor/modernizr/modernizr.js"></script>
+    <script src="<?php echo WWW;?>assets/vendor/modernizr/modernizr.js"></script>
         
     <!-- Vendor -->
-    <script src="<?php echo ROOT2;?>assets/vendor/jquery/jquery.min.js"></script>
-    <script src="<?php echo ROOT2;?>assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
-    <script src="<?php echo ROOT2;?>assets/vendor/bootstrap/js/bootstrap.js"></script>
-    <script src="<?php echo ROOT2;?>assets/vendor/nanoscroller/nanoscroller.js"></script>
-    <script src="<?php echo ROOT2;?>assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-    <script src="<?php echo ROOT2;?>assets/vendor/magnific-popup/magnific-popup.js"></script>
-    <script src="<?php echo ROOT2;?>assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
+    <script src="<?php echo WWW;?>assets/vendor/jquery/jquery.min.js"></script>
+    <script src="<?php echo WWW;?>assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
+    <script src="<?php echo WWW;?>assets/vendor/bootstrap/js/bootstrap.js"></script>
+    <script src="<?php echo WWW;?>assets/vendor/nanoscroller/nanoscroller.js"></script>
+    <script src="<?php echo WWW;?>assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <script src="<?php echo WWW;?>assets/vendor/magnific-popup/magnific-popup.js"></script>
+    <script src="<?php echo WWW;?>assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
         
     <!-- Specific Page Vendor -->
-    <script src="<?php echo ROOT2;?>assets/vendor/jquery-autosize/jquery.autosize.js"></script>
+    <script src="<?php echo WWW;?>assets/vendor/jquery-autosize/jquery.autosize.js"></script>
         
     <!-- Theme Base, Components and Settings -->
-    <script src="<?php echo ROOT2;?>assets/javascripts/theme.js"></script>
+    <script src="<?php echo WWW;?>assets/javascripts/theme.js"></script>
         
     <!-- Theme Custom -->
-    <script src="<?php echo ROOT2;?>assets/javascripts/theme.custom.js"></script>
+    <script src="<?php echo WWW;?>assets/javascripts/theme.custom.js"></script>
         
     <!-- Theme Initialization Files -->
-    <script src="<?php echo ROOT2;?>assets/javascripts/theme.init.js"></script>
+    <script src="<?php echo WWW;?>assets/javascripts/theme.init.js"></script>
 
 
     <!-- javascript functions -->
-    <script src="<?php echo ROOT2;?>Functions/onlyNumbers.js"></script>
-    <script src="<?php echo ROOT2;?>Functions/onlyChars.js"></script>
-    <script src="<?php echo ROOT2;?>Functions/mascara.js"></script>
+    <script src="<?php echo WWW;?>Functions/onlyNumbers.js"></script>
+    <script src="<?php echo WWW;?>Functions/onlyChars.js"></script>
+    <script src="<?php echo WWW;?>Functions/mascara.js"></script>
         
     <!-- jquery functions -->
 
@@ -120,13 +120,13 @@ require_once ROOT."/html/personalizacao_display.php";
 					.append($("<td>")
 						.text(item.destinatario))
 					.append($("<td>")
-						.html(item.texto+"<a href=<?php echo ROOT2;?>controle/control.php?id_despacho="+item.id+"&id_memorando="+<?php echo $id_memorando;?>+"&nomeClasse=AnexoControle&metodo=listarTodos&modulo=memorando target=_self><img src=<?php echo ROOT2;?>img/clip.png heigh=30px width=30px></a>"))
+						.html(item.texto+"<a href=<?php echo WWW;?>controle/control.php?id_despacho="+item.id+"&id_memorando="+<?php echo $id_memorando;?>+"&nomeClasse=AnexoControle&metodo=listarTodos&modulo=memorando target=_self><img src=<?php echo WWW;?>img/clip.png heigh=30px width=30px></a>"))
 					.append($("<td >")
 						.text(item.data)));
 		});
 
-        $("#header").load("<?php echo ROOT2;?>html/header.php");
-        $(".menuu").load("<?php echo ROOT2;?>html/menu.html");
+        $("#header").load("<?php echo WWW;?>html/header.php");
+        $(".menuu").load("<?php echo WWW;?>html/menu.php");
     });
 	</script>
 
@@ -236,7 +236,7 @@ require_once ROOT."/html/personalizacao_display.php";
 					<div class="right-wrapper pull-right">
 						<ol class="breadcrumbs">
 							<li>
-								<a href="home.php">
+								<a href="<?php echo WWW;?>html/home.php">
 									<i class="fa fa-home"></i>
 								</a>
 							</li>
@@ -282,7 +282,7 @@ require_once ROOT."/html/personalizacao_display.php";
 								</header>
 								<div class="panel-body">
 								<?php
-									echo "<form action='".ROOT2."controle/control.php?id_memorando=".$_GET['id_memorando']."' method='post' enctype='multipart/form-data'>";
+									echo "<form action='".WWW."controle/control.php?id_memorando=".$_GET['id_memorando']."' method='post' enctype='multipart/form-data'>";
 									?>
 										<div class='form-group'>
 											<label for=destinatario id=etiqueta_destinatario class='col-md-3 control-label'>Destino </label>
@@ -337,23 +337,23 @@ require_once ROOT."/html/personalizacao_display.php";
 	
 	<!-- end: page -->
 	<!-- Vendor -->
-		<script src="<?php echo ROOT2;?>assets/vendor/select2/select2.js"></script>
-		<script src="<?php echo ROOT2;?>assets/vendor/jquery-datatables/media/js/jquery.dataTables.js"></script>
-		<script src="<?php echo ROOT2;?>assets/vendor/jquery-datatables/extras/TableTools/js/dataTables.tableTools.min.js"></script>
-		<script src="<?php echo ROOT2;?>assets/vendor/jquery-datatables-bs3/assets/js/datatables.js"></script>
+		<script src="<?php echo WWW;?>assets/vendor/select2/select2.js"></script>
+		<script src="<?php echo WWW;?>assets/vendor/jquery-datatables/media/js/jquery.dataTables.js"></script>
+		<script src="<?php echo WWW;?>assets/vendor/jquery-datatables/extras/TableTools/js/dataTables.tableTools.min.js"></script>
+		<script src="<?php echo WWW;?>assets/vendor/jquery-datatables-bs3/assets/js/datatables.js"></script>
 		
 		<!-- Theme Base, Components and Settings -->
-		<script src="<?php echo ROOT2;?>assets/javascripts/theme.js"></script>
+		<script src="<?php echo WWW;?>assets/javascripts/theme.js"></script>
 		
 		<!-- Theme Custom -->
-		<script src="<?php echo ROOT2;?>assets/javascripts/theme.custom.js"></script>
+		<script src="<?php echo WWW;?>assets/javascripts/theme.custom.js"></script>
 		
 		<!-- Theme Initialization Files -->
-		<script src="<?php echo ROOT2;?>assets/javascripts/theme.init.js"></script>
+		<script src="<?php echo WWW;?>assets/javascripts/theme.init.js"></script>
 		<!-- Examples -->
-		<script src="<?php echo ROOT2;?>assets/javascripts/tables/examples.datatables.default.js"></script>
-		<script src="<?php echo ROOT2;?>assets/javascripts/tables/examples.datatables.row.with.details.js"></script>
-		<script src="<?php echo ROOT2;?>assets/javascripts/tables/examples.datatables.tabletools.js"></script>
+		<script src="<?php echo WWW;?>assets/javascripts/tables/examples.datatables.default.js"></script>
+		<script src="<?php echo WWW;?>assets/javascripts/tables/examples.datatables.row.with.details.js"></script>
+		<script src="<?php echo WWW;?>assets/javascripts/tables/examples.datatables.tabletools.js"></script>
 	<?php
 		if(isset($_SESSION['arquivos']))
 			{
@@ -366,7 +366,7 @@ require_once ROOT."/html/personalizacao_display.php";
 					console.log(anexo);
 					$.each(anexo,function(i,item){
             			$("#arquivos")
-                			.append("<button type='button' class='btn btn-primary btn-lg btn-block' id='link'><a href="+item.link+">"+item.nome+"."+item.extensao+"</a></button>");
+                			.append("<button type='button' class='btn btn-primary btn-lg btn-block' id='link'><a href="+item.anexo+">"+item.nome+"."+item.extensao+"</a></button>");
                 	});
                 	if(anexo.length==0)
                 	{

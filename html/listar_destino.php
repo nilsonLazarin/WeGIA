@@ -62,7 +62,7 @@
       <!-- jquery functions -->
       <script>
          function excluir(id){
-         	window.location.replace('../controle/Control.php?metodo=excluir&nomeClasse=DestinoControle&id_destino='+id);
+         	window.location.replace('../controle/control.php?metodo=excluir&nomeClasse=DestinoControle&id_destino='+id);
          }
       </script>
       <script>

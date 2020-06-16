@@ -105,7 +105,7 @@
 			})
 
 			$.each(produtos_autocomplete,function(i,item){
-				$('#produtos_autocomplete').append('<option value="' + item.id_produto + '-' + item.descricao + '">');
+				$('#produtos_autocomplete').append('<option value="' + item.id_produto + '|' + item.descricao + '">');
 			})
 
 			$.each(destino,function(i,item){
@@ -113,7 +113,7 @@
 			})
 			
 			$('#input_produtos').on('change',function(){
-				var teste=this.value.split('-');
+				var teste=this.value.split('|');
 				$.each(produtos_autocomplete,function(i,item){
 					if(teste[0]==item.id_produto && teste[1]==item.descricao)
 					{
@@ -134,7 +134,7 @@
 				// console.log(prods);
 				// console.log(prods.find(prod => prod === val),val);
 				// console.log(obj);
-				produto = produto.split("-");
+				produto = produto.split("|");
  				if(obj !=null && obj.length>0){
 					if(Number(produto[2]) >= Number($("#quantidade").val())){
 						$.each(produtos_autocomplete,function(i,item){
@@ -453,7 +453,7 @@
 						// 	$("<option/>").val(produto.id_produto + '-' + produto.descricao+ '-' + produto.qtd+ '-' + produto.codigo).attr("qtd", produto.qtd)
 						// );
 						console.log(i, produto);
-						prods[i] = produto.id_produto + '-' + produto.descricao+ '-' + produto.qtd+ '-' + produto.codigo;
+						prods[i] = produto.id_produto + '|' + produto.descricao+ '|' + produto.qtd+ '|' + produto.codigo;
 					}
 					$("#input_produtos" ).autocomplete({
 						source: prods,

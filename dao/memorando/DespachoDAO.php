@@ -80,9 +80,9 @@ class DespachoDAO
 			{
 				$memorando = new Memorando('','',$dadosMemorando[0]['id_status_memorando'],'','');
        			$memorando->setId_memorando($id_memorando);
-        		$memorando->setId_status_memorando(6);
+        		$memorando->setId_status_memorando(2);
 				$MemorandoDAO2 = new MemorandoDAO();
-				$id_status_memorando = 6;
+				$id_status_memorando = 2;
 				$MemorandoDAO2->alterarIdStatusMemorando($memorando);
 			}
 
@@ -90,9 +90,9 @@ class DespachoDAO
 			{
 				$memorando = new Memorando('','',$dadosMemorando[0]['id_status_memorando'],'','');
        			$memorando->setId_memorando($id_memorando);
-        		$memorando->setId_status_memorando(7);
+        		$memorando->setId_status_memorando(3);
 				$MemorandoDAO2 = new MemorandoDAO();
-				$id_status_memorando = 7;
+				$id_status_memorando = 3;
 				$MemorandoDAO2->alterarIdStatusMemorando($memorando);
 			}
 		}

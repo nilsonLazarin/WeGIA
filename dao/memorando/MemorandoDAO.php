@@ -13,7 +13,7 @@ if(file_exists($config_path)){
 
 require_once ROOT."/dao/Conexao.php";
 require_once ROOT."/classes/memorando/Memorando.php";
-require_once ROOT."/dao/UsuarioDAO.php";
+require_once ROOT."/dao/memorando/UsuarioDAO.php";
 
 class MemorandoDAO
 {
@@ -87,7 +87,7 @@ class MemorandoDAO
 			$id_usuario=$usuario->obterUsuario($cpf_usuario);
 			$id_usuario=$id_usuario['0']['id_pessoa'];
 			$pdo = Conexao::connect();
-			$consulta = $pdo->query("SELECT DISTINCT m.id_memorando, m.titulo FROM memorando m JOIN despacho d ON(d.id_memorando=m.id_memorando) WHERE (d.id_destinatario=$id_usuario OR d.id_remetente=$id_usuario) AND m.id_status_memorando='6'");
+			$consulta = $pdo->query("SELECT DISTINCT m.id_memorando, m.titulo FROM memorando m JOIN despacho d ON(d.id_memorando=m.id_memorando) WHERE (d.id_destinatario=$id_usuario OR d.id_remetente=$id_usuario)");
 			$x = 0;
 
 			while($linha = $consulta->fetch(PDO::FETCH_ASSOC))
