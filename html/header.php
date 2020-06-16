@@ -9,20 +9,9 @@ $config_path = "../" . $config_path;
 if(file_exists($config_path)) break;
 }
 require_once($config_path);
-    
-require_once ROOT."/dao/Conexao.php";
 
-	$config_path = "config.php";
-	if(file_exists($config_path)){
-    require_once($config_path);
-	}else{
-    while(true){
-        $config_path = "../" . $config_path;
-        if(file_exists($config_path)) break;
-    }
-    require_once($config_path);
-    session_start();
-	require_once "../dao/Conexao.php";
+session_start();
+require_once "../dao/Conexao.php";
 
 // Adiciona a Função display_campo($nome_campo, $tipo_campo)
 require_once ROOT."/html/personalizacao_display.php";
