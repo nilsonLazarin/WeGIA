@@ -52,6 +52,7 @@ class DespachoDAO
 			$id_memorando = $despacho->getId_memorando();
 			$id_remetente = $despacho->getId_remetente();
 			$id_destinatario = $despacho->getId_destinatario();
+			echo $id_destinatario;
 			$texto = $despacho->getTexto();
 			$data = $despacho->getData();
 			$stmt = $pdo->prepare($sql);
