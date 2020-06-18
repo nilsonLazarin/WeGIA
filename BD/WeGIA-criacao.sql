@@ -34,7 +34,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `wegia`.`pessoa` (
   `id_pessoa` INT(11) NOT NULL AUTO_INCREMENT,
-  `cpf` VARCHAR(120) NULL DEFAULT NULL,
+  `cpf` VARCHAR(120) NOT NULL UNIQUE,
   `senha` VARCHAR(70) NULL DEFAULT NULL,
   `nome` VARCHAR(100) NULL DEFAULT NULL,
   `sobrenome` VARCHAR(100) NULL DEFAULT NULL,
