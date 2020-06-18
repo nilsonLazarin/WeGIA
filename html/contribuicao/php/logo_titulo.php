@@ -2,7 +2,7 @@
 
 include("conexao.php");
 
-    $select_img = "SELECT imagem, tipo FROM imagem AS img JOIN tabela_imagem_campo AS tbi ON (tbi.id_imagem = img.id_imagem) WHERE tbi.id_campo = 1";
+    $select_img = "SELECT imagem, tipo FROM imagem WHERE nome = 'LAJE' ";
     $query_img = mysqli_query($conexao, $select_img);
     $fetch_img = mysqli_fetch_row($query_img);
 
