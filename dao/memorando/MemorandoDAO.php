@@ -162,5 +162,29 @@ class MemorandoDAO
 			echo 'Error: <b>  na tabela memorando = ' . $sql . '</b> <br /><br />' . $e->getMessage();
 		}
 	}
+
+	//Buscar último despacho de um memorando
+	public function buscarUltimoDespacho($id_memorando)
+	{
+		try
+		{
+			$pdo = Conexao::connect();
+			$consulta = $pdo->query("SELECT id_destinatario FROM despacho WHERE id_despacho IN (SELECT MAX(id_despacho) FROM despacho WHERE id_memorando='$id_memorando')");
+			$x = 0;
+
+			while($linha = $consulta->fetch(PDO::FETCH_ASSOC))
+			{
+				$Despacho[$x]=array('id_destinatario'=>$linha['id_destinatario']);
+				$x++;
+			}
+		}
+
+		catch(PDOExeption $e)
+		{
+			echo 'Error:' . $e->getMessage;
+		}
+
+		return json_encode($Despacho);
+	}
 }
 ?>

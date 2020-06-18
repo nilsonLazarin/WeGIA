@@ -102,7 +102,6 @@ require_once ROOT."/html/personalizacao_display.php";
             $(".menuu").load("<?php echo WWW;?>html/menu.php");
 
             var id_memorando = <?php echo $_GET['id_memorando']?>;
-            console.log(id_memorando);
             $("#id_memorando").val(id_memorando);
         });
     </script>

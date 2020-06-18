@@ -23,6 +23,7 @@ if(!isset($_SESSION['usuario'])){
 
 require_once ROOT."/controle/memorando/DespachoControle.php";
 require_once ROOT."/controle/FuncionarioControle.php";
+require_once ROOT."/controle/memorando/MemorandoControle.php";
 
 if(isset($_GET["arq"]))
 {
@@ -36,6 +37,9 @@ $despachos->listarTodos();
 
 $funcionarios = new FuncionarioControle;
 $funcionarios->listarTodos2();
+
+$ultimoDespacho =  new MemorandoControle;
+$ultimoDespacho->buscarUltimoDespacho($id_memorando);
 	
 // Adiciona a Função display_campo($nome_campo, $tipo_campo)
 require_once ROOT."/html/personalizacao_display.php";
@@ -103,14 +107,18 @@ require_once ROOT."/html/personalizacao_display.php";
     <script src="<?php echo WWW;?>Functions/onlyNumbers.js"></script>
     <script src="<?php echo WWW;?>Functions/onlyChars.js"></script>
     <script src="<?php echo WWW;?>Functions/mascara.js"></script>
+    <script src="<?php echo WWW;?>Functions/memorando/mostra_arquivo.js"></script>
         
     <!-- jquery functions -->
 
    	<script>
 	$(function(){
+		if(<?php echo $_SESSION['ultimo_despacho'];?>!=<?php echo $_SESSION['id_pessoa'];?>)
+		{
+			$(".panel").html("<p>Desculpe, o acesso a essa página não é permitido</p>");
+		}
 		var despacho=<?php echo $_SESSION['despacho']?>;
 		$.each(despacho,function(i,item){
-				
 			$("#tabela")
 				.append($("<tr id="+item.id+">")
 					.append($("<td>")
@@ -127,6 +135,9 @@ require_once ROOT."/html/personalizacao_display.php";
 
         $("#header").load("<?php echo WWW;?>html/header.php");
         $(".menuu").load("<?php echo WWW;?>html/menu.php");
+
+        var id_memorando = <?php echo $_GET['id_memorando']?>;
+        $("#id_memorando").val(id_memorando);
     });
 	</script>
 
@@ -170,6 +181,7 @@ require_once ROOT."/html/personalizacao_display.php";
 			background-color: #e6e5e5;
 			border-radius: 0px;
 			border: none;
+			color: #000000;
 		}
 		#link:hover
 		{
@@ -282,7 +294,7 @@ require_once ROOT."/html/personalizacao_display.php";
 								</header>
 								<div class="panel-body">
 								<?php
-									echo "<form action='".WWW."controle/control.php?id_memorando=".$_GET['id_memorando']."' method='post' enctype='multipart/form-data'>";
+									echo "<form action='".WWW."controle/control.php' method='post' enctype='multipart/form-data'>";
 									?>
 										<div class='form-group'>
 											<label for=destinatario id=etiqueta_destinatario class='col-md-3 control-label'>Destino </label>
@@ -307,6 +319,7 @@ require_once ROOT."/html/personalizacao_display.php";
 												<input type="hidden" name="nomeClasse" value="DespachoControle">
 												<input type="hidden" name="metodo" value="incluir">
 												<input type="hidden" name="modulo" value="memorando">
+												<input type="hidden" name="id_memorando" id="id_memorando">
 												<input type='submit' value='Enviar' name='enviar' id='enviar' class='btn btn-primary'>
 											</div>
 										</div>
@@ -366,7 +379,7 @@ require_once ROOT."/html/personalizacao_display.php";
 					console.log(anexo);
 					$.each(anexo,function(i,item){
             			$("#arquivos")
-                			.append("<button type='button' class='btn btn-primary btn-lg btn-block' id='link'><a href="+item.anexo+">"+item.nome+"."+item.extensao+"</a></button>");
+                			.append("<button type='button' class='btn btn-primary btn-lg btn-block' id='link' onclick=debugBase64('"+item.anexo+"')>"+item.nome+"."+item.extensao+"</button>");
                 	});
                 	if(anexo.length==0)
                 	{

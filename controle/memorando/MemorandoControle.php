@@ -103,5 +103,13 @@ class MemorandoControle
             echo $e->getMessage();
         } 
     }
+
+    //Buscar último despacho de um memorando
+    public function buscarUltimoDespacho($id_memorando)
+    {
+        $memorandoDAO = new MemorandoDAO();
+        $despacho = $memorandoDAO->buscarUltimoDespacho($id_memorando); 
+        $_SESSION["ultimo_despacho"] = $despacho;
+    }
 }
 ?>
