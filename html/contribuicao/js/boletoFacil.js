@@ -3,6 +3,7 @@ function gera_boleto(){
 
     $.post("./php/infoboletofacil.php").done(function(data)
     { 
+     
         var dado = JSON.parse(data);
         var api = dado['API'];
         var token = dado['token'];
@@ -31,6 +32,7 @@ function gera_boleto(){
             {
                 doc = cpf;
                 nome = $("#nome").val();
+                sobrenome = $("#sobrenome").val();
             }
         var doc = doc.replace(/\D/g, '');
         var email = $("#email").val();
@@ -86,7 +88,7 @@ function gera_boleto(){
             }
             else
             {
-                $.get(api+"token="+token+"&description="+agradecimento+"&installments="+parcelas+"&amount="+valor2+"&payerName="+nome+"&payerCpfCnpj="+doc+"&dueDate="+dataV+"&payerPhone="+telefone+"&payerEmail="+email+"&billingAddressState="+uf+"&billingAddressCity="+cidade+"&billingAddressNeighborhood="+bairro+"&billingAddressPostcode="+cep+"&billingAddressStreet="+log+"&billingAddressNumber="+n+"&billingAddressComplement="+comp+"&paymentTypes=BOLETO&maxOverdueDays="+dias_mensal, function(dados){
+                $.get(api+"token="+token+"&description="+agradecimento+"&installments="+parcelas+"&amount="+valor2+"&payerName="+nome+sobrenome+"&payerCpfCnpj="+doc+"&dueDate="+dataV+"&payerPhone="+telefone+"&payerEmail="+email+"&billingAddressState="+uf+"&billingAddressCity="+cidade+"&billingAddressNeighborhood="+bairro+"&billingAddressPostcode="+cep+"&billingAddressStreet="+log+"&billingAddressNumber="+n+"&billingAddressComplement="+comp+"&paymentTypes=BOLETO&maxOverdueDays="+dias_mensal, function(dados){
                 for(var link of dados.data.charges)
                 {
                    
