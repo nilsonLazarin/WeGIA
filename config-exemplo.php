@@ -9,5 +9,5 @@ define( 'DB_HOST', 'localhost');
 define( 'DB_CHARSET', 'utf8');
 define( 'ROOT',dirname(__FILE__));
 define( 'BKP_DIR', '/path/to/backup/folder/');
-define( 'ROOT2', '/WeGIA/');
+define( 'WWW', 'https://demo.wegia.org/');
 

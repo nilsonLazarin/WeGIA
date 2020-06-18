@@ -22,10 +22,9 @@ include("conexao.php");
     $ip_log = $_SERVER['REMOTE_ADDR'];
     $horahoje = $_POST['hora'];
     $sistema = $_POST['sistema'];
+    $status = $_POST['status'];
+    $id_tipo = $_POST['id_sociotipo'];
 
-    mysql_query("CALL cadDoador ('$nome', '$sobrenome', '$doc','$tel', '$dataN', '$cep', '$uf', '$cidade', '$bairro','$rua', '$numero', '$compl')");
-
-
-    echo $sistema;
+    mysqli_query($conexao, "CALL caddoador ('$nome', '$sobrenome', '$doc','$tel', '$dataN', '$cep', '$uf', '$cidade', '$bairro','$rua', '$numero', '$compl', '$status', '$id_tipo', '$email', '$ip_log', '$data', '$horahoje', '$sistema')");
        
 ?>

@@ -13,7 +13,7 @@ if(file_exists($config_path)){
 
 require_once ROOT."/dao/memorando/MemorandoDAO.php";
 require_once ROOT."/classes/memorando/Memorando.php";
-require_once ROOT."/dao/UsuarioDAO.php";
+require_once ROOT."/dao/memorando/UsuarioDAO.php";
 
 class MemorandoControle
 {
@@ -54,7 +54,7 @@ class MemorandoControle
         {
             $lastId = $memorandoDAO->incluir($memorando);
             //$_SESSION['msg']="Memorando criado com sucesso";
-            header("Location: ".ROOT2."html/memorando/insere_despacho.php?id_memorando=$lastId");
+            header("Location: ".WWW."html/memorando/insere_despacho.php?id_memorando=$lastId");
 
         } 
         catch (PDOException $e){
@@ -96,12 +96,20 @@ class MemorandoControle
         try 
         {
             $memorandoDAO->alterarIdStatusMemorando($memorando);
-            header("Location: ".ROOT2."html/memorando/listar_memorandos_ativos.php");
+            header("Location: ".WWW."html/memorando/listar_memorandos_ativos.php");
         } 
         catch (PDOException $e) 
         {
             echo $e->getMessage();
         } 
+    }
+
+    //Buscar último despacho de um memorando
+    public function buscarUltimoDespacho($id_memorando)
+    {
+        $memorandoDAO = new MemorandoDAO();
+        $despacho = $memorandoDAO->buscarUltimoDespacho($id_memorando); 
+        $_SESSION["ultimo_despacho"] = $despacho;
     }
 }
 ?>

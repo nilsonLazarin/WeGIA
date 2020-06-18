@@ -30,13 +30,13 @@ class DespachoControle
 		$MemorandoDAO = new MemorandoDAO();
 		$dadosMemorando = $MemorandoDAO->listarTodosId($id_memorando);
 
-		if($dadosMemorando[0]['id_status_memorando'] == 7)
+		if($dadosMemorando[0]['id_status_memorando'] == 3)
 		{
 			$memorando = new Memorando('','',$dadosMemorando[0]['id_status_memorando'],'','');
        		$memorando->setId_memorando($id_memorando);
-        	$memorando->setId_status_memorando(6);
+        	$memorando->setId_status_memorando(2);
 			$MemorandoDAO2 = new MemorandoDAO();
-			$id_status_memorando = 6;
+			$id_status_memorando = 2;
 			$MemorandoDAO2->alterarIdStatusMemorando($memorando);
 		}
 	}
@@ -58,7 +58,7 @@ class DespachoControle
     			$arquivo = new AnexoControle();
     			$arquivo->incluir($anexoss, $lastId);
     		}
-			header("Location: ".ROOT2."html/memorando/listar_despachos.php?id_memorando=".$id_memorando);
+			header("Location: ".WWW."html/memorando/listar_memorandos_ativos.php");
 		}
 		catch(PDOException $e)
 		{

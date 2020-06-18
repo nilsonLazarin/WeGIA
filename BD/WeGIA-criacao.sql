@@ -34,7 +34,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `wegia`.`pessoa` (
   `id_pessoa` INT(11) NOT NULL AUTO_INCREMENT,
-  `cpf` VARCHAR(120) NULL DEFAULT NULL,
+  `cpf` VARCHAR(120) NOT NULL UNIQUE,
   `senha` VARCHAR(70) NULL DEFAULT NULL,
   `nome` VARCHAR(100) NULL DEFAULT NULL,
   `sobrenome` VARCHAR(100) NULL DEFAULT NULL,
@@ -859,7 +859,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `wegia`.`socio` (
   `id_socio` INT(11) NOT NULL AUTO_INCREMENT,
-  `id_pessoa` INT(11) NOT NULL,
+  `id_pessoa` INT(11) NOT NULL UNIQUE,
   `id_sociostatus` INT NOT NULL,
   `id_sociotipo` INT NOT NULL,
   `email` VARCHAR(256) NULL,
@@ -889,6 +889,7 @@ ENGINE = InnoDB;
 -- Table `wegia`.`log_contribuicao`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `wegia`.`log_contribuicao` (
+  `id_log` INT AUTO_INCREMENT PRIMARY KEY,
   `id_socio` INT(11) NOT NULL,
   `ip` VARCHAR(256) NOT NULL,
   `data` DATE NOT NULL,
@@ -903,7 +904,6 @@ CREATE TABLE IF NOT EXISTS `wegia`.`log_contribuicao` (
     FOREIGN KEY (`id_sistema`)
     REFERENCES `wegia`.`sistema_pagamento` (`id`))
 ENGINE = InnoDB;
-
 
 
 
@@ -1233,12 +1233,12 @@ END$$
 DELIMITER ;
 
 -- -----------------------------------------------------
--- procedure caddoador
+-- procedure registradoacao
 -- -----------------------------------------------------
 
 DELIMITER $$
 USE `wegia`$$
-CREATE PROCEDURE `caddoador`(
+CREATE PROCEDURE `registradoacao`(
 	IN `nome` VARCHAR(100), 
     IN `sobrenome` VARCHAR(100), 
     IN `cpf` VARCHAR(40), 
@@ -1250,16 +1250,28 @@ CREATE PROCEDURE `caddoador`(
     IN `bairro` VARCHAR(40), 
     IN `logradouro` VARCHAR(40), 
     IN `numero_endereco` VARCHAR(11), 
-    IN `complemento` VARCHAR(50)
+    IN `complemento` VARCHAR(50),
+    IN `id_sociostatus` INT(11),
+    IN `id_sociotipo` INT(11),
+    IN `email` VARCHAR(256),
+    IN `ip` VARCHAR(256),
+    IN `data` DATE,
+    IN `hora` TIME,
+    IN `id_sistema` INT(11)
 )
 begin
 
-declare idP int;
+insert ignore into pessoa(nome,sobrenome,cpf,telefone,data_nascimento,cep,estado,cidade, bairro, logradouro, numero_endereco,
+complemento)
+values(nome, sobrenome, cpf, telefone,data_nascimento,cep,estado,cidade,bairro,logradouro,numero_endereco,complemento);
 
-insert into pessoa(nome, sobrenome, cpf, sexo, telefone, data_nascimento, cep, estado, cidade, bairro, logradouro, numero_endereco, complemento)
-values(nome, sobrenome, cpf, sexo, telefone, data_nascimento, cep, estado, cidade, bairro, logradouro, numero_endereco, complemento);
-select max(id_pessoa) into idP FROM pessoa;
-end$$
+insert ignore into socio(id_pessoa, id_sociostatus, id_sociotipo, email)
+values ((SELECT id_pessoa FROM pessoa WHERE pessoa.cpf=cpf limit 1), id_sociostatus, id_sociotipo, email);
+
+insert into log_contribuicao(id_socio, ip, data, hora, id_sistema)
+values((SELECT id_socio FROM socio, pessoa WHERE pessoa.id_pessoa=socio.id_pessoa AND pessoa.cpf=cpf limit 1), ip, data, hora, id_sistema);
+
+END$$
 
 DELIMITER ;
 

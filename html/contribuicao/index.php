@@ -21,6 +21,8 @@
 	<script type="text/javascript" src="./js/retornadia.js"></script>
 	<script type="text/javascript" src="./js/cartaodunica.js"></script>
 	<script type="text/javascript" src="./js/cartaodmensal.js"></script>
+	<script type="text/javascript" src="./js/sociotipo.js"></script>
+	<script type="text/javascript" src="./js/logo_titulo.js"></script>
 	
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
@@ -181,6 +183,11 @@
 				border: 1px rgb(169,169,169) solid;
 				
 			}
+			#img_logo{
+				display: block;
+				margin-left: auto;
+				margin-right: auto;
+			}
 			a:hover{
 				color: white;
 				text-decoration:none;
@@ -203,10 +210,8 @@
 	<div class="container-contact100">
 		<div class="wrap-contact100">
 			<form class="contact100-form validate-form" method = "POST" name="f2" >
-				<img style="margin:0 auto;" src="outros/images/logo.png">
-				<span class="contact100-form-title">
-					SEJA UM DOADOR
-				</span>
+				<span id="img_logo"></span>
+				<span class="contact100-form-title" id="titulo_pag"></span>
 
 				<div id="pag1" class="wrap-input100">
 					<div id="forma">
@@ -308,7 +313,7 @@
                     <h3>INFORMAÇÕES PESSOAIS</h3><br>
 
                     <div class="wrap-input100 validate-input bg1" data-validate="Por Favor Digite seu Nome" id = "nc">
-                            <span class="label-input100">NOME COMPLETO *</span>
+                            <span class="label-input100">NOME *</span>
                             <input class="input100" type="text" name="nome" id="nome" class="text required" placeholder="Digite seu Nome" required>
                     </div>
 
@@ -573,6 +578,7 @@
 	    {
 			cartaodunica();
 			cartaodmensal();
+			preenche_campo();
 			$("#tipo_cartao").hide();
 			$("#cartao_mensal").hide();
 			$("#cartao_unica").hide();

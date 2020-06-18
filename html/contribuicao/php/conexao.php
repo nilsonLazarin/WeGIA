@@ -11,11 +11,11 @@ if(file_exists($config_path))
    }
    require_once($config_path);
 }
-
-$conexao = new MySQLi(DB_HOST,DB_USER, DB_PASSWORD,DB_NAME);
+//$conexao = new MySQLi('localhost', 'root', '', 'wegia');
+$conexao = new MySQLi(DB_HOST,DB_USER, DB_PASSWORD,DB_NAME); 
 if($conexao->connect_error){
    echo "Desconectado! Erro: " . $conexao->connect_error;
-}echo"conectado";
+}
 
 
 ?>
