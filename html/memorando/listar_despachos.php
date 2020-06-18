@@ -113,10 +113,6 @@ require_once ROOT."/html/personalizacao_display.php";
 
    	<script>
 	$(function(){
-		if(<?php echo $_SESSION['ultimo_despacho'];?>!=<?php echo $_SESSION['id_pessoa'];?>)
-		{
-			$(".panel").html("<p>Desculpe, o acesso a essa página não é permitido</p>");
-		}
 		var despacho=<?php echo $_SESSION['despacho']?>;
 		$.each(despacho,function(i,item){
 			$("#tabela")
@@ -257,8 +253,20 @@ require_once ROOT."/html/personalizacao_display.php";
 						<a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
 					</div>
 				</header>
-				<!-- start: page -->
 				<section class="panel" >
+				<!-- start: page -->
+				<?php
+				if($_SESSION['ultimo_despacho'][0]['id_destinatario']!=$_SESSION['id_pessoa'])
+				{
+				?>
+				<script>
+					$(".panel").html("<p>Desculpe, você não tem acesso à essa página</p>");
+				</script>
+				<?php
+				}
+				else
+				{
+				?>
 					<header class="panel-heading">
 						<h2 class="panel-title">Despacho</h2>
 					</header>
@@ -335,7 +343,7 @@ require_once ROOT."/html/personalizacao_display.php";
 					<h2 class="panel-title col-md-6" id="titulo" style="margin: 15px 0 0 15px;">Arquivos</h2>
 				</div>
 				<div class="col-md-6">
-					<button type="button" id="x" class='mb-xs mt-xs mr-xs btn btn-default'><img src="/WeGIA/img/x.png" width="15px" height="15px"></button>
+					<button type="button" id="x" class='mb-xs mt-xs mr-xs btn btn-default'><img src="<?php echo WWW;?>img/x.png" width="15px" height="15px"></button>
 				</div>
 					</header>
 			</div>
@@ -343,6 +351,7 @@ require_once ROOT."/html/personalizacao_display.php";
 	</div>
 	</div>
 	</div>
+<?php } ?> 
 				</section>
 			</section>
 		</div>

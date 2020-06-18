@@ -184,7 +184,7 @@ class MemorandoDAO
 			echo 'Error:' . $e->getMessage;
 		}
 
-		return json_encode($Despacho);
+		return $Despacho;
 	}
 }
 ?>
