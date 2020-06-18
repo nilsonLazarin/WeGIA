@@ -1233,12 +1233,12 @@ END$$
 DELIMITER ;
 
 -- -----------------------------------------------------
--- procedure caddoador
+-- procedure registradoacao
 -- -----------------------------------------------------
 
 DELIMITER $$
 USE `wegia`$$
-CREATE PROCEDURE `caddoador`(
+CREATE PROCEDURE `registradoacao`(
 	IN `nome` VARCHAR(100), 
     IN `sobrenome` VARCHAR(100), 
     IN `cpf` VARCHAR(40), 
@@ -1266,10 +1266,10 @@ complemento)
 values(nome, sobrenome, cpf, telefone,data_nascimento,cep,estado,cidade,bairro,logradouro,numero_endereco,complemento);
 
 insert ignore into socio(id_pessoa, id_sociostatus, id_sociotipo, email)
-values ((SELECT id_pessoa FROM pessoa WHERE cpf.pessoa= cpf), id_sociostatus, id_sociotipo, email);
+values ((SELECT id_pessoa FROM pessoa WHERE cpf.pessoa=cpf), id_sociostatus, id_sociotipo, email);
 
 insert into log_contribuicao(id_socio, ip, data, hora, id_sistema)
-values((SELECT id_socio FROM socio WHERE cpf.pessoa= cpf), ip, data, hora, id_sistema);
+values((SELECT id_socio FROM socio WHERE cpf.pessoa=cpf), ip, data, hora, id_sistema);
 
 END$$
 
