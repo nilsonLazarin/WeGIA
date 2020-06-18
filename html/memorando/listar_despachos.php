@@ -256,7 +256,7 @@ require_once ROOT."/html/personalizacao_display.php";
 				<section class="panel" >
 				<!-- start: page -->
 				<?php
-				if($_SESSION['ultimo_despacho'][0]['id_destinatario']!=$_SESSION['id_pessoa'] AND $arquivado!=1)
+				if($_SESSION['ultimo_despacho'][0]['id_destinatarioo']!=$_SESSION['id_pessoa'] AND $arquivado!=1)
 				{
 				?>
 				<script>
