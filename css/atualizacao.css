@@ -19,6 +19,10 @@
     margin: 5px;
 }
 
+.obrig {
+    color: red;
+}
+
 .loader {
     border: 1px solid #f3f3f3;
     border-radius: 50%;
@@ -39,4 +43,9 @@
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+
+.center-content {
+    display: flex;
+    justify-content: center;
 }
