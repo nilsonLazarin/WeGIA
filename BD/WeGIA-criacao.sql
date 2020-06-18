@@ -889,6 +889,7 @@ ENGINE = InnoDB;
 -- Table `wegia`.`log_contribuicao`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `wegia`.`log_contribuicao` (
+  `id_log` INT AUTO_INCREMENT PRIMARY KEY,
   `id_socio` INT(11) NOT NULL,
   `ip` VARCHAR(256) NOT NULL,
   `data` DATE NOT NULL,
@@ -903,7 +904,6 @@ CREATE TABLE IF NOT EXISTS `wegia`.`log_contribuicao` (
     FOREIGN KEY (`id_sistema`)
     REFERENCES `wegia`.`sistema_pagamento` (`id`))
 ENGINE = InnoDB;
-
 
 
 
