@@ -87,6 +87,9 @@ require_once ROOT."/html/personalizacao_display.php";
     <script src="<?php echo WWW;?>Functions/onlyNumbers.js"></script>
     <script src="<?php echo WWW;?>Functions/onlyChars.js"></script>
     <script src="<?php echo WWW;?>Functions/mascara.js"></script>
+
+    <!-- jkeditor -->
+    <script src="<?php echo WWW;?>assets/vendor/ckeditor/ckeditor.js"></script>
         
     <!-- jquery functions -->
 
@@ -103,6 +106,8 @@ require_once ROOT."/html/personalizacao_display.php";
 
             var id_memorando = <?php echo $_GET['id_memorando']?>;
             $("#id_memorando").val(id_memorando);
+
+            CKEDITOR.replace('despacho');
         });
     </script>
     
@@ -120,6 +125,18 @@ require_once ROOT."/html/personalizacao_display.php";
         }
         img{
         	margin-left:10px;
+        }
+        #div_texto
+        {
+            width: 100%;
+        }
+        #cke_despacho
+        {
+            height: 500px;
+        }
+        .cke_inner
+        {
+            height: 500px;
         }
     </style>
 </head>
@@ -172,7 +189,7 @@ require_once ROOT."/html/personalizacao_display.php";
                             </div>
                             <div class="form-group">
                                     <label for=texto id=etiqueta_despacho class='col-md-3 control-label'>Despacho </label>
-                                    <div class='col-md-6'>
+                                    <div class='col-md-6' id='div_texto' style="height: 500px;">
                                         <textarea cols='30' rows='5' id='despacho' name='texto' required class='form-control'></textarea>
                                     </div>
                             </div>

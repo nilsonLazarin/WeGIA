@@ -1,5 +1,9 @@
 <?php
 
+ini_set('display_errors',1);
+ini_set('display_startup_erros',1);
+error_reporting(E_ALL);
+
 $config_path = "config.php";
 if(file_exists($config_path)){
     require_once($config_path);
@@ -52,6 +56,7 @@ class DespachoControle
 			$lastId = $despachoDAO->incluir($despacho);
 			$anexoss = $_FILES["anexo"];
 			$anexo2 = $_FILES["anexo"]["tmp_name"][0];
+			var_dump($anexo2);
     		if(isset($anexo2) && !empty($anexo2))
     		{
 				require_once ROOT."/controle/memorando/AnexoControle.php";

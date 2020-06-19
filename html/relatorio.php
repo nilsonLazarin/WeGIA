@@ -119,7 +119,7 @@
                 <!--start: page-->
                 <div class="tab-content"> 
                     <div id="overview" class="tab-pane active">
-                        <form class="form-horizontal" method="get" action="relatorio_geracao.php">
+                        <form class="form-horizontal" method="post" action="relatorio_geracao.php">
 							<h4 class="mb-xlg">Tipo de Relatório</h4>
 							<h5 class="obrig">Campos Obrigatórios(*)</h5>
 

@@ -31,10 +31,13 @@ class AnexoControle
 	{
 		extract($_REQUEST);
 		$total = count($anexo['name']);
+		$arq = $_FILES['anexo'];
+
 		for($i=0; $i<$total; $i++)
 		{
-			$arquivo = file_get_contents($anexo['tmp_name'][$i]);
-			$arquivo1 = $anexo['name'][$i];
+			$anexo_tmpName=$arq['tmp_name'];
+			$arquivo = file_get_contents($anexo_tmpName[$i]);
+			$arquivo1 = $arq['name'][$i];
 			$arquivo64 = base64_encode($arquivo);
 			$tamanho = strlen($arquivo1);
 			$pos = strpos($arquivo1, ".")+1;
@@ -44,18 +47,19 @@ class AnexoControle
 			$anexo->setId_despacho($lastId);
     		$anexo->setAnexo($arquivo64);
     		$anexo->setNome($nome);
+    		echo $nome;
     		$anexo->setExtensao($extensao);	
     		$anexoDAO = new AnexoDAO();
-		try
-		{
-			$anexoDAO->incluir($anexo);
-			//header("Location: ../html/memorando/listar_despachos.php?id_memorando=".$_GET['id_memorando']);
-		}
-		catch(PDOException $e)
-		{
-			$msg= "Não foi possível criar o despacho"."<br>".$e->getMessage();
-            echo $msg;
-		}
+			try
+			{
+				$anexoDAO->incluir($anexo);
+				//header("Location: ../html/memorando/listar_despachos.php?id_memorando=".$_GET['id_memorando']);
+			}
+			catch(PDOException $e)
+			{
+				$msg= "Não foi possível criar o despacho"."<br>".$e->getMessage();
+            	echo $msg;
+			}
 	}
 	}
 
