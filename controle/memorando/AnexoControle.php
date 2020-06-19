@@ -22,10 +22,7 @@ class AnexoControle
 		extract($_REQUEST);
 		$AnexoDAO = new AnexoDAO();
 		$anexos = $AnexoDAO->listarTodos($id_despacho);
-		if(!isset($_COOKIE))
-		{
-			session_start();
-		}
+		session_start();
 		$_SESSION['arquivos'] = $anexos;
 		header("Location: ".WWW."html/memorando/listar_despachos.php?id_memorando=".$_GET['id_memorando']);
 	}
