@@ -51,6 +51,7 @@ class AnexoDAO
 			$arquivo = $anexo->getAnexo();
 			$extensao = $anexo->getExtensao();
 			$nome = $anexo->getNome();
+			echo $nome."<br>";
 			$stmt = $pdo->prepare($sql);
 			$stmt->bindParam(':id_despacho', $id_despacho);
 			$stmt->bindParam(':anexo', $arquivo);
