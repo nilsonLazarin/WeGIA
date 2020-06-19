@@ -58,7 +58,7 @@ class DespachoControle
     			$arquivo = new AnexoControle();
     			$arquivo->incluir($anexoss, $lastId);
     		}
-			//header("Location: ".WWW."html/memorando/listar_memorandos_ativos.php");
+			header("Location: ".WWW."html/memorando/listar_memorandos_ativos.php");
 		}
 		catch(PDOException $e)
 		{

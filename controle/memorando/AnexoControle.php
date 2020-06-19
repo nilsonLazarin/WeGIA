@@ -46,7 +46,6 @@ class AnexoControle
 			$pos = strpos($arquivo1, ".")+1;
 			$extensao = substr($arquivo1, $pos, strlen($arquivo1)+1);
 			$nome = substr($arquivo1, 0, $pos-1);
-			echo $nome;
 			$anexo = new Anexo();
 			$anexo->setId_despacho($lastId);
     		$anexo->setAnexo($arquivo64);
