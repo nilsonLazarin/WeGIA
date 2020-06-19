@@ -5,6 +5,7 @@ function gera_boleto(){
     { 
      
         var dado = JSON.parse(data);
+        console.log(dado);
         var api = dado['API'];
         var token = dado['token'];
         var agradecimento = dado['agradecimento'];

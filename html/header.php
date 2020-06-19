@@ -17,6 +17,10 @@ require_once "../dao/Conexao.php";
 require_once ROOT."/html/personalizacao_display.php";
 }
 
+	$conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+	$id_pessoa = $_SESSION['id_pessoa'];
+	$resultado = mysqli_query($conexao, "SELECT `imagem`, `nome` FROM `pessoa` WHERE id_pessoa=$id_pessoa");
+	$pessoa = mysqli_fetch_array($resultado);
 ?>
 
 <header class="header">
@@ -35,10 +39,19 @@ require_once ROOT."/html/personalizacao_display.php";
 		<div id="userbox" class="userbox">
 			<a href="#" data-toggle="dropdown">
 				<figure class="profile-picture">
-					<img src="<?php echo WWW;?>img/semfoto.jpg" alt="Joseph Doe" class="img-circle" data-lock-picture="<?php echo WWW;?>assets/images/!logged-user.jpg" />
+					<?php
+						if(isset($_SESSION['id_pessoa']) and !empty($_SESSION['id_pessoa'])){
+							$foto = $pessoa['imagem'];
+							if($foto != null and $foto != "")
+								$foto = 'data:image;base64,'.$foto;
+							else $foto = WWW."img/semfoto.png";
+						}
+						
+					?>
+					<img src="<?php echo($foto);?>" alt="Joseph Doe" class="img-circle" />
 				</figure>
 				<div class="profile-info" data-lock-name="John Doe" data-lock-email="johndoe@okler.com">
-					<span class="name"><?php echo($_SESSION['usuario']); ?></span>
+					<span class="name"><?php echo($pessoa['nome']); ?></span>
 					<span class="role">Funcionário</span>
 				</div>
 				<i class="fa custom-caret"></i>

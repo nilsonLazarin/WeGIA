@@ -108,6 +108,9 @@ require_once ROOT."/html/personalizacao_display.php";
     <script src="<?php echo WWW;?>Functions/onlyChars.js"></script>
     <script src="<?php echo WWW;?>Functions/mascara.js"></script>
     <script src="<?php echo WWW;?>Functions/memorando/mostra_arquivo.js"></script>
+
+    <!-- jkeditor -->
+    <script src="<?php echo WWW;?>assets/vendor/ckeditor/ckeditor.js"></script>
         
     <!-- jquery functions -->
 
@@ -134,6 +137,8 @@ require_once ROOT."/html/personalizacao_display.php";
 
         var id_memorando = <?php echo $_GET['id_memorando']?>;
         $("#id_memorando").val(id_memorando);
+
+        CKEDITOR.replace('despacho');
     });
 	</script>
 
@@ -223,9 +228,23 @@ require_once ROOT."/html/personalizacao_display.php";
 
 		#despacho
 		{
-			width: 700px;
-			height: 400px;
+			height: 500px;
 		}
+
+		#div_texto
+        {
+            width: 100%;
+        }
+
+        #cke_despacho
+        {
+        	height: 500px;
+        }
+
+        .cke_inner
+        {
+        	height: 500px;
+        }
 
 	</style>
 </head>
@@ -318,8 +337,7 @@ require_once ROOT."/html/personalizacao_display.php";
 										</div>
 										<div class='form-group'>
 											<label for=texto id=etiqueta_despacho class='col-md-3 control-label'>Despacho </label>
-											<div class='col-md-6'>
-												<textarea cols='30' rows='5' id='despacho' name='texto' required class='form-control'></textarea>
+											<div class='col-md-6' id='div_texto' style="height: 500px;">							<textarea cols='30' rows='5' id='despacho' name='texto' required class='form-control'></textarea>
 											</div>
 										</div>
 										<div class='row'>
