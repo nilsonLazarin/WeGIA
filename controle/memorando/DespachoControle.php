@@ -56,6 +56,7 @@ class DespachoControle
 			$lastId = $despachoDAO->incluir($despacho);
 			$anexoss = $_FILES["anexo"];
 			$anexo2 = $_FILES["anexo"]["tmp_name"][0];
+			var_dump($anexo2);
     		if(isset($anexo2) && !empty($anexo2))
     		{
 				require_once ROOT."/controle/memorando/AnexoControle.php";
