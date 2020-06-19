@@ -109,6 +109,21 @@ class Display_campo{
         }
     }
 
+    public function display_file_user(){
+        // Procura o arquivo baseado no nome do campo (não funcionar com carrossel)
+        $nome_campo = $this->getCampo();
+        $result = $this->getQuery("
+        select i.imagem as arquivo
+        from campo_imagem c
+        inner join tabela_imagem_campo ic on c.id_campo = ic.id_campo
+        inner join imagem i on ic.id_imagem = i.id_imagem
+        where c.nome_campo='$nome_campo';");
+        if (count($result) == 1){
+            $this->setConteudo($result[0]['arquivo']);
+            echo('data:image;base64,'.$this->getConteudo());
+        }
+    }
+
     public function getCar(){
         // Retorna uma array de arquivos
         $nome_campo = $this->getCampo();
