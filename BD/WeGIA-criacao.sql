@@ -125,8 +125,8 @@ CREATE TABLE IF NOT EXISTS `wegia`.`anexo` (
   `id_anexo` INT(11) NOT NULL AUTO_INCREMENT,
   `id_despacho` INT(11) NOT NULL,
   `anexo` LONGTEXT NULL DEFAULT NULL,
-  `extensao` VARCHAR(11) NOT NULL,
-  `nome` VARCHAR(11) NOT NULL,
+  `extensao` VARCHAR(50) NOT NULL,
+  `nome` VARCHAR(40) NOT NULL,
   PRIMARY KEY (`id_anexo`),
   INDEX `id_despacho` (`id_despacho` ASC),
   CONSTRAINT `anexo_ibfk_1`
