@@ -24,7 +24,7 @@ class AnexoControle
 		$anexos = $AnexoDAO->listarTodos($id_despacho);
 		session_start();
 		$_SESSION['arquivos'] = $anexos;
-		//header("Location: ".WWW."html/memorando/listar_despachos.php?id_memorando=".$_GET['id_memorando']);
+		header("Location: ".WWW."html/memorando/listar_despachos.php?id_memorando=".$_GET['id_memorando']);
 	}
 
 	public function incluir($anexo, $lastId)
@@ -43,11 +43,11 @@ class AnexoControle
 			$pos = strpos($arquivo1, ".")+1;
 			$extensao = substr($arquivo1, $pos, strlen($arquivo1)+1);
 			$nome = substr($arquivo1, 0, $pos-1);
-			echo $nome;
 			$anexo = new Anexo();
 			$anexo->setId_despacho($lastId);
     		$anexo->setAnexo($arquivo64);
     		$anexo->setNome($nome);
+    		echo $nome;
     		$anexo->setExtensao($extensao);	
     		$anexoDAO = new AnexoDAO();
 			try
