@@ -136,18 +136,49 @@
 
                             <h4 class="mb-xlg">Parâmetros do relatório</h4>
 
-                            <div class="form-group" id='orig-dest-div'>
-								<label class="col-md-3 control-label" id='orig-dest'>Origem</label>
+							<div class="form-group" id='orig'>
+								<label class="col-md-3 control-label">Origem</label>
 								<div class="col-md-8">
-									<input type="text" class="form-control" name="origem" id='orig-dest-input'>
+								<select name="origem">
+									  <option value="">Todas as Opções</option>
+									  <?php
+											$pdo = Conexao::connect();
+											$res = $pdo->query("select * from origem;");
+											$origem = $res->fetchAll(PDO::FETCH_ASSOC);
+											foreach ($origem as $value){
+												echo('
+												<option value="'.$value['id_origem'].'">'.$value['nome_origem'].'</option>
+												');
+											}
+										?>
+								  </select>
 								</div>
-                            </div>
+							</div>
+
+							<div class="form-group" id='dest' style="display: none;">
+								<label class="col-md-3 control-label">Destino</label>
+								<div class="col-md-8">
+								<select name="destino">
+									  <option value="">Todas as Opções</option>
+									  <?php
+											$pdo = Conexao::connect();
+											$res = $pdo->query("select * from destino;");
+											$destino = $res->fetchAll(PDO::FETCH_ASSOC);
+											foreach ($destino as $value){
+												echo('
+												<option value="'.$value['id_destino'].'">'.$value['nome_destino'].'</option>
+												');
+											}
+										?>
+								  </select>
+								</div>
+							</div>
 							
 							<div class="form-group" id='tipo-entrada'>
 								<label class="col-md-3 control-label">Tipo de Entrada</label>
 								<div class="col-md-8">
 								<select name="tipo">
-									  <option value="">Todos</option>
+									  <option value="">Todas as Opções</option>
 									  <?php
 											$pdo = Conexao::connect();
 											$res = $pdo->query("select * from tipo_entrada;");
@@ -166,7 +197,7 @@
 								<label class="col-md-3 control-label">Tipo de Saida</label>
 								<div class="col-md-8">
 								<select name="">
-									  <option value="">Todos</option>
+									  <option value="">Todas as Opções</option>
 									  <?php
 											$pdo = Conexao::connect();
 											$res = $pdo->query("select * from tipo_saida;");
@@ -180,13 +211,25 @@
 								  </select>
 								</div>
                             </div>
-                            
-                            <div class="form-group" id='resp'>
-								<label class="col-md-3 control-label">Responável</label>
+
+							<div class="form-group" id='resp'>
+								<label class="col-md-3 control-label">Responsável</label>
 								<div class="col-md-8">
-									<input type="text" class="form-control" name="responsavel">
+								<select name="responsavel">
+									  <option value="">Todas as Opções</option>
+									  <?php
+											$pdo = Conexao::connect();
+											$res = $pdo->query("select * from pessoa;");
+											$resp = $res->fetchAll(PDO::FETCH_ASSOC);
+											foreach ($resp as $value){
+												echo('
+												<option value="'.$value['id_pessoa'].'">'.$value['nome'].'</option>
+												');
+											}
+										?>
+								  </select>
 								</div>
-                            </div>
+							</div>
 
                             <div class="form-group" id='per'>
 								<label class="col-md-3 control-label" for="profileCompany">Período</label>
@@ -201,7 +244,7 @@
 								<label class="col-md-3 control-label">Almoxarifado</label>
 								<div class="col-md-8">
 									<select name="almoxarifado">
-										<option value="">Todos</option>
+										<option value="">Todas as Opções</option>
 										<?php
 											$pdo = Conexao::connect();
 											$res = $pdo->query("select * from almoxarifado;");
@@ -235,7 +278,8 @@
 		Display = is_estoque ? 'none' : 'block';
 		Hide = is_estoque ? 'block' : 'none';
 
-		document.getElementById('orig-dest-div').style.display = Display;
+		document.getElementById('dest').style.display = Display;
+		document.getElementById('orig').style.display = Display;
 		document.getElementById('resp').style.display = Display;
 		document.getElementById('per').style.display = Display;
 		document.getElementById('tipo-entrada').style.display = Display;
@@ -249,6 +293,9 @@
 		document.getElementById('tipo-entrada').style.display = Display;
 		document.getElementById('tipo-saida').style.display = Hide;
 
+		document.getElementById('orig').style.display = Display;
+		document.getElementById('dest').style.display = Hide;
+
 		
 		document.querySelector("#tipo-entrada > div > select").name = is_entrada ? 'tipo' : '';
 		document.querySelector("#tipo-saida > div > select").name = is_entrada ? '' : 'tipo';
@@ -257,17 +304,7 @@
 	}
 
 	function changeType(selection){
-		if (selection == 'saida'){
-			document.getElementById('orig-dest').innerText = "Destino";
-			document.getElementById('orig-dest-input').name = "destino";
-		}
-		if (selection == 'entrada'){
-			document.getElementById('orig-dest').innerText = "Origem";
-			document.getElementById('orig-dest-input').name = "origem";
-		}
 		if (selection == 'estoque'){
-			document.getElementById('orig-dest').innerText = "";
-			document.getElementById('orig-dest-input').name = "";
 			isEstoque(true);
 		}else{
 			isEstoque(false);

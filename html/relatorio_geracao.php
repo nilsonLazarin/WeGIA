@@ -6,22 +6,46 @@
     // Adiciona a Função display_campo($nome_campo, $tipo_campo)
 	require_once "personalizacao_display.php";
 
+	require_once "../dao/Conexao.php";
+
 	require_once "relatorios/Relatorio_item.php";
 
-
+	
 	if (isset($_POST['origem'])) {
 		$o_d = $_POST['origem'];
 	}else{
 		$o_d = $_POST['destino'];
 	}
+	$post = [
+		$_POST['tipo_relatorio'] != '' ? $_POST['tipo_relatorio'] : null,
+		$o_d != '' ? $o_d : null,
+		$_POST['tipo'] != '' ? $_POST['tipo'] : null,
+		$_POST['responsavel'] != '' ? $_POST['responsavel'] : null,
+		[
+			'inicio' => $_POST['data_inicio'] != '' ? $_POST['data_inicio'] : null, 
+			'fim' => $_POST['data_fim'] != '' ? $_POST['data_fim'] : null
+		],
+		$_POST['almoxarifado'] != '' ? $_POST['almoxarifado'] : null
+	];
+
 	$item = new Item(
 		$_POST['tipo_relatorio'],
 		$o_d,
 		$_POST['tipo'],
 		$_POST['responsavel'],
-		['inicio' => $_POST['data_inicio'], 'fim' => $_POST['data_fim']],
+		[
+			'inicio' => $_POST['data_inicio'], 
+			'fim' => $_POST['data_fim']
+		],
 		$_POST['almoxarifado']
 	);
+
+	function quickQuery($query, $column){
+		$pdo = Conexao::connect();
+		$res = $pdo->query($query);
+		$res = $res->fetchAll(PDO::FETCH_ASSOC);
+		return $res[0][$column];
+	}
 
 ?>
 <!doctype html>
@@ -130,6 +154,78 @@
 				</header>
                 <!--start: page-->
                 <div class="tab-content">
+					<div class="descricao">
+					<p>
+						<li>
+							<?php
+							if (isset($post[0])){
+
+								echo("<h3>Relatório de ".$post[0]."</h3>");
+
+								if ($post[0] == 'entrada'){
+									if (isset($post[1])){
+										$origem = quickQuery("select nome_origem from origem where id_origem = ".$post[1].";", "nome_origem");
+										echo("<ul>Origem: ".$origem."</ul>");
+									}else{
+										echo("<ul>Origem: Todas</ul>");
+									}
+									if (isset($post[2])){
+										$tipo = quickQuery("select descricao from tipo_entrada where id_tipo = ".$post[2].";", "descricao");
+										echo("<ul>Tipo: ".$tipo."</ul>");
+									}else{
+										echo("<ul>Tipo: Todos</ul>");
+									}
+									if (isset($post[3])){
+										$responsavel = quickQuery("select nome from pessoa where id_pessoa = ".$post[3].";", "nome");
+										echo("<ul>Responsavel: ".$responsavel."</ul>");
+									}else{
+										echo("<ul>Responsavel: Todos</ul>");
+									}
+								}
+
+								if ($post[0] == 'saida'){
+									if (isset($post[1])){
+										$destino = quickQuery("select nome_destino from destino where id_destino = ".$post[1].";", "nome_destino");
+										echo("<ul>Destino: ".$destino."</ul>");
+									}else{
+										echo("<ul>Destino: Todos</ul>");
+									}
+									if (isset($post[2])){
+										$tipo = quickQuery("select descricao from tipo_saida where id_tipo = ".$post[2].";", "descricao");
+										echo("<ul>Tipo: ".$tipo."</ul>");
+									}else{
+										echo("<ul>Tipo: Todos</ul>");
+									}
+									if (isset($post[3])){
+										$responsavel = quickQuery("select nome from pessoa where id_pessoa = ".$post[3].";", "nome");
+										echo("<ul>Responsavel: ".$responsavel."</ul>");
+									}else{
+										echo("<ul>Responsavel: Todos</ul>");
+									}
+								}
+
+								if (isset($post[4]['inicio'])){
+									echo("<ul>A partir de: ".$post[4]['inicio']."</ul>");
+								}
+
+								if (isset($post[4]['fim'])){
+									echo("<ul>Até: ".$post[4]['fim']."</ul>");
+								}
+
+								if (isset($post[5])){
+									$almoxarifado = quickQuery("select descricao_almoxarifado from almoxarifado where id_almoxarifado = ".$post[5].";","descricao_almoxarifado");
+									echo("<ul>Almoxarifado: ".$almoxarifado."</ul>");
+								}else{
+									echo("<ul>Almoxarifado: Todos</ul>");
+								}
+							}
+							
+							?>
+						</li>
+					</p>
+					</div>
+				<h4>Resultado</h4>
+
                     <table class="table table-striped">
                         <thead class="thead-dark">
                             <tr>

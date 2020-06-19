@@ -50,7 +50,7 @@ class Item {
             $params = "WHERE ";
             $cont = 0;
             if ($this->getOrigem()){
-                $params = $this->param($params, $cont).' origem.nome_origem = "'.$this->getOrigem().'" ';
+                $params = $this->param($params, $cont).' origem.id_origem = "'.$this->getOrigem().'" ';
                 $cont++;
             }
             if ($this->getTipo()){
@@ -58,7 +58,7 @@ class Item {
                 $cont++;
             }
             if ($this->getResponsavel()){
-                $params = $this->param($params, $cont).' pessoa.nome = "'.$this->getResponsavel().'" ';
+                $params = $this->param($params, $cont).' pessoa.id_pessoa = "'.$this->getResponsavel().'" ';
                 $cont++;
             }
             if ($this->getAlmoxarifado()){
@@ -106,7 +106,7 @@ class Item {
             $params = "WHERE ";
             $cont = 0;
             if ($this->getDestino()){
-                $params = $this->param($params, $cont).' destino.nome_destino = "'.$this->getDestino().'" ';
+                $params = $this->param($params, $cont).' destino.id_destino = "'.$this->getDestino().'" ';
                 $cont++;
             }
             if ($this->getTipo()){
@@ -114,7 +114,7 @@ class Item {
                 $cont++;
             }
             if ($this->getResponsavel()){
-                $params = $this->param($params, $cont).' pessoa.nome = "'.$this->getResponsavel().'" ';
+                $params = $this->param($params, $cont).' pessoa.id_pessoa = "'.$this->getResponsavel().'" ';
                 $cont++;
             }
             if ($this->getAlmoxarifado()){
