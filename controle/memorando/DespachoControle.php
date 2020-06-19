@@ -1,5 +1,9 @@
 <?php
 
+ini_set('display_errors',1);
+ini_set('display_startup_erros',1);
+error_reporting(E_ALL);
+
 $config_path = "config.php";
 if(file_exists($config_path)){
     require_once($config_path);
@@ -58,7 +62,7 @@ class DespachoControle
     			$arquivo = new AnexoControle();
     			$arquivo->incluir($anexoss, $lastId);
     		}
-			//header("Location: ".WWW."html/memorando/listar_memorandos_ativos.php");
+			header("Location: ".WWW."html/memorando/listar_memorandos_ativos.php");
 		}
 		catch(PDOException $e)
 		{
