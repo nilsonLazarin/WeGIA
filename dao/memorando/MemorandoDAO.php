@@ -174,7 +174,7 @@ class MemorandoDAO
 
 			while($linha = $consulta->fetch(PDO::FETCH_ASSOC))
 			{
-				$Despacho[$x]=array('id_destinatario'=>$linha['id_destinatario']);
+				$Despacho[$x]=array('id_destinatarioo'=>$linha['id_destinatario']);
 				$x++;
 			}
 		}

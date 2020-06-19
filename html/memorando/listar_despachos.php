@@ -256,7 +256,7 @@ require_once ROOT."/html/personalizacao_display.php";
 				<section class="panel" >
 				<!-- start: page -->
 				<?php
-				if($_SESSION['ultimo_despacho'][0]['id_destinatario']!=$_SESSION['id_pessoa'] AND $arquivado!=1)
+				if($_SESSION['ultimo_despacho'][0]['id_destinatarioo']!=$_SESSION['id_pessoa'] AND $arquivado!=1)
 				{
 				?>
 				<script>
@@ -408,7 +408,7 @@ require_once ROOT."/html/personalizacao_display.php";
 		var funcionario=<?php echo $_SESSION['funcionarios2']?>;
     		$.each(funcionario,function(i,item){	
 			$("#destinatario")
-				.append($("<option id="+item.id_pessoa+" value="+item.id_pessoa+"name="+item.id_pessoa+">"+item.nome+"</option>"));
+				.append($("<option id="+item.id_pessoa+" value="+item.id_pessoa+" name="+item.id_pessoa+">"+item.nome+"</option>"));
 		});    
 		});           	
 	</script>

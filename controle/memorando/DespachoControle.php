@@ -58,7 +58,7 @@ class DespachoControle
     			$arquivo = new AnexoControle();
     			$arquivo->incluir($anexoss, $lastId);
     		}
-			header("Location: ".WWW."html/memorando/listar_memorandos_ativos.php");
+			//header("Location: ".WWW."html/memorando/listar_memorandos_ativos.php");
 		}
 		catch(PDOException $e)
 		{
@@ -81,7 +81,6 @@ class DespachoControle
 		$pessoa = new UsuarioDAO();
     	$id_pessoa = $pessoa->obterUsuario($cpf_usuario);
     	$id_pessoa = $id_pessoa['0']['id_pessoa'];
-
     	$despacho = new Despacho($texto);
     	$despacho->setId_remetente($id_pessoa);
     	$despacho->setData();
