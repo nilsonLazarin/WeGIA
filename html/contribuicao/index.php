@@ -323,7 +323,7 @@
                     </div>
 					<div class="wrap-input100 validate-input bg1" data-validate="Por Favor Digite o Sobrenome" id="sobrenome">
                             <span class="label-input100">SOBRENOME *</span>
-                            <input class="input100" type="text" name="sobrenome" id="sobrenome" placeholder="Digite seu sobrenome" required>
+                            <input class="input100" type="text" name="sobrenome" id="sbnome" placeholder="Digite seu sobrenome" required>
                     </div>
 
                     <div class="wrap-input100 validate-input bg1" style="height: 90px" id = "nascimento">
