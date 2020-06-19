@@ -209,6 +209,7 @@ class Item {
     public function display(){
         $this->selecRelatorio();
         $query = $this->query();
+        $tot_val = 0;
         foreach ($query as $item){
             echo('
                 <tr>
@@ -217,7 +218,15 @@ class Item {
                     <td>'.$item['valor_total'].'</td>
                 </tr>
             ');
+            $tot_val += $item['valor_total'];
         }
+        echo('
+        <tr class="table-info">
+            <td scope="row">Valor total:</td>
+            <td></td>
+            <td>'.$tot_val.'</td>
+        </tr>
+    ');
     }
 
     // Getters e Setters

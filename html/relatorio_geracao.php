@@ -130,7 +130,7 @@
 				</header>
                 <!--start: page-->
                 <div class="tab-content">
-                    <table class="table table-sm">
+                    <table class="table table-striped">
                         <thead class="thead-dark">
                             <tr>
                             <th scope="col" width="12%">Quantidade</th>
