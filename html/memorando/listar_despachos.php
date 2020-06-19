@@ -108,6 +108,9 @@ require_once ROOT."/html/personalizacao_display.php";
     <script src="<?php echo WWW;?>Functions/onlyChars.js"></script>
     <script src="<?php echo WWW;?>Functions/mascara.js"></script>
     <script src="<?php echo WWW;?>Functions/memorando/mostra_arquivo.js"></script>
+
+    <!-- jkeditor -->
+    <script src="<?php echo WWW;?>assets/vendor/ckeditor/ckeditor.js"></script>
         
     <!-- jquery functions -->
 
@@ -134,6 +137,8 @@ require_once ROOT."/html/personalizacao_display.php";
 
         var id_memorando = <?php echo $_GET['id_memorando']?>;
         $("#id_memorando").val(id_memorando);
+
+        CKEDITOR.replace('despacho');
     });
 	</script>
 
