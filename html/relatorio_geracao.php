@@ -6,9 +6,22 @@
     // Adiciona a Função display_campo($nome_campo, $tipo_campo)
 	require_once "personalizacao_display.php";
 
-	require_once "../classes/Relatorio_item.php"
+	require_once "relatorios/Relatorio_item.php";
 
 
+	if (isset($_POST['origem'])) {
+		$o_d = $_POST['origem'];
+	}else{
+		$o_d = $_POST['destino'];
+	}
+	$item = new Item(
+		$_POST['tipo_relatorio'],
+		$o_d,
+		$_POST['tipo'],
+		$_POST['responsavel'],
+		['inicio' => $_POST['data_inicio'], 'fim' => $_POST['data_fim']],
+		$_POST['almoxarifado']
+	);
 
 ?>
 <!doctype html>
@@ -17,7 +30,7 @@
 	<!-- Basic -->
 	<meta charset="UTF-8">
 
-	<title>Relatório</title>
+	<title>Geração de Relatório</title>
 
 	<!-- Mobile Metas -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -101,7 +114,7 @@
 			<!-- end: sidebar -->
 			<section role="main" class="content-body">
 				<header class="page-header">
-					<h2>Relatório de Entrada</h2>
+					<h2>Geração de Relatório</h2>
 					<div class="right-wrapper pull-right">
 						<ol class="breadcrumbs">
 							<li>
@@ -110,7 +123,7 @@
 								</a>
 							</li>
 							<li><span>Páginas</span></li>
-							<li><span>Relatório</span></li>
+							<li><span>Geração de Relatório</span></li>
 						</ol>
 						<a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
 					</div>
@@ -126,40 +139,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td scope="row">1</td>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                            </tr>
-                            <tr>
-                                <td scope="row">2</td>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                            </tr>
-                            <tr>
-                                <td scope="row">3</td>
-                                <td>Larry</td>
-                                <td>the Bird</td>
-                            </tr>
+							<?php
+								$item->display();
+							?>
                         </tbody>
                     </table>
 				</div>
-				<?php
-					if (isset($_GET['origem'])) {
-						$o_d = $_GET['origem'];
-					}else{
-						$o_d = $_GET['destino'];
-					}
-					$item = new Item(
-						$_GET['tipo_relatorio'],
-						$o_d,
-						$_GET['tipo'],
-						$_GET['responsavel'],
-						['inicio' => $_GET['data_inicio'], 'fim' => $_GET['data_fim']],
-						$_GET['almoxarifado']
-					);
-					$item->display();
-				?>
 				<!--end: page-->
 			</section>
 		</div>

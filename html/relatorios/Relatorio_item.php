@@ -201,12 +201,23 @@ class Item {
     }
 
     private function query(){
-        echo($this->getQuery());
+        $pdo = Conexao::connect();
+        $res = $pdo->query($this->getQuery());
+        return $res->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function display(){
         $this->selecRelatorio();
-        $this->query();
+        $query = $this->query();
+        foreach ($query as $item){
+            echo('
+                <tr>
+                    <td scope="row">'.$item['qtd_total'].'</td>
+                    <td>'.$item['descricao'].'</td>
+                    <td>'.$item['valor_total'].'</td>
+                </tr>
+            ');
+        }
     }
 
     // Getters e Setters
