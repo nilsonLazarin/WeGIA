@@ -76,7 +76,7 @@ class Item {
 
             $this->setQuery("
             SELECT 
-            SUM(ientrada.qtd) as qtd_total, produto.descricao, SUM(ientrada.valor_unitario) as valor_total 
+            SUM(ientrada.qtd) as qtd_total, produto.descricao, SUM(ientrada.qtd*ientrada.valor_unitario) as valor_total
             FROM ientrada 
             LEFT JOIN entrada ON entrada.id_entrada = ientrada.id_entrada 
             LEFT JOIN produto ON produto.id_produto = ientrada.id_produto 
@@ -92,7 +92,7 @@ class Item {
         }else{
             $this->setQuery("
             SELECT 
-            SUM(ientrada.qtd) as qtd_total, produto.descricao, SUM(ientrada.valor_unitario) as valor_total 
+            SUM(ientrada.qtd) as qtd_total, produto.descricao, SUM(ientrada.qtd*ientrada.valor_unitario) as valor_total
             FROM ientrada 
             LEFT JOIN produto ON produto.id_produto = ientrada.id_produto 
             GROUP BY produto.descricao
@@ -132,7 +132,7 @@ class Item {
 
             $this->setQuery("
             SELECT 
-            SUM(isaida.qtd) as qtd_total, produto.descricao, SUM(isaida.valor_unitario) as valor_total 
+            SUM(isaida.qtd) as qtd_total, produto.descricao, SUM(isaida.qtd*isaida.valor_unitario) as valor_total
             FROM isaida 
             LEFT JOIN saida ON saida.id_saida = isaida.id_saida 
             LEFT JOIN produto ON produto.id_produto = isaida.id_produto 
@@ -147,7 +147,7 @@ class Item {
         }else{
             $this->setQuery("
             SELECT 
-            SUM(isaida.qtd) as qtd_total, produto.descricao, SUM(isaida.valor_unitario) as valor_total 
+            SUM(isaida.qtd) as qtd_total, produto.descricao, SUM(isaida.qtd*isaida.valor_unitario) as valor_total
             FROM isaida 
             LEFT JOIN produto ON produto.id_produto = isaida.id_produto 
             GROUP BY produto.descricao
@@ -166,7 +166,7 @@ class Item {
             }
             $this->setQuery("
             SELECT
-            SUM(estoque.qtd) as qtd_total, produto.descricao, SUM(produto.preco) as valor_total
+            SUM(estoque.qtd) as qtd_total, produto.descricao, SUM(estoque.qtd*produto.preco) as valor_total
             from estoque 
             LEFT JOIN produto ON produto.id_produto = estoque.id_produto 
             LEFT JOIN almoxarifado ON almoxarifado.id_almoxarifado = estoque.id_almoxarifado 
@@ -177,7 +177,7 @@ class Item {
         }else{
             $this->setQuery("
             SELECT
-            SUM(estoque.qtd) as qtd_total, produto.descricao, SUM(produto.preco) as valor_total
+            SUM(estoque.qtd) as qtd_total, produto.descricao, SUM(estoque.qtd*produto.preco) as valor_total
             from estoque 
             LEFT JOIN produto ON produto.id_produto = estoque.id_produto 
             GROUP BY produto.descricao
@@ -218,12 +218,11 @@ class Item {
                     <td>'.$item['valor_total'].'</td>
                 </tr>
             ');
-            $tot_val += $item['valor_total'];
+            $tot_val += ($item['valor_total'] * $item['qtd_total']);
         }
         echo('
         <tr class="table-info">
-            <td scope="row">Valor total:</td>
-            <td></td>
+            <td scope="row" colspan="2">Valor total:</td>
             <td>'.$tot_val.'</td>
         </tr>
     ');
