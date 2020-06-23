@@ -11,6 +11,7 @@ class Item {
     private $periodo; // Array('inicio' => data de inicio, 'fim' => data de fim)
     private $almoxarifado;
     private $query;
+    private $DDL_cmd;
 
     // Constructor
 
@@ -78,14 +79,14 @@ class Item {
             SELECT 
             SUM(ientrada.qtd) as qtd_total, produto.descricao, SUM(ientrada.qtd*ientrada.valor_unitario) as valor_total
             FROM ientrada 
-            LEFT JOIN entrada ON entrada.id_entrada = ientrada.id_entrada 
             LEFT JOIN produto ON produto.id_produto = ientrada.id_produto 
+            LEFT JOIN entrada ON entrada.id_entrada = ientrada.id_entrada 
             LEFT JOIN origem ON origem.id_origem = entrada.id_origem 
             LEFT JOIN tipo_entrada ON tipo_entrada.id_tipo = entrada.id_tipo 
             LEFT JOIN almoxarifado ON almoxarifado.id_almoxarifado = entrada.id_almoxarifado 
             LEFT JOIN pessoa ON pessoa.id_pessoa = entrada.id_responsavel 
             ".$params."
-            GROUP BY produto.descricao
+            GROUP BY concat(ientrada.id_produto,ientrada.valor_unitario)
             ;
             ");
 
@@ -95,7 +96,7 @@ class Item {
             SUM(ientrada.qtd) as qtd_total, produto.descricao, SUM(ientrada.qtd*ientrada.valor_unitario) as valor_total
             FROM ientrada 
             LEFT JOIN produto ON produto.id_produto = ientrada.id_produto 
-            GROUP BY produto.descricao
+            GROUP BY concat(ientrada.id_produto,ientrada.valor_unitario)
             ;
             ");
         }
@@ -134,14 +135,14 @@ class Item {
             SELECT 
             SUM(isaida.qtd) as qtd_total, produto.descricao, SUM(isaida.qtd*isaida.valor_unitario) as valor_total
             FROM isaida 
-            LEFT JOIN saida ON saida.id_saida = isaida.id_saida 
             LEFT JOIN produto ON produto.id_produto = isaida.id_produto 
+            LEFT JOIN saida ON saida.id_saida = isaida.id_saida 
             LEFT JOIN destino ON destino.id_destino = saida.id_destino 
             LEFT JOIN tipo_saida ON tipo_saida.id_tipo = saida.id_tipo 
             LEFT JOIN almoxarifado ON almoxarifado.id_almoxarifado = saida.id_almoxarifado 
             LEFT JOIN pessoa ON pessoa.id_pessoa = entrada.id_responsavel 
             ".$params."
-            GROUP BY produto.descricao
+            GROUP BY concat(isaida.id_produto,isaida.valor_unitario)
             ;
             ");
         }else{
@@ -150,7 +151,7 @@ class Item {
             SUM(isaida.qtd) as qtd_total, produto.descricao, SUM(isaida.qtd*isaida.valor_unitario) as valor_total
             FROM isaida 
             LEFT JOIN produto ON produto.id_produto = isaida.id_produto 
-            GROUP BY produto.descricao
+            GROUP BY concat(isaida.id_produto,isaida.valor_unitario)
             ;
             ");
         }
@@ -161,26 +162,55 @@ class Item {
             $params = "WHERE ";
             $cont = 0;
             if ($this->getAlmoxarifado()){
-                $params = $this->param($params, $cont).' almoxarifado.id_almoxarifado = '.$this->getAlmoxarifado().' ';
+                $params = $this->param($params, $cont).' id_almoxarifado = '.$this->getAlmoxarifado().' ';
                 $cont++;
             }
+            $this->setDDL_cmd("
+            CREATE TEMPORARY TABLE IF NOT EXISTS tabela1 
+            SELECT produto.id_produto, sum(qtd) as somatorio, produto.descricao, (sum(qtd) * ientrada.valor_unitario) as Total, 
+            concat(ientrada.id_produto,valor_unitario) as kungfu 
+            FROM ientrada, produto 
+            WHERE ientrada.id_produto=produto.id_produto 
+            GROUP by kungfu 
+            ORDER by produto.descricao;
+            
+            CREATE TEMPORARY TABLE IF NOT EXISTS tabela2 
+            SELECT id_produto, (sum(Total)/sum(somatorio)) AS PrecoMedio 
+            FROM tabela1 
+            GROUP by tabela1.descricao;
+            
+            CREATE TEMPORARY TABLE IF NOT EXISTS estoque_com_preco_atualizado 
+            SELECT estoque.id_produto, id_categoria_produto, id_unidade, codigo, qtd, descricao, PrecoMedio, (qtd*PrecoMedio) as Total, almoxarifado.id_almoxarifado
+            FROM tabela2,estoque,produto,almoxarifado
+            WHERE produto.id_produto=estoque.id_produto AND estoque.id_produto=tabela2.id_produto AND estoque.id_almoxarifado=almoxarifado.id_almoxarifado;
+            ");
             $this->setQuery("
-            SELECT
-            SUM(estoque.qtd) as qtd_total, produto.descricao, SUM(estoque.qtd*produto.preco) as valor_total
-            from estoque 
-            LEFT JOIN produto ON produto.id_produto = estoque.id_produto 
-            LEFT JOIN almoxarifado ON almoxarifado.id_almoxarifado = estoque.id_almoxarifado 
+            SELECT qtd AS qtd_total, descricao, Total AS valor_total FROM estoque_com_preco_atualizado 
             ".$params."
-            GROUP BY produto.descricao
             ;
             ");
         }else{
+            $this->setDDL_cmd("
+            CREATE TEMPORARY TABLE IF NOT EXISTS tabela1 
+            SELECT produto.id_produto, sum(qtd) as somatorio, produto.descricao, (sum(qtd) * ientrada.valor_unitario) as Total, 
+            concat(ientrada.id_produto,valor_unitario) as kungfu 
+            FROM ientrada, produto 
+            WHERE ientrada.id_produto=produto.id_produto 
+            GROUP by kungfu 
+            ORDER by produto.descricao;
+
+            CREATE TEMPORARY TABLE IF NOT EXISTS tabela2 
+            SELECT id_produto, (sum(Total)/sum(somatorio)) AS PrecoMedio 
+            FROM tabela1 
+            GROUP by tabela1.descricao;
+            
+            CREATE TEMPORARY TABLE IF NOT EXISTS estoque_com_preco_atualizado 
+            SELECT estoque.id_produto, id_categoria_produto, id_unidade, codigo, qtd, descricao, PrecoMedio, (qtd*PrecoMedio) as Total
+            FROM tabela2,estoque,produto
+            WHERE produto.id_produto=estoque.id_produto AND estoque.id_produto=tabela2.id_produto;
+            ");
             $this->setQuery("
-            SELECT
-            SUM(estoque.qtd) as qtd_total, produto.descricao, SUM(estoque.qtd*produto.preco) as valor_total
-            from estoque 
-            LEFT JOIN produto ON produto.id_produto = estoque.id_produto 
-            GROUP BY produto.descricao
+            SELECT qtd AS qtd_total, descricao, Total AS valor_total FROM estoque_com_preco_atualizado;
             ;
             ");
         }
@@ -202,6 +232,9 @@ class Item {
 
     private function query(){
         $pdo = Conexao::connect();
+        if ($this->getDDL_cmd()){
+            $pdo->exec($this->getDDL_cmd());
+        }
         $res = $pdo->query($this->getQuery());
         return $res->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -218,7 +251,7 @@ class Item {
                     <td>'.$item['valor_total'].'</td>
                 </tr>
             ');
-            $tot_val += ($item['valor_total'] * $item['qtd_total']);
+            $tot_val += $item['valor_total'];
         }
         echo('
         <tr class="table-info">
@@ -322,6 +355,18 @@ class Item {
     public function setDestino($destino)
     {
         $this->destino = $destino;
+
+        return $this;
+    }
+
+    public function getDDL_cmd()
+    {
+        return $this->DDL_cmd;
+    }
+
+    public function setDDL_cmd($DDL_cmd)
+    {
+        $this->DDL_cmd = $DDL_cmd;
 
         return $this;
     }
