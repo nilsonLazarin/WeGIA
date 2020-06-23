@@ -121,6 +121,16 @@ require_once ROOT."/html/personalizacao_display.php";
 	$(function(){
 		var despacho=<?php echo $_SESSION['despacho']?>;
 		var despachoAnexo=<?php echo $_SESSION['despachoComAnexo']?>;
+		<?php
+			if(isset($_GET["arq"]))
+			{
+				?>var arquivar = 1;<?php
+			}
+			else
+			{
+				?>var arquivar = 0;<?php
+			}
+		?>
 		console.log(despachoAnexo);
 		$.each(despacho,function(i,item){
 			$("#tabela")
@@ -136,9 +146,15 @@ require_once ROOT."/html/personalizacao_display.php";
 					.append($("<td >")
 						.text(item.data)));
 		});
-
 		$.each(despachoAnexo,function(i, item){
+			if(arquivar == 1)
+			{
+			$("#texto"+item.id_despacho).append($("<a href=<?php echo WWW;?>controle/control.php?id_despacho="+item.id_despacho+"&id_memorando="+<?php echo $id_memorando;?>+"&nomeClasse=AnexoControle&metodo=listarTodos&modulo=memorando&arq=1 target=_self><img src=<?php echo WWW;?>img/clip.png heigh=30px width=30px></a>"));
+			}
+			else
+			{
 			$("#texto"+item.id_despacho).append($("<a href=<?php echo WWW;?>controle/control.php?id_despacho="+item.id_despacho+"&id_memorando="+<?php echo $id_memorando;?>+"&nomeClasse=AnexoControle&metodo=listarTodos&modulo=memorando target=_self><img src=<?php echo WWW;?>img/clip.png heigh=30px width=30px></a>"));
+			}
 		});
 
         $("#header").load("<?php echo WWW;?>html/header.php");
@@ -147,7 +163,11 @@ require_once ROOT."/html/personalizacao_display.php";
         var id_memorando = <?php echo $_GET['id_memorando']?>;
         $("#id_memorando").val(id_memorando);
 
+        if(arquivar==0)
+        {
         CKEDITOR.replace('despacho');
+    	}
+    	
     });
 	</script>
 
@@ -164,7 +184,7 @@ require_once ROOT."/html/personalizacao_display.php";
 
 		#arquivos
 		{
-			margin-top: -25px; 
+			margin-top: 20px; 
     		position: absolute;
     		z-index: 1;
     		background-color: #e6e5e5;

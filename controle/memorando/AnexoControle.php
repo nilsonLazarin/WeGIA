@@ -24,7 +24,14 @@ class AnexoControle
 		$anexos = $AnexoDAO->listarTodos($id_despacho);
 		session_start();
 		$_SESSION['arquivos'] = $anexos;
-		header("Location: ".WWW."html/memorando/listar_despachos.php?id_memorando=".$_GET['id_memorando']);
+		if(isset($arq))
+		{
+			header("Location: ".WWW."html/memorando/listar_despachos.php?id_memorando=".$_GET['id_memorando']."&arq=1");
+		}
+		else
+		{
+			header("Location: ".WWW."html/memorando/listar_despachos.php?id_memorando=".$_GET['id_memorando']);
+		}
 	}
 
 	public function incluir($anexo, $lastId)
