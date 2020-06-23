@@ -45,6 +45,15 @@ class DespachoControle
 		}
 	}
 
+	//Listar Despachos com anexo
+	public function listarTodosComAnexo()
+	{
+		extract($_REQUEST);
+		$despachoComAnexoDAO = new DespachoDAO();
+		$despachosComAnexo = $despachoComAnexoDAO->listarTodosComAnexo($id_memorando);
+		$_SESSION['despachoComAnexo'] = $despachosComAnexo;
+	}
+
 	//Incluir despachos  
 	public function incluir()
 	{
