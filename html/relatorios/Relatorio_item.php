@@ -77,7 +77,7 @@ class Item {
 
             $this->setQuery("
             SELECT 
-            SUM(ientrada.qtd) as qtd_total, produto.descricao, SUM(ientrada.qtd*ientrada.valor_unitario) as valor_total
+            SUM(ientrada.qtd) as qtd_total, produto.descricao, SUM(ientrada.qtd*ientrada.valor_unitario) as valor_total 
             FROM ientrada 
             LEFT JOIN produto ON produto.id_produto = ientrada.id_produto 
             LEFT JOIN entrada ON entrada.id_entrada = ientrada.id_entrada 
@@ -185,7 +185,7 @@ class Item {
             WHERE produto.id_produto=estoque.id_produto AND estoque.id_produto=tabela2.id_produto AND estoque.id_almoxarifado=almoxarifado.id_almoxarifado;
             ");
             $this->setQuery("
-            SELECT qtd AS qtd_total, descricao, Total AS valor_total FROM estoque_com_preco_atualizado 
+            SELECT qtd AS qtd_total, descricao, Total AS valor_total, PrecoMedio FROM estoque_com_preco_atualizado 
             ".$params."
             ;
             ");
@@ -248,7 +248,7 @@ class Item {
                 <tr>
                     <td scope="row">'.$item['qtd_total'].'</td>
                     <td>'.$item['descricao'].'</td>
-                    <td>'.$item['PrecoMedio'].'</td>
+                    <td>'.($this->getRelatorio() == 'estoque' ? $item['PrecoMedio'] : $item['valor_total']).'</td>
                 </tr>
             ');
             $tot_val += $item['valor_total'];
