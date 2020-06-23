@@ -138,6 +138,10 @@ require_once ROOT."/html/personalizacao_display.php";
         {
             height: 500px;
         }
+        #cke_1_contents
+        {
+            height: 455px !important;
+        }
     </style>
 </head>
 

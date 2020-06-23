@@ -29,7 +29,6 @@ class AnexoDAO
 			{
 				$link = "data:image/".$linha['extensao'].";base64,".$linha['anexo'];
 				$Anexos[$x] = array('anexo'=>$link, 'extensao'=>$linha['extensao'], 'nome'=>$linha['nome']);
-				$x++;
 			}
 		}
 		catch(PDOException $e)

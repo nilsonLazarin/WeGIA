@@ -42,6 +42,29 @@ class DespachoDAO
 		return json_encode($Despachos);
 	}
 
+	public function listarTodosComAnexo($id_memorando)
+	{
+		try
+		{
+			$Despachos = array();
+			$pdo = Conexao::connect();
+			$consulta = $pdo->query("SELECT DISTINCT d.id_despacho FROM despacho d JOIN anexo a ON(d.id_despacho=a.id_despacho) JOIN memorando m ON(d.id_memorando=m.id_memorando) WHERE d.id_memorando=$id_memorando");
+			$x = 0;
+
+			while ($linha = $consulta->fetch(PDO::FETCH_ASSOC)) 
+			{
+				$Despachos[$x] = array('id_despacho'=>$linha['id_despacho']);
+				$x++;
+			}
+		}
+		catch(PDOExeption $e)
+		{
+			echo 'Error:' . $e->getMessage;
+		}
+
+		return json_encode($Despachos);
+	}
+
 	public function incluir($despacho)
 	{
 		try

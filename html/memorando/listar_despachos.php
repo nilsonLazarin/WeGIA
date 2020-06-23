@@ -35,6 +35,9 @@ $id_memorando=$_GET['id_memorando'];
 $despachos = new DespachoControle;
 $despachos->listarTodos();
 
+$despachos2 = new DespachoControle;
+$despachos2->listarTodosComAnexo();
+
 $funcionarios = new FuncionarioControle;
 $funcionarios->listarTodos2();
 
@@ -117,6 +120,8 @@ require_once ROOT."/html/personalizacao_display.php";
    	<script>
 	$(function(){
 		var despacho=<?php echo $_SESSION['despacho']?>;
+		var despachoAnexo=<?php echo $_SESSION['despachoComAnexo']?>;
+		console.log(despachoAnexo);
 		$.each(despacho,function(i,item){
 			$("#tabela")
 				.append($("<tr id="+item.id+">")
@@ -126,10 +131,14 @@ require_once ROOT."/html/personalizacao_display.php";
 						.text(item.remetente))
 					.append($("<td>")
 						.text(item.destinatario))
-					.append($("<td>")
-						.html(item.texto+"<a href=<?php echo WWW;?>controle/control.php?id_despacho="+item.id+"&id_memorando="+<?php echo $id_memorando;?>+"&nomeClasse=AnexoControle&metodo=listarTodos&modulo=memorando target=_self><img src=<?php echo WWW;?>img/clip.png heigh=30px width=30px></a>"))
+					.append($("<td id=texto"+item.id+">")
+						.html(item.texto))
 					.append($("<td >")
 						.text(item.data)));
+		});
+
+		$.each(despachoAnexo,function(i, item){
+			$("#texto"+item.id_despacho).append($("<a href=<?php echo WWW;?>controle/control.php?id_despacho="+item.id_despacho+"&id_memorando="+<?php echo $id_memorando;?>+"&nomeClasse=AnexoControle&metodo=listarTodos&modulo=memorando target=_self><img src=<?php echo WWW;?>img/clip.png heigh=30px width=30px></a>"));
 		});
 
         $("#header").load("<?php echo WWW;?>html/header.php");
@@ -182,11 +191,11 @@ require_once ROOT."/html/personalizacao_display.php";
 			background-color: #e6e5e5;
 			border-radius: 0px;
 			border: none;
-			color: #000000;
+			color: #000000 !important;
 		}
 		#link:hover
 		{
-			background-color: #cacaca;
+			background-color: #dcdcdc;
 		}
 
 		.pagination > li.active a, html.dark .pagination > li.active a
@@ -241,9 +250,14 @@ require_once ROOT."/html/personalizacao_display.php";
         	height: 500px;
         }
 
-        .cke_inner
+        .cke_contents
         {
         	height: 500px;
+        }
+
+        #cke_1_contents
+        {
+        	height: 455px !important;
         }
 
 	</style>
@@ -403,15 +417,11 @@ require_once ROOT."/html/personalizacao_display.php";
 				$(function(){	
 					$("#arquivos").show();
 					var anexo=<?php echo $Anexo;?>;
-					console.log(anexo);
+					console.log(<?php echo $_SESSION['arquivos']?>);
 					$.each(anexo,function(i,item){
             			$("#arquivos")
-                			.append("<button type='button' class='btn btn-primary btn-lg btn-block' id='link' onclick=debugBase64('"+item.anexo+"')>"+item.nome+"."+item.extensao+"</button>");
+                			.append("<!--button type='button' class='btn btn-lg btn-block' id='link' onclick=debugBase64('"+item.anexo+"')>"+item.nome+"."+item.extensao+"</button--><button type='button' class='btn btn-lg btn-block' id='link'><a href="+item.anexo+" download='"+item.nome+"."+item.extensao+"'>"+item.nome+"."+item.extensao+"</a></button>");
                 	});
-                	if(anexo.length==0)
-                	{
-                		$("#arquivos").append("<p id='semarquivos'>Não há arquivos anexados nesse despacho</p>")
-                	}
             $("#x").click(function(){
 			document.getElementById("arquivos").style.display = "none";
 			});
