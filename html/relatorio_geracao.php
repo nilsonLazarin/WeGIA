@@ -231,7 +231,7 @@
                             <tr>
                             <th scope="col" width="12%">Quantidade</th>
                             <th scope="col">Descrição</th>
-                            <th scope="col" width="12%">Preço Médio</th>
+                            <th scope="col" width="12%"><?= ($_POST['tipo_relatorio'] == 'estoque' ? 'Preço Médio' : "Total")?></th>
                             </tr>
                         </thead>
                         <tbody>
