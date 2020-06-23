@@ -231,7 +231,7 @@
                             <tr>
                             <th scope="col" width="12%">Quantidade</th>
                             <th scope="col">Descrição</th>
-                            <th scope="col" width="12%">Total</th>
+                            <th scope="col" width="12%">Preço Médio</th>
                             </tr>
                         </thead>
                         <tbody>

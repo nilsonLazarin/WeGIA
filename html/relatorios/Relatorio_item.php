@@ -210,7 +210,7 @@ class Item {
             WHERE produto.id_produto=estoque.id_produto AND estoque.id_produto=tabela2.id_produto;
             ");
             $this->setQuery("
-            SELECT qtd AS qtd_total, descricao, Total AS valor_total FROM estoque_com_preco_atualizado;
+            SELECT qtd AS qtd_total, descricao, Total AS valor_total, PrecoMedio FROM estoque_com_preco_atualizado;
             ;
             ");
         }
@@ -248,7 +248,7 @@ class Item {
                 <tr>
                     <td scope="row">'.$item['qtd_total'].'</td>
                     <td>'.$item['descricao'].'</td>
-                    <td>'.$item['valor_total'].'</td>
+                    <td>'.$item['PrecoMedio'].'</td>
                 </tr>
             ');
             $tot_val += $item['valor_total'];
