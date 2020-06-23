@@ -135,6 +135,11 @@ require_once($config_path);
 									Atualização e Backup
 								</a>
 							</li>
+							<li>
+								<a href="<?php echo WWW;?>html/atualiza_sistema_doacao.php">
+									Contribuição
+								</a>
+							</li>
 						</ul>
 					</li>
 				</ul>
