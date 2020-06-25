@@ -12,6 +12,7 @@ if(file_exists($config_path)){
 include_once ROOT."/dao/Conexao.php";
 include_once ROOT.'/classes/Funcionario.php';
 include_once ROOT.'/classes/Pessoa_epi.php';
+include_once ROOT.'/classes/QuadroHorario.php';
 include_once ROOT.'/dao/FuncionarioDAO.php';
 include_once ROOT.'/dao/QuadroHorarioDAO.php';
 include_once ROOT.'/dao/BeneficiadosDAO.php';
@@ -477,7 +478,9 @@ class FuncionarioControle
         }
         
     }
-
+    public function adicionar_permissao(){
+        echo("Funcionalidade em desenvolvimento.");
+    }
     public function listarBeneficio()
     {
         extract($_REQUEST);
