@@ -1,8 +1,8 @@
 <?php
 
-ini_set('display_errors', 1);
+/*ini_set('display_errors', 1);
 ini_set('display_startup_erros', 1);
-error_reporting(E_ALL);
+error_reporting(E_ALL);*/
 
 $config_path = "config.php";
 if(file_exists($config_path)){
@@ -24,6 +24,7 @@ if(!isset($_SESSION['usuario'])){
 require_once ROOT."/controle/memorando/DespachoControle.php";
 require_once ROOT."/controle/FuncionarioControle.php";
 require_once ROOT."/controle/memorando/MemorandoControle.php";
+require_once ROOT."/controle/memorando/AnexoControle.php";
 
 if(isset($_GET["arq"]))
 {
@@ -43,6 +44,9 @@ $funcionarios->listarTodos2();
 
 $ultimoDespacho =  new MemorandoControle;
 $ultimoDespacho->buscarUltimoDespacho($id_memorando);
+
+$Anexos = new AnexoControle;
+$Anexos->listarTodos($id_memorando);
 	
 // Adiciona a Função display_campo($nome_campo, $tipo_campo)
 require_once ROOT."/html/personalizacao_display.php";
@@ -121,6 +125,8 @@ require_once ROOT."/html/personalizacao_display.php";
 	$(function(){
 		var despacho=<?php echo $_SESSION['despacho']?>;
 		var despachoAnexo=<?php echo $_SESSION['despachoComAnexo']?>;
+		var arquivo=<?php echo $_SESSION['arquivos']?>;
+		console.log(arquivo);
 		<?php
 			if(isset($_GET["arq"]))
 			{
@@ -133,28 +139,39 @@ require_once ROOT."/html/personalizacao_display.php";
 		?>
 		console.log(despachoAnexo);
 		$.each(despacho,function(i,item){
-			$("#tabela")
-				.append($("<tr id="+item.id+">")
-					.append($("<td>")
-						.text(item.id))
-					.append($("<td>")
-						.text(item.remetente))
-					.append($("<td>")
-						.text(item.destinatario))
-					.append($("<td id=texto"+item.id+">")
-						.html(item.texto))
-					.append($("<td >")
-						.text(item.data)));
+			$("#listaDeDespachos")
+				.append($("<table class='table table-bordered table-striped mb-none' id='"+item.id+"'>")
+					.append($("<tr>")
+						.append($("<th>")
+							.text("Remetente"))
+						.append($("<td>")
+							.text(item.remetente))
+						.append($("<th>")
+							.text("Destinatario"))
+						.append($("<td>")
+							.text(item.destinatario)))
+					.append($("<tr>")
+						.append($("<th colspan=2>")
+							.text("Despacho"))
+						.append($("<th>")
+							.text("Data"))
+						.append($("<td>")
+							.text(item.data)))
+					.append($("<tr>")
+						.append($("<td colspan=4 id=texto"+item.id+">")
+							.html(item.texto))));
 		});
 		$.each(despachoAnexo,function(i, item){
-			if(arquivar == 1)
-			{
-			$("#texto"+item.id_despacho).append($("<a href=<?php echo WWW;?>controle/control.php?id_despacho="+item.id_despacho+"&id_memorando="+<?php echo $id_memorando;?>+"&nomeClasse=AnexoControle&metodo=listarTodos&modulo=memorando&arq=1 target=_self><img src=<?php echo WWW;?>img/clip.png heigh=30px width=30px></a>"));
-			}
-			else
-			{
-			$("#texto"+item.id_despacho).append($("<a href=<?php echo WWW;?>controle/control.php?id_despacho="+item.id_despacho+"&id_memorando="+<?php echo $id_memorando;?>+"&nomeClasse=AnexoControle&metodo=listarTodos&modulo=memorando target=_self><img src=<?php echo WWW;?>img/clip.png heigh=30px width=30px></a>"));
-			}
+			$("#"+item.id_despacho)
+				.append($("<tr>")
+						.append($("<th colspan=4>")
+							.text("Anexos")));
+		});
+		$.each(arquivo, function(i, item){
+			$("#"+item.id_despacho)
+				.append($("<tr id=link>")
+						.append($("<td colspan=4>")
+							.html("<a href="+item.anexo+" download='"+item.nome+"."+item.extensao+"'>"+item.nome+"."+item.extensao+"</a>")));
 		});
 
         $("#header").load("<?php echo WWW;?>html/header.php");
@@ -182,45 +199,15 @@ require_once ROOT."/html/personalizacao_display.php";
 			float: left;
 		}
 
-		#arquivos
-		{
-			margin-top: 20px; 
-    		position: absolute;
-    		z-index: 1;
-    		background-color: #e6e5e5;
-    		width: 50%;
-    		top: 15%;
-    		left: 50%;
-    		transform: translate(-50%, -50%);
-		}
-
-		#x
-		{
-			display: block;
-			box-shadow: none;
-			float: right;
-		}
-		#titulo
-		{
-			color: #ffff;
-			font-weight: 450;
-		}
-
 		#link
 		{
-			background-color: #e6e5e5;
 			border-radius: 0px;
 			border: none;
 			color: #000000 !important;
 		}
 		#link:hover
 		{
-			background-color: #dcdcdc;
-		}
-
-		.pagination > li.active a, html.dark .pagination > li.active a
-		{
-			z-index: 1;
+			background-color: #e6e5e5;
 		}
 
 		.panel-body
@@ -231,17 +218,6 @@ require_once ROOT."/html/personalizacao_display.php";
 		input[type="file"] {
 			margin-bottom: 10px;
 			margin-top: 15px;
-		}
-
-		#semarquivos
-		{
-			margin: 15px;
-    		font-size: 15px;
-		}
-
-		#barra
-		{
-			background-color: #1d2127;
 		}
 
 		.col-md-3 {
@@ -278,6 +254,11 @@ require_once ROOT."/html/personalizacao_display.php";
         #cke_1_contents
         {
         	height: 455px !important;
+        }
+
+        .table.mb-none
+        {
+        	margin-bottom: 25px !important; 
         }
 
 	</style>
@@ -323,7 +304,7 @@ require_once ROOT."/html/personalizacao_display.php";
 					<header class="panel-heading">
 						<h2 class="panel-title">Despacho</h2>
 					</header>
-					<div class="panel-body" >
+					<div class="panel-body" id="listaDeDespachos">
 						<div class="select" >
 							<select class="select-table-filter form-control mb-md" data-table="order-table">
 								<option selected disabled>Despacho</option>
@@ -331,20 +312,6 @@ require_once ROOT."/html/personalizacao_display.php";
 	  					</div>
 	  					<button style="float: right;" class="mb-xs mt-xs mr-xs btn btn-default">Imprimir</button>
 	  					<br><br>
-		  					
-						<table class="table table-bordered table-striped mb-none" id="datatable-default">
-							<thead>
-								<tr>
-									<th>codigo</th>
-									<th>remetente</th>
-									<th>destinatario</th>
-									<th>despacho</th>
-									<th>data</th>
-								</tr>
-							</thead>
-							<tbody id="tabela">
-							</tbody>
-						</table>
 					</div>							
 					<?php
 						if(!isset($_GET["arq"]))
@@ -387,19 +354,6 @@ require_once ROOT."/html/personalizacao_display.php";
 								</div>
 <?php
 }?>
-	<div id="arquivos" hidden>
-		<!--header class="panel-heading"-->
-		<header class="panel-heading" id="barra">
-			<div class="row">
-				<div class="col-md-6">
-					<h2 class="panel-title col-md-6" id="titulo" style="margin: 15px 0 0 15px;">Arquivos</h2>
-				</div>
-				<div class="col-md-6">
-					<button type="button" id="x" class='mb-xs mt-xs mr-xs btn btn-default'><img src="<?php echo WWW;?>img/x.png" width="15px" height="15px"></button>
-				</div>
-					</header>
-			</div>
-		<!--/header-->
 	</div>
 	</div>
 	</div>
@@ -430,24 +384,8 @@ require_once ROOT."/html/personalizacao_display.php";
 		<script src="<?php echo WWW;?>assets/javascripts/tables/examples.datatables.tabletools.js"></script>
 	<?php
 		if(isset($_SESSION['arquivos']))
-			{
+		{
 				$Anexo=$_SESSION["arquivos"];
-	?>
-			<script>
-				$(function(){	
-					$("#arquivos").show();
-					var anexo=<?php echo $Anexo;?>;
-					console.log(<?php echo $_SESSION['arquivos']?>);
-					$.each(anexo,function(i,item){
-            			$("#arquivos")
-                			.append("<!--button type='button' class='btn btn-lg btn-block' id='link' onclick=debugBase64('"+item.anexo+"')>"+item.nome+"."+item.extensao+"</button--><button type='button' class='btn btn-lg btn-block' id='link'><a href="+item.anexo+" download='"+item.nome+"."+item.extensao+"'>"+item.nome+"."+item.extensao+"</a></button>");
-                	});
-            $("#x").click(function(){
-			document.getElementById("arquivos").style.display = "none";
-			});
-        	});
-			</script>
-	<?php
 		}
 		unset($_SESSION["arquivos"]);
 	?>

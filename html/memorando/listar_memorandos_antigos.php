@@ -100,7 +100,11 @@ require_once ROOT."/html/personalizacao_display.php";
 					.append($("<td>")
 						.text(item.id_memorando))
 					.append($("<td>")
-						.html("<a href=<?php echo WWW;?>html/memorando/listar_despachos.php?id_memorando="+item.id_memorando+"&arq=1>"+item.titulo+"</a>")));
+						.html("<a href=<?php echo WWW;?>html/memorando/listar_despachos.php?id_memorando="+item.id_memorando+"&arq=1>"+item.titulo+"</a>"))
+					.append($("<td>")
+						.text(item.nome))
+					.append($("<td>")
+						.text(item.data)));
 		});
 	
         $("#header").load("<?php echo WWW;?>html/header.php");
@@ -110,8 +114,6 @@ require_once ROOT."/html/personalizacao_display.php";
 	
 	<style type="text/css">
 		.select{
-			/*z-index: 2;*/
-			/*float: left;*/
 			position: absolute;
 			width: 235px;
 		}
@@ -164,6 +166,8 @@ require_once ROOT."/html/personalizacao_display.php";
 								<tr>
 									<th>codigo</th>
 									<th>titulo</th>
+									<th>origem</th>
+									<th>data</th>
 								</tr>
 							</thead>
 							<tbody id="tabela">
