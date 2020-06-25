@@ -74,10 +74,9 @@ class Item {
                 $params = $this->param($params, $cont)." entrada.data <= '".$this->getPeriodo()['fim']."' ";
                 $cont++;
             }
-
             $this->setQuery("
             SELECT 
-            SUM(ientrada.qtd) as qtd_total, produto.descricao, SUM(ientrada.qtd*ientrada.valor_unitario) as valor_total 
+            SUM(ientrada.qtd) as qtd_total, produto.descricao, SUM(ientrada.qtd*ientrada.valor_unitario) as valor_total, ientrada.valor_unitario 
             FROM ientrada 
             LEFT JOIN produto ON produto.id_produto = ientrada.id_produto 
             LEFT JOIN entrada ON entrada.id_entrada = ientrada.id_entrada 
@@ -93,7 +92,7 @@ class Item {
         }else{
             $this->setQuery("
             SELECT 
-            SUM(ientrada.qtd) as qtd_total, produto.descricao, SUM(ientrada.qtd*ientrada.valor_unitario) as valor_total
+            SUM(ientrada.qtd) as qtd_total, produto.descricao, SUM(ientrada.qtd*ientrada.valor_unitario) as valor_total, ientrada.valor_unitario 
             FROM ientrada 
             LEFT JOIN produto ON produto.id_produto = ientrada.id_produto 
             GROUP BY concat(ientrada.id_produto,ientrada.valor_unitario)
@@ -133,7 +132,7 @@ class Item {
 
             $this->setQuery("
             SELECT 
-            SUM(isaida.qtd) as qtd_total, produto.descricao, SUM(isaida.qtd*isaida.valor_unitario) as valor_total
+            SUM(isaida.qtd) as qtd_total, produto.descricao, SUM(isaida.qtd*isaida.valor_unitario) as valor_total, ientrada.valor_unitario 
             FROM isaida 
             LEFT JOIN produto ON produto.id_produto = isaida.id_produto 
             LEFT JOIN saida ON saida.id_saida = isaida.id_saida 
@@ -148,7 +147,7 @@ class Item {
         }else{
             $this->setQuery("
             SELECT 
-            SUM(isaida.qtd) as qtd_total, produto.descricao, SUM(isaida.qtd*isaida.valor_unitario) as valor_total
+            SUM(isaida.qtd) as qtd_total, produto.descricao, SUM(isaida.qtd*isaida.valor_unitario) as valor_total, ientrada.valor_unitario 
             FROM isaida 
             LEFT JOIN produto ON produto.id_produto = isaida.id_produto 
             GROUP BY concat(isaida.id_produto,isaida.valor_unitario)
@@ -244,21 +243,32 @@ class Item {
         $query = $this->query();
         $tot_val = 0;
         foreach ($query as $item){
-            echo('
-                <tr>
-                    <td scope="row">'.$item['qtd_total'].'</td>
-                    <td>'.$item['descricao'].'</td>
-                    <td>'.($this->getRelatorio() == 'estoque' ? $item['PrecoMedio'] : $item['valor_total']).'</td>
-                </tr>
-            ');
+            if ($this->getRelatorio() == 'estoque'){
+                echo('
+                    <tr>
+                        <td scope="row">'.$item['qtd_total'].'</td>
+                        <td>'.$item['descricao'].'</td>
+                        <td>R$'.number_format($item['PrecoMedio'],2).'</td>
+                    </tr>
+                ');
+            }else{
+                echo('
+                    <tr>
+                        <td scope="row">'.$item['qtd_total'].'</td>
+                        <td>'.$item['descricao'].'</td>
+                        <td>R$'.number_format($item['valor_unitario'],2).'</td>
+                        <td>R$'.number_format($item['valor_total'],2).'</td>
+                    </tr>
+                ');
+            }
             $tot_val += $item['valor_total'];
         }
         echo('
         <tr class="table-info">
-            <td scope="row" colspan="2">Valor total:</td>
-            <td>'.$tot_val.'</td>
+            <td scope="row" colspan="'.($this->getRelatorio() == 'estoque' ? 2 : 3 ).'">Valor total:</td>
+            <td>R$'.number_format($tot_val,2).'</td>
         </tr>
-    ');
+        ');
     }
 
     // Getters e Setters

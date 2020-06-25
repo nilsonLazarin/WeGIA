@@ -230,7 +230,8 @@
                         <thead class="thead-dark">
                             <tr>
                             <th scope="col" width="12%">Quantidade</th>
-                            <th scope="col">Descrição</th>
+							<th scope="col">Descrição</th>
+							<?php if ($_POST['tipo_relatorio'] != 'estoque'){echo('<th scope="col" width="14%">Valor Unitário</th>');} ?>
                             <th scope="col" width="12%"><?= ($_POST['tipo_relatorio'] == 'estoque' ? 'Preço Médio' : "Total")?></th>
                             </tr>
                         </thead>

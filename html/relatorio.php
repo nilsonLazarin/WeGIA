@@ -128,8 +128,8 @@
                               <div class="col-md-8">
 								  <select name="tipo_relatorio" onchange="changeType(this.value)" required>
 									  <option value="entrada">Relatório de Entrada</option>
-									  <option value="saida">Relatório de Saída</option>
 									  <option value="estoque">Relatório de Estoque</option>
+									  <option value="saida">Relatório de Saída</option>
 								  </select>
                               </div>
                             </div>
