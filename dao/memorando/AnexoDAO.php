@@ -17,25 +17,25 @@ require_once ROOT."/Functions/funcoes.php";
 
 class AnexoDAO
 {
-	public function listarTodos($id_despacho)
+	public function listarTodos($id_memorando)
 	{
 		try{
 		$Anexos = array();
 		$pdo = Conexao::connect();
-		$consulta = $pdo->query("SELECT anexo, extensao, nome FROM anexo WHERE id_despacho=$id_despacho");
+		$consulta = $pdo->query("SELECT a.anexo, a.extensao, a.nome, d.id_despacho FROM anexo a JOIN despacho d ON(a.id_despacho=d.id_despacho) JOIN memorando m ON(d.id_memorando=m.id_memorando) WHERE m.id_memorando=$id_memorando");
 		$x = 0;
 
 			while($linha = $consulta->fetch(PDO::FETCH_ASSOC))
 			{
 				$link = "data:image/".$linha['extensao'].";base64,".$linha['anexo'];
-				$Anexos[$x] = array('anexo'=>$link, 'extensao'=>$linha['extensao'], 'nome'=>$linha['nome']);
+				$Anexos[$x] = array('anexo'=>$link, 'extensao'=>$linha['extensao'], 'nome'=>$linha['nome'], 'id_despacho'=>$linha['id_despacho']);
+				$x++;
 			}
 		}
 		catch(PDOException $e)
 		{
 			echo 'Error:' . $e->getMessage;
 		}
-
 		return json_encode($Anexos);
 	}
 

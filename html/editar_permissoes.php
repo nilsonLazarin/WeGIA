@@ -21,15 +21,19 @@
 	$resultado = mysqli_query($conexao, "SELECT * FROM permissao WHERE id_cargo=$id_cargo and id_recurso=21");
 	if(mysqli_num_rows($resultado)){
 		$permissao = mysqli_fetch_array($resultado);
+		$permissao = $permissao['id_acao'];
 		if($permissao['id_acao'] == 1){
 			$msg = "Você não tem as permissões necessárias para essa página.";
 		}
-		$permissao = $permissao['id_acao'];
 	}else{
-		$permissao = 1;
+        $permissao = 1;
+        $msg = "Você não tem as permissões necessárias para essa página.";
 	}
 	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
-	require_once "personalizacao_display.php";
+    require_once "personalizacao_display.php";
+      $cargo = mysqli_query($conexao, "SELECT * FROM cargo");
+      $acao = mysqli_query($conexao, "SELECT * FROM acao");
+      $recurso = mysqli_query($conexao, "SELECT * FROM recurso");
 ?>
 <!doctype html>
 <html class="fixed">
@@ -120,7 +124,7 @@
 
 			<section role="main" class="content-body">
 				<header class="page-header">
-					<h2>Cadastro</h2>
+					<h2>Permissões</h2>
 					
 					<div class="right-wrapper pull-right">
 						<ol class="breadcrumbs">
@@ -130,7 +134,7 @@
 								</a>
 							</li>
 							<li><span>Páginas</span></li>
-							<li><span>Adicionar Almoxarifado</span></li>
+							<li><span>Editar permissões</span></li>
 						</ol>
 					
 						<a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
@@ -144,7 +148,7 @@
 						<div class="tabs">
 							<ul class="nav nav-tabs tabs-primary">
 								<li class="active">
-									<a href="#overview" data-toggle="tab">Inserir almoxarifado
+									<a href="#overview" data-toggle="tab">Editar permissões
 									</a>
 								</li>
 							</ul>
@@ -157,23 +161,60 @@
 												echo($msg);
 											}else{
 										?>
-											<div class="form-group"><br>
-												<label class="col-md-3 control-label">Almoxarifado</label>
-												<div class="col-md-8">
-													<input type="text" class="form-control" name="descricao_almoxarifado" id="descricao_almoxarifado" required>
-												</div>
-											</div><br/>
-											<input type="hidden" name="nomeClasse" value="AlmoxarifadoControle">
-											<input type="hidden" name="metodo" value="incluir">
+											<div class="form-group">
+												<label class="col-md-3 control-label" for="inputSuccess">Cargo</label>
+												<a href="adicionar_categoria.php">
+													<i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i>
+												</a>
+												<div class="col-md-6">
+													<select name="id_cargo" id="id_cargo" class="form-control input-lg mb-md">
+                                                    <option selected disabled>Selecionar</option>
+                                                        <?php
+                                                            while($row = $cargo->fetch_array(MYSQLI_NUM))
+                                                            {
+                                                             echo "<option value=".$row[0].">".$row[1]."</option>";
+                                                            }             
+                                                        ?>
+													</select>
+												</div>	
+                                            </div>
+                                            <div class="form-group">
+												<label class="col-md-3 control-label" for="inputSuccess">Permissões</label>
+												
+												<div class="col-md-6">
+													<select name="id_acao" id="id_acao" class="form-control input-lg mb-md">
+                                                    <option selected disabled>Selecionar</option>
+                                                    <?php
+                                                            while($row = $acao->fetch_array(MYSQLI_NUM))
+                                                            {
+                                                             echo "<option value=".$row[0].">".$row[1]."</option>";
+                                                            }             
+                                                        ?>
+													</select>
+												</div>	
+                                            </div>
+                                            <div class="form-group">
+												<label class="col-md-3 control-label" for="inputSuccess">Recurso</label>
+												<div class="col-md-6">
+													<select name="id_categoria" id="id_recurso" class="form-control input-lg mb-md">
+                                                    <option selected disabled>Selecionar</option>
+                                                    <?php
+                                                            while($row = $recurso->fetch_array(MYSQLI_NUM))
+                                                            {
+                                                             echo "<option value=".$row[0].">".$row[1]."</option>";
+                                                            }             
+                                                        ?>
+													</select>
+												</div>	
+											</div>
+											<input type="hidden" name="nomeClasse" value="FuncionarioControle">
+											<input type="hidden" name="metodo" value="adicionar_permissao">
 											<div class="row">
 												<div class="col-md-9 col-md-offset-3">
 													<button id="enviar" class="btn btn-primary" type="submit">Enviar</button>
 													<input type="reset" class="btn btn-default">
-													<a href="cadastro_entrada.php" style="color: white; text-decoration: none;">
-														<button class="btn btn-info" type="button">Voltar</button>
-													</a>
-													<a href="listar_almox.php" style="color: white; text-decoration:none;">
-														<button class="btn btn-success" type="button">Listar almoxarifado</button></a>
+													<a href="listar_permissoes.php" style="color: white; text-decoration:none;">
+														<button class="btn btn-success" type="button">Listar permissões</button></a>
 												</div>
 											</div>
 											<?php

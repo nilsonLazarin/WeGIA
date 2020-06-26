@@ -16,22 +16,17 @@ require_once ROOT."/dao/memorando/AnexoDAO.php";
 
 class AnexoControle
 {
-	public function listarTodos()
+	public function listarTodos($id_memorando)
 	{
 		$id_despacho=0;
 		extract($_REQUEST);
 		$AnexoDAO = new AnexoDAO();
-		$anexos = $AnexoDAO->listarTodos($id_despacho);
-		session_start();
+		$anexos = $AnexoDAO->listarTodos($id_memorando);
+		if (session_status() !== PHP_SESSION_ACTIVE)
+ 		{
+    		session_start();
+		}
 		$_SESSION['arquivos'] = $anexos;
-		if(isset($arq))
-		{
-			header("Location: ".WWW."html/memorando/listar_despachos.php?id_memorando=".$_GET['id_memorando']."&arq=1");
-		}
-		else
-		{
-			header("Location: ".WWW."html/memorando/listar_despachos.php?id_memorando=".$_GET['id_memorando']);
-		}
 	}
 
 	public function incluir($anexo, $lastId)
@@ -89,7 +84,4 @@ class AnexoControle
     	}
 	}*/
 }
-$anexo = new AnexoControle();
-$anexo->listarTodos();
-
 ?>
