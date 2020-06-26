@@ -41,8 +41,14 @@
     }
 
     tempBackup();
-    if (gitPull()) {
-        header("Location: ../atualizacao_sistema.php?msg=success&sccs=Backup realizado e Atualização concluída!");
+    $output = gitPull();
+    if ($output) {
+        $header_location = "Backup realizado e Atualização concluída! <pre>Status: <br>";
+        foreach ($output as $value){
+            $header_location = $header_location . $value . "</br>";
+        }
+        $header_location = $header_location . "</pre>";
+        header("Location: ../atualizacao_sistema.php?msg=success&sccs=".base64_encode($header_location));
     } else {
         header("Location: ../atualizacao_sistema.php?msg=error&err=Houve um erro ao executar o comando git -C ".ROOT." pull");
     }
