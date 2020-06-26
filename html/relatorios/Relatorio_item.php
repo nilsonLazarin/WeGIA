@@ -147,7 +147,7 @@ class Item {
         }else{
             $this->setQuery("
             SELECT 
-            SUM(isaida.qtd) as qtd_total, produto.descricao, SUM(isaida.qtd*isaida.valor_unitario) as valor_total, ientrada.valor_unitario 
+            SUM(isaida.qtd) as qtd_total, produto.descricao, SUM(isaida.qtd*isaida.valor_unitario) as valor_total, isaida.valor_unitario 
             FROM isaida 
             LEFT JOIN produto ON produto.id_produto = isaida.id_produto 
             GROUP BY concat(isaida.id_produto,isaida.valor_unitario)
@@ -249,6 +249,7 @@ class Item {
                         <td scope="row">'.$item['qtd_total'].'</td>
                         <td>'.$item['descricao'].'</td>
                         <td>R$'.number_format($item['PrecoMedio'],2).'</td>
+                        <td>R$'.number_format($item['valor_total'],2).'</td>
                     </tr>
                 ');
             }else{
@@ -265,7 +266,7 @@ class Item {
         }
         echo('
         <tr class="table-info">
-            <td scope="row" colspan="'.($this->getRelatorio() == 'estoque' ? 2 : 3 ).'">Valor total:</td>
+            <td scope="row" colspan="3">Valor total:</td>
             <td>R$'.number_format($tot_val,2).'</td>
         </tr>
         ');

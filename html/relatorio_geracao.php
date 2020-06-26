@@ -11,9 +11,9 @@
 	require_once "relatorios/Relatorio_item.php";
 
 	
-	if (isset($_POST['origem'])) {
+	if ($_POST['tipo_relatorio'] == 'entrada') {
 		$o_d = $_POST['origem'];
-	}else{
+	}else if ($_POST['tipo_relatorio'] == 'saida') {
 		$o_d = $_POST['destino'];
 	}
 	$post = [
@@ -231,8 +231,8 @@
                             <tr>
                             <th scope="col" width="12%">Quantidade</th>
 							<th scope="col">Descrição</th>
-							<?php if ($_POST['tipo_relatorio'] != 'estoque'){echo('<th scope="col" width="14%">Valor Unitário</th>');} ?>
-                            <th scope="col" width="12%"><?= ($_POST['tipo_relatorio'] == 'estoque' ? 'Preço Médio' : "Total")?></th>
+							<?php if ($_POST['tipo_relatorio'] != 'estoque'){echo('<th scope="col" width="14%">Valor Unitário</th>');}else{echo('<th scope="col" width="14%">Preço Médio</th>');} ?>
+                            <th scope="col" width="12%">Total</th>
                             </tr>
                         </thead>
                         <tbody>

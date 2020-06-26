@@ -126,7 +126,7 @@
 							<div class="form-group">
                               <label class="col-md-3 control-label" for="type">Tipo de Relatório <span class="obrig">*</span></label>
                               <div class="col-md-8">
-								  <select name="tipo_relatorio" onchange="changeType(this.value)" required>
+								  <select name="tipo_relatorio" oninput="changeType(this.value)" id="tipo-relat" required>
 									  <option value="entrada">Relatório de Entrada</option>
 									  <option value="estoque">Relatório de Estoque</option>
 									  <option value="saida">Relatório de Saída</option>
@@ -147,7 +147,7 @@
 											$origem = $res->fetchAll(PDO::FETCH_ASSOC);
 											foreach ($origem as $value){
 												echo('
-												<option value="'.$value['id_origem'].'">'.$value['nome_origem'].'</option>
+												<option class="option-origem" value="'.$value['id_origem'].'">'.$value['nome_origem'].'</option>
 												');
 											}
 										?>
@@ -166,7 +166,7 @@
 											$destino = $res->fetchAll(PDO::FETCH_ASSOC);
 											foreach ($destino as $value){
 												echo('
-												<option value="'.$value['id_destino'].'">'.$value['nome_destino'].'</option>
+												<option class="option-destino" value="'.$value['id_destino'].'">'.$value['nome_destino'].'</option>
 												');
 											}
 										?>
@@ -273,43 +273,5 @@
 		</div>
 	</section>
 </body>
-<script>
-	function isEstoque(is_estoque){
-		Display = is_estoque ? 'none' : 'block';
-		Hide = is_estoque ? 'block' : 'none';
-
-		document.getElementById('dest').style.display = Display;
-		document.getElementById('orig').style.display = Display;
-		document.getElementById('resp').style.display = Display;
-		document.getElementById('per').style.display = Display;
-		document.getElementById('tipo-entrada').style.display = Display;
-		document.getElementById('tipo-saida').style.display = Display;
-	}
-
-	function isEntrada(is_entrada){
-		Display = is_entrada ? 'block' : 'none';
-		Hide = is_entrada ? 'none' : 'block';
-
-		document.getElementById('tipo-entrada').style.display = Display;
-		document.getElementById('tipo-saida').style.display = Hide;
-
-		document.getElementById('orig').style.display = Display;
-		document.getElementById('dest').style.display = Hide;
-
-		
-		document.querySelector("#tipo-entrada > div > select").name = is_entrada ? 'tipo' : '';
-		document.querySelector("#tipo-saida > div > select").name = is_entrada ? '' : 'tipo';
-
-
-	}
-
-	function changeType(selection){
-		if (selection == 'estoque'){
-			isEstoque(true);
-		}else{
-			isEstoque(false);
-			isEntrada(selection == 'entrada');
-		}
-	}
-</script>
+<script src="./relatorios/relatorio.js"></script>
 </html>
