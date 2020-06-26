@@ -24,8 +24,8 @@ class DespachoDAO
 		{
 			$Despachos = array();
 			$pdo = Conexao::connect();
-			$consulta=$pdo->query("SELECT p.nome, d.texto, d.id_remetente, d.data, d.id_despacho FROM despacho d JOIN pessoa p ON d.id_remetente=p.id_pessoa WHERE d.id_memorando='$id_memorando' ORDER BY d.data desc");
-			$consulta1=$pdo->query("SELECT p.nome FROM despacho d JOIN pessoa p ON d.id_destinatario=p.id_pessoa WHERE id_memorando='$id_memorando'ORDER BY d.data desc");
+			$consulta=$pdo->query("SELECT p.nome, d.texto, d.id_remetente, d.data, d.id_despacho FROM despacho d JOIN pessoa p ON d.id_remetente=p.id_pessoa WHERE d.id_memorando='$id_memorando' ORDER BY d.data");
+			$consulta1=$pdo->query("SELECT p.nome FROM despacho d JOIN pessoa p ON d.id_destinatario=p.id_pessoa WHERE id_memorando='$id_memorando'ORDER BY d.data");
 			$x=0;
 
 			while($linha = $consulta->fetch(PDO::FETCH_ASSOC) AND $linha1 = $consulta1->fetch(PDO::FETCH_ASSOC))
