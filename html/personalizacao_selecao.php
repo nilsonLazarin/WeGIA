@@ -25,7 +25,7 @@
 		<div class="tab-pane active" id="img-tab" role="tabpanel" aria-labelledby="home-tab">
 			<div style="display: flex; justify-content: space-between;">
 				<button class="btn btn-primary fill-space" onclick="open_tab('."'add_form'".')"><i class="fas fa-plus icon"></i>Adicionar Imagem</button>
-				<form action="personalizacao_upload.php" class="container" style="display: none; justify-content: space-between;" method="post" id="add_form" enctype="multipart/form-data">
+				<form action="personalizacao_upload.php" class="container" style="display: none; justify-content: space-between; width: -webkit-fill-available;justify-content: space-between;" method="post" id="add_form" enctype="multipart/form-data">
 					<input type="file" name="img_file" class="form-control-file" style="padding: 10px;">
 					<input type="number" name="id_campo" value="'.$id.'" style="display: none;" readonly>
 					<button type="submit" class="btn btn-success"><i class="fas fa-arrow-right"></i></button>
@@ -272,10 +272,18 @@
 						var tag = window.document.getElementById(id)
 						var button = tag.parentNode.firstElementChild
 						var icon = tag.parentElement.firstElementChild.firstElementChild
-
-						button.innerHTML = button.innerText == "Adicionar Imagem" ? "<i class='fas fa-chevron-left'></i>" : "<i class='fas fa-plus icon'></i>Adicionar Imagem"
-						tag.style.display = tag.style.display == 'none' ? 'flex' : 'none'
-						
+						btn1_state = btn1_state ? false : true;
+						if (!btn1_state){
+							button.innerHTML = "<i class='fas fa-times icon'></i>"
+							tag.style.display = 'flex'
+							button.className = 'btn btn-outline-primary fill-space'
+							btn1_state = true
+						}else{
+							button.innerHTML = "<i class='fas fa-plus icon'></i>Adicionar Imagem"
+							tag.style.display = 'none'
+							button.className = 'btn btn-primary fill-space'
+							btn1_state = false
+						}
 					}
 
 					// Indica o ID da linha que está sendo editada

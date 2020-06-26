@@ -132,14 +132,14 @@ class Item {
 
             $this->setQuery("
             SELECT 
-            SUM(isaida.qtd) as qtd_total, produto.descricao, SUM(isaida.qtd*isaida.valor_unitario) as valor_total, ientrada.valor_unitario 
+            SUM(isaida.qtd) as qtd_total, produto.descricao, SUM(isaida.qtd*isaida.valor_unitario) as valor_total, isaida.valor_unitario 
             FROM isaida 
             LEFT JOIN produto ON produto.id_produto = isaida.id_produto 
             LEFT JOIN saida ON saida.id_saida = isaida.id_saida 
             LEFT JOIN destino ON destino.id_destino = saida.id_destino 
             LEFT JOIN tipo_saida ON tipo_saida.id_tipo = saida.id_tipo 
             LEFT JOIN almoxarifado ON almoxarifado.id_almoxarifado = saida.id_almoxarifado 
-            LEFT JOIN pessoa ON pessoa.id_pessoa = entrada.id_responsavel 
+            LEFT JOIN pessoa ON pessoa.id_pessoa = saida.id_responsavel 
             ".$params."
             GROUP BY concat(isaida.id_produto,isaida.valor_unitario)
             ;
