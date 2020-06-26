@@ -136,7 +136,7 @@ require_once($config_path);
 								</a>
 							</li>
 							<li>
-								<a href="<?php echo WWW;?>html/contribuicao/php/atualiza_sistema_doacao.php">
+								<a href="<?php echo WWW;?>html/contribuicao/php/configuracao_doacao.php">
 									Contribuição
 								</a>
 							</li>

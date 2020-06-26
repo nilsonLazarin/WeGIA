@@ -3,7 +3,7 @@
 include("conexao.php");
 
     
-    $selectImg = "SELECT imagem, tipo FROM imagem WHERE nome = 'logo_laje'";
+    $selectImg = "SELECT imagem, tipo FROM imagem WHERE nome = 'logolaje'";
     $query = mysqli_query($conexao, $selectImg);
     $arquivo = mysqli_fetch_row($query);
 
