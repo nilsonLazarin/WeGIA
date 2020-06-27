@@ -23,7 +23,7 @@
 		$tipo_display = $_POST["tipo"] . "-select";
 		echo('
 		<div class="tab-pane active" id="img-tab" role="tabpanel" aria-labelledby="home-tab">
-			<div style="display: flex; justify-content: space-between;">
+			<div style="display: flex; justify-content: space-between; flex-direction: column;">
 				<button class="btn btn-primary fill-space" onclick="open_tab('."'add_form'".')"><i class="fas fa-plus icon"></i>Adicionar Imagem</button>
 				<form action="personalizacao_upload.php" class="container" style="display: none; justify-content: space-between; width: -webkit-fill-available;justify-content: space-between;" method="post" id="add_form" enctype="multipart/form-data">
 					<input type="file" name="img_file" class="form-control-file" style="padding: 10px;">
@@ -268,11 +268,12 @@
                 <!-- end: page -->
 				<script>
 
+					let btn1_state = false
+
 					function open_tab(id){
 						var tag = window.document.getElementById(id)
 						var button = tag.parentNode.firstElementChild
 						var icon = tag.parentElement.firstElementChild.firstElementChild
-						btn1_state = btn1_state ? false : true;
 						if (!btn1_state){
 							button.innerHTML = "<i class='fas fa-times icon'></i>"
 							tag.style.display = 'flex'
