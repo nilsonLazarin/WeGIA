@@ -5,6 +5,7 @@
 	}
     // Adiciona a Função display_campo($nome_campo, $tipo_campo)
 	require_once "personalizacao_display.php";
+
 ?>
 <!doctype html>
 <html class="fixed">
@@ -111,9 +112,11 @@
 					</div>
 				</header>
                 <!--start: page-->
-
+				
                 <!-- Caso as alterações feitas sejam feitas com sucesso -->
-				<?php if (isset($_GET['msg'])){ if ($_GET['msg'] == 'success'){ echo('<div class="alert alert-success"><i class="fas fa-check mr-md"></i><a href="#" class="close" onclick="closeMsg()" data-dismiss="alert" aria-label="close">&times;</a>'. ($_GET["sccs"] ? base64_decode($_GET["sccs"]) : "Operação concluida com sucesso!") .'</div>');}}?>
+				<?php if (isset($_GET['msg'])){ if ($_GET['msg'] == 'success'){ echo('<div class="alert alert-success"><i class="fas fa-check mr-md"></i><a href="#" class="close" onclick="closeMsg()" data-dismiss="alert" aria-label="close">&times;</a>'. ($_GET["sccs"] ? $_GET["sccs"] : "Operação concluida com sucesso!") . '<pre>'.base64_decode($_GET['log']).'</pre></div>');}}?>
+
+
 
 				<!-- Caso haja um erro fatal na alteração dos dados -->
 				<?php if (isset($_GET['msg'])){ if ($_GET['msg'] == 'error'){ echo('<div class="alert alert-danger"><i class="fas fa-exclamation-triangle mr-md"></i><a href="#" class="close" onclick="closeMsg()" data-dismiss="alert" aria-label="close">&times;</a>'. ($_GET["err"] ? $_GET["err"] : "Houve um erro ao atualizar o sistema") .'</div>');}}?>

@@ -42,13 +42,12 @@
 
     tempBackup();
     $output = gitPull();
-    if ($output) {
-        $header_location = "Backup realizado e Atualização concluída! <pre>Status: <br>";
+    if ($output[0]) {
+        $log = "Status: \n";
         foreach ($output as $value){
-            $header_location = $header_location . $value . "</br>";
+            $log = $log . $value . "\n";
         }
-        $header_location = $header_location . "</pre>";
-        header("Location: ../atualizacao_sistema.php?msg=success&sccs=".base64_encode($header_location));
+        header("Location: ../atualizacao_sistema.php?msg=success&sccs=Backup realizado e Atualização concluída!&log=".base64_encode($log));
     } else {
         header("Location: ../atualizacao_sistema.php?msg=error&err=Houve um erro ao executar o comando git -C ".ROOT." pull");
     }
