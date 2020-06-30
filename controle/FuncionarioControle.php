@@ -17,6 +17,7 @@ include_once ROOT.'/dao/FuncionarioDAO.php';
 include_once ROOT.'/dao/QuadroHorarioDAO.php';
 include_once ROOT.'/dao/BeneficiadosDAO.php';
 include_once ROOT.'/dao/Pessoa_epiDAO.php';
+include_once ROOT.'/dao/PermissaoDAO.php';
 
 
 class FuncionarioControle
@@ -80,7 +81,7 @@ class FuncionarioControle
         return $final;
     }
 
-    function geraChave($tamanho = 8, $maiusculas = true, $numeros = true, $simbolos = false)
+    function geraChave($cpf, $tamanho = 8, $maiusculas = true, $numeros = true, $simbolos = false)
     {
         $lmin = 'abcdefghijklmnopqrstuvwxyz';
         $lmai = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -98,7 +99,8 @@ class FuncionarioControle
             $retorno .= $caracteres[$rand-1];
         }
         
-        $retorno=hash('sha256', $retorno);
+        $retorno=hash('sha256', $cpf);
+        //$retorno=hash('sha256', $retorno);
         return $retorno;
     }
 
@@ -338,7 +340,7 @@ class FuncionarioControle
         }
         $cpf=str_replace(".", '', $cpf);
         $cpf=str_replace("-", "", $cpf);
-        $senha=$this->geraChave(8);
+        $senha=$this->geraChave($cpf);
         $funcionario = new Funcionario($cpf,$nome,$sobrenome,$gender,$nascimento,$rg,$orgao_emissor,$data_expedicao,$nome_mae,$nome_pai,$sangue,$senha,$telefone,$imgperfil,$cep,$uf,$cidade,$bairro,$rua,$numero_residencia,$complemento,$ibge);
         $funcionario->setData_admissao($data_admissao);
         $funcionario->setPis($pis);
@@ -479,7 +481,14 @@ class FuncionarioControle
         
     }
     public function adicionar_permissao(){
-        echo("Funcionalidade em desenvolvimento.");
+        extract($_REQUEST);
+        try {
+            $permissao = new PermissaoDAO();
+            $adicao_permissao = $permissao->adicionarPermissao($cargo, $acao, $recurso);
+            header('Location:'.$nextPage.'?msg_c=Permissão efetivada com sucesso.');
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
     }
     public function listarBeneficio()
     {

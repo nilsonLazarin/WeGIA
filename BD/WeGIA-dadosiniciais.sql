@@ -2,7 +2,11 @@ use wegia;
 
 INSERT INTO `pessoa` (`id_pessoa`, `cpf`, `senha`, `nome`) VALUES (NULL, 'admin', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 'admin');
 
+INSERT INTO `cargo`(`id_cargo`, `cargo`) VALUES (1,'Administrador');
+
 INSERT INTO `situacao` (`situacoes`) VALUES ('Ativo'), ('Inativo');
+
+INSERT INTO `funcionario` (`id_pessoa`, `id_cargo`, `id_situacao`, `data_admissao`, `pis`, `ctps`, `uf_ctps`, `numero_titulo`, `zona`, `secao`, `certificado_reservista_numero`, `certificado_reservista_serie`) VALUES ('1', '1', '1', '2020-06-03', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL);
 
 INSERT INTO `selecao_paragrafo` (`id_selecao`, `nome_campo`, `paragrafo`, `original`) VALUES
 (1, 'Titulo', 'WEGIA', 1),
@@ -51,7 +55,24 @@ INSERT INTO `recurso` (`id_recurso`, `Descrição`) VALUES ('22', 'Produto');
 INSERT INTO `recurso` (`id_recurso`, `Descrição`) VALUES ('23', 'Entrada');
 INSERT INTO `recurso` (`id_recurso`, `Descrição`) VALUES ('24', 'Saída');
 INSERT INTO `recurso` (`id_recurso`, `Descrição`) VALUES ('25', 'Relatórios');
+INSERT INTO `recurso` (`id_recurso`, `Descrição`) VALUES ('91', 'Permissões');
 INSERT INTO `recurso` (`id_recurso`, `Descrição`) VALUES ('3', 'Módulo Memorando');
 INSERT INTO `recurso` (`id_recurso`, `Descrição`) VALUES ('4', 'Módulo Sócio');
 INSERT INTO `recurso` (`id_recurso`, `Descrição`) VALUES ('9', 'Configurações');
+
+INSERT INTO `permissao` (`id_cargo`, `id_acao`, `id_recurso`) VALUES
+(1, 7, 1),
+(1, 7, 2),
+(1, 7, 3),
+(1, 7, 4),
+(1, 7, 9),
+(1, 7, 11),
+(1, 7, 12),
+(1, 7, 13),
+(1, 7, 21),
+(1, 7, 22),
+(1, 7, 23),
+(1, 7, 24),
+(1, 7, 25),
+(1, 7, 91);
 

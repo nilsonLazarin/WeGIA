@@ -17,18 +17,26 @@
 	$conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 	$id_pessoa = $_SESSION['id_pessoa'];
 	$resultado = mysqli_query($conexao, "SELECT * FROM funcionario WHERE id_pessoa=$id_pessoa");
-	$id_cargo = mysqli_fetch_array($resultado)['id_cargo'];
-	$resultado = mysqli_query($conexao, "SELECT * FROM permissao WHERE id_cargo=$id_cargo and id_recurso=21");
-	if(mysqli_num_rows($resultado)){
-		$permissao = mysqli_fetch_array($resultado);
-		$permissao = $permissao['id_acao'];
-		if($permissao['id_acao'] == 1){
-			$msg = "Você não tem as permissões necessárias para essa página.";
+	if(!is_null($resultado)){
+		$id_cargo = mysqli_fetch_array($resultado);
+		if(!is_null($id_cargo)){
+			$id_cargo = $id_cargo['id_cargo'];
 		}
+		$resultado = mysqli_query($conexao, "SELECT * FROM permissao WHERE id_cargo=$id_cargo and id_recurso=91");
+		if(!is_bool($resultado) and mysqli_num_rows($resultado)){
+			$permissao = mysqli_fetch_array($resultado);
+			if($permissao['id_acao'] == 1){
+				$msg = "Você não tem as permissões necessárias para essa página.";
+			}
+			$permissao = $permissao['id_acao'];
+		}else{
+        	$permissao = 1;
+        	$msg = "Você não tem as permissões necessárias para essa página.";
+		}	
 	}else{
-        $permissao = 1;
-        $msg = "Você não tem as permissões necessárias para essa página.";
-	}
+		$permissao = 1;
+		$msg = "Você não tem as permissões necessárias para essa página.";
+	}	
 	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
     require_once "personalizacao_display.php";
       $cargo = mysqli_query($conexao, "SELECT * FROM cargo");
@@ -157,17 +165,23 @@
 									<fieldset>
 										<form method="post" id="formulario" action="../controle/control.php">
 										<?php
+											if(isset($_GET['msg_c'])){
+												$msg = $_GET['msg_c'];
+												echo('<div class="alert alert-success" role="alert">
+												'. $msg .'
+											  </div>');
+											}
 											if($permissao == 1){
-												echo($msg);
+												echo($msg." - ".$permissao);
 											}else{
 										?>
 											<div class="form-group">
 												<label class="col-md-3 control-label" for="inputSuccess">Cargo</label>
-												<a href="adicionar_categoria.php">
+												<a onclick="adicionar_cargo()">
 													<i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i>
 												</a>
 												<div class="col-md-6">
-													<select name="id_cargo" id="id_cargo" class="form-control input-lg mb-md">
+													<select name="cargo" id="cargo" class="form-control input-lg mb-md">
                                                     <option selected disabled>Selecionar</option>
                                                         <?php
                                                             while($row = $cargo->fetch_array(MYSQLI_NUM))
@@ -182,7 +196,7 @@
 												<label class="col-md-3 control-label" for="inputSuccess">Permissões</label>
 												
 												<div class="col-md-6">
-													<select name="id_acao" id="id_acao" class="form-control input-lg mb-md">
+													<select name="acao" id="id_acao" class="form-control input-lg mb-md">
                                                     <option selected disabled>Selecionar</option>
                                                     <?php
                                                             while($row = $acao->fetch_array(MYSQLI_NUM))
@@ -196,7 +210,7 @@
                                             <div class="form-group">
 												<label class="col-md-3 control-label" for="inputSuccess">Recurso</label>
 												<div class="col-md-6">
-													<select name="id_categoria" id="id_recurso" class="form-control input-lg mb-md">
+													<select name="recurso" id="id_recurso" class="form-control input-lg mb-md">
                                                     <option selected disabled>Selecionar</option>
                                                     <?php
                                                             while($row = $recurso->fetch_array(MYSQLI_NUM))
@@ -209,6 +223,7 @@
 											</div>
 											<input type="hidden" name="nomeClasse" value="FuncionarioControle">
 											<input type="hidden" name="metodo" value="adicionar_permissao">
+											<input type="hidden" name="nextPage" value="../html/editar_permissoes.php">
 											<div class="row">
 												<div class="col-md-9 col-md-offset-3">
 													<button id="enviar" class="btn btn-primary" type="submit">Enviar</button>
@@ -241,4 +256,48 @@
 		</aside>
 	</section>
 </body>
+<script>
+	$(document).ready(function(){
+		setTimeout(function(){
+			$(".alert").fadeOut();
+		}, 3000);
+	});
+	function gerarCargo(){
+          url = '../dao/exibir_cargo.php';
+          $.ajax({
+          data: '',
+          type: "POST",
+          url: url,
+          success: function(response){
+            var cargo = response;
+            $('#cargo').empty();
+            $('#cargo').append('<option selected disabled>Selecionar</option>');
+            $.each(cargo,function(i,item){
+              $('#cargo').append('<option value="' + item.id_cargo + '">' + item.cargo + '</option>');
+            });
+          },
+          dataType: 'json'
+        });
+      }
+
+      function adicionar_cargo(){
+        url = '../dao/adicionar_cargo.php';
+        var cargo = window.prompt("Cadastre um Novo Cargo:");
+        if(!cargo){return}
+        situacao = cargo.trim();
+        if(cargo == ''){return}              
+        
+          data = 'cargo=' +cargo; 
+          console.log(data);
+          $.ajax({
+          type: "POST",
+          url: url,
+          data: data,
+          success: function(response){
+            gerarCargo();
+          },
+          dataType: 'text'
+        })
+      }
+</script>
 </html>

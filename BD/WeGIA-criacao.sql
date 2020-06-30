@@ -593,7 +593,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`permissao` (
   `id_cargo` INT(11) NOT NULL,
   `id_acao` INT(11) NOT NULL,
   `id_recurso` INT NOT NULL,
-  PRIMARY KEY (`id_cargo`),
+  PRIMARY KEY (`id_cargo`, `id_recurso`),
   INDEX `id_acao` (`id_acao` ASC),
   INDEX `fk_permissao_recurso1_idx` (`id_recurso` ASC),
   CONSTRAINT `permissao_ibfk_1`

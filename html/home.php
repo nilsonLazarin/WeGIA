@@ -89,6 +89,14 @@
 
 				<!-- start: page -->
 				<div class="row" >
+				<?php
+					if(isset($_GET['msg_c'])){
+						$msg = $_GET['msg_c'];
+						echo('<div class="alert alert-danger alerta_c" role="alert">
+						'. $msg .'
+					  </div>');
+					}
+		?>
 					<a href="" >
 						<div class="col-lg-2 col-md-8 i" data-toggle="collapse" href="#pessoas" >
 							<i  class="far fa-address-book"></i>
@@ -299,6 +307,13 @@
 	<script src="../assets/vendor/jqvmap/maps/continents/jquery.vmap.europe.js"></script>
 	<script src="../assets/vendor/jqvmap/maps/continents/jquery.vmap.north-america.js"></script>
 	<script src="../assets/vendor/jqvmap/maps/continents/jquery.vmap.south-america.js"></script>
+	<script>
+		$(document).ready(function(){
+		setTimeout(function(){
+			$(".alerta_c").fadeOut();
+		}, 3000);
+	});
+	</script>
 		
 </body>
 </html>
