@@ -29,6 +29,13 @@ class AnexoControle
 		$_SESSION['arquivos'] = $anexos;
 	}
 
+	public function comprimir($anexoParaCompressao)
+	{
+		$arquivo_zip = gzencode($anexoParaCompressao, 9);
+		$arquivo64 = base64_encode($arquivo_zip);
+		return $arquivo64;
+	}
+
 	public function incluir($anexo, $lastId)
 	{
 		extract($_REQUEST);
@@ -45,7 +52,8 @@ class AnexoControle
 			$extensao = substr($arquivo1, $pos, strlen($arquivo1)+1);
 			$nome = substr($arquivo1, 0, $pos-1);
 
-			$arquivo64 = comprimir($arquivo);
+			$AnexoControle = new AnexoControle;
+			$arquivo64 = $AnexoControle->comprimir($arquivo);
 
 			$anexo = new Anexo();
 			$anexo->setId_despacho($lastId);
@@ -63,13 +71,6 @@ class AnexoControle
             	echo $msg;
 			}
 	}
-	}
-
-	public function comprimir($anexoParaCompressao)
-	{
-		$arquivo_zip = gzencode($anexoParaCompressao, 9);
-		$arquivo64 = base64_encode($arquivo_zip);
-		return $arquivo64;
 	}
 }
 ?>
