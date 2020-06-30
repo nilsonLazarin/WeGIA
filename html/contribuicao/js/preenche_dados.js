@@ -15,6 +15,8 @@ function preenche_dados(id)
     $.post("../php/atualiza_sistema_boleto.php", {'id_sistema':id})
     .done(function(data){
         var dados = JSON.parse(data);
+        var cod = dados.cod;
+        console.log(cod);
         var minvalunic = dados.MinValUnic;
         var mensaldiasv = dados.MensalDiasV;
         var juros = dados.juros;
@@ -34,7 +36,9 @@ function preenche_dados(id)
         var sandbox = dados.sandbox;
         var token_sandbox = dados.token_sandbox;
 
-        $("#preenche_bolr").html("<td><input type='text' name='minval' id='minval'value="+minvalunic+"></td><td><input type='text' name='minvalparc' id='minvalparc' value="+minvalparc+"></td><td><input type='text' name='maivalparc' id='maivalparc' value="+maivalparc+"></td><td><input type='text' name='unicdiasv' id='unicdiasv' value="+unicdiasv+"></td><td><input type='text' name='mensaldiasv' id='mensaldiasv' value="+mensaldiasv+"></td><td><input type='text' name='juros' id='juros' value="+juros+"></td><td><input type='text' name='multa' id='multa' value="+multa+"></td>");
+        $("#cod_sistema").html("<input type='hidden' id='cod_sistema' name='cod_sistema' value="+cod+">");
+
+        $("#preenche_bolr").html("<td><input type='text' name='minval' id='minval'value="+minvalunic+"></td><td><input type='text' name='minvalparc' id='minvalparc' value="+minvalparc+"></td><td><input type='text' name='maivalparc' id='maivalparc' value="+maivalparc+"></td><td><input type='text' name='unicdiasv' id='unicdiasv' value="+unicdiasv+"></td><td><input type='text' name='mensaldiasv' id='mensaldiasv' value="+mensaldiasv+"></td><td><input type='text' name='juros' id='juros' value="+juros+"></td><td><input type='text' name='multa' id='multa' value="+multa+"></td><td><input type='text' name='agradecimento' id='agrad' value="+agrade+"></td>");
 
        $("#preenche_bol2").html("<td><input type='number' name='op1' value="+op1+"></td><td><input type='number' name='op2' value="+op2+"></td><td><input type='number' name='op3' value="+op3+"></td><td><input type='number' name='op4' value="+op4+"></td><td><input type='number' name='op5' value="+op5+"></td><td><input type='number' name='op6' value="+op6+"></td>");
 
@@ -45,11 +49,19 @@ function preenche_dados(id)
 function preenche_dados_cartao(id)
 {
     var id;
-    $.post("../php/atualiza_sistema_cartao.php", {'id_teste':id})
+    $.post("../php/atualiza_sistema_cartao_unico.php", {'id_teste':id})
     .done(function(data){
-        var dados = JSON.parse(data);
+        var dados = JSON.parse(data);     
         var link_avulso = dados.LINK_AVULSO;
+        var cod = dados.cod;
 
         $("#avulso_link").html("<td><input type='text' name='avulso_link' value="+link_avulso+"></td>");
+        $("#cod_sistema").html(cod);
+    });
+    
+    $.post("../php/atualiza_sistema_cartao_mensal.php", {'id_teste':id})
+    .done(function(data){
+        console.log(data);
+        $("#doacao_mensal").html(data);
     });
 }

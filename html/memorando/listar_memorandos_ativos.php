@@ -189,10 +189,18 @@ require_once ROOT."/html/personalizacao_display.php";
                 </header>
                 <!-- start: page -->
                 <section class="panel" >
+                        <?php 
+                        if (isset($_GET['msg'])){ if ($_GET['msg'] == 'success')
+                            { 
+                                echo('<div class="alert alert-success"><i class="fas fa-check mr-md"></i><a href="#" class="close" onclick="closeMsg()" data-dismiss="alert" aria-label="close">&times;</a>'.$_GET["sccd"]."</div>");
+                            }
+                            }
+                        ?>
                     <header class="panel-heading">
                         <h2 class="panel-title">Caixa de entrada</h2>
                     </header>
-                    <div class="panel-body" >
+                    <div class="panel-body">
+
                         <div class="select" >
                             <select class="select-table-filter form-control mb-md" data-table="order-table">
                                 <option selected disabled>Caixa de entrada</option>

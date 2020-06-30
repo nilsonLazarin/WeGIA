@@ -48,9 +48,10 @@
                     </ul>
                 </form>
                 <br><br><br>
-                <form action = "atualizacao_doacao.php" method = "POST">
+            <form action="atualizacao_doacao.php" method = "POST">
                 <div id='boleto'>   
                     <table border = '1px'>
+                    <input type='hidden' id='cod_sistema' name='cod_sistema'>
                     <h3>REGRAS PARA DOAÇÃO</h3>
                         <tr>
                             <th>Valor Mínino Boleto Único:</th>
@@ -60,6 +61,7 @@
                             <th>Pagamento Após Vencimento Doação Mensal:</th>
                             <th>Juros:</th>
                             <th>Multa:</th>
+                            <th>Agradecimentos</th>
                         </tr>
                         <tr id='preenche_bolr'>
                         <td><input type='text' name='minval' id='minval'></td>
@@ -69,6 +71,7 @@
                         <td><input type='text' name='mensaldiasv' id='mensaldiasv'></td>
                         <td><input type='text' name='juros' id='juros'></td>
                         <td><input type='text' name='multa' id='multa'></td>
+                        <td><input type='text' name='agradecimento' id='agrad'></td>
                         </tr>
                     
                     </table>
@@ -107,9 +110,10 @@
                             <td><input type='text' name='sandbox' value=></td>
                             <td><input type='text' name='token_sandbox' value=></td>
                         </tr>
-                    </table><br><br>
+                    </table>
                 </div>
                 <div id='cartao'>
+                    <input type='hidden' name='cod_cartao'>
                     <table border = '1px'>
                         <h3>DOAÇÃO AVULSA</h3>
                         <tr>
@@ -119,18 +123,13 @@
                             <td><input type='text' name='avulso_link' value=></td>
                         </tr>
                     </table>
-                    <table border='1px'>
-                        <h3>DOAÇÃO MENSAL</h3>
-                        <tr>
-                            <th>VALOR</th>
-                            <th>LINK</th>
-                        </tr>
-                        <tr id='doacao_mensal'>
-                            <td><input type='number' name='valor1' value=></td>
-                        </tr>
-                    </table>
+                    <div id='doacao_mensal'>
+                        
+                    </div>
+                        
                 </div>
-
+                <br><input type='submit' value='atualizar'>
+            </form>
     <script>
         $(document).ready(function(){
             var id = '';
