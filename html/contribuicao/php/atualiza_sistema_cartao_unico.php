@@ -10,10 +10,8 @@ include("conexao.php");
     $LINK = $RESPOSTA[0];
 
     $vetor['LINK_AVULSO'] = $LINK;
-
-    $QUERY_M = mysqli_query($conexao, "SELECT valor, url FROM doacao_cartao_menal WHERE id_sistema = $SISTEMA");
-
+    $vetor['cod'] = "<input type='hidden' name='cod_cartao' value=".$SISTEMA.">";
     $array = json_encode($vetor);
     echo $array;
-
+    
 ?>

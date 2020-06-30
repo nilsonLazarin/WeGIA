@@ -24,7 +24,9 @@
         $token = $REGRAS[17];
         $sandbox = $REGRAS[18];
         $token_sandbox = $REGRAS[19];
+        $COD = $REGRAS[21];
 
+        $vetor['cod'] = $COD; 
         $vetor['MinValUnic'] = $MinValUnic;
         $vetor['MensalDiasV'] = $MensalDiasV;
         $vetor['juros'] = $juros;

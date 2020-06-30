@@ -16,7 +16,7 @@ include("conexao.php");
 
     $texto = $paragrafo[0];
 
-    echo $logo= '<img src="data:image/jpg;base64,'.base64_encode($imagem.$tipo ).'"/>'."paragrafo:";
+    echo $logo= '<img src="data:image/jpg;base64,'.base64_encode($imagem.".".$tipo ).'"/>'."paragrafo:";
     echo $texto;
     
 
