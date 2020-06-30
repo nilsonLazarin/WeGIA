@@ -7,10 +7,11 @@
 <body>
 	<?php
 		$nomeDB = str_replace(' ', '_', $_POST["nomebd"]); // nome da base de dados
-		$localsql = '../wegia.sql';  //local arquivo .sql
+		$localsql = '../BD/WeGIA-criacao.sql';  //local arquivo .sql
 		$local = $_POST["local"];//local servidor mysql
 		$user = $_POST["usuario"];
 		$senha = $_POST["senha"];
+		$backup = $_POST["backup"];
 		$reinstalar = isset($_POST["reinstalar"]);
 
 		/*conexao*/
@@ -112,6 +113,36 @@
 
 			file_put_contents($localDao, $saida);
 			echo '<p style="color:green;">Arquivo conexao.php alterado com sucesso!</p>';
+		}
+
+		//Cria um diretório de Backup caso não haja um
+		if (!is_dir($backup)) {
+			$backup = "";
+		}
+
+		//Verifica se config.php já existe
+		if (!file_exists("../config.php")){
+			//Se não existir, cria um
+			$file_name = realpath('../').'/config.php';
+			$file = fopen($file_name, "w");
+
+
+			fwrite($file, "<?php
+/**
+ *Configuração do WEGIA
+*/
+define( 'DB_NAME', '".$nomeDB."' );
+define( 'DB_USER', '".$user."' );
+define( 'DB_PASSWORD', '".$senha."' );
+define( 'DB_HOST', '".$local."');
+define( 'DB_CHARSET', 'utf8');
+define( 'ROOT',dirname(__FILE__));
+define( 'BKP_DIR', '".$backup."');
+define( 'WWW', 'https://demo.wegia.org/');");
+			echo('<p style="color:green;">config.php criado!</p>');
+			if (!$backup){
+				echo('<p style="color:orange;">Diretório para Backup não existe!</p>');
+			}
 		}
 		
 	?>

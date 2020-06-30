@@ -261,7 +261,7 @@
 
                             <div class="form-group">
                                 <div class="center-content">
-                                    <input type="submit" value="Gerar" class="btn btn-primary">
+                                    <input type="submit" value="Gerar" class="btn btn-primary" style="width: fit-content;">
                                 </div>
                             </div>
 

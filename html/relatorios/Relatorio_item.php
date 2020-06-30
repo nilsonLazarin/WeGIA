@@ -86,6 +86,7 @@ class Item {
             LEFT JOIN pessoa ON pessoa.id_pessoa = entrada.id_responsavel 
             ".$params."
             GROUP BY concat(ientrada.id_produto,ientrada.valor_unitario)
+            ORDER BY produto.descricao
             ;
             ");
 
@@ -96,6 +97,7 @@ class Item {
             FROM ientrada 
             LEFT JOIN produto ON produto.id_produto = ientrada.id_produto 
             GROUP BY concat(ientrada.id_produto,ientrada.valor_unitario)
+            ORDER BY produto.descricao
             ;
             ");
         }
@@ -142,6 +144,7 @@ class Item {
             LEFT JOIN pessoa ON pessoa.id_pessoa = saida.id_responsavel 
             ".$params."
             GROUP BY concat(isaida.id_produto,isaida.valor_unitario)
+            ORDER BY produto.descricao
             ;
             ");
         }else{
@@ -151,6 +154,7 @@ class Item {
             FROM isaida 
             LEFT JOIN produto ON produto.id_produto = isaida.id_produto 
             GROUP BY concat(isaida.id_produto,isaida.valor_unitario)
+            ORDER BY produto.descricao
             ;
             ");
         }
@@ -186,6 +190,7 @@ class Item {
             $this->setQuery("
             SELECT qtd AS qtd_total, descricao, Total AS valor_total, PrecoMedio FROM estoque_com_preco_atualizado 
             ".$params."
+            ORDER BY descricao
             ;
             ");
         }else{
@@ -209,7 +214,8 @@ class Item {
             WHERE produto.id_produto=estoque.id_produto AND estoque.id_produto=tabela2.id_produto;
             ");
             $this->setQuery("
-            SELECT qtd AS qtd_total, descricao, Total AS valor_total, PrecoMedio FROM estoque_com_preco_atualizado;
+            SELECT qtd AS qtd_total, descricao, Total AS valor_total, PrecoMedio FROM estoque_com_preco_atualizado
+            ORDER BY descricao
             ;
             ");
         }
@@ -248,8 +254,8 @@ class Item {
                     <tr>
                         <td scope="row">'.$item['qtd_total'].'</td>
                         <td>'.$item['descricao'].'</td>
-                        <td>R$'.number_format($item['PrecoMedio'],2).'</td>
-                        <td>R$'.number_format($item['valor_total'],2).'</td>
+                        <td>R$ '.number_format($item['PrecoMedio'],2).'</td>
+                        <td>R$ '.number_format($item['valor_total'],2).'</td>
                     </tr>
                 ');
             }else{
@@ -257,8 +263,8 @@ class Item {
                     <tr>
                         <td scope="row">'.$item['qtd_total'].'</td>
                         <td>'.$item['descricao'].'</td>
-                        <td>R$'.number_format($item['valor_unitario'],2).'</td>
-                        <td>R$'.number_format($item['valor_total'],2).'</td>
+                        <td>R$ '.number_format($item['valor_unitario'],2).'</td>
+                        <td>R$ '.number_format($item['valor_total'],2).'</td>
                     </tr>
                 ');
             }
@@ -267,7 +273,7 @@ class Item {
         echo('
         <tr class="table-info">
             <td scope="row" colspan="3">Valor total:</td>
-            <td>R$'.number_format($tot_val,2).'</td>
+            <td>R$ '.number_format($tot_val,2).'</td>
         </tr>
         ');
     }

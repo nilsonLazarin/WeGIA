@@ -19,8 +19,8 @@
 	$res = $pdo->query("
 	select c.id_campo as id_selecao, c.nome_campo, i.imagem as arquivo
 	from campo_imagem c
-	inner join tabela_imagem_campo ic on c.id_campo = ic.id_campo
-	inner join imagem i on ic.id_imagem = i.id_imagem
+	left join tabela_imagem_campo ic on c.id_campo = ic.id_campo
+	left join imagem i on ic.id_imagem = i.id_imagem
 	where c.tipo = 'img';");
 	$img_tab = $res->fetchAll(PDO::FETCH_ASSOC);
 
@@ -187,20 +187,20 @@
 												$img_item = new Campo(
 													$valor["id_selecao"],
 													"img",
-													$valor["nome_campo"],
-													$valor["arquivo"]
+													($valor["nome_campo"] ? $valor["nome_campo"] : "Logo"),
+													($valor["arquivo"] ? $valor["arquivo"] : "")
 												);
 												$img_item->display();
 											}
-											if ($carrossels){
+											if (sizeof($carrossels) != 0){
 												foreach ($carrossels as $key => $valor){
 													$car_tab = getCarrossel($carrossels, $key, $pdo);
-													$car_name = $car_tab[0]["nome_campo"];
+													$car_name = ( !!$car_tab ? $car_tab[0]["nome_campo"] : "Carrossel");
 													echo('<tr onclick="post(' . "'personalizacao_selecao.php', {tipo: 'car', nome_car: '$car_name'})" . '"' . ">
 													<td class='v-center'><div>$car_name</div></td>
 													<td>");
 													foreach ($car_tab as $key => $valor){
-														$car_file = $valor["arquivo"];
+														$car_file = ($valor["arquivo"] ? $valor["arquivo"] : "");
 														echo("<img src='data:image;base64,$car_file' class='my-sm' width='100%'>");
 													}
 													echo("</td>
