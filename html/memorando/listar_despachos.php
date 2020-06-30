@@ -171,7 +171,7 @@ require_once ROOT."/html/personalizacao_display.php";
 			$("#"+item.id_despacho)
 				.append($("<tr id=link>")
 						.append($("<td colspan=4>")
-							.html("<a href="+item.anexo+" download='"+item.nome+"."+item.extensao+">"+item.nome+"."+item.extensao+"</a>")));
+							.html("<a href="+item.anexo+" download='"+item.nome+"."+item.extensao+"'>"+item.nome+"."+item.extensao+"</a>")));
 		});
 
         $("#header").load("<?php echo WWW;?>html/header.php");

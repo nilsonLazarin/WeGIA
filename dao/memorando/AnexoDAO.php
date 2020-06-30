@@ -27,7 +27,10 @@ class AnexoDAO
 
 			while($linha = $consulta->fetch(PDO::FETCH_ASSOC))
 			{
-				$link = "data:image/".$linha['extensao'].";base64,".$linha['anexo'];
+				$base64 = base64_decode($linha['anexo']);
+				$gz = gzdecode($base64);
+				$base64_encode = base64_encode($gz);
+				$link = "data:image/".$linha['extensao'].";base64,".$base64_encode;
 				$Anexos[$x] = array('anexo'=>$link, 'extensao'=>$linha['extensao'], 'nome'=>$linha['nome'], 'id_despacho'=>$linha['id_despacho']);
 				$x++;
 			}

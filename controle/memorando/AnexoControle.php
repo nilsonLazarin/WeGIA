@@ -44,11 +44,12 @@ class AnexoControle
 			$pos = strpos($arquivo1, ".")+1;
 			$extensao = substr($arquivo1, $pos, strlen($arquivo1)+1);
 			$nome = substr($arquivo1, 0, $pos-1);
-			$arquivo64 = base64_encode($arquivo);
 
 			//NAO APAGAR OS COMENTARIOS!!!!!!!!!!!!
 			//NAO APAGAR OS COMENTARIOS!!!!!!!!!!!!
 			//NAO APAGAR OS COMENTARIOS!!!!!!!!!!!!
+
+			//$arquivo64 = base64_encode($arquivo);
 
 			//$zip = new ZipArchive();
 			/*if($zip->open('anexo_zip.zip', ZIPARCHIVE::CREATE) == TRUE)
@@ -61,9 +62,8 @@ class AnexoControle
 			$arquivo_zip = file_get_contents($caminho);
 			$arquivo64 = base64_encode($arquivo_zip);
 			unlink('anexo_zip.zip');*/
-			//$arquivo_zip = gzencode($arquivo, 9);
-			//$arquivo64 = base64_encode($arquivo_zip);
-			//$arquivo64 = base64_encode($arquivo);
+			$arquivo_zip = gzencode($arquivo, 9);
+			$arquivo64 = base64_encode($arquivo_zip);
 
 			$anexo = new Anexo();
 			$anexo->setId_despacho($lastId);
@@ -74,7 +74,6 @@ class AnexoControle
 			try
 			{
 				$anexoDAO->incluir($anexo);
-				//header("Location: ../html/memorando/listar_despachos.php?id_memorando=".$_GET['id_memorando']);
 			}
 			catch(PDOException $e)
 			{
