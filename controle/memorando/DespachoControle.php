@@ -72,7 +72,9 @@ class DespachoControle
     			$arquivo = new AnexoControle();
     			$arquivo->incluir($anexoss, $lastId);
     		}
-			//header("Location: ".WWW."html/memorando/listar_memorandos_ativos.php");
+    		$msg = "success";
+			$sccd = "Despacho enviado com sucesso";
+			header("Location: ".WWW."html/memorando/listar_memorandos_ativos.php?msg=".$msg."&sccd=".$sccd);
 		}
 		catch(PDOException $e)
 		{

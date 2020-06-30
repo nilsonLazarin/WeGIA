@@ -170,6 +170,17 @@ require_once ROOT."/html/personalizacao_display.php";
                     </div>
                 </header>
                 <!-- start: page -->
+                <!-- Caso o memorando tenha sido inserido-->
+                <?php
+                if (isset($_GET['msg']))
+                { 
+                    if ($_GET['msg'] == 'success')
+                    {
+                     echo('<div class="alert alert-success"><i class="fas fa-check mr-md"></i><a href="#" class="close" onclick="closeMsg()" data-dismiss="alert" aria-label="close">&times;</a>'.$_GET["sccs"]."</div>");
+                    }
+                }
+                ?>
+
                 <section class="panel" >
 
                     <header class="panel-heading">

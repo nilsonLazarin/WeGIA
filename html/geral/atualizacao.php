@@ -43,7 +43,7 @@
     tempBackup();
     $output = gitPull();
     if ($output[0]) {
-        $log = "Status: \n";
+        $log = "Status da atualização: \n";
         foreach ($output as $value){
             $log = $log . $value . "\n";
         }

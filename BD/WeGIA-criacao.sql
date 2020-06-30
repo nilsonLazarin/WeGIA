@@ -1162,7 +1162,7 @@ DELIMITER ;
 
 DELIMITER $$
 USE `wegia`$$
-CREATE PROCEDURE `insanexo`(IN `id_despacho` INT, IN `anexo` LONGTEXT, IN `extensao` VARCHAR(11), IN `nome` VARCHAR(11))
+CREATE PROCEDURE `insanexo`(IN `id_despacho` INT, IN `anexo` LONGTEXT, IN `extensao` VARCHAR(11), IN `nome` VARCHAR(255))
 BEGIN
 		declare idA int;
         INSERT INTO anexo(id_despacho, anexo, extensao, nome)

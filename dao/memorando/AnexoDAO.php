@@ -27,7 +27,9 @@ class AnexoDAO
 
 			while($linha = $consulta->fetch(PDO::FETCH_ASSOC))
 			{
-				$link = "data:image/".$linha['extensao'].";base64,".$linha['anexo'];
+				$AnexoDAO = new AnexoDAO;
+				$base64_encode = $AnexoDAO->descomprimir($linha['anexo']);
+				$link = "data:image/".$linha['extensao'].";base64,".$base64_encode;
 				$Anexos[$x] = array('anexo'=>$link, 'extensao'=>$linha['extensao'], 'nome'=>$linha['nome'], 'id_despacho'=>$linha['id_despacho']);
 				$x++;
 			}
@@ -61,6 +63,14 @@ class AnexoDAO
 		{
 			echo 'Error:' . $e->getMessage();
 		}
+	}
+
+	public function descomprimir($arquivoParaDescomprimir)
+	{
+		$base64 = base64_decode($arquivoParaDescomprimir);
+		$gz = gzdecode($base64);
+		$base64_encode = base64_encode($gz);
+		return $base64_encode;
 	}
 }
 ?>

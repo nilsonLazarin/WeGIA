@@ -59,7 +59,6 @@
                 $cmd->execute();
             }
 
-
             if (isset($_POST["id_campo"])){
                 $id_campo = $_POST["id_campo"];
                 $cmd = $pdo->prepare("select id_imagem from imagem where nome=:n");
@@ -68,7 +67,14 @@
                 $id_imagem = $cmd->fetchAll(PDO::FETCH_ASSOC);
                 $id_imagem = $id_imagem[0]["id_imagem"];
 
-                $pdo->query("update tabela_imagem_campo set id_imagem='$id_imagem' where id_campo='$id_campo';");
+
+                $res = $pdo->query("select id_relacao from tabela_imagem_campo where id_campo='$id_campo'");
+                $relacao = $res->fetchAll(PDO::FETCH_ASSOC);
+                if (!!$relacao){
+                    $pdo->query("update tabela_imagem_campo set id_imagem='$id_imagem' where id_campo='$id_campo';");
+                }else{
+                    $pdo->query("insert into tabela_imagem_campo values (default, '$id_campo', '$id_imagem');");
+                }
             }
 
             if (sizeof($nome_existente) == 0){
@@ -209,7 +215,15 @@
     }elseif (isset($_POST["selecao"])){
         $selecao = $_POST["selecao"];
         $campo = $_POST["campo"];
-        $pdo->query("update tabela_imagem_campo set id_imagem='$selecao' where id_campo='$campo';");
+
+        $res = $pdo->query("select id_relacao from tabela_imagem_campo");
+        $relacao = $res->fetchAll(PDO::FETCH_ASSOC);
+
+        if (!!$relacao){
+            $pdo->query("update tabela_imagem_campo set id_imagem='$selecao' where id_campo='$campo';");
+        }else{
+            $pdo->query("insert into tabela_imagem_campo values (default, '$campo', '$selecao');");
+        }
         header ("Location: personalizacao.php?msg=success");
     }
     ?>

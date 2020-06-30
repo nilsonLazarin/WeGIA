@@ -24,21 +24,25 @@
  </head>
  <body>
 	<form action="instalador.php" onsubmit="return validarForm()" method="post">
-		<label for="nomebd">Banco de Dados: </label>
-		<input type="text" name="nomebd" value="wegia"> 
+		<h5 class="required">Campos Obrigatórios: (*)</h5>
+		<label for="nomebd"><span class="required">*</span>Banco de Dados: </label>
+		<input type="text" name="nomebd" value="wegia" required> 
 
-		<label for="local">Local: </label>
-		<input type="text" name="local" value="localhost"> 
+		<label for="local"><span class="required">*</span>Local: </label>
+		<input type="text" name="local" value="localhost" required> 
 
-		<label for="usuario">Usuario: </label>
-		<input type="text" name="usuario" value="root">
+		<label for="backup"><span class="required">*</span>Local de Backup: </label>
+		<input type="text" name="backup" placeholder="/pasta/de/backup/" required> 
 
-		<label for="senha">Senha: </label>
+		<label for="usuario"><span class="required">*</span>Usuario: </label>
+		<input type="text" name="usuario" value="root" required>
+
+		<label for="senha"><span class="required"></span>Senha: </label>
 		<input type="password" name="senha">
 		
 		<p><input type="checkbox" name="reinstalar" value="">Reinstalar base de dados</p>
 
-		<input type="submit" value="instalar">
+		<input type="submit" value="Instalar">
 	</form>
  </body>
 </html>

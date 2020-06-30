@@ -219,7 +219,6 @@
 									echo("<ul>Almoxarifado: Todos</ul>");
 								}
 							}
-							
 							?>
 						</li>
 					</p>
