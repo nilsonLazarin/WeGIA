@@ -45,25 +45,7 @@ class AnexoControle
 			$extensao = substr($arquivo1, $pos, strlen($arquivo1)+1);
 			$nome = substr($arquivo1, 0, $pos-1);
 
-			//NAO APAGAR OS COMENTARIOS!!!!!!!!!!!!
-			//NAO APAGAR OS COMENTARIOS!!!!!!!!!!!!
-			//NAO APAGAR OS COMENTARIOS!!!!!!!!!!!!
-
-			//$arquivo64 = base64_encode($arquivo);
-
-			//$zip = new ZipArchive();
-			/*if($zip->open('anexo_zip.zip', ZIPARCHIVE::CREATE) == TRUE)
-			{
-				$zip->addFile($arq['tmp_name'][$i], $nome.".".$extensao);
-			}
-			var_dump($zip);
-			$caminho=$zip->filename;
-			$zip->close();
-			$arquivo_zip = file_get_contents($caminho);
-			$arquivo64 = base64_encode($arquivo_zip);
-			unlink('anexo_zip.zip');*/
-			$arquivo_zip = gzencode($arquivo, 9);
-			$arquivo64 = base64_encode($arquivo_zip);
+			$arquivo64 = comprimir($arquivo);
 
 			$anexo = new Anexo();
 			$anexo->setId_despacho($lastId);
@@ -83,23 +65,11 @@ class AnexoControle
 	}
 	}
 
-	/*public function verificarAnexo()
+	public function comprimir($anexoParaCompressao)
 	{
-        $arquivo=file_get_contents($this['tmp_name'][$i]);
-        $arquivo1=$this['name'][$i];
-        $arquivo64=base64_encode($arquivo);
-        $tamanho=strlen($arquivo1);
-        $pos = strpos ($arquivo1 , $ponto)+1;
-        $extensao=substr($arquivo1, $pos, strlen($arquivo1)+1);
-        $nome=substr($arquivo1, 0, $pos-1);
-        $anexo = new Anexo();
-    	$anexo->setId_despacho($id_despacho);
-    	$anexo->setAnexo($arquivo64);
-    	$anexo->setNome($nome);
-    	$anexo->setExtensao($extensao);
-
-    	return $anexo;
-    	}
-	}*/
+		$arquivo_zip = gzencode($anexoParaCompressao, 9);
+		$arquivo64 = base64_encode($arquivo_zip);
+		return $arquivo64;
+	}
 }
 ?>
