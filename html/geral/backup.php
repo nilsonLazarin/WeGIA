@@ -29,10 +29,10 @@
     
         /*Executando Backup do Diretório do site*/
         
-        exec("tar -cvzf ".BKP_DIR.date("YmdHi").".site.tar.gz ".ROOT, $output[1]);
+        $output[1] = shell_exec("tar -cvzf ".BKP_DIR.date("YmdHi").".site.tar.gz ".ROOT);
     
     
-    
+        $log = "";
         if (sizeof($output[0]) && sizeof($output[1])) {
             $log = "Status do backup do Banco de dados: \n";
             foreach ($output[0] as $value){
@@ -47,6 +47,6 @@
             //header("Location: ../atualizacao_sistema.php?msg=error&err=Houve um erro no processo de execução dos Backups");
         }
         var_dump($output);
-        var_dump($log);
+        echo("<pre>$log</pre>");
     }
 ?>
