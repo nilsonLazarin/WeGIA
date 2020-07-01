@@ -25,7 +25,7 @@
     }else{
         /*Executando Backup do Banco de Dados*/
         
-        exec("mysqldump -u ".DB_USER."  ".DB_NAME." -p".DB_PASSWORD." --no-create-info > ".BKP_DIR.date("YmdHi").".bd.sql", $output[0]);
+        $output[0] = shell_exec("mysqldump -u ".DB_USER."  ".DB_NAME." -p".DB_PASSWORD." --no-create-info > ".BKP_DIR.date("YmdHi").".bd.sql");
     
         /*Executando Backup do Diretório do site*/
         
