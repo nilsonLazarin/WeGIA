@@ -42,10 +42,11 @@
             foreach ($output[1] as $value){
                 $log .= $value . "\n";
             }
-            header("Location: ../atualizacao_sistema.php?msg=success&sccs=Backup realizado com sucesso!&log=".base64_encode($log));
+            //header("Location: ../atualizacao_sistema.php?msg=success&sccs=Backup realizado com sucesso!&log=".base64_encode($log));
         } else {
-            header("Location: ../atualizacao_sistema.php?msg=error&err=Houve um erro no processo de execução dos Backups");
+            //header("Location: ../atualizacao_sistema.php?msg=error&err=Houve um erro no processo de execução dos Backups");
         }
         var_dump($output);
+        var_dump($log);
     }
 ?>
