@@ -48,7 +48,7 @@ class Item {
 
     private function entrada(){
         if ($this->hasValue()){
-            $params = "WHERE ";
+            $params = "WHERE ientrada.qtd > 0 ";
             $cont = 0;
             if ($this->getOrigem()){
                 $params = $this->param($params, $cont).' origem.id_origem = "'.$this->getOrigem().'" ';
@@ -96,6 +96,7 @@ class Item {
             SUM(ientrada.qtd) as qtd_total, produto.descricao, SUM(ientrada.qtd*ientrada.valor_unitario) as valor_total, ientrada.valor_unitario 
             FROM ientrada 
             LEFT JOIN produto ON produto.id_produto = ientrada.id_produto 
+            WHERE ientrada.qtd > 0 
             GROUP BY concat(ientrada.id_produto,ientrada.valor_unitario)
             ORDER BY produto.descricao
             ;
@@ -105,7 +106,7 @@ class Item {
 
     private function saida(){
         if ($this->hasValue()){
-            $params = "WHERE ";
+            $params = "WHERE isaida.qtd > 0 ";
             $cont = 0;
             if ($this->getDestino()){
                 $params = $this->param($params, $cont).' destino.id_destino = "'.$this->getDestino().'" ';
@@ -153,6 +154,7 @@ class Item {
             SUM(isaida.qtd) as qtd_total, produto.descricao, SUM(isaida.qtd*isaida.valor_unitario) as valor_total, isaida.valor_unitario 
             FROM isaida 
             LEFT JOIN produto ON produto.id_produto = isaida.id_produto 
+            WHERE isaida.qtd > 0 
             GROUP BY concat(isaida.id_produto,isaida.valor_unitario)
             ORDER BY produto.descricao
             ;
@@ -162,7 +164,7 @@ class Item {
 
     private function estoque(){
         if ($this->hasValue()){
-            $params = "WHERE ";
+            $params = "WHERE qtd > 0 ";
             $cont = 0;
             if ($this->getAlmoxarifado()){
                 $params = $this->param($params, $cont).' id_almoxarifado = '.$this->getAlmoxarifado().' ';
@@ -214,7 +216,8 @@ class Item {
             WHERE produto.id_produto=estoque.id_produto AND estoque.id_produto=tabela2.id_produto;
             ");
             $this->setQuery("
-            SELECT qtd AS qtd_total, descricao, Total AS valor_total, PrecoMedio FROM estoque_com_preco_atualizado
+            SELECT qtd AS qtd_total, descricao, Total AS valor_total, PrecoMedio FROM estoque_com_preco_atualizado 
+            WHERE qtd > 0 
             ORDER BY descricao
             ;
             ");

@@ -10,7 +10,7 @@
 
 	require_once "relatorios/Relatorio_item.php";
 
-	
+	$o_d = null;
 	if ($_POST['tipo_relatorio'] == 'entrada') {
 		$o_d = $_POST['origem'];
 	}else if ($_POST['tipo_relatorio'] == 'saida') {
