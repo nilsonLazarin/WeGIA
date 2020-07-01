@@ -29,10 +29,11 @@
     
         /*Executando Backup do Diretório do site*/
         
-        $output[1] = shell_exec("tar -cvzf ".BKP_DIR.date("YmdHi").".site.tar.gz ".ROOT);
+        $output[1] = shell_exec("tar -czf ".BKP_DIR.date("YmdHi").".site.tar.gz ".ROOT);
     
     
         $log = "";
+        if ($output[0])
         if (sizeof($output[0]) && sizeof($output[1])) {
             $log = "Status do backup do Banco de dados: \n";
             foreach ($output[0] as $value){
