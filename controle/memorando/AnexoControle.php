@@ -54,6 +54,18 @@ class AnexoControle
 
 		for($i=0; $i<$total; $i++)
 		{
+
+			/*$zip = new ZipArchive();
+			if($zip->open('anexo_zip.zip', ZIPARCHIVE::CREATE) == TRUE)
+			{
+				$zip->addFile($arq['tmp_name'][$i], $nome.".".$extensao);
+			}
+			var_dump($zip);
+			$caminho=$zip->filename;
+			$zip->close();
+			$arquivo_zip = file_get_contents($caminho);
+			unlink('anexo_zip.zip');*/
+
 			$anexo_tmpName = $arq['tmp_name'];
 			$arquivo = file_get_contents($anexo_tmpName[$i]);
 			$arquivo1 = $arq['name'][$i];
