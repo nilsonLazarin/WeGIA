@@ -17,7 +17,7 @@
     require_once($config_path);
     }
 
-    define("DAY_TIME", time("YmdHi")); // Data e hora em formato AAAAMMDDHHII (I = minuto)
+    define("DAY_TIME", date("YmdHi")); // Data e hora em formato AAAAMMDDHHII (I = minuto)
     define("BD_BKP", BKP_DIR.date("YmdHi").".bd.sql"); //Caminho para arquivo de backup temporário do Banco de dados
     define("PAGE_BKP", BKP_DIR.date("YmdHi").".site.tar.gz"); //Caminho para arquivo de backup temporário da página
 
