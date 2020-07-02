@@ -10,7 +10,7 @@ include("conexao.php");
     $imagem = $arquivo[0];
     $tipo = $arquivo[1];
    
-    $selectPa = "SELECT paragrafo FROM selecao_paragrafo WHERE nome_campo = 'Logo'";
+    $selectPa = "SELECT paragrafo FROM selecao_paragrafo WHERE nome_campo = 'paragrafo'";
     $queryP = mysqli_query($conexao, $selectPa);
     $paragrafo = mysqli_fetch_row($queryP);
 
