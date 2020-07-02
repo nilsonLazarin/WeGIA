@@ -71,7 +71,10 @@
 	function displayMsg($msgName = 'msg'){
 		if (isset($_GET[$msgName])){
 			$msg = $_GET[$msgName];
-			$log = base64_decode($_GET['log']) ?? null;
+			$log = null;
+			if (isset($_GET['log'])){
+				$log = base64_decode($_GET['log']);
+			}
 			
 			if ($msg == "success"){
 				$sccs = $_GET['sccs'] ?? null;
