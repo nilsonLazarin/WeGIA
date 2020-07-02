@@ -1,9 +1,5 @@
 <?php
 
-ini_set('display_errors', 1);
-ini_set('display_startup_erros', 1);
-error_reporting(E_ALL);
-
 $config_path = "config.php";
 if(file_exists($config_path)){
     require_once($config_path);
@@ -18,12 +14,6 @@ session_start();
 if(!isset($_SESSION['usuario'])){
     header ("Location: ".WWW."html/index.php");
 }
-
-require_once ROOT."/controle/memorando/MemorandoControle.php";
-
-$memorando = new MemorandoControle;
-$memorando->listarTodos();
-
 // Adiciona a Função display_campo($nome_campo, $tipo_campo)
 require_once ROOT."/html/personalizacao_display.php";
 ?>
