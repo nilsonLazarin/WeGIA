@@ -125,8 +125,7 @@ require_once ROOT."/html/personalizacao_display.php";
 	$(function(){
 		var despacho=<?php echo $_SESSION['despacho']?>;
 		var despachoAnexo=<?php echo $_SESSION['despachoComAnexo']?>;
-		var arquivo=<?php echo $_SESSION['arquivos']?>;
-		console.log(arquivo);
+		var arquivo = <?php echo $_SESSION['arquivos']?>;
 		<?php
 			if(isset($_GET["arq"]))
 			{
@@ -168,10 +167,11 @@ require_once ROOT."/html/personalizacao_display.php";
 							.text("Anexos")));
 		});
 		$.each(arquivo, function(i, item){
+			console.log(arquivo);
 			$("#"+item.id_despacho)
 				.append($("<tr id=link>")
 						.append($("<td colspan=4>")
-							.html("<a href="+item.anexo+" download='"+item.nome+"."+item.extensao+"'>"+item.nome+"."+item.extensao+"</a>")));
+							.html("<a href='<?php echo WWW;?>html/memorando/exibe_anexo.php?id_anexo="+item.id_anexo+"&extensao="+item.extensao+"&nome="+item.nome+"'>"+item.nome+"."+item.extensao+"</a>")));
 		});
 
         $("#header").load("<?php echo WWW;?>html/header.php");
