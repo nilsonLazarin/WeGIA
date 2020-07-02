@@ -7,8 +7,7 @@ function preenche_campo()
         var img = dados[0];
         var texto = dados[1];
         $("#img_logo").html(img);
-        console.log(img);
         $("#titulo_pag").html(texto);
-        console.log(texto);
+        
     });
 }
