@@ -22,15 +22,13 @@ class AnexoDAO
 		try{
 		$Anexos = array();
 		$pdo = Conexao::connect();
-		$consulta = $pdo->query("SELECT a.anexo, a.extensao, a.nome, d.id_despacho FROM anexo a JOIN despacho d ON(a.id_despacho=d.id_despacho) JOIN memorando m ON(d.id_memorando=m.id_memorando) WHERE m.id_memorando=$id_memorando");
+		$consulta = $pdo->query("SELECT a.extensao, a.nome, d.id_despacho, a.id_anexo FROM anexo a JOIN despacho d ON(a.id_despacho=d.id_despacho) JOIN memorando m ON(d.id_memorando=m.id_memorando) WHERE m.id_memorando=$id_memorando");
 		$x = 0;
 
 			while($linha = $consulta->fetch(PDO::FETCH_ASSOC))
 			{
 				$AnexoDAO = new AnexoDAO;
-				$base64_encode = $AnexoDAO->descomprimir($linha['anexo']);
-				$link = "data:image/".$linha['extensao'].";base64,".$base64_encode;
-				$Anexos[$x] = array('anexo'=>$link, 'extensao'=>$linha['extensao'], 'nome'=>$linha['nome'], 'id_despacho'=>$linha['id_despacho']);
+				$Anexos[$x] = array('extensao'=>$linha['extensao'], 'nome'=>$linha['nome'], 'id_despacho'=>$linha['id_despacho'], 'id_anexo'=>$linha['id_anexo']);
 				$x++;
 			}
 		}
@@ -39,6 +37,30 @@ class AnexoDAO
 			echo 'Error:' . $e->getMessage;
 		}
 		return json_encode($Anexos);
+	}
+
+	public function listarAnexo($id_anexo)
+	{
+		try
+		{	
+			$Anexo = array();
+			$pdo = Conexao::connect();
+			$consulta = $pdo->query("SELECT anexo FROM anexo WHERE id_anexo=$id_anexo");
+			$x = 0;
+
+			while($linha = $consulta->fetch(PDO::FETCH_ASSOC))
+			{
+				$AnexoDAO = new AnexoDAO;
+				$decode = gzuncompress($linha['anexo']);
+				$Anexo[$x] = array('anexo'=>$decode);
+				$x++;
+			}
+		}
+		catch(PDOException $e)
+		{
+			echo 'Error:' . $e->getMessage;
+		}
+		return $Anexo;
 	}
 
 	public function incluir($anexo)
@@ -63,14 +85,6 @@ class AnexoDAO
 		{
 			echo 'Error:' . $e->getMessage();
 		}
-	}
-
-	public function descomprimir($arquivoParaDescomprimir)
-	{
-		$base64 = base64_decode($arquivoParaDescomprimir);
-		$gz = gzdecode($base64);
-		$base64_encode = base64_encode($gz);
-		return $base64_encode;
 	}
 }
 ?>

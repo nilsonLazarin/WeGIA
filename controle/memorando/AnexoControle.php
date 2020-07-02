@@ -29,11 +29,21 @@ class AnexoControle
 		$_SESSION['arquivos'] = $anexos;
 	}
 
+	public function listarAnexo($id_anexo)
+	{
+		$AnexoDAO = new AnexoDAO();
+		$anexos = $AnexoDAO->listarAnexo($id_anexo);
+		if (session_status() !== PHP_SESSION_ACTIVE)
+ 		{
+    		session_start();
+		}
+		$_SESSION['arq'] = $anexos;
+	}
+
 	public function comprimir($anexoParaCompressao)
 	{
-		$arquivo_zip = gzencode($anexoParaCompressao, 9);
-		$arquivo64 = base64_encode($arquivo_zip);
-		return $arquivo64;
+		$arquivo_zip = gzcompress($anexoParaCompressao);
+		return $arquivo_zip;
 	}
 
 	public function incluir($anexo, $lastId)
@@ -44,20 +54,21 @@ class AnexoControle
 
 		for($i=0; $i<$total; $i++)
 		{
-			$anexo_tmpName=$arq['tmp_name'];
+			$anexo_tmpName = $arq['tmp_name'];
 			$arquivo = file_get_contents($anexo_tmpName[$i]);
 			$arquivo1 = $arq['name'][$i];
+			$tamanho_arquivo = $arq['size'][$i];
 			$tamanho = strlen($arquivo1);
 			$pos = strpos($arquivo1, ".")+1;
 			$extensao = substr($arquivo1, $pos, strlen($arquivo1)+1);
 			$nome = substr($arquivo1, 0, $pos-1);
 
 			$AnexoControle = new AnexoControle;
-			$arquivo64 = $AnexoControle->comprimir($arquivo);
+			$arquivo_zip = $AnexoControle->comprimir($arquivo);
 
 			$anexo = new Anexo();
 			$anexo->setId_despacho($lastId);
-    		$anexo->setAnexo($arquivo64);
+    		$anexo->setAnexo($arquivo_zip);
     		$anexo->setNome($nome);
     		$anexo->setExtensao($extensao);	
     		$anexoDAO = new AnexoDAO();
