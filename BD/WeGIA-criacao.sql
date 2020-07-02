@@ -124,7 +124,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `wegia`.`anexo` (
   `id_anexo` INT(11) NOT NULL AUTO_INCREMENT,
   `id_despacho` INT(11) NOT NULL,
-  `anexo` LONGTEXT NULL DEFAULT NULL,
+  `anexo` BLOB NULL DEFAULT NULL,
   `extensao` VARCHAR(256) NOT NULL,
   `nome` VARCHAR(256) NOT NULL,
   PRIMARY KEY (`id_anexo`),
@@ -1162,7 +1162,7 @@ DELIMITER ;
 
 DELIMITER $$
 USE `wegia`$$
-CREATE PROCEDURE `insanexo`(IN `id_despacho` INT, IN `anexo` LONGTEXT, IN `extensao` VARCHAR(11), IN `nome` VARCHAR(255))
+CREATE PROCEDURE `insanexo`(IN `id_despacho` INT, IN `anexo` BLOB, IN `extensao` VARCHAR(11), IN `nome` VARCHAR(255))
 BEGIN
 		declare idA int;
         INSERT INTO anexo(id_despacho, anexo, extensao, nome)
