@@ -13,7 +13,8 @@ INSERT INTO `selecao_paragrafo` (`id_selecao`, `nome_campo`, `paragrafo`, `origi
 (2, 'Subtitulo', 'Web Gerenciador de instituições assistenciais', 1),
 (3, 'Conheça', 'O WEGIA é um sistema que visa auxiliar no controle de instituições assistenciais.', 1),
 (4, 'Objetivo', 'Promover uma boa administração ao fornecer serviços de ajuda e controle de estoques, gerenciamento de funcionários e pessoal, visando um maior proveito de recursos.\r\n\r\nEntre com suas credenciais padrão de administrador para configurar o sistema:\r\n\r\nusuário: admin\r\nsenha: admin', 1),
-(5, 'Rodapé', 'WEGIA - Em desenvolvimento', 1);
+(5, 'Rodapé', 'WEGIA - Em desenvolvimento', 1),
+(6, 'ContribuiçãoMSG', 'Seja um doador', '1');
 
 
 INSERT INTO `campo_imagem` (`id_campo`, `nome_campo`, `tipo`) VALUES (1, 'Logo', 'img'), (2, 'Carrossel', 'car');
