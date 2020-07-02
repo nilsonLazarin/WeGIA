@@ -9,7 +9,7 @@ include("conexao.php");
     $arquivo = mysqli_fetch_row($query);
 
     $imagem = $arquivo[0];
-    $tipo = $arquivo[1];
+    $tipo =".".$arquivo[1];
    
     $selectPa = "SELECT paragrafo FROM selecao_paragrafo WHERE nome_campo = 'ContribuiçãoMSG'";
     $queryP = mysqli_query($conexao, $selectPa);
@@ -17,7 +17,7 @@ include("conexao.php");
 
     $texto = $paragrafo[0];
 
- echo $logo= '<img src="data:image/png;base64,'.base64_decode($imagem.".".$tipo ).'">'."paragrafo:";
+    echo $logo= 'data:image/png;base64,'.base64_encode($imagem.$tipo).'">'."paragrafo:";
     echo $texto;
     
 ?>
