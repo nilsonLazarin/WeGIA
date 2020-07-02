@@ -42,6 +42,9 @@
     // Adiciona a Função display_campo($nome_campo, $tipo_campo)
 	require_once "personalizacao_display.php";
 
+	// Adiciona o Sistema de Mensagem
+	require_once "./geral/msg.php";
+
 ?>
 <!doctype html>
 <html class="fixed">
@@ -149,20 +152,18 @@
 				</header>
                 <!--start: page-->
 				
-                <!-- Caso as alterações feitas sejam feitas com sucesso -->
-				<?php if (isset($_GET['msg'])){ if ($_GET['msg'] == 'success'){ echo('<div class="alert alert-success"><i class="fas fa-check mr-md"></i><a href="#" class="close" onclick="closeMsg()" data-dismiss="alert" aria-label="close">&times;</a>'. ($_GET["sccs"] ? $_GET["sccs"] : "Operação concluida com sucesso!") . '<pre>'.base64_decode($_GET['log']).'</pre></div>');}}?>
+                <!-- Caso haja uma mensagem do sistema -->
+				<?php displayMsg();?>
 
-				<!-- Caso haja um erro fatal na alteração dos dados -->
-				<?php if (isset($_GET['msg'])){ if ($_GET['msg'] == 'error'){ echo('<div class="alert alert-danger"><i class="fas fa-exclamation-triangle mr-md"></i><a href="#" class="close" onclick="closeMsg()" data-dismiss="alert" aria-label="close">&times;</a>'. ($_GET["err"] ? $_GET["err"] : "Houve um erro ao atualizar o sistema") .'</div>');}}?>
-				
+
                 <div class="tab-content ls-container">
                     <div class="space-between">
                         <div>Fazer backup:</div>
-                        <button id="btn1" class="btn btn-primary" onClick="setLoader(this)"><a href="geral/backup.php"><i class="fa fa-floppy-o" aria-hidden="true"></i></a></button>
+                        <button id="btn1" class="btn btn-primary" onClick="setLoader(this)"><a href="atualizacao/backup.php"><i class="fa fa-floppy-o" aria-hidden="true"></i></a></button>
                     </div>
                     <div class="space-between">
                         <div>Atualizar sistema:</div>
-                        <button id="btn2" class="btn btn-primary" onClick="setLoader(this)"><a href="geral/atualizacao.php"><i class="fa fa-upload" aria-hidden="true"></i></a></button>
+                        <button id="btn2" class="btn btn-primary" onClick="setLoader(this)"><a href="atualizacao/atualizacao.php"><i class="fa fa-upload" aria-hidden="true"></i></a></button>
                     </div>
                 </div>
 				<!--end: page-->
@@ -180,9 +181,8 @@
         }
         window.location.href = btn.firstElementChild.href;
 	}
-	
-	function closeMsg(){
-		window.history.replaceState({}, document.title, window.location.pathname);
-	}
 </script>
+
+<!-- Adiciona função de fechar mensagem e tirá-la da url -->
+<script src="./geral/msg.js"></script>
 </html>
