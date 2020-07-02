@@ -16,7 +16,6 @@ function preenche_dados(id)
     .done(function(data){
         var dados = JSON.parse(data);
         var cod = dados.cod;
-        console.log(cod);
         var minvalunic = dados.MinValUnic;
         var mensaldiasv = dados.MensalDiasV;
         var juros = dados.juros;
@@ -61,7 +60,7 @@ function preenche_dados_cartao(id)
     
     $.post("../php/atualiza_sistema_cartao_mensal.php", {'id_teste':id})
     .done(function(data){
-        console.log(data);
+       
         $("#doacao_mensal").html(data);
     });
 }

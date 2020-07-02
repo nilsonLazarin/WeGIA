@@ -9,5 +9,6 @@ function preenche_campo()
         $("#img_logo").html(img);
         console.log(img);
         $("#titulo_pag").html(texto);
+        console.log(texto);
     });
 }
