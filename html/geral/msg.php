@@ -87,7 +87,7 @@
 				}
 			}
 			
-			if ($msg == "wanring"){
+			if ($msg == "warning"){
 				$warn = $_GET['warn'] ?? null;
 				if ($warn && $log){
 					displayWarning($warn, $log);
