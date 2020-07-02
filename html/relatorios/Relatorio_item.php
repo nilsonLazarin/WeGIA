@@ -41,7 +41,7 @@ class Item {
 
     private function param($params, $cont){
         if ($cont){
-            return $params.'AND ';
+            return $params.'AND';
         }
         return $params;
     }
@@ -49,9 +49,9 @@ class Item {
     private function entrada(){
         if ($this->hasValue()){
             $params = "WHERE ientrada.qtd > 0 ";
-            $cont = 0;
+            $cont = 1;
             if ($this->getOrigem()){
-                $params = $this->param($params, $cont).' origem.id_origem = "'.$this->getOrigem().'" ';
+                $params = $this->param($params, $cont).' origem.id_origem = '.$this->getOrigem().' ';
                 $cont++;
             }
             if ($this->getTipo()){
@@ -107,7 +107,7 @@ class Item {
     private function saida(){
         if ($this->hasValue()){
             $params = "WHERE isaida.qtd > 0 ";
-            $cont = 0;
+            $cont = 1;
             if ($this->getDestino()){
                 $params = $this->param($params, $cont).' destino.id_destino = "'.$this->getDestino().'" ';
                 $cont++;
@@ -165,7 +165,7 @@ class Item {
     private function estoque(){
         if ($this->hasValue()){
             $params = "WHERE qtd > 0 ";
-            $cont = 0;
+            $cont = 1;
             if ($this->getAlmoxarifado()){
                 $params = $this->param($params, $cont).' id_almoxarifado = '.$this->getAlmoxarifado().' ';
                 $cont++;

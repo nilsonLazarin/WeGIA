@@ -24,7 +24,7 @@
 		}
 		echo("
 			<div class='alert alert-success'>
-				<i class='fas fa-check mr-md'></i>
+				<i class='fas fa-check mr-md' style='font-size: 13px !important; margin: 0 15px;'></i>
 				<a href='#' class='close' onclick='closeMsg()' data-dismiss='alert' aria-label='close'>
 					&times;
 				</a>
@@ -41,7 +41,7 @@
 		}
 		echo("
 			<div class='alert alert-warning'>
-			<i class='fas fa-exclamation-triangle'></i>
+			<i class='fas fa-exclamation-triangle' style='font-size: 13px !important; margin: 0 15px;'></i>
 				<a href='#' class='close' onclick='closeMsg()' data-dismiss='alert' aria-label='close'>
 					&times;
 				</a>
@@ -58,7 +58,7 @@
 		}
 		echo("
 			<div class='alert alert-danger'>
-				<i class='fas fa-times-circle'></i>
+				<i class='fas fa-times-circle' style='font-size: 13px !important; margin: 0 15px;'></i>
 				<a href='#' class='close' onclick='closeMsg()' data-dismiss='alert' aria-label='close'>
 					&times;
 				</a>
@@ -112,6 +112,7 @@
 	}
 	
 	function getMsg($getName = 'msg', $flagName = 'flag'){
+		
 
 		/**
 		 * Flags:
@@ -123,7 +124,7 @@
 		 */
 
 		if (isset($_GET[$getName])){
-			$flag = $_GET[$flagName] ?? null;
+			$flag = $_GET[$flagName] ?? "sucesso";
 			$msg = $_GET[$getName];
 			$log = $_GET['log'] ?? null;
 			if ($log){
