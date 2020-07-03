@@ -47,9 +47,9 @@
         foreach ($output as $value){
             $log = $log . $value . "\n";
         }
-        header("Location: ../atualizacao_sistema.php?msg=success&sccs=Backup realizado e Atualização concluída!&log=".base64_encode($log));
+        header("Location: ./atualizacao_sistema.php?msg=success&sccs=Backup realizado e Atualização concluída!&log=".base64_encode($log));
     } else {
-        header("Location: ../atualizacao_sistema.php?msg=error&err=Houve um erro ao executar o comando git -C ".ROOT." pull");
+        header("Location: ./atualizacao_sistema.php?msg=error&err=Houve um erro ao executar o comando git -C ".ROOT." pull");
     }
 
 ?>
