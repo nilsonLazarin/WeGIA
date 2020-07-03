@@ -159,11 +159,11 @@
                 <div class="tab-content ls-container">
                     <div class="space-between">
                         <div>Fazer backup:</div>
-                        <button id="btn1" class="btn btn-primary" onClick="setLoader(this)"><a href="atualizacao/backup.php"><i class="fa fa-floppy-o" aria-hidden="true"></i></a></button>
+                        <button id="btn1" class="btn btn-primary" onClick="setLoader(this)"><a href="./backup.php"><i class="fa fa-floppy-o" aria-hidden="true"></i></a></button>
                     </div>
                     <div class="space-between">
                         <div>Atualizar sistema:</div>
-                        <button id="btn2" class="btn btn-primary" onClick="setLoader(this)"><a href="atualizacao/atualizacao.php"><i class="fa fa-upload" aria-hidden="true"></i></a></button>
+                        <button id="btn2" class="btn btn-primary" onClick="setLoader(this)"><a href="./atualizacao.php"><i class="fa fa-upload" aria-hidden="true"></i></a></button>
                     </div>
                 </div>
 				<!--end: page-->
