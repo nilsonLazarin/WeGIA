@@ -78,3 +78,8 @@ INSERT INTO `permissao` (`id_cargo`, `id_acao`, `id_recurso`) VALUES
 (1, 7, 25),
 (1, 7, 91);
 
+INSERT INTO `sistema_pagamento` (`id`, `nome_sistema`) VALUES 
+(1, 'PAGSEGURO'), 
+(2, 'PAYPAL'), 
+(3, 'BOLETOFACIL'), 
+(4, 'WIDEPAY');
