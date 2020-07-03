@@ -49,7 +49,7 @@
 	<!-- Basic -->
 	<meta charset="UTF-8">
 
-	<title>Adicionar Almoxarifado</title>
+	<title>Editar permissões</title>
 
 	<!-- Mobile Metas -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -151,7 +151,7 @@
 
 				<!-- start: page -->
 				<div class="row">
-					<div class="col-md-4 col-lg-2" style="visibility: hidden;"></div>
+					<div class="col-md-4 col-lg-12" style="visibility: hidden;"></div>
 					<div class="col-md-8 col-lg-8" >
 						<div class="tabs">
 							<ul class="nav nav-tabs tabs-primary">
@@ -239,6 +239,13 @@
 									</fieldset>	
 								</div>
 							</div>
+						</div>
+					</div>
+					<div class="card col-md-4">
+						<div class="card-body">
+							<h5 class="card-title">Permissões para novo funcionário</h5>
+							<p class="card-text">Crie uma senha para um novo funcionário entrar no sistema.</p>
+							<a href="configurar_senhas.php" class="btn btn-primary">Configurar senhas</a>
 						</div>
 					</div>
 				</div>
