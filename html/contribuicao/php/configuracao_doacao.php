@@ -1,4 +1,9 @@
-
+<?php
+	session_start();
+	if(!isset($_SESSION['usuario'])){
+		header ("Location: ../../../index.php");
+    }
+?>
 <!DOCTYPE html>
 <html class="fixed">
     <head>
@@ -30,9 +35,6 @@
         <script src="../../../assets/javascripts/theme.init.js"></script>
         <script type="text/javascript" src="preenche_dados.js"></script>
     </head>
-    <script>
-   		document.write('<a href="' + document.referrer + '"></a>');
-    </script>
     <body>
 	<section class="body">
 		<div id="header"></div>
@@ -46,7 +48,7 @@
 					<div class="right-wrapper pull-right">
 						<ol class="breadcrumbs">
 							<li>
-								<a href="../../../home.php">
+								<a href="../../home.php">
 									<i class="fa fa-home"></i>
 								</a>
 							</li>
@@ -76,7 +78,7 @@
 						</ul>
 						<div class="tab-content" id="myTabContent" width = "50%">
                             <div id='boleto'>
-                                <form action="atualizacao_doacao.php" method = "POST">
+                            <form action="atualizacao_doacao.php" method = "POST">
                                 <input type="hidden" id="cod_sistema" name="cod_sistema">
                                 <div class="tab-pane active" id="img-tab" role="tabpanel" aria-labelledby="img-tab">
                                     <table class="table table-hover"  >
@@ -88,9 +90,9 @@
                                             <th scope="col" width="5%">Valor Máximo Doação Mensal:</th>
                                             </tr>
                                             <tr id='preenche_bolr1'>
-                                            <td><input type='text' name='minval' id='minval'></td>
-                                            <td><input type='text' name='minvalparc' id='minvalparc'></td>
-                                            <td><input type='text' name='maivalparc' id='maivalparc'></td>
+                                            <td><input type='number' name='minval' id='minval'></td>
+                                            <td><input type='number' name='minvalparc' id='minvalparc'></td>
+                                            <td><input type='number' name='maivalparc' id='maivalparc'></td>
                                             </tr>
                                             <tr>
                                             <th scope="col">Pagamento Após vencimento Boleto Único:</th>
@@ -108,7 +110,7 @@
                                             </tr>
                                             <tr id='preenche_bolr3'>
                                             <td><input type='text' name='multa' id='multa'></td>
-                                            <td><input type='text' name='agradecimento' id='agrad'></td>
+                                            <td><textarea name='agradecimento' cols='18'  id='agrad'></textarea></td>
                                             </tr>
                                         </thead>
                                     </table>
@@ -120,7 +122,7 @@
                                                 <th scope="col" width="5%">opção 2</th>
                                                 <th scope="col" width="5%">opcão 3</th>
                                             </tr>
-                                            <tr id='preenche_bol2'>
+                                            <tr id='preenche_bol1'>
                                                 <td><input type='number' name='op1' value=></td>
                                                 <td><input type='number' name='op2' value=></td>
                                                 <td><input type='number' name='op3' value=></td>
@@ -130,8 +132,7 @@
                                                 <th scope="col" width="5%">opção 5</th>
                                                 <th scope="col" width="5%">opção 6</th>
                                             </tr>
-                                            
-                                            <tr id='preenche_bol2.2'>
+                                            <tr id='preenche_bol2'>
                                                 <td><input type='number' name='op4' value=></td>
                                                 <td><input type='number' name='op5' value=></td>
                                                 <td><input type='number' name='op6' value=></td>
@@ -157,37 +158,38 @@
                                             </tr>
                                     </table>
                                 </div>
-
-                                </form>
-                            </div>
-                            <div id='cartao'>
-                                <input type='hidden' name='cod_cartao'>
-                                <table class="table table-hover">
-                                    <legend>DOAÇÃO AVULSA</legend>
-                                    <tr>
-                                        <th scope="col" width="5%">LINK</th>
-                                    </tr>
-                                    <tr id='avulso_link'>
-                                        <td><input type='text' name='avulso_link' value=></td>
-                                    </tr>
-                                </table>
-                                <div id='doacao_mensal'>
-                                </div>    
-                            </div>   
+                                </div>
+                                <div id='cartao'>
+                                    <input type='hidden' name='cod_cartao'>
+                                    <table class="table table-hover">
+                                        <legend>DOAÇÃO AVULSA</legend>
+                                        <tr>
+                                            <th scope="col" width="5%">LINK</th>
+                                        </tr>
+                                        <tr id='avulso_link'>
+                                            <td><input type='text' name='avulso_link' value=></td>
+                                        </tr>
+                                    </table>
+                                    <div id='doacao_mensal'>
+                                    </div>    
+                                </div> 
+                            <br><br>
+                            <input type="submit" class= "btn btn-primary" value="Editar Informações">
+                          
+                            </form>     
                         </div>
 						</div>
                     </div>
                 </div>
 			</section>
         </div>
-            <!-- end: header -->
 	</section>
 	<script>
         $(document).ready(function() 
         {
             
             $("#header").load("../../header.php");
-            $(".menuu").load("../../menu.html");
+            $(".menuu").load("menu.html");
             var id = '';
             preencher(id);
             $("#cartao").hide();

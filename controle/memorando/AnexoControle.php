@@ -54,7 +54,6 @@ class AnexoControle
 
 		for($i=0; $i<$total; $i++)
 		{
-
 			/*$zip = new ZipArchive();
 			if($zip->open('anexo_zip.zip', ZIPARCHIVE::CREATE) == TRUE)
 			{
@@ -65,19 +64,22 @@ class AnexoControle
 			$zip->close();
 			$arquivo_zip = file_get_contents($caminho);
 			unlink('anexo_zip.zip');*/
+			/*$fp = fopen($_FILES['anexo']['tmp_name'][$i], "rb");
+			$conteudo = fread($fp, $tamanho_arquivo);
+			$conteudo = addslashes($conteudo);
+			fclose($fp);*/
 
 			$anexo_tmpName = $arq['tmp_name'];
 			$arquivo = file_get_contents($anexo_tmpName[$i]);
 			$arquivo1 = $arq['name'][$i];
-			$tamanho_arquivo = $arq['size'][$i];
 			$tamanho = strlen($arquivo1);
 			$pos = strpos($arquivo1, ".")+1;
 			$extensao = substr($arquivo1, $pos, strlen($arquivo1)+1);
 			$nome = substr($arquivo1, 0, $pos-1);
-
+			
 			$AnexoControle = new AnexoControle;
 			$arquivo_zip = $AnexoControle->comprimir($arquivo);
-
+			
 			$anexo = new Anexo();
 			$anexo->setId_despacho($lastId);
     		$anexo->setAnexo($arquivo_zip);

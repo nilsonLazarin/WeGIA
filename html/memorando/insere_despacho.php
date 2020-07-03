@@ -16,6 +16,33 @@ if(!isset($_SESSION['usuario'])){
     header ("Location: ".WWW."index.php");
 }
 
+$conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+	$id_pessoa = $_SESSION['id_pessoa'];
+	$resultado = mysqli_query($conexao, "SELECT * FROM funcionario WHERE id_pessoa=$id_pessoa");
+	if(!is_null($resultado)){
+		$id_cargo = mysqli_fetch_array($resultado);
+		if(!is_null($id_cargo)){
+			$id_cargo = $id_cargo['id_cargo'];
+		}
+		$resultado = mysqli_query($conexao, "SELECT * FROM permissao WHERE id_cargo=$id_cargo and id_recurso=3");
+		if(!is_bool($resultado) and mysqli_num_rows($resultado)){
+			$permissao = mysqli_fetch_array($resultado);
+			if($permissao['id_acao'] == 1){
+        $msg = "Você não tem as permissões necessárias para essa página.";
+        header("Location: ./home.php?msg_c=$msg");
+			}
+			$permissao = $permissao['id_acao'];
+		}else{
+        	$permissao = 1;
+          $msg = "Você não tem as permissões necessárias para essa página.";
+          header("Location: ./home.php?msg_c=$msg");
+		}	
+	}else{
+		$permissao = 1;
+    $msg = "Você não tem as permissões necessárias para essa página.";
+    header("Location: ./home.php?msg_c=$msg");
+	}	
+
 require_once ROOT."/controle/FuncionarioControle.php";
 
 $funcionarios = new FuncionarioControle;
@@ -155,6 +182,18 @@ require_once ROOT."/html/personalizacao_display.php";
             <aside id="sidebar-left" class="sidebar-left menuu"></aside>
             <!-- end: sidebar -->
             <section role="main" class="content-body">
+                <?php
+                if(!in_array($id_memorando, $_SESSION['memorandoIdInativo']))
+                {
+                ?>
+                <script>
+                    $(".panel").html("<p>Desculpe, você não tem acesso à essa página</p>");
+                </script>
+                <?php
+                }
+                else
+                {
+                ?>
                 <header class="page-header">
                     <h2>Caixa de entrada</h2>
                     <div class="right-wrapper pull-right">
@@ -227,6 +266,9 @@ require_once ROOT."/html/personalizacao_display.php";
                             </div>
                         </form>
                     </div> 
+                    <?php
+                }
+                ?>
                     </div>
                 </section>
             </section>

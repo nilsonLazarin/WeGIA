@@ -8,10 +8,46 @@
     $id_funcionario=$_GET['id_funcionario'];
     header('Location: ../controle/control.php?metodo=listarEpi&nomeClasse=FuncionarioControle&nextPage=../html/editar_epi.php?id_funcionario='.$id_funcionario.'&id_funcionario='.$id_funcionario);
    }
-
-    $mysqli = new mysqli("localhost","root","root","wegia");
+   $config_path = "config.php";
+   if(file_exists($config_path)){
+	   require_once($config_path);
+   }else{
+	   while(true){
+		   $config_path = "../" . $config_path;
+		   if(file_exists($config_path)) break;
+	   }
+	   require_once($config_path);
+   }
+    $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
     $descricao_epi = $mysqli->query("SELECT * FROM epi");
-   
+	   
+	
+	$conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+	$id_pessoa = $_SESSION['id_pessoa'];
+	$resultado = mysqli_query($conexao, "SELECT * FROM funcionario WHERE id_pessoa=$id_pessoa");
+	if(!is_null($resultado)){
+		$id_cargo = mysqli_fetch_array($resultado);
+		if(!is_null($id_cargo)){
+			$id_cargo = $id_cargo['id_cargo'];
+		}
+		$resultado = mysqli_query($conexao, "SELECT * FROM permissao WHERE id_cargo=$id_cargo and id_recurso=11");
+		if(!is_bool($resultado) and mysqli_num_rows($resultado)){
+			$permissao = mysqli_fetch_array($resultado);
+			if($permissao['id_acao'] == 1){
+        $msg = "Você não tem as permissões necessárias para essa página.";
+        header("Location: ./home.php?msg_c=$msg");
+			}
+			$permissao = $permissao['id_acao'];
+		}else{
+        	$permissao = 1;
+          $msg = "Você não tem as permissões necessárias para essa página.";
+          header("Location: ./home.php?msg_c=$msg");
+		}	
+	}else{
+		$permissao = 1;
+    $msg = "Você não tem as permissões necessárias para essa página.";
+    header("Location: ./home.php?msg_c=$msg");
+	}	
 	
 	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
 	require_once "personalizacao_display.php";

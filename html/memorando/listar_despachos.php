@@ -14,22 +14,44 @@ if(file_exists($config_path)){
     }
     require_once($config_path);
 }
-
 session_start();
 
 if(!isset($_SESSION['usuario'])){
 	header ("Location: ".WWW."index.php");
 }
 
+$conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+	$id_pessoa = $_SESSION['id_pessoa'];
+	$resultado = mysqli_query($conexao, "SELECT * FROM funcionario WHERE id_pessoa=$id_pessoa");
+	if(!is_null($resultado)){
+		$id_cargo = mysqli_fetch_array($resultado);
+		if(!is_null($id_cargo)){
+			$id_cargo = $id_cargo['id_cargo'];
+		}
+		$resultado = mysqli_query($conexao, "SELECT * FROM permissao WHERE id_cargo=$id_cargo and id_recurso=3");
+		if(!is_bool($resultado) and mysqli_num_rows($resultado)){
+			$permissao = mysqli_fetch_array($resultado);
+			if($permissao['id_acao'] == 1){
+        $msg = "Você não tem as permissões necessárias para essa página.";
+        header("Location: ./home.php?msg_c=$msg");
+			}
+			$permissao = $permissao['id_acao'];
+		}else{
+        	$permissao = 1;
+          $msg = "Você não tem as permissões necessárias para essa página.";
+          header("Location: ./home.php?msg_c=$msg");
+		}	
+	}else{
+		$permissao = 1;
+    $msg = "Você não tem as permissões necessárias para essa página.";
+    header("Location: ./home.php?msg_c=$msg");
+	}	
+
 require_once ROOT."/controle/memorando/DespachoControle.php";
 require_once ROOT."/controle/FuncionarioControle.php";
 require_once ROOT."/controle/memorando/MemorandoControle.php";
 require_once ROOT."/controle/memorando/AnexoControle.php";
 
-if(isset($_GET["arq"]))
-{
-	$arquivado=$_GET["arq"];
-}
 
 $id_memorando=$_GET['id_memorando'];
 
@@ -47,6 +69,12 @@ $ultimoDespacho->buscarUltimoDespacho($id_memorando);
 
 $Anexos = new AnexoControle;
 $Anexos->listarTodos($id_memorando);
+
+$id_status = new MemorandoControle;
+$id_status->buscarIdStatusMemorando($id_memorando);
+
+$memorandosDespachados = new MemorandoControle;
+$memorandosDespachados->listarIdTodosInativos();
 	
 // Adiciona a Função display_campo($nome_campo, $tipo_campo)
 require_once ROOT."/html/personalizacao_display.php";
@@ -127,7 +155,7 @@ require_once ROOT."/html/personalizacao_display.php";
 		var despachoAnexo=<?php echo $_SESSION['despachoComAnexo']?>;
 		var arquivo = <?php echo $_SESSION['arquivos']?>;
 		<?php
-			if(isset($_GET["arq"]))
+			if($_SESSION['id_status_memorando']!=6 || $_SESSION['ultimo_despacho'][0]['id_destinatarioo']!=$_SESSION['id_pessoa'])
 			{
 				?>var arquivar = 1;<?php
 			}
@@ -290,7 +318,7 @@ require_once ROOT."/html/personalizacao_display.php";
 				<section class="panel" >
 				<!-- start: page -->
 				<?php
-				if($_SESSION['ultimo_despacho'][0]['id_destinatarioo']!=$_SESSION['id_pessoa'] AND $arquivado!=1)
+				if(!in_array($id_memorando, $_SESSION['memorandoIdInativo']))
 				{
 				?>
 				<script>
@@ -314,7 +342,7 @@ require_once ROOT."/html/personalizacao_display.php";
 	  					<br><br>
 					</div>							
 					<?php
-						if(!isset($_GET["arq"]))
+						if($_SESSION['id_status_memorando']!=6 && $_SESSION['ultimo_despacho'][0]['id_destinatarioo']==$_SESSION['id_pessoa'])
 							{
 					?>
 								<header class="panel-heading">

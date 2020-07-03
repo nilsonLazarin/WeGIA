@@ -99,8 +99,7 @@ class FuncionarioControle
             $retorno .= $caracteres[$rand-1];
         }
         
-        $retorno=hash('sha256', $cpf);
-        //$retorno=hash('sha256', $retorno);
+        $retorno=hash('sha256', $retorno);
         return $retorno;
     }
 
@@ -434,6 +433,16 @@ class FuncionarioControle
         }
         return 3;
     }
+    public function verificarSenhaConfig(){
+        extract($_REQUEST);
+        $nova_senha=hash('sha256', $nova_senha);
+        $confirmar_senha=hash('sha256', $confirmar_senha);
+        if ($nova_senha!=$confirmar_senha) {
+            return 1;
+        }else{
+            return 3;
+        }
+    }
 
     public function listarTodos(){
         extract($_REQUEST);
@@ -624,11 +633,18 @@ class FuncionarioControle
     {
         extract($_REQUEST); 
         $nova_senha=hash('sha256', $nova_senha);
-        $verificacao=$this->verificarSenha();
+        if(isset($redir)){
+            $page = $redir;
+            $verificacao=$this->verificarSenhaConfig();
+        }else{
+            $verificacao=$this->verificarSenha();
+            $page = "alterar_senha.php";
+
+        } 
         if ($verificacao==1) {
-            header("Location: ../html/alterar_senha.php?verificacao=".$verificacao);
+            header("Location: ../html/$page?verificacao=".$verificacao);
         }elseif ($verificacao==2) {
-            header("Location: ../html/alterar_senha.php?verificacao=".$verificacao);
+            header("Location: ../html/$page?verificacao=".$verificacao);
         }else{
             $funcionarioDAO=new FuncionarioDAO();
             try {
@@ -638,8 +654,8 @@ class FuncionarioControle
                  $resultado = mysqli_query($conexao, "SELECT original from selecao_paragrafo where id_selecao = 1");
                  $registro = mysqli_fetch_array($resultado);
                  if($registro['original'] == 1){
-                    header("Location: ../html/alterar_senha.php?verificacao=".$verificacao."&redir_config=true");
-                 }else  header("Location: ../html/alterar_senha.php?verificacao=".$verificacao);
+                    header("Location: ../html/$page?verificacao=".$verificacao."&redir_config=true");
+                 }else  header("Location: ../html/$page.php?verificacao=".$verificacao);
             } catch (PDOException $e) {
                 echo $e->getMessage();
             }
