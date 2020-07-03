@@ -91,6 +91,21 @@
 									Produtos
 								</a>
 							</li>
+							<li id="21">
+								<a href="<?php echo $html_dir;?>listar_entrada.php">
+									Informações Entrada
+								</a>
+							</li>
+							<li id="22">
+								<a href="<?php echo $html_dir;?>listar_saida.php">
+									Informações Saída
+								</a>
+							</li>
+							<li id="26">
+								<a href="<?php echo $html_dir;?>adicionar_almoxarifado.php">
+									Adicionar Almoxarifado
+								</a>
+							</li>
 						</ul>
 					</li>
 					<li class="nav-parent nav-active">
@@ -119,7 +134,7 @@
 						<ul class="nav nav-children">
 						<li id="41">
 								<a href="<?php echo $html_dir;?>personalizacao.php">
-									Editar Conteúdos
+									Editar Conteúdo
 								</a>
 							</li>
 							<li id="42">

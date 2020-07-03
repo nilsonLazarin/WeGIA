@@ -160,21 +160,49 @@
 						<a href="../html/cadastro_entrada.php">	
 							<div class="col-lg-2 col-md-8 i">
 								<i  class="far fa-clipboard"></i>
-								<h4>Entrada de itens</h4>
-							</div>
-						</a>
-
-						<a href="../html/listar_entrada.php">
-							<div class="col-lg-2 col-md-8 i">
-								<i  class="fa fa-barcode"></i>
-								<h4>Informação entrada</h4>
+								<h4>Entrada</h4>
 							</div>
 						</a>
 
 						<a href="../html/cadastro_saida.php">	
 							<div class="col-lg-2 col-md-8 i">
 								<i  class="far fa-clipboard"></i>
-								<h4>Saida de Itens</h4>
+								<h4>Saida</h4>
+							</div>
+						</a>
+						
+						<a href="../html/estoque.php">	
+							<div class="col-lg-2 col-md-8 i">
+								<i  class="fa fa-barcode"></i>
+								<h4>Estoque</h4>
+							</div>
+						</a>	
+						
+						<a href="../html/listar_almox.php">	
+							<div class="col-lg-2 col-md-8 i">
+								<i  class="fa fa-barcode"></i>
+								<h4>Almoxarifados</h4>
+							</div>
+						</a>
+						
+						<a href="../html/cadastro_produto.php">	
+							<div class="col-lg-2 col-md-8 i">
+								<i  class="far fa-clipboard"></i>
+								<h4>Produtos</h4>
+							</div>
+						</a>
+
+						<a href="../html/relatorio.php">	
+							<div class="col-lg-2 col-md-8 i">
+								<i  class="far fa-clipboard"></i>
+								<h4>Relatórios</h4>
+							</div>
+						</a>
+						
+						<a href="../html/listar_entrada.php">
+							<div class="col-lg-2 col-md-8 i">
+								<i  class="fa fa-barcode"></i>
+								<h4>Informação entrada</h4>
 							</div>
 						</a>
 						
@@ -184,32 +212,11 @@
 								<h4>Informação saida</h4>
 							</div>
 						</a>
-
-						<a href="../html/estoque.php">	
-							<div class="col-lg-2 col-md-8 i">
-								<i  class="fa fa-barcode"></i>
-								<h4>Estoque</h4>
-							</div>
-						</a>	
 					
 						<a href="../html/adicionar_almoxarifado.php">	
 							<div class="col-lg-2 col-md-8 i">
 								<i  class="far fa-clipboard"></i>
 								<h4>Adicionar Almoxarifado</h4>
-							</div>
-						</a>
-
-						<a href="../html/cadastro_produto.php">	
-							<div class="col-lg-2 col-md-8 i">
-								<i  class="far fa-clipboard"></i>
-								<h4>Cadastrar Produtos</h4>
-							</div>
-						</a>
-						
-						<a href="../html/listar_almox.php">	
-							<div class="col-lg-2 col-md-8 i">
-								<i  class="fa fa-barcode"></i>
-								<h4>Almoxarifado</h4>
 							</div>
 						</a>
 

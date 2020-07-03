@@ -191,10 +191,10 @@ require_once ROOT."/html/personalizacao_display.php";
 						<table class="table table-bordered table-striped mb-none" id="datatable-default">
 							<thead>
 								<tr>
-									<th>codigo</th>
-									<th>titulo</th>
-									<th>origem</th>
-									<th>data</th>
+									<th>Código</th>
+									<th>Título</th>
+									<th>Origem</th>
+									<th>Data</th>
 								</tr>
 							</thead>
 							<tbody id="tabela">
