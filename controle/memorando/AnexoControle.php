@@ -80,10 +80,10 @@ class AnexoControle
 			
 			$AnexoControle = new AnexoControle;
 			$arquivo_zip = $AnexoControle->comprimir($arquivo);
-			echo $arquivo_zip;
+			
 			$anexo = new Anexo();
 			$anexo->setId_despacho($lastId);
-    		$anexo->setAnexo($conteudo);
+    		$anexo->setAnexo($arquivo_zip);
     		$anexo->setNome($nome);
     		$anexo->setExtensao($extensao);	
     		$anexoDAO = new AnexoDAO();
