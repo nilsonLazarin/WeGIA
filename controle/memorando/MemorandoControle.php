@@ -44,6 +44,14 @@ class MemorandoControle
         $_SESSION['memorandoInativo'] = $memorandos;
     }
 
+    public function listarIdTodosInativos()
+    {
+        extract($_REQUEST);
+        $memorandoDAO = new MemorandoDAO();
+        $memorandos = $memorandoDAO->listarIdTodosInativos();
+        $_SESSION['memorandoIdInativo'] = $memorandos;
+    }
+
     //Criar memorando
     public function incluir()
     {
@@ -111,6 +119,18 @@ class MemorandoControle
         $memorandoDAO = new MemorandoDAO();
         $despacho = $memorandoDAO->buscarUltimoDespacho($id_memorando); 
         $_SESSION["ultimo_despacho"] = $despacho;
+    }
+
+    //Buscar id_status_memorando
+    public function buscarIdStatusMemorando($id_memorando)
+    {
+        if (session_status() !== PHP_SESSION_ACTIVE)
+        {
+        session_start();
+        }
+        $memorandoDAO = new MemorandoDAO();
+        $id = $memorandoDAO->buscarIdStatusMemorando($id_memorando);
+        $_SESSION['id_status_memorando']=$id;
     }
 }
 ?>

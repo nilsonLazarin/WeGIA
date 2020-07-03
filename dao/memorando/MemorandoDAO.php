@@ -105,6 +105,34 @@ class MemorandoDAO
 		return json_encode($Memorandos);
 	}
 
+	public function listarIdTodosInativos()
+	{
+		try
+		{
+			$Memorandos = array();
+			$cpf_usuario = $_SESSION["usuario"];
+			$usuario = new UsuarioDAO;
+			$id_usuario=$usuario->obterUsuario($cpf_usuario);
+			$id_usuario=$id_usuario['0']['id_pessoa'];
+			$pdo = Conexao::connect();
+			$consulta = $pdo->query("SELECT DISTINCT m.id_memorando FROM memorando m JOIN despacho d ON(d.id_memorando=m.id_memorando) JOIN pessoa p ON(m.id_pessoa=p.id_pessoa) WHERE (d.id_destinatario=$id_usuario OR d.id_remetente=$id_usuario)");
+			$x = 0;
+
+			while($linha = $consulta->fetch(PDO::FETCH_ASSOC))
+			{
+				$Memorandos[$x]=$linha['id_memorando'];
+				$x++;
+			}
+		}
+
+		catch(PDOExeption $e)
+		{
+			echo 'Error:' . $e->getMessage;
+		}
+
+		return $Memorandos;
+	}
+
 	//Criar memorando
 	public function incluir($memorando)
 	{
@@ -185,6 +213,28 @@ class MemorandoDAO
 		}
 
 		return $Despacho;
+	}
+
+	//Buscar id_status_memorando
+	public function buscarIdStatusMemorando($id_memorando)
+	{
+		try
+		{
+			$pdo = Conexao::connect();
+			$consulta = $pdo->query("SELECT id_status_memorando FROM memorando WHERE id_memorando=$id_memorando");
+			$x = 0;
+
+			while($linha = $consulta->fetch(PDO::FETCH_ASSOC))
+			{
+				$id[$x] = $linha['id_status_memorando'];
+				$x++;
+			}
+		}
+		catch(PDOException $e)
+		{
+			echo 'Error:' . $e->getMessage();
+		}
+		return $id;
 	}
 }
 ?>

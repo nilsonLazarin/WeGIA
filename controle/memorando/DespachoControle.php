@@ -34,7 +34,10 @@ class DespachoControle
 		$MemorandoDAO = new MemorandoDAO();
 		$dadosMemorando = $MemorandoDAO->listarTodosId($id_memorando);
 
-		if($dadosMemorando[0]['id_status_memorando'] == 3)
+		$ultimoDespacho =  new MemorandoControle;
+		$ultimoDespacho->buscarUltimoDespacho($id_memorando);
+
+		if($dadosMemorando[0]['id_status_memorando'] == 3 AND $_SESSION['ultimo_despacho'][0]['id_destinatarioo']==$_SESSION['id_pessoa'])
 		{
 			$memorando = new Memorando('','',$dadosMemorando[0]['id_status_memorando'],'','');
        		$memorando->setId_memorando($id_memorando);

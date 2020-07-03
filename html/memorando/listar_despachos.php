@@ -52,10 +52,6 @@ require_once ROOT."/controle/FuncionarioControle.php";
 require_once ROOT."/controle/memorando/MemorandoControle.php";
 require_once ROOT."/controle/memorando/AnexoControle.php";
 
-if(isset($_GET["arq"]))
-{
-	$arquivado=$_GET["arq"];
-}
 
 $id_memorando=$_GET['id_memorando'];
 
@@ -73,6 +69,12 @@ $ultimoDespacho->buscarUltimoDespacho($id_memorando);
 
 $Anexos = new AnexoControle;
 $Anexos->listarTodos($id_memorando);
+
+$id_status = new MemorandoControle;
+$id_status->buscarIdStatusMemorando($id_memorando);
+
+$memorandosDespachados = new MemorandoControle;
+$memorandosDespachados->listarIdTodosInativos();
 	
 // Adiciona a Função display_campo($nome_campo, $tipo_campo)
 require_once ROOT."/html/personalizacao_display.php";
@@ -153,7 +155,7 @@ require_once ROOT."/html/personalizacao_display.php";
 		var despachoAnexo=<?php echo $_SESSION['despachoComAnexo']?>;
 		var arquivo = <?php echo $_SESSION['arquivos']?>;
 		<?php
-			if(isset($_GET["arq"]))
+			if($_SESSION['id_status_memorando']!=6 || $_SESSION['ultimo_despacho'][0]['id_destinatarioo']!=$_SESSION['id_pessoa'])
 			{
 				?>var arquivar = 1;<?php
 			}
@@ -316,7 +318,7 @@ require_once ROOT."/html/personalizacao_display.php";
 				<section class="panel" >
 				<!-- start: page -->
 				<?php
-				if($_SESSION['ultimo_despacho'][0]['id_destinatarioo']!=$_SESSION['id_pessoa'] AND $arquivado!=1)
+				if(!in_array($id_memorando, $_SESSION['memorandoIdInativo']))
 				{
 				?>
 				<script>
@@ -340,7 +342,7 @@ require_once ROOT."/html/personalizacao_display.php";
 	  					<br><br>
 					</div>							
 					<?php
-						if(!isset($_GET["arq"]))
+						if($_SESSION['id_status_memorando']!=6 && $_SESSION['ultimo_despacho'][0]['id_destinatarioo']==$_SESSION['id_pessoa'])
 							{
 					?>
 								<header class="panel-heading">

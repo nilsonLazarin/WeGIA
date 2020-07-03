@@ -127,7 +127,7 @@ require_once ROOT."/html/personalizacao_display.php";
 					.append($("<td>")
 						.text(item.id_memorando))
 					.append($("<td>")
-						.html("<a href=<?php echo WWW;?>html/memorando/listar_despachos.php?id_memorando="+item.id_memorando+"&arq=1>"+item.titulo+"</a>"))
+						.html("<a href=<?php echo WWW;?>html/memorando/listar_despachos.php?id_memorando="+item.id_memorando+">"+item.titulo+"</a>"))
 					.append($("<td>")
 						.text(item.nome))
 					.append($("<td>")
