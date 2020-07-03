@@ -1,7 +1,7 @@
 <?php
 	session_start();
 	if(!isset($_SESSION['usuario'])){
-		header ("Location: ../index.php");
+		header ("Location: ../../index.php");
 	}
 	$config_path = "config.php";
 	if(file_exists($config_path)){
@@ -26,24 +26,24 @@
 			$permissao = mysqli_fetch_array($resultado);
 			if($permissao['id_acao'] == 1){
 				$msg = "Você não tem as permissões necessárias para essa página.";
-				header("Location: ./home.php?msg_c=$msg");
+				header("Location: ../home.php?msg_c=$msg");
 			}
 			$permissao = $permissao['id_acao'];
 		}else{
         	$permissao = 1;
 			$msg = "Você não tem as permissões necessárias para essa página.";
-			header("Location: ./home.php?msg_c=$msg");
+			header("Location: ../home.php?msg_c=$msg");
 		}	
 	}else{
 		$permissao = 1;
 		$msg = "Você não tem as permissões necessárias para essa página.";
-		header("Location: ./home.php?msg_c=$msg");
+		header("Location: ../home.php?msg_c=$msg");
 	}	
     // Adiciona a Função display_campo($nome_campo, $tipo_campo)
-	require_once "personalizacao_display.php";
+	require_once "../personalizacao_display.php";
 
 	// Adiciona o Sistema de Mensagem
-	require_once "./geral/msg.php";
+	require_once "../geral/msg.php";
 
 ?>
 <!doctype html>
@@ -61,53 +61,53 @@
 	<link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">
 
 	<!-- Vendor CSS -->
-	<link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css" />
-	<link rel="stylesheet" href="../assets/vendor/font-awesome/css/font-awesome.css" />
+	<link rel="stylesheet" href="../../assets/vendor/bootstrap/css/bootstrap.css" />
+	<link rel="stylesheet" href="../../assets/vendor/font-awesome/css/font-awesome.css" />
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
-	<link rel="stylesheet" href="../assets/vendor/magnific-popup/magnific-popup.css" />
-	<link rel="stylesheet" href="../assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
+	<link rel="stylesheet" href="../../assets/vendor/magnific-popup/magnific-popup.css" />
+	<link rel="stylesheet" href="../../assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
 	<link rel="icon" href="<?php display_campo("Logo",'file');?>" type="image/x-icon">
 	
 	<!-- Theme CSS -->
-	<link rel="stylesheet" href="../assets/stylesheets/theme.css" />
+	<link rel="stylesheet" href="../../assets/stylesheets/theme.css" />
 	
 	<!-- Skin CSS -->
-	<link rel="stylesheet" href="../assets/stylesheets/skins/default.css" />
+	<link rel="stylesheet" href="../../assets/stylesheets/skins/default.css" />
 	
 	<!-- Theme Custom CSS -->
-	<link rel="stylesheet" href="../assets/stylesheets/theme-custom.css">
+	<link rel="stylesheet" href="../../assets/stylesheets/theme-custom.css">
 	
 	<!-- Head Libs -->
-	<script src="../assets/vendor/modernizr/modernizr.js"></script>
+	<script src="../../assets/vendor/modernizr/modernizr.js"></script>
 
 	<!-- Atualizacao CSS -->
-	<link rel="stylesheet" href="../css/atualizacao.css" />
+	<link rel="stylesheet" href="../../css/atualizacao.css" />
 	
 	<!-- Vendor -->
-	<script src="../assets/vendor/jquery/jquery.min.js"></script>
-	<script src="../assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
-	<script src="../assets/vendor/bootstrap/js/bootstrap.js"></script>
-	<script src="../assets/vendor/nanoscroller/nanoscroller.js"></script>
-	<script src="../assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-	<script src="../assets/vendor/magnific-popup/magnific-popup.js"></script>
-	<script src="../assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
+	<script src="../../assets/vendor/jquery/jquery.min.js"></script>
+	<script src="../../assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
+	<script src="../../assets/vendor/bootstrap/js/bootstrap.js"></script>
+	<script src="../../assets/vendor/nanoscroller/nanoscroller.js"></script>
+	<script src="../../assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+	<script src="../../assets/vendor/magnific-popup/magnific-popup.js"></script>
+	<script src="../../assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
 		
 	<!-- Specific Page Vendor -->
-	<script src="../assets/vendor/jquery-autosize/jquery.autosize.js"></script>
+	<script src="../../assets/vendor/jquery-autosize/jquery.autosize.js"></script>
 		
 	<!-- Theme Base, Components and Settings -->
-	<script src="../assets/javascripts/theme.js"></script>
+	<script src="../../assets/javascripts/theme.js"></script>
 		
 	<!-- Theme Custom -->
-	<script src="../assets/javascripts/theme.custom.js"></script>
+	<script src="../../assets/javascripts/theme.custom.js"></script>
 		
 	<!-- Theme Initialization Files -->
-	<script src="../assets/javascripts/theme.init.js"></script>
+	<script src="../../assets/javascripts/theme.init.js"></script>
 
 	<!-- javascript functions --> <script
-	src="../Functions/onlyNumbers.js"></script> <script
-	src="../Functions/onlyChars.js"></script> <script
-	src="../Functions/mascara.js"></script>
+	src="../../Functions/onlyNumbers.js"></script> <script
+	src="../../Functions/onlyChars.js"></script> <script
+	src="../../Functions/mascara.js"></script>
 
 	<!-- jquery functions -->
 	<script>
@@ -116,8 +116,8 @@
 
 	<script type="text/javascript">
 		$(function () {
-	      $("#header").load("header.php");
-	      $(".menuu").load("menu.html");
+	      $("#header").load("../header.php");
+	      $(".menuu").load("../menu.php");
 	    });	
     </script>
     
@@ -140,7 +140,7 @@
 					<div class="right-wrapper pull-right">
 						<ol class="breadcrumbs">
 							<li>
-								<a href="./home.php">
+								<a href="../home.php">
 									<i class="fa fa-home"></i>
 								</a>
 							</li>
@@ -184,5 +184,5 @@
 </script>
 
 <!-- Adiciona função de fechar mensagem e tirá-la da url -->
-<script src="./geral/msg.js"></script>
+<script src="../geral/msg.js"></script>
 </html>

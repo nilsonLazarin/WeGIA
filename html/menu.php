@@ -1,14 +1,16 @@
 <?php
-$config_path = "config.php";
-if(file_exists($config_path)){
-require_once($config_path);
-}else{
-while(true){
-$config_path = "../" . $config_path;
-if(file_exists($config_path)) break;
-}
-require_once($config_path);
-}
+	$config_path = "config.php";
+	$html_dir = "";
+	if(file_exists($config_path)){
+		require_once($config_path);
+	}else{
+		while(true){
+			$config_path = "../" . $config_path;
+			$html_dir .= "../";
+			if(file_exists($config_path)) break;
+		}
+		require_once($config_path);
+	}
 ?>
 	<div class="sidebar-header">
 		<div class="sidebar-title">
@@ -24,7 +26,7 @@ require_once($config_path);
 			<nav id="menu" class="nav-main" role="navigation">
 				<ul class="nav nav-main">
 					<li>
-						<a href="<?php echo WWW;?>html/home.php">
+						<a href="<?php echo $html_dir;?>home.php">
 							<i class="fa fa-home" aria-hidden="true"></i>
 							<span>Início</span>
 						</a>
@@ -36,32 +38,22 @@ require_once($config_path);
 						</a>
 						<ul class="nav nav-children">
 							<li>
-								<a href="<?php echo WWW;?>html/cadastro_funcionario.php">
+								<a href="<?php echo $html_dir;?>cadastro_funcionario.php">
 									 Cadastrar Funcionário
 								</a>
 							</li>
 							<li>
-								<a href="<?php echo WWW;?>html/cadastro_interno.php">
+								<a href="<?php echo $html_dir;?>cadastro_interno.php">
 									 Cadastrar Atendido
 								</a>
 							</li>
-							<!--<li>
-								<a href="cadastro_voluntario.php">
-									 Cadastrar voluntário
-								</a>
-							</li>
 							<li>
-								<a href="cadastro_voluntario_judicial.php">
-									 Cadastrar voluntário judicial
-								</a>
-							</li>-->
-							<li>
-								<a href="<?php echo WWW;?>controle/control.php?metodo=listarTodos&nomeClasse=FuncionarioControle&nextPage=<?php echo WWW;?>html/informacao_funcionario.php">
+								<a href="<?php echo $html_dir;?>../controle/control.php?metodo=listarTodos&nomeClasse=FuncionarioControle&nextPage=<?php echo $html_dir;?>html/informacao_funcionario.php">
 									 Informações Funcionários
 								</a>
 							</li>
 							<li>
-								<a href="<?php echo WWW;?>controle/control.php?metodo=listarTodos&nomeClasse=InternoControle&nextPage=<?php echo WWW;?>html/informacao_interno.php">
+								<a href="<?php echo $html_dir;?>../controle/control.php?metodo=listarTodos&nomeClasse=InternoControle&nextPage=<?php echo $html_dir;?>html/informacao_interno.php">
 									 Informações Atendido
 								</a>
 							</li>
@@ -74,24 +66,29 @@ require_once($config_path);
 							<span>Material e Patrimônio</span>
 						</a>
 						<ul class="nav nav-children">
-							<li>
-								<a href="<?php echo WWW;?>html/cadastro_entrada.php">
-									 Cadastrar Produtos
+						<li id="23">
+								<a href="<?php echo $html_dir;?>cadastro_entrada.php">
+									Entrada
 								</a>
 							</li>
-							<li>
-								<a href="<?php echo WWW;?>html/cadastro_saida.php">
-									 Saida de Produtos
+							<li id="25">
+								<a href="<?php echo $html_dir;?>cadastro_saida.php">
+									Saida
 								</a>
 							</li>
-							<li>
-								<a href="<?php echo WWW;?>html/estoque.php">
-									 Estoque
+							<li id="24">
+								<a href="<?php echo $html_dir;?>estoque.php">
+									Estoque
 								</a>
 							</li>
-							<li>
-								<a href="<?php echo WWW;?>html/listar_almox.php">
-									 Almoxarifados
+							<li id="21">
+								<a href="<?php echo $html_dir;?>listar_almox.php">
+									Almoxarifados
+								</a>
+							</li>
+							<li id="22">
+								<a href="<?php echo $html_dir;?>cadastro_produto.php">
+									Produtos
 								</a>
 							</li>
 						</ul>
@@ -102,13 +99,13 @@ require_once($config_path);
 							<span>Memorando</span>
 						</a>
 						<ul class="nav nav-children">
-							<li>
-								<a href="<?php echo WWW;?>html/memorando/listar_memorandos_ativos.php">
+							<li id="31">
+								<a href="<?php echo $html_dir;?>memorando/listar_memorandos_ativos.php">
 									 Caixa de Entrada
 								</a>
 							</li>
-							<li>
-								<a href="<?php echo WWW;?>html/memorando/listar_memorandos_antigos.php">
+							<li id="32">
+								<a href="<?php echo $html_dir;?>memorando/listar_memorandos_antigos.php">
 									 Memorandos despachados
 								</a>
 							</li>
@@ -120,24 +117,29 @@ require_once($config_path);
 							<span>Configurações</span>
 						</a>
 						<ul class="nav nav-children">
-							<li>
-								<a href="<?php echo WWW;?>html/personalizacao.php">
+						<li id="41">
+								<a href="<?php echo $html_dir;?>personalizacao.php">
 									Editar Conteúdos
 								</a>
 							</li>
-							<li>
-								<a href="<?php echo WWW;?>html/personalizacao_imagem.php">
+							<li id="42">
+								<a href="<?php echo $html_dir;?>personalizacao_imagem.php">
 									Lista de Imagens
 								</a>
 							</li>
-							<li>
-								<a href="<?php echo WWW;?>html/atualizacao_sistema.php">
+							<li id="43">
+								<a href="<?php echo $html_dir;?>atualizacao/atualizacao_sistema.php">
 									Atualização e Backup
 								</a>
 							</li>
-							<li>
-								<a href="<?php echo WWW;?>html/contribuicao/php/configuracao_doacao.php">
+							<li id="44">
+								<a href="<?php echo $html_dir;?>contribuicao/php/configuracao_doacao.php">
 									Contribuição
+								</a>
+							</li>
+							<li id="45">
+								<a href="<?php echo $html_dir;?>editar_permissoes.php">
+									Permissões
 								</a>
 							</li>
 						</ul>
@@ -146,23 +148,23 @@ require_once($config_path);
 			</nav>
 		</div>
 	</div>
-	<form id="listarFuncionario" method="POST" action="<?php echo WWW;?>controle/control.php">
+	<form id="listarFuncionario" method="POST" action="<?php echo $html_dir;?>controle/control.php">
 		<input type="hidden" name="nomeClasse" value="FuncionarioControle">
 		<input type="hidden" name="metodo" value="listartodos">
-		<input type="hidden" name="nextPage" value="<?php echo WWW;?>html/informacao_funcionario.php">
+		<input type="hidden" name="nextPage" value="<?php echo $html_dir;?>informacao_funcionario.php">
 	</form>
 	
-	<form id="listarInterno" method="POST" action="<?php echo WWW;?>controle/control.php">
+	<form id="listarInterno" method="POST" action="<?php echo $html_dir;?>controle/control.php">
 		<input type="hidden" name="nomeClasse" value="InternoControle">
 		<input type="hidden" name="metodo" value="listartodos">
-		<input type="hidden" name="nextPage" value="<?php echo WWW;?>html/informacao_interno.php">
+		<input type="hidden" name="nextPage" value="<?php echo $html_dir;?>informacao_interno.php">
 	</form>
 		
 	<!-- Theme Base, Components and Settings -->
-	<script src="<?php echo WWW;?>assets/javascripts/theme.js"></script>
+	<script src="<?php echo $html_dir;?>../assets/javascripts/theme.js"></script>
 		
 	<!-- Theme Custom -->
-	<script src="<?php echo WWW;?>assets/javascripts/theme.custom.js"></script>
+	<script src="<?php echo $html_dir;?>../assets/javascripts/theme.custom.js"></script>
 	
 	<!-- Theme Initialization Files -->
-	<script src="<?php echo WWW;?>assets/javascripts/theme.init.js"></script>
+	<script src="<?php echo $html_dir;?>../assets/javascripts/theme.init.js"></script>
