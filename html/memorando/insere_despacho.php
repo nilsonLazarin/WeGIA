@@ -221,11 +221,15 @@ require_once ROOT."/html/personalizacao_display.php";
                 ?>
 
                 <section class="panel" >
-
                     <header class="panel-heading">
+                        <?php
+                        if($_SESSION['id_status_memorando']!=6 && $_SESSION['ultimo_despacho'][0]['id_destinatarioo']==$_SESSION['id_pessoa'])
+                            {
+                    ?>
                         <h2 class="panel-title">Despachar memorando</h2>
                     </header>
                     <div class="panel-body">
+
                         <?php
                         echo "<form action='".WWW."controle/control.php' method='post' enctype='multipart/form-data'>";
                         ?>
