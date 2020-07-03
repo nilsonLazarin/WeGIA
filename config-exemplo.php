@@ -10,3 +10,5 @@ define( 'DB_CHARSET', 'utf8');
 define( 'ROOT',dirname(__FILE__));
 define( 'BKP_DIR', '/path/to/backup/folder/');
 define( 'WWW', 'http://localhost/WeGIA/');
+
+?>
