@@ -155,6 +155,18 @@ require_once ROOT."/html/personalizacao_display.php";
             <aside id="sidebar-left" class="sidebar-left menuu"></aside>
             <!-- end: sidebar -->
             <section role="main" class="content-body">
+                <?php
+                if(!in_array($id_memorando, $_SESSION['memorandoIdInativo']))
+                {
+                ?>
+                <script>
+                    $(".panel").html("<p>Desculpe, você não tem acesso à essa página</p>");
+                </script>
+                <?php
+                }
+                else
+                {
+                ?>
                 <header class="page-header">
                     <h2>Caixa de entrada</h2>
                     <div class="right-wrapper pull-right">
@@ -227,6 +239,9 @@ require_once ROOT."/html/personalizacao_display.php";
                             </div>
                         </form>
                     </div> 
+                    <?php
+                }
+                ?>
                     </div>
                 </section>
             </section>

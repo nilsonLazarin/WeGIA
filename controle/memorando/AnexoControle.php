@@ -72,7 +72,6 @@ class AnexoControle
 			$anexo_tmpName = $arq['tmp_name'];
 			$arquivo = file_get_contents($anexo_tmpName[$i]);
 			$arquivo1 = $arq['name'][$i];
-			$tamanho_arquivo = $arq['size'][$i];
 			$tamanho = strlen($arquivo1);
 			$pos = strpos($arquivo1, ".")+1;
 			$extensao = substr($arquivo1, $pos, strlen($arquivo1)+1);
