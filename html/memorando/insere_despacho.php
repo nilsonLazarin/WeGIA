@@ -183,7 +183,7 @@ require_once ROOT."/html/personalizacao_display.php";
             <!-- end: sidebar -->
             <section role="main" class="content-body">
                 <?php
-                if(!in_array($id_memorando, $_SESSION['memorandoIdInativo']))
+                if(in_array($id_memorando, $_SESSION['memorandoIdInativo']))
                 {
                 ?>
                 <script>
