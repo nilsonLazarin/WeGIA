@@ -183,7 +183,7 @@ require_once ROOT."/html/personalizacao_display.php";
             <!-- end: sidebar -->
             <section role="main" class="content-body">
                 <?php
-                if(!in_array($id_memorando, $_SESSION['memorandoIdInativo']))
+                if(in_array($id_memorando, $_SESSION['memorandoIdInativo']))
                 {
                 ?>
                 <script>
@@ -221,11 +221,11 @@ require_once ROOT."/html/personalizacao_display.php";
                 ?>
 
                 <section class="panel" >
-
                     <header class="panel-heading">
                         <h2 class="panel-title">Despachar memorando</h2>
                     </header>
                     <div class="panel-body">
+
                         <?php
                         echo "<form action='".WWW."controle/control.php' method='post' enctype='multipart/form-data'>";
                         ?>
