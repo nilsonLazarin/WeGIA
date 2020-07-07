@@ -342,6 +342,8 @@ require_once ROOT."/html/personalizacao_display.php";
 	  					<br><br>
 					</div>							
 					<?php
+					echo $_SESSION['id_status_memorando'];
+					var_dump($_SESSION['id_status_memorando']);
 						if($_SESSION['id_status_memorando'][0]['id_status_memorando']!=6)
 						{ 
 							if($_SESSION['ultimo_despacho'][0]['id_destinatarioo']==$_SESSION['id_pessoa'])
