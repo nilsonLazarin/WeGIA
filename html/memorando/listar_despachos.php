@@ -342,7 +342,9 @@ require_once ROOT."/html/personalizacao_display.php";
 	  					<br><br>
 					</div>							
 					<?php
-						if($_SESSION['id_status_memorando']!=6 && $_SESSION['ultimo_despacho'][0]['id_destinatarioo']==$_SESSION['id_pessoa'])
+						if($_SESSION['id_status_memorando']!=6)
+						{ 
+							if($_SESSION['ultimo_despacho'][0]['id_destinatarioo']==$_SESSION['id_pessoa'])
 							{
 					?>
 								<header class="panel-heading">
@@ -381,6 +383,7 @@ require_once ROOT."/html/personalizacao_display.php";
 									</form>
 								</div>
 <?php
+}
 }?>
 	</div>
 	</div>
