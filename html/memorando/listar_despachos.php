@@ -155,7 +155,7 @@ require_once ROOT."/html/personalizacao_display.php";
 		var despachoAnexo=<?php echo $_SESSION['despachoComAnexo']?>;
 		var arquivo = <?php echo $_SESSION['arquivos']?>;
 		<?php
-			if($_SESSION['id_status_memorando']!=6 || $_SESSION['ultimo_despacho'][0]['id_destinatarioo']!=$_SESSION['id_pessoa'])
+			if($_SESSION['id_status_memorando'][0]!=6 || $_SESSION['ultimo_despacho'][0]['id_destinatarioo']!=$_SESSION['id_pessoa'])
 			{
 				?>var arquivar = 1;<?php
 			}
@@ -342,7 +342,9 @@ require_once ROOT."/html/personalizacao_display.php";
 	  					<br><br>
 					</div>							
 					<?php
-						if($_SESSION['id_status_memorando']!=6 && $_SESSION['ultimo_despacho'][0]['id_destinatarioo']==$_SESSION['id_pessoa'])
+						if($_SESSION['id_status_memorando'][0]!=6)
+						{ 
+							if($_SESSION['ultimo_despacho'][0]['id_destinatarioo']==$_SESSION['id_pessoa'])
 							{
 					?>
 								<header class="panel-heading">
@@ -381,6 +383,7 @@ require_once ROOT."/html/personalizacao_display.php";
 									</form>
 								</div>
 <?php
+}
 }?>
 	</div>
 	</div>

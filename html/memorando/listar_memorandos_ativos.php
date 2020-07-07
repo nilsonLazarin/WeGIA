@@ -223,6 +223,18 @@ require_once ROOT."/html/personalizacao_display.php";
                             }
                             }
                         ?>
+                        <header class="panel-heading">
+                            <h2 class="panel-title">Criar memorando</h2>
+                        </header>
+                        <div class="panel-body">
+                            <form action="<?php echo WWW;?>controle/control.php" method="post">
+                                <input type="text" id="assunto" name="assunto" required placeholder="Assunto" class="form-control">
+                                <input type="hidden" name="nomeClasse" value="MemorandoControle">
+                                <input type="hidden" name="metodo" value="incluir">
+                                <input type='hidden' value='memorando' name='modulo'>
+                                <input type='submit' value='Criar memorando' name='enviar' id='enviar' class='mb-xs mt-xs mr-xs btn btn-default'>
+                            </form>
+                        </div>
                     <header class="panel-heading">
                         <h2 class="panel-title">Caixa de entrada</h2>
                     </header>
@@ -249,19 +261,6 @@ require_once ROOT."/html/personalizacao_display.php";
                             </tbody>
                         </table>
                     </div>
-
-            <header class="panel-heading">
-                <h2 class="panel-title">Criar memorando</h2>
-            </header>
-            <div class="panel-body">
-                <form action="<?php echo WWW;?>controle/control.php" method="post">
-                    <input type="text" id="assunto" name="assunto" required placeholder="Assunto" class="form-control">
-                    <input type="hidden" name="nomeClasse" value="MemorandoControle">
-                    <input type="hidden" name="metodo" value="incluir">
-                    <input type='hidden' value='memorando' name='modulo'>
-                    <input type='submit' value='Criar memorando' name='enviar' id='enviar' class='mb-xs mt-xs mr-xs btn btn-default'>
-                </form>
-            </div>
                 </section>
             </section>
         </div>
