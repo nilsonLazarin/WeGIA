@@ -580,7 +580,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `wegia`.`recurso` (
   `id_recurso` INT NOT NULL,
-  `Descrição` VARCHAR(45) NOT NULL,
+  `descricao` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id_recurso`))
 ENGINE = InnoDB;
 

@@ -642,9 +642,9 @@ class FuncionarioControle
 
         } 
         if ($verificacao==1) {
-            header("Location: ../html/$page?verificacao=".$verificacao);
+            header("Location: ".WWW."html/$page?verificacao=".$verificacao);
         }elseif ($verificacao==2) {
-            header("Location: ../html/$page?verificacao=".$verificacao);
+            header("Location: ".WWW."html/$page?verificacao=".$verificacao);
         }else{
             $funcionarioDAO=new FuncionarioDAO();
             try {
@@ -654,8 +654,8 @@ class FuncionarioControle
                  $resultado = mysqli_query($conexao, "SELECT original from selecao_paragrafo where id_selecao = 1");
                  $registro = mysqli_fetch_array($resultado);
                  if($registro['original'] == 1){
-                    header("Location: ../html/$page?verificacao=".$verificacao."&redir_config=true");
-                 }else  header("Location: ../html/$page.php?verificacao=".$verificacao);
+                    header("Location: ".WWW."html/$page?verificacao=".$verificacao."&redir_config=true");
+                 }else  header("Location: ".WWW."html/$page.php?verificacao=".$verificacao);
             } catch (PDOException $e) {
                 echo $e->getMessage();
             }

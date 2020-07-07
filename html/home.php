@@ -105,14 +105,14 @@
 					</a>
 					<a href="#">
 						<div class="col-lg-2 col-md-8 i" data-toggle="collapse" href="#material">
-							<i  class="far fa-address-book"></i>
+							<i  class="fa fa-cube"></i>
 							<h4>Material e Patrimônio</h4>
 						</div>
 					</a>
 					<!--onclick="window.location.href = '../memorando/envio.php'"-->
 					<a href="#" >
 						<div class="col-lg-2 col-md-8 i" data-toggle="collapse" id="memorando_maior">
-							<i  class="far fa-address-book"></i>
+							<i  class="fa fa-book"></i>
 							<h4>Memorando
 							</h4>
 						</div>
