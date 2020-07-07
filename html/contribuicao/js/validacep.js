@@ -1,5 +1,5 @@
 function valida_cep(){
-	var url="http://viacep.com.br/ws/";
+	var url="https://viacep.com.br/ws/";
 	var saida="";
 	function limpaformulario() {
 		$("#cep").val("");

@@ -155,7 +155,7 @@ require_once ROOT."/html/personalizacao_display.php";
 		var despachoAnexo=<?php echo $_SESSION['despachoComAnexo']?>;
 		var arquivo = <?php echo $_SESSION['arquivos']?>;
 		<?php
-			if($_SESSION['id_status_memorando'][0]!=6 || $_SESSION['ultimo_despacho'][0]['id_destinatarioo']!=$_SESSION['id_pessoa'])
+			if($_SESSION['id_status_memorando'][0]!=6 && $_SESSION['ultimo_despacho'][0]['id_destinatarioo']!=$_SESSION['id_pessoa'])
 			{
 				?>var arquivar = 1;<?php
 			}
@@ -164,7 +164,6 @@ require_once ROOT."/html/personalizacao_display.php";
 				?>var arquivar = 0;<?php
 			}
 		?>
-		console.log(despachoAnexo);
 		$.each(despacho,function(i,item){
 			$("#listaDeDespachos")
 				.append($("<table class='table table-bordered table-striped mb-none' id='"+item.id+"'>")
@@ -195,7 +194,6 @@ require_once ROOT."/html/personalizacao_display.php";
 							.text("Anexos")));
 		});
 		$.each(arquivo, function(i, item){
-			console.log(arquivo);
 			$("#"+item.id_despacho)
 				.append($("<tr id=link>")
 						.append($("<td colspan=4>")
