@@ -175,6 +175,7 @@
                                 </div> 
                             <br><br>
                             <input type="submit" class= "btn btn-primary" value="Editar Informações">
+                            <a href="../index.php"><input type="button" class="btn btn-primary" value="Ir à Página de Contribuição"></a>
                           
                             </form>     
                         </div>
@@ -187,11 +188,10 @@
 	<script>
         $(document).ready(function() 
         {
-            
+            var id = ''; 
+            preencher(id);
             $("#header").load("../../header.php");
             $(".menuu").load("menu.html");
-            var id = '';
-            preencher(id);
             $("#cartao").hide();
 
             $("#b_cartao").click(function(){ 

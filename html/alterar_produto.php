@@ -77,7 +77,7 @@ include_once '../dao/ProdutoDAO.php';
 	<!-- Basic -->
 	<meta charset="UTF-8">
 
-	<title>Home</title>
+	<title>Alterar Produto</title>
 
 	<!-- Mobile Metas -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -164,15 +164,15 @@ $("#botaoSalvarIP").prop('disabled', true);
 	   $('#id_produto')
 		   .val(item.id_produto)
 	$('#nome')
-		.text('Nome do Produto: ' + item.descricao)
+		.text(item.descricao)
 	$('#Categoria')
-		.text('Categoria: ' + item.descricao_categoria)
+		.text(item.descricao_categoria)
 	$('#Unidade')
-		.text('Unidade: ' + item.descricao_unidade)
+		.text(item.descricao_unidade)
 	$('#Codigo')
-		.text('Codigo: ' + item.codigo)
+		.text(item.codigo)
 	$('#Valor')
-		.text('Valor: ' + item.preco)
+		.text(item.preco)
 	$('#produto')
 		.val(item.descricao)
 	$('#codigo')
@@ -211,7 +211,7 @@ $.each(unidade, function(i,item){
 	<!-- end: sidebar -->
 			<section role="main" class="content-body">
 				<header class="page-header">
-					<h2>Perfil</h2>
+					<h2>Alterar Produto</h2>
 					<div class="right-wrapper pull-right">
 						<ol class="breadcrumbs">
 							<li>
@@ -220,7 +220,7 @@ $.each(unidade, function(i,item){
 								</a>
 							</li>
 							<li><span>Páginas</span></li>
-							<li><span>Perfil</span></li>
+							<li><span>Alterar Produto</span></li>
 						</ol>
 						<a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
 					</div>
@@ -258,13 +258,20 @@ $.each(unidade, function(i,item){
 												<h2 class="panel-title">Visão Geral</h2>
 											</header>
 												 
-											<div class="panel-body" style="display: block;">
+											<div class="panel-body" style="display: flex;">
+												<ul class="nav nav-children" id="info" style="padding-right: 20px;">
+													<li>Nome: </li>
+													<li>Categoria: </li>
+													<li>Unidade: </li>
+													<li>Codigo: </li>
+													<li>Valor: </li>
+												</ul>
 												<ul class="nav nav-children" id="info">
-													<li id="nome">Nome do Produto:</li>
-													<li id="Categoria">Categoria:</li>
-													<li id="Unidade">Unidade:</li>
-													<li id="Codigo">Codigo:</li>
-													<li id="Valor">Valor:</li>
+													<li id="nome"></li>
+													<li id="Categoria"></li>
+													<li id="Unidade"></li>
+													<li id="Codigo"></li>
+													<li id="Valor"></li>
 												</ul>
 											</div>
 										</section>

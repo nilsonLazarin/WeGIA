@@ -66,7 +66,7 @@
 	<!-- Basic -->
 	<meta charset="UTF-8">
 
-	<title>Informaçoes</title>
+	<title>Informações</title>
 		
 	<!-- Mobile Metas -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -164,7 +164,7 @@
 				<!-- end: sidebar -->
 				<section role="main" class="content-body">
 					<header class="page-header">
-						<h2>Informaçoes</h2>
+						<h2>Informações</h2>
 					
 						<div class="right-wrapper pull-right">
 							<ol class="breadcrumbs">
@@ -188,14 +188,14 @@
 									<a href="#" class="fa fa-caret-down"></a>
 								</div>
 						
-								<h2 class="panel-title">Funcionario</h2>
+								<h2 class="panel-title">Funcionário</h2>
 							</header>
 							<div class="panel-body">
 								<table class="table table-bordered table-striped mb-none" id="datatable-default">
 									<thead>
 										<tr>
-											<th>nome</th>
-											<th>acão</th>
+											<th>Nome</th>
+											<th>Ação</th>
 										</tr>
 									</thead>
 									<tbody id="tabela">	
