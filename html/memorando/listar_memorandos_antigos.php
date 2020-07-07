@@ -120,7 +120,6 @@ require_once ROOT."/html/personalizacao_display.php";
    	<script>
 	$(function(){
 		var memorando=<?php echo $_SESSION['memorandoInativo']?>;
-		console.log(memorando);
 		$.each(memorando,function(i,item){
 			$("#tabela")
 				.append($("<tr>")

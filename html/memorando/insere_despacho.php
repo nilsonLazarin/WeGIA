@@ -123,7 +123,6 @@ require_once ROOT."/html/personalizacao_display.php";
     <script>
         $(function(){
             var funcionario=<?php echo $_SESSION['funcionarios2']?>;
-            console.log(funcionario);
             $.each(funcionario,function(i,item){
                 $("#destinatario")
                     .append($("<option id="+item.id_pessoa+" value="+item.id_pessoa+" name="+item.id_pessoa+">"+item.nome+"</option>"));
