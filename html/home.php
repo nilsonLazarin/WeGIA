@@ -7,8 +7,6 @@
 	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
 	require_once "personalizacao_display.php";
 
-	require_once "./geral/msg.php";
-
 ?>
 <!doctype html>
 <html class="fixed">
@@ -98,7 +96,6 @@
 						'. $msg .'
 					  </div>');
 					}
-					getMsg('msg_c');
 				?>
 					<a href="" >
 						<div class="col-lg-2 col-md-8 i" data-toggle="collapse" href="#pessoas" >
