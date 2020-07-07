@@ -40,6 +40,11 @@
     $link3 = $_POST['link2'];
     $link4 = $_POST['link3'];
 
+    $valor = $_POST['valor'];
+    $link = $_POST['link'];
+    
+    $insere = mysqli_query($conexao, "INSERT INTO doacao_cartao_mensal (valor, link, id_sistema) VALUES('$valor', '$link', '$cod_cartao')");
+
        
     $atualiza_val1 = mysqli_query($conexao, "UPDATE doacao_cartao_mensal SET  valor = '$valor1', link = '$link1' WHERE id = 0 and id_sistema = $cod_cartao");
 

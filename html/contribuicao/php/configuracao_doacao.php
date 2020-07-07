@@ -76,8 +76,9 @@
 								<a class="nav-link" id="b_cartao2" data-toggle="tab" href="#txt-tab" role="tab" aria-controls="txt" aria-selected="false">PAYPAL</a>
 							</li>
 						</ul>
-						<div class="tab-content" id="myTabContent" width = "50%">
-                            <div id='boleto'>
+						<div class="tab-content" id="myTabContent" width = "50%"> 
+                           
+                        <div id='boleto'> 
                             <form action="atualizacao_doacao.php" method = "POST">
                                 <input type="hidden" id="cod_sistema" name="cod_sistema">
                                 <div class="tab-pane active" id="img-tab" role="tabpanel" aria-labelledby="img-tab">
@@ -157,9 +158,16 @@
                                                 <td><input type='text' name='token_sandbox' value=></td>
                                             </tr>
                                     </table>
+                                <input type="submit" class= "btn btn-primary" value="Editar Informações">
+                                <a href="../index.php"><input type="button" class="btn btn-primary" value="Ir à Página de Contribuição"></a>
                                 </div>
-                                </div>
-                                <div id='cartao'>
+                                
+                            </form>
+                        </div>
+                                
+                        <div id='cartao'>
+                            <form action="atualizacao_doacao.php" method='POST'>
+                                <div class="tab-pane active" id="img-tab" role="tabpanel" aria-labelledby="img-tab">
                                     <input type='hidden' name='cod_cartao'>
                                     <table class="table table-hover">
                                         <legend>DOAÇÃO AVULSA</legend>
@@ -171,14 +179,12 @@
                                         </tr>
                                     </table>
                                     <div id='doacao_mensal'>
-                                    </div>    
+                                    </div>  
+                                    <br><br>
+                                    <input type="submit" class= "btn btn-primary" value="Editar Informações">
+                                    <a href="../index.php"><input type="button" class="btn btn-primary" value="Ir à Página de Contribuição"></a>  
                                 </div> 
-                            <br><br>
-                            <input type="submit" class= "btn btn-primary" value="Editar Informações">
-                            <a href="../index.php"><input type="button" class="btn btn-primary" value="Ir à Página de Contribuição"></a>
-                          
-                            </form>     
-                        </div>
+                            </form>
 						</div>
                     </div>
                 </div>
