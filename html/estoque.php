@@ -115,19 +115,22 @@
    	<script>
 	$(function(){
 		var estoque=<?php echo $_SESSION['estoque'];?> ;
+		console.log(estoque)
 		<?php unset($_SESSION['estoque']); ?>
 
 		$.each(estoque,function(i,item){
-			$("#tabela")
-				.append($("<tr>")
-					.append($("<td>")
-						.text(item.codigo))
-					.append($("<td>")
-						.text(item.descricao))
-					.append($("<td >")
-						.text(item.qtd))
-					.append($('<td />')
-						.text(item.descricao_almoxarifado)));
+			if (item.qtd > 0){
+				$("#tabela")
+					.append($("<tr>")
+						.append($("<td>")
+							.text(item.codigo))
+						.append($("<td>")
+							.text(item.descricao))
+						.append($("<td >")
+							.text(item.qtd))
+						.append($('<td />')
+							.text(item.descricao_almoxarifado)));
+			}
 		});
 	});
 	$(function () {
