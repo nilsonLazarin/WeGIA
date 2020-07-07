@@ -16,11 +16,14 @@ class BeneficiadosDAO
 {
   public function formatoDataDMY($data)
     {
-        $data_arr = explode("-", $data);
-        
-        $datad = $data_arr[2] . '/' . $data_arr[1] . '/' . $data_arr[0];
-        
-        return $datad;
+        if ($data){
+            $data_arr = explode("-", $data);
+            
+            $datad = $data_arr[2] . '/' . $data_arr[1] . '/' . $data_arr[0];
+            
+            return $datad;
+        }
+        return "Sem Data";
     }
 
     public function incluir($beneficiados){        
@@ -110,7 +113,17 @@ class BeneficiadosDAO
             $beneficio=array();
 
             while($linha = $stmt->fetch(PDO::FETCH_ASSOC)){
-                $beneficio[] = array('id_funcionario'=>$linha['id_funcionario'],'id_beneficiados'=>$linha['id_beneficiados'],'data_inicio'=>$this->formatoDataDMY($linha['data_inicio']),'data_fim'=>$this->formatoDataDMY($linha['data_fim']),'beneficios_status'=>$linha['beneficios_status'],'valor'=>$linha['valor'],'id_beneficios'=>$linha['id_beneficios'],'descricao_beneficios'=>$linha['descricao_beneficios']);
+                var_dump($linha);
+                $beneficio[] = array(
+                    'id_funcionario'=>$linha['id_funcionario'] ? $linha['id_funcionario'] : null,
+                    'id_beneficiados'=>$linha['id_beneficiados'] ? $linha['id_beneficiados'] : "Nenhum",
+                    'data_inicio'=>$this->formatoDataDMY($linha['data_inicio']),
+                    'data_fim'=>$this->formatoDataDMY($linha['data_fim']),
+                    'beneficios_status'=>$linha['beneficios_status'] ? $linha['beneficios_status'] : "Nenhum",
+                    'valor'=>$linha['valor'] ? $linha['valor'] : "",
+                    'id_beneficios'=>$linha['id_beneficios'] ? $linha['id_beneficios'] : null,
+                    'descricao_beneficios'=>$linha['descricao_beneficios'] ? $linha['descricao_beneficios'] : "Nenhum"
+                );
             }
         }catch (PDOExeption $e){
             echo 'Error: ' .  $e->getMessage();

@@ -848,15 +848,17 @@
                                    {
                                     $image = file_get_contents ($_FILES['imgperfil']['tmp_name']);
                                     //session_start();
-                                    $_SESSION['imagem']=$image;
-                                    echo '<img src="data:image/gif;base64,'.base64_encode($image).'" class="rounded img-responsive" alt="John Doe">';
+                                    if ($image){
+                                      $_SESSION['imagem']=$image;
+                                      echo '<img src="data:image/gif;base64,'.base64_encode($image).'" class="rounded img-responsive" alt="John Doe">';
+                                    }else{
+                                      echo '<img src="../img/semfoto.png" class="rounded img-responsive" alt="John Doe">';
+                                    }
                                    } 
                                  }
                                  else
                                  {
-                                 ?>
-                                  <img id="imagem" alt="John Doe">
-                                  <?php 
+                                  echo '<img src="../img/semfoto.png" class="rounded img-responsive" alt="John Doe">';
                                  }
                                  ?>
                               <i class="fas fa-camera-retro btn btn-info btn-lg" data-toggle="modal" data-target="#myModal"></i>
