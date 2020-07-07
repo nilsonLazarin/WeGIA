@@ -842,6 +842,7 @@
                         <div class="panel-body">
                            <div class="thumb-info mb-md">
                               <?php
+                              /*
                                  if($_SERVER['REQUEST_METHOD'] == 'POST')
                                  {
                                    if(isset($_FILES['imgperfil']))
@@ -860,6 +861,21 @@
                                  {
                                   echo '<img src="../img/semfoto.png" class="rounded img-responsive" alt="John Doe">';
                                  }
+                                 */
+
+
+                                  $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+                                  $id_pessoa = $_SESSION['id_pessoa'];
+                                  $resultado = mysqli_query($conexao, "SELECT `imagem`, `nome` FROM `pessoa` WHERE id_pessoa=$id_pessoa");
+                                  $pessoa = mysqli_fetch_array($resultado);
+                                  if(isset($_SESSION['id_pessoa']) and !empty($_SESSION['id_pessoa'])){
+                                    $foto = $pessoa['imagem'];
+                                    if($foto != null and $foto != "")
+                                      $foto = 'data:image;base64,'.$foto;
+                                    else $foto = WWW."img/semfoto.png";
+                                  }
+                                  echo "<img src='$foto' class='rounded img-responsive' alt='John Doe'>";
+
                                  ?>
                               <i class="fas fa-camera-retro btn btn-info btn-lg" data-toggle="modal" data-target="#myModal"></i>
                               <div class="container">
@@ -944,8 +960,8 @@
                             <div class="form-group">
                                <label class="col-md-3 control-label" for="profileLastName">Sexo</label>
                                <div class="col-md-8">
-                                  <label><input type="radio" name="gender" id="radioM" id="M" value="m" style="margin-top: 10px; margin-left: 15px;" onclick="return exibir_reservista()" ><i class="fa fa-male" style="font-size: 20px;"></i></label>
-                                  <label><input type="radio" name="gender" id="radioF" id="F" value="f" style="margin-top: 10px; margin-left: 15px;" onclick="return esconder_reservista()" ><i class="fa fa-female" style="font-size: 20px;"></i> </label>
+                                  <label><input type="radio" name="gender" id="radioM" id="M" value="m" style="margin-top: 10px; margin-left: 15px;" onclick="return exibir_reservista()" > <i class="fa fa-male" style="font-size: 20px;"> Masculino</i></label>
+                                  <label><input type="radio" name="gender" id="radioF" id="F" value="f" style="margin-top: 10px; margin-left: 15px;" onclick="return esconder_reservista()" > <i class="fa fa-female" style="font-size: 20px;"> Feminino</i> </label>
                                </div>
                             </div>
                             <div class="form-group">
