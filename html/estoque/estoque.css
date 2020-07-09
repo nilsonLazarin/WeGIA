@@ -1,0 +1,9 @@
+@media print{
+    #header {
+        display: none;
+    }
+
+    .menuu {
+        display: none;
+    }
+}

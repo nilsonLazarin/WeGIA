@@ -47,6 +47,8 @@
 	
 	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
 	require_once "personalizacao_display.php";
+
+	require_once "../dao/Conexao.php"
 	?>
 <!doctype html>
 <html class="fixed">
@@ -110,22 +112,27 @@
 	<script src="../Functions/onlyChars.js"></script>
 	<script src="../Functions/enviar_dados.js"></script>
 	<script src="../Functions/mascara.js"></script>
+
+	<!-- CSS Estoque -->
+
+	<link rel="stylesheet" href="./estoque/estoque.css">
 		
 	<!-- jquery functions -->
    	<script>
 	$(function(){
 		var estoque=<?php echo $_SESSION['estoque'];?> ;
-		console.log(estoque)
 		<?php unset($_SESSION['estoque']); ?>
 
 		$.each(estoque,function(i,item){
 			if (item.qtd > 0){
 				$("#tabela")
-					.append($("<tr>")
+					.append($("<tr class='item "+item.descricao_almoxarifado+" "+item.categoria+"'>")
 						.append($("<td>")
 							.text(item.codigo))
 						.append($("<td>")
 							.text(item.descricao))
+						.append($("<td>")
+							.text(item.categoria))
 						.append($("<td >")
 							.text(item.qtd))
 						.append($('<td />')
@@ -155,7 +162,7 @@
 		.select-table-filter{
 			width: 140px;
 			float: left;
-		}-->
+		}
 	</style>
 </head>
 <body>
@@ -188,10 +195,68 @@
 						<h2 class="panel-title">Estoque</h2>
 					</header>
 					<div class="panel-body" >
+						<script>
+							let filtro = {
+								almoxarifado: "todos",
+								categoria: "todas"
+							}
+
+							function filterItem(){
+								let almox = filtro.almoxarifado
+								let categ = filtro.categoria
+								if (almox == "todos" && categ == "todas"){
+									$(".item").show()
+								}else if (almox != "todos" && categ == "todas"){
+									$(".item").hide()
+									$("."+almox).show()
+								}else if (almox == "todos" && categ != "todas"){
+									$(".item").hide()
+									$("."+categ).show()
+								}else{
+									$(".item").hide()
+									$("."+almox+"."+categ).show()
+								}
+							}
+
+							function selectAlmoxarifado(value){
+								filtro.almoxarifado = value
+								filterItem()
+							}
+
+							function selectCategoria(value){
+								filtro.categoria = value
+								filterItem()
+							}
+						</script>
+						<div>
+							Almoxarifado: <select class="select-table-filter form-control mb-md" data-table="order-table" oninput="selectAlmoxarifado(this.value)">
+								<option selected value="todos">Todos</option>
+								<?php
+									$pdo = Conexao::connect();
+									$res = $pdo->query("select descricao_almoxarifado from almoxarifado;");
+									$almoxarifado = $res->fetchAll(PDO::FETCH_ASSOC);
+									foreach ($almoxarifado as $value){
+										echo('
+										<option value="'.$value['descricao_almoxarifado'].'">'.$value['descricao_almoxarifado'].'</option>
+										');
+									}
+								?>
+							</select>
+							Categoria: <select class="select-table-filter form-control mb-md" data-table="order-table" oninput="selectCategoria(this.value)">
+								<option selected value="todas">Todas</option>
+								<?php
+									$pdo = Conexao::connect();
+									$res = $pdo->query("select descricao_categoria from categoria_produto;");
+									$almoxarifado = $res->fetchAll(PDO::FETCH_ASSOC);
+									foreach ($almoxarifado as $value){
+										echo('
+										<option value="'.$value['descricao_categoria'].'">'.$value['descricao_categoria'].'</option>
+										');
+									}
+								?>
+							</select>
+						</div>
 						<div class="select" >
-							<select class="select-table-filter form-control mb-md" data-table="order-table">
-								<option selected disabled>Almoxarifado</option>
-							</select>float:right;"></h5>
 	  					</div>
 	  					<button style="float: right;" class="mb-xs mt-xs mr-xs btn btn-default">Imprimir</button>
 	  					<br><br>
@@ -199,10 +264,11 @@
 						<table class="table table-bordered table-striped mb-none" id="datatable-default">
 							<thead>
 								<tr>
-									<th>codigo</th>
-									<th>produto</th>
-									<th>quantidade</th>
-									<th>almoxarifado</th>
+									<th>Codigo</th>
+									<th>Produto</th>
+									<th>Categoria</th>
+									<th>Quantidade</th>
+									<th>Almoxarifado</th>
 								</tr>
 							</thead>
 							<tbody id="tabela">

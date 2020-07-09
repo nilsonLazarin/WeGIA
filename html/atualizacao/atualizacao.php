@@ -30,8 +30,12 @@
     }
 
     function tempBackup() {
+        if (PHP_OS != 'Linux'){
+            return false;
+        }
         createBdBackup();
         createPageBackup();
+        return true;
     }
 
     function gitPull() {
@@ -40,14 +44,17 @@
         return $output;
     }
 
-    tempBackup();
+    
     $output = gitPull();
-    if ($output[0]) {
+    if ($output) {
         $log = "Status da atualização: \n";
         foreach ($output as $value){
             $log = $log . $value . "\n";
         }
-        header("Location: ./atualizacao_sistema.php?msg=success&sccs=Backup realizado e Atualização concluída!&log=".base64_encode($log));
+        if (tempBackup()){
+            header("Location: ./atualizacao_sistema.php?msg=success&sccs=Backup realizado e Atualização concluída!&log=".base64_encode($log));
+        }
+        header("Location: ./atualizacao_sistema.php?msg=warning&warn=Atualização concluída, mas houve um erro ao realizar o backup (Sistema compatível: Linux, Seu Sistema: ".PHP_OS.")!&log=".base64_encode($log));
     } else {
         header("Location: ./atualizacao_sistema.php?msg=error&err=Houve um erro ao executar o comando git -C ".ROOT." pull");
     }

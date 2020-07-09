@@ -214,9 +214,9 @@
 									}
 									if (isset($post[3])){
 										$responsavel = quickQuery("select nome from pessoa where id_pessoa = ".$post[3].";", "nome");
-										echo("<ul>Responsavel: ".$responsavel."</ul>");
+										echo("<ul>Responsável: ".$responsavel."</ul>");
 									}else{
-										echo("<ul>Responsavel: Todos</ul>");
+										echo("<ul>Responsável: Todos</ul>");
 									}
 								}
 
@@ -235,9 +235,9 @@
 									}
 									if (isset($post[3])){
 										$responsavel = quickQuery("select nome from pessoa where id_pessoa = ".$post[3].";", "nome");
-										echo("<ul>Responsavel: ".$responsavel."</ul>");
+										echo("<ul>Responsável: ".$responsavel."</ul>");
 									}else{
-										echo("<ul>Responsavel: Todos</ul>");
+										echo("<ul>Responsável: Todos</ul>");
 									}
 								}
 
