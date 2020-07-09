@@ -71,11 +71,11 @@ function verificar()
                         $("#avisa_valor").html("Desculpe, o valor mínimo para doação é <i>R$"+val_min+"</i>"); 
                         
                     }else{
-                            /*$("#avisa_valor").html("");
+                            $("#avisa_valor").html("");
                             $("#pag2").fadeIn();
                             $("#pag1").hide();
                             $("#forma").hide();
-                            $("#doacao_boleto").hide();*/
+                            $("#doacao_boleto").hide();
                     }
                    
                 }
