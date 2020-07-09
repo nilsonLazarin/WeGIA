@@ -2,24 +2,24 @@ function verificar()
 {   
     if($("#tipo1").prop('checked'))
     {
-        if($("#dia1").prop('checked'))
-        { var dia = 1;}
+        if($("#op1").prop('checked'))
+        { var dia = $("#op1").val();}
         else{
-            if($("#dia5").prop('checked'))
-            {dia = 5;} 
+            if($("#op2").prop('checked'))
+            {dia = $("#op2").val();} 
                 else{
-                        if($("#dia10").prop('checked'))
-                        {dia = 10;}
+                        if($("#op3").prop('checked'))
+                        {dia = $("#op3").val();}
                         else{
-                            if($("#dia15").prop('checked'))
-                            {dia = 15}
+                            if($("#op4").prop('checked'))
+                            {dia = $("#op4").val();}
                             else{
-                                if($("#dia20").prop('checked'))
-                                {dia=20;}
+                                if($("#op5").prop('checked'))
+                                { dia = $("#op5").val();}
                                 else
                                 {
-                                    if($("#dia25").prop('checked'))
-                                    {dia =25;}
+                                    if($("#op6").prop('checked'))
+                                    { dia = $("#op6").val();}
                                     else
                                     {
                                         dia = "";
@@ -57,6 +57,8 @@ function verificar()
         if($("#tipo2").prop('checked'))
         {
             var valor = $("#v").val();
+            var val_min = $("#valunic").val();
+            console.log(val_min);
             valor = valor.split('.');
                 if(valor[0] == ''|| valor[0] == 0)
                 {
@@ -64,15 +66,16 @@ function verificar()
                 }
                 else
                 {
-                    if(valor[0] < 10)
+                    if(valor[0] < val_min)
                     {
-                        $("#avisa_valor").html("Desculpe, o valor mínimo para doação é <i>R$10,00</i>"); 
+                        $("#avisa_valor").html("Desculpe, o valor mínimo para doação é <i>R$"+val_min+"</i>"); 
+                        
                     }else{
-                            $("#avisa_valor").html("");
+                            /*$("#avisa_valor").html("");
                             $("#pag2").fadeIn();
                             $("#pag1").hide();
                             $("#forma").hide();
-                            $("#doacao_boleto").hide();
+                            $("#doacao_boleto").hide();*/
                     }
                    
                 }
