@@ -609,6 +609,7 @@
 
 	    $(document).ready(function()
 	    {
+		    preenche_campo();
 			$("#tipo_cartao").hide();
 			$("#cartao_mensal").hide();
 			$("#cartao_unica").hide();
