@@ -258,7 +258,7 @@
 						</div>
 						<div class="select" >
 	  					</div>
-	  					<button style="float: right;" class="mb-xs mt-xs mr-xs btn btn-default">Imprimir</button>
+	  					<button style="float: right;" class="mb-xs mt-xs mr-xs btn btn-default" onclick="window.print();">Imprimir</button>
 	  					<br><br>
 		  					
 						<table class="table table-bordered table-striped mb-none" id="datatable-default">
