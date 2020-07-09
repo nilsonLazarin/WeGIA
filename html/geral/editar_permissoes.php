@@ -1,9 +1,4 @@
 <?php
-	session_start();
-	if(!isset($_SESSION['usuario'])){
-		header ("Location: ../index.php");
-	}
-	
 	$config_path = "config.php";
 	if(file_exists($config_path)){
 		require_once($config_path);
@@ -13,6 +8,11 @@
 			if(file_exists($config_path)) break;
 		}
 		require_once($config_path);
+	}
+	
+	session_start();
+	if(!isset($_SESSION['usuario'])){
+		header ("Location: ".WWW."index.php");
 	}
 	$conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 	$id_pessoa = $_SESSION['id_pessoa'];
@@ -27,18 +27,22 @@
 			$permissao = mysqli_fetch_array($resultado);
 			if($permissao['id_acao'] == 1){
 				$msg = "Você não tem as permissões necessárias para essa página.";
+				header("Location: ".WWW."/html/home.php?msg_c=$msg");
 			}
 			$permissao = $permissao['id_acao'];
 		}else{
         	$permissao = 1;
-        	$msg = "Você não tem as permissões necessárias para essa página.";
+			$msg = "Você não tem as permissões necessárias para essa página.";
+			header("Location: ".WWW."/html/home.php?msg_c=$msg");
 		}	
 	}else{
 		$permissao = 1;
 		$msg = "Você não tem as permissões necessárias para essa página.";
+		header("Location: ".WWW."/html/home.php?msg_c=$msg");
 	}	
 	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
-    require_once "personalizacao_display.php";
+	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
+require_once ROOT."/html/personalizacao_display.php";
       $cargo = mysqli_query($conexao, "SELECT * FROM cargo");
       $acao = mysqli_query($conexao, "SELECT * FROM acao");
       $recurso = mysqli_query($conexao, "SELECT * FROM recurso");
@@ -52,66 +56,63 @@
 	<title>Editar permissões</title>
 
 	<!-- Mobile Metas -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">
+    <!-- Vendor CSS -->
+    <link rel="stylesheet" href="<?php echo WWW;?>assets/vendor/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" href="<?php echo WWW;?>assets/vendor/font-awesome/css/font-awesome.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    <link rel="stylesheet" href="<?php echo WWW;?>assets/vendor/magnific-popup/magnific-popup.css" />
+    <link rel="stylesheet" href="<?php echo WWW;?>assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
+    <link rel="icon" href="<?php display_campo("Logo",'file');?>" type="image/x-icon" id="logo-icon">
 
-	<!-- Web Fonts  -->
-	<link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">
+    <!-- Specific Page Vendor CSS -->
+    <link rel="stylesheet" href="<?php echo WWW;?>assets/vendor/select2/select2.css" />
+    <link rel="stylesheet" href="<?php echo WWW;?>assets/vendor/jquery-datatables-bs3/assets/css/datatables.css" />
 
-	<!-- Vendor CSS -->
-	<link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css" />
-	<link rel="stylesheet" href="../assets/vendor/font-awesome/css/font-awesome.css" />
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
-	<link rel="stylesheet" href="../assets/vendor/magnific-popup/magnific-popup.css" />
-	<link rel="stylesheet" href="../assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
-	<link rel="icon" href="<?php display_campo("Logo",'file');?>" type="image/x-icon" id="logo-icon">
+    <!-- Theme CSS -->
+    <link rel="stylesheet" href="<?php echo WWW;?>assets/stylesheets/theme.css" />
 
-	<!-- Theme CSS -->
-	<link rel="stylesheet" href="../assets/stylesheets/theme.css" />
+    <!-- Skin CSS -->
+    <link rel="stylesheet" href="<?php echo WWW;?>assets/stylesheets/skins/default.css" />
 
-	<!-- Skin CSS -->
-	<link rel="stylesheet" href="../assets/stylesheets/skins/default.css" />
+    <!-- Theme Custom CSS -->
+    <link rel="stylesheet" href="<?php echo WWW;?>assets/stylesheets/theme-custom.css">
 
-	<!-- Theme Custom CSS -->
-	<link rel="stylesheet" href="../assets/stylesheets/theme-custom.css">
+    <!-- Head Libs -->
+    <script src="<?php echo WWW;?>assets/vendor/modernizr/modernizr.js"></script>
+        
+    <!-- Vendor -->
+    <script src="<?php echo WWW;?>assets/vendor/jquery/jquery.min.js"></script>
+    <script src="<?php echo WWW;?>assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
+    <script src="<?php echo WWW;?>assets/vendor/bootstrap/js/bootstrap.js"></script>
+    <script src="<?php echo WWW;?>assets/vendor/nanoscroller/nanoscroller.js"></script>
+    <script src="<?php echo WWW;?>assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <script src="<?php echo WWW;?>assets/vendor/magnific-popup/magnific-popup.js"></script>
+    <script src="<?php echo WWW;?>assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
+        
+    <!-- Specific Page Vendor -->
+    <script src="<?php echo WWW;?>assets/vendor/jquery-autosize/jquery.autosize.js"></script>
+        
+    <!-- Theme Base, Components and Settings -->
+    <script src="<?php echo WWW;?>assets/javascripts/theme.js"></script>
+        
+    <!-- Theme Custom -->
+    <script src="<?php echo WWW;?>assets/javascripts/theme.custom.js"></script>
+        
+    <!-- Theme Initialization Files -->
+    <script src="<?php echo WWW;?>assets/javascripts/theme.init.js"></script>
 
-	<!-- Head Libs -->
-	<script src="../assets/vendor/modernizr/modernizr.js"></script>
 
-	<!-- Vendor -->
-	<script src="../assets/vendor/jquery/jquery.min.js"></script>
-	<script src="../assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
-	<script src="../assets/vendor/bootstrap/js/bootstrap.js"></script>
-	<script src="../assets/vendor/nanoscroller/nanoscroller.js"></script>
-	<script src="../assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-	<script src="../assets/vendor/magnific-popup/magnific-popup.js"></script>
-	<script src="../assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
-		
-	<!-- Specific Page Vendor -->
-	<script src="../assets/vendor/jquery-autosize/jquery.autosize.js"></script>
-		
-	<!-- Theme Base, Components and Settings -->
-	<script src="../assets/javascripts/theme.js"></script>
-		
-	<!-- Theme Custom -->
-	<script src="../assets/javascripts/theme.custom.js"></script>
-		
-	<!-- Theme Initialization Files -->
-	<script src="../assets/javascripts/theme.init.js"></script>
-
-	<!-- javascript functions --> <script
-	src="../Functions/onlyNumbers.js"></script> <script
-	src="../Functions/onlyChars.js"></script> <script
-	src="../Functions/mascara.js"></script>
-
-	<!-- jquery functions -->
-	<script>
-   		document.write('<a href="' + document.referrer + '"></a>');
-	</script>
+    <!-- javascript functions -->
+    <script src="<?php echo WWW;?>Functions/onlyNumbers.js"></script>
+    <script src="<?php echo WWW;?>Functions/onlyChars.js"></script>
+    <script src="<?php echo WWW;?>Functions/mascara.js"></script>
 
 	<script type="text/javascript">
 		$(function () {
-	      $("#header").load("header.php");
-	      $(".menuu").load("menu.html");
+			$("#header").load("<?php echo WWW;?>html/header.php");
+            $(".menuu").load("<?php echo WWW;?>html/menu.php");
 	    });	
 	</script>
 		
@@ -163,7 +164,7 @@
 							<div class="tab-content">
 								<div id="overview" class="tab-pane active">
 									<fieldset>
-										<form method="post" id="formulario" action="../controle/control.php">
+										<form method="post" id="formulario" action="<?php echo(WWW.'controle/control.php'); ?>">
 										<?php
 											if(isset($_GET['msg_c'])){
 												$msg = $_GET['msg_c'];
@@ -192,6 +193,20 @@
 													</select>
 												</div>	
                                             </div>
+											<div class="form-group">
+												<label class="col-md-3 control-label" for="inputSuccess">Recurso</label>
+												<div class="col-md-6">
+													<select name="recurso" id="id_recurso" class="form-control input-lg mb-md">
+                                                    <option selected disabled>Selecionar</option>
+                                                    <?php
+                                                            while($row = $recurso->fetch_array(MYSQLI_NUM))
+                                                            {
+                                                             echo "<option value=".$row[0].">".$row[1]."</option>";
+                                                            }             
+                                                        ?>
+													</select>
+												</div>	
+											</div>
                                             <div class="form-group">
 												<label class="col-md-3 control-label" for="inputSuccess">Permissões</label>
 												
@@ -207,23 +222,9 @@
 													</select>
 												</div>	
                                             </div>
-                                            <div class="form-group">
-												<label class="col-md-3 control-label" for="inputSuccess">Recurso</label>
-												<div class="col-md-6">
-													<select name="recurso" id="id_recurso" class="form-control input-lg mb-md">
-                                                    <option selected disabled>Selecionar</option>
-                                                    <?php
-                                                            while($row = $recurso->fetch_array(MYSQLI_NUM))
-                                                            {
-                                                             echo "<option value=".$row[0].">".$row[1]."</option>";
-                                                            }             
-                                                        ?>
-													</select>
-												</div>	
-											</div>
 											<input type="hidden" name="nomeClasse" value="FuncionarioControle">
 											<input type="hidden" name="metodo" value="adicionar_permissao">
-											<input type="hidden" name="nextPage" value="../html/editar_permissoes.php">
+											<input type="hidden" name="nextPage" value="<?php echo(WWW.'html/geral/editar_permissoes.php'); ?>">
 											<div class="row">
 												<div class="col-md-9 col-md-offset-3">
 													<button id="enviar" class="btn btn-primary" type="submit">Enviar</button>

@@ -83,6 +83,21 @@
 									Relatórios
 								</a>
 							</li>
+							<li id="21">
+								<a href="../../listar_entrada.php">
+									Informações Entrada
+								</a>
+							</li>
+							<li id="22">
+								<a href="../../listar_saida.php">
+									Informações Saída
+								</a>
+							</li>
+							<li id="26">
+								<a href="../../adicionar_almoxarifado.php">
+									Adicionar Almoxarifado
+								</a>
+							</li>
 						</ul>
 					</li>
 					<li class="nav-parent nav-active" id="3">
@@ -111,7 +126,7 @@
 						<ul class="nav nav-children">
 							<li id="41">
 								<a href="../../personalizacao.php">
-									Editar Conteúdos
+									Editar Conteúdo
 								</a>
 							</li>
 							<li id="42">
@@ -120,17 +135,17 @@
 								</a>
 							</li>
 							<li id="43">
-								<a href="../../atualizacao_sistema.php">
+								<a href="../../atualizacao/atualizacao_sistema.php">
 									Atualização e Backup
 								</a>
 							</li>
 							<li id="44">
-								<a href="configuracao_doacao.php">
+								<a href="../../contribuicao/php/configuracao_doacao.php">
 									Contribuição
 								</a>
 							</li>
 							<li id="45">
-								<a href="../../editar_permissoes.php">
+								<a href="../../geral/editar_permissoes.php">
 									Permissões
 								</a>
 							</li>
@@ -140,23 +155,26 @@
 			</nav>
 		</div>
 	</div>
-	<form id="listarFuncionario" method="POST" action="../../controle/control.php">
+	<form id="listarFuncionario" method="POST" action="../controle/control.php">
 		<input type="hidden" name="nomeClasse" value="FuncionarioControle">
 		<input type="hidden" name="metodo" value="listartodos">
-		<input type="hidden" name="nextPage" value="../../html/informacao_funcionario.php">
+		<input type="hidden" name="nextPage" value="../html/informacao_funcionario.php">
 	</form>
 	
-	<form id="listarInterno" method="POST" action="../../controle/control.php">
+	<form id="listarInterno" method="POST" action="../controle/control.php">
 		<input type="hidden" name="nomeClasse" value="InternoControle">
 		<input type="hidden" name="metodo" value="listartodos">
-		<input type="hidden" name="nextPage" value="../../html/informacao_interno.php">
+		<input type="hidden" name="nextPage" value="../html/informacao_interno.php">
 	</form>
 		
 	<!-- Theme Base, Components and Settings -->
 	<script src="../../../assets/javascripts/theme.js"></script>
+	<script src="../../../assets/javascripts/theme.js"></script>
 		
 	<!-- Theme Custom -->
 	<script src="../../../assets/javascripts/theme.custom.js"></script>
+	<script src="../../../assets/javascripts/theme.custom.js"></script>
 	
 	<!-- Theme Initialization Files -->
+	<script src="../../../assets/javascripts/theme.init.js"></script>
 	<script src="../../../assets/javascripts/theme.init.js"></script>

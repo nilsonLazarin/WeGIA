@@ -9,7 +9,6 @@ function valida_telefone()
 	}
 	else
 	{
-		console.log("oi no telefone");
 		$("#telefone").parent().attr("data-validate", "Telefone não encontrado");
 		$("#telefone").parent().removeClass("true-validate");
 		$("#telefone").parent().addClass("alert-validate");
