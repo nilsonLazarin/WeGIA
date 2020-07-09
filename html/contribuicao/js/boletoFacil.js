@@ -5,7 +5,6 @@ function gera_boleto(){
     { 
      
         var dado = JSON.parse(data);
-        console.log(dado);
         var api = dado['API'];
         var token = dado['token'];
         var agradecimento = dado['agradecimento'];
@@ -22,6 +21,7 @@ function gera_boleto(){
             {
                 valor2 = $("#v").val();
             }
+       
         var cpf = $("#dcpf").val();
         var cnpj = $("#dcnpj").val();
             if(cpf == '')
@@ -74,7 +74,7 @@ function gera_boleto(){
             }
     
         var check;
-
+           
             if($("#tipo2").prop("checked"))
             {
                 $.get(api+"token="+token+"&description="+agradecimento+"&amount="+valor2+"&payerName="+nome+"&payerCpfCnpj="+doc+"&dueDate="+diaAv+"&payerPhone="+telefone+"&payerEmail="+email+"&billingAddressState="+uf+"&billingAddressCity="+cidade+"&billingAddressNeighborhood="+bairro+"&billingAddressPostcode="+cep+"&billingAddressStreet="+log+"&billingAddressNumber="+n+"&billingAddressComplement="+comp+"&paymentTypes=BOLETO&maxOverdueDays="+dias_unico, function(dados){

@@ -1,3 +1,34 @@
+<?php
+	include("./php/conexao.php");
+	
+	//preenchendo o formulário com as oções determinadas no banco;
+
+	$select = mysqli_query($conexao, "select * from doacao_boleto_regras");
+	$fetch = mysqli_fetch_row($select);
+	$minvalunic = $fetch[1];
+	$valminparc = $fetch[6];
+	$valmaxparc = $fetch[5];
+
+    $op0 = $fetch[9];
+    $op1 = $fetch[10];
+    $op2= $fetch[11];
+    $op3 = $fetch[12];
+    $op4 =$fetch[13];
+    $op5 = $fetch[14];
+
+	$querycartao = mysqli_query($conexao, "select * from doacao_cartao_mensal");
+	$qtd = mysqli_num_rows($querycartao);
+
+	$paypal_card = mysqli_query($conexao, "select url from doacao_cartao_avulso as ca join sistema_pagamento as sp on (ca.id_sistema = sp.id) where nome_sistema = 'PAYPAL'");
+	$fetch_link = mysqli_fetch_row($paypal_card);
+	$paypal = $fetch_link[0];
+
+	$pagseguro_card = mysqli_query($conexao, "select url from doacao_cartao_avulso as ca join sistema_pagamento as sp on (ca.id_sistema = sp.id) where nome_sistema = 'PAGSEGURO'");
+	$fetch_link = mysqli_fetch_row($pagseguro_card);
+	$pagseguro = $fetch_link[0];
+
+
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -19,8 +50,6 @@
 	<script type="text/javascript" src="./js/valida_email.js"></script>
 	<script type="text/javascript" src="./js/recebeD.js"></script>
 	<script type="text/javascript" src="./js/retornadia.js"></script>
-	<script type="text/javascript" src="./js/cartaodunica.js"></script>
-	<script type="text/javascript" src="./js/cartaodmensal.js"></script>
 	<script type="text/javascript" src="./js/sociotipo.js"></script>
 	<script type="text/javascript" src="./js/logo_titulo.js"></script>
 	
@@ -236,16 +265,19 @@
 						</div>
 					
 						<div id = "cartao_mensal">
-							<button id="trinta" class="btn"></button>
-							<button class="btn" id="quarenta"></button>
-							<button class="btn" id="cinquenta"></button>
-							<button class="btn" id="cem"></button>
+							<?php 
+								for($i=0; $i<$qtd; $i++)
+								{
+									$fetch_card = mysqli_fetch_row($querycartao);
+									echo('<button class="btn"><a href='.$fetch_card[1].'><input type="button" class="btn" value='.$fetch_card[2].'></a></button>');
+								}
+							?>
 						</div>
 
 						<div id="cartao_unica">
-							<span id="paypal"></span>
+							<a href="<?php echo $paypal ?>"><img width='20%' src='./php/paypal.webp' alt='Faça doações com o PayPal'></a>
 
-							<span id="pagseguro"></span>
+							<a href="<?php echo $pagseguro ?>"><img width='20%' src='./php/pagseguro.png' alt='Faça doações com o PagSeguro'></a>
 						</div>
 
 					<div id="doacao_boleto">
@@ -260,15 +292,16 @@
 
 						<div id = "input" class="wrap-input100 validate-input bg1">
 							<span class="label-input100">Digite um valor</span>
-							<input class="input100" type = 'number' id = 'v' name = 'v' placeholder="Digite um valor de doação única." onblur = "toReal(f2.v);" required>
+							<input class="input100" type = 'number' id = 'v' name = 'v' placeholder="Digite um valor de doação única." onblur = "toReal(v);" required>
+							<input type='hidden' id='valunic' value='<?php echo$minvalunic ?>'>
+
 						<p id = "avisa_valor"></p>
 						</div>
-
 						<div id = "valores" class="wrap-input100 input100-select bg1">
 							<span class="label-input100">Valor *</span>
 							<select class="js-select2" name="service">
 								<option value=''>Selecione um valor</option>
-								<option value = '30.00'>R$30,00</option>
+								<option value = '<?php echo $valminparc ?>'>R$<?php echo $valminparc ?></option>
 								<option value = '50.00'>R$50,00</option>
 								<option value = '100.00'>R$100,00</option>
 								<option value = '150.00'>R$150,00</option>
@@ -276,7 +309,7 @@
 								<option value = '250.00'>R$250,00</option>
 								<option value = '300.00'>R$300,00</option>
 								<option value = '500.00'>R$500,00</option>
-								<option value = '1000.00'>R$1000,00</option>
+								<option value = '<?php echo $valmaxparc ?>'>R$<?php echo $valmaxparc ?></option>
 							</select>
 							<div class="dropDownSelect2"></div>
 						<p id = "avisa_valor2"></p>
@@ -284,12 +317,12 @@
 						
 						<div id = "venci" class="wrap-input100 validate-input bg1">
 							<span class="label-input100">Vencimento *</span><br>
-							<input type = "radio" value ="1" id ="dia1" name = "dta"> 1
-							<input type = "radio" value ="5" id ="dia5"name = "dta"> 5
-							<input type = "radio" value ="10" id ="dia10"name = "dta"> 10
-							<input type = "radio" value ="15" id ="dia15"name = "dta"> 15
-							<input type = "radio" value ="20" id ="dia20"name = "dta"> 20
-							<input type = "radio" value ="25" id ="dia25"name = "dta">25
+							<input type = "radio" value ="<?php echo $op0 ?>" id ="op1" name = "dta"><?php echo $op0 ?>
+							<input type = "radio" value ="<?php echo $op1 ?>" id ="op2"name = "dta"><?php echo $op1 ?> 
+							<input type = "radio" value ="<?php echo $op2 ?>" id ="op3"name = "dta"><?php echo $op2 ?>
+							<input type = "radio" value ="<?php echo $op3 ?>" id ="op4"name = "dta"><?php echo $op3 ?>
+							<input type = "radio" value ="<?php echo $op4 ?>" id ="op5"name = "dta"><?php echo $op4 ?>
+							<input type = "radio" value ="<?php echo $op5 ?>" id ="op6"name = "dta"><?php echo $op5 ?>
 							<br>
 							<span id="info_data" ></span>
 						</div>
@@ -576,9 +609,7 @@
 
 	    $(document).ready(function()
 	    {
-			cartaodunica();
-			cartaodmensal();
-			preenche_campo();
+		    preenche_campo();
 			$("#tipo_cartao").hide();
 			$("#cartao_mensal").hide();
 			$("#cartao_unica").hide();
@@ -589,10 +620,6 @@
 			$("#info_valor").hide();
 			$("#nc").show();
 			$("#jnome").hide();
-			$("#trinta").hide();
-            $("#quarenta").hide();
-            $("#cinquenta").hide();
-            $("#cem").hide();
 			
 			
 		
@@ -601,10 +628,6 @@
 			$("#doacao_boleto").hide();
 			$("#tipo_cartao").fadeIn();
 			$("#cartao_mensal").fadeIn();
-			$("#trinta").show();
-            $("#quarenta").show();
-            $("#cinquenta").show();
-            $("#cem").show();
 			$("#tipoc2").prop("checked", false);
 			$("#tipoc1").prop("checked", true);
 			
@@ -681,7 +704,7 @@
 		    $("#valores").show();
 		    $("#venci").show();
 			$("#input").hide();
-			//$("#ola").hide();
+			
 		});
 
 		$("#avanca").click(function()

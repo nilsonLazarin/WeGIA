@@ -2,24 +2,24 @@ function retorna_dia()
 {
     if($("#tipo1").prop('checked'))
     {
-        if($("#dia1").prop('checked'))
-        { var dia = 1;}
+        if($("#op1").prop('checked'))
+        { var dia = $("#op1").val();}
             else{
-                if($("#dia5").prop('checked'))
-                    {dia = 5;} 
+                if($("#op2").prop('checked'))
+                    {dia =$("#op2").val();} 
                 else{
-                        if($("#dia10").prop('checked'))
-                        {dia = 10;}
+                        if($("#op3").prop('checked'))
+                        {dia = $("#op3").val();}
                         else{
-                            if($("#dia15").prop('checked'))
-                            {dia = 15}
+                            if($("#op4").prop('checked'))
+                            {dia =$("#op4").val();}
                             else{
-                                if($("#dia20").prop('checked'))
-                                {dia=20;}
+                                if($("#op5").prop('checked'))
+                                {dia=$("#op5").val();}
                                 else
                                 {
-                                    if($("#dia25").prop('checked'))
-                                    {dia =25;}
+                                    if($("#op6").prop('checked'))
+                                    {dia =$("#op6").val();}
                                     else
                                     {
                                         dia = "";
