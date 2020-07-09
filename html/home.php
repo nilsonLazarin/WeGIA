@@ -105,7 +105,7 @@
 					</a>
 					<a href="#">
 						<div class="col-lg-2 col-md-8 i" data-toggle="collapse" href="#material">
-							<i  class="fa fa-cube"></i>
+							<i  class="fa fa-cubes"></i>
 							<h4>Material e Patrimônio</h4>
 						</div>
 					</a>
@@ -117,7 +117,49 @@
 							</h4>
 						</div>
 					</a>
+					<a href="#">
+						<div class="col-lg-2 col-md-8 i" data-toggle="collapse" href="#configuracao">
+							<i  class="fa fa-cogs"></i>
+							<h4>Configurações</h4>
+						</div>
+					</a>
 				</div>
+				<div class="row ">
+					<div  id="configuracao" class="collapse">
+						<a href="../html/personalizacao.php">
+							<div class="col-lg-2 col-md-8 i" >
+								<i  class="fa fa-font"></i>
+								<h4>Editar conteúdos</h4>
+							</div>
+						</a>
+						<a href="../html/personalizacao_imagem.php">
+							<div class="col-lg-2 col-md-8 i" >
+								<i  class="fa fa-picture-o"></i>
+								<h4>Lista de imagens</h4>
+							</div>
+						</a>
+						<a href="../html/atualizacao/atualizacao_sistema.php">
+							<div class="col-lg-2 col-md-8 i" >
+								<i  class="fa fa-refresh"></i>
+								<h4>Atualização e backup</h4>
+							</div>
+						</a>
+						<a href="../html/contribuicao/php/configuracao_doacao.php">
+							<div class="col-lg-2 col-md-8 i" >
+								<i  class="fa fa-credit-card"></i>
+								<h4>Contribuição</h4>
+							</div>
+						</a>
+						<a href="../html/geral/editar_permissoes.php">
+							<div class="col-lg-2 col-md-8 i" >
+								<i  class="fa fa-key"></i>
+								<h4>Permissões</h4>
+							</div>
+						</a>
+
+					
+					</div>
+				</div><br>
 				<div class="row ">
 					<div  id="pessoas" class="collapse">
 						<a href="../html/cadastro_funcionario.php">
@@ -318,6 +360,7 @@
 		$(document).ready(function(){
 		setTimeout(function(){
 			$(".alerta_c").fadeOut();
+			window.history.replaceState({}, document.title, window.location.pathname);
 		}, 3000);
 	});
 	</script>
