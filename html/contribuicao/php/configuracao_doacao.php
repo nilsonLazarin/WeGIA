@@ -34,7 +34,27 @@
         <script src="../../../assets/javascripts/theme.custom.js"></script>  
         <script src="../../../assets/javascripts/theme.init.js"></script>
         <script type="text/javascript" src="preenche_dados.js"></script>
+        <script type="text/javascript" src="id_sistema.js"></script>
+
     </head>
+    <style> 
+        #vazio
+        {
+            color: red;
+			font-size: 20px;
+			font-family: 'Bitter', serif;
+        } 
+        #vazio_cartao_unico{
+            color: red;
+			font-size: 15px;
+			font-family: 'Bitter', serif;
+        }
+        #vazio_cartao_mensal{
+            color: red;
+			font-size: 15px;
+			font-family: 'Bitter', serif;
+        }
+    </style>
     <body>
 	<section class="body">
 		<div id="header"></div>
@@ -64,23 +84,25 @@
 
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
 							<li class="nav-item active">
-								<a class="nav-link active" id="b_boleto" data-toggle="tab" href="#img-tab" role="tab" aria-controls="img" aria-selected="true">BOLETOFACIL</a>
+								<a class="nav-link active" id="boletofacil" data-toggle="tab" href="#img-tab" role="tab" aria-controls="img" aria-selected="true">BOLETOFACIL</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" id="b_boleto2" data-toggle="tab" href="#txt-tab" role="tab" aria-controls="txt" aria-selected="false">WIDEPAY</a>
+								<a class="nav-link" id="widepay" data-toggle="tab" href="#txt-tab" role="tab" aria-controls="txt" aria-selected="false">WIDEPAY</a>
                             </li>
                             <li class="nav-item">
-								<a class="nav-link active" id="b_cartao" data-toggle="tab" href="#img-tab" role="tab" aria-controls="img" aria-selected="false">PAGSEGURO</a>
+								<a class="nav-link active" id="pagseguro" data-toggle="tab" href="#img-tab" role="tab" aria-controls="img" aria-selected="false">PAGSEGURO</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" id="b_cartao2" data-toggle="tab" href="#txt-tab" role="tab" aria-controls="txt" aria-selected="false">PAYPAL</a>
+								<a class="nav-link" id="paypal" data-toggle="tab" href="#txt-tab" role="tab" aria-controls="txt" aria-selected="false">PAYPAL</a>
 							</li>
 						</ul>
 						<div class="tab-content" id="myTabContent" width = "50%"> 
                            
                         <div id='boleto'> 
                             <form action="atualizacao_doacao.php" method = "POST">
-                                <input type="hidden" id="cod_sistema" name="cod_sistema">
+                                <input type="hidden" id="regras_sistema" name="regras_sistema">
+                                <input type='hidden' id='id_sistema' name='id_sistema'>
+                                <span id="vazio"></span>
                                 <div class="tab-pane active" id="img-tab" role="tabpanel" aria-labelledby="img-tab">
                                     <table class="table table-hover"  >
                                         <thead>
@@ -168,7 +190,8 @@
                         <div id='cartao'>
                             <form action="atualizacao_doacao.php" method='POST'>
                                 <div class="tab-pane active" id="img-tab" role="tabpanel" aria-labelledby="img-tab">
-                                    <input type='hidden' name='cod_cartao'>
+                                    <input type='hidden' name='cod_cartao' id='cod_cartao'>
+                                    <span id='vazio_cartao_unico'></span>
                                     <table class="table table-hover">
                                         <legend>DOAÇÃO AVULSA</legend>
                                         <tr>
@@ -178,6 +201,7 @@
                                             <td><input type='text' name='avulso_link' value=></td>
                                         </tr>
                                     </table>
+                                    <span id='vazio_cartao_mensal'></span>
                                     <div id='doacao_mensal'>
                                     </div>  
                                     <br><br>
@@ -194,38 +218,32 @@
 	<script>
         $(document).ready(function() 
         {
-            var id = ''; 
-            preencher(id);
+            var id = retorna_id("boletofacil");
             $("#header").load("../../header.php");
             $(".menuu").load("menu.html");
             $("#cartao").hide();
 
-            $("#b_cartao").click(function(){ 
-                var id = 1;
+            $("#pagseguro").click(function(){ 
                 
-                preenche_dados_cartao(id);
+                var id = retorna_id('pagseguro');
                 $("#boleto").hide();
                 $("#cartao").fadeIn();
             });
-            $("#b_boleto").click(function(){
-                var id = 3;
+            $("#boletofacil").click(function(){
                
-               preencher(id);
+               var id = retorna_id("boletofacil");
                 $("#boleto").fadeIn();
                 $("#cartao").hide();
             });
-            $("#b_cartao2").click(function(){ 
-                var id = 2;
-               
-                preenche_dados_cartao(id);
+            $("#paypal").click(function(){ 
+
+                var id = retorna_id("paypal");
                 $("#boleto").hide();
                 $("#cartao").fadeIn();
             });
-            $("#b_boleto2").click(function(){
+            $("#widepay").click(function(){
                 
-                var id = 4;
-                
-                preencher(id);
+                var id = retorna_id("widepay");
                 $("#boleto").fadeIn();
                 $("#cartao").hide();
             });

@@ -26,7 +26,7 @@
         $token_sandbox = $REGRAS[19];
         $COD = $REGRAS[21];
 
-        $vetor['cod'] = $COD; 
+        $vetor['cod_regras'] = $COD; 
         $vetor['MinValUnic'] = $MinValUnic;
         $vetor['MensalDiasV'] = $MensalDiasV;
         $vetor['juros'] = $juros;
@@ -46,11 +46,15 @@
         $vetor['sandbox'] = $sandbox;
         $vetor['token_sandbox'] = $token_sandbox;
 
-        $array = json_encode($vetor);
-        echo $array;
-    
-     
-?>
+        if($COD == '' || $API == '' ||  $token == '')
+        {
+                echo"ERRNão há regras para esse sistema. Favor preencher no Banco de Dados";
+        }else{
+                $array = json_encode($vetor);
+                echo$array;
+        }
+                
+
       
                 
 
