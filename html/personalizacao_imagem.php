@@ -27,7 +27,7 @@
 		$resultado = mysqli_query($conexao, "SELECT * FROM permissao WHERE id_cargo=$id_cargo and id_recurso=9");
 		if(!is_bool($resultado) and mysqli_num_rows($resultado)){
 			$permissao = mysqli_fetch_array($resultado);
-			if($permissao['id_acao'] == 1){
+			if($permissao['id_acao'] < 7){
         $msg = "Você não tem as permissões necessárias para essa página.";
         header("Location: ./home.php?msg_c=$msg");
 			}

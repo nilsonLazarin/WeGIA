@@ -25,7 +25,7 @@
 		$resultado = mysqli_query($conexao, "SELECT * FROM permissao WHERE id_cargo=$id_cargo and id_recurso=12");
 		if(!is_bool($resultado) and mysqli_num_rows($resultado)){
 			$permissao = mysqli_fetch_array($resultado);
-			if($permissao['id_acao'] == 1){
+			if($permissao['id_acao'] < 3){
 				$msg = "Você não tem as permissões necessárias para essa página.";
 				header("Location: ./home.php?msg_c=$msg");
 			}
@@ -213,13 +213,12 @@
 										if($_SERVER['REQUEST_METHOD'] == 'POST'){
 											if(isset($_FILES['imgperfil'])){
 												$image = file_get_contents ($_FILES['imgperfil']['tmp_name']);
-												session_start();
 												$_SESSION['imagem']=$image;
 	        									echo '<img src="data:image/gif;base64,'.base64_encode($image).'" class="rounded img-responsive" alt="John Doe">';
 											}	
 										}else{
 									?>
-											<img src="../img/semfoto.jpg" class="rounded img-responsive" alt="John Doe">
+											<img src="../img/semfoto.png" class="rounded img-responsive" alt="John Doe">
 									<?php 
 											}
 									?>

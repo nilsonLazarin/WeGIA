@@ -31,7 +31,7 @@
 		$resultado = mysqli_query($conexao, "SELECT * FROM permissao WHERE id_cargo=$id_cargo and id_recurso=11");
 		if(!is_bool($resultado) and mysqli_num_rows($resultado)){
 			$permissao = mysqli_fetch_array($resultado);
-			if($permissao['id_acao'] == 1){
+			if($permissao['id_acao'] < 3){
         $msg = "Você não tem as permissões necessárias para essa página.";
         header("Location: ./home.php?msg_c=$msg");
 			}
@@ -120,7 +120,7 @@
                               else
                               {
                               ?>
-                                <img src="../img/semfoto.jpg" class="rounded img-responsive" alt="John Doe">
+                                <img src="../img/semfoto.png" class="rounded img-responsive" alt="John Doe">
                               <?php 
                               }
                               ?>
@@ -785,7 +785,7 @@
       }
 
       $(function () {
-        $("#header").load("header.html");
+        $("#header").load("header.php");
         $(".menuu").load("menu.html");
       });
   </script>
