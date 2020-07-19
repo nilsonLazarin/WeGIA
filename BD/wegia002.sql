@@ -46,20 +46,21 @@ INSERT INTO `acao` (`id_acao`, `descricao`) VALUES
 (7, 'LER, GRAVAR E EXECUTAR');
 
 
-INSERT INTO `recurso` (`id_recurso`, `Descrição`) VALUES ('1', 'Módulo Pessoa');
-INSERT INTO `recurso` (`id_recurso`, `Descrição`) VALUES ('11', 'Funcionário');
-INSERT INTO `recurso` (`id_recurso`, `Descrição`) VALUES ('12', 'Atendido');
-INSERT INTO `recurso` (`id_recurso`, `Descrição`) VALUES ('13', 'Voluntário');
-INSERT INTO `recurso` (`id_recurso`, `Descrição`) VALUES ('2', 'Módulo Material e Patrimônio');
-INSERT INTO `recurso` (`id_recurso`, `Descrição`) VALUES ('21', 'Almoxarifado');
-INSERT INTO `recurso` (`id_recurso`, `Descrição`) VALUES ('22', 'Produto');
-INSERT INTO `recurso` (`id_recurso`, `Descrição`) VALUES ('23', 'Entrada');
-INSERT INTO `recurso` (`id_recurso`, `Descrição`) VALUES ('24', 'Saída');
-INSERT INTO `recurso` (`id_recurso`, `Descrição`) VALUES ('25', 'Relatórios');
-INSERT INTO `recurso` (`id_recurso`, `Descrição`) VALUES ('3', 'Módulo Memorando');
-INSERT INTO `recurso` (`id_recurso`, `Descrição`) VALUES ('4', 'Módulo Sócio');
-INSERT INTO `recurso` (`id_recurso`, `Descrição`) VALUES ('9', 'Configurações');
-INSERT INTO `recurso` (`id_recurso`, `Descrição`) VALUES ('91', 'Permissões');
+INSERT INTO `recurso` (`id_recurso`, `descricao`) VALUES 
+('1', 'Módulo Pessoa'),
+('11', 'Funcionário'),
+('12', 'Atendido'),
+('13', 'Voluntário'),
+('2', 'Módulo Material e Patrimônio'),
+('21', 'Almoxarifado'),
+('22', 'Produto'),
+('23', 'Entrada'),
+('24', 'Saída'),
+('25', 'Relatórios'),
+('3', 'Módulo Memorando'),
+('4', 'Módulo Sócio'),
+('9', 'Configurações'),
+('91', 'Permissões');
 
 
 INSERT INTO `permissao` (`id_cargo`, `id_acao`, `id_recurso`) VALUES
