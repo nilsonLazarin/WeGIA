@@ -28,7 +28,7 @@ if (isset($_POST["imagem_0"])){
             $cmd->execute();
         }else{
             $nome_img = $campo[0]["nome"];
-            $msg .= "Aviso: A imagem '$nome_img está vinculada a um campo e não pode ser excluida<br>";
+            $msg .= "Aviso: A imagem '$nome_img' está vinculada a um campo e não pode ser excluida<br>";
             $success = false;
         }
     }

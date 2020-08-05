@@ -8,6 +8,8 @@ if (file_exists("dao/Conexao.php")){
     require_once "../../dao/Conexao.php";
 }
 
+define('NO_DATA', "Nenhum conteúdo selecionado");
+
 class Display_campo{
 
     private $campo;
@@ -83,6 +85,12 @@ class Display_campo{
             <div><h1>' . $this->getCampo() . '</h1></div>
             <p>' . $this->getConteudo() . '</p>
             ');
+        }else{
+            $this->setConteudo(NO_DATA);
+            echo('
+            <div><h1>' . $this->getCampo() . '</h1></div>
+            <p>' . $this->getConteudo() . '</p>
+            ');
         }
     }
 
@@ -90,6 +98,9 @@ class Display_campo{
         $result = $this->getQuery("select * from selecao_paragrafo where nome_campo='" . $this->getCampo() . "';");
         if (count($result) == 1){
             $this->setConteudo($result[0]['paragrafo']);
+            echo($this->getConteudo());
+        }else{
+            $this->setConteudo(NO_DATA);
             echo($this->getConteudo());
         }
     }
@@ -106,6 +117,9 @@ class Display_campo{
         if (count($result) == 1){
             $this->setConteudo($result[0]['arquivo']);
             echo('data:image;base64,'.$this->getConteudo());
+        }else{
+            $this->setConteudo(NO_DATA);
+            echo($this->getConteudo());
         }
     }
 
@@ -121,6 +135,9 @@ class Display_campo{
         if (count($result) == 1){
             $this->setConteudo($result[0]['arquivo']);
             echo('data:image;base64,'.$this->getConteudo());
+        }else{
+            $this->setConteudo(NO_DATA);
+            echo($this->getConteudo());
         }
     }
 
@@ -133,11 +150,14 @@ class Display_campo{
         inner join tabela_imagem_campo ic on c.id_campo = ic.id_campo
         inner join imagem i on ic.id_imagem = i.id_imagem
         where c.nome_campo='$nome_campo';");
-        return $result;
+        if ($result){
+            return $result;
+        }
+        return false;
     }
 
     public function display_err(){
-        echo("O tipo selecionado não existe. Tipos: [txt, str, img, file, car]");
+        echo("O tipo selecionado não existe. Tipos: [txt, str, file, car]");
     }
 
     public function display(){
@@ -147,9 +167,6 @@ class Display_campo{
             break;
             case "str":
                 $this->display_str();
-            break;
-            case "img":
-                $this->display_img();
             break;
             case "file":
                 $this->display_file();

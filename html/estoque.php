@@ -3,7 +3,8 @@
 	if(!isset($_SESSION['usuario'])){
 		header ("Location: ../index.php");
 	}
-
+	require_once '../dao/EstoqueDAO.php';
+	$_SESSION['estoque'] = (new EstoqueDAO)->ListarTodos();
 	if(!isset($_SESSION['estoque']))
 	{
 		header('Location: ../controle/control.php?metodo=listartodos&nomeClasse=EstoqueControle&nextPage=../html/estoque.php');
@@ -48,7 +49,11 @@
 	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
 	require_once "personalizacao_display.php";
 
-	require_once "../dao/Conexao.php"
+	require_once "../dao/Conexao.php";
+
+	require_once '../Functions/permissao/permissao.php';
+
+	define('PERMISSAO', permissaoUsuario($_SESSION['id_pessoa'], 2));
 	?>
 <!doctype html>
 <html class="fixed">
@@ -120,7 +125,7 @@
 	<!-- jquery functions -->
    	<script>
 	$(function(){
-		var estoque=<?php echo $_SESSION['estoque'];?> ;
+		var estoque=<?php echo filtrarAlmoxarifado($_SESSION['id_pessoa'], $_SESSION["estoque"]); ?> ;
 		<?php unset($_SESSION['estoque']); ?>
 
 		$.each(estoque,function(i,item){

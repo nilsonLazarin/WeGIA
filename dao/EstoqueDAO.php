@@ -11,14 +11,14 @@ class EstoqueDAO
             $Estoques=array();
             $pdo = Conexao::connect();
             $consulta = $pdo->query("
-                SELECT p.descricao, p.codigo, a.descricao_almoxarifado, e.qtd, c.descricao_categoria as categoria 
+                SELECT p.descricao, p.codigo, a.descricao_almoxarifado, e.qtd, c.descricao_categoria as categoria, a.id_almoxarifado 
                 FROM produto p 
                 INNER JOIN estoque e ON p.id_produto = e.id_produto
                 INNER JOIN almoxarifado a ON a.id_almoxarifado = e.id_almoxarifado 
-                INNER JOIN categoria_produto c ON p.id_categoria_produto = c.id_categoria_produto");
+                INNER JOIN categoria_produto c ON p.id_categoria_produto = c.id_categoria_produto;");
             $x=0;
             while($linha = $consulta->fetch(PDO::FETCH_ASSOC)){
-                $Estoques[$x]=array('codigo'=>$linha['codigo'],'descricao'=>$linha['descricao'],'descricao_almoxarifado'=>$linha['descricao_almoxarifado'],'qtd'=>$linha['qtd'],'categoria'=>$linha['categoria']);
+                $Estoques[$x]=array('codigo'=>$linha['codigo'],'descricao'=>$linha['descricao'],'descricao_almoxarifado'=>$linha['descricao_almoxarifado'],'qtd'=>$linha['qtd'],'categoria'=>$linha['categoria'],'id_almoxarifado'=>$linha['id_almoxarifado']);
                 $x++;
             }
             } catch (PDOExeption $e){

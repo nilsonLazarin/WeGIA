@@ -153,7 +153,7 @@
 								</a>
 							</li>
 							<li id="45">
-								<a href="<?php echo $html_dir;?>editar_permissoes.php">
+								<a href="<?php echo $html_dir;?>/geral/editar_permissoes.php">
 									Permissões
 								</a>
 							</li>

@@ -29,5 +29,16 @@ function display_campo($campo, $tipo){
     $display->display();
 }
 
+function display_carrossel($campo){
+    $car = new Display_campo($campo,"car");
+    $files = $car->getCar();
+    if ($files){
+        foreach ($files as $key => $val){
+            echo('<div class="item ' . ($key == 0 ? 'active' : '') . '"><img src="data:image;base64,' . $val["arquivo"] . '" ></div>');
+        }
+    }else{
+        echo("Não há imagens no Banco de dados para este Campo!");
+    }
+}
 
 ?>

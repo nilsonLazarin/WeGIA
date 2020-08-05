@@ -97,19 +97,31 @@ define( 'WWW', '$www');");
 			$conn->query("CREATE DATABASE ".$nomeDB.";");//criar db
 		}
 
+		$sqlFiles = validSqlFiles($dbDir);
+
 		/*importar base de dados*/
 		
 		if (PHP_OS != "Linux"){
-			echo("<p style='color:red;'>O software é compatível apenas com Linux. Seu Sistema Operacional é ".PHP_OS."</p>");
-			die();
-		}
-		$sqlFiles = validSqlFiles($dbDir);
-		foreach ($sqlFiles as $key => $file){
-			$log = shell_exec("mysql -u $user -p$senha $nomeDB < ".realpath("../BD/$file")."");
-			if (!$log){
-				echo("<p style='color:orange;'>Houve uma falha ao importar o arquivo $file<p>");
-			}else{
-				echo("<p style='color:green;'>Log da importação do arquivo $file<pre>$log</pre></p>");
+			// Caso o Sistema não seja Linux
+			
+			foreach ($sqlFiles as $key => $file){
+				$sql = file_get_contents("../BD/$file");
+				
+				$mysqli = new mysqli("$local", "$user", "$senha", "$nomeDB");
+				
+				/* execute multi query */
+				if ($mysqli->multi_query($sql)){
+					echo("<p style='color:green;'>Arquivo $file importado para a Base de Dados</p>");
+				}
+			}
+		}else{
+			foreach ($sqlFiles as $key => $file){
+				$log = shell_exec("mysql -u $user -p$senha $nomeDB < ".realpath("../BD/$file")."");
+				if (!$log){
+					echo("<p style='color:orange;'>Houve uma falha ao importar o arquivo $file<p>");
+				}else{
+					echo("<p style='color:green;'>Log da importação do arquivo $file<pre>$log</pre></p>");
+				}
 			}
 		}
 

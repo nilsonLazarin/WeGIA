@@ -28,6 +28,22 @@ CREATE TABLE IF NOT EXISTS `wegia`.`almoxarifado` (
   PRIMARY KEY (`id_almoxarifado`))
 ENGINE = InnoDB;
 
+-- -----------------------------------------------------
+-- Table `wegia`.`almoxarifado`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `wegia`.`almoxarife` (
+  `id_almoxarife` INT(11) NOT NULL AUTO_INCREMENT,
+  `id_funcionario` INT(11) NOT NULL,
+  `id_almoxarifado` INT NOT NULL,
+  PRIMARY KEY (`id_almoxarife`),
+  INDEX `id_almoxarife` (`id_almoxarife` ASC),
+  CONSTRAINT `almoxarife_ibfk_1`
+    FOREIGN KEY (`id_funcionario`)
+    REFERENCES `wegia`.`funcionario` (`id_funcionario`),
+  CONSTRAINT `almoxarife_ibfk_2`
+    FOREIGN KEY (`id_almoxarifado`)
+    REFERENCES `wegia`.`almoxarifado` (`id_almoxarifado`)
+)ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `wegia`.`pessoa`
