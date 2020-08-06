@@ -125,7 +125,7 @@
 	<!-- jquery functions -->
    	<script>
 	$(function(){
-		var estoque=<?php echo filtrarAlmoxarifado($_SESSION['id_pessoa'], $_SESSION["estoque"]); ?> ;
+		var estoque=<?= $_SESSION["estoque"] ?> ;
 		<?php unset($_SESSION['estoque']); ?>
 
 		$.each(estoque,function(i,item){

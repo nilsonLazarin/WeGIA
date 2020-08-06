@@ -48,7 +48,6 @@ INSERT INTO `acao` (`id_acao`, `descricao`) VALUES
 (5, 'LER E EXECUTAR'),
 (7, 'LER, GRAVAR E EXECUTAR');
 
-
 INSERT INTO `recurso` (`id_recurso`, `descricao`) VALUES 
 ('1', 'Módulo Pessoa'),
 ('11', 'Funcionário'),
@@ -64,7 +63,6 @@ INSERT INTO `recurso` (`id_recurso`, `descricao`) VALUES
 ('4', 'Módulo Sócio'),
 ('9', 'Configurações'),
 ('91', 'Permissões');
-
 
 INSERT INTO `permissao` (`id_cargo`, `id_acao`, `id_recurso`) VALUES
 (1, 7, 1),

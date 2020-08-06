@@ -2,7 +2,7 @@
 <head>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" type="text/css" href="css/theme.css">
-	<?php function exibirVoltar(){echo '<a href="JavaScript: window.history.back();">Voltar</a>';} ?>
+	<?php function exibirVoltar(){echo '<a href="JavaScript: window.history.back();">Voltar</a><br><a href="../">Inicio</a>';} ?>
 </head>
 <body>
 	<?php
@@ -103,15 +103,17 @@ define( 'WWW', '$www');");
 		
 		if (PHP_OS != "Linux"){
 			// Caso o Sistema não seja Linux
-			
+			echo("<p style='color:orange;'>ATENÇÃO: O Sistema é mais instável se executado em um sistema operacional diferente do Linux. O seu sistema atual é: ".PHP_OS."<p>");
 			foreach ($sqlFiles as $key => $file){
 				$sql = file_get_contents("../BD/$file");
 				
 				$mysqli = new mysqli("$local", "$user", "$senha", "$nomeDB");
 				
 				/* execute multi query */
-				if ($mysqli->multi_query($sql)){
+				if ($mysqli->multi_query($sql) === true){
 					echo("<p style='color:green;'>Arquivo $file importado para a Base de Dados</p>");
+				} else {
+					echo '<p style="color:red;">Falha ao inserir os dados iniciais no banco de dados: </p><br><pre>' . $mysqli->error . '</pre></br>';
 				}
 			}
 		}else{
