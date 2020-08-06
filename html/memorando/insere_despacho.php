@@ -44,9 +44,13 @@ if(!is_null($resultado)){
 }	
 
 require_once ROOT."/controle/FuncionarioControle.php";
+require_once ROOT."/controle/memorando/MemorandoControle.php";
 
 $funcionarios = new FuncionarioControle;
 $funcionarios->listarTodos2();
+
+$listarInativos = new MemorandoControle;
+$listarInativos->listarIdTodosInativos();
 
 // Adiciona a Função display_campo($nome_campo, $tipo_campo)
 require_once ROOT."/html/personalizacao_display.php";
@@ -182,7 +186,7 @@ require_once ROOT."/html/personalizacao_display.php";
             <!-- end: sidebar -->
             <section role="main" class="content-body">
                 <?php
-                if(in_array($id_memorando, $_SESSION['memorandoIdInativo']))
+                if(in_array($_GET['id_memorando'], $_SESSION['memorandoIdInativo']))
                 {
                 ?>
                 <script>
