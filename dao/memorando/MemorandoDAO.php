@@ -194,6 +194,7 @@ class MemorandoDAO
 	//Buscar último despacho de um memorando
 	public function buscarUltimoDespacho($id_memorando)
 	{
+		$Despacho = array();
 		try
 		{
 			$pdo = Conexao::connect();

@@ -116,8 +116,12 @@ class MemorandoControle
     //Buscar último despacho de um memorando
     public function buscarUltimoDespacho($id_memorando)
     {
+        if (session_status() !== PHP_SESSION_ACTIVE)
+        {
+        session_start();
+        }
         $memorandoDAO = new MemorandoDAO();
-        $despacho = $memorandoDAO->buscarUltimoDespacho($id_memorando); 
+        $despacho = $memorandoDAO->buscarUltimoDespacho($id_memorando);
         $_SESSION["ultimo_despacho"] = $despacho;
     }
 
