@@ -2,6 +2,7 @@
 require_once '../classes/Estoque.php';
 require_once 'Conexao.php';
 require_once '../Functions/funcoes.php';
+require_once '../Functions/permissao/permissao.php';
 
 class EstoqueDAO
 {
@@ -24,7 +25,7 @@ class EstoqueDAO
             } catch (PDOExeption $e){
                 echo 'Error:' . $e->getMessage;
             }
-            return json_encode($Estoques);
+            return filtrarAlmoxarifado($_SESSION['id_pessoa'] , json_encode($Estoques));
         }
 }
 ?>

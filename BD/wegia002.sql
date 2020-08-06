@@ -20,10 +20,6 @@ INSERT INTO `campo_imagem` (`id_campo`, `nome_campo`, `tipo`) VALUES
 (1, 'Logo', 'img'), 
 (2, 'Carrossel', 'car');
 
-INSERT INTO `tabela_imagem_campo` (`id_relacao`, `id_campo`, `id_imagem`) VALUES 
-(1, 1, 1), 
-(2, 2, 1);
-
 INSERT INTO `socio_tipo` (`id_sociotipo`, `tipo`) VALUES
 (0, 'Pessoa Física - Contribuinte Casual'),
 (1, 'Pessoa Jurídica - Contribuinte Casual'),
