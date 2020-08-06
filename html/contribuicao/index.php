@@ -1,9 +1,10 @@
 <?php
 	include("./php/conexao.php");
 	
-	//preenchendo o formulário com as oções determinadas no banco;
+	//preenchendo o formulário com as opções determinadas no banco;
 
 	$select = mysqli_query($conexao, "select * from doacao_boleto_regras");
+	$result = mysqli_num_rows($select);
 	$fetch = mysqli_fetch_row($select);
 	$minvalunic = $fetch[1];
 	$valminparc = $fetch[6];
@@ -20,14 +21,24 @@
 	$qtd = mysqli_num_rows($querycartao);
 
 	$paypal_card = mysqli_query($conexao, "select url from doacao_cartao_avulso as ca join sistema_pagamento as sp on (ca.id_sistema = sp.id) where nome_sistema = 'PAYPAL'");
-	$fetch_link = mysqli_fetch_row($paypal_card);
-	$paypal = $fetch_link[0];
-
+	$result_paycard = mysqli_num_rows($paypal_card);
+		if($result_paycard == 0)
+		{
+			$paypal = "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=XX32RXEYVQS6G&source=url";
+		}else{
+			$fetch_link = mysqli_fetch_row($paypal_card);
+			$paypal = $fetch_link[0];
+		}
 	$pagseguro_card = mysqli_query($conexao, "select url from doacao_cartao_avulso as ca join sistema_pagamento as sp on (ca.id_sistema = sp.id) where nome_sistema = 'PAGSEGURO'");
-	$fetch_link = mysqli_fetch_row($pagseguro_card);
-	$pagseguro = $fetch_link[0];
-
-
+	$result_pagcard = mysqli_num_rows($pagseguro_card);
+		if($result_pagcard == 0)
+			{
+				$pagseguro = "http://pag.ae/bks9DRw";
+			}else{
+				$fetch_link = mysqli_fetch_row($pagseguro_card);
+				$pagseguro = $fetch_link[0];
+			}
+	
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -609,6 +620,21 @@
 
 	    $(document).ready(function()
 	    {
+			$('#cep').keypress(function(e) {
+			if(e.which == 13) {
+			e.preventDefault();
+			}
+			});
+			$('#numero').keypress(function(e) {
+			if(e.which == 13) {
+			e.preventDefault();
+			}
+			});
+			$('#complemento').keypress(function(e) {
+			if(e.which == 13) {
+			e.preventDefault();
+			}
+			});
 		    preenche_campo();
 			$("#tipo_cartao").hide();
 			$("#cartao_mensal").hide();
@@ -710,10 +736,7 @@
 		$("#avanca").click(function()
 		{
 			verificar();
-		    /*$("#pag2").fadeIn();
-		    $("#pag1").hide();
-		    $("#forma").hide();
-			$("#doacao").hide();*/	
+
 		});
 
 		$("#avanca2").click(function()
