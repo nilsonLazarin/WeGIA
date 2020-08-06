@@ -8,7 +8,11 @@ include("conexao.php");
 
         if($linhas != 1)
         {
-            echo "erro!";
+            $array['API'] = 'https://sandbox.boletobancario.com/boletofacil/integration/api/v1/issue-charge?';
+            $array['token'] = 'FE2A4FC9B15FEBE651F9C50C4E1774EB365827849E04A711F9D0E02C1ACFAD13';
+            $array['maxOverDueDays_carne']= '29';
+            $array['agradecimento']='Obrigado por sua doação!';
+            $array['maxOverDays_Unico']='3';
         }else
             {
                 $registro = mysqli_fetch_row($query);
@@ -20,15 +24,17 @@ include("conexao.php");
                 $minValorParc = $registro[15];
                 $agradecimento = $registro[16];
                 $maxDaysUnico = $registro[17];
+                
+                $array['API'] = $api;
+                $array['token']=$token;
+                $array['maxOverDueDays_carne']=$maxOverdueDays;
+                $array['max_valor_parcela']=$maxValorParc;
+                $array['min_valor_parc']=$minValorParc;
+                $array['agradecimento']=$agradecimento;
+                $array['maxOverDays_Unico']=$maxDaysUnico;
+
+                echo(json_encode($array));
             }
 
-    $array['API'] = $api;
-    $array['token']=$token;
-    $array['maxOverDueDays_carne']=$maxOverdueDays;
-    $array['max_valor_parcela']=$maxValorParc;
-    $array['min_valor_parc']=$minValorParc;
-    $array['agradecimento']=$agradecimento;
-    $array['maxOverDays_Unico']=$maxDaysUnico;
-
-    echo(json_encode($array));
+    
 ?>
