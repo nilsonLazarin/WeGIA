@@ -238,11 +238,12 @@
 								<option selected value="todos">Todos</option>
 								<?php
 									$pdo = Conexao::connect();
-									$res = $pdo->query("select descricao_almoxarifado from almoxarifado;");
+									$res = $pdo->query("select descricao_almoxarifado, id_almoxarifado from almoxarifado;");
 									$almoxarifado = $res->fetchAll(PDO::FETCH_ASSOC);
+									$almoxarifado = JSON_decode(filtrarAlmoxarifado($_SESSION['id_pessoa'], JSON_encode($almoxarifado)));
 									foreach ($almoxarifado as $value){
 										echo('
-										<option value="'.$value['descricao_almoxarifado'].'">'.$value['descricao_almoxarifado'].'</option>
+										<option value="'.$value->descricao_almoxarifado.'">'.$value->descricao_almoxarifado.'</option>
 										');
 									}
 								?>

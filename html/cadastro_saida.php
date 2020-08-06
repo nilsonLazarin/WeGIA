@@ -41,6 +41,8 @@
 	}	
 	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
 	require_once "personalizacao_display.php";
+
+	require_once "../Functions/permissao/permissao.php";
 ?>
 
 <!doctype html>
@@ -115,9 +117,7 @@
 	<script type="text/javascript">
 		$(function() {
 			prods = [];
-			var almoxarifado = <?php 
-				echo $almoxarifado;
-			?>;
+			var almoxarifado = <?= filtrarAlmoxarifado($_SESSION['id_pessoa'] , $almoxarifado) ?>;
 				
 			var tipo_saida = <?php 
 				echo $tipo_saida; 
