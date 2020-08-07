@@ -9,14 +9,23 @@
 	$minvalunic = $fetch[1];
 	$valminparc = $fetch[6];
 	$valmaxparc = $fetch[5];
-
-    $op0 = $fetch[9];
-    $op1 = $fetch[10];
-    $op2= $fetch[11];
-    $op3 = $fetch[12];
-    $op4 =$fetch[13];
-    $op5 = $fetch[14];
-
+		if($result == 0)
+		{
+			$op0 = 1;
+			$op1 = 5;
+			$op2 = 10;
+			$op3 = 15;
+			$op4 = 20;
+			$op5 = 25;
+		}else{
+			$op0 = $fetch[9];
+			$op1 = $fetch[10];
+			$op2= $fetch[11];
+			$op3 = $fetch[12];
+			$op4 =$fetch[13];
+			$op5 = $fetch[14];
+		}
+    
 	$querycartao = mysqli_query($conexao, "select * from doacao_cartao_mensal");
 	$qtd = mysqli_num_rows($querycartao);
 
