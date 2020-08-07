@@ -125,7 +125,7 @@
 	<!-- jquery functions -->
    	<script>
 	$(function(){
-		var estoque=<?= $_SESSION["estoque"] ?> ;
+		let estoque=<?= $_SESSION["estoque"] ?> ;
 		<?php unset($_SESSION['estoque']); ?>
 
 		$.each(estoque,function(i,item){
@@ -152,13 +152,13 @@
 
 	// Antes do navegador imprimir a página
 	window.onbeforeprint = function(event) {
-		// Retira a paginação para que todos os registros segam exibidos
-		filterItem('With no paging / Sem paginação');
+		// Retira a paginação para que todos os registros sejam exibidos
+		$('#datatable-default').DataTable().destroy();
 	}
 
 	// Depois do navegador imprimir ou cancelar a impressão da página
 	window.onafterprint = function(event) { 
-		// Reinicia a tabela para o valor default
+		// Recria a tabela com paginação
 		$('#datatable-default').DataTable().destroy();
 		$('#datatable-default').DataTable({
 			aLengthMenu: [
@@ -225,50 +225,26 @@
 								categoria: "todas"
 							}
 
-							function filterItem(print = false){
-								console.log(print);
-								$('#datatable-default').DataTable().destroy();
-								let almox = filtro.almoxarifado;
-								let categ = filtro.categoria;
-								if (almox == "todos" && categ == "todas"){
-									$(".item").show();
-								}else if (almox != "todos" && categ == "todas"){
-									$(".item").hide();
-									$("."+almox).show();
-								}else if (almox == "todos" && categ != "todas"){
-									$(".item").hide();
-									$("."+categ).show();
-								}else{
-									$(".item").hide();
-									$("."+almox+"."+categ).show();
-								}
-								if (!print){
-									$('#datatable-default').DataTable({
-										aLengthMenu: [
-											[10, 25, 50, 100],
-											[10, 25, 50, 100]
-										],
-										iDisplayLength: 10
-									});
-								}else{
-									$('#datatable-default').DataTable({
-										paging: false
-									});
-								}
+							function filterItem (){
+								let table = $('#datatable-default').DataTable();
+								let almox = filtro.almoxarifado == 'todos' ? '' : filtro.almoxarifado ;
+								let categ = filtro.categoria == 'todas' ? '' : filtro.categoria ;
+ 
+								table.search( `${almox} ${categ}` ).draw();
 							}
 
 							function selectAlmoxarifado(value){
-								filtro.almoxarifado = value
-								filterItem()
+								filtro.almoxarifado = value;
+								filterItem();
 							}
 
 							function selectCategoria(value){
-								filtro.categoria = value
-								filterItem()
+								filtro.categoria = value;
+								filterItem();
 							}
 						</script>
 						<div>
-							Almoxarifado: <select class="select-table-filter form-control mb-md" data-table="order-table" oninput="selectAlmoxarifado(this.value)">
+							Almoxarifado: <select class="select-table-filter form-control mb-md" data-table="order-table" oninput="selectAlmoxarifado(this.value)" id="almox">
 								<option selected value="todos">Todos</option>
 								<?php
 									$pdo = Conexao::connect();
@@ -282,7 +258,7 @@
 									}
 								?>
 							</select>
-							Categoria: <select class="select-table-filter form-control mb-md" data-table="order-table" oninput="selectCategoria(this.value)">
+							Categoria: <select class="select-table-filter form-control mb-md" data-table="order-table" oninput="selectCategoria(this.value)" id="categ">
 								<option selected value="todas">Todas</option>
 								<?php
 									$pdo = Conexao::connect();
