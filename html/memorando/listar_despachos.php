@@ -155,6 +155,8 @@ require_once ROOT."/html/personalizacao_display.php";
 		var despachoAnexo=<?php echo $_SESSION['despachoComAnexo']?>;
 		var arquivo = <?php echo $_SESSION['arquivos']?>;
 		<?php
+		if(!empty($_SESSION['ultimo_despacho']))
+		{
 			if($_SESSION['id_status_memorando'][0]!=6 && $_SESSION['ultimo_despacho'][0]['id_destinatarioo']!=$_SESSION['id_pessoa'])
 			{
 				?>var arquivar = 1;<?php
@@ -163,6 +165,7 @@ require_once ROOT."/html/personalizacao_display.php";
 			{
 				?>var arquivar = 0;<?php
 			}
+		}
 		?>
 		$.each(despacho,function(i,item){
 			$("#listaDeDespachos")
@@ -206,10 +209,13 @@ require_once ROOT."/html/personalizacao_display.php";
         var id_memorando = <?php echo $_GET['id_memorando']?>;
         $("#id_memorando").val(id_memorando);
 
+        <?php if(!empty($_SESSION['ultimo_despacho']))
+		{ ?>
         if(arquivar==0)
         {
         CKEDITOR.replace('despacho');
-    	}
+   		}
+    	<?php } ?>
     	
     });
 	</script>
@@ -423,7 +429,7 @@ require_once ROOT."/html/personalizacao_display.php";
 		var funcionario=<?php echo $_SESSION['funcionarios2']?>;
     		$.each(funcionario,function(i,item){	
 			$("#destinatario")
-				.append($("<option id="+item.id_pessoa+" value="+item.id_pessoa+" name="+item.id_pessoa+">"+item.nome+"</option>"));
+				.append($("<option id="+item.id_pessoa+" value="+item.id_pessoa+" name="+item.id_pessoa+">"+item.nome+" "+item.sobrenome+"</option>"));
 		});    
 		});           	
 	</script>

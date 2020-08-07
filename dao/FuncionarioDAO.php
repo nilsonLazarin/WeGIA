@@ -345,11 +345,11 @@ class FuncionarioDAO
             $id_usuario = $usuario->obterUsuario($_SESSION['usuario'])[0]["id_pessoa"];
             $funcionarios=array();
             $pdo = Conexao::connect();
-            $consulta = $pdo->query("SELECT p.id_pessoa, p.nome FROM funcionario f INNER JOIN pessoa p ON f.id_pessoa = p.id_pessoa WHERE p.id_pessoa!='$id_usuario'");
+            $consulta = $pdo->query("SELECT p.id_pessoa, p.nome, p.sobrenome FROM funcionario f INNER JOIN pessoa p ON f.id_pessoa = p.id_pessoa WHERE p.id_pessoa!='$id_usuario'");
             $produtos = Array();
             $x=0;
             while($linha = $consulta->fetch(PDO::FETCH_ASSOC)){
-                $funcionarios[$x]=array('id_pessoa'=>$linha['id_pessoa'],'nome'=>$linha['nome']);
+                $funcionarios[$x]=array('id_pessoa'=>$linha['id_pessoa'],'nome'=>$linha['nome'], 'sobrenome'=>$linha['sobrenome']);
                 $x++;
             }
             } catch (PDOExeption $e){
