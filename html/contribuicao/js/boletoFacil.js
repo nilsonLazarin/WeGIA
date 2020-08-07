@@ -3,7 +3,7 @@ function gera_boleto(){
 
     $.post("./php/infoboletofacil.php").done(function(data)
     { 
-     
+
         var dado = JSON.parse(data);
         var api = dado['API'];
         var token = dado['token'];

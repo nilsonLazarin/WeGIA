@@ -6,9 +6,6 @@
 	$select = mysqli_query($conexao, "select * from doacao_boleto_regras");
 	$result = mysqli_num_rows($select);
 	$fetch = mysqli_fetch_row($select);
-	$minvalunic = $fetch[1];
-	$valminparc = $fetch[6];
-	$valmaxparc = $fetch[5];
 		if($result == 0)
 		{
 			$op0 = 1;
@@ -17,6 +14,9 @@
 			$op3 = 15;
 			$op4 = 20;
 			$op5 = 25;
+			$minvalunic = '10.00';
+			$valminparc = '30.00';
+			$valmaxparc = '1000.00';
 		}else{
 			$op0 = $fetch[9];
 			$op1 = $fetch[10];
@@ -24,6 +24,9 @@
 			$op3 = $fetch[12];
 			$op4 =$fetch[13];
 			$op5 = $fetch[14];
+			$minvalunic = $fetch[1];
+			$valminparc = $fetch[6];
+			$valmaxparc = $fetch[5];
 		}
     
 	$querycartao = mysqli_query($conexao, "select * from doacao_cartao_mensal");

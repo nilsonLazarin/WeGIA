@@ -13,6 +13,8 @@ include("conexao.php");
             $array['maxOverDueDays_carne']= '29';
             $array['agradecimento']='Obrigado por sua doação!';
             $array['maxOverDays_Unico']='3';
+
+            echo(json_encode($array));
         }else
             {
                 $registro = mysqli_fetch_row($query);
