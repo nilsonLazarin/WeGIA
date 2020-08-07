@@ -149,6 +149,25 @@
         $("#header").load("header.php");
         $(".menuu").load("menu.html");
     });
+
+	// Antes do navegador imprimir a página
+	window.onbeforeprint = function(event) {
+		// Retira a paginação para que todos os registros segam exibidos
+		filterItem('With no paging / Sem paginação');
+	}
+
+	// Depois do navegador imprimir ou cancelar a impressão da página
+	window.onafterprint = function(event) { 
+		// Reinicia a tabela para o valor default
+		$('#datatable-default').DataTable().destroy();
+		$('#datatable-default').DataTable({
+			aLengthMenu: [
+				[10, 25, 50, 100],
+				[10, 25, 50, 100]
+			],
+    		iDisplayLength: 10
+		});
+	};
 	</script>
 	
 	<style type="text/css">
@@ -206,20 +225,35 @@
 								categoria: "todas"
 							}
 
-							function filterItem(){
-								let almox = filtro.almoxarifado
-								let categ = filtro.categoria
+							function filterItem(print = false){
+								console.log(print);
+								$('#datatable-default').DataTable().destroy();
+								let almox = filtro.almoxarifado;
+								let categ = filtro.categoria;
 								if (almox == "todos" && categ == "todas"){
-									$(".item").show()
+									$(".item").show();
 								}else if (almox != "todos" && categ == "todas"){
-									$(".item").hide()
-									$("."+almox).show()
+									$(".item").hide();
+									$("."+almox).show();
 								}else if (almox == "todos" && categ != "todas"){
-									$(".item").hide()
-									$("."+categ).show()
+									$(".item").hide();
+									$("."+categ).show();
 								}else{
-									$(".item").hide()
-									$("."+almox+"."+categ).show()
+									$(".item").hide();
+									$("."+almox+"."+categ).show();
+								}
+								if (!print){
+									$('#datatable-default').DataTable({
+										aLengthMenu: [
+											[10, 25, 50, 100],
+											[10, 25, 50, 100]
+										],
+										iDisplayLength: 10
+									});
+								}else{
+									$('#datatable-default').DataTable({
+										paging: false
+									});
 								}
 							}
 
@@ -270,7 +304,7 @@
 						<table class="table table-bordered table-striped mb-none" id="datatable-default">
 							<thead>
 								<tr>
-									<th>Codigo</th>
+									<th>Código</th>
 									<th>Produto</th>
 									<th>Categoria</th>
 									<th>Quantidade</th>
