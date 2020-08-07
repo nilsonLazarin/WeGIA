@@ -91,3 +91,7 @@ INSERT INTO `doacao_boleto_regras` (`id`, `min_boleto_uni`, `max_dias_venc`, `ju
 
 INSERT INTO `doacao_boleto_info` (`id`, `api`, `token_api`, `sandbox`, `token_sandbox`, `id_sistema`, `id_regras`) VALUES 
 ('0', 'https://sandbox.boletobancario.com/boletofacil/integration/api/v1/issue-charge?', 'FE2A4FC9B15FEBE651F9C50C4E1774EB365827849E04A711F9D0E02C1ACFAD13\r\n', '', '', '3', '1');
+
+INSERT INTO `almoxarife` (`id_almoxarife`, `id_funcionario`, `id_almoxarifado`) VALUES 
+(1, 1, 1),
+(2, 1, 2);
