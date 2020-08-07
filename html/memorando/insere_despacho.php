@@ -235,7 +235,7 @@ require_once ROOT."/html/personalizacao_display.php";
                             <div class="form-group">
                                 <label for=destinatario id=etiqueta_destinatario class='col-md-3 control-label'>Destino </label>
                                 <div class='col-md-6'>
-                                    <select name="destinatario" id="destinatario" required class='select-table-filter form-control mb-md'></select>
+                                    <select name="destinatario" id="destinatario" required class='form-control mb-md'></select>
                                 </div>
                             </div>
                             <div class="form-group">
