@@ -221,6 +221,7 @@ class MemorandoDAO
 	{
 		try
 		{
+			$id = array();
 			$pdo = Conexao::connect();
 			$consulta = $pdo->query("SELECT id_status_memorando FROM memorando WHERE id_memorando=$id_memorando");
 			$x = 0;

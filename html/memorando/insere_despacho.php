@@ -129,7 +129,7 @@ require_once ROOT."/html/personalizacao_display.php";
             var funcionario=<?php echo $_SESSION['funcionarios2']?>;
             $.each(funcionario,function(i,item){
                 $("#destinatario")
-                    .append($("<option id="+item.id_pessoa+" value="+item.id_pessoa+" name="+item.id_pessoa+">"+item.nome+"</option>"));
+                    .append($("<option id="+item.id_pessoa+" value="+item.id_pessoa+" name="+item.id_pessoa+">"+item.nome+" "+item.sobrenome+"</option>"));
             });
             $("#header").load("<?php echo WWW;?>html/header.php");
             $(".menuu").load("<?php echo WWW;?>html/menu.php");
@@ -235,7 +235,7 @@ require_once ROOT."/html/personalizacao_display.php";
                             <div class="form-group">
                                 <label for=destinatario id=etiqueta_destinatario class='col-md-3 control-label'>Destino </label>
                                 <div class='col-md-6'>
-                                    <select name="destinatario" id="destinatario" required class='select-table-filter form-control mb-md'></select>
+                                    <select name="destinatario" id="destinatario" required class='form-control mb-md'></select>
                                 </div>
                             </div>
                             <div class="form-group">
