@@ -56,6 +56,7 @@ require_once ROOT."/html/personalizacao_display.php";
 	<title>Editar permissões</title>
 
 	<!-- Mobile Metas -->
+	<meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">
     <!-- Vendor CSS -->
@@ -196,15 +197,12 @@ require_once ROOT."/html/personalizacao_display.php";
 											<div class="form-group">
 												<label class="col-md-3 control-label" for="inputSuccess">Recurso</label>
 												<div class="col-md-6">
-													<select name="recurso" id="id_recurso" class="form-control input-lg mb-md">
-                                                    <option selected disabled>Selecionar</option>
                                                     <?php
-                                                            while($row = $recurso->fetch_array(MYSQLI_NUM))
-                                                            {
-                                                             echo "<option value=".$row[0].">".$row[1]."</option>";
-                                                            }             
+                                                              while($row = $recurso->fetch_array(MYSQLI_NUM))
+															  {
+															   echo "<div class='checkbox'> <label><input id='recurso_". $row[0] ."' class='recurso' name='recurso[]' type='checkbox' value=". $row[0] .">". $row[1] ."</label> </div>";
+															  }           
                                                         ?>
-													</select>
 												</div>	
 											</div>
                                             <div class="form-group">
@@ -271,7 +269,7 @@ require_once ROOT."/html/personalizacao_display.php";
 		}, 3000);
 	});
 	function gerarCargo(){
-          url = '../dao/exibir_cargo.php';
+          url = '../../dao/exibir_cargo.php';
           $.ajax({
           data: '',
           type: "POST",
@@ -289,7 +287,7 @@ require_once ROOT."/html/personalizacao_display.php";
       }
 
       function adicionar_cargo(){
-        url = '../dao/adicionar_cargo.php';
+        url = '../../dao/adicionar_cargo.php';
         var cargo = window.prompt("Cadastre um Novo Cargo:");
         if(!cargo){return}
         situacao = cargo.trim();
@@ -307,5 +305,31 @@ require_once ROOT."/html/personalizacao_display.php";
           dataType: 'text'
         })
       }
+
+	  function verificar_recursos_cargo(cargo_id){
+          url = '../../dao/verificar_recursos_cargo.php';              
+          data = 'cargo=' +cargo_id; 
+          console.log(data);
+          $.ajax({
+          type: "POST",
+          url: url,
+          data: data,
+          success: function(response){
+			var recursos = JSON.parse(response);
+            console.log(response);
+			$(".recurso").prop("checked",false ).attr("disabled", false);
+			for(recurso of recursos){
+				$("#recurso_"+recurso).prop("checked",true ).attr("disabled", true);
+			}
+          },
+          dataType: 'text'
+        })
+      }
+
+	  $(document).ready(function(){
+		$("#cargo").change(function(){
+			verificar_recursos_cargo($(this).val());
+		});
+	  });
 </script>
 </html>

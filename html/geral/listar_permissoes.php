@@ -40,7 +40,7 @@
 		$msg = "Você não tem as permissões necessárias para essa página.";
 		header("Location: ".WWW."/html/home.php?msg_c=$msg");
 	}	
-	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
+
 	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
 require_once ROOT."/html/personalizacao_display.php";
       $cargo = mysqli_query($conexao, "SELECT * FROM cargo");
@@ -165,14 +165,15 @@ require_once ROOT."/html/personalizacao_display.php";
 										<th>Cargo</th>
 										<th>Recurso</th>
 										<th>Tipo permissão</th>
+										<th>Deletar permissão</th>
 									</tr>
 								</thead>
 								<tbody id="tabela">
 									<?php
-										$permissoes= mysqli_query($conexao, "SELECT c.cargo as cargo, r.descricao as recurso, a.descricao as acao FROM permissao p join cargo c on p.id_cargo = c.id_cargo join recurso r on p.id_recurso = r.id_recurso join acao a on a.id_acao = p.id_acao");
+										$permissoes= mysqli_query($conexao, "SELECT c.cargo as cargo, c.id_cargo as cargo_id, r.descricao as recurso, r.id_recurso as recurso_id, a.descricao as acao, a.id_acao as acao_id FROM permissao p join cargo c on p.id_cargo = c.id_cargo join recurso r on p.id_recurso = r.id_recurso join acao a on a.id_acao = p.id_acao");
 										while($row = $permissoes->fetch_array(MYSQLI_ASSOC))
                                         {
-                                            echo "<tr> <td>".$row['cargo']."</td> <td>".$row['recurso']."</td> <td>".$row['acao']."</td> </tr>";
+                                            echo "<tr> <td>".$row['cargo']."</td> <td>".$row['recurso']."</td> <td>".$row['acao']."</td> <td><a href='' class='btn btn-danger'>Deletar</button></td> </tr>";
                                         }         
 									?>
 								</tbody>
