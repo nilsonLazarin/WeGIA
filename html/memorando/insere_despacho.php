@@ -185,18 +185,6 @@ require_once ROOT."/html/personalizacao_display.php";
             <aside id="sidebar-left" class="sidebar-left menuu"></aside>
             <!-- end: sidebar -->
             <section role="main" class="content-body">
-                <?php
-                if(in_array($_GET['id_memorando'], $_SESSION['memorandoIdInativo']))
-                {
-                ?>
-                <script>
-                    document.write("Desculpe, você não tem acesso à essa página");
-                </script>
-                <?php
-                }
-                else
-                {
-                ?>
                 <header class="page-header">
                     <h2>Caixa de entrada</h2>
                     <div class="right-wrapper pull-right">
@@ -224,6 +212,18 @@ require_once ROOT."/html/personalizacao_display.php";
                 ?>
 
                 <section class="panel" >
+                 <?php
+                if(in_array($_GET['id_memorando'], $_SESSION['memorandoIdInativo']))
+                {
+                ?>
+                <script>
+                    $(".panel").html("<p>Desculpe, você não tem acesso à essa página</p>");
+                </script>
+                <?php
+                }
+                else
+                {
+                ?>
                     <header class="panel-heading">
                         <h2 class="panel-title">Despachar memorando</h2>
                     </header>
