@@ -136,5 +136,17 @@ class MemorandoControle
         $id = $memorandoDAO->buscarIdStatusMemorando($id_memorando);
         $_SESSION['id_status_memorando']=$id;
     }
+
+    //Verifica se o memorando existe
+    public function issetMemorando($id_memorando)
+    {
+        if (session_status() !== PHP_SESSION_ACTIVE)
+        {
+        session_start();
+        }
+        $memorandoDAO = new MemorandoDAO();
+        $isset = $memorandoDAO->issetMemorando($id_memorando);
+        $_SESSION['isset_memorando']=$isset;
+    }
 }
 ?>

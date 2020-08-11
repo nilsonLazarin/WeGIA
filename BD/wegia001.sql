@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`almoxarifado` (
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
--- Table `wegia`.`almoxarifado`
+-- Table `wegia`.`almoxarife`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `wegia`.`almoxarife` (
   `id_almoxarife` INT(11) NOT NULL AUTO_INCREMENT,
