@@ -99,7 +99,7 @@
 						<div class="tab-content" id="myTabContent" width = "50%"> 
                            
                         <div id='boleto'> 
-                            <form action="atualizacao_doacao.php" method = "POST">
+                            <form action="atualizacao_doacao.php" method = "POST" id="form1">
                                 <input type="hidden" id="regras_sistema" name="regras_sistema">
                                 <input type='hidden' id='id_sistema' name='id_sistema'>
                                 <span id="vazio"></span>
@@ -146,9 +146,9 @@
                                                 <th scope="col" width="5%">opcão 3</th>
                                             </tr>
                                             <tr id='preenche_bol1'>
+                                                <td><input type='number' name='op0' value=></td>
                                                 <td><input type='number' name='op1' value=></td>
                                                 <td><input type='number' name='op2' value=></td>
-                                                <td><input type='number' name='op3' value=></td>
                                             </tr>
                                             <tr>
                                                 <th scope="col" width="5%">opção 4</th>
@@ -156,9 +156,9 @@
                                                 <th scope="col" width="5%">opção 6</th>
                                             </tr>
                                             <tr id='preenche_bol2'>
-                                                <td><input type='number' name='op4' value=></td>
-                                                <td><input type='number' name='op5' value=></td>
-                                                <td><input type='number' name='op6' value=></td>
+                                                <td><input type='number' name='opvenc3' value=></td>
+                                                <td><input type='number' name='opvenc4' value=></td>
+                                                <td><input type='number' name='opvenc5' value=></td>
                                             </tr>
                                         </thead>
                                     </table>
@@ -188,7 +188,7 @@
                         </div>
                                 
                         <div id='cartao'>
-                            <form action="atualizacao_doacao.php" method='POST'>
+                            <form action="atualizacao_doacao.php" method='POST' id="form2">
                                 <div class="tab-pane active" id="img-tab" role="tabpanel" aria-labelledby="img-tab">
                                     <input type='hidden' name='cod_cartao' id='cod_cartao'>
                                     <span id='vazio_cartao_unico'></span>
@@ -203,6 +203,7 @@
                                     </table>
                                     <span id='vazio_cartao_mensal'></span>
                                     <div id='doacao_mensal'>
+                                    <h3>DOAÇÃO MENSAL</h3>
                                     </div>  
                                     <br><br>
                                     <input type="submit" class= "btn btn-primary" value="Editar Informações">

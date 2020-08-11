@@ -11,7 +11,6 @@
     {
         echo ("<input type='hidden' name='cod_cartao' value=".$SISTEMA.">");
         echo("<table border='1px'>
-                <h3>DOAÇÃO MENSAL</h3>
                 <tr>
                 <th>VALOR</th>
                 <th>LINK</th>
