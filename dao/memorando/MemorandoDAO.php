@@ -238,5 +238,29 @@ class MemorandoDAO
 		}
 		return $id;
 	}
+
+	//Verifica se um memorando existe
+	public function issetMemorando($id_memorando)
+	{
+		try
+		{
+			$pdo = Conexao::connect();
+			$consulta = $pdo->query("SELECT id_memorando FROM memorando WHERE id_memorando=$id_memorando");
+
+			if(null == $consulta->fetch(PDO::FETCH_ASSOC))
+			{
+				$retorno = 1;
+			}
+			else
+			{
+				$retorno = 0;
+			}
+		}
+		catch(PDOException $e)
+		{
+			echo 'Error:' . $e->getMessage();
+		}
+		return $retorno;
+	}
 }
 ?>

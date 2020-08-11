@@ -52,6 +52,9 @@ $funcionarios->listarTodos2();
 $listarInativos = new MemorandoControle;
 $listarInativos->listarIdTodosInativos();
 
+$issetMemorando = new MemorandoControle;
+$issetMemorando->issetMemorando($_GET['id_memorando']);
+
 // Adiciona a Função display_campo($nome_campo, $tipo_campo)
 require_once ROOT."/html/personalizacao_display.php";
 ?>
@@ -212,8 +215,8 @@ require_once ROOT."/html/personalizacao_display.php";
                 ?>
 
                 <section class="panel" >
-                 <?php
-                if(in_array($_GET['id_memorando'], $_SESSION['memorandoIdInativo']))
+                <?php
+                if(in_array($_GET['id_memorando'], $_SESSION['memorandoIdInativo']) || $_SESSION['isset_memorando']==1)
                 {
                 ?>
                 <script>
