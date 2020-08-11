@@ -190,7 +190,7 @@ require_once ROOT."/html/personalizacao_display.php";
                 {
                 ?>
                 <script>
-                    $(".panel").html("<p>Desculpe, você não tem acesso à essa página</p>");
+                    document.write("Desculpe, você não tem acesso à essa página");
                 </script>
                 <?php
                 }
