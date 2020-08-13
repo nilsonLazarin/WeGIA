@@ -1,5 +1,14 @@
 <?php
-
+	$config_path = "config.php";
+	if(file_exists($config_path)){
+		require_once($config_path);
+	}else{
+		while(true){
+			$config_path = "../" . $config_path;
+			if(file_exists($config_path)) break;
+		}
+		require_once($config_path);
+	}
 	session_start();
 	if(!isset($_SESSION['usuario'])){
 		header ("Location: ../index.php");
@@ -56,7 +65,7 @@
 
 		<!-- Theme Custom CSS -->
 		<link rel="stylesheet" href="../assets/stylesheets/theme-custom.css">
-
+		<script src="../assets/vendor/jquery/jquery.js"></script>
 		<!-- Head Libs -->
 		<script src="../assets/vendor/modernizr/modernizr.js"></script>
 		<script src="../Functions/lista.js"></script>
@@ -70,11 +79,14 @@
 			{
 				document.getElementById("listarFuncionario").submit();
 			}
-			$(function () {
-	            $("#header").load("header.php");
-	            $(".menuu").load("menu.html");
-	        });
 		</script>
+		
+	<script type="text/javascript">
+		$(function () {
+			$("#header").load("<?php echo WWW;?>html/header.php");
+            $(".menuu").load("<?php echo WWW;?>html/menu.php");
+	    });	
+	</script>
 		
 	</head>
 	<body>
@@ -129,7 +141,6 @@
 		</section>
 
 		<!-- Vendor -->
-		<script src="../assets/vendor/jquery/jquery.js"></script>
 		<script src="../assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
 		<script src="../assets/vendor/bootstrap/js/bootstrap.js"></script>
 		<script src="../assets/vendor/nanoscroller/nanoscroller.js"></script>
