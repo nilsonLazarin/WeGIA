@@ -1,0 +1,403 @@
+<?php
+	session_start();
+	if(!isset($_SESSION['usuario'])){
+		header ("Location: ../index.php");
+	}
+
+	$config_path = "config.php";
+	if(file_exists($config_path)){
+		require_once($config_path);
+	}else{
+		while(true){
+			$config_path = "../" . $config_path;
+			if(file_exists($config_path)) break;
+		}
+		require_once($config_path);
+	}
+	$conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+	$id_pessoa = $_SESSION['id_pessoa'];
+	$resultado = mysqli_query($conexao, "SELECT * FROM funcionario WHERE id_pessoa=$id_pessoa");
+	if(!is_null($resultado)){
+		$id_cargo = mysqli_fetch_array($resultado);
+		if(!is_null($id_cargo)){
+			$id_cargo = $id_cargo['id_cargo'];
+		}
+		$resultado = mysqli_query($conexao, "SELECT * FROM permissao WHERE id_cargo=$id_cargo and id_recurso=22");
+		if(!is_bool($resultado) and mysqli_num_rows($resultado)){
+			$permissao = mysqli_fetch_array($resultado);
+			if($permissao['id_acao'] < 5){
+        $msg = "Você não tem as permissões necessárias para essa página.";
+        header("Location: ./home.php?msg_c=$msg");
+			}
+			$permissao = $permissao['id_acao'];
+		}else{
+        	$permissao = 1;
+          $msg = "Você não tem as permissões necessárias para essa página.";
+          header("Location: ./home.php?msg_c=$msg");
+		}	
+	}else{
+		$permissao = 1;
+    $msg = "Você não tem as permissões necessárias para essa página.";
+    header("Location: ./home.php?msg_c=$msg");
+	}	
+	if (!isset($_GET['id_produto'])){
+        header("Location: listar_produto.php");
+    }
+	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
+	require_once "personalizacao_display.php";
+
+	include_once "./geral/msg.php";
+?>
+<!doctype html>
+<html class="fixed">
+<head>
+<?php 
+  include_once '../dao/Conexao.php';
+  include_once '../dao/ProdutoDAO.php';
+
+  if (!isset($_GET['id_produto'])){
+	  header("Location: ./listar_produto.php");
+  }
+  if(!isset($_SESSION['produtos'])){
+    header('Location: ../controle/control.php?metodo=listarTodos&nomeClasse=ProdutoControle&nextPage=../html/remover_produto.php?id_produto='.$_GET['id_produto']);
+  }
+  if(!isset($_SESSION['tipo_saida'])){
+    header('Location: ../controle/control.php?metodo=listarTodos&nomeClasse=TipoSaidaControle&nextPage=../html/remover_produto.php?id_produto='.$_GET['id_produto']);
+  }
+  if(!isset($_SESSION['destino'])){
+    header('Location: ../controle/control.php?metodo=listarTodos&nomeClasse=DestinoControle&nextPage=../html/remover_produto.php?id_produto='.$_GET['id_produto']);
+  }
+  if(!isset($_SESSION['almoxarifado'])){
+    header('Location: ../controle/control.php?metodo=listarTodos&nomeClasse=AlmoxarifadoControle&nextPage=../html/remover_produto.php?id_produto='.$_GET['id_produto']);
+  }
+  extract($_SESSION);
+?>
+	<!-- Basic -->
+	<meta charset="UTF-8">
+
+	<title>Remover Produto</title>
+		
+	<!-- Mobile Metas -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+	<!-- Vendor CSS -->
+	<link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css" />
+	<link rel="stylesheet" href="../assets/vendor/magnific-popup/magnific-popup.css" />
+	<link rel="stylesheet" href="../assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
+
+	<!-- Specific Page Vendor CSS -->
+	<link rel="stylesheet" href="../assets/vendor/select2/select2.css" />
+	<link rel="stylesheet" href="../assets/vendor/jquery-datatables-bs3/assets/css/datatables.css" />
+	<link rel="icon" href="<?php display_campo("Logo",'file');?>" type="image/x-icon" id="logo-icon">
+
+	<!-- Theme CSS -->
+	<link rel="stylesheet" href="../assets/stylesheets/theme.css" />
+
+	<!-- Skin CSS -->
+	<link rel="stylesheet" href="../assets/stylesheets/skins/default.css" />
+
+	<!-- Theme Custom CSS -->
+    <link rel="stylesheet" href="../assets/stylesheets/theme-custom.css">
+    
+	<!-- Atualizacao CSS -->
+	<link rel="stylesheet" href="../css/atualizacao.css" />
+
+	<!-- Head Libs -->
+	<script src="../assets/vendor/modernizr/modernizr.js"></script>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+		
+	<!-- Vendor -->
+	<script src="../assets/vendor/jquery/jquery.min.js"></script>
+	<script src="../assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
+	<script src="../assets/vendor/bootstrap/js/bootstrap.js"></script>
+	<script src="../assets/vendor/nanoscroller/nanoscroller.js"></script>
+	<script src="../assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+	<script src="../assets/vendor/magnific-popup/magnific-popup.js"></script>
+    <script src="../assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
+		
+	<!-- Specific Page Vendor -->
+	<script src="../assets/vendor/jquery-autosize/jquery.autosize.js"></script>
+		
+	<!-- Theme Base, Components and Settings -->
+	<script src="../assets/javascripts/theme.js"></script>
+		
+	<!-- Theme Custom -->
+	<script src="../assets/javascripts/theme.custom.js"></script>
+		
+	<!-- Theme Initialization Files -->
+	<script src="../assets/javascripts/theme.init.js"></script>
+
+	<!-- javascript functions -->
+	<script src="../Functions/onlyNumbers.js"></script>
+	<script src="../Functions/onlyChars.js"></script>
+	<script src="../Functions/enviar_dados.js"></script>
+	<script src="../Functions/mascara.js"></script>
+		
+	<!-- jquery functions -->
+	<script>
+        const produtos = <?= $produtos ?>;
+        const destino = <?= $destino ?>;
+        const almoxarifado = <?= $almoxarifado ?>;
+        const tipo_saida = <?= $tipo_saida ?>;
+
+
+  		$(function(){
+			fillOptions()
+		})
+        <?php
+            $pdo = Conexao::connect();
+            $idProduto = $_GET['id_produto'];
+            $query = $pdo->query("SELECT p.id_produto, p.preco, p.descricao,p.codigo, p.id_categoria_produto, c.descricao_categoria, p.id_unidade, u.descricao_unidade, e.qtd
+            FROM produto p 
+            INNER JOIN categoria_produto c ON p.id_categoria_produto = c.id_categoria_produto 
+            INNER JOIN unidade u ON p.id_unidade = u.id_unidade 
+			INNER JOIN estoque e ON p.id_produto = e.id_produto 
+            WHERE p.id_produto = $idProduto;");
+            $item = $query->fetch(PDO::FETCH_ASSOC);
+        ?>
+        const itemEstoque = <?= JSON_encode($item) ?>;
+        var descOf = {};
+
+        $.each(produtos, function(i, item){
+            descOf[item.id_produto] = item.descricao;
+        });
+
+        var acao = {
+            valor: 'saida',
+            substituicao(){
+				$('#replace').empty()
+                $('#replace')
+                .append($('<hr />'))
+                .append($("<p />")
+                    .text("ATENÇÃO: Nesta opção, os itens em estoque serão atribuidos a outro produto.")
+                    .addClass("text-danger")
+                )
+                .append($('<br />'))
+                .append($('<h4 />')
+                    .text("Produto que receberá os itens:")
+                )
+                .append($('<input />')
+                    .attr('list', 'list')
+                    .attr('type', 'text')
+                    .attr('id', 'produto')
+                    .attr('required', true)
+                    .addClass("form-control ui-autocomplete-input")
+                )
+                .append($('<datalist />')
+                    .attr('id', 'list')
+                );
+
+                $.each(produtos, function(i, item){
+                    if (item.id_produto != <?= $item['id_produto']?>){
+                        $('#list').append($('<option />')
+                            .val(item.id_produto)
+                            .text(item.id_produto+" | "+item.descricao+" | "+item.codigo)
+                        )
+                    }
+                })
+            },
+            saida(){
+                $('#replace').empty();
+				$('#replace')
+                	.append($('<hr />'))
+					.append('Tipo de saída: ')
+                	.append($('<br />'))
+					.append($('<select />')
+						.attr({name: 'tipo_saida', id: 'saida', required: true})
+					)
+                	.append($('<br />'))
+                	.append($('<br />'))
+					.append('Destino: ')
+                	.append($('<br />'))
+					.append($('<select />')
+						.attr({name: 'destino', id: 'destino', required: true})
+					)
+                	.append($('<br />'))
+                	.append($('<br />'))
+					.append('Almoxarifado: ')
+                	.append($('<br />'))
+					.append($('<select />')
+						.attr({name: 'almoxarifado', id: 'almox', required: true})
+					);
+				fillOptions();
+            }
+        }
+
+        function selecao(valor){
+            acao.valor = valor
+            acao[valor]();
+        }
+
+        function cancelar(){
+            window.location.replace('../html/listar_produto.php');
+        }
+		console.log(itemEstoque);
+        function enviar(){
+            if (acao.valor == 'substituicao'){
+                let id = $('#produto').val();
+                if (id){
+                    if (window.confirm("Tem certeza que deseja descartar todos os '<?= $item['descricao']?>' e adicioná-los ao estoque de '"+descOf[id]+"'?")){
+						window.location.replace('../controle/control.php?metodo=substituir&nomeClasse=ProdutoControle&id_produto_old=<?= $item['id_produto']?>&id_produto_new='+id);
+                    }
+                }else{
+                    window.alert("Preencha o campo com o produto substituto antes de prosseguir");
+                }
+            }else{
+				let tipo = $('#saida').val();
+				let destino = $('#destino').val();
+				let almox = $('#almox').val();
+				if (tipo && destino && almox){
+					console.log(`../controle/control.php?metodo=incluir&nomeClasse=SaidaControle&almoxarifado=${almox}$destino=${destino}&tipo_saida=${tipo}$total_total=${itemEstoque.qtd}$id_produto=${itemEstoque.id_produto}`);
+					window.location.replace(`./remover_produto_substituicao.php?almoxarifado=${almox}&destino=${destino}&tipo_saida=${tipo}&total_total=${itemEstoque.qtd}&id_produto=${itemEstoque.id_produto}`);
+
+				}else{
+					window.alert("Preencha todos os campos antes de proseguir");
+				}
+            }
+		}
+		
+		function submitForm(){
+			$('#form').append($('<input name="id_produto" readonly hidden />').val(itemEstoque.id_produto)).append($('<input name="total_total" readonly hidden />').val(itemEstoque.qtd))
+		}
+
+		function fillOptions(){
+			fill('#saida', tipo_saida, 'id_tipo');
+			fill('#destino', destino, 'id_destino', 'nome_destino');
+			fill('#almox', almoxarifado, 'id_almoxarifado', 'descricao_almoxarifado');
+		}
+
+		function fill(tagId, itemList, nomeId, nomeDesc = 'descricao'){
+			$(tagId).append(
+				$('<option />')
+					.text('Selecionar')
+					.val('nenhum')
+					.attr({selected: true, disabled: true})
+			)
+			$.each(itemList, function (i, item){
+				$(tagId).append(
+					$('<option />')
+						.text(item[nomeDesc])
+						.val(item[nomeId])
+				)
+			})
+		}
+		$(function(){
+			selecao('saida')
+		})
+	</script>
+	<script>
+        $(function () {
+            $("#header").load("header.php");
+            $(".menuu").load("menu.php");
+	    });
+	</script>
+
+</head>
+<body>
+	<div id="header"></div>
+    <!-- end: header -->
+    <div class="inner-wrapper">
+      	<!-- start: sidebar -->
+      	<aside id="sidebar-left" class="sidebar-left menuu"></aside>
+		
+		<!-- end: sidebar -->
+		<section role="main" class="content-body">
+			<header class="page-header">
+				<h2>Remover Produto</h2>
+			
+				<div class="right-wrapper pull-right">
+					<ol class="breadcrumbs">
+						<li>
+							<a href="home.php">
+								<i class="fa fa-home"></i>
+							</a>
+						</li>
+						<li><span>Remover Produto</span></li>
+					</ol>
+			
+					<a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
+				</div>
+			</header>
+
+			<!-- start: page -->
+		
+			<section class="panel">
+				<?php getMsg();?>
+				<header class="panel-heading">
+					<div class="panel-actions">
+						<a href="#" class="fa fa-caret-down"></a>
+					</div>
+			
+					<h2 class="panel-title">Remover Produto</h2>
+				</header>
+				<div class="panel-body">
+					<div>
+                        <p class="text-justify">Existem itens registrados no estoque relacionados a esse produto. Qual será a ação a ser tomada?</p>
+                        <div class="panel-body" style="display: flex;">
+                                <ul class="nav nav-children" id="info" style="padding-right: 20px;">
+                                    <li>Nome: </li>
+                                    <li>Categoria: </li>
+                                    <li>Unidade: </li>
+                                    <li>Codigo: </li>
+                                    <li>Valor: </li>
+                                </ul>
+                                <ul class="nav nav-children" id="info">
+                                    <?php
+                                        echo("<li id='nome'>".$item['descricao']."</li>
+                                        <li id='Categoria'>".$item['descricao_categoria']."</li>
+                                        <li id='Unidade'>".$item['descricao_unidade']."</li>
+                                        <li id='Codigo'>".$item['codigo']."</li>
+                                        <li id='Valor'>R$ ".$item['preco']."</li>")
+                                    ?>
+                                    
+                                </ul>
+                            </div>
+                        <br>
+						<form action="./remover_produto_substituicao.php" method="post" id="form">
+							<h4>Escolha a forma de lidar com a remoção:</h4>
+							<select name="action" id="action" oninput="selecao(this.value)">
+								<option value="saida" selected>Registrar saída dos itens</option>
+								<option value="substituicao" disabled>Substituir por um produto existente</option>
+								<option value="exclusao" disabled>Excluir todos os registros relacionados a este produto</option>
+							</select>
+							<div id="replace">
+							</div>
+							<br>
+							<div class="center-content">
+								<button class="btn btn-primary sm-rm" onclick="submitForm()">Enviar</button><button class="btn btn-danger" onclick="cancelar()">Cancelar</button>
+							</div>
+						</form>
+                    </div>
+				</div>
+                <br>
+			</section>
+            
+			<!-- end: page -->
+	
+		<!-- Specific Page Vendor -->
+		<script src="../assets/vendor/select2/select2.js"></script>
+		<script src="../assets/vendor/jquery-datatables/media/js/jquery.dataTables.js"></script>
+		<script src="../assets/vendor/jquery-datatables/extras/TableTools/js/dataTables.tableTools.min.js"></script>
+		<script src="../assets/vendor/jquery-datatables-bs3/assets/js/datatables.js"></script>
+		
+		<!-- Theme Base, Components and Settings -->
+		<script src="../assets/javascripts/theme.js"></script>
+		
+		<!-- Theme Custom -->
+		<script src="../assets/javascripts/theme.custom.js"></script>
+		
+		<!-- Theme Initialization Files -->
+		<script src="../assets/javascripts/theme.init.js"></script>
+
+		<!-- Mensagem -->
+		<script src="./geral/msg.js"></script>
+
+		<!-- Examples -->
+		<script src="../assets/javascripts/tables/examples.datatables.default.js"></script>
+		<script src="../assets/javascripts/tables/examples.datatables.row.with.details.js"></script>
+		<script src="../assets/javascripts/tables/examples.datatables.tabletools.js"></script>
+	</body>
+</html>
+<!--<a href="#" title="" class="btn btn-primary">
+	<span class="icon"><i class="fas fa-trash-alt"></i></span>  remover
+</a>-->

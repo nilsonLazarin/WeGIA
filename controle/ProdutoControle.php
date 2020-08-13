@@ -6,6 +6,9 @@ include_once '../dao/UnidadeDAO.php';
 include_once '../classes/Produto.php';
 include_once '../dao/ProdutoDAO.php';
 
+include_once '../classes/Estoque.php';
+include_once '../dao/EstoqueDAO.php';
+
 class ProdutoControle
 {
     public function verificar(){
@@ -111,14 +114,56 @@ class ProdutoControle
     public function excluir()
     {
         extract($_REQUEST);
-        try {
-            $produtoDAO = new ProdutoDAO();
-            $produtoDAO->excluir($id_produto);
-            header('Location:../html/listar_produto.php');
-        } catch (PDOException $e) {
-            echo "ERROR";
+        require_once '../dao/Conexao.php';
+        $pdo = Conexao::connect();
+        $produto = $pdo->query("SELECT qtd FROM estoque WHERE id_produto = $id_produto");
+        $produto = $produto->fetch(PDO::FETCH_ASSOC);
+        if ($produto){
+            if (intval($produto{'qtd'}) < 0){
+                try {
+                    $produtoDAO = new ProdutoDAO();
+                    $produtoDAO->excluir($id_produto);
+                    header('Location:../html/listar_produto.php');
+                } catch (PDOException $e) {
+                    echo "ERROR";
+                }
+            }else{
+                header('Location: ../html/remover_produto.php?id_produto='.$id_produto);
+            }
+        }else{
+            try {
+                $produtoDAO = new ProdutoDAO();
+                $produtoDAO->excluir($id_produto);
+                header('Location:../html/listar_produto.php');
+            } catch (PDOException $e) {
+                echo "ERROR";
+            }
         }
     }
+
+    // public function substituir(){
+    //     try{
+    //         extract($_REQUEST);
+    //         var_dump($id_produto_old, $id_produto_new);
+    //         $estoque = (new EstoqueDAO())->listarPorProduto($id_produto_old);
+    //         var_dump($estoque);
+    //         $pdo = Conexao::connect();
+
+    //         die();
+
+    //         foreach($estoque as $key => $value){
+    //             $troca = $pdo->prepare("UPDATE estoque SET qtd = qtd + :qtd WHERE id_produto=:idNovo AND id_almoxarifado=:idAlmox;");
+    //             $troca->bindValue(':qtd', $value['qtd']);
+    //         }
+            
+
+
+    //     }catch (PDOException $e){
+    //         echo 'Error:' . $e->getMessage();
+    //     }
+        
+    //     die();
+    // }
 
     public function listarId(){
         extract($_REQUEST);

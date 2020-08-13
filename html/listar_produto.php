@@ -123,10 +123,9 @@
 			window.location.replace('../controle/control.php?metodo=excluir&nomeClasse=ProdutoControle&id_produto='+id);
 		}
 
-		function clicar(id)
-		   		{
-		   			window.location.replace('../html/alterar_produto.php?id_produto='+id);
-		   		}
+		function clicar(id){
+			window.location.replace('../html/alterar_produto.php?id_produto='+id);
+		}
 
 	</script>
 	<script>
@@ -134,6 +133,7 @@
 			var produtos = <?php 
 				echo $produtos;
 				?>;
+			console.log(produtos);
 			$.each(produtos, function(i,item){
 
 				$('#tabela')
@@ -142,6 +142,10 @@
 						.text(item.codigo))
 					.append($('<td />')
 						.text(item.descricao))
+					.append($('<td />')
+						.text(item.descricao_categoria))
+					.append($('<td />')
+						.text(item.preco))
 					.append($('<td />')
 						.append($('<button />')
 							.html('<i class="fas fa-trash-alt"></i>')
@@ -181,7 +185,7 @@
 								<i class="fa fa-home"></i>
 							</a>
 						</li>
-						<li><span>Informações produto</span></li>
+						<li><span>Informações Produto</span></li>
 					</ol>
 			
 					<a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
@@ -196,15 +200,17 @@
 						<a href="#" class="fa fa-caret-down"></a>
 					</div>
 			
-					<h2 class="panel-title">produto</h2>
+					<h2 class="panel-title">Produto</h2>
 				</header>
 				<div class="panel-body">
 					<table class="table table-bordered table-striped mb-none" id="datatable-default">
 						<thead>
 							<tr>
-								<th>codigo</th>
-								<th>nome</th>
-								<th>ação</th>
+								<th width="12%">Código</th>
+								<th>Nome</th>
+								<th width="18%">Tipo</th>
+								<th width="12%">Preço</th>
+								<th width="12%">Ação</th>
 							</tr>
 						</thead>
 						<tbody id="tabela">	

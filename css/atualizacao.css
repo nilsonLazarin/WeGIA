@@ -60,6 +60,10 @@ li {
     justify-content: center;
 }
 
+.sm-rm {
+    margin-right: 20px;
+}
+
 @media print{
     #header {
         display: none;

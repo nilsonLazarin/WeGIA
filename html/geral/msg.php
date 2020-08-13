@@ -143,6 +143,7 @@
 					case "err":
 					case "error":
 					case "erro":
+					case "danger":
 						displayError($msg, $log);
 					break;
 				}
@@ -161,6 +162,7 @@
 					case "err":
 					case "error":
 					case "erro":
+					case "danger":
 						displayError($msg);
 					break;
 				}
