@@ -108,7 +108,7 @@ if(file_exists($config_path)){
 					</li>
 					<li class="nav-parent nav-active">
 						<a>
-							<i class="fa fa-copy" aria-hidden="true"></i>
+							<i class="fa fa-book" aria-hidden="true"></i>
 							<span>Memorando</span>
 						</a>
 						<ul class="nav nav-children">
