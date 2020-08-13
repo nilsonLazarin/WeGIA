@@ -87,12 +87,12 @@ class MemorandoDAO
 			$id_usuario=$usuario->obterUsuario($cpf_usuario);
 			$id_usuario=$id_usuario['0']['id_pessoa'];
 			$pdo = Conexao::connect();
-			$consulta = $pdo->query("SELECT DISTINCT m.id_memorando, m.titulo, m.data, p.nome FROM memorando m JOIN despacho d ON(d.id_memorando=m.id_memorando) JOIN pessoa p ON(m.id_pessoa=p.id_pessoa) WHERE (d.id_destinatario=$id_usuario OR d.id_remetente=$id_usuario)");
+			$consulta = $pdo->query("SELECT DISTINCT m.id_memorando, m.titulo, m.data, p.nome, m.id_status_memorando FROM memorando m JOIN despacho d ON(d.id_memorando=m.id_memorando) JOIN pessoa p ON(m.id_pessoa=p.id_pessoa) WHERE d.id_remetente=$id_usuario");
 			$x = 0;
 
 			while($linha = $consulta->fetch(PDO::FETCH_ASSOC))
 			{
-				$Memorandos[$x]=array('id_memorando'=>$linha['id_memorando'], 'titulo'=>$linha['titulo'], 'data'=>$linha['data'], 'nome'=>$linha['nome']);
+				$Memorandos[$x]=array('id_memorando'=>$linha['id_memorando'], 'titulo'=>$linha['titulo'], 'data'=>$linha['data'], 'nome'=>$linha['nome'], 'id_status_memorando'=>$linha['id_status_memorando']);
 				$x++;
 			}
 		}
@@ -198,12 +198,12 @@ class MemorandoDAO
 		try
 		{
 			$pdo = Conexao::connect();
-			$consulta = $pdo->query("SELECT id_destinatario FROM despacho WHERE id_despacho IN (SELECT MAX(id_despacho) FROM despacho WHERE id_memorando='$id_memorando')");
+			$consulta = $pdo->query("SELECT id_destinatario, id_despacho, id_remetente FROM despacho WHERE id_despacho IN (SELECT MAX(id_despacho) FROM despacho WHERE id_memorando='$id_memorando')");
 			$x = 0;
 
 			while($linha = $consulta->fetch(PDO::FETCH_ASSOC))
 			{
-				$Despacho[$x]=array('id_destinatarioo'=>$linha['id_destinatario']);
+				$Despacho[$x]=array('id_destinatarioo'=>$linha['id_destinatario'], 'id_despacho'=>$linha['id_despacho'], 'id_remetente'=>$linha['id_remetente']);
 				$x++;
 			}
 		}
