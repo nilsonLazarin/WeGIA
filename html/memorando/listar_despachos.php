@@ -253,14 +253,7 @@ require_once ROOT."/html/personalizacao_display.php";
 		}
 
 		.col-md-3 {
-    		width: 5%;
-		}
-
-		@media (min-width: 992px)
-		{
-			.col-md-3 {
-    			width: 10%;
-			}
+    		width: 10%;
 		}
 
 		#despacho
