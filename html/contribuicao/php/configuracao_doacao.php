@@ -146,9 +146,9 @@
                                                 <th scope="col" width="5%">opcão 3</th>
                                             </tr>
                                             <tr id='preenche_bol1'>
-                                                <td><input type='number' name='op0' value=></td>
-                                                <td><input type='number' name='op1' value=></td>
-                                                <td><input type='number' name='op2' value=></td>
+                                                <td><input type='number' name='op01' value=></td>
+                                                <td><input type='number' name='op02' value=></td>
+                                                <td><input type='number' name='op03' value=></td>
                                             </tr>
                                             <tr>
                                                 <th scope="col" width="5%">opção 4</th>
@@ -156,9 +156,9 @@
                                                 <th scope="col" width="5%">opção 6</th>
                                             </tr>
                                             <tr id='preenche_bol2'>
-                                                <td><input type='number' name='opvenc3' value=></td>
-                                                <td><input type='number' name='opvenc4' value=></td>
-                                                <td><input type='number' name='opvenc5' value=></td>
+                                                <td><input type='number' name='op04' value=></td>
+                                                <td><input type='number' name='op05' value=></td>
+                                                <td><input type='number' name='op06' value=></td>
                                             </tr>
                                         </thead>
                                     </table>
@@ -169,14 +169,14 @@
                                                 <th scope="col" width="5%">TOKEN API</th>
                                                 <th scope="col" width="5%">Link SANDBOX</th>
                                             </tr>
-                                            <tr id="info_bol">
+                                            <tr id="info_bol3">
                                                 <td><input type='text' name='api' value=></td>
                                                 <td><input type='text' name='token_api' value=></td>
                                                 <td><input type='text' name='sandbox' value=></td>
                                             <tr>
                                                 <th scope="col" width="5%">TOKEN SANDBOX</th>
                                             </tr>
-                                            <tr id="info_bol2">
+                                            <tr id="info_bol4">
                                                 <td><input type='text' name='token_sandbox' value=></td>
                                             </tr>
                                     </table>
@@ -202,9 +202,40 @@
                                         </tr>
                                     </table>
                                     <span id='vazio_cartao_mensal'></span>
+                                    <legend>DOAÇÃO MENSAL</legend>
                                     <div id='doacao_mensal'>
-                                    <h3>DOAÇÃO MENSAL</h3>
-                                    </div>  
+                                    </div> 
+
+                                    <div id = 'insere_doacao_mensal'>
+                                            <table border='1px'>
+                                                <tr>
+                                                    <th>VALOR</th>
+                                                    <th>LINK</th>
+                                                </tr>
+                                                <tr>
+                                                    <td><input type='number' name='valor[0]' value =></td>
+                                                    <td><input type='text' name='mensal_link[0]' value=></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><input type='number' name='valor[1]' value =></td>
+                                                    <td><input type='text' name='mensal_link[1]' value=></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><input type='number' name='valor[2]' value =></td>
+                                                    <td><input type='text' name='mensal_link[2]' value=></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><input type='number' name='valor[3'] value =></td>
+                                                    <td><input type='text' name='mensal_link[3]' value=></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><input type='number' name='valor[4]' value =></td>
+                                                    <td><input type='text' name='mensal_link[4]' value=></td>
+                                                </tr>
+                                            </table>
+                                    </div> 
+
+                                    
                                     <br><br>
                                     <input type="submit" class= "btn btn-primary" value="Editar Informações">
                                     <a href="../index.php"><input type="button" class="btn btn-primary" value="Ir à Página de Contribuição"></a>  
@@ -223,6 +254,7 @@
             $("#header").load("../../header.php");
             $(".menuu").load("menu.html");
             $("#cartao").hide();
+            $("#insere_doacao_mensal").hide();
 
             $("#pagseguro").click(function(){ 
                 
