@@ -6,12 +6,11 @@
 
     $QUERY_M = mysqli_query($conexao, "SELECT id, valor, link FROM doacao_cartao_mensal WHERE id_sistema = $SISTEMA");
     $QTD = mysqli_num_rows($QUERY_M);
+    echo ("<input type='hidden' name='cod_cartao' value=".$SISTEMA.">");
 
     if($QTD > 0)
     {
-        echo ("<input type='hidden' name='cod_cartao' value=".$SISTEMA.">");
         echo("<table border='1px'>
-                <h3>DOAÇÃO MENSAL</h3>
                 <tr>
                 <th>VALOR</th>
                 <th>LINK</th>

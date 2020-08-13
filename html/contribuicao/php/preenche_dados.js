@@ -7,17 +7,22 @@ function preencher(id)
     $("#preenche_bolr2").html("<td><input type='text' name='unicdiasv' id='unicdiasv' value=></td><td><input type='text' name='mensaldiasv' id='mensaldiasv' value=></td><td><input type='text' name='juros' id='juros' value=></td>");
     $("#preenche_bolr3").html("<td><input type='text' name='multa' id='multa' value=></td><td><textarea name='agradecimento' cols='18'  id='agrad'></textarea></td>");
 
-    $("#preenche_bol2").html("<td><input type='number' name='op1' value=></td><td><input type='number' name='op2' value=></td><td><input type='number' name='op3' value=></td>");
-    $("#preenche_bol2.2").html("<td><input type='number' name='op4' value=></td><td><input type='number' name='op5' value=></td><td><input type='number' name='op6' value=></td>");
+    $("#preenche_bol1").html("<td><input type='number' name='op01' value=></td><td><input type='number' name='op02' value=></td><td><input type='number' name='op03' value=></td>");
+    $("#preenche_bol2").html("<td><input type='number' name='op04' value=></td><td><input type='number' name='op05' value=></td><td><input type='number' name='op06' value=></td>");
 
-    $("#info_bol").html("<td><input type='text' name='api' value=></td><td><input type='text' name='token_api' value=></td><td><input type='text' name='sandbox' value=></td>");
-    $("#info_bol2").html("<td><input type='text' name='token_sandbox' value=></td>");
+    $("#info_bol3").html("<td><input type='text' name='api' value=></td><td><input type='text' name='token_api' value=></td><td><input type='text' name='sandbox' value=></td>");
+    $("#info_bol4").html("<td><input type='text' name='token_sandbox' value=></td>");
     
     $.post("atualiza_sistema_boleto.php", {'id_sistema':id})
     .done(function(data){
         var aviso = data.split('ERR');
         aviso = aviso[1];
         $("#vazio").html(aviso);
+            if(aviso != '')
+            {
+                $("#form1").attr("action", "insere_doacao.php");
+                console.log("aqui");
+            }0
         var dados = JSON.parse(data);
         var cod = dados.cod_regras;
         var minvalunic = dados.MinValUnic;
@@ -45,11 +50,11 @@ function preencher(id)
         $("#preenche_bolr2").html("<td><input type='text' name='unicdiasv' id='unicdiasv' value="+unicdiasv+"></td><td><input type='text' name='mensaldiasv' id='mensaldiasv' value="+mensaldiasv+"></td><td><input type='text' name='juros' id='juros' value="+juros+"></td>");
         $("#preenche_bolr3").html("<td><input type='text' name='multa' id='multa' value="+multa+"></td><td><textarea name='agradecimento' cols='18'  id='agrad'>"+agrade+"</textarea></td>");
 
-       $("#preenche_bol1").html("<td><input type='number' name='op1' value="+op1+"></td><td><input type='number' name='op2' value="+op2+"></td><td><input type='number' name='op3' value="+op3+"></td>");
-       $("#preenche_bol2").html("<td><input type='number' name='op4' value="+op4+"></td><td><input type='number' name='op5' value="+op5+"></td><td><input type='number' name='op6' value="+op6+"></td>");
+       $("#preenche_bol1").html("<td><input type='number' name='op01' value="+op1+"></td><td><input type='number' name='op02' value="+op2+"></td><td><input type='number' name='op03' value="+op3+"></td>");
+       $("#preenche_bol2").html("<td><input type='number' name='op04' value="+op4+"></td><td><input type='number' name='op05' value="+op5+"></td><td><input type='number' name='op06' value="+op6+"></td>");
 
-       $("#info_bol").html("<td><input type='text' name='api' value="+API+"></td><td><input type='text' name='token_api' value="+token+"></td><td><input type='text' name='sandbox' value="+sandbox+"></td>");
-       $("#info_bol2").html("<td><input type='text' name='token_sandbox' value="+token_sandbox+"></td>");
+       $("#info_bol3").html("<td><input type='text' name='api' value="+API+"></td><td><input type='text' name='token_api' value="+token+"></td><td><input type='text' name='sandbox' value="+sandbox+"></td>");
+       $("#info_bol4").html("<td><input type='text' name='token_sandbox' value="+token_sandbox+"></td>");
     });
 }
     
@@ -60,6 +65,11 @@ function preenche_dados_cartao(id)
     .done(function(data){
         var aviso = data.split('ERR');
         aviso = aviso[1];
+            if(aviso != '')
+            {
+                $("#form2").attr("action", "insere_doacao.php");
+                $("#insere_doacao_mensal").fadeIn();
+            }
         $("#vazio_cartao_unico").html(aviso);
         var dados = JSON.parse(data);     
         var link_avulso = dados.LINK_AVULSO;
@@ -71,5 +81,9 @@ function preenche_dados_cartao(id)
     $.post("../php/atualiza_sistema_cartao_mensal.php", {'id_sistema':id})
     .done(function(data){
         $("#doacao_mensal").html(data);
+        if(data == "<span id='vazio_cartao_mensal'>Não há link para doação mensal pelo sistema selecionado</span>")
+        {
+            $("#insere_doacao_mensal").fadeIn();
+        }
     });
 }

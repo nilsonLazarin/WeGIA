@@ -11,12 +11,12 @@
     $MinValParc = $_POST['minvalparc'];
     $agradecimento = $_POST['agradecimento'];
     $UnicDiasV =$_POST['unicdiasv'];
-    $opVenc0 = $_POST['op1'];
-    $opVenc1 = $_POST['op2'];
-    $opVenc2= $_POST['op3'];
-    $opVenc3 = $_POST['op4'];
-    $opVenc4 = $_POST['op5'];
-    $opVenc5 = $_POST['op6'];
+    $opVenc0 = $_POST['op0'];
+    $opVenc1 = $_POST['op1'];
+    $opVenc2= $_POST['op2'];
+    $opVenc3 = $_POST['opvenc3'];
+    $opVenc4 = $_POST['opvenc4'];
+    $opVenc5 = $_POST['opvenc5'];
     $API = $_POST['api'];
     $token = $_POST['token_api'];
     $sandbox = $_POST['sandbox'];
@@ -24,7 +24,6 @@
 
    
     $atualiza_regras = mysqli_query($conexao,  "UPDATE  doacao_boleto_regras as regras JOIN doacao_boleto_info as info ON (info.id_regras = regras.id) SET min_boleto_uni = '$MinValUnic', max_dias_venc = '$MensalDiasV', juros = '$juros', multa = '$multa', max_parcela = '$MaiValParc', min_parcela = '$MinValParc', agradecimento = '$agradecimento', dias_boleto_a_vista = '$UnicDiasV', dias_venc_carne_op1 = '$opVenc0', dias_venc_carne_op2 = '$opVenc1', dias_venc_carne_op3 = '$opVenc2', dias_venc_carne_op4 = '$opVenc3', dias_venc_carne_op5 = '$opVenc4', dias_venc_carne_op6 = '$opVenc5' WHERE id_regras = '$cod_regras' AND id_sistema = '$id_sistema'");
-
    
     $link_avulso = $_POST['avulso_link'];
     $atualiza_avulso = mysqli_query($conexao, "UPDATE doacao_cartao_avulso SET url = '$link_avulso' WHERE id_sistema = $cod_cartao");

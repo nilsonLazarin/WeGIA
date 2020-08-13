@@ -40,7 +40,7 @@
 		$msg = "Você não tem as permissões necessárias para essa página.";
 		header("Location: ".WWW."/html/home.php?msg_c=$msg");
 	}	
-	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
+
 	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
 require_once ROOT."/html/personalizacao_display.php";
       $cargo = mysqli_query($conexao, "SELECT * FROM cargo");
@@ -53,7 +53,7 @@ require_once ROOT."/html/personalizacao_display.php";
 
 	<!-- Basic -->
 	<meta charset="UTF-8">
-	<title>Alterar senha</title>
+	<title>Listar permissões</title>
 	<meta name="keywords" content="HTML5 Admin Template" />
       <meta name="description" content="Porto Admin - Responsive HTML5 Template">
       <meta name="author" content="okler.net">
@@ -159,20 +159,37 @@ require_once ROOT."/html/personalizacao_display.php";
 							<h2 class="panel-title">Permissões (Em desenvolvimento)</h2>
 						</header>
 						<div class="panel-body">
+						<?php
+									if(isset($_GET['msg_c'])){
+										$msg = $_GET['msg_c'];
+										echo('<div class="alert alert-success" role="alert">
+										'. $msg .'
+									  </div>');
+									}else if(isset($_GET['msg_e'])){
+										$msg = $_GET['msg_e'];
+										echo('<div class="alert alert-danger" role="alert">
+										'. $msg .'
+									  </div>');
+									}
+							?>
 							<table class="table table-bordered table-striped mb-none" id="datatable-default">
 								<thead>
 									<tr>
 										<th>Cargo</th>
 										<th>Recurso</th>
 										<th>Tipo permissão</th>
+										<th>Deletar permissão</th>
 									</tr>
 								</thead>
 								<tbody id="tabela">
 									<?php
-										$permissoes= mysqli_query($conexao, "SELECT c.cargo as cargo, r.descricao as recurso, a.descricao as acao FROM permissao p join cargo c on p.id_cargo = c.id_cargo join recurso r on p.id_recurso = r.id_recurso join acao a on a.id_acao = p.id_acao");
+										$permissoes= mysqli_query($conexao, "SELECT c.cargo as cargo, c.id_cargo as cargo_id, r.descricao as recurso, r.id_recurso as recurso_id, a.descricao as acao, a.id_acao as acao_id FROM permissao p join cargo c on p.id_cargo = c.id_cargo join recurso r on p.id_recurso = r.id_recurso join acao a on a.id_acao = p.id_acao");
 										while($row = $permissoes->fetch_array(MYSQLI_ASSOC))
                                         {
-                                            echo "<tr> <td>".$row['cargo']."</td> <td>".$row['recurso']."</td> <td>".$row['acao']."</td> </tr>";
+											$c = $row['cargo_id'];
+											$r = $row['recurso_id'];
+											$a = $row['acao_id'];
+                                            echo "<tr> <td>".$row['cargo']."</td> <td>".$row['recurso']."</td> <td>".$row['acao']."</td> <td><a href='deletar_permissao.php?c=$c&r=$r&a=$a' class='btn btn-danger'>Deletar</button></td> </tr>";
                                         }         
 									?>
 								</tbody>
@@ -190,6 +207,14 @@ require_once ROOT."/html/personalizacao_display.php";
 	</section>
 
       <!-- Vendor -->
+	  <script>
+	  	$(document).ready(function(){
+		setTimeout(function(){
+			$(".alert").fadeOut();
+			window.history.replaceState({}, document.title, window.location.pathname);
+		}, 3000);
+	});
+	  </script>
 <script src="../assets/vendor/select2/select2.js"></script>
 		<script src="../assets/vendor/jquery-datatables/media/js/jquery.dataTables.js"></script>
 		<script src="../assets/vendor/jquery-datatables/extras/TableTools/js/dataTables.tableTools.min.js"></script>

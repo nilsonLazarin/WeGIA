@@ -16,10 +16,20 @@
     class PermissaoDAO{
         public function adicionarPermissao($cargo, $acao, $recurso){
             try {
-                $query = "INSERT INTO `permissao` (`id_cargo`, `id_acao`, `id_recurso`) VALUES ('$cargo', '$acao', '$recurso')";
-                $pdo = Conexao::connect();
-                $stmt = $pdo->prepare($query);
-                $stmt->execute();
+                if(count($recurso > 1)){
+                    foreach($recurso as $i => $recurso_id){
+                        $query = "INSERT INTO `permissao` (`id_cargo`, `id_acao`, `id_recurso`) VALUES ('$cargo', '$acao', '$recurso_id')";
+                        $pdo = Conexao::connect();
+                        $stmt = $pdo->prepare($query);
+                        $stmt->execute();
+                    }
+                }else{
+                        $recurso_id = $recurso[0];
+                        $query = "INSERT INTO `permissao` (`id_cargo`, `id_acao`, `id_recurso`) VALUES ('$cargo', '$acao', '$recurso_id')";
+                        $pdo = Conexao::connect();
+                        $stmt = $pdo->prepare($query);
+                        $stmt->execute();
+                }
             } catch (PDOException $e) {
                 echo 'Erro: <b>  na tabela permissao = ' . $query . '</b> <br /><br />' . $e->getMessage();
             }

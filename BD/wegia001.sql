@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`almoxarifado` (
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
--- Table `wegia`.`almoxarifado`
+-- Table `wegia`.`almoxarife`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `wegia`.`almoxarife` (
   `id_almoxarife` INT(11) NOT NULL AUTO_INCREMENT,
@@ -826,25 +826,26 @@ ENGINE = InnoDB;
 -- Table `wegia`.`doacao_cartao_avulso`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `wegia`.`doacao_cartao_avulso` (
-  `id` INT(11) NOT NULL,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
   `url` VARCHAR(256) NOT NULL,
   `id_sistema` INT(11) NOT NULL,
   INDEX `id_sistema` (`id_sistema` ASC),
+  PRIMARY KEY (`id`),
   CONSTRAINT `doacao_cartao_avulso_ibfk_1`
     FOREIGN KEY (`id_sistema`)
     REFERENCES `wegia`.`sistema_pagamento` (`id`))
 ENGINE = InnoDB;
 
-
 -- -----------------------------------------------------
 -- Table `wegia`.`doacao_cartao_mensal`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `wegia`.`doacao_cartao_mensal` (
-  `id` INT(11) NOT NULL,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
   `link` VARCHAR(256) NOT NULL,
   `valor` DECIMAL(10,2) NULL DEFAULT NULL,
   `id_sistema` INT(11) NOT NULL,
   INDEX `id_sistema` (`id_sistema` ASC),
+  PRIMARY KEY (`id`),
   CONSTRAINT `doacao_cartao_mensal_ibfk_1`
     FOREIGN KEY (`id_sistema`)
     REFERENCES `wegia`.`sistema_pagamento` (`id`))
@@ -1286,6 +1287,76 @@ values ((SELECT id_pessoa FROM pessoa WHERE pessoa.cpf=cpf limit 1), id_sociosta
 
 insert into log_contribuicao(id_socio, ip, data, hora, id_sistema)
 values((SELECT id_socio FROM socio, pessoa WHERE pessoa.id_pessoa=socio.id_pessoa AND pessoa.cpf=cpf limit 1), ip, data, hora, id_sistema);
+
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure insregras
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `wegia`$$
+CREATE PROCEDURE `insregras`(
+	IN `min_boleto_uni` decimal(10,2), 
+    IN `max_dias_venc` int(11), 
+    IN `juros` decimal(10,2), 
+    IN `multa` decimal(10,2), 
+    IN `max_parcela` decimal(10,2), 
+    IN `min_parcela` decimal(10,2), 
+    IN `agradecimento` longtext, 
+    IN `dias_boleto_a_vista` int(11), 
+    IN `dias_venc_carne_op1` int(11), 
+    IN `dias_venc_carne_op2` int(11), 
+    IN `dias_venc_carne_op3` int(11), 
+    IN `dias_venc_carne_op4` int(11),
+    IN `dias_venc_carne_op5` int(11),
+    IN `dias_venc_carne_op6` int(11)
+)
+begin
+
+insert doacao_boleto_regras (min_boleto_uni, max_dias_venc, juros, multa, max_parcela, min_parcela, agradecimento, dias_boleto_a_vista, dias_venc_carne_op1, dias_venc_carne_op2, dias_venc_carne_op3, dias_venc_carne_op4, dias_venc_carne_op5, dias_venc_carne_op6)
+values (min_boleto_uni, max_dias_venc, juros, multa, max_parcela, min_parcela, agradecimento, dias_boleto_a_vista, dias_venc_carne_op1, dias_venc_carne_op2, dias_venc_carne_op3, dias_venc_carne_op4, dias_venc_carne_op5, dias_venc_carne_op6);
+
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure registra_cartao_avulso
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `wegia`$$
+CREATE PROCEDURE `registra_cartao_avulso`(
+	IN `url` varchar(256),
+    IN `id_sistema` int(11)
+)
+begin
+
+insert doacao_cartao_avulso (url, id_sistema)
+values (url, id_sistema);
+
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure registra_cartao_mensal
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `wegia`$$
+CREATE PROCEDURE `registra_cartao_mensal`(
+	IN `valor` varchar(256),
+    IN `link` decimal(10,2),
+    IN `id_sistema` int(11)
+)
+begin
+
+insert doacao_cartao_mensal (valor, link, id_sistema)
+values (valor, link, id_sistema);
 
 END$$
 

@@ -125,12 +125,17 @@ require_once ROOT."/html/personalizacao_display.php";
 				.append($("<tr>")
 					.append($("<td>")
 						.text(item.id_memorando))
-					.append($("<td>")
+					.append($("<td id=titulo"+item.id_memorando+">")
 						.html("<a href=<?php echo WWW;?>html/memorando/listar_despachos.php?id_memorando="+item.id_memorando+">"+item.titulo+"</a>"))
 					.append($("<td>")
 						.text(item.nome))
 					.append($("<td>")
 						.text(item.data)));
+
+				if(item.id_status_memorando == 6)
+				{
+					$("#titulo"+item.id_memorando).append(" [ARQUIVADO]");
+				}
 		});
 	
         $("#header").load("<?php echo WWW;?>html/header.php");
