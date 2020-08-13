@@ -111,7 +111,7 @@
 					</a>
 					<!--onclick="window.location.href = '../memorando/envio.php'"-->
 					<a href="#" >
-						<div class="col-lg-2 col-md-8 i" data-toggle="collapse" id="memorando_maior">
+						<div class="col-lg-2 col-md-8 i" data-toggle="collapse" href="#memorando">
 							<i  class="fa fa-book"></i>
 							<h4>Memorando
 							</h4>
@@ -262,30 +262,25 @@
 						
 						<!--</a>-->
 					</div>
-					<div id="memorando" class="colapse">
+				</div><br>
+
+				<div class="row">
+				<div id="memorando" class="collapse">
 					<a href="../html/memorando/listar_memorandos_ativos.php">	
 							<div class="col-lg-2 col-md-8 i">
-								<i  class="fa fa-barcode"></i>
+								<i  class="fa fa-envelope"></i>
 								<h4>Caixa de Entrada</h4>
 							</div>
 						</a>
 
 					<a href="../html/memorando/listar_memorandos_antigos.php">	
 							<div class="col-lg-2 col-md-8 i">
-								<i  class="fa fa-barcode"></i>
+								<i  class="fa fa-mail-forward"></i>
 								<h4>Memorandos despachados</h4>
 							</div>
 						</a>
 					</div>
 				</div><br>
-				<script>
-					$(document).ready(function(){
-						$("#memorando").hide();
-						$("#memorando_maior").click(function(){
-							$("#memorando").toggle();
-						});
-					});
-				</script>
 				<!--
 				<div class="row">
 					<a href="">
