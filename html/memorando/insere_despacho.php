@@ -175,6 +175,9 @@ require_once ROOT."/html/personalizacao_display.php";
         {
             height: 455px !important;
         }
+        .col-md-3 {
+            width: 10%;
+        }
     </style>
 </head>
 
@@ -267,7 +270,7 @@ require_once ROOT."/html/personalizacao_display.php";
                                     <input type='hidden' name='modulo' value="memorando" class='mb-xs mt-xs mr-xs btn btn-default'>
                                 </div>
                                 <div class='col-md-9 col-md-offset-8'>
-                                    <input type='submit' value='Enviar' name='enviar' id='enviar' class='mb-xs mt-xs mr-xs btn btn-default'>
+                                    <input type='submit' value='Enviar' name='enviar' id='enviar' class='mb-xs mt-xs mr-xs btn btn-primary'>
                                 </div>
                             </div>
                         </form>
