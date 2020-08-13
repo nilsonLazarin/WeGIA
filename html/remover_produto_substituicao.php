@@ -67,7 +67,7 @@
         $id_pessoa = $_SESSION['id_pessoa'];
         $id_saida = $saida['id_saida'];
         $pdo = Conexao::connect();
-        $pdo->exec("INSERT INTO isaida VALUES (default, $id_saida, $id_produto, $total_total, NULL);") or die(header("Location: ./remover_produto.php?id_produto=$id_produto&flag=error&msg=Houve um erro ao registrar a saída do item"));
+        $pdo->exec("INSERT INTO isaida VALUES (default, $id_saida , $id_produto , $total_total , NULL);") or die(header("Location: ./remover_produto.php?id_produto=$id_produto&flag=error&msg=Houve um erro ao registrar a saída do item"));
     }
 
     function deleteEstoque(){
