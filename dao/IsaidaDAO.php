@@ -11,7 +11,7 @@ class IsaidaDAO
             $sql = "SELECT i.id_isaida,i.id_saida,p.descricao,i.qtd,i.valor_unitario
              FROM isaida i 
              RIGHT JOIN produto p ON p.id_produto = i.id_produto 
-             WHERE i.id_saida = :id_saida";
+             WHERE i.id_saida = :id_saida AND i.oculto = false";
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':id_saida',$id_saida);
 

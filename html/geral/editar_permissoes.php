@@ -48,15 +48,14 @@ require_once ROOT."/html/personalizacao_display.php";
       $recurso = mysqli_query($conexao, "SELECT * FROM recurso");
 ?>
 <!doctype html>
-<html class="fixed">
+<html class="fixed" lang="pt-br">
 <head>
 	<!-- Basic -->
-	<meta charset="UTF-8">
+	<meta charset="utf-8">
 
 	<title>Editar permissões</title>
 
 	<!-- Mobile Metas -->
-	<meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">
     <!-- Vendor CSS -->
@@ -200,7 +199,7 @@ require_once ROOT."/html/personalizacao_display.php";
                                                     <?php
                                                               while($row = $recurso->fetch_array(MYSQLI_NUM))
 															  {
-															   echo "<div class='checkbox'> <label><input id='recurso_". $row[0] ."' class='recurso' name='recurso[]' type='checkbox' value=". $row[0] .">". $row[1] ."</label> </div>";
+															   echo "<div class='checkbox'> <label><input id='recurso_". $row[0] ."' class='recurso' name='recurso[]' type='checkbox' value=". $row[0] .">". utf8_encode($row[1]) ."</label> </div>";
 															  }           
                                                         ?>
 												</div>	

@@ -48,8 +48,8 @@ class Item {
 
     private function entrada(){
         if ($this->hasValue()){
-            $params = "WHERE ientrada.qtd > 0 ";
-            $cont = 1;
+            $params = "WHERE ientrada.qtd > 0 AND ientrada.oculto=false ";
+            $cont = 2;
             if ($this->getOrigem()){
                 $params = $this->param($params, $cont).' origem.id_origem = '.$this->getOrigem().' ';
                 $cont++;
@@ -96,7 +96,7 @@ class Item {
             SUM(ientrada.qtd) as qtd_total, produto.descricao, SUM(ientrada.qtd*ientrada.valor_unitario) as valor_total, ientrada.valor_unitario 
             FROM ientrada 
             LEFT JOIN produto ON produto.id_produto = ientrada.id_produto 
-            WHERE ientrada.qtd > 0 
+            WHERE ientrada.qtd > 0 AND ientrada.oculto = false 
             GROUP BY concat(ientrada.id_produto,ientrada.valor_unitario)
             ORDER BY produto.descricao
             ;
@@ -106,8 +106,8 @@ class Item {
 
     private function saida(){
         if ($this->hasValue()){
-            $params = "WHERE isaida.qtd > 0 ";
-            $cont = 1;
+            $params = "WHERE isaida.qtd > 0 AND isaida.oculto=false ";
+            $cont = 2;
             if ($this->getDestino()){
                 $params = $this->param($params, $cont).' destino.id_destino = "'.$this->getDestino().'" ';
                 $cont++;
@@ -154,7 +154,7 @@ class Item {
             SUM(isaida.qtd) as qtd_total, produto.descricao, SUM(isaida.qtd*isaida.valor_unitario) as valor_total, isaida.valor_unitario 
             FROM isaida 
             LEFT JOIN produto ON produto.id_produto = isaida.id_produto 
-            WHERE isaida.qtd > 0 
+            WHERE isaida.qtd > 0 AND isaida.oculto = false 
             GROUP BY concat(isaida.id_produto,isaida.valor_unitario)
             ORDER BY produto.descricao
             ;
