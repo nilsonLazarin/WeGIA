@@ -48,7 +48,7 @@ require_once ROOT."/html/personalizacao_display.php";
       $recurso = mysqli_query($conexao, "SELECT * FROM recurso");
 ?>
 <!doctype html>
-<html class="fixed">
+<html class="fixed" lang="pt-br">
 <head>
 
 	<!-- Basic -->
@@ -189,7 +189,7 @@ require_once ROOT."/html/personalizacao_display.php";
 											$c = $row['cargo_id'];
 											$r = $row['recurso_id'];
 											$a = $row['acao_id'];
-                                            echo "<tr> <td>".$row['cargo']."</td> <td>".$row['recurso']."</td> <td>".$row['acao']."</td> <td><a href='deletar_permissao.php?c=$c&r=$r&a=$a' class='btn btn-danger'>Deletar</button></td> </tr>";
+                                            echo "<tr> <td>".utf8_encode($row['cargo'])."</td> <td>".utf8_encode($row['recurso'])."</td> <td>".utf8_encode($row['acao'])."</td> <td><a href='deletar_permissao.php?c=$c&r=$r&a=$a' class='btn btn-danger'>Deletar</button></td> </tr>";
                                         }         
 									?>
 								</tbody>

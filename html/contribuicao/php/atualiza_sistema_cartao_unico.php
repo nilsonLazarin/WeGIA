@@ -13,7 +13,9 @@ include("conexao.php");
 
         if($LINK == '')
         {
+            echo"<input type='hidden' name='cod_cartao' value=".$SISTEMA.">";
             echo"ERRNão há link para doação única pelo sistema selecionado";
+
         }else{
             $array = json_encode($vetor);
             echo $array;

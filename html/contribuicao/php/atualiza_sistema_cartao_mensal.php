@@ -31,7 +31,7 @@
         
     } 
     else{
-        echo"<span id='vazio_cartao_mensal'>Não há link para doação mensal pelo sistema selecionado</span>";
+        echo"ERR<span id='vazio_cartao_mensal'>Não há link para doação mensal pelo sistema selecionado</span>";
     }
    
 ?>

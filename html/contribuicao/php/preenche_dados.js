@@ -15,14 +15,17 @@ function preencher(id)
     
     $.post("atualiza_sistema_boleto.php", {'id_sistema':id})
     .done(function(data){
-        var aviso = data.split('ERR');
-        aviso = aviso[1];
-        $("#vazio").html(aviso);
-            if(aviso != '')
+        var array = data.split('ERR');
+        var aviso = array[1];
+            if(array.length == 2)
             {
-                $("#form1").attr("action", "insere_doacao.php");
-                console.log("aqui");
-            }0
+                $("#form1").attr("action", "insere_doacao.php"); 
+                
+            }else{
+                $("#form1").attr("action", "atualizacao_doacao.php"); 
+               
+            }
+        $("#vazio").html(aviso);    
         var dados = JSON.parse(data);
         var cod = dados.cod_regras;
         var minvalunic = dados.MinValUnic;
@@ -68,10 +71,12 @@ function preenche_dados_cartao(id)
             if(aviso != '')
             {
                 $("#form2").attr("action", "insere_doacao.php");
-                $("#insere_doacao_mensal").fadeIn();
+                $("#avulso_link").html("<td><input type='text' name='avulso_link' value=></td>");
+            }else{
+                $("#form2").attr("action", "atualizacao_doacao.php");
             }
         $("#vazio_cartao_unico").html(aviso);
-        var dados = JSON.parse(data);     
+        var dados = JSON.parse(data);    
         var link_avulso = dados.LINK_AVULSO;
         var cod = dados.cod;
         $("#avulso_link").html("<td><input type='text' name='avulso_link' value="+link_avulso+"></td>");
@@ -80,10 +85,20 @@ function preenche_dados_cartao(id)
     
     $.post("../php/atualiza_sistema_cartao_mensal.php", {'id_sistema':id})
     .done(function(data){
-        $("#doacao_mensal").html(data);
-        if(data == "<span id='vazio_cartao_mensal'>Não há link para doação mensal pelo sistema selecionado</span>")
-        {
-            $("#insere_doacao_mensal").fadeIn();
-        }
+        var array = data.split("ERR");
+            if(array.length == 2)
+            {
+                $("#doacao_mensal").html(array[0]);
+                $("#doacao_mensal").html(array[1]);
+                $("#insere_doacao_mensal").fadeIn();
+                $("#form2").attr("action", "insere_doacao.php");
+
+            } else{
+                $("#doacao_mensal").html(data);
+                $("#insere_doacao_mensal").hide();
+                $("#form2").attr("action", "atualizacao_doacao.php");
+            }
+        
+            
     });
 }

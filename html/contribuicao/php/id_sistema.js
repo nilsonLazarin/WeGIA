@@ -9,7 +9,7 @@ function retorna_id(nome_sistema)
         $("#id_sistema").html("<input type='hidden' id='id_sistema' name='id_sistema' value='"+id+"'>");
         preencher(id);
         preenche_dados_cartao(id);
-        inserir(id);
+        //inserir(id);
     });
 
    

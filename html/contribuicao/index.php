@@ -261,7 +261,7 @@
 
 	<div class="container-contact100">
 		<div class="wrap-contact100">
-			<form class="contact100-form validate-form" method = "POST" name="f2" >
+			<form class="contact100-form validate-form" method = "POST" name="f2">
 				<span id="img_logo"></span>
 				<span class="contact100-form-title" id="titulo_pag"></span>
 
@@ -467,31 +467,31 @@
 				<div class="wrap-input100" id = "pag3">
 					<h3>ENDEREÇO</h3><br>
 					<div class="wrap-input100 validate-input bg1" data-validate = "Digite um CEP válido">
-						<span class="label-input100">CEP</span>
+						<span class="label-input100">CEP *</span>
 						<input class="input100" type="text" id="cep" name="cep" onkeypress="$(this).mask('00.000-000')" onblur="valida_cep(f2.cep)" class="text required" placeholder="Digite um CEP" required>
 					</div>
 					<div class="wrap-input100 validate-input bg1">
-						<span class="label-input100">LOGRADOURO</span>
+						<span class="label-input100">LOGRADOURO *</span>
 						<input class="input100" type="text" id="rua" name="rua" onblur="valida_endereco(f2.rua)" class="text required" placeholder="Digite um Logradouro" required>
 					</div>
 					<div class="wrap-input100 bg1">
-						<span class="label-input100">NÚMERO</span>
+						<span class="label-input100">NÚMERO *</span>
 						<input class="input100" type="text" id="numero" name="numero" class="text required" placeholder="Digite o Número" required>
 					</div>
 					<div class="wrap-input100 bg1">
-						<span class="label-input100">COMPLEMENTO</span>
+						<span class="label-input100">COMPLEMENTO *</span>
 						<input class="input100" type="text" id="complemento" name="complemento" placeholder="Digite o Complemento">
 					</div>
 					<div class="wrap-input100 validate-input bg1">
-						<span class="label-input100">BAIRRO</span>
+						<span class="label-input100">BAIRRO *</span>
 						<input class="input100" type="text" id="bairro" name="bairro" onblur="valida_endereco(f2.bairro)" class="text required" placeholder="Digite um Bairro" required>
 					</div>
 					<div class="wrap-input100 validate-input bg1">
-						<span class="label-input100">CIDADE</span>
+						<span class="label-input100">CIDADE *</span>
 						<input class="input100" type="text" id="localidade" name="localidade" onblur="valida_endereco(f2.localidade)" class="text required" placeholder="Digite a Cidade" required>
 					</div>
 					<div class="wrap-input100 validate-input bg1">
-						<span class="label-input100">ESTADO</span>
+						<span class="label-input100">ESTADO *</span>
 						<select class="wrap-input100 validate-input bg1" id="uf" name="uf" onblur="valida_endereco(f2.estado); geraArquivo()" class="text required">
 							<option value="" disabled></option>
 			    			<option value="AC">Acre</option>
@@ -513,8 +513,13 @@
 			    			<option value="PE">Pernambuco</option>
 			   			    <option value="PI">Piauí</option>
 			    			<option value="RJ">Rio de Janeiro</option>
-			    			<option value="RN">Rio Grande do Norte</option>
-			    			<option value="RS">Sergipe</option>
+							<option value="RN">Rio Grande do Norte</option>
+							<option value="RS">Rio Grande do Sul</option>
+							<option value="RO">Rondônia</option>
+							<option value="RR">Roraima</option>
+							<option value="SC">Santa Catarina</option>
+							<option value="SP">São Paulo</option>
+							<option value="RS">Sergipe</option>
 			    			<option value="TO">Tocantins</option>
 			    		</select><br>
 					</div>

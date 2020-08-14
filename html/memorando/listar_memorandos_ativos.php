@@ -127,7 +127,7 @@ require_once ROOT."/html/personalizacao_display.php";
                     .append($("<td>")
                         .html("<a href=<?php echo WWW;?>html/memorando/listar_despachos.php?id_memorando="+item.id_memorando+" id=memorando>"+item.titulo+"</a>"))
                     .append($("<td>")
-                        .text(item.data))
+                        .text(item.data.substr(8,2)+"/"+item.data.substr(5,2)+"/"+item.data.substr(0,4)+" "+item.data.substr(10)))
                     .append($("<td id=opcoes_"+item.id_memorando+">")
                         .html("<a href=<?php echo WWW;?>controle/control.php?nomeClasse=MemorandoControle&metodo=alterarIdStatusMemorando&id_memorando="+item.id_memorando+"&id_status_memorando=3&modulo=memorando id=naolido"+item.id_memorando+"><img src=<?php echo WWW;?>img/nao-lido.png width=25px height=25px title='Não Lido'></a> <a href=<?php echo WWW;?>controle/control.php?nomeClasse=MemorandoControle&metodo=alterarIdStatusMemorando&id_memorando="+item.id_memorando+"&id_status_memorando=4&modulo=memorando id=importante"+item.id_memorando+"><img src=<?php echo WWW;?>img/importante.png width=25px height=25px title='Importante'></a> <a href=<?php echo WWW;?>controle/control.php?nomeClasse=MemorandoControle&metodo=alterarIdStatusMemorando&id_memorando="+item.id_memorando+"&id_status_memorando=5&modulo=memorando id=pendente"+item.id_memorando+"><img src=<?php echo WWW;?>img/pendente.png width=25px height=25px title='Pendente'></a>")));
 
