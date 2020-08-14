@@ -130,7 +130,7 @@ require_once ROOT."/html/personalizacao_display.php";
 					.append($("<td>")
 						.text(item.nome))
 					.append($("<td>")
-						.text(item.data)));
+						.text(item.data.substr(8,2)+"/"+item.data.substr(5,2)+"/"+item.data.substr(0,4)+" "+item.data.substr(10))));
 
 				if(item.id_status_memorando == 6)
 				{
