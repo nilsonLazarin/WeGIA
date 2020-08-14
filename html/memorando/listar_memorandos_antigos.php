@@ -114,6 +114,10 @@ require_once ROOT."/html/personalizacao_display.php";
 	<script src="<?php echo WWW;?>Functions/onlyChars.js"></script>
 	<script src="<?php echo WWW;?>Functions/enviar_dados.js"></script>
 	<script src="<?php echo WWW;?>Functions/mascara.js"></script>
+
+	<!-- printThis -->
+    <script src="<?php echo WWW;?>assets/vendor/jasonday-printThis-f73ca19/printThis.js"></script>
+
 		
 	<!-- jquery functions -->
 
@@ -148,9 +152,15 @@ require_once ROOT."/html/personalizacao_display.php";
 			position: absolute;
 			width: 235px;
 		}
-		.select-table-filter{
-			width: 140px;
-			float: left;
+
+		/* print styles*/
+		@media print {
+    		.printable {
+        		display: block;
+   			 }
+   			.screen {
+        		display: none;
+    		}
 		}
 	</style>
 </head>
@@ -180,16 +190,12 @@ require_once ROOT."/html/personalizacao_display.php";
 				</header>
 				<!-- start: page -->
 				<section class="panel" >
+					<div id="myModal">
 					<header class="panel-heading">
 						<h2 class="panel-title">Memorandos despachados</h2>
 					</header>
 					<div class="panel-body" >
-						<div class="select" >
-							<select class="select-table-filter form-control mb-md" data-table="order-table">
-								<option selected disabled>Memorandos despachados</option>
-							</select></h5>
-	  					</div>
-	  					<button style="float: right;" class="mb-xs mt-xs mr-xs btn btn-default">Imprimir</button>
+	  					<button style="margin-bottom: 0px !important;" class="mb-xs mt-xs mr-xs btn btn-default" id="btnPrint">Imprimir</button>
 	  					<br><br>
 		  					
 						<table class="table table-bordered table-striped mb-none" id="datatable-default">
@@ -205,6 +211,8 @@ require_once ROOT."/html/personalizacao_display.php";
 							</tbody>
 						</table>
 					</div>
+				</div>
+				<div class="printable"></div>
 				</section>
 			</section>
 		</div>
@@ -229,5 +237,15 @@ require_once ROOT."/html/personalizacao_display.php";
 		<script src="<?php echo WWW;?>assets/javascripts/tables/examples.datatables.default.js"></script>
 		<script src="<?php echo WWW;?>assets/javascripts/tables/examples.datatables.row.with.details.js"></script>
 		<script src="<?php echo WWW;?>assets/javascripts/tables/examples.datatables.tabletools.js"></script>
+		<script>
+			$(function(){
+				$("#btnPrint").click(function () {
+        			//get the modal box content and load it into the printable div
+        			$(".printable").html($("#myModal").html());
+        			$(".printable").printThis();
+        			$("#myModal").hide();
+    			}); 
+			});
+		</script>
 	</body>
 </html>
