@@ -11,10 +11,8 @@
         die();
     }
     extract($_REQUEST);
-    if (sizeof($_REQUEST) != 6){
-        $action = '';
-        $id_produto = isset($id_produto) ? $id_produto : null;
-    }
+    $qtd = intval($total_total);
+    
 
     function saida(){
         extract($_REQUEST);
@@ -29,15 +27,10 @@
         }
         $saida = getSaida();
         if (!$saida){
-            $saida = setSaida();
+            $saida = addSaida();
         }
-        setISaida($saida);
+        addISaida($saida);
         deleteEstoque();
-        header("Location: ./listar_produto.php");
-    }
-
-    function substituicao(){
-        echo("substituicao");
     }
 
     function getSaida(){
@@ -49,11 +42,11 @@
         return $saida;
     }
 
-    function setSaida(){
+    function addSaida(){
         extract($_REQUEST);
         $id_pessoa = $_SESSION['id_pessoa'];
         $pdo = Conexao::connect();
-        $saida = $pdo->prepare("INSERT INTO saida VALUES (default, :d, :a, :t, :i, CURDATE(), CURRENT_TIME(), NULL);") or die(header("Location: ./remover_produto.php?id_produto=$id_produto&flag=error&msg=Houve um erro ao registrar a saída do item"));
+        $saida = $pdo->prepare("INSERT INTO saida (id_saida, id_destino, id_almoxarifado, id_tipo, id_responsavel, `data`, hora) VALUES (default, :d, :a, :t, :i, CURDATE(), CURRENT_TIME());") or header("Location: ./remover_produto.php?id_produto=$id_produto&flag=error&msg=Houve um erro ao registrar a saída do item");
         $saida->bindValue(':d', $destino);
         $saida->bindValue(':a', $almoxarifado);
         $saida->bindValue(':t', $tipo_saida);
@@ -62,32 +55,33 @@
         return $saida;
     }
 
-    function setISaida($saida){
+    function addISaida($saida){
         extract($_REQUEST);
         $id_pessoa = $_SESSION['id_pessoa'];
         $id_saida = $saida['id_saida'];
         $pdo = Conexao::connect();
-        $pdo->exec("INSERT INTO isaida VALUES ( default , $id_saida , $id_produto , $total_total , NULL );") or die(header("Location: ./remover_produto.php?id_produto=$id_produto&flag=error&msg=Houve um erro ao registrar a saída do item"));
+        $pdo->exec("INSERT INTO isaida (id_isaida, id_saida, id_produto, qtd) VALUES ( default , $id_saida , $id_produto , $total_total );") or header("Location: ./remover_produto.php?id_produto=$id_produto&flag=error&msg=Houve um erro ao registrar a saída do item");
     }
 
     function deleteEstoque(){
         extract($_REQUEST);
         $pdo = Conexao::connect();
-        $pdo->exec("DELETE FROM estoque WHERE id_produto=$id_produto;") or die(header("Location: ./remover_produto.php?id_produto=$id_produto&flag=error&msg=Houve um erro ao apagar registros de estoque do produto"));
+        $pdo->exec("DELETE FROM estoque WHERE id_produto=$id_produto;") or header("Location: ./remover_produto.php?id_produto=$id_produto&flag=error&msg=Houve um erro ao apagar registros de estoque do produto");
     }
 
-    switch ($action){
-        case 'saida':
-            saida();
-        break;
-        case 'substituicao':
-            substituicao();
-        break;
-        default:
-            if (isset($id_produto)){
-                header("Location: ./remover_produto.php?id_produto=$id_produto&msg=Ação não especificada&flag=error");
-            }else{
-                header("Location: ./listar_produto.php");
-            }
+    function ocultarProduto(){
+        extract($_REQUEST);
+        $pdo = Conexao::connect();
+        $pdo->exec("UPDATE produto SET oculto=true WHERE id_produto=$id_produto;") or header("Location: ./remover_produto.php?id_produto=$id_produto&flag=error&msg=Houve um erro ao tentar ocultar registros de estoque do produto");
+        $pdo->exec("UPDATE ientrada SET oculto=true WHERE id_produto=$id_produto;") or header("Location: ./remover_produto.php?id_produto=$id_produto&flag=error&msg=Houve um erro ao tentar ocultar registros de entrada do produto");
+        $pdo->exec("UPDATE isaida SET oculto=true WHERE id_produto=$id_produto;") or header("Location: ./remover_produto.php?id_produto=$id_produto&flag=error&msg=Houve um erro ao tentar ocultar registros de saida do produto");
     }
+
+    if ($qtd){
+        // Tem no estoque
+        saida();
+    }
+    ocultarProduto();
+    header("Location: ./listar_produto.php");
+    
 ?>

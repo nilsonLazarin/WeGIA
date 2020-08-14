@@ -11,7 +11,7 @@ class IentradaDAO
             $sql = "SELECT i.id_ientrada,i.id_entrada,p.descricao,i.qtd,i.valor_unitario 
             FROM ientrada i 
             RIGHT JOIN produto p ON p.id_produto = i.id_produto
-            WHERE i.id_entrada = :id_entrada";
+            WHERE i.id_entrada = :id_entrada AND i.oculto = false";
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':id_entrada',$id_entrada);
 

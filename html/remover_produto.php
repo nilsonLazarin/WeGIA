@@ -147,13 +147,14 @@
         <?php
             $pdo = Conexao::connect();
             $idProduto = $_GET['id_produto'];
-            $query = $pdo->query("SELECT p.id_produto, p.preco, p.descricao,p.codigo, p.id_categoria_produto, c.descricao_categoria, p.id_unidade, u.descricao_unidade, e.qtd
+            $query = $pdo->query("SELECT p.id_produto, p.preco, p.descricao,p.codigo, p.id_categoria_produto, c.descricao_categoria, p.id_unidade, u.descricao_unidade 
             FROM produto p 
             INNER JOIN categoria_produto c ON p.id_categoria_produto = c.id_categoria_produto 
             INNER JOIN unidade u ON p.id_unidade = u.id_unidade 
-			INNER JOIN estoque e ON p.id_produto = e.id_produto 
             WHERE p.id_produto = $idProduto;");
-            $item = $query->fetch(PDO::FETCH_ASSOC);
+			$item = $query->fetch(PDO::FETCH_ASSOC);
+			$query = $pdo->query("SELECT qtd FROM estoque WHERE id_produto=$idProduto;");
+			$item['qtd'] = ($query->fetch(PDO::FETCH_ASSOC))['qtd'];
         ?>
         const itemEstoque = <?= JSON_encode($item) ?>;
         var descOf = {};
@@ -163,7 +164,7 @@
         });
 
         var acao = {
-            valor: 'saida',
+            valor: 'none',
             substituicao(){
 				$('#replace').empty()
                 $('#replace')
@@ -176,11 +177,7 @@
                 .append($('<h4 />')
                     .text("Produto que receberá os itens:")
                 )
-                .append($('<input />')
-                    .attr('list', 'list')
-                    .attr('type', 'text')
-                    .attr('id', 'produto')
-                    .attr('required', true)
+                .append($('<input list="list" type="text" id="produto" nome="id_produto_novo" required />')
                     .addClass("form-control ui-autocomplete-input")
                 )
                 .append($('<datalist />')
@@ -188,7 +185,7 @@
                 );
 
                 $.each(produtos, function(i, item){
-                    if (item.id_produto != <?= $item['id_produto']?>){
+                    if (item.id_produto != <?= $_GET['id_produto']?>){
                         $('#list').append($('<option />')
                             .val(item.id_produto)
                             .text(item.id_produto+" | "+item.descricao+" | "+item.codigo)
@@ -200,6 +197,7 @@
                 $('#replace').empty();
 				$('#replace')
                 	.append($('<hr />'))
+					.append($('<p/>').text("Há itens relacionados ao produto em estoque, deseja registrar saída deles?"))
 					.append('Tipo de saída: ')
                 	.append($('<br />'))
 					.append($('<select />')
@@ -220,7 +218,10 @@
 						.attr({name: 'almoxarifado', id: 'almox', required: true})
 					);
 				fillOptions();
-            }
+            },
+			none(){
+                $('#replace').empty();
+			}
         }
 
         function selecao(valor){
@@ -232,32 +233,16 @@
             window.location.replace('../html/listar_produto.php');
         }
 		console.log(itemEstoque);
-        function enviar(){
-            if (acao.valor == 'substituicao'){
-                let id = $('#produto').val();
-                if (id){
-                    if (window.confirm("Tem certeza que deseja descartar todos os '<?= $item['descricao']?>' e adicioná-los ao estoque de '"+descOf[id]+"'?")){
-						window.location.replace('../controle/control.php?metodo=substituir&nomeClasse=ProdutoControle&id_produto_old=<?= $item['id_produto']?>&id_produto_new='+id);
-                    }
-                }else{
-                    window.alert("Preencha o campo com o produto substituto antes de prosseguir");
-                }
-            }else{
-				let tipo = $('#saida').val();
-				let destino = $('#destino').val();
-				let almox = $('#almox').val();
-				if (tipo && destino && almox){
-					console.log(`../controle/control.php?metodo=incluir&nomeClasse=SaidaControle&almoxarifado=${almox}$destino=${destino}&tipo_saida=${tipo}$total_total=${itemEstoque.qtd}$id_produto=${itemEstoque.id_produto}`);
-					window.location.replace(`./remover_produto_substituicao.php?almoxarifado=${almox}&destino=${destino}&tipo_saida=${tipo}&total_total=${itemEstoque.qtd}&id_produto=${itemEstoque.id_produto}`);
-
-				}else{
-					window.alert("Preencha todos os campos antes de proseguir");
-				}
-            }
-		}
 		
 		function submitForm(){
-			$('#form').append($('<input name="id_produto" readonly hidden />').val(itemEstoque.id_produto)).append($('<input name="total_total" readonly hidden />').val(itemEstoque.qtd))
+			if ($('#saida').val() && $('#destino').val() && $('#almox').val()){
+				if (window.confirm("Tem certeza que deseja registrar a saída dos itens sem excluir o produto?")){
+					$('#form').append($('<input name="id_produto" readonly hidden />').val(itemEstoque.id_produto)).append($('<input name="total_total" readonly hidden />').val(itemEstoque.qtd));
+					$('#form').submit();
+				}
+			}else{
+				window.alert("Preencha todos os campos antes de prosseguir.")
+			}
 		}
 
 		function fillOptions(){
@@ -282,7 +267,11 @@
 			})
 		}
 		$(function(){
-			selecao('saida')
+			if (itemEstoque.qtd){
+				selecao('saida');
+			}else{
+				selecao('none');
+			}
 		})
 	</script>
 	<script>
@@ -332,7 +321,7 @@
 				</header>
 				<div class="panel-body">
 					<div>
-                        <p class="text-justify">Existem itens registrados no estoque relacionados a esse produto. Qual será a ação a ser tomada?</p>
+                        <p class="text-justify">Este produto possui dependências no banco de dados e não pode ser excluído completamente, pretende ocultar o produto e seus registros?</p>
                         <div class="panel-body" style="display: flex;">
                                 <ul class="nav nav-children" id="info" style="padding-right: 20px;">
                                     <li>Nome: </li>
@@ -340,6 +329,7 @@
                                     <li>Unidade: </li>
                                     <li>Codigo: </li>
                                     <li>Valor: </li>
+                                    <li>Quantidade: </li>
                                 </ul>
                                 <ul class="nav nav-children" id="info">
                                     <?php
@@ -347,26 +337,28 @@
                                         <li id='Categoria'>".$item['descricao_categoria']."</li>
                                         <li id='Unidade'>".$item['descricao_unidade']."</li>
                                         <li id='Codigo'>".$item['codigo']."</li>
-                                        <li id='Valor'>R$ ".$item['preco']."</li>")
+                                        <li id='Valor'>R$ ".$item['preco']."</li>
+                                        <li id='Quantidade'>".($item['qtd'] ? $item['qtd'] : 0 )."</li>");
                                     ?>
                                     
                                 </ul>
                             </div>
                         <br>
 						<form action="./remover_produto_substituicao.php" method="post" id="form">
-							<h4>Escolha a forma de lidar com a remoção:</h4>
+							<!-- <h4>Escolha a forma de lidar com a remoção:</h4>
 							<select name="action" id="action" oninput="selecao(this.value)">
-								<option value="saida" selected>Registrar saída dos itens</option>
-								<option value="substituicao" disabled>Substituir por um produto existente</option>
-								<option value="exclusao" disabled>Excluir todos os registros relacionados a este produto</option>
-							</select>
+								<option value="none"Selecionar>Selecionar</option>
+								<option value="saida" <?= ($item['qtd'] ? 'selected' : 'hidden' ) ?>>Registrar saída dos itens</option>
+								<option value="substituicao" >Substituir por um produto existente</option>
+								<option value="exclusao" >Excluir todos os registros relacionados a este produto</option>
+							</select> -->
 							<div id="replace">
 							</div>
 							<br>
-							<div class="center-content">
-								<button class="btn btn-primary sm-rm" onclick="submitForm()">Enviar</button><button class="btn btn-danger" onclick="cancelar()">Cancelar</button>
-							</div>
 						</form>
+						<div class="center-content">
+							<button class="btn btn-primary sm-rm" onclick="submitForm()">Ocultar</button><button class="btn btn-danger" onclick="cancelar()">Cancelar</button>
+						</div>
                     </div>
 				</div>
                 <br>

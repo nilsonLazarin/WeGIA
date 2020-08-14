@@ -54,8 +54,11 @@ class ProdutoDAO
 	        try{
 	            $produtos=array();
 	            $pdo = Conexao::connect();
-	            $consulta = $pdo->query("SELECT p.id_produto,p.preco,p.descricao,p.codigo,c.descricao_categoria,u.descricao_unidade FROM produto p INNER JOIN categoria_produto c ON p.id_categoria_produto = c.id_categoria_produto
-	            	INNER JOIN unidade u ON u.id_unidade = p.id_unidade");
+	            $consulta = $pdo->query("SELECT p.id_produto,p.preco,p.descricao,p.codigo,c.descricao_categoria,u.descricao_unidade 
+				FROM produto p 
+				INNER JOIN categoria_produto c ON p.id_categoria_produto = c.id_categoria_produto
+				INNER JOIN unidade u ON u.id_unidade = p.id_unidade
+				WHERE oculto=false");
 	            $x=0;
 	            while($linha = $consulta->fetch(PDO::FETCH_ASSOC)){
 	                $produtos[$x]=array('id_produto'=>$linha['id_produto'],'preco'=>$linha['preco'],'descricao'=>$linha['descricao'],'codigo'=>$linha['codigo'],'descricao_categoria'=>$linha['descricao_categoria'],'descricao_unidade'=>$linha['descricao_unidade']);

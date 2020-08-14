@@ -16,7 +16,8 @@ class EstoqueDAO
                 FROM produto p 
                 INNER JOIN estoque e ON p.id_produto = e.id_produto
                 INNER JOIN almoxarifado a ON a.id_almoxarifado = e.id_almoxarifado 
-                INNER JOIN categoria_produto c ON p.id_categoria_produto = c.id_categoria_produto;");
+                INNER JOIN categoria_produto c ON p.id_categoria_produto = c.id_categoria_produto
+                WHERE e.qtd != 0 AND p.oculto = false;");
             $x=0;
             while($linha = $consulta->fetch(PDO::FETCH_ASSOC)){
                 $Estoques[$x]=array('codigo'=>$linha['codigo'],'descricao'=>$linha['descricao'],'descricao_almoxarifado'=>$linha['descricao_almoxarifado'],'qtd'=>$linha['qtd'],'categoria'=>$linha['categoria'],'id_almoxarifado'=>$linha['id_almoxarifado']);
