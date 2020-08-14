@@ -205,37 +205,20 @@
                                     <legend>DOAÇÃO MENSAL</legend>
                                     <div id='doacao_mensal'>
                                     </div> 
-
                                     <div id = 'insere_doacao_mensal'>
-                                            <table border='1px'>
-                                                <tr>
-                                                    <th>VALOR</th>
-                                                    <th>LINK</th>
-                                                </tr>
-                                                <tr>
-                                                    <td><input type='number' name='valor[0]' value =></td>
-                                                    <td><input type='text' name='mensal_link[0]' value=></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><input type='number' name='valor[1]' value =></td>
-                                                    <td><input type='text' name='mensal_link[1]' value=></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><input type='number' name='valor[2]' value =></td>
-                                                    <td><input type='text' name='mensal_link[2]' value=></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><input type='number' name='valor[3'] value =></td>
-                                                    <td><input type='text' name='mensal_link[3]' value=></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><input type='number' name='valor[4]' value =></td>
-                                                    <td><input type='text' name='mensal_link[4]' value=></td>
-                                                </tr>
-                                            </table>
-                                    </div> 
-
-                                    
+                                        <table border='1px'>
+                                            <tr>
+                                                <th>VALOR</th><th>LINK</th>
+                                            </tr>
+                                            <tr>
+                                                <td><input type='number' name='valor[0]' value =></td>
+                                                <td><input type='text' name='mensal_link[0]' value=></td>
+                                            </tr>
+                                            <tr>
+                                                <td><input type='number' name='valor[1]' value =></td><td><input type='text' name='mensal_link[1]' value=></td>
+                                            </tr>
+                                        </table>
+                                    </div>
                                     <br><br>
                                     <input type="submit" class= "btn btn-primary" value="Editar Informações">
                                     <a href="../index.php"><input type="button" class="btn btn-primary" value="Ir à Página de Contribuição"></a>  

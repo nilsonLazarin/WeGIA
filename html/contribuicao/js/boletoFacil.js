@@ -28,12 +28,14 @@ function gera_boleto(){
             {
                 var doc = cnpj;
                 var nome = $("#cnpj_nome").val();
+                
             }
             else
             {
                 doc = cpf;
                 nome = $("#nome").val();
                 sobrenome = $("#sobrenome").val();
+                nome= nome+sobrenome;
             }
         var doc = doc.replace(/\D/g, '');
         var email = $("#email").val();
@@ -82,18 +84,19 @@ function gera_boleto(){
                 for(var link of dados.data.charges)
                 {
                     var check = link.checkoutUrl;
-                   
+                 
                 }
                 $("form").html('<div><h3>OBRIGADO PELA SUA DOAÇÃO! VOCÊ ESTÁ AJUDANDO A MANTER ESSA INSTITUIÇÃO QUE ABRIGA IDOSOS DESDE 1929!</h3><br>ESSE É O <button class="mala"><a target="_blank" href='+check+'>LINK</a></button> PARA A EMISSÃO DO SEU BOLETO</div>');
                 });
             }
             else
             {
-                $.get(api+"token="+token+"&description="+agradecimento+"&installments="+parcelas+"&amount="+valor2+"&payerName="+nome+sobrenome+"&payerCpfCnpj="+doc+"&dueDate="+dataV+"&payerPhone="+telefone+"&payerEmail="+email+"&billingAddressState="+uf+"&billingAddressCity="+cidade+"&billingAddressNeighborhood="+bairro+"&billingAddressPostcode="+cep+"&billingAddressStreet="+log+"&billingAddressNumber="+n+"&billingAddressComplement="+comp+"&paymentTypes=BOLETO&maxOverdueDays="+dias_mensal, function(dados){
+                $.get(api+"token="+token+"&description="+agradecimento+"&installments="+parcelas+"&amount="+valor2+"&payerName="+nome+"&payerCpfCnpj="+doc+"&dueDate="+dataV+"&payerPhone="+telefone+"&payerEmail="+email+"&billingAddressState="+uf+"&billingAddressCity="+cidade+"&billingAddressNeighborhood="+bairro+"&billingAddressPostcode="+cep+"&billingAddressStreet="+log+"&billingAddressNumber="+n+"&billingAddressComplement="+comp+"&paymentTypes=BOLETO&maxOverdueDays="+dias_mensal, function(dados){
                 for(var link of dados.data.charges)
                 {
                    
                     var check = link.checkoutUrl; 
+                    console.log(check);
                     
                 }
                 $("form").html('<div><h3>OBRIGADO PELA SUA DOAÇÃO! OBRIGADO PELA SUA DOAÇÃO! VOCÊ ESTÁ AJUDANDO A MANTER ESSA INSTITUIÇÃO QUE ABRIGA IDOSOS DESDE 1929!</h3><br>ESSE É O <button class="mala"><a target="_blank" href='+check+'>LINK</a></button> PARA A EMISSÃO DO SEU BOLETO</div>');

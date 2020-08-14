@@ -2,10 +2,10 @@
         include("conexao.php");
 
         $SISTEMA = $_POST['id_sistema'];
-        
+
         $QUERYR  = mysqli_query($conexao, "SELECT * FROM doacao_boleto_regras as regras JOIN doacao_boleto_info as info ON (info.id_regras = regras.id) WHERE info.id_sistema = '$SISTEMA'");
         $REGRAS = mysqli_fetch_row($QUERYR);
-        
+  
         $MinValUnic = $REGRAS[1];
         $MensalDiasV = $REGRAS[2];
         $juros = $REGRAS[3];
@@ -48,14 +48,14 @@
 
         if($COD == '' || $API == '' ||  $token == '')
         {
+                echo$SISTEMA;
                 echo"ERRNão há regras para esse sistema. Favor preencher no Banco de Dados";
         }else{
                 $array = json_encode($vetor);
                 echo$array;
         }
                 
-
-      
+?>
                 
 
 
