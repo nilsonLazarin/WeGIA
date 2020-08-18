@@ -149,6 +149,8 @@ require_once ROOT."/html/personalizacao_display.php";
 
     <!-- printThis -->
     <script src="<?php echo WWW;?>assets/vendor/jasonday-printThis-f73ca19/printThis.js"></script>
+
+    <script src="<?php echo WWW;?>Functions/memorando/verifica.js"></script>
         
     <!-- jquery functions -->
 
@@ -219,7 +221,7 @@ require_once ROOT."/html/personalizacao_display.php";
         CKEDITOR.replace('despacho');
    		}
     	<?php } ?>
-    	
+
     });
 	</script>
 
@@ -380,7 +382,8 @@ require_once ROOT."/html/personalizacao_display.php";
 										</div>
 										<div class='form-group'>
 											<label for=texto id=etiqueta_despacho class='col-md-3 control-label'>Despacho </label>
-											<div class='col-md-6' id='div_texto' style="height: 500px;">							<textarea cols='30' rows='5' id='despacho' name='texto' required class='form-control'></textarea>
+											<div class='col-md-6' id='div_texto' style="height: 500px;">
+												<textarea cols='30' rows='5' id='despacho' name='texto' required class='form-control'></textarea>
 											</div>
 										</div>
 										<div class='row'>
@@ -443,9 +446,9 @@ require_once ROOT."/html/personalizacao_display.php";
 			$("a").removeAttr("href");
         	//get the modal box content and load it into the printable div
         	$(".printable").html($("#myModal").html());
-        	$(".printable").printThis();
+        	$(".printable").printThis({importStyle: true});
         	$("a").removeAttr("href");
-    	});    
+    	});
 		});           	
 	</script>
 	</body>
