@@ -58,7 +58,6 @@ function verificar()
         {
             var valor = $("#v").val();
             var val_min = $("#valunic").val();
-            console.log(val_min);
             valor = valor.split('.');
                 if(valor[0] == ''|| valor[0] == 0)
                 {
@@ -68,14 +67,17 @@ function verificar()
                 {
                     if(valor[0] < val_min)
                     {
-                        $("#avisa_valor").html("Desculpe, o valor mínimo para doação é <i>R$"+val_min+"</i>"); 
+                        $("#avisa_valor").html("O valor mínimo para doação é <i>R$"+val_min+"</i>"); 
                         
                     }else{
+                        
                             $("#avisa_valor").html("");
                             $("#pag2").fadeIn();
                             $("#pag1").hide();
                             $("#forma").hide();
                             $("#doacao_boleto").hide();
+                        
+                            
                     }
                    
                 }

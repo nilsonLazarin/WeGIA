@@ -40,8 +40,17 @@ function verifica3()
                         }
                         else
                         {
-                          //gera_boleto();
-                          recebe_dados();
+                            if(cep == '')
+                            {
+                                $("#aviso").html('Preencha os campos marcados com "*"');
+                                console.log("oi");
+                            }else
+                                {
+                                    //gera_boleto();
+                                    recebe_dados()
+                                    $("#aviso").html("");
+                                }
+                          ;
                         }
                     }
                 }

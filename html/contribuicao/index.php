@@ -637,6 +637,7 @@
 
 	    $(document).ready(function()
 	    {
+			$("#tipo1").prop('checked', true);
 			$('#cep').keypress(function(e) {
 			if(e.which == 13) {
 			e.preventDefault();

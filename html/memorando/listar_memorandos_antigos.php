@@ -240,9 +240,10 @@ require_once ROOT."/html/personalizacao_display.php";
 		<script>
 			$(function(){
 				$("#btnPrint").click(function () {
+					$("a").removeAttr("href");
         			//get the modal box content and load it into the printable div
         			$(".printable").html($("#myModal").html());
-        			$(".printable").printThis();
+        			$(".printable").printThis({importStyle: true});
         			$("#myModal").hide();
     			}); 
 			});
