@@ -440,9 +440,11 @@ require_once ROOT."/html/personalizacao_display.php";
 				.append($("<option id="+item.id_pessoa+" value="+item.id_pessoa+" name="+item.id_pessoa+">"+item.nome+" "+item.sobrenome+"</option>"));
 		});
 		$("#btnPrint").click(function () {
+			$("a").removeAttr("href");
         	//get the modal box content and load it into the printable div
         	$(".printable").html($("#myModal").html());
         	$(".printable").printThis();
+        	$("a").removeAttr("href");
     	});    
 		});           	
 	</script>
