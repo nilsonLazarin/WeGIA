@@ -113,6 +113,10 @@ require_once ROOT."/html/personalizacao_display.php";
     <script src="<?php echo WWW;?>Functions/onlyNumbers.js"></script>
     <script src="<?php echo WWW;?>Functions/onlyChars.js"></script>
     <script src="<?php echo WWW;?>Functions/mascara.js"></script>
+
+    <!-- printThis -->
+    <script src="<?php echo WWW;?>assets/vendor/jasonday-printThis-f73ca19/printThis.js"></script>
+
         
     <!-- jquery functions -->
 
@@ -169,10 +173,6 @@ require_once ROOT."/html/personalizacao_display.php";
             position: absolute;
             width: 235px;
         }
-        .select-table-filter{
-            width: 140px;
-            float: left;
-        }
 
         .panel-body
         {
@@ -182,6 +182,15 @@ require_once ROOT."/html/personalizacao_display.php";
         img
         {
         	margin-left:10px;
+        }
+        /* print styles*/
+        @media print {
+            .printable {
+                display: block;
+             }
+            .screen {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -230,17 +239,12 @@ require_once ROOT."/html/personalizacao_display.php";
                                 <input type='submit' value='Criar memorando' name='enviar' id='enviar' class='mb-xs mt-xs mr-xs btn btn-default'>
                             </form>
                         </div>
+                        <div id="myModal">
                     <header class="panel-heading">
                         <h2 class="panel-title">Caixa de entrada</h2>
                     </header>
                     <div class="panel-body">
-
-                        <div class="select" >
-                            <select class="select-table-filter form-control mb-md" data-table="order-table">
-                                <option selected disabled>Caixa de entrada</option>
-                            </select></h5>
-                        </div>
-                        <button style="float: right;" class="mb-xs mt-xs mr-xs btn btn-default">Imprimir</button>
+                        <button style="margin-bottom: 0px !important;" class="mb-xs mt-xs mr-xs btn btn-default" id="btnPrint">Imprimir</button>
                         <br><br>
                             
                         <table class="table table-bordered table-striped mb-none" id="datatable-default">
@@ -256,6 +260,8 @@ require_once ROOT."/html/personalizacao_display.php";
                             </tbody>
                         </table>
                     </div>
+                </div>
+                <div class="printable"></div>
                 </section>
             </section>
         </div>
@@ -280,5 +286,15 @@ require_once ROOT."/html/personalizacao_display.php";
         <script src="<?php echo WWW;?>assets/javascripts/tables/examples.datatables.default.js"></script>
         <script src="<?php echo WWW;?>assets/javascripts/tables/examples.datatables.row.with.details.js"></script>
         <script src="<?php echo WWW;?>assets/javascripts/tables/examples.datatables.tabletools.js"></script>
+        <script type="text/javascript">
+            $(function(){
+                $("#btnPrint").click(function () {
+                    //get the modal box content and load it into the printable div
+                    $(".printable").html($("#myModal").html());
+                    $(".printable").printThis({copyTagClasses: false, canvas: true});
+                    $("#myModal").hide();
+                }); 
+            });
+        </script>
     </body>
 </html>

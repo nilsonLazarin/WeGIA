@@ -146,6 +146,9 @@ require_once ROOT."/html/personalizacao_display.php";
 
     <!-- jkeditor -->
     <script src="<?php echo WWW;?>assets/vendor/ckeditor/ckeditor.js"></script>
+
+    <!-- printThis -->
+    <script src="<?php echo WWW;?>assets/vendor/jasonday-printThis-f73ca19/printThis.js"></script>
         
     <!-- jquery functions -->
 
@@ -286,6 +289,20 @@ require_once ROOT."/html/personalizacao_display.php";
         	margin-bottom: 25px !important; 
         }
 
+        .printable {
+   			 display: none;
+		}
+
+		/* print styles*/
+		@media print {
+    		.printable {
+        		display: block;
+   			 }
+   			.screen {
+        		display: none;
+    		}
+		}
+
 	</style>
 </head>
 <body>
@@ -326,18 +343,16 @@ require_once ROOT."/html/personalizacao_display.php";
 				else
 				{
 				?>
+					<div id="myModal">
 					<header class="panel-heading">
 						<h2 class="panel-title">Despacho</h2>
 					</header>
 					<div class="panel-body" id="listaDeDespachos">
-						<div class="select" >
-							<select class="select-table-filter form-control mb-md" data-table="order-table">
-								<option selected disabled>Despacho</option>
-							</select float:right;></h5>
-	  					</div>
-	  					<button style="float: right;" class="mb-xs mt-xs mr-xs btn btn-default">Imprimir</button>
+	  					<button style="margin-bottom: 0px !important;" class="mb-xs mt-xs mr-xs btn btn-default" id="btnPrint">Imprimir</button>
 	  					<br><br>
-					</div>							
+					</div>
+				</div>
+					<div class="printable"></div>							
 					<?php
 						if($_SESSION['id_status_memorando'][0]!=6)
 						{ 
@@ -423,7 +438,12 @@ require_once ROOT."/html/personalizacao_display.php";
     		$.each(funcionario,function(i,item){	
 			$("#destinatario")
 				.append($("<option id="+item.id_pessoa+" value="+item.id_pessoa+" name="+item.id_pessoa+">"+item.nome+" "+item.sobrenome+"</option>"));
-		});    
+		});
+		$("#btnPrint").click(function () {
+        	//get the modal box content and load it into the printable div
+        	$(".printable").html($("#myModal").html());
+        	$(".printable").printThis();
+    	});    
 		});           	
 	</script>
 	</body>
