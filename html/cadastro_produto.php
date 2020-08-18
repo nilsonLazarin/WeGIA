@@ -43,6 +43,9 @@
 	
 	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
 	require_once "personalizacao_display.php";
+
+	// Adiciona Função de mensagem
+	require_once "./geral/msg.php";
 ?>
 
 <!doctype html>
@@ -59,8 +62,7 @@
 		header('Location: ../controle/control.php?metodo=listarTodos&nomeClasse=CategoriaControle&nextPage=../html/cadastro_produto.php');	
 	}
 	if(isset($_SESSION['categoria']) && isset($_SESSION['unidade'])){
-		$unidade = $_SESSION['unidade'];
-		$categoria = $_SESSION['categoria'];
+		extract($_SESSION);
 
 		unset($_SESSION['unidade']);
 		unset($_SESSION['categoria']);
@@ -195,6 +197,7 @@
 				<div class="row">
 					<div class="col-md-4 col-lg-2" style="visibility: hidden;"></div>
 					<div class="col-md-8 col-lg-8" >
+						<?php getMsg();?>
 						<div class="tabs">
 							<ul class="nav nav-tabs tabs-primary">
 								<li class="active">
@@ -313,6 +316,8 @@
 	<!-- Theme Initialization Files -->
 	<script src="../assets/javascripts/theme.init.js"></script>
 
+	<!-- MSG Script -->
+	<script src="./geral/msg.js"></script>
 
 </body>
 </html>

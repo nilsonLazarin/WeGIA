@@ -46,7 +46,18 @@
 	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
 	require_once "personalizacao_display.php";
 
-	include_once "./geral/msg.php";
+    include_once "./geral/msg.php";
+    
+    $pdo = Conexao::connect();
+    $idProduto = $_GET['id_produto'];
+    $query = $pdo->query("SELECT p.id_produto, p.preco, p.descricao,p.codigo, p.id_categoria_produto, c.descricao_categoria, p.id_unidade, u.descricao_unidade 
+    FROM produto p 
+    INNER JOIN categoria_produto c ON p.id_categoria_produto = c.id_categoria_produto 
+    INNER JOIN unidade u ON p.id_unidade = u.id_unidade 
+    WHERE p.id_produto = $idProduto;");
+    $item = $query->fetch(PDO::FETCH_ASSOC);
+    $query = $pdo->query("SELECT qtd FROM estoque WHERE id_produto=$idProduto;");
+    $item['qtd'] = ($query->fetch(PDO::FETCH_ASSOC))['qtd'];
 ?>
 <!doctype html>
 <html class="fixed">
@@ -61,21 +72,12 @@
   if(!isset($_SESSION['produtos'])){
     header('Location: ../controle/control.php?metodo=listarTodos&nomeClasse=ProdutoControle&nextPage=../html/remover_produto.php?id_produto='.$_GET['id_produto']);
   }
-  if(!isset($_SESSION['tipo_saida'])){
-    header('Location: ../controle/control.php?metodo=listarTodos&nomeClasse=TipoSaidaControle&nextPage=../html/remover_produto.php?id_produto='.$_GET['id_produto']);
-  }
-  if(!isset($_SESSION['destino'])){
-    header('Location: ../controle/control.php?metodo=listarTodos&nomeClasse=DestinoControle&nextPage=../html/remover_produto.php?id_produto='.$_GET['id_produto']);
-  }
-  if(!isset($_SESSION['almoxarifado'])){
-    header('Location: ../controle/control.php?metodo=listarTodos&nomeClasse=AlmoxarifadoControle&nextPage=../html/remover_produto.php?id_produto='.$_GET['id_produto']);
-  }
-  extract($_SESSION);
+  extract($_REQUEST);
 ?>
 	<!-- Basic -->
 	<meta charset="UTF-8">
 
-	<title>Remover Produto</title>
+	<title>Restaurar Produto</title>
 		
 	<!-- Mobile Metas -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -135,150 +137,18 @@
 		
 	<!-- jquery functions -->
 	<script>
-        const produtos = <?= $produtos ?>;
-        const destino = <?= $destino ?>;
-        const almoxarifado = <?= $almoxarifado ?>;
-        const tipo_saida = <?= $tipo_saida ?>;
+        const id_produto = <?= $id_produto?>;
+        $(function(){
 
-
-  		$(function(){
-			fillOptions()
-		})
-        <?php
-            $pdo = Conexao::connect();
-            $idProduto = $_GET['id_produto'];
-            $query = $pdo->query("SELECT p.id_produto, p.preco, p.descricao,p.codigo, p.id_categoria_produto, c.descricao_categoria, p.id_unidade, u.descricao_unidade 
-            FROM produto p 
-            INNER JOIN categoria_produto c ON p.id_categoria_produto = c.id_categoria_produto 
-            INNER JOIN unidade u ON p.id_unidade = u.id_unidade 
-            WHERE p.id_produto = $idProduto;");
-			$item = $query->fetch(PDO::FETCH_ASSOC);
-			$query = $pdo->query("SELECT qtd FROM estoque WHERE id_produto=$idProduto;");
-			$item['qtd'] = ($query->fetch(PDO::FETCH_ASSOC))['qtd'];
-        ?>
-        const itemEstoque = <?= JSON_encode($item) ?>;
-        var descOf = {};
-
-        $.each(produtos, function(i, item){
-            descOf[item.id_produto] = item.descricao;
-        });
-
-        var acao = {
-            valor: 'none',
-            substituicao(){
-				$('#replace').empty()
-                $('#replace')
-                .append($('<hr />'))
-                .append($("<p />")
-                    .text("ATENÇÃO: Nesta opção, os itens em estoque serão atribuidos a outro produto.")
-                    .addClass("text-danger")
-                )
-                .append($('<br />'))
-                .append($('<h4 />')
-                    .text("Produto que receberá os itens:")
-                )
-                .append($('<input list="list" type="text" id="produto" nome="id_produto_novo" required />')
-                    .addClass("form-control ui-autocomplete-input")
-                )
-                .append($('<datalist />')
-                    .attr('id', 'list')
-                );
-
-                $.each(produtos, function(i, item){
-                    if (item.id_produto != <?= $_GET['id_produto']?>){
-                        $('#list').append($('<option />')
-                            .val(item.id_produto)
-                            .text(item.id_produto+" | "+item.descricao+" | "+item.codigo)
-                        )
-                    }
-                })
-            },
-            saida(){
-                $('#replace').empty();
-				$('#replace')
-                	.append($('<hr />'))
-					.append($('<p/>').text("Há itens relacionados ao produto em estoque, deseja registrar saída deles?"))
-					.append('Tipo de saída: ')
-                	.append($('<br />'))
-					.append($('<select />')
-						.attr({name: 'tipo_saida', id: 'saida', required: true})
-					)
-                	.append($('<br />'))
-                	.append($('<br />'))
-					.append('Destino: ')
-                	.append($('<br />'))
-					.append($('<select />')
-						.attr({name: 'destino', id: 'destino', required: true})
-					)
-                	.append($('<br />'))
-                	.append($('<br />'))
-					.append('Almoxarifado: ')
-                	.append($('<br />'))
-					.append($('<select />')
-						.attr({name: 'almoxarifado', id: 'almox', required: true})
-					);
-				fillOptions();
-            },
-			none(){
-                $('#replace').empty();
-			}
-        }
-
-        function selecao(valor){
-            acao.valor = valor
-            acao[valor]();
-        }
+        })
 
         function cancelar(){
-            window.location.replace('../html/listar_produto.php');
+            window.location.replace('../html/cadastrar_produto.php');
         }
-		
-		function submitForm(){
-			if (acao.valor == 'saida'){
-				if ($('#saida').val() && $('#destino').val() && $('#almox').val()){
-					if (window.confirm("Tem certeza que deseja registrar a saída dos itens sem excluir o produto?")){
-						$('#form').append($('<input name="id_produto" readonly hidden />').val(itemEstoque.id_produto)).append($('<input name="total_total" readonly hidden />').val(itemEstoque.qtd));
-						$('#form').submit();
-					}
-				}else{
-					window.alert("Preencha todos os campos antes de prosseguir.")
-				}
-			}else if (acao.valor == 'none'){
-				if (window.confirm("Tem certeza que deseja registrar a saída dos itens sem excluir o produto?")){
-					$('#form').append($('<input name="id_produto" readonly hidden />').val(itemEstoque.id_produto));
-					$('#form').submit();
-				}
-			}
-		}
 
-		function fillOptions(){
-			fill('#saida', tipo_saida, 'id_tipo');
-			fill('#destino', destino, 'id_destino', 'nome_destino');
-			fill('#almox', almoxarifado, 'id_almoxarifado', 'descricao_almoxarifado');
-		}
-
-		function fill(tagId, itemList, nomeId, nomeDesc = 'descricao'){
-			$(tagId).append(
-				$('<option />')
-					.text('Selecionar')
-					.val('nenhum')
-					.attr({selected: true, disabled: true})
-			)
-			$.each(itemList, function (i, item){
-				$(tagId).append(
-					$('<option />')
-						.text(item[nomeDesc])
-						.val(item[nomeId])
-				)
-			})
-		}
-		$(function(){
-			if (itemEstoque.qtd){
-				selecao('saida');
-			}else{
-				selecao('none');
-			}
-		})
+        function submitForm(){
+            $('#form').append($(`<input name="id_produto" value="${id_produto}" readonly hidden />`)).submit();
+        }
 	</script>
 	<script>
         $(function () {
@@ -298,7 +168,7 @@
 		<!-- end: sidebar -->
 		<section role="main" class="content-body">
 			<header class="page-header">
-				<h2>Remover Produto</h2>
+				<h2>Restaurar Produto</h2>
 			
 				<div class="right-wrapper pull-right">
 					<ol class="breadcrumbs">
@@ -307,7 +177,7 @@
 								<i class="fa fa-home"></i>
 							</a>
 						</li>
-						<li><span>Remover Produto</span></li>
+						<li><span>Restaurar Produto</span></li>
 					</ol>
 			
 					<a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
@@ -323,11 +193,11 @@
 						<a href="#" class="fa fa-caret-down"></a>
 					</div>
 			
-					<h2 class="panel-title">Remover Produto</h2>
+					<h2 class="panel-title">Restaurar Produto</h2>
 				</header>
 				<div class="panel-body">
 					<div>
-                        <p class="text-justify">Este produto possui dependências no banco de dados e não pode ser excluído completamente, pretende ocultar o produto e seus registros?</p>
+                        <p class="text-justify">A descrição inserida já existe como produto oculto, deseja restaurá-lo?</p>
                         <div class="panel-body" style="display: flex;">
                                 <ul class="nav nav-children" id="info" style="padding-right: 20px;">
                                     <li>Nome: </li>
@@ -350,20 +220,13 @@
                                 </ul>
                             </div>
                         <br>
-						<form action="./remover_produto_ocultar.php" method="post" id="form">
-							<!-- <h4>Escolha a forma de lidar com a remoção:</h4>
-							<select name="action" id="action" oninput="selecao(this.value)">
-								<option value="none"Selecionar>Selecionar</option>
-								<option value="saida" <?= ($item['qtd'] ? 'selected' : 'hidden' ) ?>>Registrar saída dos itens</option>
-								<option value="substituicao" >Substituir por um produto existente</option>
-								<option value="exclusao" >Excluir todos os registros relacionados a este produto</option>
-							</select> -->
+						<form action="./restaurar_produto_desocultar.php" method="post" id="form">
 							<div id="replace">
 							</div>
 							<br>
 						</form>
 						<div class="center-content">
-							<button class="btn btn-primary sm-rm" onclick="submitForm()">Ocultar</button><button class="btn btn-danger" onclick="cancelar()">Cancelar</button>
+							<button class="btn btn-primary sm-rm" onclick="submitForm()">Restaurar</button><button class="btn btn-danger" onclick="cancelar()">Cancelar</button>
 						</div>
                     </div>
 				</div>
@@ -393,6 +256,3 @@
 		<script src="../assets/javascripts/tables/examples.datatables.tabletools.js"></script>
 	</body>
 </html>
-<!--<a href="#" title="" class="btn btn-primary">
-	<span class="icon"><i class="fas fa-trash-alt"></i></span>  remover
-</a>-->

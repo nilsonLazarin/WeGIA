@@ -1,34 +1,46 @@
 <?php
-require_once'../classes/Produto.php';
-require_once'Conexao.php';
-require_once'../Functions/funcoes.php';
+require_once '../classes/Produto.php';
+require_once 'Conexao.php';
+require_once '../Functions/funcoes.php';
 class ProdutoDAO
 {
 	public function incluir($produto)
 	    {        
 	        try {
 	        	$pdo = Conexao::connect();
+				$existente = $pdo->query("SELECT id_produto, oculto FROM produto WHERE descricao='".$produto->getDescricao()."'")->fetch(PDO::FETCH_ASSOC);
+				$existente['oculto'] = intval($existente['oculto']);
+				if ($existente){
+					// Caso já exista
+					if ($existente['oculto']){
+						// Caso já exista e esteja oculto
+						header("Location: ../html/restaurar_produto.php?id_produto=".$existente['id_produto']);
+					}else{
+						echo("Location: ../html/cadastro_produto.php?flag=warn&msg=A descrição inserida já existe!");
+					}
+				}else{
+					$sql = 'INSERT produto(id_categoria_produto,id_unidade,descricao,codigo,preco) VALUES( :id_categoria_produto,:id_unidade,:descricao,:codigo,:preco)';
+					$sql = str_replace("'", "\'", $sql);            
+					
+					$stmt = $pdo->prepare($sql);
+	
+					$id_categoria_produto = $produto->get_categoria_produto()->getId_categoria_produto();
+					$id_unidade=$produto->get_unidade()->getId_unidade();
+					$descricao=$produto->getDescricao();
+					$codigo=$produto->getCodigo();
+					$preco=$produto->getPreco();
+					
+					$descricao = preg_replace('/( )+/', ' ', trim($descricao));
+	
+					$stmt->bindParam(':id_categoria_produto',$id_categoria_produto);
+					$stmt->bindParam(':id_unidade',$id_unidade);	            
+					$stmt->bindParam(':descricao',$descricao);
+					$stmt->bindParam(':codigo',$codigo);
+					$stmt->bindParam(':preco',$preco);
+	
+					$stmt->execute();
+				}
 
-	            $sql = 'INSERT produto(id_categoria_produto,id_unidade,descricao,codigo,preco) VALUES( :id_categoria_produto,:id_unidade,:descricao,:codigo,:preco)';
-	            $sql = str_replace("'", "\'", $sql);            
-	            
-	            $stmt = $pdo->prepare($sql);
-
-	            $id_categoria_produto = $produto->get_categoria_produto()->getId_categoria_produto();
-	            $id_unidade=$produto->get_unidade()->getId_unidade();
-	            $descricao=$produto->getDescricao();
-	            $codigo=$produto->getCodigo();
-				$preco=$produto->getPreco();
-				
-				$descricao = preg_replace('/( )+/', ' ', trim($descricao));
-
-	            $stmt->bindParam(':id_categoria_produto',$id_categoria_produto);
-	            $stmt->bindParam(':id_unidade',$id_unidade);	            
-	            $stmt->bindParam(':descricao',$descricao);
-	            $stmt->bindParam(':codigo',$codigo);
-	            $stmt->bindParam(':preco',$preco);
-
-	            $stmt->execute();
 	        }catch (PDOExeption $e) {
 	            echo 'Error: <b>  na tabela produto = ' . $sql . '</b> <br /><br />' . $e->getMessage();
 	        }
@@ -37,16 +49,16 @@ class ProdutoDAO
 
 	        public function excluir($id_produto)
 		    {
-		        try{
-                $pdo = Conexao::connect();
-                $sql = 'DELETE FROM produto WHERE id_produto = :id_produto';
-                $stmt = $pdo->prepare($sql);
-                $stmt->bindParam(':id_produto',$id_produto);
-                $stmt->execute();
-                
-            }catch (PDOException $e) {
-                    echo 'Error: <b>  na tabela produto = ' . $sql . '</b> <br /><br />' . $e->getMessage();
-            }
+				$sql = 'DELETE FROM produto WHERE id_produto = :id_produto';
+				try{
+					$pdo = Conexao::connect();
+					$stmt = $pdo->prepare($sql);
+					$stmt->bindParam(':id_produto',$id_produto);
+					$stmt->execute();
+					
+				}catch (PDOException $e) {
+						echo 'Error: <b>  na tabela produto = ' . $sql . '</b> <br /><br />' . $e->getMessage();
+				}
 		    }
 
 		    public function listarTodos(){

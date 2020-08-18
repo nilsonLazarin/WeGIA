@@ -7,17 +7,20 @@
     }
     
     if (!isset($_SESSION['id_pessoa'])){
-        echo("Não há id_pessoa<br/><a onclick='window.history.back()'>Voltar</a>");
+        echo("Não foi possível obter o id do usuário logado!<br/><a onclick='window.history.back()'>Voltar</a>");
         die();
     }
+
     extract($_REQUEST);
-    $qtd = intval($total_total);
-    
+    if (isset($total_total)){
+        $qtd = intval($total_total);
+    }
 
     function saida(){
         extract($_REQUEST);
         if ($total_total < 1){
-            header("Location: ./remover_produto.php?id_produto=$id_produto&flag=warn&msg=O produto já não está mais em estoque");
+            deleteEstoque();
+            return false;
         }
         $pdo = Conexao::connect();
         $estoque = $pdo->query("SELECT * FROM estoque WHERE id_produto=$id_produto AND id_almoxarifado=$almoxarifado;");
@@ -81,7 +84,9 @@
         // Tem no estoque
         saida();
     }
+
     ocultarProduto();
+    
     header("Location: ./listar_produto.php");
     
 ?>
