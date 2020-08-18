@@ -120,9 +120,9 @@ define( 'WWW', '$www');");
 			foreach ($sqlFiles as $key => $file){
 				$log = shell_exec("mysql -u $user -p$senha $nomeDB < ".realpath("../BD/$file")."");
 				if (!$log){
-					echo("<p style='color:orange;'>Houve uma falha ao importar o arquivo $file<p>");
+					echo("<p style='color:green;'>$file importado com sucesso<p>");
 				}else{
-					echo("<p style='color:green;'>Log da importação do arquivo $file<pre>$log</pre></p>");
+					echo("<p style='color:red;'>Log da importação do arquivo $file<pre>$log</pre></p>");
 				}
 			}
 		}
