@@ -199,7 +199,7 @@ require_once ROOT."/html/personalizacao_display.php";
                                                     <?php
                                                               while($row = $recurso->fetch_array(MYSQLI_NUM))
 															  {
-															   echo "<div class='checkbox'> <label><input id='recurso_". $row[0] ."' class='recurso' name='recurso[]' type='checkbox' value=". $row[0] .">". utf8_encode($row[1]) ."</label> </div>";
+															   echo "<div class='checkbox'> <label><input id='recurso_". $row[0] ."' class='recurso' name='recurso[]' type='checkbox' value=". $row[0] .">". $row[1] ."</label> </div>";
 															  }           
                                                         ?>
 												</div>	

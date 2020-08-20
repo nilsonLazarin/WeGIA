@@ -3,7 +3,6 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        <?php echo($nome_empresa);  ?>
         <small>Sistema SaGA</small>
       </h1>
       <ol class="breadcrumb">
@@ -14,9 +13,7 @@
 
     <!-- Main content -->
     <section class="content">
-      <?php
-          if(isset($_SESSION['adm_configurado'])){
-      ?>
+ 
         <div data-toggle="modal" data-target="#configModal" href="#" class="col-md-3 col-sm-6 col-xs-12" style="cursor: pointer">
           <div class="info-box">
             <span class="info-box-icon bg-aqua"><i class="ion ion-ios-gear-outline"></i></span>
@@ -48,10 +45,6 @@
             </div>
           </div>
         </div></a>
-
-      <?php
-          }
-      ?>
       
       <div class="row">
       <div class="col-xs-12">

@@ -2,32 +2,15 @@
 	require("./conexao.php");
 	if(!$conexao) header("Location: ./erros/bd_erro/");
 	session_start();
-	if(isset($_SESSION['cod_usuario'])) header("Location: ./sistema/");
+	if(isset($_SESSION['usuario'])) header("Location: ./sistema/");
 
-	$comando = "select * from usuario where usuario='admin'";
-	$resultado = mysqli_query($conexao,$comando);
-
-	$linhas = mysqli_affected_rows($conexao);
-
-	if($linhas){
-		// echo("teste");
-		$registro = mysqli_fetch_array($resultado);
-		if($registro['adm_configurado'] == 0){
-			header("Location: ./configuracao/"); 
-			$_SESSION['adm_configurado'] = false;
-		}
-		else{$_SESSION['adm_configurado'] = true;};
-	}
-
-	$dados_config = mysqli_fetch_array(mysqli_query($conexao, "SELECT `id`, `nome`, `foto_login`, `mensagem_login` FROM `configuracao` WHERE 1"));
-	$nome = $dados_config['nome'];
-	$foto_login = $dados_config['foto_login'];
-	$mensagem_login = $dados_config['mensagem_login'];
+	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
+	require_once ROOT."/html/personalizacao_display.php";
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-	<title>Sistema SaGA - <?php echo($nome); ?></title>
+	<title>SaGA - <?php display_campo("Titulo","str");?></title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->	
@@ -61,7 +44,7 @@
 			<div class="wrap-login100">
 				<form class="login100-form validate-form" action="login.php" method="post">
 					<span class="login100-form-title p-b-43">
-						<?php echo($nome); ?>
+					<?php display_campo("Titulo","str");?> - SaGA
 					</span>
 					
 					
@@ -86,12 +69,12 @@
 					</div>
 
 					<div class="alert alert-dark mt-4" role="alert">
-						<?php echo($mensagem_login); ?>
+						<?php display_campo("Subtitulo","str");?>
 					</div>
 				</form>
 
 
-				<div class="login100-more" style="background-image: url('<?php echo($foto_login) ?>');">
+				<div class="login100-more" style="background-image: url('<?php display_campo("Logo","file");?>');">
 				</div>
 			</div>
 		</div>
