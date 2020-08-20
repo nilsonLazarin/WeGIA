@@ -84,4 +84,16 @@ li {
     .menuu {
         display: none;
     }
+
+    .panel-heading {
+        display: none;
+    }
+
+    .print-button {
+        display: none;
+    }
+
+    .tot {
+        width: 17%;
+    }
 }

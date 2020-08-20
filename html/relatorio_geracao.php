@@ -158,7 +158,23 @@
 	      $("#header").load("header.php");
 	      $(".menuu").load("menu.html");
 	    });	
-    </script>
+	</script>
+	
+	<script>
+		var homeIcon;
+		// Antes do navegador imprimir a página
+		window.onbeforeprint = function(event) {
+			homeIcon = $('#home-icon').children();
+			$('#home-icon').empty();
+			$('#home-icon').append($('<span />').text("<?php display_campo("Titulo","str");?>"));
+		}
+
+		// Depois do navegador imprimir ou cancelar a impressão da página
+		window.onafterprint = function(event) { 
+			$('#home-icon').empty();
+			$('#home-icon').append(homeIcon);
+		};
+	</script>
     
     <!-- javascript tab management script -->
 
@@ -178,7 +194,7 @@
 					<h2>Geração de Relatório</h2>
 					<div class="right-wrapper pull-right">
 						<ol class="breadcrumbs">
-							<li>
+							<li id="home-icon">
 								<a href="./home.php">
 									<i class="fa fa-home"></i>
 								</a>
@@ -192,83 +208,84 @@
                 <!--start: page-->
                 <div class="tab-content">
 					<div class="descricao">
-					<p>
-						<li>
-							<?php
-							if (isset($post[0])){
+						<p>
+							<li>
+								<?php
+								if (isset($post[0])){
 
-								echo("<h3>Relatório de ".$post[0]."</h3>");
+									echo("<h3>Relatório de ".$post[0]."</h3>");
 
-								if ($post[0] == 'entrada'){
-									if (isset($post[1])){
-										$origem = quickQuery("select nome_origem from origem where id_origem = ".$post[1].";", "nome_origem");
-										echo("<ul>Origem: ".$origem."</ul>");
-									}else{
-										echo("<ul>Origem: Todas</ul>");
+									if ($post[0] == 'entrada'){
+										if (isset($post[1])){
+											$origem = quickQuery("select nome_origem from origem where id_origem = ".$post[1].";", "nome_origem");
+											echo("<ul>Origem: ".$origem."</ul>");
+										}else{
+											echo("<ul>Origem: Todas</ul>");
+										}
+										if (isset($post[2])){
+											$tipo = quickQuery("select descricao from tipo_entrada where id_tipo = ".$post[2].";", "descricao");
+											echo("<ul>Tipo: ".$tipo."</ul>");
+										}else{
+											echo("<ul>Tipo: Todos</ul>");
+										}
+										if (isset($post[3])){
+											$responsavel = quickQuery("select nome from pessoa where id_pessoa = ".$post[3].";", "nome");
+											echo("<ul>Responsável: ".$responsavel."</ul>");
+										}else{
+											echo("<ul>Responsável: Todos</ul>");
+										}
 									}
-									if (isset($post[2])){
-										$tipo = quickQuery("select descricao from tipo_entrada where id_tipo = ".$post[2].";", "descricao");
-										echo("<ul>Tipo: ".$tipo."</ul>");
-									}else{
-										echo("<ul>Tipo: Todos</ul>");
+
+									if ($post[0] == 'saida'){
+										if (isset($post[1])){
+											$destino = quickQuery("select nome_destino from destino where id_destino = ".$post[1].";", "nome_destino");
+											echo("<ul>Destino: ".$destino."</ul>");
+										}else{
+											echo("<ul>Destino: Todos</ul>");
+										}
+										if (isset($post[2])){
+											$tipo = quickQuery("select descricao from tipo_saida where id_tipo = ".$post[2].";", "descricao");
+											echo("<ul>Tipo: ".$tipo."</ul>");
+										}else{
+											echo("<ul>Tipo: Todos</ul>");
+										}
+										if (isset($post[3])){
+											$responsavel = quickQuery("select nome from pessoa where id_pessoa = ".$post[3].";", "nome");
+											echo("<ul>Responsável: ".$responsavel."</ul>");
+										}else{
+											echo("<ul>Responsável: Todos</ul>");
+										}
 									}
-									if (isset($post[3])){
-										$responsavel = quickQuery("select nome from pessoa where id_pessoa = ".$post[3].";", "nome");
-										echo("<ul>Responsável: ".$responsavel."</ul>");
+
+									if (isset($post[4]['inicio'])){
+										echo("<ul>A partir de: ".$post[4]['inicio']."</ul>");
+									}
+
+									if (isset($post[4]['fim'])){
+										echo("<ul>Até: ".$post[4]['fim']."</ul>");
+									}
+
+									if (isset($post[5])){
+										$almoxarifado = quickQuery("select descricao_almoxarifado from almoxarifado where id_almoxarifado = ".$post[5].";","descricao_almoxarifado");
+										echo("<ul>Almoxarifado: ".$almoxarifado."</ul>");
 									}else{
-										echo("<ul>Responsável: Todos</ul>");
+										echo("<ul>Almoxarifado: Todos</ul>");
 									}
 								}
-
-								if ($post[0] == 'saida'){
-									if (isset($post[1])){
-										$destino = quickQuery("select nome_destino from destino where id_destino = ".$post[1].";", "nome_destino");
-										echo("<ul>Destino: ".$destino."</ul>");
-									}else{
-										echo("<ul>Destino: Todos</ul>");
-									}
-									if (isset($post[2])){
-										$tipo = quickQuery("select descricao from tipo_saida where id_tipo = ".$post[2].";", "descricao");
-										echo("<ul>Tipo: ".$tipo."</ul>");
-									}else{
-										echo("<ul>Tipo: Todos</ul>");
-									}
-									if (isset($post[3])){
-										$responsavel = quickQuery("select nome from pessoa where id_pessoa = ".$post[3].";", "nome");
-										echo("<ul>Responsável: ".$responsavel."</ul>");
-									}else{
-										echo("<ul>Responsável: Todos</ul>");
-									}
-								}
-
-								if (isset($post[4]['inicio'])){
-									echo("<ul>A partir de: ".$post[4]['inicio']."</ul>");
-								}
-
-								if (isset($post[4]['fim'])){
-									echo("<ul>Até: ".$post[4]['fim']."</ul>");
-								}
-
-								if (isset($post[5])){
-									$almoxarifado = quickQuery("select descricao_almoxarifado from almoxarifado where id_almoxarifado = ".$post[5].";","descricao_almoxarifado");
-									echo("<ul>Almoxarifado: ".$almoxarifado."</ul>");
-								}else{
-									echo("<ul>Almoxarifado: Todos</ul>");
-								}
-							}
-							?>
-						</li>
-					</p>
+								?>
+							</li>
+						</p>
+						<button style="float: right;" class="mb-xs mt-xs mr-xs btn btn-default print-button" onclick="window.print();">Imprimir</button>
 					</div>
 				<h4>Resultado</h4>
 
                     <table class="table table-striped">
                         <thead class="thead-dark">
                             <tr>
-                            <th scope="col" width="12%">Quantidade</th>
+                            <th scope="col" width="11%">Quantidade</th>
 							<th scope="col">Descrição</th>
 							<?php if ($_POST['tipo_relatorio'] != 'estoque'){echo('<th scope="col" width="14%">Valor Unitário</th>');}else{echo('<th scope="col" width="14%">Preço Médio</th>');} ?>
-                            <th scope="col" width="12%">Total</th>
+                            <th scope="col" width="12%" class="tot">Total</th>
                             </tr>
                         </thead>
                         <tbody>

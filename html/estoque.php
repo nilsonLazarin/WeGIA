@@ -150,10 +150,15 @@
         $(".menuu").load("menu.html");
     });
 
+	var homeIcon = null;
+
 	// Antes do navegador imprimir a página
 	window.onbeforeprint = function(event) {
 		// Retira a paginação para que todos os registros sejam exibidos
 		$('#datatable-default').DataTable().destroy();
+		homeIcon = $('#home-icon').children();
+		$('#home-icon').empty();
+		$('#home-icon').append($('<span />').text("<?php display_campo("Titulo","str");?>"));
 	}
 
 	// Depois do navegador imprimir ou cancelar a impressão da página
@@ -167,6 +172,8 @@
 			],
     		iDisplayLength: 10
 		});
+		$('#home-icon').empty();
+		$('#home-icon').append(homeIcon);
 	};
 	</script>
 	
@@ -203,7 +210,7 @@
 					<h2>Estoque</h2>
 					<div class="right-wrapper pull-right">
 						<ol class="breadcrumbs">
-							<li>
+							<li id="home-icon">
 								<a href="home.php">
 									<i class="fa fa-home"></i>
 								</a>

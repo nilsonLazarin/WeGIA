@@ -6,4 +6,8 @@
     .menuu {
         display: none;
     }
+
+    .panel-heading {
+        display: none;
+    }
 }
