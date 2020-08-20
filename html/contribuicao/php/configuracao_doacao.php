@@ -104,18 +104,20 @@
                                 <input type='hidden' id='id_sistema' name='id_sistema'>
                                 <span id="vazio"></span>
                                 <div class="tab-pane active" id="img-tab" role="tabpanel" aria-labelledby="img-tab">
-                                    <table class="table table-hover"  >
-                                        <thead>
-                                        <legend>Regras Para Doação</legend>
-                                            <tr>
-                                            <th scope="col" width="5%">Valor Mínimo Boleto Único</th>
-                                            <th scope="col" width="5%">Valor Mínimo Doação Mensal</th>
-                                            <th scope="col" width="5%">Valor Máximo Doação Mensal:</th>
+                                    <table class="table table-bordered mb-none">
+                                    <!--table class="table table-hover"-->
+                                        <!--thead-->
+                                        <h3>Regras Para Doação</h3>
+                                        <br>
+                                            <tr style= "width: 50px;">
+                                                <th scope="col" width="5%">Valor Mínimo Boleto Único</th>
+                                                <th scope="col" width="5%">Valor Mínimo Doação Mensal</th>
+                                                <th scope="col" width="5%">Valor Máximo Doação Mensal:</th>
                                             </tr>
-                                            <tr id='preenche_bolr1'>
-                                            <td><input type='number' name='minval' id='minval'></td>
-                                            <td><input type='number' name='minvalparc' id='minvalparc'></td>
-                                            <td><input type='number' name='maivalparc' id='maivalparc'></td>
+                                            <tr id='preenche_bolr1' style= "width: 50px;">
+                                            <td><input id='minval' class="form-control" type='number'  name='minval' autocomplete="on" size="10"></td>
+                                            <td><input type='number' class="form-control" name='minvalparc' id='minvalparc'></td>
+                                            <td><input type='number' class="form-control"name='maivalparc' id='maivalparc'></td>
                                             </tr>
                                             <tr>
                                             <th scope="col">Pagamento Após vencimento Boleto Único:</th>
@@ -123,32 +125,34 @@
                                             <th scope="col">Juros:</th>
                                             </tr>
                                             <tr id='preenche_bolr2'>
-                                            <td><input type='text' name='unicdiasv' id='unicdiasv'></td>
-                                            <td><input type='text' name='mensaldiasv' id='mensaldiasv'></td>
-                                            <td><input type='text' name='juros' id='juros'></td>
+                                            <td><input type='text' class="form-control" name='unicdiasv' id='unicdiasv'></td>
+                                            <td><input type='text' class="form-control" name='mensaldiasv' id='mensaldiasv'></td>
+                                            <td><input type='text' class="form-control" name='juros' id='juros'></td>
                                             </tr>
                                             <tr>
                                             <th>Multa:</th>
                                             <th>Agradecimentos</th>
                                             </tr>
                                             <tr id='preenche_bolr3'>
-                                            <td><input type='text' name='multa' id='multa'></td>
-                                            <td><textarea name='agradecimento' cols='18'  id='agrad'></textarea></td>
+                                            <td><input type='text' class="form-control" name='multa' id='multa'></td>
+                                            <td><textarea name='agradecimento' class="form-control" cols='18'  id='agrad'></textarea></td>
                                             </tr>
-                                        </thead>
-                                    </table>
-                                    <table class="table table-hover">
                                         <thead>
-                                            <legend>Datas de Vencimento Para Boleto Mensal</legend>
+                                    </table>
+                                    <!--table class="table table-hover"-->
+                                    <table class="table table-bordered mb-none">
+                                        <thead>
+                                            <h3>Datas de Vencimento Para Boleto Mensal</h3>
+                                            <br>
                                             <tr>
                                                 <th scope="col" width="5%">opção 1</th>
                                                 <th scope="col" width="5%">opção 2</th>
                                                 <th scope="col" width="5%">opcão 3</th>
                                             </tr>
                                             <tr id='preenche_bol1'>
-                                                <td><input type='number' name='op01' value=></td>
-                                                <td><input type='number' name='op02' value=></td>
-                                                <td><input type='number' name='op03' value=></td>
+                                                <td><input type='number' class="form-control" name='op01' value=></td>
+                                                <td><input type='number' class="form-control" name='op02' value=></td>
+                                                <td><input type='number' class="form-control" name='op03' value=></td>
                                             </tr>
                                             <tr>
                                                 <th scope="col" width="5%">opção 4</th>
@@ -156,31 +160,33 @@
                                                 <th scope="col" width="5%">opção 6</th>
                                             </tr>
                                             <tr id='preenche_bol2'>
-                                                <td><input type='number' name='op04' value=></td>
-                                                <td><input type='number' name='op05' value=></td>
-                                                <td><input type='number' name='op06' value=></td>
+                                                <td><input type='number' class="form-control" name='op04' value=></td>
+                                                <td><input type='number' class="form-control" name='op05' value=></td>
+                                                <td><input type='number' class="form-control" name='op06' value=></td>
                                             </tr>
                                         </thead>
                                     </table>
-                                    <table class="table table-hover">
-                                    <legend>Configuração de Sistema</legend>
+                                    <!--table class="table table-hover"-->
+                                    <table class="table table-bordered mb-none">
+                                    <h3>Configuração de Sistema</h3>
+                                    <br>
                                             <tr>
                                                 <th scope="col" width="5%">Link API</th>
                                                 <th scope="col" width="5%">TOKEN API</th>
                                                 <th scope="col" width="5%">Link SANDBOX</th>
                                             </tr>
                                             <tr id="info_bol3">
-                                                <td><input type='text' name='api' value=></td>
-                                                <td><input type='text' name='token_api' value=></td>
-                                                <td><input type='text' name='sandbox' value=></td>
+                                                <td><input type='text' class="form-control" name='api' value=></td>
+                                                <td><input type='text' class="form-control" name='token_api' value=></td>
+                                                <td><input type='text' class="form-control" name='sandbox' value=></td>
                                             <tr>
                                                 <th scope="col" width="5%">TOKEN SANDBOX</th>
                                             </tr>
                                             <tr id="info_bol4">
-                                                <td><input type='text' name='token_sandbox' value=></td>
+                                                <td><input type='text' class="form-control" name='token_sandbox' value=></td>
                                             </tr>
                                     </table>
-                                <input type="submit" class= "btn btn-primary" value="Editar Informações">
+                                <input type="submit" class= "btn btn-primary" id="btn" value="Editar Informações">
                                 <a href="../index.php"><input type="button" class="btn btn-primary" value="Ir à Página de Contribuição"></a>
                                 </div>
                                 
@@ -192,35 +198,39 @@
                                 <div class="tab-pane active" id="img-tab" role="tabpanel" aria-labelledby="img-tab">
                                     <input type='hidden' name='cod_cartao' id='cod_cartao'>
                                     <span id='vazio_cartao_unico'></span>
-                                    <table class="table table-hover">
-                                        <legend>DOAÇÃO AVULSA</legend>
+                                    <!--table class="table table-hover"-->
+                                    <table class="table table-bordered mb-none">
+                                        <h3>DOAÇÃO AVULSA</h3>
+                                        <br>
                                         <tr>
                                             <th scope="col" width="5%">LINK</th>
                                         </tr>
                                         <tr id='avulso_link'>
-                                            <td><input type='text' name='avulso_link' value=></td>
+                                            <td><input type='text' class="form-control" name='avulso_link' value=></td>
                                         </tr>
                                     </table>
                                     <span id='vazio_cartao_mensal'></span>
-                                    <legend>DOAÇÃO MENSAL</legend>
+                                    <h3>DOAÇÃO MENSAL</h3>
+                                    <br>
                                     <div id='doacao_mensal'>
                                     </div> 
                                     <div id = 'insere_doacao_mensal'>
-                                        <table border='1px'>
+                                        <!--table-->
+                                        <table class="table table-bordered mb-none">
                                             <tr>
                                                 <th>VALOR</th><th>LINK</th>
                                             </tr>
                                             <tr>
-                                                <td><input type='number' name='valor[0]' value =></td>
-                                                <td><input type='text' name='mensal_link[0]' value=></td>
+                                                <td><input type='number' class="form-control" name='valor[0]' value =></td>
+                                                <td><input type='text' class="form-control" name='mensal_link[0]' value=></td>
                                             </tr>
                                             <tr>
-                                                <td><input type='number' name='valor[1]' value =></td><td><input type='text' name='mensal_link[1]' value=></td>
+                                                <td><input type='number' class="form-control" name='valor[1]' value =></td><td><input type='text' class="form-control" name='mensal_link[1]' value=></td>
                                             </tr>
                                         </table>
                                     </div>
                                     <br><br>
-                                    <input type="submit" class= "btn btn-primary" value="Editar Informações">
+                                    <input type="submit" class= "btn btn-primary" id="btn" value="Editar Informações">
                                     <a href="../index.php"><input type="button" class="btn btn-primary" value="Ir à Página de Contribuição"></a>  
                                 </div> 
                             </form>

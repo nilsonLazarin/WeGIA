@@ -3,7 +3,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        <?php echo($nome_empresa);  ?>
+        <?php echo($nome);  ?>
         <small>Sistema SaGA</small>
       </h1>
       <ol class="breadcrumb">

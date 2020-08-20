@@ -10,7 +10,7 @@
 
     if($QTD > 0)
     {
-        echo("<table border='1px'>
+        echo("<table class='table table-bordered mb-none'>
                 <tr>
                 <th>VALOR</th>
                 <th>LINK</th>
@@ -22,8 +22,8 @@
                 $valor = $RESULTADO[1];
                 $url = $RESULTADO[2];
                 echo"<tr>";
-                echo("<td><input type='number' name='valor[".$id."]' value=".$valor."></td>");
-                echo("<td><input type='text' name='link[".$id."]' value=".$url."></td>");
+                echo("<td><input type='number' class='form-control' name='valor[".$id."]' value=".$valor."></td>");
+                echo("<td><input type='text' class='form-control' name='link[".$id."]' value=".$url."></td>");
                 echo"</tr> ";
                
             }

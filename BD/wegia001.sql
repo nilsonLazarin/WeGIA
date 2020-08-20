@@ -1365,6 +1365,22 @@ END$$
 
 DELIMITER ;
 
+-- -----------------------------------------------------
+-- procedure corrige_estoque
+-- -----------------------------------------------------
+
+DELIMITER $$
+use wegia;
+USE `wegia`$$
+CREATE PROCEDURE `corrige_estoque`()
+BEGIN
+	DECLARE QtdAtual INT(11);
+    SELECT ie.qtd- isa.qtd INTO QtdAtual FROM ientrada AS ie INNER JOIN produto AS p USING(id_produto) INNER JOIN estoque AS es USING(id_produto) INNER JOIN isaida AS isa USING(id_produto);
+	UPDATE estoque SET qtd= QtdAtual where QtdAtual <> qtd;
+END$$
+
+DELIMITER ;
+
 USE `wegia`;
 
 DELIMITER $$
