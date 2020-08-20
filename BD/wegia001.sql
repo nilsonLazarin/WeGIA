@@ -1370,7 +1370,6 @@ DELIMITER ;
 -- -----------------------------------------------------
 
 DELIMITER $$
-use wegia;
 USE `wegia`$$
 CREATE PROCEDURE `corrige_estoque`()
 BEGIN

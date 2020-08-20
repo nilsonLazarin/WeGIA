@@ -147,7 +147,7 @@ if(file_exists($config_path)){
 							</li>
 							<li id="43">
 								<a href="<?= WWW ?>html/atualizacao/atualizacao_sistema.php">
-									Atualização e Backup
+									Configurações Gerais
 								</a>
 							</li>
 							<li id="44">

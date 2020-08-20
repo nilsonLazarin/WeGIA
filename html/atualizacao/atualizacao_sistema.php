@@ -3,43 +3,14 @@
 	if(!isset($_SESSION['usuario'])){
 		header ("Location: ../../index.php");
 	}
-	$config_path = "config.php";
-	if(file_exists($config_path)){
-		require_once($config_path);
-	}else{
-		while(true){
-			$config_path = "../" . $config_path;
-			if(file_exists($config_path)) break;
-		}
-		require_once($config_path);
-	}
-	$conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-	$id_pessoa = $_SESSION['id_pessoa'];
-	$resultado = mysqli_query($conexao, "SELECT * FROM funcionario WHERE id_pessoa=$id_pessoa");
-	if(!is_null($resultado)){
-		$id_cargo = mysqli_fetch_array($resultado);
-		if(!is_null($id_cargo)){
-			$id_cargo = $id_cargo['id_cargo'];
-		}
-		$resultado = mysqli_query($conexao, "SELECT * FROM permissao WHERE id_cargo=$id_cargo and id_recurso=9");
-		if(!is_bool($resultado) and mysqli_num_rows($resultado)){
-			$permissao = mysqli_fetch_array($resultado);
-			if($permissao['id_acao'] == 1){
-				$msg = "Você não tem as permissões necessárias para essa página.";
-				header("Location: ../home.php?msg_c=$msg");
-			}
-			$permissao = $permissao['id_acao'];
-		}else{
-        	$permissao = 1;
-			$msg = "Você não tem as permissões necessárias para essa página.";
-			header("Location: ../home.php?msg_c=$msg");
-		}	
-	}else{
-		$permissao = 1;
-		$msg = "Você não tem as permissões necessárias para essa página.";
-		header("Location: ../home.php?msg_c=$msg");
-	}	
-    // Adiciona a Função display_campo($nome_campo, $tipo_campo)
+
+
+	
+	// Verifica Permissão do Usuário
+	require_once '../permissao/permissao.php';
+	permissao($_SESSION['id_pessoa'], 9, 1);
+	
+	// Inclui display de Campos
 	require_once "../personalizacao_display.php";
 
 	// Adiciona o Sistema de Mensagem
@@ -52,7 +23,7 @@
 	<!-- Basic -->
 	<meta charset="UTF-8">
 
-	<title>Atualização e Backup</title>
+	<title>Configurações Gerais</title>
 
 	<!-- Mobile Metas -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -136,7 +107,7 @@
 			<!-- end: sidebar -->
 			<section role="main" class="content-body">
 				<header class="page-header">
-					<h2>Atualização e Backup do Sistema</h2>
+					<h2>Configurações Gerais do Sistema</h2>
 					<div class="right-wrapper pull-right">
 						<ol class="breadcrumbs">
 							<li>
@@ -145,7 +116,7 @@
 								</a>
 							</li>
 							<li><span>Páginas</span></li>
-							<li><span>Atualização e Backup</span></li>
+							<li><span>Configurações Gerais</span></li>
 						</ol>
 						<a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
 					</div>
@@ -155,18 +126,42 @@
                 <!-- Caso haja uma mensagem do sistema -->
 				<?php displayMsg();?>
 
-
-                <div class="tab-content ls-container">
-                    <div class="space-between">
-                        <div>Fazer backup:</div>
-                        <button id="btn1" class="btn btn-primary" onClick="setLoader(this)"><a href="./backup.php"><i class="fa fa-floppy-o" aria-hidden="true"></i></a></button>
-                    </div>
-                    <div class="space-between">
-                        <div>Atualizar sistema:</div>
-                        <button id="btn2" class="btn btn-primary" onClick="setLoader(this)"><a href="./atualizacao.php"><i class="fa fa-upload" aria-hidden="true"></i></a></button>
-                    </div>
-                </div>
-				<!--end: page-->
+				<session class="panel">
+					<header class="panel-heading">
+						<div class="panel-actions">
+							<a href="#" class="fa fa-caret-down"></a>
+						</div>
+						<h2 class="panel-title">Atualização e Backup</h2>
+					</header>
+					<div class="panel-body">
+						<div class="ls-container">
+							<div class="space-between">
+								<div>Fazer backup:</div>
+								<button id="btn1" class="btn btn-primary" onClick="setLoader(this)"><a href="./backup.php"><i class="fa fa-floppy-o" aria-hidden="true"></i></a></button>
+							</div>
+							<div class="space-between">
+								<div>Atualizar sistema:</div>
+								<button id="btn2" class="btn btn-primary" onClick="setLoader(this)"><a href="./atualizacao.php"><i class="fa fa-upload" aria-hidden="true"></i></a></button>
+							</div>
+						</div>
+					</div>
+				</session>
+				<session class="panel">
+					<header class="panel-heading">
+						<div class="panel-actions">
+							<a href="#" class="fa fa-caret-down"></a>
+						</div>
+						<h2 class="panel-title">Correção de Erros</h2>
+					</header>
+					<div class="panel-body">
+						<div class="ls-container">
+							<div class="space-between">
+								<div>Corrigir erros no Estoque:</div>
+								<button id="btn1" class="btn btn-primary" onClick="setLoader(this)"><a href="./correcao_estoque.php"><i class="fas fa-wrench"></i></a></button>
+							</div>
+						</div>
+					</div>
+				</session>
 			</section>
 		</div>
 	</section>
