@@ -72,7 +72,7 @@
 						$desc = $pdo->query("SELECT descricao, codigo, oculto FROM produto WHERE id_produto=$id;")->fetch(PDO::FETCH_ASSOC);
 						$pdo->exec("UPDATE estoque SET qtd=0 WHERE id_produto=$id");
 						extract($desc);
-						$log .= "\n$descricao | $codigo ".($oculto ? "[Oculto] " : "" )."possui mais saídas do que entradas.\n";
+						$log .= "$descricao | $codigo ".($oculto ? "[Oculto] " : "" )."possui mais saídas do que entradas e sua quantidade foi zerada.\n";
 						$result = "warning";
 						$changed++;
 						// echo("Odd ");
@@ -89,6 +89,17 @@
 						$pdo->exec("INSERT INTO estoque (id_produto, id_almoxarifado, qtd) VALUES ( $id , $almox , $qtd);");
 						$added++;
 					}
+				}
+			}
+			$estoque = $pdo->query("SELECT * FROM estoque;")->fetchAll(PDO::FETCH_ASSOC);
+			foreach ($estoque as $key => $item){
+				if (!isset($somaEntrada[$item['id_produto']][$item['id_almoxarifado']]) && $item['qtd'] != 0){
+					$desc = $pdo->query("SELECT descricao, codigo, oculto FROM produto WHERE id_produto=".$item['id_produto'])->fetch(PDO::FETCH_ASSOC);
+					extract($desc);
+					$log .= $item['id_produto']." | $descricao | $codigo ".($oculto ? "[Oculto] " : "" )."continha ".$item['qtd']." itens sem registro de entrada.\n";
+					$pdo->exec("UPDATE estoque SET qtd=0 WHERE id_produto=".$item['id_produto']." AND id_almoxarifado=".$item['id_almoxarifado']);
+					$result = "warning";
+					$changed++;
 				}
 			}
 			$log = "$changed Linhas Alteradas\n$added Linhas Adicionadas\n\n" . $log;
