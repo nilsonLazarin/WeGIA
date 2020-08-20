@@ -21,7 +21,7 @@
     /*require_once("../../config.php");*/
 
     if (PHP_OS != 'Linux'){
-        header("Location: ./atualizacao_sistema.php?msg=warning&warn=Função de backup compatível apenas com Linux. Seu Sistema Operacional: ".PHP_OS."");
+        header("Location: ./atualizacao_sistema.php?msg=error&err=Função de backup compatível apenas com Linux. Seu Sistema Operacional: ".PHP_OS."");
     }else{
         /*Executando Backup do Banco de Dados*/
         
