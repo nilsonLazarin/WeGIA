@@ -120,7 +120,7 @@ class ProdutoControle
         require_once '../dao/Conexao.php';
         $pdo = Conexao::connect();
         $produto = $pdo->query("SELECT qtd FROM estoque WHERE id_produto = $id_produto");
-        $registros = $pdo->query("SELECT * FROM isaida WHERE id_produto=$id_produto")->fetch(PDO::FETCH_ASSOC) || $pdo->query("SELECT * FROM ientrda WHERE id_produto=$id_produto")->fetch(PDO::FETCH_ASSOC);
+        $registros = $pdo->query("SELECT * FROM isaida WHERE id_produto=$id_produto")->fetch(PDO::FETCH_ASSOC) || $pdo->query("SELECT * FROM ientrada WHERE id_produto=$id_produto")->fetch(PDO::FETCH_ASSOC);
         $produto = $produto->fetch(PDO::FETCH_ASSOC);
         if ($produto){
             if (intval($produto{'qtd'}) < 0 && !$registros){
