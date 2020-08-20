@@ -20,7 +20,7 @@ function preencher(id)
             if(array.length == 2)
             {
                 $("#form1").attr("action", "insere_doacao.php"); 
-               
+                
             }else{
                 $("#form1").attr("action", "atualizacao_doacao.php"); 
             
@@ -93,6 +93,7 @@ function preenche_dados_cartao(id)
                 $("#doacao_mensal").html(array[1]);
                 $("#insere_doacao_mensal").fadeIn();
                 $("#form2").attr("action", "insere_doacao.php");
+                
                
             } else{
                 $("#doacao_mensal").html(data);

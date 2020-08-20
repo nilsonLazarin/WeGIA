@@ -203,7 +203,7 @@
                                         <h3>DOAÇÃO AVULSA</h3>
                                         <br>
                                         <tr>
-                                            <th scope="col" width="5%">LINK</th>
+                                            <th>LINK</th>
                                         </tr>
                                         <tr id='avulso_link'>
                                             <td><input type='text' class="form-control" name='avulso_link' value=></td>
