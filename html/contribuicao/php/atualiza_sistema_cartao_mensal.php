@@ -21,12 +21,13 @@
                 $id = $RESULTADO[0];
                 $valor = $RESULTADO[1];
                 $url = $RESULTADO[2];
+                $soma1 = $i + 1;
                 echo"<tr>";
                 echo("<td><input type='number' class='form-control' name='valor[".$id."]' value=".$valor."></td>");
                 echo("<td><input type='text' class='form-control' name='link[".$id."]' value=".$url."></td>");
-                echo"</tr> ";
-               
+                echo"</tr>";   
             }
+                
         echo"</table>";
         
     } 
