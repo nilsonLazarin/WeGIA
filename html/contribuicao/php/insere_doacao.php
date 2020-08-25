@@ -26,7 +26,7 @@
 
     $query = mysqli_query($conexao, "CALL insregras ('$MinValUnic', '$MensalDiasV','$juros','$multa','$MaiValParc','$MinValParc','$agradecimento','$UnicDiasV', '$opVenc1', '$opVenc2', '$opVenc3', '$opVenc4', '$opVenc5', '$opVenc6')");
     
-    $cod_regras = mysqli_query($conexao, "SELECT id FROM doacao_boleto_regras ORDER BY id DESC LIMIT 1 ");
+    $cod_regras = mysqli_query($conexao, "SELECT id FROM doacao_boleto_regras ORDER BY id DESC LIMIT 1");
     $registro = mysqli_fetch_row($cod_regras);
     $id_regras = $registro [0];
 
