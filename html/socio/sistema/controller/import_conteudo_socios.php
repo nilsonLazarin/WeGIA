@@ -43,21 +43,22 @@
                   </thead>
                   <tbody>
                       <?php
-                          $query = mysqli_query($conexao, "SELECT * FROM socio AS s LEFT JOIN pessoajuridica AS pj ON s.id = pj.idsocio LEFT JOIN pessoafisica AS pf ON s.id = pf.idsocio LEFT JOIN endereco AS e ON e.idsocio = s.id");
+                          $query = mysqli_query($conexao, "SELECT * FROM socio AS s LEFT JOIN pessoa AS p ON s.id_pessoa = p.id_pessoa");
                           while($resultado = mysqli_fetch_array($query)){
-                            $id = $resultado['id'];
-                            if($resultado['cpf'] == "" || $resultado['cpf'] == null){
-                              $cpf_cnpj = $resultado['cnpj'];
-                            }else $cpf_cnpj = $resultado['cpf'];
+                            $id = $resultado['id_socio'];
+                            $cpf_cnpj = $resultado['cpf'];
                             $nome_s = $resultado['nome'];
                             $email = $resultado['email'];
                             $telefone = $resultado['telefone'];
-                            $endereco = $resultado['logradouro']." ".$resultado['numero'].", ".$resultado['bairro'].", ".$resultado['cidade']." - ".$resultado['estado'];
+                            $endereco = $resultado['logradouro']." ".$resultado['numero_endereco'].", ".$resultado['bairro'].", ".$resultado['cidade']." - ".$resultado['estado'];
                             if(strlen($telefone) == 14){
                               $tel_url = preg_replace("/[^0-9]/", "", $telefone);
                               $telefone = "<a target='_blank' href='http://wa.me/55$tel_url'>$telefone</a>";
                             }
-                            $pessoa = $resultado['tipo'];
+                            if(strlen($cpf_cnpj == 14)){
+                              $pessoa = "fisica";
+                            }else $pessoa = "juridica";
+                              
                             $del_json = json_encode(array("id"=>$id,"nome"=>$nome_s,"pessoa"=>$pessoa));
                             echo("<tr><td>$id</td><td>$nome_s</td><td><a href='mailto:$email'>$email</a></td><td>$telefone</td><td>$endereco</td><td>$cpf_cnpj</td><td><a href='editar_socio.php?socio=$id'><button type='button' class='btn btn-default btn-flat'><i class='fa fa-edit'></i></button></a></td><td><button onclick='deletar_socio_modal($del_json)' type='button' class='btn btn-default btn-flat'><i class='fa fa-remove text-red'></i></button></td></tr>");
                           }

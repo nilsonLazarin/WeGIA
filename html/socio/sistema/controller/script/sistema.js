@@ -136,6 +136,8 @@ $(document).ready(function(){
         e.preventDefault();
         var socio_nome = $("#socio_nome").val();
         var pessoa_tipo = $("#pessoa").val();
+        var contribuinte = $("#contribuinte").val();
+        var status = $("#status").val();
         var email = $("#email").val();
         var telefone = $("#telefone").val();
         var cpf_cnpj = $("#cpf_cnpj").val();
@@ -152,6 +154,8 @@ $(document).ready(function(){
             $.post("./cadastro_socio.php",{
                 "socio_nome": socio_nome,
                 "pessoa": pessoa_tipo,
+                "contribuinte": contribuinte,
+                "status": status,
                 "email": email,
                 "telefone": telefone,
                 "cpf_cnpj": cpf_cnpj,
@@ -295,7 +299,7 @@ $(document).ready(function(){
             $("#label_cpf_cnpj").html("CPF");
             $("#cpf_cnpj").mask("999.999.999-99");
             $("#cpf_cnpj").val("");
-            $(".div_nasc").append('<div class="form-group col-xs-12 animacao2"> <label for="valor">Data de nascimento</label> <input type="date" class="form-control" id="data_nasc" name="data_nasc" required> </div>');
+            $(".div_nasc").append('<div class="form-group col-xs-6 animacao2"> <label for="valor">Data de nascimento</label> <input type="date" class="form-control" id="data_nasc" name="data_nasc" required> </div>');
         }
     })
     // Máscara telefone/celular

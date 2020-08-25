@@ -9,33 +9,21 @@
     }
     $cadastrado =  false;
 
-    $nome = $_POST['socio_nome'];
-    $pessoa = $_POST['pessoa'];
-    $email = $_POST['email'];
-    $telefone = $_POST['telefone'];
-    $cpf_cnpj = $_POST['cpf_cnpj'];
-    $rua = $_POST['rua'];
-    $numero = $_POST['numero'];
-    $complemento = $_POST['complemento'];
-    $bairro = $_POST['bairro'];
-    $estado = $_POST['estado'];
-    $cidade = $_POST['cidade'];
-    $cep = $_POST['cep'];
-    if(isset($_POST['data_nasc'])){
-        $data_nasc = $_POST['data_nasc'];
+    extract($_REQUEST);
+    if(!isset($data_nasc)){
+        $data_nasc = null;
     }
 
-    $resultado = mysqli_query($conexao, "INSERT INTO `socio`(`nome`, `email`, `telefone`, `tipo`) VALUES ('$nome', '$email', '$telefone', '$pessoa')");
-    if(mysqli_affected_rows($conexao) == 1){
-        $id = mysqli_insert_id($conexao);
-        $resultado = mysqli_query($conexao, "INSERT INTO `endereco`(`idsocio`, `logradouro`, `numero`, `complemento`, `cep`, `bairro`, `cidade`, `estado`) VALUES ($id,'$rua', '$numero', '$complemento', '$cep', '$bairro', '$cidade', '$estado')");
-        if($pessoa == "juridica"){
-            $resultado = mysqli_query($conexao, "INSERT INTO `pessoajuridica`(`idsocio`, `cnpj`) VALUES ('$id', '$cpf_cnpj')");
-            if(mysqli_affected_rows($conexao)) $cadastrado = true;
-        }else{
-            $resultado = mysqli_query($conexao, "INSERT INTO `pessoafisica`(`idsocio`, `cpf`, datanascimento) VALUES ('$id', '$cpf_cnpj', '$data_nasc')");
-            if(mysqli_affected_rows($conexao)) $cadastrado = true;
+    if($resultado = mysqli_query($conexao, "INSERT INTO `pessoa`(`cpf`, `nome`, `telefone`, `data_nascimento`, `cep`, `estado`, `cidade`, `bairro`, `logradouro`, `numero_endereco`, `complemento`) VALUES ('$cpf_cnpj', '$socio_nome',  '$telefone', '$data_nasc', '$cep', '$estado', '$cidade', '$bairro', '$rua', '$numero', '$complemento' )")){
+        $id_pessoa = mysqli_insert_id($conexao);
+        switch($pessoa){
+            case "juridica": if($contribuinte == "mensal") $id_sociotipo = 3; else $id_sociotipo = 1; break;
+            case "fisica": if($contribuinte == "mensal") $id_sociotipo = 2; else $id_sociotipo = 0; break;
         }
+
+        $resultado = mysqli_query($conexao, "INSERT INTO `socio`(`id_pessoa`, `id_sociostatus`, `id_sociotipo`, `email`) VALUES ($id_pessoa, $status, $id_sociotipo, '$email')");
+        if(mysqli_affected_rows($conexao)) $cadastrado = true;
+
     }
 
     echo json_encode($cadastrado);
