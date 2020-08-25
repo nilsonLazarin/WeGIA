@@ -74,7 +74,7 @@
 						$desc = $pdo->query("SELECT descricao, codigo, oculto FROM produto WHERE id_produto=$id;")->fetch(PDO::FETCH_ASSOC);
 						extract($desc);
 						if ($prod["qtd"] == 0){
-							$log .= "ATENÇÃO: $descricao | $codigo ".($oculto ? "[Oculto] " : "" )."possui ".$somaSaida[$id][$almox]." saídas e ".$somaEntrada[$id][$almox]." entradas.\n";
+							$log .= "ATENÇÃO: $descricao | $codigo ".($oculto ? "[Oculto] " : "" )."possui ".$somaSaida[$id][$almox]." saídas e ".$somaEntrada[$id][$almox]." entradas e possui estoque negativo.\n";
 							$result = "warning";
 							continue;
 						}
