@@ -63,13 +63,16 @@
 					}
 				}
 			}
-			var_dump($somaEntrada, $somaSaida, $somaTotal);
+
+			// Debug
+			// var_dump($somaEntrada, $somaSaida, $somaTotal);
+
+
 			$changed = 0;
 			$added = 0;
 			$warns = 0;
 			foreach ($somaTotal as $id => $val){
 				foreach ($val as $almox => $qtd){
-					// echo("<br>$id $almox $qtd ");
 					if ($qtd < 0) {
 						$prod = $pdo->query("SELECT qtd FROM estoque WHERE id_produto=$id AND id_almoxarifado=$almox;")->fetch(PDO::FETCH_ASSOC);
 						$desc = $pdo->query("SELECT descricao, codigo, oculto FROM produto WHERE id_produto=$id;")->fetch(PDO::FETCH_ASSOC);
@@ -83,7 +86,6 @@
 						$pdo->exec("UPDATE estoque SET qtd=$qtd WHERE id_produto=$id AND id_almoxarifado=$almox");
 						$log .= "$descricao | $codigo ".($oculto ? "[Oculto] " : "" )."possui ".$somaSaida[$id][$almox]." saídas e ".$somaEntrada[$id][$almox]." entradas. O estoque está negativo ($qtd).\n";
 						$changed++;
-						// echo("Odd ");
 						continue;
 					}
 					$estoque = $pdo->query("SELECT * FROM estoque WHERE id_produto=$id AND id_almoxarifado=$almox")->fetch(PDO::FETCH_ASSOC);
@@ -133,8 +135,11 @@
 	$result = corrige_estoque();
 	$log = $result[1];
 
-	var_dump($result);
-	die();
+
+
+	// Debug
+	// var_dump($result);
+	// die();
 
 	switch ($result[0]){
 		case "warning":
