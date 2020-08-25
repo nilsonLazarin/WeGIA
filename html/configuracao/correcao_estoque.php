@@ -120,21 +120,21 @@
 		return [$result, $log];
 	}
 
-	function success($log){
-		header("Location: ./atualizacao_sistema.php?msg=success&sccs=Varredura realizada com sucesso!&log=".base64_encode($log));
+	function success(){
+		header("Location: ./atualizacao_sistema.php?tipo=success&mensagem=Varredura realizada com sucesso!");
 	}
 	
-	function warning($log){
-		header("Location: ./atualizacao_sistema.php?msg=warning&warn=Varredura realizada com sucesso! Exceção:&log=".base64_encode($log));
+	function warning(){
+		header("Location: ./atualizacao_sistema.php?tipo=warning&mensagem=Varredura realizada com sucesso! Exceção:");
 	}
 	
-	function error($log){
-		header("Location: ./atualizacao_sistema.php?msg=error&err=Houve um erro ao executar a varredura:&log=".base64_encode($log));
+	function error(){
+		header("Location: ./atualizacao_sistema.php?tipo=error&mensagem=Houve um erro ao executar a varredura:");
 	}
 	
 	$result = corrige_estoque();
 	$log = $result[1];
-
+	$_SESSION['log']=$log;
 
 
 	// Debug
@@ -143,13 +143,13 @@
 
 	switch ($result[0]){
 		case "warning":
-			warning($log);
+			warning();
 		break;
 		case "success":
-			success($log);
+			success();
 		break;
 		case "error":
 		default:
-			error($log);
+			error();
 	}
 ?>
