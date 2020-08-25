@@ -52,10 +52,9 @@
 					$somaSaida[$id_produto][$id_almoxarifado] = floatval($qtd);
 				}
 			}
-			var_dump($ientrada, $isaida);
 			$cont = (last_key($somaEntrada) >= last_key($somaSaida) ? last_key($somaEntrada) : last_key($somaSaida));
 			for ($id = 0; $id <= $cont; $id++){
-
+				
 				if (isset($somaEntrada[$id]) || isset($somaSaida[$id])){
 					foreach ($somaEntrada[$id] as $id_almox => $qtd){
 						$qtdEntrada = (isset($somaEntrada[$id][$id_almox]) ? $somaEntrada[$id][$id_almox] : 0);
@@ -64,6 +63,7 @@
 					}
 				}
 			}
+			var_dump($somaEntrada, $somaSaida, $somaTotal);
 			$changed = 0;
 			$added = 0;
 			foreach ($somaTotal as $id => $val){
