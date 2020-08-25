@@ -65,7 +65,7 @@
 		
 	<!-- Mobile Metas -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-	<link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">
   	<!-- Vendor CSS -->
   	<link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css" />
 	<link rel="stylesheet" href="../assets/vendor/font-awesome/css/font-awesome.css" />

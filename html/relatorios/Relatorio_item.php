@@ -217,7 +217,7 @@ class Item {
             ");
             $this->setQuery("
             SELECT qtd AS qtd_total, descricao, Total AS valor_total, PrecoMedio FROM estoque_com_preco_atualizado 
-            WHERE qtd > 0 
+            WHERE qtd != 0 
             ORDER BY descricao
             ;
             ");
@@ -253,8 +253,13 @@ class Item {
         $tot_val = 0;
         foreach ($query as $item){
             if ($this->getRelatorio() == 'estoque'){
+                $class='';
+                if ($item['qtd_total'] < 0){
+                    $item['valor_total'] = 0;
+                    $class='class="table-danger"';
+                }
                 echo('
-                    <tr>
+                    <tr '.$class.'>
                         <td scope="row">'.$item['qtd_total'].'</td>
                         <td>'.$item['descricao'].'</td>
                         <td>R$ '.number_format($item['PrecoMedio'],2).'</td>

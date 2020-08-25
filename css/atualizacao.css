@@ -76,6 +76,10 @@ li {
     margin-right: 20px;
 }
 
+.table-danger {
+    background-color: #f5c6cb;
+}
+
 @media print{
     #header {
         display: none;
