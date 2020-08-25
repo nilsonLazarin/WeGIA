@@ -42,11 +42,29 @@
           <input type="tel" min="0"  class="form-control" id="telefone" name="telefone" required>
         </div>
         </div>
-        <div class="row div_nasc">
-        <div class="form-group col-xs-12">
-          <label for="valor">Data de nascimento</label>
-          <input type="date" class="form-control" id="data_nasc" name="data_nasc" required>
+        <div class="row">
+        <div class="form-group col-xs-4">
+          <label for="pessoa">Contribuinte</label>
+          <select class="form-control" name="contribuinte" id="contribuinte">
+                    <option value="mensal">Mensal</option>
+                    <option value="casual">Casual</option>
+          </select>
         </div>
+        <div class="form-group col-xs-4">
+          <label for="pessoa">Status</label>
+          <select class="form-control" name="status" id="status">
+                    <option value="0">Ativo</option>
+                    <option value="1">Inativo</option>
+                    <option value="2">Inadimplente</option>
+                    <option value="3">Inativo temporariamente</option>
+          </select>
+        </div>
+          <div class="div_nasc">
+          <div class="form-group col-xs-4">
+            <label for="valor">Data de nascimento</label>
+            <input type="date" class="form-control" id="data_nasc" name="data_nasc" required>
+          </div>
+          </div>
         </div>
         <div class="box box-info endereco">
             <div class="box-header with-border">
