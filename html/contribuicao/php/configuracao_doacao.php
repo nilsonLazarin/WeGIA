@@ -115,7 +115,7 @@
                                                 <th scope="col" width="5%">Valor Máximo Doação Mensal:</th>
                                             </tr>
                                             <tr id='preenche_bolr1' style= "width: 50px;">
-                                            <td><input id='minval' class="form-control" type='number'  name='minval' autocomplete="on" size="10"></td>
+                                            <td><input id='minval' class="form-control" type='number'  name='minval' autocomplete="on" size="10" readonly='true'></td>
                                             <td><input type='number' class="form-control" name='minvalparc' id='minvalparc'></td>
                                             <td><input type='number' class="form-control"name='maivalparc' id='maivalparc'></td>
                                             </tr>
@@ -186,7 +186,8 @@
                                                 <td><input type='text' class="form-control" name='token_sandbox' value=></td>
                                             </tr>
                                     </table>
-                                <input type="submit" class= "btn btn-primary" id="btn" value="Editar Informações">
+                                <input type='button' class="btn btn-primary" id="editar" value="  Editar">
+                                <input type="submit" class= "btn btn-primary" id="btn" value="Salvar">
                                 <a href="../index.php"><input type="button" class="btn btn-primary" value="Ir à Página de Contribuição"></a>
                                 </div>
                                 
@@ -205,8 +206,8 @@
                                         <tr>
                                             <th>LINK</th>
                                         </tr>
-                                        <tr id='avulso_link'>
-                                            <td><input type='text' class="form-control" name='avulso_link' value=></td>
+                                        <tr id='avulso_link_tr'>
+                                            <td><input type='text' class="form-control" id='avulso_link' readonly='true' name='avulso_link' value=></td>
                                         </tr>
                                     </table>
                                     <span id='vazio_cartao_mensal'></span>
@@ -215,22 +216,22 @@
                                     <div id='doacao_mensal'>
                                     </div> 
                                     <div id = 'insere_doacao_mensal'>
-                                        <!--table-->
                                         <table class="table table-bordered mb-none">
                                             <tr>
                                                 <th>VALOR</th><th>LINK</th>
                                             </tr>
                                             <tr>
-                                                <td><input type='number' class="form-control" name='valor[0]' value =></td>
-                                                <td><input type='text' class="form-control" name='mensal_link[0]' value=></td>
+                                                <td><input type='number' class="form-control" readonly='true' name='valor[0]' id='valor' value =></td>
+                                                <td><input type='text' class="form-control" readonly='true' name='mensal_link[0]' id='link' value=></td>
                                             </tr>
                                             <tr>
-                                                <td><input type='number' class="form-control" name='valor[1]' value =></td><td><input type='text' class="form-control" name='mensal_link[1]' value=></td>
+                                                <td><input type='number' class="form-control" readonly='true' name='valor[1]' id='valor' value =></td><td><input type='text' class="form-control" readonly='true' id='link' name='mensal_link[1]' value=></td>
                                             </tr>
                                         </table>
                                     </div>
                                     <br><br>
-                                    <input type="submit" class= "btn btn-primary" id="btn" value="Editar Informações">
+                                    <input type="button" class= "btn btn-primary" id="editar" value="Editar">
+                                    <input type="submit" class= "btn btn-primary" id="btn" value="Salvar">
                                     <a href="../index.php"><input type="button" class="btn btn-primary" value="Ir à Página de Contribuição"></a>  
                                 </div> 
                             </form>
@@ -248,7 +249,8 @@
             $(".menuu").load("menu.html");
             $("#cartao").hide();
             $("#insere_doacao_mensal").hide();
-
+            $("#btn").hide();
+            $("#editar").click(function(){editando()});
             $("#pagseguro").click(function(){ 
                 
                 var id = retorna_id('pagseguro');
