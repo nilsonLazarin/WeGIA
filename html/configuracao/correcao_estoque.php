@@ -66,6 +66,7 @@
 			var_dump($somaEntrada, $somaSaida, $somaTotal);
 			$changed = 0;
 			$added = 0;
+			$warns = 0;
 			foreach ($somaTotal as $id => $val){
 				foreach ($val as $almox => $qtd){
 					// echo("<br>$id $almox $qtd ");
@@ -76,6 +77,7 @@
 						if ($prod["qtd"] == 0){
 							$log .= "ATENÇÃO: $descricao | $codigo ".($oculto ? "[Oculto] " : "" )."possui ".$somaSaida[$id][$almox]." saídas e ".$somaEntrada[$id][$almox]." entradas e possui estoque negativo.\n";
 							$result = "warning";
+							$warns++;
 							continue;
 						}
 						$pdo->exec("UPDATE estoque SET qtd=0 WHERE id_produto=$id");
@@ -108,7 +110,7 @@
 					$changed++;
 				}
 			}
-			$log = "$changed Linhas Alteradas\n$added Linhas Adicionadas\n\n" . $log;
+			$log = "$changed Linhas Alteradas\n$added Linhas Adicionadas\n$warns Avisos\n\n" . $log;
 		}catch (Exeption $e){
 			$result = "error";
 			$log = "Erro: \n$e";
