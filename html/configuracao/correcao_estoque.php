@@ -52,10 +52,9 @@
 					$somaSaida[$id_produto][$id_almoxarifado] = floatval($qtd);
 				}
 			}
-			var_dump($ientrada, $isaida);
 			$cont = (last_key($somaEntrada) >= last_key($somaSaida) ? last_key($somaEntrada) : last_key($somaSaida));
 			for ($id = 0; $id <= $cont; $id++){
-
+				
 				if (isset($somaEntrada[$id]) || isset($somaSaida[$id])){
 					foreach ($somaEntrada[$id] as $id_almox => $qtd){
 						$qtdEntrada = (isset($somaEntrada[$id][$id_almox]) ? $somaEntrada[$id][$id_almox] : 0);
@@ -64,19 +63,29 @@
 					}
 				}
 			}
+
+			// Debug
+			// var_dump($somaEntrada, $somaSaida, $somaTotal);
+
+
 			$changed = 0;
 			$added = 0;
+			$warns = 0;
 			foreach ($somaTotal as $id => $val){
 				foreach ($val as $almox => $qtd){
-					// echo("<br>$id $almox $qtd ");
 					if ($qtd < 0) {
+						$prod = $pdo->query("SELECT qtd FROM estoque WHERE id_produto=$id AND id_almoxarifado=$almox;")->fetch(PDO::FETCH_ASSOC);
 						$desc = $pdo->query("SELECT descricao, codigo, oculto FROM produto WHERE id_produto=$id;")->fetch(PDO::FETCH_ASSOC);
-						$pdo->exec("UPDATE estoque SET qtd=0 WHERE id_produto=$id");
 						extract($desc);
-						$log .= "$descricao | $codigo ".($oculto ? "[Oculto] " : "" )."possui mais saídas do que entradas e sua quantidade foi zerada.\n";
-						$result = "warning";
+						if ($prod["qtd"] == $qtd){
+							$log .= "ATENÇÃO: $descricao | $codigo ".($oculto ? "[Oculto] " : "" )."possui ".$somaSaida[$id][$almox]." saídas e ".$somaEntrada[$id][$almox]." entradas. O estoque está negativo ($qtd).\n";
+							$result = "warning";
+							$warns++;
+							continue;
+						}
+						$pdo->exec("UPDATE estoque SET qtd=$qtd WHERE id_produto=$id AND id_almoxarifado=$almox");
+						$log .= "$descricao | $codigo ".($oculto ? "[Oculto] " : "" )."possui ".$somaSaida[$id][$almox]." saídas e ".$somaEntrada[$id][$almox]." entradas. O estoque está negativo ($qtd).\n";
 						$changed++;
-						// echo("Odd ");
 						continue;
 					}
 					$estoque = $pdo->query("SELECT * FROM estoque WHERE id_produto=$id AND id_almoxarifado=$almox")->fetch(PDO::FETCH_ASSOC);
@@ -103,7 +112,7 @@
 					$changed++;
 				}
 			}
-			$log = "$changed Linhas Alteradas\n$added Linhas Adicionadas\n\n" . $log;
+			$log = "$changed Linhas Alteradas\n$added Linhas Adicionadas\n$warns Avisos\n\n" . $log;
 		}catch (Exeption $e){
 			$result = "error";
 			$log = "Erro: \n$e";
@@ -111,33 +120,36 @@
 		return [$result, $log];
 	}
 
-	function success($log){
-		header("Location: ./atualizacao_sistema.php?msg=success&sccs=Varredura realizada com sucesso!&log=".base64_encode($log));
+	function success(){
+		header("Location: ./atualizacao_sistema.php?tipo=success&mensagem=Varredura realizada com sucesso!");
 	}
 	
-	function warning($log){
-		header("Location: ./atualizacao_sistema.php?msg=warning&warn=Varredura realizada com sucesso! Exceção:&log=".base64_encode($log));
+	function warning(){
+		header("Location: ./atualizacao_sistema.php?tipo=warning&mensagem=Varredura realizada com sucesso! Exceção:");
 	}
 	
-	function error($log){
-		header("Location: ./atualizacao_sistema.php?msg=error&err=Houve um erro ao executar a varredura:&log=".base64_encode($log));
+	function error(){
+		header("Location: ./atualizacao_sistema.php?tipo=error&mensagem=Houve um erro ao executar a varredura:");
 	}
 	
 	$result = corrige_estoque();
 	$log = $result[1];
+	$_SESSION['log']=$log;
 
-	var_dump($result);
-	die();
+
+	// Debug
+	// var_dump($result);
+	// die();
 
 	switch ($result[0]){
 		case "warning":
-			warning($log);
+			warning();
 		break;
 		case "success":
-			success($log);
+			success();
 		break;
 		case "error":
 		default:
-			error($log);
+			error();
 	}
 ?>

@@ -169,5 +169,46 @@
 			}
 		}
 	}
+
+	function getMsgSession($getName = 'msg', $flagName = 'flag'){
+		
+
+		/**
+		 * Flags:
+		 * 
+		 * 'sccs': Exibe uma mensagem de sucesso
+		 * 'warn': Exibe uma mensagem de atenção
+		 * 'err': Exibe uma mensagem de erro
+		 * 
+		 */
+
+		if (isset($_GET[$getName])){
+			$flag = $_GET[$flagName] ?? "sucesso";
+			$msg = $_GET[$getName];
+			$log = $_SESSION['log'] ?? null;
+			if ($log){
+				unset($_SESSION['log']);
+				switch ($flag){
+					default:
+					case "sccs":
+					case "success":
+					case "sucesso":
+						displaySuccess($msg, $log);
+					break;
+					case "warn":
+					case "warning":
+					case "aviso":
+						displayWarning($msg, $log);
+					break;
+					case "err":
+					case "error":
+					case "erro":
+					case "danger":
+						displayError($msg, $log);
+					break;
+				}
+			}
+		}
+	}
     
 ?>

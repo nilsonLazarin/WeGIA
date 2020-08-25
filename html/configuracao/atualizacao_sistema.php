@@ -124,7 +124,7 @@
                 <!--start: page-->
 				
                 <!-- Caso haja uma mensagem do sistema -->
-				<?php displayMsg();?>
+				<?php displayMsg(); getMsgSession("mensagem","tipo");?>
 
 				<session class="panel">
 					<header class="panel-heading">
