@@ -73,7 +73,7 @@
 						$desc = $pdo->query("SELECT descricao, codigo, oculto FROM produto WHERE id_produto=$id;")->fetch(PDO::FETCH_ASSOC);
 						$pdo->exec("UPDATE estoque SET qtd=0 WHERE id_produto=$id");
 						extract($desc);
-						$log .= "$descricao | $codigo ".($oculto ? "[Oculto] " : "" )."possui mais saídas do que entradas e sua quantidade foi zerada.\n";
+						$log .= "$descricao | $codigo ".($oculto ? "[Oculto] " : "" )."possui ".$somaSaida[$id][$almox]." saídas e ".$somaEntrada[$id][$almox]." entradas. Sua quantidade foi zerada.\n";
 						$result = "warning";
 						$changed++;
 						// echo("Odd ");
