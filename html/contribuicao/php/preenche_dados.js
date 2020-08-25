@@ -15,6 +15,7 @@ function preencher(id)
     
     $.post("atualiza_sistema_boleto.php", {'id_sistema':id})
     .done(function(data){
+        console.log(data);
         var array = data.split('ERR');
         var aviso = array[1];
             if(array.length == 2)
