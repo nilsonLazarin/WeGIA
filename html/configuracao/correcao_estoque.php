@@ -70,11 +70,16 @@
 				foreach ($val as $almox => $qtd){
 					// echo("<br>$id $almox $qtd ");
 					if ($qtd < 0) {
+						$prod = $pdo->query("SELECT qtd FROM estoque WHERE id_produto=$id AND id_almoxarifado=$almox;")->fetch(PDO::FETCH_ASSOC);
+						if ($prod["qtd"] == 0){
+							$log .= "ATENÇÃO: $descricao | $codigo ".($oculto ? "[Oculto] " : "" )."possui ".$somaSaida[$id][$almox]." saídas e ".$somaEntrada[$id][$almox]." entradas.\n";
+							$result = "warning";
+							continue;
+						}
 						$desc = $pdo->query("SELECT descricao, codigo, oculto FROM produto WHERE id_produto=$id;")->fetch(PDO::FETCH_ASSOC);
 						$pdo->exec("UPDATE estoque SET qtd=0 WHERE id_produto=$id");
 						extract($desc);
 						$log .= "$descricao | $codigo ".($oculto ? "[Oculto] " : "" )."possui ".$somaSaida[$id][$almox]." saídas e ".$somaEntrada[$id][$almox]." entradas. Sua quantidade foi zerada.\n";
-						$result = "warning";
 						$changed++;
 						// echo("Odd ");
 						continue;
