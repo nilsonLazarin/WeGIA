@@ -74,14 +74,14 @@
 						$prod = $pdo->query("SELECT qtd FROM estoque WHERE id_produto=$id AND id_almoxarifado=$almox;")->fetch(PDO::FETCH_ASSOC);
 						$desc = $pdo->query("SELECT descricao, codigo, oculto FROM produto WHERE id_produto=$id;")->fetch(PDO::FETCH_ASSOC);
 						extract($desc);
-						if ($prod["qtd"] == 0){
-							$log .= "ATENÇÃO: $descricao | $codigo ".($oculto ? "[Oculto] " : "" )."possui ".$somaSaida[$id][$almox]." saídas e ".$somaEntrada[$id][$almox]." entradas e possui estoque negativo.\n";
+						if ($prod["qtd"] == $qtd){
+							$log .= "ATENÇÃO: $descricao | $codigo ".($oculto ? "[Oculto] " : "" )."possui ".$somaSaida[$id][$almox]." saídas e ".$somaEntrada[$id][$almox]." entradas. O estoque está negativo ($qtd).\n";
 							$result = "warning";
 							$warns++;
 							continue;
 						}
-						$pdo->exec("UPDATE estoque SET qtd=0 WHERE id_produto=$id");
-						$log .= "$descricao | $codigo ".($oculto ? "[Oculto] " : "" )."possui ".$somaSaida[$id][$almox]." saídas e ".$somaEntrada[$id][$almox]." entradas. Sua quantidade foi zerada.\n";
+						$pdo->exec("UPDATE estoque SET qtd=$qtd WHERE id_produto=$id AND id_almoxarifado=$almox");
+						$log .= "$descricao | $codigo ".($oculto ? "[Oculto] " : "" )."possui ".$somaSaida[$id][$almox]." saídas e ".$somaEntrada[$id][$almox]." entradas. O estoque está negativo ($qtd).\n";
 						$changed++;
 						// echo("Odd ");
 						continue;
