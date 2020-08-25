@@ -52,6 +52,7 @@
 					$somaSaida[$id_produto][$id_almoxarifado] = floatval($qtd);
 				}
 			}
+			var_dump($ientrada, $isaida);
 			$cont = (last_key($somaEntrada) >= last_key($somaSaida) ? last_key($somaEntrada) : last_key($somaSaida));
 			for ($id = 0; $id <= $cont; $id++){
 
@@ -124,8 +125,10 @@
 	
 	$result = corrige_estoque();
 	$log = $result[1];
-	// var_dump($result);
-	// die();
+
+	var_dump($result);
+	die();
+
 	switch ($result[0]){
 		case "warning":
 			warning($log);
