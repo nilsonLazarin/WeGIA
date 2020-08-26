@@ -95,6 +95,13 @@
 								$dif = $qtd - $qtd_atual;
 								$changed += $pdo->exec("UPDATE estoque SET qtd=$qtd WHERE id_produto=$id AND id_almoxarifado=$almox;");
 								$log .= abs($dif)." itens ($descricao | $codigo ".($oculto ? "[Oculto]" : "" ).") ".($dif > 0 ? "adicionados no" : "retirados do")." almoxarifado $descricao_almoxarifado.\n";
+							}else{
+								// Caso a quantidade dos registros existentes esteja certa
+								if ($qtd < 0){
+									// Caso a quantidade dos registros existentes esteja certa e seja negativa
+									$warns ++;
+									$log .= "AVISO: $descricao | $codigo ".($oculto ? "[Oculto]" : "" )." possui estoque negativo no almoxarifado $descricao_almoxarifado\n";
+								}
 							}
 						}else{
 							// Caso o produto não esteja em estoque
@@ -152,10 +159,13 @@
 			}
 			$estoque = $pdo->query("SELECT * FROM estoque;")->fetchAll(PDO::FETCH_ASSOC);
 			foreach ($estoque as $key => $item){
-				if (!isset($somaEntrada[$item['id_produto']][$item['id_almoxarifado']]) && $item['qtd'] != 0){
+				// Para cada item em estoque
+				if (!isset($somaEntrada[$item['id_produto']][$item['id_almoxarifado']]) && !isset($somaEntrada[$item['id_produto']][$item['id_almoxarifado']]) && $item['qtd'] != 0){
+					// Verifica se há registros de entrada nem saida para o produto e zera caso não esteja
 					$desc = $pdo->query("SELECT descricao, codigo, oculto FROM produto WHERE id_produto=".$item['id_produto'])->fetch(PDO::FETCH_ASSOC);
 					extract($desc);
-					$log .= $item['id_produto']." | $descricao | $codigo ".($oculto ? "[Oculto] " : "" )."continha ".$item['qtd']." itens sem registro de entrada.\n";
+					$log .= "AVISO: ".$item['id_produto']." | $descricao | $codigo ".($oculto ? "[Oculto] " : "" )."continha ".$item['qtd']." itens sem registro de entrada e saida e seu estoque foi zerado.\n";
+					$warns++;
 					$pdo->exec("UPDATE estoque SET qtd=0 WHERE id_produto=".$item['id_produto']." AND id_almoxarifado=".$item['id_almoxarifado']);
 					$result = "warning";
 					$changed++;
