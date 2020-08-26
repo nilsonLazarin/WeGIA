@@ -100,6 +100,7 @@
 								if ($qtd < 0){
 									// Caso a quantidade dos registros existentes esteja certa e seja negativa
 									$warns ++;
+									$result = "warning";
 									$log .= "AVISO: $descricao | $codigo ".($oculto ? "[Oculto]" : "" )." possui estoque negativo no almoxarifado $descricao_almoxarifado\n";
 								}
 							}
