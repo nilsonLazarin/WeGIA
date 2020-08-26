@@ -24,7 +24,7 @@
 		try{
 			// Quantidade de itens na entrada
 			$ientrada = $pdo->query("
-			SELECT ie.id_produto, ie.qtd, e.id_almoxarifado 
+			SELECT ie.id_produto, SUM(ie.qtd) as qtd, e.id_almoxarifado 
 			FROM ientrada ie 
 			INNER JOIN entrada e ON e.id_entrada = ie.id_entrada 
 			GROUP BY CONCAT(ie.id_produto, e.id_almoxarifado) 
@@ -40,7 +40,7 @@
 			}
 			// Quantidade de itens na saida
 			$isaida = $pdo->query("
-			SELECT isa.id_produto, isa.qtd, s.id_almoxarifado 
+			SELECT isa.id_produto, SUM(isa.qtd) as qtd, s.id_almoxarifado 
 			FROM isaida isa 
 			INNER JOIN saida s ON s.id_saida = isa.id_saida 
 			GROUP BY CONCAT(isa.id_produto, s.id_almoxarifado) 
@@ -62,7 +62,11 @@
 					foreach ($somaEntrada[$id] as $id_almox => $qtd){
 						$qtdEntrada = (isset($somaEntrada[$id][$id_almox]) ? $somaEntrada[$id][$id_almox] : 0);
 						$qtdSaida = (isset($somaSaida[$id][$id_almox]) ? $somaSaida[$id][$id_almox] : 0);
-						$somaTotal[$id][$id_almox] = $qtdEntrada - $qtdSaida;
+						if (isset($somaTotal[$id][$id_almox])){
+							$somaTotal[$id][$id_almox] += $qtdEntrada - $qtdSaida;
+						}else{
+							$somaTotal[$id][$id_almox] = $qtdEntrada - $qtdSaida;
+						}
 					}
 				}
 			}
