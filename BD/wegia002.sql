@@ -30,13 +30,16 @@ INSERT INTO `socio_tipo` (`id_sociotipo`, `tipo`) VALUES
 (0, 'Pessoa Física - Contribuinte Casual'),
 (1, 'Pessoa Jurídica - Contribuinte Casual'),
 (2, 'Pessoa Física - Contribuinte Mensal'),
-(3, 'Pessoa Jurídica - Contribuinte Mensal ');
+(3, 'Pessoa Jurídica - Contribuinte Mensal'),
+(4, 'Pessoa Física - Sem informação'),
+(5, 'Pessoa Jurídica - Sem informação');
 
 INSERT INTO `socio_status` (`id_sociostatus`, `status`) VALUES
 (0, 'Ativo'),
 (1, 'Inativo'),
 (2, 'Inadimplente'),
-(3, 'Inativo Temporariamente');
+(3, 'Inativo Temporariamente'),
+(4, 'Sem informação');
 
 INSERT INTO `status_memorando` (`status_atual`) VALUES ('Ativo'), ('Lido'), ('Não Lido'), ('Importante'), ('Pendente'), ('Arquivado');
 

@@ -20,7 +20,7 @@ $(document).ready(function(){
                 }else var complemento = linha['COMPLEMENTO'];
                 var data_nasc = "";
                 var telefone = linha['TELEFONE'].replace(" ", "");
-
+                
 
                 var dados = {
                     "socio_nome": linha['NOME/RAZÃO SOCIAL'],
@@ -34,6 +34,7 @@ $(document).ready(function(){
                     "bairro": linha['BAIRRO'],
                     "estado": linha['UF'],
                     "cidade": linha['CIDADE'],
+                    "status": 4,
                     "data_nasc": data_nasc,
                     "cep":linha['CEP']
                 };
@@ -466,6 +467,7 @@ $(document).ready(function(){
                     if(log.cadastrados == tabela.length){
                         $(".box_xlsx .overlay").remove();
                         $("#modal_importar_xlsx").modal("toggle");
+                        modalSimples("Status", 'Importação bem sucedida. <div  class="box box-default"> <div class="box-header with-border"> <h3 class="box-title">Log de importação</h3> <div class="box-tools pull-right"> <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i> </button> </div> </div>  <div class="box-body"> <div style="font-size: 12px; color:black; overflow: auto; max-height: 340px; text-justify: left;" class="log">'+ log.html_log +'</div> </div> </div>' , "sucesso");
                         resetaForm("#form_xlsx");
                         $(".barra_envio").css("width","0"+"%");
                         location.reload();

@@ -14,11 +14,27 @@
         $data_nasc = null;
     }
 
+    if(!isset($contribuinte)){
+        $contribuinte = null;
+    }
+
     if($resultado = mysqli_query($conexao, "INSERT INTO `pessoa`(`cpf`, `nome`, `telefone`, `data_nascimento`, `cep`, `estado`, `cidade`, `bairro`, `logradouro`, `numero_endereco`, `complemento`) VALUES ('$cpf_cnpj', '$socio_nome',  '$telefone', '$data_nasc', '$cep', '$estado', '$cidade', '$bairro', '$rua', '$numero', '$complemento' )")){
         $id_pessoa = mysqli_insert_id($conexao);
         switch($pessoa){
-            case "juridica": if($contribuinte == "mensal") $id_sociotipo = 3; else $id_sociotipo = 1; break;
-            case "fisica": if($contribuinte == "mensal") $id_sociotipo = 2; else $id_sociotipo = 0; break;
+            case "juridica": if($contribuinte == "mensal"){
+                $id_sociotipo = 3;
+            }else{
+                $id_sociotipo = 1;
+            }if($contribuinte == null){
+                $id_sociotipo = 5;
+            }  break;
+            case "fisica": if($contribuinte == "mensal"){
+                $id_sociotipo = 2;
+            } else{
+                $id_sociotipo = 0;
+            }if($contribuinte == null){
+                $id_sociotipo = 4;
+            }  break;
         }
 
         $resultado = mysqli_query($conexao, "INSERT INTO `socio`(`id_pessoa`, `id_sociostatus`, `id_sociotipo`, `email`) VALUES ($id_pessoa, $status, $id_sociotipo, '$email')");
