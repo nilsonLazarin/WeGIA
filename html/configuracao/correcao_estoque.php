@@ -22,6 +22,7 @@
 		$log = '';
 		$pdo = Conexao::connect();
 		try{
+			// Quantidade de itens na entrada
 			$ientrada = $pdo->query("
 			SELECT ie.id_produto, ie.qtd, e.id_almoxarifado 
 			FROM ientrada ie 
@@ -37,6 +38,7 @@
 					$somaEntrada[$id_produto][$id_almoxarifado] = floatval($qtd);
 				}
 			}
+			// Quantidade de itens na saida
 			$isaida = $pdo->query("
 			SELECT isa.id_produto, isa.qtd, s.id_almoxarifado 
 			FROM isaida isa 
@@ -52,6 +54,7 @@
 					$somaSaida[$id_produto][$id_almoxarifado] = floatval($qtd);
 				}
 			}
+			// Guarda a quantidade entrada - quantidade saida
 			$cont = (last_key($somaEntrada) >= last_key($somaSaida) ? last_key($somaEntrada) : last_key($somaSaida));
 			for ($id = 0; $id <= $cont; $id++){
 				
@@ -72,33 +75,71 @@
 			$added = 0;
 			$warns = 0;
 			foreach ($somaTotal as $id => $val){
+				// Percorre as linhas
 				foreach ($val as $almox => $qtd){
-					if ($qtd < 0) {
-						$prod = $pdo->query("SELECT qtd FROM estoque WHERE id_produto=$id AND id_almoxarifado=$almox;")->fetch(PDO::FETCH_ASSOC);
-						$desc = $pdo->query("SELECT descricao, codigo, oculto FROM produto WHERE id_produto=$id;")->fetch(PDO::FETCH_ASSOC);
+					// Percorre as colunas
+					$estoque = $pdo->query("SELECT qtd FROM estoque WHERE id_produto=$id AND id_almoxarifado=$almox")->fetch(PDO::FETCH_ASSOC);
+					$desc = $pdo->query("SELECT descricao, codigo, oculto FROM produto WHERE id_produto=$id;")->fetch(PDO::FETCH_ASSOC);
+					$almoxarifado = $pdo->query("SELECT descricao_almoxarifado FROM almoxarifado WHERE id_almoxarifado=$almox;")->fetch(PDO::FETCH_ASSOC);
+					if ($desc && $almoxarifado){
 						extract($desc);
-						if ($prod["qtd"] == $qtd){
-							$log .= "ATENÇÃO: $descricao | $codigo ".($oculto ? "[Oculto] " : "" )."possui ".$somaSaida[$id][$almox]." saídas e ".$somaEntrada[$id][$almox]." entradas. O estoque está negativo ($qtd).\n";
-							$result = "warning";
-							$warns++;
-							continue;
-						}
-						$pdo->exec("UPDATE estoque SET qtd=$qtd WHERE id_produto=$id AND id_almoxarifado=$almox");
-						$log .= "$descricao | $codigo ".($oculto ? "[Oculto] " : "" )."possui ".$somaSaida[$id][$almox]." saídas e ".$somaEntrada[$id][$almox]." entradas. O estoque está negativo ($qtd).\n";
-						$changed++;
-						continue;
-					}
-					$estoque = $pdo->query("SELECT * FROM estoque WHERE id_produto=$id AND id_almoxarifado=$almox")->fetch(PDO::FETCH_ASSOC);
-					if ($estoque){
-						if ($qtd != $estoque['qtd']){
-							$pdo->exec("UPDATE estoque SET qtd=$qtd WHERE id_produto=$id AND id_almoxarifado=$almox");
-							$changed++;
-							// echo("Atual: ".$estoque['qtd']." ");
+						extract($almoxarifado);
+						if ($estoque){
+							$qtd_atual = $estoque['qtd'];
+							if ($qtd_atual != $qtd){
+								$dif = $qtd - $qtd_atual;
+								$changed += $pdo->exec("UPDATE estoque SET qtd=$qtd WHERE id_produto=$id AND id_almoxarifado=$almox;");
+								$log .= abs($dif)." itens ($descricao | $codigo ".($oculto ? "[Oculto]" : "" ).") ".($dif > 0 ? "adicionados no" : "retirados do")." almoxarifado $descricao_almoxarifado.\n";
+							}
+						}else{
+							$added += $pdo->exec("INSERT INTO estoque (id_produto, id_almoxarifado, qtd) VALUES ( $id , $almox , $qtd );");
+							if ($qtd < 0){
+								$log .= "ATENÇÃO: O produto adicionado ($descricao | $codigo ".($oculto ? "[Oculto]" : "" ).") possui ".$somaSaida[$id][$almox]." saídas e ".$somaEntrada[$id][$almox]." entradas. O estoque está negativo ($qtd).\n";
+								$result = "warning";
+								$warns++;
+							}else{
+								$log .= "Registro criado: $descricao | $codigo ".($oculto ? "[Oculto]" : "" ).": $qtd unidades adicionadas no almoxarifado $descricao_almoxarifado.\n";
+							}
 						}
 					}else{
-						$pdo->exec("INSERT INTO estoque (id_produto, id_almoxarifado, qtd) VALUES ( $id , $almox , $qtd);");
-						$added++;
+						$result='warning';
+						$warns ++;
+						// $warns += intval(!$desc) + intval(!$almoxarifado);
+						$log .= "ATENÇÂO: Existem $qtd itens (".$somaEntrada[$id][$almox]." entradas, ".$somaSaida[$id][$almox]." saidas)".(!$desc ? " associados a um produto não cadastrado de ID $id" : '').(!$almoxarifado ? " armazenados em um almoxarifado não cadastrado de ID $almox" : '')."\n";
 					}
+
+
+
+
+
+
+					// if ($qtd < 0) {
+					// 	// Caso a quantidade seja negativa
+					// 	$prod = $pdo->query("SELECT qtd FROM estoque WHERE id_produto=$id AND id_almoxarifado=$almox;")->fetch(PDO::FETCH_ASSOC);
+					// 	$desc = $pdo->query("SELECT descricao, codigo, oculto FROM produto WHERE id_produto=$id;")->fetch(PDO::FETCH_ASSOC);
+					// 	extract($desc);
+					// 	if ($prod["qtd"] == $qtd){
+					// 		// Caso A quantidade já esteja certa
+					// 		$log .= "ATENÇÃO: $descricao | $codigo ".($oculto ? "[Oculto] " : "" )."possui ".$somaSaida[$id][$almox]." saídas e ".$somaEntrada[$id][$almox]." entradas. O estoque está negativo ($qtd).\n";
+					// 		$result = "warning";
+					// 		$warns++;
+					// 		continue;
+					// 	}
+					// 	// Caso a quantidade
+					// 	$pdo->exec("UPDATE estoque SET qtd=$qtd WHERE id_produto=$id AND id_almoxarifado=$almox");
+					// 	$log .= "$descricao | $codigo ".($oculto ? "[Oculto] " : "" )."possui ".$somaSaida[$id][$almox]." saídas e ".$somaEntrada[$id][$almox]." entradas. O estoque está negativo ($qtd).\n";
+					// 	$changed++;
+					// 	continue;
+					// }
+					// if ($estoque){
+					// 	if ($qtd != $estoque['qtd']){
+					// 		$pdo->exec("UPDATE estoque SET qtd=$qtd WHERE id_produto=$id AND id_almoxarifado=$almox");
+					// 		$changed++;
+					// 	}
+					// }else{
+					// 	$pdo->exec("INSERT INTO estoque (id_produto, id_almoxarifado, qtd) VALUES ( $id , $almox , $qtd );");
+					// 	$added++;
+					// }
 				}
 			}
 			$estoque = $pdo->query("SELECT * FROM estoque;")->fetchAll(PDO::FETCH_ASSOC);
@@ -112,7 +153,7 @@
 					$changed++;
 				}
 			}
-			$log = "$changed Linhas Alteradas\n$added Linhas Adicionadas\n$warns Avisos\n\n" . $log;
+			$log = "$changed Linhas Alteradas\n$added Linhas Adicionadas\n$warns Avisos\n\n" . (($changed + $added) == 0 ? "Não houveram alterações no Banco de Dados\n" : "") . $log;
 		}catch (Exeption $e){
 			$result = "error";
 			$log = "Erro: \n$e";
