@@ -78,30 +78,38 @@
 				// Percorre as linhas
 				foreach ($val as $almox => $qtd){
 					// Percorre as colunas
+
 					$estoque = $pdo->query("SELECT qtd FROM estoque WHERE id_produto=$id AND id_almoxarifado=$almox")->fetch(PDO::FETCH_ASSOC);
 					$desc = $pdo->query("SELECT descricao, codigo, oculto FROM produto WHERE id_produto=$id;")->fetch(PDO::FETCH_ASSOC);
 					$almoxarifado = $pdo->query("SELECT descricao_almoxarifado FROM almoxarifado WHERE id_almoxarifado=$almox;")->fetch(PDO::FETCH_ASSOC);
+
 					if ($desc && $almoxarifado){
+						// Caso o produto e o almoxarifado estejam cadastrados
 						extract($desc);
 						extract($almoxarifado);
 						if ($estoque){
+							// Caso o produto esteja em estoque
 							$qtd_atual = $estoque['qtd'];
 							if ($qtd_atual != $qtd){
+								// Se a quantidade em estoque não bater com a entrada e a saida
 								$dif = $qtd - $qtd_atual;
 								$changed += $pdo->exec("UPDATE estoque SET qtd=$qtd WHERE id_produto=$id AND id_almoxarifado=$almox;");
 								$log .= abs($dif)." itens ($descricao | $codigo ".($oculto ? "[Oculto]" : "" ).") ".($dif > 0 ? "adicionados no" : "retirados do")." almoxarifado $descricao_almoxarifado.\n";
 							}
 						}else{
+							// Caso o produto não esteja em estoque
 							$added += $pdo->exec("INSERT INTO estoque (id_produto, id_almoxarifado, qtd) VALUES ( $id , $almox , $qtd );");
 							if ($qtd < 0){
-								$log .= "ATENÇÃO: O produto adicionado ($descricao | $codigo ".($oculto ? "[Oculto]" : "" ).") possui ".$somaSaida[$id][$almox]." saídas e ".$somaEntrada[$id][$almox]." entradas. O estoque está negativo ($qtd).\n";
+								// Caso a quantidade seja negativa
+								$log .= "Registro criado: $descricao | $codigo ".($oculto ? "[Oculto]" : "" )." possui ".$somaSaida[$id][$almox]." saídas e ".$somaEntrada[$id][$almox]." entradas. O estoque está negativo ($qtd).\n";
 								$result = "warning";
 								$warns++;
 							}else{
-								$log .= "Registro criado: $descricao | $codigo ".($oculto ? "[Oculto]" : "" ).": $qtd unidades adicionadas no almoxarifado $descricao_almoxarifado.\n";
+								$log .= "Registro criado: $descricao | $codigo ".($oculto ? "[Oculto]" : "" ).". $qtd unidades adicionadas no almoxarifado $descricao_almoxarifado.\n";
 							}
 						}
 					}else{
+						// Caso o produto e o almoxarifado não estejam cadastrados
 						$result='warning';
 						$warns ++;
 						// $warns += intval(!$desc) + intval(!$almoxarifado);
