@@ -26,8 +26,6 @@ class EstoqueDAO
             } catch (PDOExeption $e){
                 echo 'Error:' . $e->getMessage;
             }
-            var_dump(filtrarAlmoxarifado($_SESSION['id_pessoa'] , json_encode($Estoques)));
-            die();
             return filtrarAlmoxarifado($_SESSION['id_pessoa'] , json_encode($Estoques));
         }
 }
