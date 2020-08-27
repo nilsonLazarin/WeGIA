@@ -113,7 +113,7 @@
                                 if(isset($_FILES['imgperfil']))
                                 {
                                   $image = file_get_contents ($_FILES['imgperfil']['tmp_name']);
-                                  $_SESSION['images']=$image;
+                                  $_SESSION['imagem']=$image;
                                   echo '<img src="data:image/gif;base64,'.base64_encode($image).'" class="rounded img-responsive" alt="John Doe">';
                                 }
                               }

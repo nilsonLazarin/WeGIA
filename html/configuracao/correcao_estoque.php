@@ -5,7 +5,7 @@
 	}
 
 	// Diz ao programa de correção de estoque se deve ou não mostrar os avisos
-	define("AVISO", true);
+	define("AVISO", false);
 	
 	// Verifica Permissão do Usuário
 	require_once '../permissao/permissao.php';
@@ -15,6 +15,20 @@
 	
 	function last_key($array){
 		return array_search(end($array), $array);
+	}
+
+	function echoMatrix($array){
+		echo("<table><tbody>");
+		foreach ($array as $key => $item){
+			echo("<tr>");
+			foreach ($item as $key2 => $val){
+				if (!$val)
+					$val = 0;
+				echo("<td>$val</td>");
+			}
+			echo("</tr>");
+		}
+		echo("</tbody></table>");
 	}
 
 	function corrige_estoque(){
@@ -95,6 +109,7 @@
 						// Caso o produto e o almoxarifado estejam cadastrados
 						extract($desc);
 						extract($almoxarifado);
+						echo("ID: $id ALMOXARIFADO: $almox | ".(isset($estoque['qtd']) ? $estoque['qtd'] : 0)." => $qtd (".(isset($somaEntrada[$id][$almox]) ? $somaEntrada[$id][$almox] : 0 )." - ".(isset($somaSaida[$id][$almox]) ? $somaSaida[$id][$almox] : 0 ).")<br/>");
 						if ($estoque){
 							// Caso o produto esteja em estoque
 							$qtd_atual = $estoque['qtd'];
@@ -204,6 +219,11 @@
 			$result = "error";
 			$log = "Erro: \n$e";
 		}
+		// echo("<div style='display: flex;'>");
+		// echoMatrix($somaEntrada);
+		// echoMatrix($somaSaida);
+		// echoMatrix($somaTotal);
+		// echo("</div>");
 		return [$result, $log];
 	}
 
@@ -225,8 +245,8 @@
 
 
 	// Debug
-	// var_dump($result);
-	// die();
+	var_dump($result);
+	die();
 
 	switch ($result[0]){
 		case "warning":
