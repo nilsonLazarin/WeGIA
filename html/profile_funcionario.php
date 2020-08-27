@@ -334,7 +334,6 @@
             
             var funcionario = <?= $func ?>;
             $.each(funcionario,function(i,item){
-            console.log(funcionario);
               //Informações pessoais
               $("#nomeForm").val(item.nome).prop('disabled', true);
               $("#sobrenomeForm").val(item.sobrenome).prop('disabled', true);
@@ -354,7 +353,7 @@
                 $("#imagem").attr("src","data:image/gif;base64,"+item.imagem);
               }
               else{
-                $("#imagem").attr("src", "../img/semfoto.png");
+                $("#imagem").attr("src", <?php echo WWW;?>+"img/semfoto.png");
               }
          
               $("#telefone").val(item.telefone).prop('disabled', true);
@@ -890,6 +889,17 @@
                                  }
                                  */
 
+
+                                  $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+                                  $id_pessoa = $_SESSION['id_pessoa'];
+                                  $resultado = mysqli_query($conexao, "SELECT `imagem`, `nome` FROM `pessoa` WHERE id_pessoa=$id_pessoa");
+                                  $pessoa = mysqli_fetch_array($resultado);
+                                  if(isset($_SESSION['id_pessoa']) and !empty($_SESSION['id_pessoa'])){
+                                    $foto = $pessoa['imagem'];
+                                    if($foto != null and $foto != "")
+                                      $foto = 'data:image;base64,'.$foto;
+                                    else $foto = WWW."img/semfoto.png";
+                                  }
                                   echo "<img id='imagem' class='rounded img-responsive' alt='John Doe'>";
 
                                  ?>
