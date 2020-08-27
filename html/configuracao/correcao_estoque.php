@@ -185,7 +185,19 @@
 			$estoque = $pdo->query("SELECT * FROM estoque;")->fetchAll(PDO::FETCH_ASSOC);
 			var_dump($estoque);
 			foreach ($estoque as $key => $item){
+				extract($item);
+				$entrada = $pdo->query("SELECT ientrada.qtd from ientrada inner join entrada on entrada.id_entrada = ientrada.id_entrada where ientrada.id_produto=$id_produto and entrada.id_almoxarifado=$id_almoxarifado")->fetchAll(PDO::FETCH_ASSOC);
+				$saida = $pdo->query("SELECT isaida.qtd from isaida inner join saida on saida.id_saida = isaida.id_saida where isaida.id_produto=$id_produto and saida.id_almoxarifado=$id_almoxarifado")->fetchAll(PDO::FETCH_ASSOC);
+				$qtd_total = 0;
+				foreach ($entrada as $item){
+					$qtd_total += $item['qtd'];
+				}
+				foreach ($saida as $item){
+					$qtd_total -= $item['qtd'];
+				}
+				echo("ID: $id_produto ALMOX: $id_almoxarifado QTD: $qtd => $qtd_total<br/>");
 				// Para cada item em estoque
+				continue;
 				if (!isset($somaEntrada[$item['id_produto']][$item['id_almoxarifado']]) && !isset($somaEntrada[$item['id_produto']][$item['id_almoxarifado']]) && $item['qtd'] != 0){
 					// Verifica se há registros de entrada nem saida para o produto e zera caso não esteja
 					$desc = $pdo->query("SELECT descricao, codigo, oculto FROM produto WHERE id_produto=".$item['id_produto'])->fetch(PDO::FETCH_ASSOC);
