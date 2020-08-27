@@ -109,10 +109,10 @@
 						// Caso o produto e o almoxarifado estejam cadastrados
 						extract($desc);
 						extract($almoxarifado);
+						echo("ID: $id ALMOXARIFADO: $almox | ".(isset($estoque['qtd']) ? $estoque['qtd'] : 0)." => $qtd (".(isset($somaEntrada[$id][$almox]) ? $somaEntrada[$id][$almox] : 0 )." - ".(isset($somaSaida[$id][$almox]) ? $somaSaida[$id][$almox] : 0 ).")<br/>");
 						if ($estoque){
 							// Caso o produto esteja em estoque
 							$qtd_atual = $estoque['qtd'];
-							echo("ID: $id ALMOXARIFADO: $almox | $qtd_atual => $qtd (".(isset($somaEntrada[$id][$almox]) ? $somaEntrada[$id][$almox] : 0 )." - ".(isset($somaSaida[$id][$almox]) ? $somaSaida[$id][$almox] : 0 ).")<br/>");
 							if ($qtd_atual != $qtd){
 								// Se a quantidade em estoque não bater com a entrada e a saida
 								$dif = $qtd - $qtd_atual;
