@@ -137,7 +137,7 @@
             $.each(epi,function(i,item){
             	$("#descricao_epi").val(item.id_epi).prop('disabled', true);
                 $("#epi_status").val(item.epi_status).prop('disabled', true);
-                $("#data").val(alterardate(item.data)).prop('disabled', true);
+                $("#data").val(item.data).prop('disabled', true);
          	})
         });
 

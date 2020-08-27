@@ -54,6 +54,31 @@
 			font-size: 15px;
 			font-family: 'Bitter', serif;
         }
+        #alerta_boleto 
+        {
+            padding: 2%;
+            border: 1px solid gray;
+            border-radius: 3px;
+            margin: 10px;
+            font-size: 15px;
+            border-color: #e8273b;
+            color: #8B0000;
+            background-color: rgb(237, 85, 101);
+            opacity: 60%;
+        }
+        #alerta_cartao 
+        {
+            padding: 2%;
+            border: 1px solid gray;
+            border-radius: 3px;
+            margin: 10px;
+            font-size: 15px;
+            border-color: #e8273b;
+            color: #8B0000;
+            background-color: rgb(237, 85, 101);
+            opacity: 60%;
+        }
+
     </style>
     <body>
 	<section class="body">
@@ -81,7 +106,6 @@
                 <div class="row">
 					<div class="col-md-4 col-lg-2"></div>
 					<div class="col-md-8 col-lg-8">
-
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
 							<li class="nav-item active">
 								<a class="nav-link active" id="boletofacil" data-toggle="tab" href="#img-tab" role="tab" aria-controls="img" aria-selected="true">BOLETOFACIL</a>
@@ -97,12 +121,12 @@
 							</li>
 						</ul>
 						<div class="tab-content" id="myTabContent" width = "50%"> 
-                           
-                        <div id='boleto'> 
+                        
+                        <div id='boleto'>  
+                        <div id="alerta_boleto">Não há informações sobre o sistema selecionado no Banco de Dados</div> 
                             <form action="atualizacao_doacao.php" method = "POST" id="form1">
                                 <input type="hidden" id="regras_sistema" name="regras_sistema">
                                 <input type='hidden' id='id_sistema' name='id_sistema'>
-                                <span id="vazio"></span>
                                 <div class="tab-pane active" id="img-tab" role="tabpanel" aria-labelledby="img-tab">
                                     <table class="table table-bordered mb-none">
                                     <!--table class="table table-hover"-->
@@ -186,19 +210,20 @@
                                                 <td><input type='text' class="form-control" name='token_sandbox' value=></td>
                                             </tr>
                                     </table>
-                                <input type='button' class="btn btn-primary" id="editar" value="  Editar">
-                                <input type="submit" class= "btn btn-primary" id="btn" value="Salvar">
+                                <input type='button' class="btn btn-primary" id="editar-bol" value="  Editar">
+                                <input type="submit" class= "btn btn-primary" id="btn-bol" value="Salvar">
                                 <a href="../index.php"><input type="button" class="btn btn-primary" value="Ir à Página de Contribuição"></a>
                                 </div>
                                 
                             </form>
                         </div>
-                                
+                               
                         <div id='cartao'>
+                        <div id="alerta_cartao">Faltam links de doação para esse sistema :(</div>
                             <form action="atualizacao_doacao.php" method='POST' id="form2">
                                 <div class="tab-pane active" id="img-tab" role="tabpanel" aria-labelledby="img-tab">
                                     <input type='hidden' name='cod_cartao' id='cod_cartao'>
-                                    <span id='vazio_cartao_unico'></span>
+                                    
                                     <!--table class="table table-hover"-->
                                     <table class="table table-bordered mb-none">
                                         <h3>DOAÇÃO AVULSA</h3>
@@ -207,10 +232,9 @@
                                             <th>LINK</th>
                                         </tr>
                                         <tr id='avulso_link_tr'>
-                                            <td><input type='text' class="form-control" id='avulso_link' readonly='true' name='avulso_link' value=></td>
+                                            <td><input type='text' class="form-control" readonly= 'true' id='avulso_link' name='avulso_link' value=></td>
                                         </tr>
                                     </table>
-                                    <span id='vazio_cartao_mensal'></span>
                                     <h3>DOAÇÃO MENSAL</h3>
                                     <br>
                                     <div id='doacao_mensal'>
@@ -224,14 +248,12 @@
                                                 <td><input type='number' class="form-control" readonly='true' name='valor[0]' id='valor' value =></td>
                                                 <td><input type='text' class="form-control" readonly='true' name='mensal_link[0]' id='link' value=></td>
                                             </tr>
-                                            <tr>
-                                                <td><input type='number' class="form-control" readonly='true' name='valor[1]' id='valor' value =></td><td><input type='text' class="form-control" readonly='true' id='link' name='mensal_link[1]' value=></td>
-                                            </tr>
+                                    
                                         </table>
                                     </div>
                                     <br><br>
-                                    <input type="button" class= "btn btn-primary" id="editar" value="Editar">
-                                    <input type="submit" class= "btn btn-primary" id="btn" value="Salvar">
+                                        <input type="button" class= "btn btn-primary" id="editar-card" value="Editar">
+                                    <input type="submit" class= "btn btn-primary" id="btn-card" value="Salvar">
                                     <a href="../index.php"><input type="button" class="btn btn-primary" value="Ir à Página de Contribuição"></a>  
                                 </div> 
                             </form>
@@ -243,37 +265,64 @@
 	</section>
 	<script>
         $(document).ready(function() 
-        {
+        {   
+            $("#alerta_boleto").hide();
+            $("#alerta_cartao").hide();
+            $("#cartao").hide();
+            $("#insere_doacao_mensal").hide();
+            $("#btn-bol").hide();
+            $("#btn-card").hide();
+
             var id = retorna_id("boletofacil");
             $("#header").load("../../header.php");
             $(".menuu").load("menu.html");
-            $("#cartao").hide();
-            $("#insere_doacao_mensal").hide();
-            $("#btn").hide();
-            $("#editar").click(function(){editando()});
+            $("input").prop("readonly", true);
+        
+            $("#editar-bol").click(function(){editando()});
+            $("#editar-card").click(function(){editando_card()});
+            
             $("#pagseguro").click(function(){ 
                 
                 var id = retorna_id('pagseguro');
                 $("#boleto").hide();
                 $("#cartao").fadeIn();
+                $("#btn-card").hide();
+                $("#alerta_boleto").hide();
+                $("#editar-card").fadeIn();
+                $("#valor").prop("readonly", true);
+                $("#link").prop("readonly", true);
+               
+               
             });
             $("#boletofacil").click(function(){
                
                var id = retorna_id("boletofacil");
                 $("#boleto").fadeIn();
                 $("#cartao").hide();
+                $("#btn-bol").hide();
+                $("#alerta_cartao").hide();
+                $("#editar-bol").fadeIn();
             });
             $("#paypal").click(function(){ 
 
                 var id = retorna_id("paypal");
                 $("#boleto").hide();
                 $("#cartao").fadeIn();
+                $("#btn-card").hide();
+                $("#alerta_boleto").hide();
+                $("#editar-card").fadeIn();
+                $("#valor").prop("readonly", true);
+                $("#link").prop("readonly", true);
+   
             });
             $("#widepay").click(function(){
                 
                 var id = retorna_id("widepay");
                 $("#boleto").fadeIn();
                 $("#cartao").hide();
+                $("#alerta_cartao").hide();
+                $("#btn-bol").hide();
+                $("#editar-bol").fadeIn();
             });
         });
 	

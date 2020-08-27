@@ -23,8 +23,8 @@
                 $url = $RESULTADO[2];
                 $soma1 = $i + 1;
                 echo"<tr>";
-                echo("<td><input type='number' class='form-control' id='valor' readonly='true' name='valor[".$id."]' value=".$valor."></td>");
-                echo("<td><input type='text' class='form-control' id='link' readonly='true' name='link[".$id."]' value=".$url."></td>");
+                echo("<td><input type='number' class='form-control' readonly='true' name='valor[".$id."]' value=".$valor."></td>");
+                echo("<td><input type='text' class='form-control' readonly='true' name='link[".$id."]' value=".$url."></td>");
                 echo"</tr>";   
             }
                 
@@ -32,7 +32,7 @@
         
     } 
     else{
-        echo"ERR<span id='vazio_cartao_mensal'>Não há link para doação mensal pelo sistema selecionado</span>";
+        echo"ERR";
     }
    
 ?>
