@@ -1,8 +1,5 @@
 function preencher(id)
 {
-    $("#vazio").html(" ");
-    $("#vazio_cartao_mensal").html(" ");
-    $("#vazio_cartao_unico").html(" ");
     $("#preenche_bolr1").html("<td><input type='text'  class='form-control' readonly='true' name='minval' id='minval'  value=></td><td><input type='text' class='form-control' readonly='true' name='minvalparc' id='minvalparc' value=></td><td><input type='text' class='form-control' readonly='true' name='maivalparc' id='maivalparc' value=></td>");
     $("#preenche_bolr2").html("<td><input type='text' class='form-control'  readonly='true' name='unicdiasv' id='unicdiasv' value=></td><td><input type='text' class='form-control' readonly='true' name='mensaldiasv' id='mensaldiasv' value=></td><td><input type='text' class='form-control'readonly='true' name='juros' id='juros' value=></td>");
     $("#preenche_bolr3").html("<td><input type='text' class='form-control' readonly='true' name='multa' id='multa' value=></td><td><textarea class='form-control' readonly='true' name='agradecimento' cols='18'  id='agrad'></textarea></td>");
@@ -21,12 +18,13 @@ function preencher(id)
             if(array.length == 2)
             {
                 $("#form1").attr("action", "insere_doacao.php"); 
-                
+                $("#alerta_boleto").fadeIn();
+                   
             }else{
                 $("#form1").attr("action", "atualizacao_doacao.php"); 
+                $("#alerta_boleto").hide();
             
             }
-        $("#vazio").html(aviso);    
         var dados = JSON.parse(data);
         var cod = dados.cod_regras;
         var minvalunic = dados.MinValUnic;
@@ -73,16 +71,19 @@ function preenche_dados_cartao(id)
             {
                 $("#form2").attr("action", "insere_doacao.php");
                 $("#avulso_link_tr").html("<td><input type='text' id='avulso_link' class='form-control' readonly='true' name='avulso_link' value=></td>");
+                $("#alerta_cartao").fadeIn();
+                
             }else{
                 $("#form2").attr("action", "atualizacao_doacao.php");
+                $("#alerta_cartao").hide();
                
             }
-        $("#vazio_cartao_unico").html(aviso);
         var dados = JSON.parse(data);    
         var link_avulso = dados.LINK_AVULSO;
         var cod = dados.cod;
+        console.log(cod);
         $("#avulso_link_tr").html("<td><input type='text' class='form-control' name='avulso_link' id='avulso_link' readonly='true' value="+link_avulso+"></td>");
-        $("#cod_sistema").html(cod);
+        $("#cod_cartao").html(cod);
     });
     
     $.post("../php/atualiza_sistema_cartao_mensal.php", {'id_sistema':id})
@@ -91,16 +92,15 @@ function preenche_dados_cartao(id)
             if(array.length == 2)
             {
                 $("#doacao_mensal").html(array[0]);
-                $("#doacao_mensal").html(array[1]);
                 $("#insere_doacao_mensal").fadeIn();
                 $("#form2").attr("action", "insere_doacao.php");
-                
-               
+                $("#alerta_cartao").fadeIn();
+  
             } else{
                 $("#doacao_mensal").html(data);
                 $("#insere_doacao_mensal").hide();
                 $("#form2").attr("action", "atualizacao_doacao.php");
-              
+                $("#alerta_cartao").hide();
             }
         
             
@@ -108,28 +108,23 @@ function preenche_dados_cartao(id)
 }
 
 function editando(){
-    $("#btn").fadeIn();
-    $("#editar").hide();
-    $("#minval").prop("readonly", false);
-    $("#mensaldiasv").prop("readonly", false);
-    $("#juros").prop("readonly", false);
-    $("#multa").prop("readonly", false);
-    $("#maivalparc").prop("readonly", false);
-    $("#minvalparc").prop("readonly", false);
-    $("#agrad").prop("readonly", false);
-    $("#unicdiasv").prop("readonly", false);
-    $("#op01").prop("readonly", false);
-    $("#op02").prop("readonly", false);
-    $("#op03").prop("readonly", false);
-    $("#op04").prop("readonly", false);
-    $("#op05").prop("readonly", false);
-    $("#op06").prop("readonly", false);
-    $("#api").prop("readonly", false);
-    $("#token_api").prop("readonly", false);
-    $("#sandbox").prop("readonly", false);
-    $("#token_sandbox").prop("readonly", false);
-    $("#avulso_link").prop("readonly", false);
+    $("#btn-bol").fadeIn();
+    $("#editar-bol").hide();
+
+    $("input").prop("readonly", false);
+    $("textarea").prop("readonly", false);
+    
+}
+
+function editando_card()
+{
+    $("#btn-bol").hide();
+    $("#editar-bol").hide();
+    $("#editar-card").hide();
+    $("#btn-card").fadeIn();
+
+    $("input").prop("readonly", false);
     $("#valor").prop("readonly", false);
     $("#link").prop("readonly", false);
-
+   
 }
