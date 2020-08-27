@@ -353,7 +353,7 @@
                 $("#imagem").attr("src","data:image/gif;base64,"+item.imagem);
               }
               else{
-                $("#imagem").attr("src", <?php echo WWW;?>+"img/semfoto.png");
+                $("#imagem").attr("src", "../img/semfoto.png");
               }
          
               $("#telefone").val(item.telefone).prop('disabled', true);
