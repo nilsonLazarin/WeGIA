@@ -3,6 +3,9 @@
     if (!isset($_SESSION['usuario'])){
         header("Location: ../../index.php");
 	}
+
+	// Diz ao programa de correção de estoque se deve ou não mostrar os avisos
+	define("AVISO", true);
 	
 	// Verifica Permissão do Usuário
 	require_once '../permissao/permissao.php';
@@ -78,6 +81,7 @@
 			$changed = 0;
 			$added = 0;
 			$warns = 0;
+			$updates = 0;
 			foreach ($somaTotal as $id => $val){
 				// Percorre as linhas
 				foreach ($val as $almox => $qtd){
@@ -101,10 +105,11 @@
 								$log .= abs($dif)." itens ($descricao | $codigo ".($oculto ? "[Oculto]" : "" ).") ".($dif > 0 ? "adicionados no" : "retirados do")." almoxarifado $descricao_almoxarifado.\n";
 							}else{
 								// Caso a quantidade dos registros existentes esteja certa
-								if ($qtd < 0){
+								$pdo->exec("UPDATE estoque SET qtd=$qtd WHERE id_produto=$id AND id_almoxarifado=$almox;");
+								$updates++;
+								if ($qtd < 0 && AVISO){
 									// Caso a quantidade dos registros existentes esteja certa e seja negativa
-									$warns ++;
-									$result = "warning";
+									$warns++;
 									$log .= "AVISO: $descricao | $codigo ".($oculto ? "[Oculto]" : "" )." possui estoque negativo no almoxarifado $descricao_almoxarifado\n";
 								}
 							}
@@ -114,7 +119,6 @@
 							if ($qtd < 0){
 								// Caso a quantidade seja negativa
 								$log .= "Registro criado: $descricao | $codigo ".($oculto ? "[Oculto]" : "" )." possui ".$somaSaida[$id][$almox]." saídas e ".$somaEntrada[$id][$almox]." entradas. O estoque está negativo ($qtd).\n";
-								$result = "warning";
 								$warns++;
 							}else{
 								$log .= "Registro criado: $descricao | $codigo ".($oculto ? "[Oculto]" : "" ).". $qtd unidades adicionadas no almoxarifado $descricao_almoxarifado.\n";
@@ -122,10 +126,11 @@
 						}
 					}else{
 						// Caso o produto e o almoxarifado não estejam cadastrados
-						$result='warning';
 						$warns ++;
 						// $warns += intval(!$desc) + intval(!$almoxarifado);
-						$log .= "ATENÇÂO: Existem $qtd itens (".$somaEntrada[$id][$almox]." entradas, ".$somaSaida[$id][$almox]." saidas)".(!$desc ? " associados a um produto não cadastrado de ID $id" : '').(!$almoxarifado ? " armazenados em um almoxarifado não cadastrado de ID $almox" : '')."\n";
+						if (AVISO){
+							$log .= "AVISO: Existem $qtd itens (".$somaEntrada[$id][$almox]." entradas, ".$somaSaida[$id][$almox]." saidas)".(!$desc ? " associados a um produto não cadastrado de ID $id" : '').(!$almoxarifado ? " armazenados em um almoxarifado não cadastrado de ID $almox" : '')."\n";
+						}
 					}
 
 
@@ -169,14 +174,32 @@
 					// Verifica se há registros de entrada nem saida para o produto e zera caso não esteja
 					$desc = $pdo->query("SELECT descricao, codigo, oculto FROM produto WHERE id_produto=".$item['id_produto'])->fetch(PDO::FETCH_ASSOC);
 					extract($desc);
-					$log .= "AVISO: ".$item['id_produto']." | $descricao | $codigo ".($oculto ? "[Oculto] " : "" )."continha ".$item['qtd']." itens sem registro de entrada e saida e seu estoque foi zerado.\n";
+					if (AVISO){
+						$log .= "AVISO: ".$item['id_produto']." | $descricao | $codigo ".($oculto ? "[Oculto] " : "" )."continha ".$item['qtd']." itens sem registro de entrada e saida e seu estoque foi zerado.\n";
+					}
 					$warns++;
 					$pdo->exec("UPDATE estoque SET qtd=0 WHERE id_produto=".$item['id_produto']." AND id_almoxarifado=".$item['id_almoxarifado']);
-					$result = "warning";
 					$changed++;
 				}
 			}
-			$log = "$changed Linhas Alteradas\n$added Linhas Adicionadas\n$warns Avisos\n\n" . (($changed + $added) == 0 ? "Não houveram alterações no Banco de Dados\n" : "") . $log;
+			$logHeader = "";
+			if ($changed){
+				$logHeader .= "$changed Linhas Corrigidas\n";
+			}
+			if ($added){
+				$logHeader .= "$added Linhas Adicionadas\n";
+			}
+			if ($warns && AVISO){
+				$logHeader .= "$warns Avisos\n";
+				$result = "warning";
+			}
+			if ($updates){
+				$logHeader .= "$updates Linhas Atualizadas\n";
+			}
+			if ($logHeader){
+				$logHeader .= "\n";
+			}
+			$log = $logHeader . (($changed + $added + $updates) == 0 ? "Não houveram alterações no Banco de Dados\n" : "") . $log;
 		}catch (Exeption $e){
 			$result = "error";
 			$log = "Erro: \n$e";
