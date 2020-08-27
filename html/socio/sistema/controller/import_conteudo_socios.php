@@ -1,24 +1,41 @@
-<!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <h1>
-        <?php echo($nome);  ?>
-        <small>Sistema SaGA</small>
-      </h1>
-      <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Ínicio</a></li>
-        <li class="active">Painel</li>
-      </ol>
-    </section>
 
-    <!-- Main content -->
-    <section class="content">
-    <div class="row">
-      <div class="col-md-12">
-          <div class="box box-warning">
+<section class="body">
+
+		<!-- start: header -->
+		<header id="header" class="header">
+			
+		<!-- end: search & user box -->
+		</header>
+		<!-- end: header -->
+		<div class="inner-wrapper">
+			<!-- start: sidebar -->
+			<aside id="sidebar-left" class="sidebar-left menuu"></aside>
+			<!-- end: sidebar -->
+
+			<section role="main" class="content-body">
+				<header class="page-header">
+					<h2>Sócios</h2>
+					
+					<div class="right-wrapper pull-right">
+						<ol class="breadcrumbs">
+							<li>
+								<a href="home.php">
+									<i class="fa fa-home"></i>
+								</a>
+							</li>
+							<li><span>Páginas</span></li>
+							<li><span>Sócios</span></li>
+						</ol>
+					
+						<a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
+					</div>
+				</header>
+
+				<!-- start: page -->
+				<div class="row">
+        <div class="box box-warning">
             <div class="box-header with-border">
-              <h3 class="box-title">Sócios cadastrados</h3>
+              <h3 class="box-title">Controle de sócios</h3>
 
               <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -93,8 +110,87 @@
             </div>
             <!-- /.box-body -->
           </div>
-          <!-- /.box -->
-        </div>  
-      </div>
-    </section>
-  </div>
+				</div>
+			<!-- end: page -->
+			</section>
+		</div>	
+		<aside id="sidebar-right" class="sidebar-right">
+			<div class="nano">
+				<div class="nano-content">
+					<a href="#" class="mobile-close visible-xs">
+						Collapse <i class="fa fa-chevron-right"></i>
+					</a>
+				</div>
+			</div>
+		</aside>
+	</section>
+</body>
+<script>
+	function gerarCargo(){
+          url = '../../dao/exibir_cargo.php';
+          $.ajax({
+          data: '',
+          type: "POST",
+          url: url,
+          success: function(response){
+            var cargo = response;
+            $('#cargo').empty();
+            $('#cargo').append('<option selected disabled>Selecionar</option>');
+            $.each(cargo,function(i,item){
+              $('#cargo').append('<option value="' + item.id_cargo + '">' + item.cargo + '</option>');
+            });
+          },
+          dataType: 'json'
+        });
+      }
+
+      function adicionar_cargo(){
+        url = '../../dao/adicionar_cargo.php';
+        var cargo = window.prompt("Cadastre um Novo Cargo:");
+        if(!cargo){return}
+        situacao = cargo.trim();
+        if(cargo == ''){return}              
+        
+          data = 'cargo=' +cargo; 
+          console.log(data);
+          $.ajax({
+          type: "POST",
+          url: url,
+          data: data,
+          success: function(response){
+            gerarCargo();
+          },
+          dataType: 'text'
+        })
+      }
+
+	  function verificar_recursos_cargo(cargo_id){
+          url = '../../dao/verificar_recursos_cargo.php';              
+          data = 'cargo=' +cargo_id; 
+          console.log(data);
+          $.ajax({
+          type: "POST",
+          url: url,
+          data: data,
+          success: function(response){
+			var recursos = JSON.parse(response);
+            console.log(response);
+			$(".recurso").prop("checked",false ).attr("disabled", false);
+			for(recurso of recursos){
+				$("#recurso_"+recurso).prop("checked",true ).attr("disabled", true);
+			}
+          },
+          dataType: 'text'
+        })
+      }
+
+	  $(document).ready(function(){
+		$("#cargo").change(function(){
+			verificar_recursos_cargo($(this).val());
+		});
+	  });
+</script>
+
+           
+            <!-- /.box-body -->
+ 

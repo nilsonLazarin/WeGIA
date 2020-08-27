@@ -131,6 +131,19 @@ if(file_exists($config_path)){
 					</li>
 					<li class="nav-parent nav-active">
 						<a>
+							<i class="fa fa-users" aria-hidden="true"></i>
+							<span>Sócios</span>
+						</a>
+						<ul class="nav nav-children">
+							<li id="31">
+								<a href="<?= WWW ?>html/socio/">
+									 Lista de sócios
+								</a>
+							</li>
+						</ul>
+					</li>
+					<li class="nav-parent nav-active">
+						<a>
 							<i class="fa fa-cog" aria-hidden="true"></i>
 							<span>Configurações</span>
 						</a>

@@ -13,9 +13,8 @@
     <?php require_once("./controller/import_head.php"); ?>
     <?php require_once("./controller/import_header.php"); ?>
     <?php require_once("./controller/import_sidebar.php"); ?>
-    <?php require_once("./controller/import_conteudo_socios.php"); ?>
+    <?php require_once("./controller/import_conteudo_index.php"); ?>
     <?php require_once("./controller/import_modais.php"); ?>
     <?php require_once("./controller/import_scripts.php"); ?>
-    <?php require_once("./controller/import_scripts_socio.php"); ?>
 </body>
 </html>
