@@ -334,7 +334,7 @@
             
             var funcionario = <?= $func ?>;
             $.each(funcionario,function(i,item){
-            
+            console.log(funcionario);
               //Informações pessoais
               $("#nomeForm").val(item.nome).prop('disabled', true);
               $("#sobrenomeForm").val(item.sobrenome).prop('disabled', true);
@@ -354,7 +354,7 @@
                 $("#imagem").attr("src","data:image/gif;base64,"+item.imagem);
               }
               else{
-                $("#imagem").attr("src","../img/semfoto.jpg");
+                $("#imagem").attr("src", <?php echo WWW;?>+"img/semfoto.png");
               }
          
               $("#telefone").val(item.telefone).prop('disabled', true);
@@ -901,7 +901,7 @@
                                       $foto = 'data:image;base64,'.$foto;
                                     else $foto = WWW."img/semfoto.png";
                                   }
-                                  echo "<img src='$foto' class='rounded img-responsive' alt='John Doe'>";
+                                  echo "<img id='imagem' class='rounded img-responsive' alt='John Doe'>";
 
                                  ?>
                               <i class="fas fa-camera-retro btn btn-info btn-lg" data-toggle="modal" data-target="#myModal"></i>
