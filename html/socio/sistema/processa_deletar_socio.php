@@ -10,19 +10,12 @@
     $deletado =  false;
     $id = $_POST['id_socio'];
     $pessoa = $_POST['pessoa'];
-    if(mysqli_query($conexao, "DELETE FROM `endereco` WHERE idsocio=$id")){
-        if($pessoa == "fisica"){
-           if(mysqli_query($conexao, "DELETE FROM `pessoafisica` WHERE idsocio=$id")){
-                if(mysqli_query($conexao, "DELETE FROM `socio` WHERE id=$id")){
-                    $deletado = true;
-                }
-           }
-        }else{
-            if(mysqli_query($conexao, "DELETE FROM `pessoajuridica` WHERE idsocio=$id")){
-                if(mysqli_query($conexao, "DELETE FROM `socio` WHERE id=$id")){
-                    $deletado = true;
-                }
-           }
+    if($socio = mysqli_fetch_array(mysqli_query($conexao, "SELECT * FROM `socio` WHERE id_socio = $id"))){
+        $id_pessoa = $socio['id_pessoa'];
+        if(mysqli_query($conexao, "DELETE FROM `pessoa` WHERE id_pessoa=$id_pessoa")){
+            if(mysqli_query($conexao, "DELETE FROM `socio` WHERE id_socio=$id")){
+                $deletado = true;
+            }
         }
     }
 
