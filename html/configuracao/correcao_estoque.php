@@ -183,6 +183,7 @@
 				}
 			}
 			$estoque = $pdo->query("SELECT * FROM estoque;")->fetchAll(PDO::FETCH_ASSOC);
+			var_dump($estoque);
 			foreach ($estoque as $key => $item){
 				// Para cada item em estoque
 				if (!isset($somaEntrada[$item['id_produto']][$item['id_almoxarifado']]) && !isset($somaEntrada[$item['id_produto']][$item['id_almoxarifado']]) && $item['qtd'] != 0){
