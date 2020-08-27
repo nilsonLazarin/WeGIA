@@ -5,7 +5,8 @@
 	}
 
 	// Diz ao programa de correção de estoque se deve ou não mostrar os avisos
-	define("AVISO", false);
+	define("AVISO", true);
+	define("DEBUG", false);
 	
 	// Verifica Permissão do Usuário
 	require_once '../permissao/permissao.php';
@@ -17,18 +18,71 @@
 		return array_search(end($array), $array);
 	}
 
-	function echoMatrix($array){
-		echo("<table><tbody>");
-		foreach ($array as $key => $item){
-			echo("<tr>");
-			foreach ($item as $key2 => $val){
-				if (!$val)
-					$val = 0;
-				echo("<td>$val</td>");
+	function repara_estoque(){
+		$pdo = Conexao::connect();
+		$result = "success";
+		$log = '';
+		$changed = 0;
+		$added = 0;
+		$warns = 0;
+		$updates = 0;
+		try{
+			$estoque = $pdo->query("SELECT * FROM estoque;")->fetchAll(PDO::FETCH_ASSOC);
+			foreach ($estoque as $key => $item){
+				extract($item);
+				$entrada = $pdo->query("SELECT ientrada.qtd from ientrada inner join entrada on entrada.id_entrada = ientrada.id_entrada where ientrada.id_produto=$id_produto and entrada.id_almoxarifado=$id_almoxarifado")->fetchAll(PDO::FETCH_ASSOC);
+				$saida = $pdo->query("SELECT isaida.qtd from isaida inner join saida on saida.id_saida = isaida.id_saida where isaida.id_produto=$id_produto and saida.id_almoxarifado=$id_almoxarifado")->fetchAll(PDO::FETCH_ASSOC);
+				$qtd_total = 0;
+				foreach ($entrada as $item){
+					$qtd_total += $item['qtd'];
+				}
+				foreach ($saida as $item){
+					$qtd_total -= $item['qtd'];
+				}
+				if (DEBUG)
+					echo("ID: $id_produto ALMOX: $id_almoxarifado QTD: $qtd => $qtd_total<br/>");
+				if ($qtd != $qtd_total){
+					$desc = $pdo->query("SELECT descricao, codigo, oculto FROM produto WHERE id_produto=".$id_produto)->fetch(PDO::FETCH_ASSOC);
+					extract($desc);
+					$pdo->exec("UPDATE estoque SET qtd=$qtd_total WHERE id_produto=$id_produto AND id_almoxarifado=$id_almoxarifado;");
+					$changed++;
+					$log .= "Estoque de $descricao | $codigo ".($oculto ? "[Oculto] " : "" )." alterado de $qtd para $qtd_total\n";
+					continue;
+				}
+				if ($qtd_total < 0 && AVISO){
+					$desc = $pdo->query("SELECT descricao, codigo, oculto FROM produto WHERE id_produto=".$id_produto)->fetch(PDO::FETCH_ASSOC);
+					extract($desc);
+					$log .= "AVISO: $descricao | $codigo ".($oculto ? "[Oculto] " : "" )." possui estoque negativo ($qtd_total)\n";
+					$warns++;
+				}
 			}
-			echo("</tr>");
+			$logHeader = "";
+			if ($changed){
+				$s= $changed > 1 ? "s":'';
+				$logHeader .= "$changed Linha$s Corrigida$s\n";
+			}
+			if ($added){
+				$s= $added > 1 ? "s":'';
+				$logHeader .= "$added Linha$s Adicionada$s\n";
+			}
+			if ($warns && AVISO){
+				$s= $warns > 1 ? "s":'';
+				$logHeader .= "$warns Aviso$s\n";
+				$result = "warning";
+			}
+			if ($updates){
+				$s= $updates > 1 ? "s":'';
+				$logHeader .= "$updates Linha$s Atualizada$s\n";
+			}
+			if ($logHeader){
+				$logHeader .= "\n";
+			}
+			$log = $logHeader . (($changed + $added + $updates) == 0 ? "Não houveram alterações no Banco de Dados\n" : "") . $log;
+		}catch (Exeption $e){
+			$result = "error";
+			$log = "Erro: \n\n$e";
 		}
-		echo("</tbody></table>");
+		return [$result, $log];
 	}
 
 	function corrige_estoque(){
@@ -183,7 +237,6 @@
 				}
 			}
 			$estoque = $pdo->query("SELECT * FROM estoque;")->fetchAll(PDO::FETCH_ASSOC);
-			var_dump($estoque);
 			foreach ($estoque as $key => $item){
 				extract($item);
 				$entrada = $pdo->query("SELECT ientrada.qtd from ientrada inner join entrada on entrada.id_entrada = ientrada.id_entrada where ientrada.id_produto=$id_produto and entrada.id_almoxarifado=$id_almoxarifado")->fetchAll(PDO::FETCH_ASSOC);
@@ -241,25 +294,27 @@
 	}
 
 	function success(){
-		header("Location: ./atualizacao_sistema.php?tipo=success&mensagem=Varredura realizada com sucesso!");
+		header("Location: ./atualizacao_sistema.php?tipo=success&mensagem=Reparo realizado com sucesso!");
 	}
 	
 	function warning(){
-		header("Location: ./atualizacao_sistema.php?tipo=warning&mensagem=Varredura realizada com sucesso! Exceção:");
+		header("Location: ./atualizacao_sistema.php?tipo=warning&mensagem=Reparo realizado com sucesso! Aviso:");
 	}
 	
 	function error(){
-		header("Location: ./atualizacao_sistema.php?tipo=error&mensagem=Houve um erro ao executar a varredura:");
+		header("Location: ./atualizacao_sistema.php?tipo=error&mensagem=Houve um erro ao executar o reparo:");
 	}
 	
-	$result = corrige_estoque();
+	$result = repara_estoque();
 	$log = $result[1];
 	$_SESSION['log']=$log;
 
 
 	// Debug
-	var_dump($result);
-	die();
+	if (DEBUG){
+		var_dump($result);
+		die();
+	}
 
 	switch ($result[0]){
 		case "warning":
