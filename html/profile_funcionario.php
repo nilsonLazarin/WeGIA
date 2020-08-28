@@ -1531,7 +1531,7 @@
                               </div>
                                 <div class="text-center">
                                   <h3 class="col-md-12">Dias Trabalhados</h3>
-                                  <div class="btn-group " data-toggle="buttons">
+                                  <div class="btn-group ">
                                     <label class="btn btn-primary ">
                                       <input type="checkbox" id="diaTrabalhado" name="trabSeg" value="Seg">Seg
                                       <span class="fa fa-check"></span>
@@ -1569,7 +1569,7 @@
 
                                 <div class="text-center">
                                   <h3 class="col-md-12">Dias de Folga</h3>
-                                  <div class="btn-group " data-toggle="buttons">
+                                  <div class="btn-group ">
                                     <label class="btn btn-primary ">
                                       <input type="checkbox" id="diaTrabalhado" name="folgaSeg" value="Seg">Seg
                                       <span class="fa fa-check"></span>
