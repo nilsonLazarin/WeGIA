@@ -831,7 +831,7 @@ class FuncionarioControle
         try {
             $quadroHorarioDAO->alterar($carga_horaria, $id_funcionario);
             session_start();
-            $_SESSION['msg']="Informacoes do funcionario alteradas com sucesso.";
+            $_SESSION['msg']="Informações do funcionário alteradas com sucesso!";
             $_SESSION['proxima']="Ver lista de funcionario";
             $_SESSION['link']="../html/informacao_funcionario.php";
             header("Location: ../html/sucesso.php");
