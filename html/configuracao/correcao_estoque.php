@@ -19,6 +19,7 @@
 	}
 
 	function repara_estoque(){
+		// Essa função não cobre entradas/saídas que não tenham produtos em estoque
 		$pdo = Conexao::connect();
 		$result = "success";
 		$log = '';
@@ -27,21 +28,53 @@
 		$warns = 0;
 		$updates = 0;
 		try{
+			$entrada = $pdo->query("SELECT ie.id_produto as id, ie.qtd, e.id_almoxarifado as almox from ientrada ie inner join entrada e on e.id_entrada = ie.id_entrada")->fetchAll(PDO::FETCH_ASSOC);
+			$saida = $pdo->query("SELECT isa.id_produto as id, isa.qtd, sa.id_almoxarifado as almox from isaida isa inner join saida sa on sa.id_saida = isa.id_saida")->fetchAll(PDO::FETCH_ASSOC);
+			foreach ($entrada as $item){
+				extract($item);
+				$prod = $pdo->query("SELECT * from estoque WHERE id_produto=$id AND id_almoxarifado=$almox;")->fetch(PDO::FETCH_ASSOC);
+				if (!$prod){
+					// Cria um registro de estoque caso não tenha
+					$pdo->exec("INSERT INTO estoque (id_produto, id_almoxarifado, qtd) VALUES ($id , $almox , 0)");
+					$desc = $pdo->query("SELECT descricao, codigo, oculto FROM produto WHERE id_produto=$id;")->fetch(PDO::FETCH_ASSOC);
+					$almoxarifado = $pdo->query("SELECT descricao_almoxarifado as descr FROM almoxarifado WHERE id_almoxarifado=$almox;")->fetch(PDO::FETCH_ASSOC);
+					extract($desc);
+					$log .= "Registro de estoque criado para $descricao | $codigo ".($oculto ? "[Oculto]" : "")." no almoxarifado ".$almoxarifado["descr"].". ";
+					$added++;
+				}
+			}
+			foreach ($saida as $item){
+				extract($item);
+				$prod = $pdo->query("SELECT * from estoque WHERE id_produto=$id AND id_almoxarifado=$almox;")->fetch(PDO::FETCH_ASSOC);
+				if (!$prod){
+					// Cria um registro de estoque caso não tenha
+					$pdo->exec("INSERT INTO estoque (id_produto, id_almoxarifado, qtd) VALUES ($id , $almox , 0)");
+					$desc = $pdo->query("SELECT descricao, codigo, oculto FROM produto WHERE id_produto=$id;")->fetch(PDO::FETCH_ASSOC);
+					$almoxarifado = $pdo->query("SELECT descricao_almoxarifado as descr FROM almoxarifado WHERE id_almoxarifado=$almox;")->fetch(PDO::FETCH_ASSOC);
+					extract($desc);
+					$log .= "Registro de estoque criado para $descricao | $codigo ".($oculto ? "[Oculto]" : "")." no almoxarifado ".$almoxarifado["descr"]."\n";
+					$added++;
+				}
+			}
 			$estoque = $pdo->query("SELECT * FROM estoque;")->fetchAll(PDO::FETCH_ASSOC);
 			foreach ($estoque as $key => $item){
+				// Percorre cada registro no estoque
 				extract($item);
 				$entrada = $pdo->query("SELECT ientrada.qtd from ientrada inner join entrada on entrada.id_entrada = ientrada.id_entrada where ientrada.id_produto=$id_produto and entrada.id_almoxarifado=$id_almoxarifado")->fetchAll(PDO::FETCH_ASSOC);
 				$saida = $pdo->query("SELECT isaida.qtd from isaida inner join saida on saida.id_saida = isaida.id_saida where isaida.id_produto=$id_produto and saida.id_almoxarifado=$id_almoxarifado")->fetchAll(PDO::FETCH_ASSOC);
 				$qtd_total = 0;
 				foreach ($entrada as $item){
+					// Adiciona o total de entradas
 					$qtd_total += $item['qtd'];
 				}
 				foreach ($saida as $item){
+					// Subtrai o total de saídas
 					$qtd_total -= $item['qtd'];
 				}
 				if (DEBUG)
 					echo("ID: $id_produto ALMOX: $id_almoxarifado QTD: $qtd => $qtd_total<br/>");
 				if ($qtd != $qtd_total){
+					// Se a quantidade em estoque for diferente de entrada - saída
 					$desc = $pdo->query("SELECT descricao, codigo, oculto FROM produto WHERE id_produto=".$id_produto)->fetch(PDO::FETCH_ASSOC);
 					extract($desc);
 					$pdo->exec("UPDATE estoque SET qtd=$qtd_total WHERE id_produto=$id_produto AND id_almoxarifado=$id_almoxarifado;");
@@ -50,12 +83,16 @@
 					continue;
 				}
 				if ($qtd_total < 0 && AVISO){
+					// Se houverem registros em estoque com quantidade negativa
 					$desc = $pdo->query("SELECT descricao, codigo, oculto FROM produto WHERE id_produto=".$id_produto)->fetch(PDO::FETCH_ASSOC);
 					extract($desc);
 					$log .= "AVISO: $descricao | $codigo ".($oculto ? "[Oculto] " : "" )." possui estoque negativo ($qtd_total)\n";
 					$warns++;
 				}
 			}
+
+
+			// Cabeçalho do log
 			$logHeader = "";
 			if ($changed){
 				$s= $changed > 1 ? "s":'';
