@@ -39,7 +39,7 @@
 					$desc = $pdo->query("SELECT descricao, codigo, oculto FROM produto WHERE id_produto=$id;")->fetch(PDO::FETCH_ASSOC);
 					$almoxarifado = $pdo->query("SELECT descricao_almoxarifado as descr FROM almoxarifado WHERE id_almoxarifado=$almox;")->fetch(PDO::FETCH_ASSOC);
 					extract($desc);
-					$log .= "Registro de estoque criado para $descricao | $codigo ".($oculto ? "[Oculto]" : "")." no almoxarifado ".$almoxarifado["descr"].". ";
+					$log .= "Registro de estoque criado para $descricao | $codigo ".($oculto ? "[Oculto]" : "")." no almoxarifado ".$almoxarifado["descr"]."\n";
 					$added++;
 				}
 			}
