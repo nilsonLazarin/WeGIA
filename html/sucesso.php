@@ -105,8 +105,6 @@
          </aside>
 				<!-- end: sidebar -->
 
-
-		<section role="main" class="content-body">
 		
 			<header class="page-header">
 				<h2>Sucesso!</h2>
@@ -124,20 +122,10 @@
 					<a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
 				</div>
 			</header>
+			<section role="main" class="content-body">
 
-
-			<div class="center-error">
-
-				<div class="row">
-					<div class="col-sm-8">
-						<div class="main-error mb-xlg">
-							<h2 class="cadastro-sucesso text-dark text-center text-semibold m-none"><?php echo $_SESSION['msg']; ?><i class="far fa-thumbs-up"></i></h2>
-							<a href=<?php echo "'".$_SESSION['link']."'"; ?> style="font-size:25px;"><?php echo $_SESSION['proxima']; ?></a>
-						</div>
-					</div>
-				</div>
-			</div>
-
+							<div class="alert alert-success" style="font-size: 15px;"><i class="fas fa-check mr-md"></i><?php echo $_SESSION['msg']; ?><br><a href=<?php echo "'".$_SESSION['link']."'"; ?>><?php echo $_SESSION['proxima']; ?></a>
+</div>
 		</section>
 
 		<!-- Vendor -->

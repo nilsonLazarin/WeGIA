@@ -335,6 +335,7 @@
             var funcionario = <?= $func ?>;
             $.each(funcionario,function(i,item){
               //Informações pessoais
+              console.log(funcionario)
               $("#nomeForm").val(item.nome).prop('disabled', true);
               $("#sobrenomeForm").val(item.sobrenome).prop('disabled', true);
               if(item.sexo=="m"){
@@ -414,6 +415,13 @@
                 $("#saida2").text("Segunda saída: "+item.saida2);
                 $("#total").text("Carga horária diária: "+item.total);
                 $("#carga_horaria_mensal").text("Carga horária mensal: "+item.carga_horaria);
+
+                $("#escala_input").val(item.escala);
+                $("#tipoCargaHoraria_input").val(item.tipo);
+                $("#entrada1_input").val(item.entrada1);
+                $("#saida1_input").val(item.saida1);
+                $("#entrada2_input").val(item.entrada2);
+                $("#saida2_input").val(item.saida2);
 
   						})
             });
@@ -1487,7 +1495,7 @@
                               <div class="form-group">
                                 <label class="col-md-3 control-label" >Escala</label>
                                 <div class="col-md-6">
-                                  <select class="form-control input-lg mb-md" name="escala" id="escala">
+                                  <select class="form-control input-lg mb-md" name="escala" id="escala_input">
                                     <option selected disabled>Selecionar</option>
                                     <option value="Plantonista">Plantonista</option>
                                     <option value="Diarista">Diarista</option>
@@ -1497,7 +1505,7 @@
                               <div class="form-group">
                                 <label class="col-md-3 control-label">Tipo</label>
                                   <div class="col-md-6">
-                                    <select class="form-control input-lg mb-md" name="tipoCargaHoraria" id="tipoCargaHoraria">
+                                    <select class="form-control input-lg mb-md" name="tipoCargaHoraria" id="tipoCargaHoraria_input">
                                       <option selected disabled>Selecionar</option>
                                       <option value="Mensalista">Mensalista</option>
                                       <option value="Diarista">Diarista</option>
@@ -1508,25 +1516,25 @@
                               <div class="form-group">
                                 <label class="col-md-3 control-label" >Primeira entrada</label>
                                 <div class="col-md-3">
-                                  <input type="time" placeholder="07:25" class="form-control" name="entrada1" id="entrada1" >
+                                  <input type="time" placeholder="07:25" class="form-control" name="entrada1" id="entrada1_input" >
                                 </div>
                               </div>
                               <div class="form-group">
                                 <label class="col-md-3 control-label" >Primeira saída</label>
                                 <div class="col-md-3">
-                                  <input type="time" placeholder="07:25" class="form-control" name="saida1" id="saida1" >
+                                  <input type="time" placeholder="07:25" class="form-control" name="saida1" id="saida1_input" >
                                 </div>
                               </div>
                               <div class="form-group">
                                 <label class="col-md-3 control-label" >Segunda entrada</label>
                                 <div class="col-md-3">
-                                  <input type="time" placeholder="07:25" class="form-control" name="entrada2" id="entrada2" >
+                                  <input type="time" placeholder="07:25" class="form-control" name="entrada2" id="entrada2_input" >
                                 </div>
                               </div>
                               <div class="form-group">
                                 <label class="col-md-3 control-label" >Segunda saída</label>
                                 <div class="col-md-3">
-                                  <input type="time" placeholder="07:25" class="form-control" name="saida2" id="saida2" >
+                                  <input type="time" placeholder="07:25" class="form-control" name="saida2" id="saida2_input" >
                                 </div>
                               </div>
                                 <div class="text-center">

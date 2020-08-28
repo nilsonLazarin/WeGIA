@@ -29,13 +29,14 @@
      $link_avulso = $_POST['avulso_link'];
      $atualiza_avulso = mysqli_query($conexao, "UPDATE doacao_cartao_avulso SET url = '$link_avulso' WHERE id_sistema = $cod_cartao");
 
-    $valor = $_POST['valor'];
+    $valor=$_POST['valores'];
     $link = $_POST['link'];
-    
+    $id= $_POST['id'];
+
     for($i =0; $i<count($valor); $i++)
     {
-        
-         mysqli_query($conexao, "UPDATE doacao_cartao_mensal SET  valor = '$valor[$i]', link = '$link[$i]' WHERE id = $i AND id_sistema = $cod_cartao");
+          
+          mysqli_query($conexao, "UPDATE doacao_cartao_mensal SET  valor = '$valor[$i]', link = '$link[$i]' WHERE id = '$id[$i]' AND id_sistema = $cod_cartao");
     }
 
    header("Location: configuracao_doacao.php");

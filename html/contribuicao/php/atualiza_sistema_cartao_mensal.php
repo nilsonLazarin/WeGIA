@@ -21,11 +21,13 @@
                 $id = $RESULTADO[0];
                 $valor = $RESULTADO[1];
                 $url = $RESULTADO[2];
-                $soma1 = $i + 1;
+                
                 echo"<tr>";
-                echo("<td><input type='number' class='form-control' readonly='true' name='valor[".$id."]' value=".$valor."></td>");
-                echo("<td><input type='text' class='form-control' readonly='true' name='link[".$id."]' value=".$url."></td>");
-                echo"</tr>";   
+                echo("<td><input type='number' name='valores[".$i."]' readonly= 'true' class='form-control' value=".$valor."></td>");
+                echo("<td><input type='text' class='form-control' readonly='true' name='link['".$i."]' value=".$url."></td>"); 
+                echo("<input type='hidden' name='id[".$i."]' value=".$id.">");
+                echo"</tr>";  
+                
             }
                 
         echo"</table>";
