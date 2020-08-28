@@ -60,23 +60,20 @@ class FuncionarioControle
     function calcularHora($entrada, $saida){
         $hora1 = explode(":",$entrada);
         $hora2 = explode(":",$saida);
-
         $horaTotal = ((intval($hora2[0])*60) + intval($hora2[1])) - ((intval($hora1[0])*60) + intval($hora1[1]));
 
-        $horaTotal = floor($horaTotal/60);
+        $horaTotall = floor($horaTotal/60);
         $minutoTotal = $horaTotal%60;
 
         if (strlen($minutoTotal) == 1) {
                 $minutoTotal = "0" . $minutoTotal;
             }
 
-            if (strlen($horaTotal) == 1) {
+            if (strlen($horaTotall) == 1) {
                 $horaTotal = "0" . $horaTotal;
             }
 
-            $final = $horaTotal . ":" . $minutoTotal;
-
-
+            $final = $horaTotall . ":" . $minutoTotal;
 
         return $final;
     }
