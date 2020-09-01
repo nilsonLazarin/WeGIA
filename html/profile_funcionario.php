@@ -423,6 +423,16 @@
                 $("#entrada2_input").val(item.entrada2);
                 $("#saida2_input").val(item.saida2);
 
+                var dia_trabalhado = item.dias_trabalhados.split(",");
+                var dia_folga = item.folga.split(",");
+                for (var i = 0; i<dia_trabalhado.length; i++)
+                {
+                    $("#diaTrabalhado_"+dia_trabalhado[i]).prop("checked", true);
+                }
+                for (var j = 0; j<dia_folga.length; j++)
+                {
+                    $("#diaFolga_"+dia_folga[j]).prop("checked", true);
+                }
   						})
             });
               /*if (item.usa_vtp== "Possui") {
@@ -1541,31 +1551,31 @@
                                   <h3 class="col-md-12">Dias Trabalhados</h3>
                                   <div class="btn-group ">
                                     <label class="btn btn-primary ">
-                                      <input type="checkbox" id="diaTrabalhado" name="trabSeg" value="Seg">Seg
+                                      <input type="checkbox" id="diaTrabalhado_Seg" name="trabSeg" value="Seg">Seg
                                       <span class="fa fa-check"></span>
                                     </label>
                                     <label class="btn btn-primary" >
-                                        <input type="checkbox" id="diaTrabalhado" name="trabTer" value="Ter"> Ter
+                                        <input type="checkbox" id="diaTrabalhado_Ter" name="trabTer" value="Ter"> Ter
                                         <span class="fa fa-check"></span>
                                     </label>
                                     <label class="btn btn-primary">
-                                      <input type="checkbox" id="diaTrabalhado" name="trabQua" value="Qua"> Qua
+                                      <input type="checkbox" id="diaTrabalhado_Qua" name="trabQua" value="Qua"> Qua
                                       <span class="fa fa-check"></span>
                                     </label>
                                     <label class="btn btn-primary">
-                                      <input type="checkbox" id="diaTrabalhado" name="trabQui" value="Qui"> Qui
+                                      <input type="checkbox" id="diaTrabalhado_Qui" name="trabQui" value="Qui"> Qui
                                       <span class="fa fa-check"></span>
                                     </label>
                                     <label class="btn btn-primary">
-                                      <input type="checkbox" id="diaTrabalhado" name="trabSex" value="Sex"> Sex
+                                      <input type="checkbox" id="diaTrabalhado_Sex" name="trabSex" value="Sex"> Sex
                                       <span class="fa fa-check"></span>
                                     </label>
                                     <label class="btn btn-primary">
-                                      <input type="checkbox" id="diaTrabalhado" name="trabSab" value="Sab"> Sab
+                                      <input type="checkbox" id="diaTrabalhado_Sab" name="trabSab" value="Sab"> Sab
                                       <span class="fa fa-check"></span>
                                     </label>
                                     <label class="btn btn-primary">
-                                      <input type="checkbox" id="diaTrabalhado" name="trabDom" value="Dom"> Dom
+                                      <input type="checkbox" id="diaTrabalhado_Dom" name="trabDom" value="Dom"> Dom
                                       <span class="fa fa-check"></span>
                                     </label>
                                     <label class="btn btn-primary">
@@ -1579,31 +1589,31 @@
                                   <h3 class="col-md-12">Dias de Folga</h3>
                                   <div class="btn-group ">
                                     <label class="btn btn-primary ">
-                                      <input type="checkbox" id="diaTrabalhado" name="folgaSeg" value="Seg">Seg
+                                      <input type="checkbox" id="diaFolga_Seg" name="folgaSeg" value="Seg">Seg
                                       <span class="fa fa-check"></span>
                                     </label>
                                     <label class="btn btn-primary" >
-                                      <input type="checkbox" id="diaTrabalhado" name="folgaTer" value="Ter"> Ter
+                                      <input type="checkbox" id="diaFolga_Ter" name="folgaTer" value="Ter"> Ter
                                       <span class="fa fa-check"></span>
                                     </label>
                                     <label class="btn btn-primary">
-                                      <input type="checkbox" id="diaTrabalhado" name="folgaQua" value="Qua"> Qua
+                                      <input type="checkbox" id="diaFolga_Qua" name="folgaQua" value="Qua"> Qua
                                         <span class="fa fa-check"></span>
                                     </label>
                                     <label class="btn btn-primary">
-                                      <input type="checkbox" id="diaTrabalhado" name="folgaQui" value="Qui"> Qui
+                                      <input type="checkbox" id="diaFolga_Qui" name="folgaQui" value="Qui"> Qui
                                       <span class="fa fa-check"></span>
                                     </label>
                                     <label class="btn btn-primary">
-                                      <input type="checkbox" id="diaTrabalhado" name="folgaSex" value="Sex"> Sex
+                                      <input type="checkbox" id="diaFolga_Sex" name="folgaSex" value="Sex"> Sex
                                       <span class="fa fa-check"></span>
                                     </label>
                                     <label class="btn btn-primary">
-                                      <input type="checkbox" id="diaTrabalhado" name="folgaSab" value="Sab"> Sab
+                                      <input type="checkbox" id="diaFolga_Sab" name="folgaSab" value="Sab"> Sab
                                       <span class="fa fa-check"></span>
                                     </label>
                                     <label class="btn btn-primary">
-                                      <input type="checkbox" id="diaTrabalhado" name="folgaDom" value="Dom"> Dom
+                                      <input type="checkbox" id="diaFolga_Dom" name="folgaDom" value="Dom"> Dom
                                       <span class="fa fa-check"></span>
                                     </label>
                                     <label class="btn btn-primary">
