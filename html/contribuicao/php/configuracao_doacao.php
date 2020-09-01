@@ -63,7 +63,7 @@
             margin: 10px;
             font-size: 15px;
             border-color: #e8273b;
-            color: #8B0000;
+            color: black;
             background-color: rgb(237, 85, 101);
             opacity: 60%;
         }
@@ -237,7 +237,6 @@
                                 <div class="tab-pane active" id="img-tab" role="tabpanel" aria-labelledby="img-tab">
                                     <input type='hidden' name='cod_cartao' id='cod_cartao'>
                                     <input type='hidden' name='nome_sistema' id='nome_sistema'>
-                                    <!--table class="table table-hover"-->
                                     <table class="table table-bordered mb-none">
                                         <h3>DOAÇÃO AVULSA</h3>
                                         <br>
@@ -264,9 +263,9 @@
                                     
                                         </table>
                                     </div>
-                                    <br><br>
-                                    <input type="button" class= "btn btn-primary" id="editar-card" value="Editar">
-                                    <input type='submit' class="btn btn-primary" id="btn-card" value='Salvar'>
+                                        <br><br>
+                                        <input type="button" class= "btn btn-primary" id="editar-card" value="Editar">
+                                    <input type="submit" class="btn btn-primary" id="btn-card" value='Salvar'>
                                     <a href="../index.php"><input type="button" class="btn btn-primary" value="Ir à Página de Contribuição"></a>  
                                 </div> 
                             </form>
@@ -288,22 +287,23 @@
             $("#alerta_cartao").hide();
             $('#foo').hide();
 
+            
             $("#btn-bol").click(function(){
                 $('#foo').fadeIn();
                 setTimeout(function () {
                     $('#foo').hide(); 
-                }, 56);
+                }, 99000);
             });
             $("#btn-card").click(function(){
                 $('#foo').fadeIn();
                 setTimeout(function () {
                     $('#foo').hide(); 
-                }, 9800000);
+                }, 99000);
             });
 
             var id = retorna_id("boletofacil");
             $("#header").load("../../header.php");
-            $(".menuu").load("menu.html");
+            $(".menuu").load("../../menu.php");
             $("input").prop("readonly", true);
         
             $("#editar-bol").click(function(){editando()});

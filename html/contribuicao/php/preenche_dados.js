@@ -65,7 +65,7 @@ function preenche_dados_cartao(id)
     var id;
     $.post("../php/atualiza_sistema_cartao_unico.php", {'id_sistema':id})
     .done(function(data){
-        var cont; 
+        
         var aviso = data.split('ERR');
         aviso = aviso[1];
             if(aviso != '')
@@ -73,24 +73,24 @@ function preenche_dados_cartao(id)
                 $("#form2").attr("action", "insere_doacao.php");
                 $("#avulso_link_tr").html("<td><input type='text' id='avulso_link' class='form-control' readonly='true' name='avulso_link' value=></td>");
                 $("#alerta_cartao").fadeIn();
-              
+                
                 
             }else{
                 $("#form2").attr("action", "atualizacao_doacao.php");
                 $("#alerta_cartao").hide();
                 
-               
             }
         var dados = JSON.parse(data);    
         var link_avulso = dados.LINK_AVULSO;
         var cod = dados.cod;
         $("#avulso_link_tr").html("<td><input type='text' class='form-control' name='avulso_link' id='avulso_link' readonly='true' value="+link_avulso+"></td>");
         $("#cod_cartao").html(cod);
+
     });
-    
+       
     $.post("../php/atualiza_sistema_cartao_mensal.php", {'id_sistema':id})
     .done(function(data){
-        var conta;
+        
         var array = data.split("ERR");
             if(array.length == 2)
             {
@@ -103,12 +103,16 @@ function preenche_dados_cartao(id)
                 $("#doacao_mensal").html(data);
                 $("#insere_doacao_mensal").hide();
                 $("#form2").attr("action", "atualizacao_doacao.php");
-                $("#alerta_cartao").hide();
-               
-              
+                $("#alerta_cartao").hide();   
+                conta = 1;
             }        
     });
         
+}
+
+function verificar_form()
+{
+
 }
 
 function editando(){

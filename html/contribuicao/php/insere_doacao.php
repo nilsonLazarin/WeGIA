@@ -1,7 +1,6 @@
 <?php
     include ("conexao.php");
 
-    
     $id_sistema = $_POST['id_sistema'];
     $MinValUnic = $_POST['minval'];
     $MensalDiasV =$_POST['mensaldiasv'];
@@ -21,31 +20,46 @@
     $token = $_POST['token_api'];
     $sandbox = $_POST['sandbox'];
     $token_sandbox = $_POST['token_sandbox'];
-
-     
-     
-    $query = mysqli_query($conexao, "CALL insregras ('$MinValUnic', '$MensalDiasV','$juros','$multa','$MaiValParc','$MinValParc','$agradecimento','$UnicDiasV', '$opVenc1', '$opVenc2', '$opVenc3', '$opVenc4', '$opVenc5', '$opVenc6')");
+          if($MinValUnic == '' && $MensalDiasV == '' && $juros == '' && $multa == '' && $MaiValParc == '' && $MinValParc == '' && $agradecimento == '' && $UnicDiasV == '' && $opVenc1 == '' && $opVenc2 == '' && $opVenc3 == '' && $opVenc4 == '' && $opVenc5 == '' && $opVenc6 == '' && $API == '' && $token == '' && $sandbox == '' && $token_sandbox == '')
+          {
+               header("Location: configuracao_doacao.php");
+          }
+          else
+          {
+               $query = mysqli_query($conexao, "CALL insregras ('$MinValUnic', '$MensalDiasV','$juros','$multa','$MaiValParc','$MinValParc','$agradecimento','$UnicDiasV', '$opVenc1', '$opVenc2', '$opVenc3', '$opVenc4', '$opVenc5', '$opVenc6')");
     
-    $cod_regras = mysqli_query($conexao, "SELECT id FROM doacao_boleto_regras ORDER BY id DESC LIMIT 1");
-    $registro = mysqli_fetch_row($cod_regras);
-    $id_regras = $registro [0];
+               $cod_regras = mysqli_query($conexao, "SELECT id FROM doacao_boleto_regras ORDER BY id DESC LIMIT 1");
+               $registro = mysqli_fetch_row($cod_regras);
+               $id_regras = $registro [0];
 
-    mysqli_query($conexao, "INSERT INTO doacao_boleto_info (api, token_api, sandbox, token_sandbox, id_sistema, id_regras) VALUES ('$API', '$token', '$sandbox', '$token_sandbox', '$id_sistema', '$id_regras')"); 
+               mysqli_query($conexao, "INSERT INTO doacao_boleto_info (api, token_api, sandbox, token_sandbox, id_sistema, id_regras) VALUES ('$API', '$token', '$sandbox', '$token_sandbox', '$id_sistema', '$id_regras')"); 
+          }
 
-    $cod_cartao = $_POST['cod_cartao'];
-    $link_avulso = $_POST['avulso_link'];
-    $atualiza_avulso = mysqli_query($conexao, "CALL registra_cartao_avulso ('$link_avulso', '$cod_cartao')");
+$cod_cartao = $_POST['cod_cartao'];
+     $link_avulso = $_POST['avulso_link'];
+     $atualiza_avulso = mysqli_query($conexao, "CALL registra_cartao_avulso ('$link_avulso', '$cod_cartao')");
 
-    $valor = $_POST['valor'];
-    $link = $_POST['link'];
+     $update = mysqli_query($conexao, "UPDATE doacao_cartao_avulso SET url = '$link_avulso' WHERE id_sistema = $cod_cartao");
 
-    for($i =0; $i<count($valor); $i++)
-    {
-        
-         mysqli_query($conexao, "CALL registra_cartao_mensal ('$valor[$i]', '$link[$i]', '$cod_cartao')");
-    }
+$valor = $_POST['valor'];
+$link = $_POST['link'];
 
-   header("Location: configuracao_doacao.php");
+     for($i =0; $i<count($valor); $i++)
+     {
+                    
+          mysqli_query($conexao, "CALL registra_cartao_mensal ('$valor[$i]', '$link[$i]', '$cod_cartao')");
+     }
+
+$id= $_POST['id'];
+
+     for($i =0; $i<count($valor); $i++)
+     {
+           
+           mysqli_query($conexao, "UPDATE doacao_cartao_mensal SET  valor = '$valor[$i]', link = '$link[$i]' WHERE id = '$id[$i]' AND id_sistema = $cod_cartao");
+     }
+
+     header("Location: configuracao_doacao.php");
+    
 ?>
 
 
