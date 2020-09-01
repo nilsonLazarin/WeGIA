@@ -221,6 +221,7 @@ class FuncionarioControle
 
     public function verificarFuncionario(){
         extract($_REQUEST);
+
         if((!isset($nome)) || (empty($nome))){
             $msg = "Nome do funcionario nÃ£o informado. Por favor, informe um nome!";
             header('Location: ../html/funcionario.html?msg='.$msg);
@@ -455,6 +456,13 @@ class FuncionarioControle
         $funcionariosDAO = new FuncionarioDAO();
         $funcionarios = $funcionariosDAO->listarTodos2();
         $_SESSION['funcionarios2']=$funcionarios;
+    }
+
+    public function listarCpf(){
+        extract($_REQUEST);
+        $funcionariosDAO = new FuncionarioDAO();
+        $funcionarioscpf = $funcionariosDAO->listarCPF();
+        $_SESSION['cpf_funcionario']=$funcionarioscpf;
     }
     
     public function listarUm()
