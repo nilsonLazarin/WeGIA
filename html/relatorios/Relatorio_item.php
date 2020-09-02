@@ -164,8 +164,8 @@ class Item {
 
     private function estoque(){
         if ($this->hasValue()){
-            $params = "WHERE qtd > 0 ";
-            $cont = 1;
+            $params = "WHERE qtd > 0 AND oculto=false ";
+            $cont = 2;
             if ($this->getAlmoxarifado()){
                 $params = $this->param($params, $cont).' id_almoxarifado = '.$this->getAlmoxarifado().' ';
                 $cont++;
@@ -185,7 +185,7 @@ class Item {
             GROUP by tabela1.descricao;
             
             CREATE TEMPORARY TABLE IF NOT EXISTS estoque_com_preco_atualizado 
-            SELECT estoque.id_produto, id_categoria_produto, id_unidade, codigo, qtd, descricao, PrecoMedio, (qtd*PrecoMedio) as Total, almoxarifado.id_almoxarifado
+            SELECT estoque.id_produto, id_categoria_produto, id_unidade, codigo, qtd, descricao, PrecoMedio, (qtd*PrecoMedio) as Total, almoxarifado.id_almoxarifado, produto.oculto
             FROM tabela2,estoque,produto,almoxarifado
             WHERE produto.id_produto=estoque.id_produto AND estoque.id_produto=tabela2.id_produto AND estoque.id_almoxarifado=almoxarifado.id_almoxarifado;
             ");
@@ -211,13 +211,13 @@ class Item {
             GROUP by tabela1.descricao;
             
             CREATE TEMPORARY TABLE IF NOT EXISTS estoque_com_preco_atualizado 
-            SELECT estoque.id_produto, id_categoria_produto, id_unidade, codigo, qtd, descricao, PrecoMedio, (qtd*PrecoMedio) as Total
+            SELECT estoque.id_produto, id_categoria_produto, id_unidade, codigo, qtd, descricao, PrecoMedio, (qtd*PrecoMedio) as Total, produto.oculto
             FROM tabela2,estoque,produto
             WHERE produto.id_produto=estoque.id_produto AND estoque.id_produto=tabela2.id_produto;
             ");
             $this->setQuery("
             SELECT qtd AS qtd_total, descricao, Total AS valor_total, PrecoMedio FROM estoque_com_preco_atualizado 
-            WHERE qtd != 0 
+            WHERE qtd != 0 AND oculto=false
             ORDER BY descricao
             ;
             ");
