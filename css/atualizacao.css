@@ -81,13 +81,6 @@ li {
 }
 
 @media print{
-    #header {
-        display: none;
-    }
-
-    .menuu {
-        display: none;
-    }
 
     .panel-heading {
         display: none;
@@ -99,5 +92,19 @@ li {
 
     .tot {
         width: 17%;
+    }
+
+    .print-hide {
+        display: none;
+    }
+
+    .content-body {
+        padding: 0;
+    }
+
+    .tab-content {
+        box-shadow: none;
+        border: none;
+        padding: 0;
     }
 }

@@ -183,14 +183,14 @@
 </head>
 <body>
 	<section class="body">
-		<div id="header"></div>
+		<div id="header" class="print-hide"></div>
 	        <!-- end: header -->
 		<div class="inner-wrapper">
 			<!-- start: sidebar -->
-			<aside id="sidebar-left" class="sidebar-left menuu"></aside>
+			<aside id="sidebar-left" class="sidebar-left menuu  print-hide"></aside>
 			<!-- end: sidebar -->
 			<section role="main" class="content-body">
-				<header class="page-header">
+				<header class="page-header print-hide">
 					<h2>Geração de Relatório</h2>
 					<div class="right-wrapper pull-right">
 						<ol class="breadcrumbs">

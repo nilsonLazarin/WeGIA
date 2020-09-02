@@ -151,14 +151,30 @@
     });
 
 	var homeIcon = null;
+	var Selecao = null;
 
 	// Antes do navegador imprimir a página
 	window.onbeforeprint = function(event) {
 		// Retira a paginação para que todos os registros sejam exibidos
+		let categ = $('#categ').val();
+		let almox = $('#almox').val();
 		$('#datatable-default').DataTable().destroy();
+		$('#datatable-default').DataTable({
+			aLengthMenu: [
+				[-1],
+				["Mostrar Todos"]
+			],
+    		iDisplayLength: -1
+		});
 		homeIcon = $('#home-icon').children();
+		Selecao = $('#selecao').children();
 		$('#home-icon').empty();
+		$('#selecao').empty();
 		$('#home-icon').append($('<span />').text("<?php display_campo("Titulo","str");?>"));
+		$('#selecao').html("<h2>Estoque</h2>Almoxarifado: "+almox+"</br>Categoria: "+categ+"</br>");
+		filterItem();
+		$('.datatables-header').children(0).hide()
+		$('#print-btn')
 	}
 
 	// Depois do navegador imprimir ou cancelar a impressão da página
@@ -167,14 +183,41 @@
 		$('#datatable-default').DataTable().destroy();
 		$('#datatable-default').DataTable({
 			aLengthMenu: [
-				[10, 25, 50, 100],
-				[10, 25, 50, 100]
+				[10, 25, 50, 100, -1],
+				[10, 25, 50, 100, "Tudo"]
 			],
     		iDisplayLength: 10
 		});
+		filterItem();
 		$('#home-icon').empty();
+		$('#selecao').empty();
 		$('#home-icon').append(homeIcon);
+		$('#selecao').append(Selecao);
+		filterItem();
+		$('.datatables-header').child().show()
 	};
+	var filtro = {
+		almoxarifado: "todos",
+		categoria: "todas"
+	}
+
+	function filterItem (){
+		let table = $('#datatable-default').DataTable();
+		let almox = filtro.almoxarifado == 'todos' ? '' : filtro.almoxarifado ;
+		let categ = filtro.categoria == 'todas' ? '' : filtro.categoria ;
+
+		table.search( `${almox} ${categ}` ).draw();
+	}
+
+	function selectAlmoxarifado(value){
+		filtro.almoxarifado = value;
+		filterItem();
+	}
+
+	function selectCategoria(value){
+		filtro.categoria = value;
+		filterItem();
+	}
 	</script>
 	
 	<style type="text/css">
@@ -206,7 +249,7 @@
          	<aside id="sidebar-left" class="sidebar-left menuu"></aside>
 			<!-- end: sidebar -->
 			<section role="main" class="content-body">
-				<header class="page-header">
+				<header class="page-header print-hide">
 					<h2>Estoque</h2>
 					<div class="right-wrapper pull-right">
 						<ol class="breadcrumbs">
@@ -225,33 +268,10 @@
 					<header class="panel-heading">
 						<h2 class="panel-title">Estoque</h2>
 					</header>
-					<div class="panel-body" >
-						<script>
-							let filtro = {
-								almoxarifado: "todos",
-								categoria: "todas"
-							}
-
-							function filterItem (){
-								let table = $('#datatable-default').DataTable();
-								let almox = filtro.almoxarifado == 'todos' ? '' : filtro.almoxarifado ;
-								let categ = filtro.categoria == 'todas' ? '' : filtro.categoria ;
- 
-								table.search( `${almox} ${categ}` ).draw();
-							}
-
-							function selectAlmoxarifado(value){
-								filtro.almoxarifado = value;
-								filterItem();
-							}
-
-							function selectCategoria(value){
-								filtro.categoria = value;
-								filterItem();
-							}
-						</script>
-						<div>
-							Almoxarifado: <select class="select-table-filter form-control mb-md" data-table="order-table" oninput="selectAlmoxarifado(this.value)" id="almox">
+					<div class="panel-body">
+						<div id="selecao">
+								<span>Almoxarifado: </span>
+								<select class="select-table-filter form-control mb-md" data-table="order-table" oninput="selectAlmoxarifado(this.value)" id="almox">
 								<option selected value="todos">Todos</option>
 								<?php
 									$pdo = Conexao::connect();
@@ -265,7 +285,8 @@
 									}
 								?>
 							</select>
-							Categoria: <select class="select-table-filter form-control mb-md" data-table="order-table" oninput="selectCategoria(this.value)" id="categ">
+								<span>Categoria: </span>
+								<select class="select-table-filter form-control mb-md" data-table="order-table" oninput="selectCategoria(this.value)" id="categ">
 								<option selected value="todas">Todas</option>
 								<?php
 									$pdo = Conexao::connect();
@@ -281,7 +302,7 @@
 						</div>
 						<div class="select" >
 	  					</div>
-	  					<button style="float: right;" class="mb-xs mt-xs mr-xs btn btn-default" onclick="window.print();">Imprimir</button>
+	  					<button style="float: right;" class="mb-xs mt-xs mr-xs btn btn-default print-hide" onclick="window.print();">Imprimir</button>
 	  					<br><br>
 		  					
 						<table class="table table-bordered table-striped mb-none" id="datatable-default">
