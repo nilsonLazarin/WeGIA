@@ -104,7 +104,7 @@
               <a onclick="location.reload()" id="btn_importar_xlsx" class="btn btn-app">
                 <i class="fa fa-refresh"></i> Atualizar
               </a>
-              <a id="btn_bd" class="btn btn-app">
+              <a id="btn_bd_off" class="btn btn-app" disabled>
                 <i class="fa fa-database"></i> Banco de dados
               </a>
             </div>

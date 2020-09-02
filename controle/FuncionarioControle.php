@@ -60,23 +60,20 @@ class FuncionarioControle
     function calcularHora($entrada, $saida){
         $hora1 = explode(":",$entrada);
         $hora2 = explode(":",$saida);
-
         $horaTotal = ((intval($hora2[0])*60) + intval($hora2[1])) - ((intval($hora1[0])*60) + intval($hora1[1]));
 
-        $horaTotal = floor($horaTotal/60);
+        $horaTotall = floor($horaTotal/60);
         $minutoTotal = $horaTotal%60;
 
         if (strlen($minutoTotal) == 1) {
                 $minutoTotal = "0" . $minutoTotal;
             }
 
-            if (strlen($horaTotal) == 1) {
+            if (strlen($horaTotall) == 1) {
                 $horaTotal = "0" . $horaTotal;
             }
 
-            $final = $horaTotal . ":" . $minutoTotal;
-
-
+            $final = $horaTotall . ":" . $minutoTotal;
 
         return $final;
     }
@@ -224,6 +221,7 @@ class FuncionarioControle
 
     public function verificarFuncionario(){
         extract($_REQUEST);
+
         if((!isset($nome)) || (empty($nome))){
             $msg = "Nome do funcionario nÃ£o informado. Por favor, informe um nome!";
             header('Location: ../html/funcionario.html?msg='.$msg);
@@ -458,6 +456,13 @@ class FuncionarioControle
         $funcionariosDAO = new FuncionarioDAO();
         $funcionarios = $funcionariosDAO->listarTodos2();
         $_SESSION['funcionarios2']=$funcionarios;
+    }
+
+    public function listarCpf(){
+        extract($_REQUEST);
+        $funcionariosDAO = new FuncionarioDAO();
+        $funcionarioscpf = $funcionariosDAO->listarCPF();
+        $_SESSION['cpf_funcionario']=$funcionarioscpf;
     }
     
     public function listarUm()
@@ -834,7 +839,7 @@ class FuncionarioControle
         try {
             $quadroHorarioDAO->alterar($carga_horaria, $id_funcionario);
             session_start();
-            $_SESSION['msg']="Informacoes do funcionario alteradas com sucesso.";
+            $_SESSION['msg']="Informações do funcionário alteradas com sucesso!";
             $_SESSION['proxima']="Ver lista de funcionario";
             $_SESSION['link']="../html/informacao_funcionario.php";
             header("Location: ../html/sucesso.php");

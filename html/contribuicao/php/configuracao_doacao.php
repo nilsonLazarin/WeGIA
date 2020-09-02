@@ -35,6 +35,7 @@
         <script src="../../../assets/javascripts/theme.init.js"></script>
         <script type="text/javascript" src="preenche_dados.js"></script>
         <script type="text/javascript" src="id_sistema.js"></script>
+        <script type="text/javascript" src="../js/transicoes.js"></script>
 
     </head>
     <style> 
@@ -54,7 +55,19 @@
 			font-size: 15px;
 			font-family: 'Bitter', serif;
         }
-        #alerta_boleto 
+        #alerta_boleto
+        {
+            padding: 2%;
+            border: 1px solid gray;
+            border-radius: 3px;
+            margin: 10px;
+            font-size: 15px;
+            border-color: #e8273b;
+            color: black;
+            background-color: rgb(237, 85, 101);
+            opacity: 60%;
+        }
+        #alerta_cartao
         {
             padding: 2%;
             border: 1px solid gray;
@@ -66,17 +79,15 @@
             background-color: rgb(237, 85, 101);
             opacity: 60%;
         }
-        #alerta_cartao 
-        {
+        #foo{
             padding: 2%;
             border: 1px solid gray;
             border-radius: 3px;
             margin: 10px;
             font-size: 15px;
-            border-color: #e8273b;
-            color: #8B0000;
-            background-color: rgb(237, 85, 101);
-            opacity: 60%;
+            border-color: #87c940;
+            color: #FFF;
+            background-color: #a0d468;
         }
 
     </style>
@@ -106,6 +117,7 @@
                 <div class="row">
 					<div class="col-md-4 col-lg-2"></div>
 					<div class="col-md-8 col-lg-8">
+                    <div id='foo'>Dados atualizados com sucesso!</div>
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
 							<li class="nav-item active">
 								<a class="nav-link active" id="boletofacil" data-toggle="tab" href="#img-tab" role="tab" aria-controls="img" aria-selected="true">BOLETOFACIL</a>
@@ -114,7 +126,7 @@
 								<a class="nav-link" id="widepay" data-toggle="tab" href="#txt-tab" role="tab" aria-controls="txt" aria-selected="false">WIDEPAY</a>
                             </li>
                             <li class="nav-item">
-								<a class="nav-link active" id="pagseguro" data-toggle="tab" href="#img-tab" role="tab" aria-controls="img" aria-selected="false">PAGSEGURO</a>
+								<a class="nav-link" id="pagseguro" data-toggle="tab" href="#img-tab" role="tab" aria-controls="img" aria-selected="false">PAGSEGURO</a>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link" id="paypal" data-toggle="tab" href="#txt-tab" role="tab" aria-controls="txt" aria-selected="false">PAYPAL</a>
@@ -127,6 +139,7 @@
                             <form action="atualizacao_doacao.php" method = "POST" id="form1">
                                 <input type="hidden" id="regras_sistema" name="regras_sistema">
                                 <input type='hidden' id='id_sistema' name='id_sistema'>
+                                <input type='hidden' name='nome_sistema' id='nome_sistema'>
                                 <div class="tab-pane active" id="img-tab" role="tabpanel" aria-labelledby="img-tab">
                                     <table class="table table-bordered mb-none">
                                     <!--table class="table table-hover"-->
@@ -174,9 +187,9 @@
                                                 <th scope="col" width="5%">opcão 3</th>
                                             </tr>
                                             <tr id='preenche_bol1'>
-                                                <td><input type='number' class="form-control" name='op01' value=></td>
-                                                <td><input type='number' class="form-control" name='op02' value=></td>
-                                                <td><input type='number' class="form-control" name='op03' value=></td>
+                                                <td><input type='number' class="form-control" name='op01' id='op01' value=></td>
+                                                <td><input type='number' class="form-control" name='op02' id='op02' value=></td>
+                                                <td><input type='number' class="form-control" name='op03' id='op03' value=></td>
                                             </tr>
                                             <tr>
                                                 <th scope="col" width="5%">opção 4</th>
@@ -184,9 +197,9 @@
                                                 <th scope="col" width="5%">opção 6</th>
                                             </tr>
                                             <tr id='preenche_bol2'>
-                                                <td><input type='number' class="form-control" name='op04' value=></td>
-                                                <td><input type='number' class="form-control" name='op05' value=></td>
-                                                <td><input type='number' class="form-control" name='op06' value=></td>
+                                                <td><input type='number' class="form-control" name='op04' id='op04' value=></td>
+                                                <td><input type='number' class="form-control" name='op05' id='op05' value=></td>
+                                                <td><input type='number' class="form-control" name='op06' id='op06' value=></td>
                                             </tr>
                                         </thead>
                                     </table>
@@ -200,18 +213,18 @@
                                                 <th scope="col" width="5%">Link SANDBOX</th>
                                             </tr>
                                             <tr id="info_bol3">
-                                                <td><input type='text' class="form-control" name='api' value=></td>
-                                                <td><input type='text' class="form-control" name='token_api' value=></td>
-                                                <td><input type='text' class="form-control" name='sandbox' value=></td>
+                                                <td><input type='text' class="form-control" name='api' id='api' value=></td>
+                                                <td><input type='text' class="form-control" name='token_api' id='token_api' value=></td>
+                                                <td><input type='text' class="form-control" name='sandbox' id='sandbox' value=></td>
                                             <tr>
                                                 <th scope="col" width="5%">TOKEN SANDBOX</th>
                                             </tr>
                                             <tr id="info_bol4">
-                                                <td><input type='text' class="form-control" name='token_sandbox' value=></td>
+                                                <td><input type='text' class="form-control" name='token_sandbox' id='token_sandbox' value=></td>
                                             </tr>
                                     </table>
-                                <input type='button' class="btn btn-primary" id="editar-bol" value="  Editar">
-                                <input type="submit" class= "btn btn-primary" id="btn-bol" value="Salvar">
+                                <input type='button' class="btn btn-primary" id="editar-bol" value="Editar">
+                                <input type='submit' class="btn btn-primary" id="btn-bol" value='Salvar'>
                                 <a href="../index.php"><input type="button" class="btn btn-primary" value="Ir à Página de Contribuição"></a>
                                 </div>
                                 
@@ -223,8 +236,7 @@
                             <form action="atualizacao_doacao.php" method='POST' id="form2">
                                 <div class="tab-pane active" id="img-tab" role="tabpanel" aria-labelledby="img-tab">
                                     <input type='hidden' name='cod_cartao' id='cod_cartao'>
-                                    
-                                    <!--table class="table table-hover"-->
+                                    <input type='hidden' name='nome_sistema' id='nome_sistema'>
                                     <table class="table table-bordered mb-none">
                                         <h3>DOAÇÃO AVULSA</h3>
                                         <br>
@@ -251,9 +263,9 @@
                                     
                                         </table>
                                     </div>
-                                    <br><br>
+                                        <br><br>
                                         <input type="button" class= "btn btn-primary" id="editar-card" value="Editar">
-                                    <input type="submit" class= "btn btn-primary" id="btn-card" value="Salvar">
+                                    <input type="submit" class="btn btn-primary" id="btn-card" value='Salvar'>
                                     <a href="../index.php"><input type="button" class="btn btn-primary" value="Ir à Página de Contribuição"></a>  
                                 </div> 
                             </form>
@@ -272,10 +284,26 @@
             $("#insere_doacao_mensal").hide();
             $("#btn-bol").hide();
             $("#btn-card").hide();
+            $("#alerta_cartao").hide();
+            $('#foo').hide();
+
+            
+            $("#btn-bol").click(function(){
+                $('#foo').fadeIn();
+                setTimeout(function () {
+                    $('#foo').hide(); 
+                }, 99000);
+            });
+            $("#btn-card").click(function(){
+                $('#foo').fadeIn();
+                setTimeout(function () {
+                    $('#foo').hide(); 
+                }, 99000);
+            });
 
             var id = retorna_id("boletofacil");
             $("#header").load("../../header.php");
-            $(".menuu").load("menu.html");
+            $(".menuu").load("../../menu.php");
             $("input").prop("readonly", true);
         
             $("#editar-bol").click(function(){editando()});

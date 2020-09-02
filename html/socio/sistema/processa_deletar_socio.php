@@ -12,8 +12,8 @@
     $pessoa = $_POST['pessoa'];
     if($socio = mysqli_fetch_array(mysqli_query($conexao, "SELECT * FROM `socio` WHERE id_socio = $id"))){
         $id_pessoa = $socio['id_pessoa'];
-        if(mysqli_query($conexao, "DELETE FROM `pessoa` WHERE id_pessoa=$id_pessoa")){
-            if(mysqli_query($conexao, "DELETE FROM `socio` WHERE id_socio=$id")){
+        if(mysqli_query($conexao, "DELETE FROM `socio` WHERE id_socio=$id")){
+            if(mysqli_query($conexao, "DELETE FROM `pessoa` WHERE id_pessoa=$id_pessoa")){
                 $deletado = true;
             }
         }

@@ -47,6 +47,10 @@
     header("Location: ./home.php?msg_c=$msg");
 	}	
    
+  require_once ROOT."/controle/FuncionarioControle.php";
+  $listaCPF = new FuncionarioControle;
+  $listaCPF->listarCpf();
+
    ?>
 <!DOCTYPE html>
 <html class="fixed">
@@ -195,9 +199,9 @@
                               </div>
                             </div>
                             <div class="form-group">
-                              <label class="col-md-3 control-label" for="profileCompany">Telefone<sup class="obrig">*</sup></label>
+                              <label class="col-md-3 control-label" for="telefone">Telefone<sup class="obrig">*</sup></label>
                               <div class="col-md-8">
-                                <input type="text" class="form-control" maxlength="14" minlength="14" name="telefone" id="telefone" id="profileCompany" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeyup="mascara('(##)#####-####',this,event)" required>
+                                <input type="text" class="form-control" maxlength="14" minlength="14" name="telefone" id="telefone" id="telefone" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeyup="mascara('(##)#####-####',this,event)" required>
                               </div>
                             </div>
                             <div class="form-group">
@@ -227,9 +231,9 @@
                             </div>
                           </div>
                           <div class="form-group">
-                            <label class="col-md-3 control-label" for="profileCompany">Número do CPF<sup class="obrig">*</sup></label>
+                            <label class="col-md-3 control-label" for="cpf">Número do CPF<sup class="obrig">*</sup></label>
                             <div class="col-md-6">
-                               <input type="text" class="form-control" id="profileCompany" id="cpf" name="cpf" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##',this,event)" required>
+                               <input type="text" class="form-control" id="cpf" id="cpf" name="cpf" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##',this,event)" required>
                             </div>
                           </div>
                           <div class="form-group">
@@ -571,6 +575,20 @@
   <script type="text/javascript" >
 
     function funcao1(){
+    var cpfs = <?php echo $_SESSION['cpf_funcionario'];?> ;
+    console.log(cpfs);
+    var cpf_funcionario = $("#cpf").val();
+    var cpf_funcionario_correto = cpf_funcionario.replace(".", "");
+    console.log(cpf_funcionario_correto);
+    $.each(cpfs,function(i,item){
+      console.log(item.cpf);
+      if(item.cpf==cpf_funcionario_correto)
+      {
+        console.log(item.cpf);
+        alert("O CPF já está cadastrado no sistema");
+      }
+    });
+
     alert("Cadastrado com Sucesso!");
     }
 
