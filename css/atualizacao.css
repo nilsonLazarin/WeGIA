@@ -16,10 +16,6 @@ li {
     color: #ffffff;
 }
 
-.btn {
-    width: 10%;
-}
-
 .ls-container div {
     margin: 5px;
 }
@@ -54,6 +50,10 @@ li {
 
 .semi-frame {
     margin: 10px 10%;
+}
+
+.align-right{
+    text-align: right;
 }
 
 /* Safari */

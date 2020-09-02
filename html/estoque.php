@@ -138,7 +138,7 @@
 							.text(item.descricao))
 						.append($("<td>")
 							.text(item.categoria))
-						.append($("<td >")
+						.append($("<td class='align-right'>")
 							.text(item.qtd))
 						.append($('<td />')
 							.text(item.descricao_almoxarifado)));

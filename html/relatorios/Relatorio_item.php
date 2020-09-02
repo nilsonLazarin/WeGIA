@@ -260,7 +260,7 @@ class Item {
                 }
                 echo('
                     <tr '.$class.'>
-                        <td scope="row">'.$item['qtd_total'].'</td>
+                        <td scope="row" class="align-right">'.$item['qtd_total'].'</td>
                         <td>'.$item['descricao'].'</td>
                         <td>R$ '.number_format($item['PrecoMedio'],2).'</td>
                         <td>R$ '.number_format($item['valor_total'],2).'</td>
@@ -269,7 +269,7 @@ class Item {
             }else{
                 echo('
                     <tr>
-                        <td scope="row">'.$item['qtd_total'].'</td>
+                        <td scope="row" class="align-right">'.$item['qtd_total'].'</td>
                         <td>'.$item['descricao'].'</td>
                         <td>R$ '.number_format($item['valor_unitario'],2).'</td>
                         <td>R$ '.number_format($item['valor_total'],2).'</td>

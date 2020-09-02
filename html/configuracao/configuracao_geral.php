@@ -94,7 +94,11 @@
     
     <!-- javascript tab management script -->
 
-    
+    <style>
+		.btn{
+			width: 10%;
+		}
+	</style>
 
 </head>
 <body>
