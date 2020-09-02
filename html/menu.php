@@ -159,7 +159,7 @@ if(file_exists($config_path)){
 								</a>
 							</li>
 							<li id="43">
-								<a href="<?= WWW ?>html/configuracao/atualizacao_sistema.php">
+								<a href="<?= WWW ?>html/configuracao/configuracao_geral.php">
 									Configurações Gerais
 								</a>
 							</li>

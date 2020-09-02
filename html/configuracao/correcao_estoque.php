@@ -39,7 +39,7 @@
 					$desc = $pdo->query("SELECT descricao, codigo, oculto FROM produto WHERE id_produto=$id;")->fetch(PDO::FETCH_ASSOC);
 					$almoxarifado = $pdo->query("SELECT descricao_almoxarifado as descr FROM almoxarifado WHERE id_almoxarifado=$almox;")->fetch(PDO::FETCH_ASSOC);
 					extract($desc);
-					$log .= "Registro de estoque criado para $descricao | $codigo ".($oculto ? "[Oculto]" : "")." no almoxarifado ".$almoxarifado["descr"]."\n";
+					$log .= "Registro de estoque criado para $descricao | $codigo ".($oculto ? "[Oculto] " : "")."no almoxarifado ".$almoxarifado["descr"]."\n";
 					$added++;
 				}
 			}
@@ -331,15 +331,15 @@
 	}
 
 	function success(){
-		header("Location: ./atualizacao_sistema.php?tipo=success&mensagem=Reparo realizado com sucesso!");
+		header("Location: ./configuracao_geral.php?tipo=success&mensagem=Reparo realizado com sucesso!");
 	}
 	
 	function warning(){
-		header("Location: ./atualizacao_sistema.php?tipo=warning&mensagem=Reparo realizado com sucesso! Aviso:");
+		header("Location: ./configuracao_geral.php?tipo=warning&mensagem=Reparo realizado com sucesso! Aviso:");
 	}
 	
 	function error(){
-		header("Location: ./atualizacao_sistema.php?tipo=error&mensagem=Houve um erro ao executar o reparo:");
+		header("Location: ./configuracao_geral.php?tipo=error&mensagem=Houve um erro ao executar o reparo:");
 	}
 	
 	$result = repara_estoque();

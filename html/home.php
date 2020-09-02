@@ -138,10 +138,10 @@
 								<h4>Lista de imagens</h4>
 							</div>
 						</a>
-						<a href="../html/atualizacao/atualizacao_sistema.php">
+						<a href="../html/configuracao/configuracao_geral.php">
 							<div class="col-lg-2 col-md-8 i" >
-								<i  class="fa fa-refresh"></i>
-								<h4>Atualização e backup</h4>
+								<i  class="fas fa-cog"></i>
+								<h4>Configurações Gerais</h4>
 							</div>
 						</a>
 						<a href="../html/contribuicao/php/configuracao_doacao.php">

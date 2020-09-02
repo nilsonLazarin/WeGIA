@@ -52,12 +52,12 @@
             $log = $log . $value . "\n";
         }
         if (tempBackup()){
-            header("Location: ./atualizacao_sistema.php?msg=success&sccs=Backup realizado e Atualização concluída!&log=".base64_encode($log));
+            header("Location: ./configuracao_geral.php?msg=success&sccs=Backup realizado e Atualização concluída!&log=".base64_encode($log));
         }else{
-            header("Location: ./atualizacao_sistema.php?msg=warning&warn=Atualização concluída, mas houve um erro ao realizar o backup (Sistema compatível: Linux, Seu Sistema: ".PHP_OS.")!&log=".base64_encode($log));
+            header("Location: ./configuracao_geral.php?msg=warning&warn=Atualização concluída, mas houve um erro ao realizar o backup (Sistema compatível: Linux, Seu Sistema: ".PHP_OS.")!&log=".base64_encode($log));
         }
     } else {
-        header("Location: ./atualizacao_sistema.php?msg=error&err=Houve um erro ao executar o comando git -C ".ROOT." pull");
+        header("Location: ./configuracao_geral.php?msg=error&err=Houve um erro ao executar o comando git -C ".ROOT." pull");
     }
 
 ?>

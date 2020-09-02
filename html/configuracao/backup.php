@@ -21,7 +21,7 @@
     /*require_once("../../config.php");*/
 
     if (PHP_OS != 'Linux'){
-        header("Location: ./atualizacao_sistema.php?msg=error&err=Função de backup compatível apenas com Linux. Seu Sistema Operacional: ".PHP_OS."");
+        header("Location: ./configuracao_geral.php?msg=error&err=Função de backup compatível apenas com Linux. Seu Sistema Operacional: ".PHP_OS."");
     }else{
         /*Executando Backup do Banco de Dados*/
         
@@ -48,9 +48,9 @@
                     $log .= $value . "\n";
                 }
             }
-            header("Location: ./atualizacao_sistema.php?msg=error&err=Houve um erro no processo de execução dos Backups&log=".base64_encode($log));
+            header("Location: ./configuracao_geral.php?msg=error&err=Houve um erro no processo de execução dos Backups&log=".base64_encode($log));
         }
 
-        header("Location: ./atualizacao_sistema.php?msg=success&sccs=Backup realizado com sucesso!");
+        header("Location: ./configuracao_geral.php?msg=success&sccs=Backup realizado com sucesso!");
     }
 ?>
