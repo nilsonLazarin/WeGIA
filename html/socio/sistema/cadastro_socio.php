@@ -18,6 +18,8 @@
         $contribuinte = null;
     }
 
+    // si = sem informação
+
     if($resultado = mysqli_query($conexao, "INSERT INTO `pessoa`(`cpf`, `nome`, `telefone`, `data_nascimento`, `cep`, `estado`, `cidade`, `bairro`, `logradouro`, `numero_endereco`, `complemento`) VALUES ('$cpf_cnpj', '$socio_nome',  '$telefone', '$data_nasc', '$cep', '$estado', '$cidade', '$bairro', '$rua', '$numero', '$complemento' )")){
         $id_pessoa = mysqli_insert_id($conexao);
         switch($pessoa){
@@ -32,7 +34,7 @@
                 $id_sociotipo = 2;
             } else{
                 $id_sociotipo = 0;
-            }if($contribuinte == null){
+            }if($contribuinte == null || $contribuinte == "si"){
                 $id_sociotipo = 4;
             }  break;
         }

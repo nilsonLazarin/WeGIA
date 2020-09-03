@@ -8,33 +8,39 @@
         $_POST = json_decode($_POST, true);
     }
     $cadastrado =  false;
-    $id = $_POST['id_socio'];
-    $nome = $_POST['socio_nome'];
-    $pessoa = $_POST['pessoa'];
-    $email = $_POST['email'];
-    $telefone = $_POST['telefone'];
-    $cpf_cnpj = $_POST['cpf_cnpj'];
-    $rua = $_POST['rua'];
-    $numero = $_POST['numero'];
-    $complemento = $_POST['complemento'];
-    $bairro = $_POST['bairro'];
-    $estado = $_POST['estado'];
-    $cidade = $_POST['cidade'];
-    $cep = $_POST['cep'];
-    if(isset($_POST['data_nasc'])){
-        $data_nasc = $_POST['data_nasc'];
+    extract($_REQUEST);
+    if(!isset($data_nasc)){
+        $data_nasc = null;
     }
-    if($resultado = mysqli_query($conexao, "UPDATE socio SET `nome` = '$nome', `email`='$email', `telefone`='$telefone', `tipo`='$pessoa' WHERE id=$id")){
-        $resultado = mysqli_query($conexao, "UPDATE `endereco` SET `logradouro`='$rua', `numero`='$numero', `complemento`='$complemento', `cep`='$cep', `bairro`='$bairro', `cidade`='$cidade', `estado`='$estado'  WHERE idsocio=$id");
-        if($pessoa == "juridica"){
-            if($resultado = mysqli_query($conexao, "UPDATE `pessoajuridica` SET `cnpj` = '$cpf_cnpj' WHERE idsocio=$id")){
-                $cadastrado = true;
-            }
-        }else{
-            if($resultado = mysqli_query($conexao, "UPDATE `pessoafisica` SET `cpf` = '$cpf_cnpj' WHERE idsocio=$id")){
-                $cadastrado = true;
-            }
+
+    if(!isset($contribuinte)){
+        $contribuinte = null;
+    }
+
+    $id_pessoa = mysqli_fetch_array(mysqli_query($conexao, "SELECT id_pessoa FROM socio WHERE id_socio = $id_socio"))['id_pessoa'];
+    if($resultado = mysqli_query($conexao, "UPDATE `pessoa` SET `cpf` = '$cpf_cnpj', `nome` = '$socio_nome', `telefone` = '$telefone', `data_nascimento` = '$data_nasc', `cep` = '$cep', `estado` = '$estado', `cidade` = '$cidade', `bairro` = '$bairro', `logradouro` = '$rua', `numero_endereco` = '$numero', `complemento` = '$complemento' WHERE id_pessoa = $id_pessoa")){
+        $id_pessoa = mysqli_insert_id($conexao);
+        switch($pessoa){
+            case "juridica": if($contribuinte == "mensal"){
+                $id_sociotipo = 3;
+            }else{
+                $id_sociotipo = 1;
+            }if($contribuinte == null){
+                $id_sociotipo = 5;
+            }  break;
+            case "fisica": if($contribuinte == "mensal"){
+                $id_sociotipo = 2;
+            } else{
+                $id_sociotipo = 0;
+            }if($contribuinte == null || $contribuinte == "si"){
+                $id_sociotipo = 4;
+            }  break;
         }
+        if($resultado = mysqli_query($conexao, "UPDATE `socio` SET `id_sociostatus`= $status, `id_sociotipo` = $id_sociotipo, `email` = '$email' WHERE id_socio = $id_socio")){
+            $cadastrado = true;
+        }
+        
+
     }
 
     echo json_encode($cadastrado);

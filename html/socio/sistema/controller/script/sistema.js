@@ -194,6 +194,8 @@ $(document).ready(function(){
         var id_socio = $("#id_socio").val();
         var socio_nome = $("#socio_nome").val();
         var pessoa_tipo = $("#pessoa").val();
+        var contribuinte = $("#contribuinte").val();
+        var status = $("#status").val();
         var email = $("#email").val();
         var telefone = $("#telefone").val();
         var cpf_cnpj = $("#cpf_cnpj").val();
@@ -211,6 +213,8 @@ $(document).ready(function(){
                 "id_socio": id_socio,
                 "socio_nome": socio_nome,
                 "pessoa": pessoa_tipo,
+                "contribuinte": contribuinte,
+                "status": status,
                 "email": email,
                 "telefone": telefone,
                 "cpf_cnpj": cpf_cnpj,
@@ -230,7 +234,7 @@ $(document).ready(function(){
                     );
                     setTimeout(function(){
                         resetaForm("#frm_editar_socio");
-                        window.location.replace("./socios.php");
+                        window.location.replace("./");
                     },1000);
                 }else{
                     modalSimples("Status", "Erro ao editar sócio, verifique os dados e tente novamente.", "erro");
