@@ -105,6 +105,7 @@
             }
          $(function(){
          	var interno=<?php echo $infInterno = $cache->read($id);?>;
+            console.log(interno);
          	$.each(interno,function(i,item){
          		if(i=1)
          		{
