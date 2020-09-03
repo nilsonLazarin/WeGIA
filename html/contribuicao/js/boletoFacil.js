@@ -86,8 +86,9 @@ function gera_boleto(){
                     var check = link.checkoutUrl;
                  
                 }
-                $("form").html('<div><h3>OBRIGADO PELA SUA DOAÇÃO! VOCÊ ESTÁ AJUDANDO A MANTER ESSA INSTITUIÇÃO QUE ABRIGA IDOSOS DESDE 1929!</h3><br>ESSE É O <button class="mala"><a target="_blank" href='+check+'>LINK</a></button> PARA A EMISSÃO DO SEU BOLETO</div>');
+                $("form").html('<div><h3>OBRIGADO POR SUA DOAÇÃO! VOCÊ ESTÁ AJUDANDO A MANTER ESSA INSTITUIÇÃO QUE ABRIGA IDOSOS DESDE 1929!</h3><br><br><br><button class="mala"><a target="_blank" href='+check+'>EMITA SEU BOLETO AQUI</a></button> <button class="mala"><a href="../contribuicao/index.php">VOLTAR À PÁGINA INICIAL</a></button></div>');
                 });
+                
             }
             else
             {
@@ -96,11 +97,12 @@ function gera_boleto(){
                 {
                    
                     var check = link.checkoutUrl; 
-                    console.log(check);
+                    
                     
                 }
-                $("form").html('<div><h3>OBRIGADO PELA SUA DOAÇÃO! OBRIGADO PELA SUA DOAÇÃO! VOCÊ ESTÁ AJUDANDO A MANTER ESSA INSTITUIÇÃO QUE ABRIGA IDOSOS DESDE 1929!</h3><br>ESSE É O <button class="mala"><a target="_blank" href='+check+'>LINK</a></button> PARA A EMISSÃO DO SEU BOLETO</div>');
+                $("form").html('<div><h3>OBRIGADO POR SUA DOAÇÃO! VOCÊ ESTÁ AJUDANDO A MANTER ESSA INSTITUIÇÃO QUE ABRIGA IDOSOS DESDE 1929!</h3><br><br><br><button class="mala"><a target="_blank" href='+check+'>EMITA SEU BOLETO AQUI</a></button> <button class="mala"><a href="../contribuicao/index.php">VOLTAR À PÁGINA INICIAL</a></button></div>');
                 });
+                
             }
     });
 }

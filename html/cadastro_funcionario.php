@@ -576,20 +576,23 @@
 
     function funcao1(){
     var cpfs = <?php echo $_SESSION['cpf_funcionario'];?> ;
-    console.log(cpfs);
     var cpf_funcionario = $("#cpf").val();
     var cpf_funcionario_correto = cpf_funcionario.replace(".", "");
-    console.log(cpf_funcionario_correto);
+    var cpf_funcionario_correto1 = cpf_funcionario_correto.replace(".", "");
+    var cpf_funcionario_correto2 = cpf_funcionario_correto1.replace(".", "");
+    var cpf_funcionario_correto3 = cpf_funcionario_correto2.replace("-", "");
+    var apoio = 0;
     $.each(cpfs,function(i,item){
-      console.log(item.cpf);
-      if(item.cpf==cpf_funcionario_correto)
+      if(item.cpf==cpf_funcionario_correto3)
       {
-        console.log(item.cpf);
-        alert("O CPF já está cadastrado no sistema");
+        alert("Cadastro não realizado! O CPF informado já está cadastrado no sistema");
+        apoio = 1;
       }
     });
-
-    alert("Cadastrado com Sucesso!");
+    if(apoio == 0)
+    {
+      alert("Cadastrado com sucesso!")
+    }
     }
 
    function numero_residencial(){

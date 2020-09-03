@@ -47,9 +47,7 @@ function verificar()
                     $("#pag2").fadeIn();
                     $("#pag1").hide();
                 }
-                /*
-                $("#forma").hide();
-                $("#doacao").hide();*/	                                                    
+                                                                  
             }
     }
     else
@@ -82,8 +80,109 @@ function verificar()
                    
                 }
         }
+    }              
+}
+function verifica2()
+{   
+    if($("#op_cpf").prop('checked'))
+    {
+        
+       var nome = $("#nome").val();
+       var dia = $("#dia").val();
+       var mes = $('#mes').val();
+       var ano = $("#ano").val();
+       var tel = $("#telefone").val();
+       var email = $("#e_mail").val();
+       var cpf = $("#dcpf").val();
+    
+        if(nome == '' || dia == '' || mes == '' || ano == '' || tel == '' || email == '' ||cpf == '')
+        {
+                $("#avisoPF").html('Preencha todos os campos marcados com "*"');
+        }
+        else
+        {
+            validacpf();
+            $("#avisoPF").html("");
+        }
+    
     }
-    
-    
+    else
+    {
+    if($("#op_cnpj").prop('checked'))
+        {
+            var nome = $("#cnpj_nome").val();
+            var tel = $("#telefone").val();
+            var email = $("#email").val();
+          
+            if(nome ==  ''||tel == ''||email == '')
+            {
+                $("#avisoPJ").html('Preencha todos os campos marcados com "*"');
                 
+            }
+            else
+            {
+                cnpj();
+                $("#avisoPJ").html("");  
+            }
+        }
+    }
+}
+
+function verifica3()
+{
+
+    var cep = $("#cep").val();
+    var rua = $("#rua").val();
+    var num = $("#numero").val();
+    //var comp = $("#complemento").val();
+    var bairro = $("#bairro").val();
+    var cidade = $("#localidade").val();
+    var uf = $("#uf").val();
+   
+    if(rua == '')
+    {
+        $("#aviso").html('Preencha os campos marcados com "*"');
+    }
+    else
+        {
+            if(num == '')
+            {
+                $("#aviso").html('Preencha os campos marcados com "*"');
+            }
+            else
+            {
+                if(bairro == '')
+                {
+                    $("#aviso").html('Preencha os campos marcados com "*"');
+                }
+                else
+                {
+                    if(cidade == '')
+                    {
+                        $("#aviso").html('Preencha os campos marcados com "*"');
+                    }
+                    else
+                    {
+                        if(uf == '')
+                        {
+                            $("#aviso").html('Preencha os campos marcados com "*"');
+                        }
+                        else
+                        {
+                            if(cep == '')
+                            {
+                                $("#aviso").html('Preencha os campos marcados com "*"');
+                                console.log("oi");
+                            }else
+                                {
+                                    //gera_boleto();
+                                    recebe_dados();
+                                    $("#aviso").html("");
+                                }
+                          
+                        }
+                    }
+                }
+            }
+        }
 }

@@ -61,15 +61,11 @@
 	<script type="text/javascript" src="./js/validacep.js"></script>
 	<script type="text/javascript" src="./js/outros.js"></script>
 	<script type="text/javascript" src="./js/data.js"></script>
-	<script type="text/javascript" src="./js/cpfcnpj.js"></script>
 	<script type="text/javascript" src="./js/telefone.js"></script>
 	<script type="text/javascript" src="./js/boletoFacil.js"></script>
 	<script type="text/javascript" src="./js/converte.js"></script>
 	<script type="text/javascript" src="./js/verificar.js"></script>
-	<script type="text/javascript" src="./js/verificar2.js"></script>
-	<script type="text/javascript" src="./js/verificar3.js"></script>
-	<script type="text/javascript" src="./js/validacpf.js"></script>
-	<script type="text/javascript" src="./js/validacnpj.js"></script>
+	<script type="text/javascript" src="./js/validacpfcnpj.js"></script>
 	<script type="text/javascript" src="./js/valida_email.js"></script>
 	<script type="text/javascript" src="./js/recebeD.js"></script>
 	<script type="text/javascript" src="./js/retornadia.js"></script>
@@ -479,7 +475,7 @@
 						<input class="input100" type="text" id="numero" name="numero" class="text required" placeholder="Digite o Número" required>
 					</div>
 					<div class="wrap-input100 bg1">
-						<span class="label-input100">COMPLEMENTO *</span>
+						<span class="label-input100">COMPLEMENTO </span>
 						<input class="input100" type="text" id="complemento" name="complemento" placeholder="Digite o Complemento">
 					</div>
 					<div class="wrap-input100 validate-input bg1">
