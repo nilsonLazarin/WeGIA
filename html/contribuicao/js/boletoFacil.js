@@ -63,6 +63,7 @@ function gera_boleto(){
             }
 
         var ano_atual = now.getFullYear();
+        
         var dataV = dia+"/"+mes_atual+"/"+ano_atual;
     
         var parcelas = 0;

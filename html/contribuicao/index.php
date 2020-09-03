@@ -357,7 +357,6 @@
 				</div>
 
 				<div id="pag2" class="wrap-input100">
-
                     <input class = "radio" type="radio" id="op_cpf" value="fisica" name="opcao" onblur="fisjur(f2.opcao)" checked><label  class="label" for = "op_cpf">PESSOA FÍSICA</label>
                     <input class = "radio" type="radio" id="op_cnpj" value="juridica" name="opcao" onblur="fisjur(f2.opcao)"><label  class="label" for = "op_cnpj">PESSOA JURÍDICA</label><br><br>
                 
