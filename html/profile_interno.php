@@ -111,12 +111,12 @@
                   $("#formulario").append($("<input type='hidden' name='idInterno' value='"+item.idInterno+"'>"));
          			var cpf=item.cpf;
          			$("#nome").text("Nome: "+item.nome+' '+item.sobrenome);
-         			$("#nomeform").val(item.nome);
+         			$("#nomeform").val(item.nome+" "+item.sobrenome);
 
          			if(item.imagem!=""){
                      $("#imagem").attr("src","data:image/gif;base64,"+item.imagem);
                   }else{
-                     $("#imagem").attr("src","../img/semfoto.jpg");
+                     $("#imagem").attr("src","../img/semfoto.png");
                   }
          			if(item.sexo=="m")
          			{
@@ -208,6 +208,7 @@
          			$("#titulo").text("Titulo de eleitor: "+item.titulo);
                   
                   $("#observacao").text("Observações: "+item.observacao);
+                  $("#observacaoform").val(item.observacao);
          		}
                if(item.imgdoc==null)
                {
@@ -623,7 +624,7 @@
                         </header>
                         <div class="panel-body" style="display: block;">
                            <section class="simple-compose-box mb-xlg ">
-                              <textarea name="observacao" data-plugin-textarea-autosize placeholder="Observações" rows="1" style="height: 10vw"></textarea>
+                              <textarea id="observacaoform" name="observacao" data-plugin-textarea-autosize placeholder="Observações" rows="1" style="height: 10vw"></textarea>
                            </section>
                         </div>
                      </section>
