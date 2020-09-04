@@ -533,7 +533,7 @@
 											<div class="form-group" id="imgBpc"  style="display: none;">
 												<label class="col-md-4 control-label" for="imgRg">BPC:</label>
 												<div class="col-md-8">
-													<input type="file" name="imgRg" size="60"class="form-control">
+													<input type="file" name="imgBpc" size="60"class="form-control">
 												</div>
 											</div>
 										</div><br/>
