@@ -60,6 +60,33 @@
 	      $(".menuu").load("menu.php");
 	    });	
 	</script>
+	<script>
+
+		var itemState = {}
+
+		function getState(id){
+			let state = itemState[id];
+			if (state)
+				return state;
+			return false;
+		}
+
+		function setState(id, state){
+			itemState[id] = state;
+		}
+
+		function openItem(id){
+			console.log(id, !getState(id));
+			if (!getState(id)){
+				$('html, body').animate({
+					scrollTop: $(id).height()
+				}, 2);
+				setState(id, true);
+			}else{
+				setState(id, false);
+			}
+		}
+    </script>
 
 </head>
 <body>
@@ -97,7 +124,7 @@
 					  </div>');
 					}
 				?>
-					<a href="" >
+					<a href="">
 						<div class="col-lg-2 col-md-8 i" data-toggle="collapse" href="#pessoas" >
 							<i  class="far fa-address-book"></i>
 							<h4>Pessoa</h4>
@@ -110,7 +137,7 @@
 						</div>
 					</a>
 					<!--onclick="window.location.href = '../memorando/envio.php'"-->
-					<a href="#" >
+					<a href="#">
 						<div class="col-lg-2 col-md-8 i" data-toggle="collapse" href="#memorando">
 							<i  class="fa fa-book"></i>
 							<h4>Memorando
@@ -124,6 +151,7 @@
 						</div>
 					</a>
 				</div>
+				<hr>
 				<div class="row ">
 					<div  id="configuracao" class="collapse">
 						<a href="../html/personalizacao.php">
@@ -195,7 +223,6 @@
 				</div><br>
 				<div class="row">
 					<div  id="material" class="collapse">
-						
 						<a href="../html/cadastro_entrada.php">	
 							<div class="col-lg-2 col-md-8 i">
 								<i  class="far fa-clipboard"></i>
@@ -265,15 +292,15 @@
 				</div><br>
 
 				<div class="row">
-				<div id="memorando" class="collapse">
-					<a href="../html/memorando/listar_memorandos_ativos.php">	
+					<div id="memorando" class="collapse">
+						<a href="../html/memorando/listar_memorandos_ativos.php">	
 							<div class="col-lg-2 col-md-8 i">
 								<i  class="fa fa-envelope"></i>
 								<h4>Caixa de Entrada</h4>
 							</div>
 						</a>
 
-					<a href="../html/memorando/listar_memorandos_antigos.php">	
+						<a href="../html/memorando/listar_memorandos_antigos.php">	
 							<div class="col-lg-2 col-md-8 i">
 								<i  class="fa fa-mail-forward"></i>
 								<h4>Memorandos despachados</h4>

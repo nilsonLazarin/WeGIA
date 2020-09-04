@@ -89,7 +89,7 @@
         justify-content: center;
         align-items: center;
         text-align: center;
-        margin-top: 40px;
+        margin-top: 40px !important;
     }
 
     .text {
@@ -101,5 +101,16 @@
         background-color: black;
         display: flex;
         justify-content: space-between;
+    }
+
+    .row {
+        margin-right: -15px;
+        margin-left: -15px;
+        margin: 0 auto;
+    }
+
+    .entrar{
+        margin-left: -10px;
+        margin-top: 20px;
     }
 }

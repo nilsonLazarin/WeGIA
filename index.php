@@ -76,7 +76,7 @@
 				</div>
 			</div>
 
-		<form action="./html/login.php" method="POST" enctype="multipart/form-data">
+		<form action="./html/login.php" method="POST" enctype="multipart/form-data" class="login">
 		
 			<div style="margin-top: 1.25%;" class="col col-md-3 formulario">
 				<div class="form-group mb-lg"><!--login-->
@@ -106,9 +106,9 @@
 					<a href="./html/esqueceu_senha.php">Esqueceu sua Senha?</a>
 				</div>
 			</div>
+			<input type="submit" value="Entrar" class="btn btn-primary hidden-xs entrar"></input>
 			<div class="col-md-1">
 				<div class="col-sm-3 text-right">
-					<input type="submit" value="Entrar" class="btn btn-primary hidden-xs entrar"></input>
 				</div>
 			</div>
 		</form>
