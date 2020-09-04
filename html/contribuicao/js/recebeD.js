@@ -30,8 +30,8 @@ function recebe_dados()
       var dia = $("#dia").val();
       var mes = $("#mes").val();
       var ano = $("#ano").val();
-      var doc = $("#dcpf").val();
-      var dataN = ano.concat("/",mes,"/",dia);
+      var doc = $("#cpfcnpj").val();
+      var dataN = ano.concat("-",mes,"-",dia);
 
       $.post("./php/cadastrar.php", {'tipo':fisjur, 'nome':nome, 'sobrenome': sobrenome, 'telefone':telefone, 'cep':cep, 'log':log, 'comp':comp, 'bairro':bairro, 'cidade':cidade, 'uf':uf, 'numero': num, 'doc':doc,'datanascimento':dataN, 'hora':hora, 'sistema':sistema, 'contato':email, 'id_sociotipo': id_sociotipo, 'status': status}).done(function(data){console.log(data)});
 
@@ -42,10 +42,12 @@ function recebe_dados()
       nome = $("#cnpj_nome").val();
       sobrenome = "NULL";
       fisjur = $("#op_cnpj").val();
-      doc = $("#dcnpj").val();
+      doc = $("#cpfcnpj").val();
+      console.log(doc);
       dataN = "0000-00-00"
 
       $.post("./php/cadastrar.php", {'tipo':fisjur, 'nome':nome, 'sobrenome':sobrenome, 'telefone':telefone, 'cep':cep, 'log':log, 'comp':comp, 'bairro':bairro, 'cidade':cidade, 'uf':uf, 'numero': num, 'doc':doc,'datanascimento':dataN, 'hora':hora, 'sistema':sistema, 'contato':email, 'id_sociotipo': id_sociotipo, 'status': status}).done(function(data){});
+      
       gera_boleto();
     }
 }

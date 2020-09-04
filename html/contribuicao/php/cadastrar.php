@@ -11,7 +11,7 @@ include("conexao.php");
     "<br>".$dataN = $_POST['datanascimento'];
 
     "<br>".$cep=$_POST['cep'];
-    "<br>".$rua=$_POST['log'];
+    "<br>".$rua=$_POST['log'];]
     "<br>".$numero=$_POST['numero'];
     "<br>".$compl=$_POST['comp'];
     "<br>". $bairro=$_POST['bairro'];
@@ -24,8 +24,6 @@ include("conexao.php");
     "<br>".$sistema = $_POST['sistema'];
     "<br>".$status = $_POST['status'];
     "<br>".$id_tipo = $_POST['id_sociotipo'];
-    "oi";
-
-    mysqli_query($conexao, "CALL registradoacao ('$nome', '$sobrenome', '$doc','$tel', '$dataN', '$cep', '$uf', '$cidade', '$bairro','$rua', '$numero', '$compl', '$status', '$id_tipo', '$email', '$ip_log', '$data', '$horahoje', '$sistema')");
-       
+    
+     mysqli_query($conexao, "CALL registradoacao ('$nome', '$sobrenome', '$doc','$tel', '$dataN', '$cep', '$uf', '$cidade', '$bairro','$rua', '$numero', '$compl', '$status', '$id_tipo', '$email', '$ip_log', '$data', '$horahoje', '$sistema')");
 ?>

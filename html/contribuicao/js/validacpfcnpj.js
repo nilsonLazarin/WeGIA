@@ -1,6 +1,22 @@
-function validacpf()
+function cpf_cnpj(doc) 
+{
+    var doc = doc;
+    var documento = doc.replace(/\D+/g, '');
+    var tam = documento.length;
+    if (tam >= 11) {
+        validacpf(doc);
+    }
+    else {
+        if (tam >= 14) {
+            cnpj(doc);
+        }
+    }
+}
+
+function validacpf(doc)
     {
-            var strcpf = $("#dcpf").val();
+           
+            var strcpf = doc;
             var strcpf = strcpf.replace(/[^\d]+/g,'');
 
             var soma = 0;
@@ -64,21 +80,22 @@ function validacpf()
             {
                 
                 $("#avisa_cpf").hide();
-                $("#doacao_boleto").hide();
+                socio_cadastrado(doc);
+                /*$("#doacao_boleto").hide();
                 $("#pag2").hide();
-                $("#pag3").fadeIn();
+                $("#pag3").fadeIn();*/
+                
             }
             else
             {
                 $("#avisa_cpf").show();
                 $("#avisa_cpf").html("Digite um cpf válido");
-                
             }
         
     }
-    function cnpj() 
+    function cnpj(doc) 
     {
-            var cnpj = $("#dcnpj").val();    
+            var cnpj = doc;   
             cnpj = cnpj.replace(/\./g, '');
             cnpj = cnpj.replace('-', '');
             cnpj = cnpj.replace('/', ''); 
@@ -164,9 +181,10 @@ function validacpf()
             }
             else
             {
-                $("#avisa_cnpj").html("");
+                /*$("#avisa_cnpj").html("");
                 $("#doacao_boleto").hide();
                 $("#pag2").hide();
-                $("#pag3").fadeIn();
+                $("#pag3").fadeIn();*/
+                socio_cadastrado(doc);
             }
      }

@@ -44,8 +44,10 @@ function verificar()
                     $("#info_data").html("Escolha a melhor data de vencimento");
                 }else{
                     $("#info_data").html("");
-                    $("#pag2").fadeIn();
+                    $("#verifica_socio").fadeIn();
                     $("#pag1").hide();
+                    //$("#pag2").fadeIn();
+                    //
                 }
                                                                   
             }
@@ -70,10 +72,11 @@ function verificar()
                     }else{
                         
                             $("#avisa_valor").html("");
-                            $("#pag2").fadeIn();
+                            $("#verifica_socio").fadeIn();
                             $("#pag1").hide();
+                            /*$("#pag2").fadeIn();
                             $("#forma").hide();
-                            $("#doacao_boleto").hide();
+                            $("#doacao_boleto").hide();*/
                         
                             
                     }
@@ -101,8 +104,10 @@ function verifica2()
         }
         else
         {
-            validacpf();
-            $("#avisoPF").html("");
+                $("#doacao_boleto").hide();
+                $("#pag2").hide();
+                $("#pag3").fadeIn();
+
         }
     
     }

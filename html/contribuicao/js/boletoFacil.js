@@ -22,22 +22,20 @@ function gera_boleto(){
                 valor2 = $("#v").val();
             }
        
-        var cpf = $("#dcpf").val();
-        var cnpj = $("#dcnpj").val();
-            if(cpf == '')
-            {
-                var doc = cnpj;
-                var nome = $("#cnpj_nome").val();
-                
-            }
-            else
-            {
-                doc = cpf;
+        var doc = $("#cpfcnpj").val();
+        doc = doc.replace(/\D/g, '');
+        var tam = doc.length;
+            if (tam == 11) {
                 nome = $("#nome").val();
                 sobrenome = $("#sobrenome").val();
                 nome= nome+sobrenome;
             }
-        var doc = doc.replace(/\D/g, '');
+            else {
+                if (tam == 14) {
+                      var nome = $("#cnpj_nome").val();
+                }
+            }
+
         var email = $("#email").val();
         var telefone = $("#telefone").val();
         var cep = $("#cep").val();
