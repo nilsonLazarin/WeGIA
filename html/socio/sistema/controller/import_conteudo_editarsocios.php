@@ -53,6 +53,7 @@
         $numero = $registro['numero_endereco'];
         $complemento = $registro['complemento'];
         $cep = $registro['cep'];
+        $socio_tipo = $registro['id_sociotipo'];
         $bairro = $registro['bairro'];
         $cidade = $registro['cidade'];
         $estado = $registro['estado'];
@@ -192,10 +193,23 @@
 </body>
 <script>
     $(document).ready(function(){
+        var sociotipo = <?php echo($socio_tipo); ?>;
         var status = <?php echo($status); ?>;
         $("#status").val(status);
         if(status == 4){
           $("#contribuinte").val("si");
+        }
+
+        switch(sociotipo){
+          case 0: case 1: 
+              $("#contribuinte").val("casual");
+              break;
+          case 2: case 3:
+              $("#contribuinte").val("mensal");
+              break;
+          default:
+              $("#contribuinte").val("si");
+              break;
         }
     });
 </script>
