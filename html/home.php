@@ -151,7 +151,7 @@
 						</div>
 					</a>
 				</div>
-				<hr>
+				<hr class="mobile-only">
 				<div class="row ">
 					<div  id="configuracao" class="collapse">
 						<a href="../html/personalizacao.php">

@@ -24,6 +24,10 @@
 	.page-header {
 		margin-top: 0px !important;
 	}
+
+	.mobile-only {
+		display: none;
+	}
 }
 
 @media screen and (max-width: 768px) {
