@@ -14,6 +14,8 @@
     if($socio = mysqli_fetch_array(mysqli_query($conexao, "SELECT * FROM `socio` WHERE id_socio = $id"))){
         echo("teste1");
         $id_pessoa = $socio['id_pessoa'];
+        echo($id_pessoa);
+        echo("DELETE FROM `socio` WHERE id_socio=$id");
         if(mysqli_query($conexao, "DELETE FROM `socio` WHERE id_socio=$id")){
             echo("teste2");
             if(mysqli_query($conexao, "DELETE FROM `pessoa` WHERE id_pessoa=$id_pessoa")){
