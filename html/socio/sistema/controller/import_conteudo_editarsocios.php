@@ -99,9 +99,7 @@
           <input type="tel" min="0"  class="form-control" id="telefone" value="<?php echo($telefone); ?>" name="telefone" required>
         </div>
         </div>
-        <?php
-              if($pessoa == "fisica"){
-        ?>
+       
          <div class="row">
         <div class="form-group col-xs-4">
           <label for="pessoa">Contribuinte</label>
@@ -121,16 +119,22 @@
                     <option value="4">Sem informação</option>
           </select>
         </div>
-          <div class="div_nasc">
+        <div class="div_nasc">
+        <?php
+              if($pessoa == "fisica"){
+        ?>
+          
           <div class="form-group col-xs-4">
             <label for="valor">Data de nascimento</label>
             <input type="date" class="form-control" id="data_nasc" value="<?php echo($data_nasc); ?>" name="data_nasc" required>
           </div>
-          </div>
-        </div>
-        <?php
+        
+          <?php
               }
         ?>
+          </div>
+        </div>
+        
         <div class="box box-info endereco">
             <div class="box-header with-border">
               <h3 class="box-title">Endereço</h3>

@@ -304,7 +304,7 @@ $(document).ready(function(){
             $("#label_cpf_cnpj").html("CPF");
             $("#cpf_cnpj").mask("999.999.999-99");
             $("#cpf_cnpj").val("");
-            $(".div_nasc").append('<div class="form-group col-xs-6 animacao2"> <label for="valor">Data de nascimento</label> <input type="date" class="form-control" id="data_nasc" name="data_nasc" required> </div>');
+            $(".div_nasc").append('<div class="form-group col-xs-4 animacao2"> <label for="valor">Data de nascimento</label> <input type="date" class="form-control" id="data_nasc" name="data_nasc" required> </div>');
         }
     })
     // Máscara telefone/celular
