@@ -80,7 +80,7 @@
                               $data_ultima_doacao = date_create($resultado['ultima_data_doacao']);
                               $data_hoje = date_create();
                               $subtracao_datas = date_diff($data_ultima_doacao, $data_hoje);
-                              if($subtracao_datas->d > 5){
+                              if($subtracao_datas->d > 29){
                                   // Adiciona tag vermelha indicando atraso
                                   $socios_atrasados++;
                                   $class = "bg-danger";
