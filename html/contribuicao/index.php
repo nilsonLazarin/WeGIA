@@ -253,6 +253,11 @@
 				padding: .5rem 1rem;
 				border-radius: .3rem;
 			}
+			.ultima_div{
+				padding-left:120px;
+				align-content: center;
+			}
+			
 		</style>
 </head>
 <body>
@@ -545,10 +550,18 @@
 							VOLTAR
 						</span>							
 					</div>
-
+					<div class="container-contact100-form-btn">
+						<span class="contact100-form-btn" id = "salvar_infos">
+							<i style="margin-right: 15px; " class="fa fa-long-arrow m-l-7" aria-hidden="true"></i>
+							SALVAR INFORMAÇÕES
+						</span>							
+					</div>						
 					<div class="container-contact100-form-btn">
 						<button class="contact100-form-btn" value = "GERAR BOLETO" id = "avanca3">GERAR BOLETO</button>					
 					</div>
+				</div>
+				<div class="ultima_div" id="form2">
+					
 				</div>
 			</form>
 		</div>
@@ -667,6 +680,8 @@
 			$("#info_valor").hide();
 			$("#nc").show();
 			$("#jnome").hide();
+			$("#form2").hide();
+			$("#salvar_infos").hide();
 			
 			
 		

@@ -11,7 +11,7 @@ include("conexao.php");
     "<br>".$dataN = $_POST['datanascimento'];
 
     "<br>".$cep=$_POST['cep'];
-    "<br>".$rua=$_POST['log'];]
+    "<br>".$rua=$_POST['log'];
     "<br>".$numero=$_POST['numero'];
     "<br>".$compl=$_POST['comp'];
     "<br>". $bairro=$_POST['bairro'];
