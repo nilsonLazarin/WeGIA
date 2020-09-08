@@ -10,7 +10,7 @@
 	
 	// Verifica Permissão do Usuário
 	require_once '../permissao/permissao.php';
-	permissao($_SESSION['id_pessoa'], 9, 1);
+	permissao($_SESSION['id_pessoa'], 9);
 
 	require_once '../../dao/Conexao.php';
 	

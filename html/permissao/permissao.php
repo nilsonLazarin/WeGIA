@@ -1,6 +1,7 @@
 <?php
 
-function permissao($id_pessoa, $id_recurso, $id_acao){
+function permissao($id_pessoa, $id_recurso){
+	define("DEBUG", true);
     $wegia_path = '';
     $config_path = "config.php";
 	if(file_exists($wegia_path.$config_path)){
@@ -23,20 +24,20 @@ function permissao($id_pessoa, $id_recurso, $id_acao){
 		$resultado = mysqli_query($conexao, "SELECT * FROM permissao WHERE id_cargo=$id_cargo and id_recurso=$id_recurso");
 		if(!is_bool($resultado) and mysqli_num_rows($resultado)){
 			$permissao = mysqli_fetch_array($resultado);
-			if($permissao['id_acao'] == $id_acao){
-				$msg = "Você não tem as permissões necessárias para essa página.";
-				header("Location: ".$wegia_path."home.php?msg_c=$msg");
+			if($permissao['id_acao'] == 1){
+				$msg = "Você não tem as permissões necessárias para essa página.".(DEBUG ? " Sem acesso!" : "" );
+				header("Location: ".$wegia_path."/html/home.php?msg_c=$msg");
 			}
 			$permissao = $permissao['id_acao'];
 		}else{
-        	$permissao = 1;
-			$msg = "Você não tem as permissões necessárias para essa página.";
-			header("Location: ".$wegia_path."home.php?msg_c=$msg");
+			$permissao = 1;
+			$msg = "Você não tem as permissões necessárias para essa página.".(DEBUG ? " Não há permissão!" : "" );
+			header("Location: ".$wegia_path."/html/home.php?msg_c=$msg");
 		}	
 	}else{
 		$permissao = 1;
-		$msg = "Você não tem as permissões necessárias para essa página.";
-		header("Location: ".$wegia_path."home.php?msg_c=$msg");
+		$msg = "Você não tem as permissões necessárias para essa página.".(DEBUG ? " ID do funcionário não cadastrado!" : "" );
+		header("Location: ".$wegia_path."/html/home.php?msg_c=$msg");
 	}
 }
 ?>

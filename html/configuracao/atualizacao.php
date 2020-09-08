@@ -4,6 +4,10 @@
         header("Locatiion ../../index.php");
     }
 
+    // Verifica Permissão do Usuário
+	require_once '../permissao/permissao.php';
+    permissao($_SESSION['id_pessoa'], 9);
+
     /*Buscando arquivo de configuração.. */
     $config_path = "config.php";
     if(file_exists($config_path)){

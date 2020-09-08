@@ -46,6 +46,17 @@ require_once ROOT."/html/personalizacao_display.php";
       $cargo = mysqli_query($conexao, "SELECT * FROM cargo");
       $acao = mysqli_query($conexao, "SELECT * FROM acao");
       $recurso = mysqli_query($conexao, "SELECT * FROM recurso");
+	  
+	  require_once '../geral/msg.php';
+	  
+  if(!isset($_SESSION['almoxarifado'])){
+    header('Location: ../../controle/control.php?metodo=listarTodos&nomeClasse=AlmoxarifadoControle&nextPage=../html/geral/editar_permissoes.php');
+  }
+  if(!isset($_SESSION['funcionarios'])){
+    header('Location: ../../controle/control.php?metodo=listarTodos&nomeClasse=FuncionarioControle&nextPage=../html/geral/editar_permissoes.php');
+  }
+  extract($_SESSION);
+
 ?>
 <!doctype html>
 <html class="fixed" lang="pt-br">
@@ -107,7 +118,10 @@ require_once ROOT."/html/personalizacao_display.php";
     <!-- javascript functions -->
     <script src="<?php echo WWW;?>Functions/onlyNumbers.js"></script>
     <script src="<?php echo WWW;?>Functions/onlyChars.js"></script>
-    <script src="<?php echo WWW;?>Functions/mascara.js"></script>
+	<script src="<?php echo WWW;?>Functions/mascara.js"></script>
+	
+	<!-- Estoque CSS -->
+	<link rel="stylesheet" href="../../css/estoque.css">
 
 	<script type="text/javascript">
 		$(function () {
@@ -116,6 +130,27 @@ require_once ROOT."/html/personalizacao_display.php";
 	    });	
 	</script>
 		
+	<!-- Almoxarife -->
+	<script>
+		$(function(){
+			let Almoxarifado = <?= $almoxarifado?>;
+			let Funcionarios = <?= $funcionarios?>;
+
+			$.each(Almoxarifado,function(i,item){
+				$("#id_almoxarifado")
+					.append($('<option value="'+item.id_almoxarifado+'"/>')
+						.text(`${item.id_almoxarifado} | ${item.descricao_almoxarifado}`)
+					)
+			});
+
+			$.each(Funcionarios,function(i,item){
+				$("#id_funcionario")
+					.append($('<option value="'+item.id_funcionario+'"/>')
+						.text(`${item.nome || "Sem Nome"} | ${item.cpf}`)
+					)
+			});
+		});
+	</script>
 </head>
 <body>
 	<section class="body">
@@ -151,14 +186,21 @@ require_once ROOT."/html/personalizacao_display.php";
 				</header>
 
 				<!-- start: page -->
+
+				
 				<div class="row">
 					<div class="col-md-4 col-lg-12" style="visibility: hidden;"></div>
 					<div class="col-md-8 col-lg-8" >
+						<!-- Caso haja uma mensagem do sistema -->
+						<?php getMsg();?>
 						<div class="tabs">
 							<ul class="nav nav-tabs tabs-primary">
 								<li class="active">
 									<a href="#overview" data-toggle="tab">Editar permissões
 									</a>
+								</li>
+								<li class="nav-item">
+									<a href="#almoxarife" data-toggle="tab">Adicionar Almoxarife</a>
 								</li>
 							</ul>
 							<div class="tab-content">
@@ -235,6 +277,44 @@ require_once ROOT."/html/personalizacao_display.php";
 											?>
 										</form>
 									</fieldset>	
+								</div>
+
+								<!-- Almoxarife -->
+
+								<div id="almoxarife" class="tab-pane" role="tabpanel">
+									<fieldset>
+										<form action="../adicionar_almoxarife.php" method="post">
+											<div class="form-group">
+												<label class="col-md-3 control-label" for="inputSuccess">Funcionário</label>
+												<a href="../cadastro_funcionario.php">
+												<i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i>
+											</a>
+											<div class="col-md-6">
+													<select name="id_funcionario" id="id_funcionario" class="form-control input-lg mb-md">
+														<option selected disabled value="blank">Selecionar</option>
+													</select>
+												</div>	
+											</div>
+											
+											<div class="form-group">
+												<label class="col-md-3 control-label" for="inputSuccess">Almoxarifado</label>
+												<a href="../adicionar_almoxarifado.php">
+													<i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i>
+												</a>
+												<div class="col-md-6">
+													<select name="id_almoxarifado" id="id_almoxarifado" class="form-control input-lg mb-md">
+														<option selected disabled value="blank">Selecionar</option>
+													</select>
+												</div>
+											</div>
+											
+											<div class="center-content">
+												<input type="submit" value="Enviar" class="btn btn-primary" style="margin-right: 20px;">
+												<a class="btn btn-success" href="../listar_almoxarife.php">Listar Almoxarifes</a>
+											</div>
+											
+										</form>
+									</fieldset>
 								</div>
 							</div>
 						</div>
@@ -331,4 +411,5 @@ require_once ROOT."/html/personalizacao_display.php";
 		});
 	  });
 </script>
+<script src="../geral/msg.js"></script>
 </html>
