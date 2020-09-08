@@ -146,6 +146,7 @@ class InternoControle
             if(isset($_SESSION['imagem']))
             {
             	$imagem=base64_encode($_SESSION['imagem']);
+                unset($_SESSION['imagem']);
             }
             else{
             	$imagem="";
@@ -372,6 +373,7 @@ class InternoControle
         $internoDAO = new InternoDAO();
         try {
             $internoDAO->alterarImagem($interno);
+            unset($_SESSION['imgperfil']);
             header("Location: ../html/profile_interno.php?id=".$id_interno);
         } catch (PDOException $e) {
             echo $e->getMessage();

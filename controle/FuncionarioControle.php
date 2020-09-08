@@ -334,6 +334,7 @@ class FuncionarioControle
             $imgperfil = '';
         }else{
             $imgperfil = base64_encode($_SESSION['imagem']);
+            unset($_SESSION['imagem']);
         }
         $cpf=str_replace(".", '', $cpf);
         $cpf=str_replace("-", "", $cpf);
