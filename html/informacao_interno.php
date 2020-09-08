@@ -126,10 +126,14 @@
 					.attr("class", "teste")
 					.append($("<td>")
 						.text(item.nome+' '+item.sobrenome))
-					.append($("<td>")
+					.append($("<td id=cpf"+item.id+">")
 						.text(item.cpf))
 					.append($("<td>")
 					.html('<i class="glyphicon glyphicon-pencil"></i>')));
+			if(item.cpf.indexOf("ni")!=-1)
+            {
+            	$("#cpf"+item.id).text("Não informado");
+            }
 			});
 
 		});

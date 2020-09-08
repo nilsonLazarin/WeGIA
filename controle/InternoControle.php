@@ -82,11 +82,11 @@ class InternoControle
             }
             if($j==0)
             {
-                $numeroCPF = $nome;
+                $numeroCPF = $nome."ni";
             }
             else
             {
-                $numeroCPF = $nome.$j;
+                $numeroCPF = $nome.$j."ni";
             }
         }
         elseif((!isset($numeroCPF)) || (empty($numeroCPF))){
