@@ -9,10 +9,10 @@ class ProdutoDAO
 	        try {
 	        	$pdo = Conexao::connect();
 				$existente = $pdo->query("SELECT id_produto, oculto FROM produto WHERE descricao='".$produto->getDescricao()."'")->fetch(PDO::FETCH_ASSOC);
-				$existente['oculto'] = intval($existente['oculto']);
+				$oculto = !!intval($existente['oculto']);
 				if ($existente){
 					// Caso já exista
-					if ($existente['oculto']){
+					if ($oculto){
 						// Caso já exista e esteja oculto
 						header("Location: ../html/restaurar_produto.php?id_produto=".$existente['id_produto']);
 					}else{
