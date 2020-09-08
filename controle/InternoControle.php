@@ -6,6 +6,11 @@ require_once '../dao/DocumentoDAO.php';
 require_once 'DocumentoControle.php';
 include_once '../classes/Cache.php';
 
+require_once ROOT."/controle/InternoControle.php";
+require_once ROOT."/controle/FuncionarioControle.php";
+$listaInternos = new InternoControle();
+$listaInternos->listarTodos2();
+
 class InternoControle 
 {
 	public function formatoDataYMD($data)
@@ -48,7 +53,7 @@ class InternoControle
             header('Location: ../html/interno.php?msg='.$msg);
         }
         if(isset($naoPossuiRegistroGeral)){
-            $rg='Não informado';
+            $rg = "NãoInformado";
             $orgaoEmissor="Não informado";
             $dataExpedicao = null;
         }
@@ -66,7 +71,23 @@ class InternoControle
         }
         if(isset($naoPossuiCpf))
         {
-            $numeroCPF="Não informado";
+            $internos = $_SESSION['internos2'];
+            $j=0;
+            for($i=0; $i<count($internos); $i++)
+            {
+                if($nome==$internos[$i]['nome'])
+                {
+                    $j++;
+                }
+            }
+            if($j==0)
+            {
+                $numeroCPF = $nome."ni";
+            }
+            else
+            {
+                $numeroCPF = $nome.$j."ni";
+            }
         }
         elseif((!isset($numeroCPF)) || (empty($numeroCPF))){
             $msg .= "CPF do interno não informado. Por favor, informe um CPF!";
@@ -166,6 +187,14 @@ class InternoControle
         session_start();
         $_SESSION['internos']=$internos;
         header('Location: '.$nextPage);
+    }
+
+    public function listarTodos2(){
+        extract($_REQUEST);
+        $internoDAO= new InternoDAO();
+        $internos = $internoDAO->listarTodos2();
+        session_start();
+        $_SESSION['internos2']=$internos;
     }
 
     public function listarUm()

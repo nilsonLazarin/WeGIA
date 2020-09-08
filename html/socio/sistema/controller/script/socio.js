@@ -51,7 +51,7 @@ function deletar_socio_modal(del_obj){
         <div class="modal-body">
             <div class="alert alert-warning alert-dismissible">
             <h4><i class="icon fa fa-warning"></i> Atenção!</h4>
-            Você quer realmente deletar o sócio `+ del_obj.nome +`?
+            Você quer realmente deletar o sócio `+ del_obj.nome +`? Ao confirmar essa ação você deletará todos os dados pertencentes a este sócio do sistema.
         </div>
         </div>
         <div class="modal-footer">

@@ -179,12 +179,16 @@
          
          			$('#orgao').text("Orgão emissor: "+item.orgao_emissor);
          			$("#orgaoform").val(item.orgao_emissor);
-                  if(item.cpf=="Não informado")
+                  if(item.cpf.indexOf("ni")!=-1)
                   {
-                     $("#cpf").text(item.cpf);
+                     $("#cpf").text("Não informado");
+                     $("#cpfform").val("Não informado");
                   }
+                  else
+                  {
          			$("#cpf").text(item.cpf);
-         			$("#cpfform").val(item.cpf);
+                  $("#cpfform").val(item.cpf);
+                  }
          
          			$("#inss").text("INSS: "+item.inss);
          

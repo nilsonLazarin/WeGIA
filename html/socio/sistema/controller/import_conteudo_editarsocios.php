@@ -53,6 +53,7 @@
         $numero = $registro['numero_endereco'];
         $complemento = $registro['complemento'];
         $cep = $registro['cep'];
+        $socio_tipo = $registro['id_sociotipo'];
         $bairro = $registro['bairro'];
         $cidade = $registro['cidade'];
         $estado = $registro['estado'];
@@ -98,9 +99,7 @@
           <input type="tel" min="0"  class="form-control" id="telefone" value="<?php echo($telefone); ?>" name="telefone" required>
         </div>
         </div>
-        <?php
-              if($pessoa == "fisica"){
-        ?>
+       
          <div class="row">
         <div class="form-group col-xs-4">
           <label for="pessoa">Contribuinte</label>
@@ -120,16 +119,22 @@
                     <option value="4">Sem informação</option>
           </select>
         </div>
-          <div class="div_nasc">
+        <div class="div_nasc">
+        <?php
+              if($pessoa == "fisica"){
+        ?>
+          
           <div class="form-group col-xs-4">
             <label for="valor">Data de nascimento</label>
             <input type="date" class="form-control" id="data_nasc" value="<?php echo($data_nasc); ?>" name="data_nasc" required>
           </div>
-          </div>
-        </div>
-        <?php
+        
+          <?php
               }
         ?>
+          </div>
+        </div>
+        
         <div class="box box-info endereco">
             <div class="box-header with-border">
               <h3 class="box-title">Endereço</h3>
@@ -192,10 +197,23 @@
 </body>
 <script>
     $(document).ready(function(){
+        var sociotipo = <?php echo($socio_tipo); ?>;
         var status = <?php echo($status); ?>;
         $("#status").val(status);
         if(status == 4){
           $("#contribuinte").val("si");
+        }
+
+        switch(sociotipo){
+          case 0: case 1: 
+              $("#contribuinte").val("casual");
+              break;
+          case 2: case 3:
+              $("#contribuinte").val("mensal");
+              break;
+          default:
+              $("#contribuinte").val("si");
+              break;
         }
     });
 </script>

@@ -54,19 +54,45 @@
                       <th>Telefone</th>
                       <th>Endereço</th>
                       <th>CPF/CNPJ</th>
+                      <th>Tipo</th>
                       <th>Editar</th>
                       <th>Deletar</th>
                     </tr>
                   </thead>
                   <tbody>
                       <?php
-                          $query = mysqli_query($conexao, "SELECT * FROM socio AS s LEFT JOIN pessoa AS p ON s.id_pessoa = p.id_pessoa");
+                          $socios_atrasados = 0;
+                          $query = mysqli_query($conexao, "SELECT *, s.id_socio as socioid FROM socio AS s LEFT JOIN pessoa AS p ON s.id_pessoa = p.id_pessoa LEFT JOIN socio_tipo AS st ON s.id_sociotipo = st.id_sociotipo LEFT JOIN (SELECT id_socio, MAX(data) AS ultima_data_doacao FROM log_contribuicao GROUP BY id_socio) AS lc ON lc.id_socio = s.id_socio");
                           while($resultado = mysqli_fetch_array($query)){
-                            $id = $resultado['id_socio'];
+                            switch($resultado['id_sociotipo']){
+                              case 0: case 1: 
+                                  $contribuinte = "casual";
+                                  break;
+                              case 2: case 3:
+                                  $contribuinte = "mensal";
+                                  break;
+                              default:
+                                  $contribuinte = "si";
+                                  break;
+                            }
+                            $class = "bg-normal";
+                            if($contribuinte == "mensal"){
+                              $data_ultima_doacao = date_create($resultado['ultima_data_doacao']);
+                              $data_hoje = date_create();
+                              $subtracao_datas = date_diff($data_ultima_doacao, $data_hoje);
+                              if($subtracao_datas->d > 29){
+                                  // Adiciona tag vermelha indicando atraso
+                                  $socios_atrasados++;
+                                  $class = "bg-danger";
+                              }
+
+                            }
+                            $id = $resultado['socioid'];
                             $cpf_cnpj = $resultado['cpf'];
                             $nome_s = $resultado['nome'];
                             $email = $resultado['email'];
                             $telefone = $resultado['telefone'];
+                            $tipo_socio = $resultado['tipo'];
                             $endereco = $resultado['logradouro']." ".$resultado['numero_endereco'].", ".$resultado['bairro'].", ".$resultado['cidade']." - ".$resultado['estado'];
                             if(strlen($telefone) == 14){
                               $tel_url = preg_replace("/[^0-9]/", "", $telefone);
@@ -77,7 +103,7 @@
                             }else $pessoa = "juridica";
                               
                             $del_json = json_encode(array("id"=>$id,"nome"=>$nome_s,"pessoa"=>$pessoa));
-                            echo("<tr><td >$id</td><td class='bg-danger'>$nome_s</td><td><a href='mailto:$email'>$email</a></td><td>$telefone</td><td>$endereco</td><td>$cpf_cnpj</td><td><a href='editar_socio.php?socio=$id'><button type='button' class='btn btn-default btn-flat'><i class='fa fa-edit'></i></button></a></td><td><button onclick='deletar_socio_modal($del_json)' type='button' class='btn btn-default btn-flat'><i class='fa fa-remove text-red'></i></button></td></tr>");
+                            echo("<tr><td >$id</td><td class='$class'>$nome_s</td><td><a href='mailto:$email'>$email</a></td><td>$telefone</td><td>$endereco</td><td>$cpf_cnpj</td><td>$tipo_socio</td><td><a href='editar_socio.php?socio=$id'><button type='button' class='btn btn-default btn-flat'><i class='fa fa-edit'></i></button></a></td><td><button onclick='deletar_socio_modal($del_json)' type='button' class='btn btn-default btn-flat'><i class='fa fa-remove text-red'></i></button></td></tr>");
                           }
                       ?>
                   </tbody>
@@ -89,12 +115,15 @@
                       <th>Telefone</th>
                       <th>Endereço</th>
                       <th>CPF/CNPJ</th>
+                      <th>Tipo</th>
+                      <th>Editar</th>
                       <th>Deletar</th>
                     </tr>
                   </tfoot>
                 </table>
                 <?php $num_socios = mysqli_num_rows(mysqli_query($conexao,"select * from socio")); ?>
-              <a id="btn_add_socio" class="btn btn-app">
+                <div class="row">
+                <a id="btn_add_socio" class="btn btn-app">
                 <span class="badge bg-purple"><span id="qtd_socios"><?php echo($num_socios); ?></span></span>
                 <i class="fa fa-user-plus"></i> Adicionar Sócio
               </a>
@@ -107,11 +136,28 @@
               <a id="btn_bd_off" class="btn btn-app" disabled>
                 <i class="fa fa-database"></i> Banco de dados
               </a>
+                </div>
+             
+    
             </div>
             <!-- /.box-body -->
           </div>
 				</div>
 			<!-- end: page -->
+      <div class="row">
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-red">
+            <div class="inner">
+              <h3><?php echo($socios_atrasados); ?></h3>
+
+              <p>Sócio(s) com pagamento atrasado.</p>
+            </div>
+          </div>
+        </div>
+        <!-- ./col -->
+      </div>
 			</section>
 		</div>	
 		<aside id="sidebar-right" class="sidebar-right">

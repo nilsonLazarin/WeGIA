@@ -71,6 +71,8 @@
 	<script type="text/javascript" src="./js/retornadia.js"></script>
 	<script type="text/javascript" src="./js/sociotipo.js"></script>
 	<script type="text/javascript" src="./js/logo_titulo.js"></script>
+	<script type="text/javascript" src="./js/cad_socio.js"></script>
+
 	
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
@@ -356,9 +358,35 @@
 					</div>	
 				</div>
 
+				<div id="verifica_socio" class="wrap-input100">
+					<input class = "radio" type="radio" id="op_cpf" value="fisica" name="opcao" onblur="fisjur(f2.opcao)" checked><label  class="label" for = "op_cpf">PESSOA FÍSICA</label>
+					<input class = "radio" type="radio" id="op_cnpj" value="juridica" name="opcao" onblur="fisjur(f2.opcao)"><label  class="label" for = "op_cnpj">PESSOA JURÍDICA</label><br><br>
+					
+					<div id="cpf" class="wrap-input100 validate-input bg1" data-validate = "Digite um documento válido!">
+                            <span class="label-input100">Digite um documento CPF*</span>
+                            <input class="input100" type="text" name="dcpf" id="cpfcnpj" class="text required"placeholder="Ex: 222.222.222-22"  onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##',this,event)" required><span id = "avisa_cpf"></span>
+                    </div>
+
+                    <div id="cnpj" class="wrap-input100 validate-input bg1" data-validate = "Digite um documento válido!">
+                            <span class="label-input100"> Digite um documento CNPJ *</span>
+                            <input class="input100" type="text" name="dcpf" id="cpfcnpj" onkeyup="FormataCnpj(this,event)"  maxlength="18" class="form-control input-md" ng-m placeholder = "22.222.222/2222-22"><span id = "avisa_cnpj"></span>
+					</div>
+						<div class="container-contact100-form-btn">
+							<span class="contact100-form-btn" id = "volta_btn">
+							<i style="margin-right: 15px; " class="fa fa-long-arrow-left m-l-7" aria-hidden="true"></i> VOLTAR
+							</span>							
+						</div>		
+						<div class="container-contact100-form-btn">
+							<button class="contact100-form-btn" id="verifica_socio_btn" onClick="doc_cadastrado();">
+									AVANÇAR
+									<i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
+							</button>							
+						</div>
+				</div>
+
 				<div id="pag2" class="wrap-input100">
-                    <input class = "radio" type="radio" id="op_cpf" value="fisica" name="opcao" onblur="fisjur(f2.opcao)" checked><label  class="label" for = "op_cpf">PESSOA FÍSICA</label>
-                    <input class = "radio" type="radio" id="op_cnpj" value="juridica" name="opcao" onblur="fisjur(f2.opcao)"><label  class="label" for = "op_cnpj">PESSOA JURÍDICA</label><br><br>
+                    <!--input class = "radio" type="radio" id="op_cpf" value="fisica" name="opcao" onblur="fisjur(f2.opcao)" checked><label  class="label" for = "op_cpf">PESSOA FÍSICA</label>
+                    <input class = "radio" type="radio" id="op_cnpj" value="juridica" name="opcao" onblur="fisjur(f2.opcao)"><label  class="label" for = "op_cnpj">PESSOA JURÍDICA</label><br><br-->
                 
 
                     <h3>INFORMAÇÕES PESSOAIS</h3><br>
@@ -427,18 +455,6 @@
 							<input class="input100" type="text" name="email" id="email"  class="text required" placeholder="Digite seu e-mail" onblur = "valida_email(this.value)" required>
 							<p id = "avisa_email"></p>
                     </div>
-
-                    <div id="cpf" class="wrap-input100 validate-input bg1" data-validate = "Digite um documento válido!">
-                            <span class="label-input100">CPF *</span>
-                            <input class="input100" type="text" name="dcpf" id="dcpf" class="text required"placeholder="Ex: 222.222.222-22"  onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##',this,event)" required><span id = "avisa_cpf"></span>
-                    </div>
-
-                    <div id="cnpj" class="wrap-input100 validate-input bg1" data-validate = "Digite um documento válido!">
-                            <span class="label-input100">CNPJ *</span>
-                            <input class="input100" type="text" name="dcpf" id="dcnpj" onkeyup="FormataCnpj(this,event)"  maxlength="18" class="form-control input-md" ng-m placeholder = "22.222.222/2222-22"><span id = "avisa_cnpj"></span>
-							
-                    </div>
-					<br>
 
 					<p id = "avisoPF"></p>
 					<p id = "avisoPJ"></p>
@@ -633,22 +649,14 @@
 	    $(document).ready(function()
 	    {
 			$("#tipo1").prop('checked', true);
-			$('#cep').keypress(function(e) {
+			$('input').keypress(function(e) {
 			if(e.which == 13) {
 			e.preventDefault();
 			}
 			});
-			$('#numero').keypress(function(e) {
-			if(e.which == 13) {
-			e.preventDefault();
-			}
-			});
-			$('#complemento').keypress(function(e) {
-			if(e.which == 13) {
-			e.preventDefault();
-			}
-			});
-		    preenche_campo();
+		
+			preenche_campo();
+			$("#verifica_socio").hide();
 			$("#tipo_cartao").hide();
 			$("#cartao_mensal").hide();
 			$("#cartao_unica").hide();
@@ -755,19 +763,22 @@
 		$("#avanca2").click(function()
 		{
 			verifica2();
+			
 		});
 		$("#avanca3").click(function()
 		{
 			verifica3();
 			
 		});
+		$("#volta_btn").click(function(){$("#verifica_socio").hide(); $("#pag1").fadeIn();
+			$("#doacao_boleto").fadeIn();
+			$("#forma").fadeIn();});
 
 		$("#volta").click(function(){
 
 			$("#pag2").hide();
-			$("#pag1").fadeIn();
-			$("#doacao_boleto").fadeIn();
-			$("#forma").fadeIn();
+			$("#verifica_socio").fadeIn();
+			$("#verifica_socio_btn").fadeIn();
 			
 		});
 
@@ -776,6 +787,7 @@
 			
 			$("#pag3").hide();
 			$("#pag2").fadeIn();
+			
 		});
 
 	});

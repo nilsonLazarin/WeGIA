@@ -265,6 +265,30 @@ class InternoDAO
             return json_encode($internos);
         }
 
+
+    public function listarTodos2(){
+
+        try{
+            $internos=array();
+            $pdo = Conexao::connect();
+            $consulta = $pdo->query("SELECT p.nome,p.sobrenome,p.cpf,i.id_interno FROM pessoa p INNER JOIN interno i ON p.id_pessoa = i.id_pessoa");
+            $produtos = Array();
+            $x=0;
+            while($linha = $consulta->fetch(PDO::FETCH_ASSOC)){
+                if ($linha['cpf']==="Não informado") {
+                    $internos[$x]=array('cpf'=>$linha['cpf'],'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'id'=>$linha['id_interno']);
+                }
+                else{
+                $internos[$x]=array('cpf'=>mask($linha['cpf'],'###.###.###-##'),'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'id'=>$linha['id_interno']);
+                }
+                $x++;
+            }
+            } catch (PDOExeption $e){
+                echo 'Error:' . $e->getMessage;
+            }
+            return $internos;
+        }
+
     public function listar($id){
         try{
             echo $id;
