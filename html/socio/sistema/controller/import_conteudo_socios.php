@@ -80,12 +80,11 @@
                               $data_ultima_doacao = date_create($resultado['ultima_data_doacao']);
                               $data_hoje = date_create();
                               $subtracao_datas = date_diff($data_ultima_doacao, $data_hoje);
-                              if($subtracao_datas->d > 29){
+                              if($subtracao_datas->days > 31){
                                   // Adiciona tag vermelha indicando atraso
                                   $socios_atrasados++;
                                   $class = "bg-danger";
                               }
-
                             }
                             $id = $resultado['socioid'];
                             $cpf_cnpj = $resultado['cpf'];
@@ -103,7 +102,7 @@
                             }else $pessoa = "juridica";
                               
                             $del_json = json_encode(array("id"=>$id,"nome"=>$nome_s,"pessoa"=>$pessoa));
-                            echo("<tr><td >$id</td><td class='$class'>$nome_s</td><td><a href='mailto:$email'>$email</a></td><td>$telefone</td><td>$endereco</td><td>$cpf_cnpj</td><td>$tipo_socio</td><td><a href='editar_socio.php?socio=$id'><button type='button' class='btn btn-default btn-flat'><i class='fa fa-edit'></i></button></a></td><td><button onclick='deletar_socio_modal($del_json)' type='button' class='btn btn-default btn-flat'><i class='fa fa-remove text-red'></i></button></td></tr>");
+                            echo("<tr><td >$id</td><td onclick='detalhar_socio($id);' style='cursor: pointer' class='$class'>$nome_s</td><td><a href='mailto:$email'>$email</a></td><td>$telefone</td><td>$endereco</td><td>$cpf_cnpj</td><td>$tipo_socio</td><td><a href='editar_socio.php?socio=$id'><button type='button' class='btn btn-default btn-flat'><i class='fa fa-edit'></i></button></a></td><td><button onclick='deletar_socio_modal($del_json)' type='button' class='btn btn-default btn-flat'><i class='fa fa-remove text-red'></i></button></td></tr>");
                           }
                       ?>
                   </tbody>
