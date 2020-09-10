@@ -1429,6 +1429,43 @@ BEGIN
   
 END$$
 
+USE `wegia`$$
+DROP TRIGGER IF EXISTS `wegia`.`tgr_ientrada_atualiza_preco` $$
+
+USE `wegia`$$
+CREATE
+TRIGGER `wegia`.`tgr_ientrada_atualiza_preco`
+AFTER INSERT ON `wegia`.`ientrada`
+FOR EACH ROW
+BEGIN
+	DECLARE preco_total FLOAT;
+  DECLARE tmp_preco_total FLOAT;
+  DECLARE id_media INT(11);
+  DECLARE qtd_total FLOAT;
+  DECLARE done INT;
+  DECLARE cur CURSOR FOR SELECT id_ientrada FROM ientrada WHERE id_produto = NEW.id_produto;
+  DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
+  
+  SET @qtd_total := (SELECT sum(qtd) FROM ientrada WHERE id_produto = NEW.id_produto);
+  SET @preco_total := 0.00;
+  
+  OPEN cur;
+      ins_loop: LOOP
+          FETCH cur INTO id_media;
+          IF done = 1 THEN
+              LEAVE ins_loop;
+          END IF;
+          SET @tmp_preco_total := (SELECT qtd * valor_unitario FROM ientrada WHERE id_ientrada = id_media);
+          IF @tmp_preco_total = NULL THEN
+      SET @tmp_preco_total := 0;
+          END IF;
+          SET @preco_total := (@tmp_preco_total + @preco_total);
+      END LOOP;
+  CLOSE cur;
+	
+    UPDATE produto SET preco = (@preco_total / @qtd_total) WHERE id_produto = NEW.id_produto;
+END$$
+
 DELIMITER ;
 
 
