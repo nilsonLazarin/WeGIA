@@ -61,10 +61,12 @@ function verificar()
             val_min = val_min.split('.');
             valor = valor.split('.');
             val_min = parseInt(val_min);
-            valor = parseInt(valor);
-                if(valor == ''|| valor == 0)
+            valor = parseInt(valor); 
+           
+                if(isNaN(valor) || valor[0] == 0)
                 {
                     $("#avisa_valor").html("Digite um valor para doação");
+                   
                 }
                 else
                 {
