@@ -2,7 +2,7 @@
     include ("conexao.php");
 
     $id_sistema = $_POST['id_sistema'];
-    echo $id_sistema;
+   
     $MinValUnic = $_POST['minval'];
     $MensalDiasV =$_POST['mensaldiasv'];
     $juros = $_POST['juros'];
@@ -34,6 +34,7 @@
                $id_regras = $registro [0];
 
                mysqli_query($conexao, "INSERT INTO doacao_boleto_info (api, token_api, sandbox, token_sandbox, id_sistema, id_regras) VALUES ('$API', '$token', '$sandbox', '$token_sandbox', '$id_sistema', '$id_regras')"); 
+                  
           }
 
 $cod_cartao = $_POST['cod_cartao'];

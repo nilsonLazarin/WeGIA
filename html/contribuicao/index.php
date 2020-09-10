@@ -325,7 +325,7 @@
 						</div>
 						<div id = "valores" class="wrap-input100 input100-select bg1">
 							<span class="label-input100">Valor *</span>
-							<select class="js-select2" name="service">
+							<select class="js-select2" name="service" id="valores">
 								<option value=''>Selecione um valor</option>
 								<option value = '<?php echo $valminparc ?>'>R$<?php echo $valminparc ?></option>
 								<option value = '50.00'>R$50,00</option>

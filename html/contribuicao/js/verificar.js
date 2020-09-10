@@ -57,28 +57,32 @@ function verificar()
         if($("#tipo2").prop('checked'))
         {
             var valor = $("#v").val();
-            var val_min = $("#valunic").val();
+            var val_min = $("#valunic").val(); //vem do bd
+            val_min = val_min.split('.');
             valor = valor.split('.');
-                if(valor[0] == ''|| valor[0] == 0)
+            val_min = parseInt(val_min);
+            valor = parseInt(valor);
+                if(valor == ''|| valor == 0)
                 {
                     $("#avisa_valor").html("Digite um valor para doação");
                 }
                 else
                 {
-                    if(valor[0] < val_min)
+                    if(valor < val_min)
                     {
+                        
                         $("#avisa_valor").html("O valor mínimo para doação é <i>R$"+val_min+"</i>"); 
                         
                     }else{
-                        
-                            $("#avisa_valor").html("");
-                            $("#verifica_socio").fadeIn();
-                            $("#pag1").hide();
-                            /*$("#pag2").fadeIn();
-                            $("#forma").hide();
-                            $("#doacao_boleto").hide();*/
-                        
                             
+                               
+                                $("#avisa_valor").html("");
+                                $("#verifica_socio").fadeIn();
+                                $("#pag1").hide();
+                                /*$("#pag2").fadeIn();
+                                $("#forma").hide();
+                                $("#doacao_boleto").hide();*/
+                                  
                     }
                    
                 }
