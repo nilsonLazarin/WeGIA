@@ -2,6 +2,7 @@
     include ("conexao.php");
 
     $id_sistema = $_POST['id_sistema'];
+    echo $id_sistema;
     $MinValUnic = $_POST['minval'];
     $MensalDiasV =$_POST['mensaldiasv'];
     $juros = $_POST['juros'];
