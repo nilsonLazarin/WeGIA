@@ -143,13 +143,25 @@ class InternoControle
         }  
             $telefone='(22) 2522-5130';
             $senha='null';
+
+            $existeimagem = new InternoControle;
+            $existeimagem->listarUM();
+            $internoo = json_decode($_SESSION['interno']);
+            $internoo1 = (array)$internoo[0];
             if(isset($_SESSION['imagem']))
             {
             	$imagem=base64_encode($_SESSION['imagem']);
                 unset($_SESSION['imagem']);
             }
             else{
+                if($internoo1['imagem']!="")
+                {
+                    $imagem = $internoo1['imagem'];
+                }
+                else
+                {
             	$imagem="";
+                }
             }
             $cep='28625-520';
             $estado="RJ";
@@ -356,7 +368,7 @@ class InternoControle
         $internoDAO=new InternoDAO();
         try {
             $internoDAO->alterar($interno);
-            header("Location: ../html/profile_interno.php?id=".$idInterno);
+            //header("Location: ../html/profile_interno.php?id=".$idInterno);
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -373,7 +385,6 @@ class InternoControle
         $internoDAO = new InternoDAO();
         try {
             $internoDAO->alterarImagem($interno);
-            unset($_SESSION['imgperfil']);
             header("Location: ../html/profile_interno.php?id=".$id_interno);
         } catch (PDOException $e) {
             echo $e->getMessage();
