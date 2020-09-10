@@ -22,7 +22,7 @@
     $sandbox = $_POST['sandbox'];
     $token_sandbox = $_POST['token_sandbox'];
 
-     $atualiza_regras = mysqli_query($conexao, "UPDATE  doacao_boleto_regras as regras JOIN doacao_boleto_info as info ON (info.id_regras = regras.id) SET min_boleto_uni = '$MinValUnic', max_dias_venc = '$MensalDiasV', juros = '$juros', multa = '$multa', max_parcela = '$MaiValParc', min_parcela = '$MinValParc', agradecimento = '$agradecimento', dias_boleto_a_vista = '$UnicDiasV', dias_venc_carne_op1 = '$opVenc0', dias_venc_carne_op2 = '$opVenc1', dias_venc_carne_op3 = '$opVenc2', dias_venc_carne_op4 = '$opVenc3', dias_venc_carne_op5 = '$opVenc4', dias_venc_carne_op6 = '$opVenc5', api = '$API', token_api = '$token', sandbox = '$sandbox', token_sandbox = '$token_sandbox' WHERE id_regras = '$cod_regras' AND id_sistema = '$id_sistema'");*/
+     $atualiza_regras = mysqli_query($conexao, "UPDATE  doacao_boleto_regras as regras JOIN doacao_boleto_info as info ON (info.id_regras = regras.id) SET min_boleto_uni = '$MinValUnic', max_dias_venc = '$MensalDiasV', juros = '$juros', multa = '$multa', max_parcela = '$MaiValParc', min_parcela = '$MinValParc', agradecimento = '$agradecimento', dias_boleto_a_vista = '$UnicDiasV', dias_venc_carne_op1 = '$opVenc0', dias_venc_carne_op2 = '$opVenc1', dias_venc_carne_op3 = '$opVenc2', dias_venc_carne_op4 = '$opVenc3', dias_venc_carne_op5 = '$opVenc4', dias_venc_carne_op6 = '$opVenc5', api = '$API', token_api = '$token', sandbox = '$sandbox', token_sandbox = '$token_sandbox' WHERE id_regras = '$cod_regras' AND id_sistema = '$id_sistema'");
    
      
      $cod_cartao = $_POST['cod_cartao'];

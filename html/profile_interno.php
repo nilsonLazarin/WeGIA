@@ -112,7 +112,8 @@
                   $("#formulario").append($("<input type='hidden' name='idInterno' value='"+item.idInterno+"'>"));
          			var cpf=item.cpf;
          			$("#nome").text("Nome: "+item.nome+' '+item.sobrenome);
-         			$("#nomeform").val(item.nome+" "+item.sobrenome);
+         			$("#nomeform").val(item.nome);
+                  $("#sobrenomeform").val(item.sobrenome);
 
          			if(item.imagem!=""){
                      $("#imagem").attr("src","data:image/gif;base64,"+item.imagem);
@@ -395,9 +396,15 @@
                <form id="formulario" action="../controle/control.php" enctype="multipart/form-data" method="POST">
                   <fieldset>
                      <div class="form-group">
-                        <label class="col-md-3 control-label">Nome completo</label>
+                        <label class="col-md-3 control-label">Nome</label>
                         <div class="col-md-8">
                            <input type="text" class="form-control" name="nome" id="nomeform" id="profileFirstName" onkeypress="return Onlychars(event)" >
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label class="col-md-3 control-label">Sobrenome</label>
+                        <div class="col-md-8">
+                           <input type="text" class="form-control" name="sobrenome" id="sobrenomeform" id="profileLastName" onkeypress="return Onlychars(event)" >
                         </div>
                      </div>
                      <div class="form-group">
@@ -527,6 +534,7 @@
                               <label>
                               <input type="checkbox" name="tituloEleitor" value="Possui" id="tituloEleitor-checkbox" >Título de Eleitor
                               <input type="hidden" name="nomeClasse" value="InternoControle">
+                              <input type="hidden" name="id" value="<?php echo $_GET['id'];?>">
                               <input type="hidden" name="metodo" value="alterar">
                               </label><br>
                               <label>
