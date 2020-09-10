@@ -368,7 +368,7 @@ class InternoControle
         $internoDAO=new InternoDAO();
         try {
             $internoDAO->alterar($interno);
-            //header("Location: ../html/profile_interno.php?id=".$idInterno);
+            header("Location: ../html/profile_interno.php?id=".$idInterno);
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
