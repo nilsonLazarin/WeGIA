@@ -106,10 +106,12 @@ function verifica2()
     
         if(nome == '' || dia == '' || mes == '' || ano == '' || tel == '' || email == '' ||cpf == '')
         {
+                $("#avisoPF").fadeIn();
                 $("#avisoPF").html('Preencha todos os campos marcados com "*"');
         }
         else
         {
+                $("#avisoPF").hide();
                 $("#doacao_boleto").hide();
                 $("#pag2").hide();
                 $("#pag3").fadeIn();
@@ -127,12 +129,14 @@ function verifica2()
           
             if(nome ==  ''||tel == ''||email == '')
             {
+                $("#avisoPJ").fadeIn();
                 $("#avisoPJ").html('Preencha todos os campos marcados com "*"');
                 
             }
             else
             {
                 cnpj();
+                $("#avisoPJ").hide();
                 $("#avisoPJ").html("");  
             }
         }
@@ -152,42 +156,49 @@ function verifica3()
    
     if(rua == '')
     {
+        $("#aviso").fadeIn();
         $("#aviso").html('Preencha os campos marcados com "*"');
     }
     else
         {
             if(num == '')
             {
+                $("#aviso").fadeIn();
                 $("#aviso").html('Preencha os campos marcados com "*"');
             }
             else
             {
                 if(bairro == '')
                 {
+                    $("#aviso").fadeIn();
                     $("#aviso").html('Preencha os campos marcados com "*"');
                 }
                 else
                 {
                     if(cidade == '')
                     {
+                        $("#aviso").fadeIn();
                         $("#aviso").html('Preencha os campos marcados com "*"');
                     }
                     else
                     {
                         if(uf == '')
                         {
+                            $("#aviso").fadeIn();
                             $("#aviso").html('Preencha os campos marcados com "*"');
                         }
                         else
                         {
                             if(cep == '')
                             {
+                                $("#aviso").fadeIn();
                                 $("#aviso").html('Preencha os campos marcados com "*"');
-                                console.log("oi");
+                              
                             }else
                                 {
-                                    //gera_boleto();
+                                    
                                     recebe_dados();
+                                    $("#aviso").hide();
                                     $("#aviso").html("");
                                 }
                           

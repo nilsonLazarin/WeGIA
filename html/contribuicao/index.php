@@ -58,6 +58,7 @@
 	<title>Seja um Sócio</title>
 	<meta charset="UTF-8">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		
 	<script type="text/javascript" src="./js/validacep.js"></script>
 	<script type="text/javascript" src="./js/outros.js"></script>
 	<script type="text/javascript" src="./js/data.js"></script>
@@ -72,11 +73,12 @@
 	<script type="text/javascript" src="./js/sociotipo.js"></script>
 	<script type="text/javascript" src="./js/logo_titulo.js"></script>
 	<script type="text/javascript" src="./js/cad_socio.js"></script>
-
+	<script type="text/javascript" src="./js/transicoes.js"></script>
+	
 	
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-	
+	<link rel="stylesheet" type="text/css" href="outros/css/index.css">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="https://fonts.googleapis.com/css?family=Bitter&display=swap" rel="stylesheet">
@@ -103,162 +105,7 @@
 	<link rel="stylesheet" type="text/css" href="outros/css/main.css">
 <!--===============================================================================================-->
 		
-		<style>
-			.radio{
-    			position: absolute;
-    			opacity: 0;
-    			cursor:pointer;
-			}
-			input[type=radio]+label {
-				padding: 5px;
-    			font-weight: normal;
-			}
-			input[type=radio]:hover+label {
-				background-color: white;
-				border: 2px rgb(169,169,169) solid;
-			}
-			input[type=radio]+label {
-   			 	font-weight: normal;
-    			border: 2px solid lightgray;
-    			border-radius: 5px;
-    			background-color: lightgray ;
-			}
-			input[type=radio]:checked+label {
-				background-color: rgb(65,105,225);
-				border: 1px rgb(169,169,169) solid;
-   				font-weight: bold;
-			}
-			input[type=radio]:focus+label {
-				background-color: rgb(65,105,225);
-				border: 1px rgb(169,169,169) solid;
-    			/*border: 2px dotted #000;*/
-			}
-			#info_data 
-			{
-			    color: red;
-			    font-size: 15px;
-			}
-			#aviso_data
-			{
-				color: red;
-				font-size:15px;
-			}
-			#avisa_cpf
-			    {
-				color: red;
-				font-size: 20px;
-				font-family: 'Bitter', serif;
-			    }
-			#avisa_cnpj
-			    {
-				color: red;
-				font-size: 20px;
-				font-family: 'Bitter', serif;
-			    }
-			#avisa_valor
-			    {
-				color: red;
-				font-size: 20px;
-				font-family: 'Bitter', serif;
-			    }
-			#avisoPF
-			{
-				color: red;
-				font-size: 20px;
-				font-family: 'Bitter', serif;
-			}
-			#avisoPJ
-			{
-				color: red;
-				font-size: 20px;
-				font-family: 'Bitter', serif;
-			}
-			#aviso
-			{
-				color: red;
-				font-size: 20px;
-				font-family: 'Bitter', serif;
-			}
-            #avisa_valor2			    
-				{
-				color: red;
-				font-size: 20px;
-				font-family: 'Bitter', serif;
-			    }
-			#avisa_email			    
-			{
-				color: red;
-				font-size: 20px;
-				font-family: 'Bitter', serif;
-			}
-			
-			button{
-				border-radius: 5px;
-				border: 1px rgb(143,188,143) solid;
-				padding: 5px;
-				margin: 5px;
-			}
-			#trinta{
-				background-color: rgb(34,139,34); 
-			}
-			#quarenta{
-				background-color: rgb(139,0,0); 
-			}
-			#cinquenta{
-				background-color: rgb(255,140,0); 
-			}
-			#cem{
-				background-color: rgb(28,28,28); 
-			}
-			#cento50{
-				background-color: rgb(218,165,32); 
-			}
-			#duzentos{
-				background-color: rgb(160,82,45); 
-			}
-			#duzentos50{
-				background-color: rgb(165,42,42); 
-			}
-			#trezentos{
-				background-color: rgb(128,0,128); 
-			}
-			#quinhentos{
-				background-color: rgb(107,142,35); 
-			}
-			#mil{
-				background-color: rgb(139,0,0); 
-			}
-			#trinta:hover,#cinquenta:hover,#cem:hover,#cento50:hover,#duzentos:hover,#duzentos50:hover,#trezentos:hover,#quinhentos:hover,#mil:hover{
-				background-color: rgb(65,105,225);
-				border: 1px rgb(169,169,169) solid;
-				
-			}
-			#img_logo{
-				display: block;
-				margin-left: auto;
-				margin-right: auto;
-			}
-			a:hover{
-				color: white;
-				text-decoration:none;
-			}
-			a{ 
-				font-weight: normal;	
-				color: white;
-
-			}
-			.mala {
-				
-				background-color: rgb(65,105,225);
-				padding: .5rem 1rem;
-				border-radius: .3rem;
-			}
-			.ultima_div{
-				padding-left:120px;
-				align-content: center;
-			}
-			
-		</style>
+		
 </head>
 <body>
 
@@ -390,10 +237,6 @@
 				</div>
 
 				<div id="pag2" class="wrap-input100">
-                    <!--input class = "radio" type="radio" id="op_cpf" value="fisica" name="opcao" onblur="fisjur(f2.opcao)" checked><label  class="label" for = "op_cpf">PESSOA FÍSICA</label>
-                    <input class = "radio" type="radio" id="op_cnpj" value="juridica" name="opcao" onblur="fisjur(f2.opcao)"><label  class="label" for = "op_cnpj">PESSOA JURÍDICA</label><br><br-->
-                
-
                     <h3>INFORMAÇÕES PESSOAIS</h3><br>
 
                     <div class="wrap-input100 validate-input bg1" data-validate="Por Favor Digite seu Nome" id = "nc">
@@ -540,7 +383,6 @@
 			    		</select><br>
 					</div>
 					<p id="lista" name="lista"></p>
-					<!--input type = "submit" value = "enviar" id="enviar" disabled-->
 
 					<p id = "aviso"></p>
 
@@ -661,151 +503,8 @@
 
 	    $(document).ready(function()
 	    {
-			$("#tipo1").prop('checked', true);
-			$('input').keypress(function(e) {
-			if(e.which == 13) {
-			e.preventDefault();
-			}
-			});
-		
-			preenche_campo();
-			$("#verifica_socio").hide();
-			$("#tipo_cartao").hide();
-			$("#cartao_mensal").hide();
-			$("#cartao_unica").hide();
-			$("#input").hide();
-			$("#pag2").hide();
-			$("#pag3").hide();
-			$("#cnpj").hide();
-			$("#info_valor").hide();
-			$("#nc").show();
-			$("#jnome").hide();
-			$("#form2").hide();
-			$("#salvar_infos").hide();
-			
-			
-		
-	    $("#cartao").click(function()
-		{
-			$("#doacao_boleto").hide();
-			$("#tipo_cartao").fadeIn();
-			$("#cartao_mensal").fadeIn();
-			$("#tipoc2").prop("checked", false);
-			$("#tipoc1").prop("checked", true);
-			
-
+			transicoes();
 		});
-		$("#mensal_cartao").click(function(){
-			$("#cartao_unica").hide();
-			$("#cartao_mensal").fadeIn();
-			$("#tipoc2").prop("checked", false);
-			$("#tipoc1").prop("checked", true);
-			
-		});
-		$("#unica_cartao").click(function(){
-			$("#cartao_unica").fadeIn();
-			$("#cartao_mensal").hide();
-			$("#tipoc2").prop("checked", true);
-			$("#tipoc1").prop("checked", false);
-		});
-
-		$("#dinheiro").click(function()
-		{
-			$("#tipo_cartao").hide();
-			$("#cartao_mensal").hide();
-			$("#cartao_unica").hide();
-			$("#doacao_boleto").fadeIn();
-			$("#tipo1").prop('checked', true);
-			
-
-		});
-
-		$("#op_cpf").click(function()
-		{
-			$("#nc").show();
-			$("#sobrenome").show();
-			$("#jnome").hide();
-		    $("#cpf").fadeIn();
-		    $("#cnpj").hide();  
-			$("#nascimento").show();
-			$("#dia").show();
-			$("#mes").show();
-			$("#ano").show();
-			$("#avisoPF").show();
-			$("#avisoPJ").hide();
-			
-			
-		});
-
-		$("#op_cnpj").click(function()
-		{
-		    $("#cpf").hide(); 
-		    $("#cnpj").fadeIn();
-			$("#dia").hide();
-			$("#mes").hide();
-			$("#ano").hide();
-			$("#nascimento").hide(); 
-			$("#avisoPF").hide();
-			$("#avisoPJ").show();
-			$("#nc").hide();
-			$("#jnome").show();
-			$("#sobrenome").hide();
-		});  
-
-		$("#u").click(function()
-		{
-		    $("#valores").hide();
-			$("#input").fadeIn();
-			$("#venci").hide();
-			
-		});
-
-
-		$("#m").click(function()
-		{
-		    $("#valores").show();
-		    $("#venci").show();
-			$("#input").hide();
-			
-		});
-
-		$("#avanca").click(function()
-		{
-			verificar();
-
-		});
-
-		$("#avanca2").click(function()
-		{
-			verifica2();
-			
-		});
-		$("#avanca3").click(function()
-		{
-			verifica3();
-			
-		});
-		$("#volta_btn").click(function(){$("#verifica_socio").hide(); $("#pag1").fadeIn();
-			$("#doacao_boleto").fadeIn();
-			$("#forma").fadeIn();});
-
-		$("#volta").click(function(){
-
-			$("#pag2").hide();
-			$("#verifica_socio").fadeIn();
-			$("#verifica_socio_btn").fadeIn();
-			
-		});
-
-		$("#volta2").click(function()
-		{
-			
-			$("#pag3").hide();
-			$("#pag2").fadeIn();
-			
-		});
-
-	});
 
 	</script>
 

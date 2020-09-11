@@ -22,6 +22,7 @@
         <link rel="stylesheet" href="../../../assets/stylesheets/theme-custom.css">
         <script src="../../../assets/vendor/modernizr/modernizr.js"></script>
         <link rel="stylesheet" href="../../../css/personalizacao-theme.css" />
+        <link rel="stylesheet" type="text/css" href="../outros/css/config.css">
         <script src="../../../assets/vendor/jquery/jquery.min.js"></script>
         <script src="../../../assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
         <script src="../../../assets/vendor/bootstrap/js/bootstrap.js"></script>
@@ -33,64 +34,11 @@
         <script src="../../../assets/javascripts/theme.js"></script>
         <script src="../../../assets/javascripts/theme.custom.js"></script>  
         <script src="../../../assets/javascripts/theme.init.js"></script>
-        <script type="text/javascript" src="preenche_dados.js"></script>
-        <script type="text/javascript" src="id_sistema.js"></script>
+        <script type="text/javascript" src="../js/preenche_dados.js"></script>
+        <script type="text/javascript" src="../js/id_sistema.js"></script>
         <script type="text/javascript" src="../js/transicoes.js"></script>
 
     </head>
-    <style> 
-        #vazio
-        {
-            color: red;
-			font-size: 20px;
-			font-family: 'Bitter', serif;
-        } 
-        #vazio_cartao_unico{
-            color: red;
-			font-size: 15px;
-			font-family: 'Bitter', serif;
-        }
-        #vazio_cartao_mensal{
-            color: red;
-			font-size: 15px;
-			font-family: 'Bitter', serif;
-        }
-        #alerta_boleto
-        {
-            padding: 2%;
-            border: 1px solid gray;
-            border-radius: 3px;
-            margin: 10px;
-            font-size: 15px;
-            border-color: #e8273b;
-            color: black;
-            background-color: rgb(237, 85, 101);
-            opacity: 60%;
-        }
-        #alerta_cartao
-        {
-            padding: 2%;
-            border: 1px solid gray;
-            border-radius: 3px;
-            margin: 10px;
-            font-size: 15px;
-            border-color: #e8273b;
-            color: #8B0000;
-            background-color: rgb(237, 85, 101);
-            opacity: 60%;
-        }
-        #foo{
-            padding: 2%;
-            border: 1px solid gray;
-            border-radius: 3px;
-            margin: 10px;
-            font-size: 15px;
-            border-color: #87c940;
-            color: #FFF;
-            background-color: #a0d468;
-        }
-
-    </style>
     <body>
 	<section class="body">
 		<div id="header"></div>
@@ -278,80 +226,7 @@
 	<script>
         $(document).ready(function() 
         {   
-            $("#alerta_boleto").hide();
-            $("#alerta_cartao").hide();
-            $("#cartao").hide();
-            $("#insere_doacao_mensal").hide();
-            $("#btn-bol").hide();
-            $("#btn-card").hide();
-            $("#alerta_cartao").hide();
-            $('#foo').hide();
-
-            
-            $("#btn-bol").click(function(){
-                $('#foo').fadeIn();
-                setTimeout(function () {
-                    $('#foo').hide(); 
-                }, 99000);
-            });
-            $("#btn-card").click(function(){
-                $('#foo').fadeIn();
-                setTimeout(function () {
-                    $('#foo').hide(); 
-                }, 99000);
-            });
-
-            var id = retorna_id("boletofacil");
-            $("#header").load("../../header.php");
-            $(".menuu").load("../../menu.php");
-            $("input").prop("readonly", true);
-        
-            $("#editar-bol").click(function(){editando()});
-            $("#editar-card").click(function(){editando_card()});
-            
-            $("#pagseguro").click(function(){ 
-                
-                var id = retorna_id('pagseguro');
-                $("#boleto").hide();
-                $("#cartao").fadeIn();
-                $("#btn-card").hide();
-                $("#alerta_boleto").hide();
-                $("#editar-card").fadeIn();
-                $("#valor").prop("readonly", true);
-                $("#link").prop("readonly", true);
-               
-               
-            });
-            $("#boletofacil").click(function(){
-               
-               var id = retorna_id("boletofacil");
-                $("#boleto").fadeIn();
-                $("#cartao").hide();
-                $("#btn-bol").hide();
-                $("#alerta_cartao").hide();
-                $("#editar-bol").fadeIn();
-            });
-            $("#paypal").click(function(){ 
-
-                var id = retorna_id("paypal");
-                $("#boleto").hide();
-                $("#cartao").fadeIn();
-                $("#btn-card").hide();
-                $("#alerta_boleto").hide();
-                $("#editar-card").fadeIn();
-                $("#valor").prop("readonly", true);
-                $("#link").prop("readonly", true);
-   
-            });
-            $("#widepay").click(function(){
-                
-                var id = retorna_id("widepay");
-                $("#boleto").fadeIn();
-                $("#cartao").hide();
-                $("#alerta_cartao").hide();
-                $("#btn-bol").hide();
-                $("#editar-bol").fadeIn();
-            });
+            atualiza();
         });
 	
     </script>

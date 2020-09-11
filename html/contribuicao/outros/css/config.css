@@ -1,0 +1,50 @@
+#vazio
+{
+    color: red;
+    font-size: 20px;
+    font-family: 'Bitter', serif;
+} 
+#vazio_cartao_unico{
+    color: red;
+    font-size: 15px;
+    font-family: 'Bitter', serif;
+}
+#vazio_cartao_mensal{
+    color: red;
+    font-size: 15px;
+    font-family: 'Bitter', serif;
+}
+#alerta_boleto
+{
+    padding: 2%;
+    border: 1px solid gray;
+    border-radius: 3px;
+    margin: 10px;
+    font-size: 15px;
+    border-color: #e8273b;
+    color: black;
+    background-color: rgb(237, 85, 101);
+    opacity: 60%;
+}
+#alerta_cartao
+{
+    padding: 2%;
+    border: 1px solid gray;
+    border-radius: 3px;
+    margin: 10px;
+    font-size: 15px;
+    border-color: #e8273b;
+    color: black;
+    background-color: rgb(237, 85, 101);
+    opacity: 60%;
+}
+#foo{
+    padding: 2%;
+    border: 1px solid gray;
+    border-radius: 3px;
+    margin: 10px;
+    font-size: 15px;
+    border-color: #87c940;
+    color: #FFF;
+    background-color: #a0d468;
+}
