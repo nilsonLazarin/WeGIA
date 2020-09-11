@@ -312,5 +312,25 @@ class InternoDAO
         }
         return json_encode($interno);
     }
+
+    public function listarCPF()
+    {
+        try
+        {
+            $cpfs = array();
+            $pdo = Conexao::connect();
+            $consulta = $pdo->query("SELECT cpf from pessoa p INNER JOIN interno i ON(p.id_pessoa=i.id_pessoa)");
+            $x=0;
+            while($linha = $consulta->fetch(PDO::FETCH_ASSOC)){
+                $cpfs[$x] = array('cpf'=>$linha['cpf']);
+                $x++;
+            }
+        }
+        catch(PDOExeption $e)
+        {
+            echo 'Error:' . $e->getMessage;
+        }
+        return json_encode($cpfs);
+    }
 }
 ?>

@@ -67,6 +67,13 @@
 
 	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
   require_once "personalizacao_display.php";
+  require_once ROOT."/controle/FuncionarioControle.php";
+  $cpf = new FuncionarioControle;
+  $cpf->listarCPF();
+
+  require_once ROOT."/controle/InternoControle.php";
+  $cpf1 = new InternoControle;
+  $cpf1->listarCPF();
   
    ?>
 <!doctype html>
@@ -853,6 +860,7 @@
       function funcao2(){
         alert("Cadastrado com sucesso o EPI!");
        }
+
       </script>
    </head>
    <body>
@@ -1163,7 +1171,7 @@
                             <br/>
                             <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?> >
                             <button type="button" class="btn btn-primary" id="botaoEditarDocumentacao" onclick="return editar_documentacao()">Editar</button>
-                            <input type="submit" class="btn btn-primary" disabled="true"  value="Salvar" id="botaoSalvarDocumentacao" disabled="true">
+                            <input id="botaoSalvarDocumentacao" type="submit" class="btn btn-primary" disabled="true" value="Salvar"  onclick="funcao3()">
                           </form>
                           <!--Outros-->
                           <hr class="dotted short">
@@ -1668,6 +1676,36 @@
     <script src="../assets/javascripts/tables/examples.datatables.default.js"></script>
     <script src="../assets/javascripts/tables/examples.datatables.row.with.details.js"></script>
     <script src="../assets/javascripts/tables/examples.datatables.tabletools.js"></script>
+    <script>
+      function funcao3(){
+        var cpfs = <?php echo $_SESSION['cpf_funcionario'];?> ;
+        var cpf_funcionario = $("#cpf").val();
+        var cpf_funcionario_correto = cpf_funcionario.replace(".", "");
+        var cpf_funcionario_correto1 = cpf_funcionario_correto.replace(".", "");
+        var cpf_funcionario_correto2 = cpf_funcionario_correto1.replace(".", "");
+        var cpf_funcionario_correto3 = cpf_funcionario_correto2.replace("-", "");
+        var apoio = 0;
+        var cpfs1 = <?php echo $_SESSION['cpf_interno'];?> ;
+        $.each(cpfs,function(i,item){
+          if(item.cpf==cpf_funcionario_correto3)
+          {
+            alert("Alteração não realizada! O CPF informado já está cadastrado no sistema");
+            apoio = 1;
+          }
+        });
+        $.each(cpfs1,function(i,item){
+          if(item.cpf==cpf_funcionario_correto3)
+          { 
+            alert("Cadastro não realizado! O CPF informado já está cadastrado no sistema");
+            apoio = 1;
+          }
+        });
+        if(apoio == 0)
+        {
+          alert("Cadastrado com sucesso!")
+        }
+      }
+    </script>
 	</body>
 </html>
 

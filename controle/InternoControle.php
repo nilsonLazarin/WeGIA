@@ -1,4 +1,8 @@
 <?php
+
+error_reporting(0);
+ini_set(“display_errors”, 0 );
+
 require_once '../classes/Interno.php';
 require_once '../dao/InternoDAO.php';
 require_once '../classes/Documento.php';
@@ -206,7 +210,10 @@ class InternoControle
         extract($_REQUEST);
         $internoDAO= new InternoDAO();
         $internos = $internoDAO->listarTodos2();
-        session_start();
+        if (session_status() !== PHP_SESSION_ACTIVE)
+        {
+            session_start();
+        }
         $_SESSION['internos2']=$internos;
     }
 
@@ -231,6 +238,13 @@ class InternoControle
             header('Location:'.$nextPage);
         }
         
+    }
+
+    public function listarCpf(){
+        extract($_REQUEST);
+        $internosDAO = new InternoDAO();
+        $internoscpf = $internosDAO->listarCPF();
+        $_SESSION['cpf_interno']=$internoscpf;
     }
     
     public function incluir(){

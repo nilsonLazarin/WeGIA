@@ -51,6 +51,10 @@
   $listaCPF = new FuncionarioControle;
   $listaCPF->listarCpf();
 
+  require_once ROOT."/controle/InternoControle.php";
+  $listaCPF2 = new InternoControle;
+  $listaCPF2->listarCpf();
+
    ?>
 <!DOCTYPE html>
 <html class="fixed">
@@ -582,9 +586,17 @@
     var cpf_funcionario_correto2 = cpf_funcionario_correto1.replace(".", "");
     var cpf_funcionario_correto3 = cpf_funcionario_correto2.replace("-", "");
     var apoio = 0;
+    var cpfs1 = <?php echo $_SESSION['cpf_interno'];?> ;
     $.each(cpfs,function(i,item){
       if(item.cpf==cpf_funcionario_correto3)
       {
+        alert("Cadastro não realizado! O CPF informado já está cadastrado no sistema");
+        apoio = 1;
+      }
+    });
+    $.each(cpfs1,function(i,item){
+      if(item.cpf==cpf_funcionario_correto3)
+      { 
         alert("Cadastro não realizado! O CPF informado já está cadastrado no sistema");
         apoio = 1;
       }
@@ -806,6 +818,7 @@
       }
 
       $(function () {
+        console.log(<?php echo $_SESSION['cpf_interno'];?>);
         $("#header").load("header.php");
         $(".menuu").load("menu.html");
       });

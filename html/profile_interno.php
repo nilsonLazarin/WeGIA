@@ -42,6 +42,13 @@
       }	
 	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
 	require_once "personalizacao_display.php";
+  require_once ROOT."/controle/FuncionarioControle.php";
+  $cpf = new FuncionarioControle;
+  $cpf->listarCPF();
+
+  require_once ROOT."/controle/InternoControle.php";
+  $cpf1 = new InternoControle;
+  $cpf1->listarCPF();
    
    $id=$_GET['id'];
    $cache = new Cache();
@@ -645,7 +652,7 @@
                   <div class="panel-footer">
                      <div class="row">
                         <div class="col-md-9 col-md-offset-3">
-                           <input type="submit" class="btn btn-primary" value="Alterar"></button>
+                           <input type="submit" class="btn btn-primary" value="Alterar" onclick="funcao1()"></button>
                </form>
                <button id="excluir" type="button" class="btn btn-danger" data-toggle="modal" data-target="#exclusao">Excluir</button>
                <div class="modal fade" id="exclusao" role="dialog">
@@ -801,7 +808,7 @@
                <option value="SUS">SUS</option>
                <option value="BPC">BPC</option> 
                <option value="CPF">CPF</option>
-               <option value="RG">RG</option>
+               <option value="Registro Geral">RG</option>
             </select><br/>
             
             <p> Selecione a nova imagem</p>
@@ -819,5 +826,35 @@
          </div>
          </div>
          </div>
+         <script>
+   function funcao1(){
+        var cpfs = <?php echo $_SESSION['cpf_funcionario'];?> ;
+        var cpf_funcionario = $("#cpf").val();
+        var cpf_funcionario_correto = cpf_funcionario.replace(".", "");
+        var cpf_funcionario_correto1 = cpf_funcionario_correto.replace(".", "");
+        var cpf_funcionario_correto2 = cpf_funcionario_correto1.replace(".", "");
+        var cpf_funcionario_correto3 = cpf_funcionario_correto2.replace("-", "");
+        var apoio = 0;
+        var cpfs1 = <?php echo $_SESSION['cpf_interno'];?> ;
+        $.each(cpfs,function(i,item){
+          if(item.cpf==cpf_funcionario_correto3)
+          {
+            alert("Alteração não realizada! O CPF informado já está cadastrado no sistema");
+            apoio = 1;
+          }
+        });
+        $.each(cpfs1,function(i,item){
+          if(item.cpf==cpf_funcionario_correto3)
+          { 
+            alert("Cadastro não realizado! O CPF informado já está cadastrado no sistema");
+            apoio = 1;
+          }
+        });
+        if(apoio == 0)
+        {
+          alert("Cadastrado com sucesso!")
+        }
+      }
+   </script>
     </body>
 </html>

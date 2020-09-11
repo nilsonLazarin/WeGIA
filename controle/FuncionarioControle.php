@@ -522,17 +522,17 @@ class FuncionarioControle
    
     public function incluir(){
         $funcionario = $this->verificarFuncionario();
-        $horario = $this->verificarHorario();
+        //$horario = $this->verificarHorario();
         //$beneficiados = $this->verificarBeneficiados();
         //$epi = $this->verificarEpi();
         $funcionarioDAO = new FuncionarioDAO();
-        $horarioDAO = new QuadroHorarioDAO();
+        //$horarioDAO = new QuadroHorarioDAO();
         //$beneficiadosDAO = new BeneficiadosDAO();
         //$epiDAO = new Pessoa_epiDAO();
         
         try{
             $funcionarioDAO->incluir($funcionario);
-            $horarioDAO->incluir($horario);
+            //$horarioDAO->incluir($horario);
             //$beneficiadosDAO->incluir($beneficiados);
             //$epiDAO->incluir($epi);
             $_SESSION['msg']="Funcionario cadastrado com sucesso";
