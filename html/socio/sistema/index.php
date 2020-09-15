@@ -150,6 +150,7 @@
             $(".menuu").load("<?php echo WWW;?>html/menu.php");
 	    });	
 	</script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.css">
 </head>
 <body>
     <?php require_once("./controller/import_conteudo_socios.php"); ?>

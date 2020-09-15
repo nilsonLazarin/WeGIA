@@ -364,10 +364,10 @@ class FuncionarioDAO
         {
             $cpfs = array();
             $pdo = Conexao::connect();
-            $consulta = $pdo->query("SELECT cpf from pessoa p INNER JOIN funcionario f ON(p.id_pessoa=f.id_pessoa)");
+            $consulta = $pdo->query("SELECT f.id_funcionario, p.cpf from pessoa p INNER JOIN funcionario f ON(p.id_pessoa=f.id_pessoa)");
             $x=0;
             while($linha = $consulta->fetch(PDO::FETCH_ASSOC)){
-                $cpfs[$x] = array('cpf'=>$linha['cpf']);
+                $cpfs[$x] = array('cpf'=>$linha['cpf'], 'id'=>$linha['id_funcionario']);
                 $x++;
             }
         }

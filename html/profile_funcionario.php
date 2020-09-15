@@ -440,7 +440,7 @@
                 {
                     $("#diaFolga_"+dia_folga[j]).prop("checked", true);
                 }
-  						})
+                })
             });
               /*if (item.usa_vtp== "Possui") {
            
@@ -1678,6 +1678,7 @@
     <script src="../assets/javascripts/tables/examples.datatables.tabletools.js"></script>
     <script>
       function funcao3(){
+        var idfunc = <?php echo $_GET['id_funcionario'];?> ; 
         var cpfs = <?php echo $_SESSION['cpf_funcionario'];?> ;
         var cpf_funcionario = $("#cpf").val();
         var cpf_funcionario_correto = cpf_funcionario.replace(".", "");
@@ -1687,7 +1688,7 @@
         var apoio = 0;
         var cpfs1 = <?php echo $_SESSION['cpf_interno'];?> ;
         $.each(cpfs,function(i,item){
-          if(item.cpf==cpf_funcionario_correto3)
+          if(item.cpf==cpf_funcionario_correto3 && item.id!=idfunc)
           {
             alert("Alteração não realizada! O CPF informado já está cadastrado no sistema");
             apoio = 1;

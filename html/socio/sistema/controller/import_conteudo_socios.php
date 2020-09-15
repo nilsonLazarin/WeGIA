@@ -61,17 +61,25 @@
                   </thead>
                   <tbody>
                       <?php
+                          $fisica = 0;
+                          $juridica = 0;
                           $socios_atrasados = 0;
+                          $mensal = 0;
+                          $casual = 0;
+                          $si_contrib = 0;
                           $query = mysqli_query($conexao, "SELECT *, s.id_socio as socioid FROM socio AS s LEFT JOIN pessoa AS p ON s.id_pessoa = p.id_pessoa LEFT JOIN socio_tipo AS st ON s.id_sociotipo = st.id_sociotipo LEFT JOIN (SELECT id_socio, MAX(data) AS ultima_data_doacao FROM log_contribuicao GROUP BY id_socio) AS lc ON lc.id_socio = s.id_socio");
                           while($resultado = mysqli_fetch_array($query)){
                             switch($resultado['id_sociotipo']){
                               case 0: case 1: 
+                                  $casual++;
                                   $contribuinte = "casual";
                                   break;
                               case 2: case 3:
+                                  $mensal++;
                                   $contribuinte = "mensal";
                                   break;
                               default:
+                                  $si_contrib++;
                                   $contribuinte = "si";
                                   break;
                             }
@@ -97,9 +105,13 @@
                               $tel_url = preg_replace("/[^0-9]/", "", $telefone);
                               $telefone = "<a target='_blank' href='http://wa.me/55$tel_url'>$telefone</a>";
                             }
-                            if(strlen($cpf_cnpj == 14)){
+                            if(strlen($cpf_cnpj) == 14){
                               $pessoa = "fisica";
-                            }else $pessoa = "juridica";
+                              $fisica++;
+                            }else{
+                              $pessoa = "juridica";
+                              $juridica++;
+                            } 
                               
                             $del_json = json_encode(array("id"=>$id,"nome"=>$nome_s,"pessoa"=>$pessoa));
                             echo("<tr><td >$id</td><td onclick='detalhar_socio($id);' style='cursor: pointer' class='$class'>$nome_s</td><td><a href='mailto:$email'>$email</a></td><td>$telefone</td><td>$endereco</td><td>$cpf_cnpj</td><td>$tipo_socio</td><td><a href='editar_socio.php?socio=$id'><button type='button' class='btn btn-default btn-flat'><i class='fa fa-edit'></i></button></a></td><td><button onclick='deletar_socio_modal($del_json)' type='button' class='btn btn-default btn-flat'><i class='fa fa-remove text-red'></i></button></td></tr>");
@@ -156,6 +168,10 @@
           </div>
         </div>
         <!-- ./col -->
+      </div>
+      <div class="row">
+      <canvas id="grafico1" class="col-xs-6" height="200"></canvas><br>
+      <canvas id="grafico2" class="col-xs-6" height="200"></canvas>
       </div>
 			</section>
 		</div>	

@@ -915,6 +915,8 @@ CREATE TABLE IF NOT EXISTS `wegia`.`log_contribuicao` (
   `data` DATE NOT NULL,
   `hora` TIME NOT NULL,
   `id_sistema` INT(11) NOT NULL,
+  `valor_boleto` DECIMAL(10,2) NOT NULL,
+  `data_venc_boleto` DATE NOT NULL,
   INDEX `id_sistema` (`id_sistema` ASC),
   INDEX `FK_socio_log` (`id_socio` ASC),
   CONSTRAINT `FK_socio_log`
@@ -1277,7 +1279,9 @@ CREATE PROCEDURE `registradoacao`(
     IN `ip` VARCHAR(256),
     IN `data` DATE,
     IN `hora` TIME,
-    IN `id_sistema` INT(11)
+    IN `id_sistema` INT(11),
+    IN `valor_boleto` DECIMAL(10,2),
+    IN `data_venc_boleto` DATE
 )
 begin
 
@@ -1288,8 +1292,8 @@ values(nome, sobrenome, cpf, telefone,data_nascimento,cep,estado,cidade,bairro,l
 insert ignore into socio(id_pessoa, id_sociostatus, id_sociotipo, email)
 values ((SELECT id_pessoa FROM pessoa WHERE pessoa.cpf=cpf limit 1), id_sociostatus, id_sociotipo, email);
 
-insert into log_contribuicao(id_socio, ip, data, hora, id_sistema)
-values((SELECT id_socio FROM socio, pessoa WHERE pessoa.id_pessoa=socio.id_pessoa AND pessoa.cpf=cpf limit 1), ip, data, hora, id_sistema);
+insert into log_contribuicao(id_socio, ip, data, hora, id_sistema, valor_boleto, data_venc_boleto)
+values((SELECT id_socio FROM socio, pessoa WHERE pessoa.id_pessoa=socio.id_pessoa AND pessoa.cpf=cpf limit 1), ip, data, hora, id_sistema, valor_boleto, data_venc_boleto);
 
 END$$
 
