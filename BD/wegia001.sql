@@ -1279,9 +1279,9 @@ CREATE PROCEDURE `registradoacao`(
     IN `ip` VARCHAR(256),
     IN `data` DATE,
     IN `hora` TIME,
+    IN `id_sistema` INT(11),
     IN `valor_boleto` DECIMAL(10,2),
-    IN `data_venc_boleto` DATE,
-    IN `id_sistema` INT(11)
+    IN `data_venc_boleto` DATE
 )
 begin
 
