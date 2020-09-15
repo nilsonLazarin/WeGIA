@@ -47,7 +47,7 @@ function verificar()
                     $("#verifica_socio").fadeIn();
                     $("#pag1").hide();
                     //$("#pag2").fadeIn();
-                    //
+                    
                 }
                                                                   
             }
@@ -97,7 +97,7 @@ function verifica2()
     {
         
        var nome = $("#nome").val();
-       var dia = $("#dia").val();
+       var dia = $("#dia_n").val();
        var mes = $('#mes').val();
        var ano = $("#ano").val();
        var tel = $("#telefone").val();

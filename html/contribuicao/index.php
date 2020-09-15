@@ -256,13 +256,19 @@
                     <div class="wrap-input100 validate-input bg1" style="height: 90px" id = "nascimento">
                             <span class="label-input100">DATA DE NASCIMENTO *</span><br>
                                     
-                            <select style="width: 30%" class="wrap-input100 validate-input bg1" name="dia" id="dia" onblur="valida_data(f2.dia)" class="text required" > 
+                            <select style="width: 30%" class="wrap-input100 validate-input bg1" name="dia" id="dia_n" onblur="valida_data(f2.dia)" class="text required" > 
                                     <option value="">Dia</option>
                                     <?php
 
                                         for($i=1; $i<=31; $i++)
                                         {
-                                            echo("<option value='".$i."'>".$i."</option>");
+											if($i < 10)
+											{
+												echo("<option value='0".$i."'>0".$i."</option>");
+											}else{
+												echo("<option value='".$i."'>".$i."</option>");
+											}
+                                            	
                                         }
                                     ?>
                                     </select>
@@ -327,7 +333,7 @@
 					<h3>ENDEREÇO</h3><br>
 					<div class="wrap-input100 validate-input bg1" data-validate = "Digite um CEP válido">
 						<span class="label-input100">CEP *</span>
-						<input class="input100" type="text" id="cep" name="cep" onkeypress="$(this).mask('00.000-000')" onblur="valida_cep(f2.cep)" class="text required" placeholder="Digite um CEP" required>
+						<input class="input100" type="text" id="cep" name="cep" onkeypress="$(this).mask('00000-000')" onblur="valida_cep(f2.cep)" class="text required" placeholder="Digite um CEP" required>
 					</div>
 					<div class="wrap-input100 validate-input bg1">
 						<span class="label-input100">LOGRADOURO *</span>

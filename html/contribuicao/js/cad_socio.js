@@ -17,6 +17,7 @@ function socio_cadastrado(doc)
                     $("#pag2").fadeIn();
                 }else
                     {
+                     
                         var dados = JSON.parse(data);
                         var data_n = dados.data_n;
                         var data_n = data_n.split("-");
@@ -25,8 +26,7 @@ function socio_cadastrado(doc)
                         $("#nome").val(dados.nome);
                         $("#cnpj_nome").val(dados.nome);
                         $("#sbnome").val(dados.sobrenome);
-                        $("#dia").val(data_n[2]);
-                        console.log(data_n[2]);
+                        $("#dia_n").val(data_n[2]);
                         $("#mes").val(data_n[1]);
                         $("#ano").val(data_n[0]);
                         $("#telefone").val(dados.tel);
@@ -63,7 +63,7 @@ function editar_informacoes()
     var nome = $("#nome").val();
     var cnpj_nome = $("#cnpj_nome").val();
     var sbnome = $("#sbnome").val();
-    var data_n = $("#ano").val()+"-"+$("#mes").val()+"-"+$("#dia").val();
+    var data_n = $("#ano").val()+"-"+$("#mes").val()+"-"+$("#dia_n").val();
     var tel = $("#telefone").val();
     var email = $("#email").val();
     var cep = $("#cep").val();
