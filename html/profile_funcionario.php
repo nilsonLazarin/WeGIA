@@ -67,13 +67,13 @@
 
 	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
   require_once "personalizacao_display.php";
-  /*require_once ROOT."/controle/FuncionarioControle.php";
+  require_once ROOT."/controle/FuncionarioControle.php";
   $cpf = new FuncionarioControle;
-  $cpf->listarCPF();*/
+  $cpf->listarCPF();
 
-  /*require_once ROOT."/controle/InternoControle.php";
+  require_once ROOT."/controle/InternoControle.php";
   $cpf1 = new InternoControle;
-  $cpf1->listarCPF();*/
+  $cpf1->listarCPF();
   
    ?>
 <!doctype html>
@@ -1171,7 +1171,7 @@
                             <br/>
                             <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?> >
                             <button type="button" class="btn btn-primary" id="botaoEditarDocumentacao" onclick="return editar_documentacao()">Editar</button>
-                            <input id="botaoSalvarDocumentacao" type="submit" class="btn btn-primary" disabled="true" value="Salvar">
+                            <input id="botaoSalvarDocumentacao" type="submit" class="btn btn-primary" disabled="true" value="Salvar"  onclick="funcao3()">
                           </form>
                           <!--Outros-->
                           <hr class="dotted short">
@@ -1676,7 +1676,7 @@
     <script src="../assets/javascripts/tables/examples.datatables.default.js"></script>
     <script src="../assets/javascripts/tables/examples.datatables.row.with.details.js"></script>
     <script src="../assets/javascripts/tables/examples.datatables.tabletools.js"></script>
-    <!--script>
+    <script>
       function funcao3(){
         var cpfs = <?php echo $_SESSION['cpf_funcionario'];?> ;
         var cpf_funcionario = $("#cpf").val();
@@ -1705,7 +1705,7 @@
           alert("Cadastrado com sucesso!")
         }
       }
-    </script-->
+    </script>
 	</body>
 </html>
 
