@@ -415,6 +415,10 @@
                 $("#escala").text("Escala: "+item.escala);
                 $("#tipo").text("Tipo: "+item.tipo);
                 $("#dias_trabalhados").text("Dias trabalhados: "+item.dias_trabalhados);
+                if(item.dias_trabalhados=="Plantão")
+                {
+                  $("#dias_trabalhados").text("Dias trabalhados: "+item.dias_trabalhados+" 12/36");
+                }
                 $("#dias_folga").text("Dias de folga: "+item.folga);
                 $("#entrada1").text("Primeira entrada: "+item.entrada1);
                 $("#saida1").text("Primeira Saída: "+item.saida1);
@@ -1587,7 +1591,7 @@
                                       <span class="fa fa-check"></span>
                                     </label>
                                     <label class="btn btn-primary">
-                                      <input type="checkbox" id="diaTrabalhado" name="plantao" value="Plantão 12/36"> Plantão 12/36
+                                      <input type="checkbox" id="diaTrabalhado_Plantão" name="plantao" value="Plantão"> Plantão 12/36
                                       <span class="fa fa-check"></span>
                                     </label>
                                   </div>

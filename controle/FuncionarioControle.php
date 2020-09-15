@@ -203,6 +203,11 @@ class FuncionarioControle
 
             $dias_trabalhados = implode(",", $diasTrabalhados);
 
+            if(isset($plantao)) {
+                $dias_trabalhados = $plantao;
+                $carga_horaria = 174;
+            }
+
         $horario = new QuadroHorario();
 
         $horario->setEscala($escala);
