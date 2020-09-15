@@ -26,6 +26,7 @@ function socio_cadastrado(doc)
                         $("#cnpj_nome").val(dados.nome);
                         $("#sbnome").val(dados.sobrenome);
                         $("#dia").val(data_n[2]);
+                        console.log(data_n[2]);
                         $("#mes").val(data_n[1]);
                         $("#ano").val(data_n[0]);
                         $("#telefone").val(dados.tel);
