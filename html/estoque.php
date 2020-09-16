@@ -270,8 +270,8 @@
 					</header>
 					<div class="panel-body">
 						<div id="selecao">
-								<span>Almoxarifado: </span>
-								<select class="select-table-filter form-control mb-md" data-table="order-table" oninput="selectAlmoxarifado(this.value)" id="almox">
+							<span>Almoxarifado: </span>
+							<select class="select-table-filter form-control mb-md" data-table="order-table" oninput="selectAlmoxarifado(this.value)" id="almox">
 								<option selected value="todos">Todos</option>
 								<?php
 									$pdo = Conexao::connect();
@@ -283,7 +283,7 @@
 										<option value="'.$value->descricao_almoxarifado.'">'.$value->descricao_almoxarifado.'</option>
 										');
 									}
-								?>
+									?>
 							</select>
 								<span>Categoria: </span>
 								<select class="select-table-filter form-control mb-md" data-table="order-table" oninput="selectCategoria(this.value)" id="categ">
@@ -297,7 +297,7 @@
 										<option value="'.$value['descricao_categoria'].'">'.$value['descricao_categoria'].'</option>
 										');
 									}
-								?>
+									?>
 							</select>
 						</div>
 						<div class="select" >
@@ -305,6 +305,7 @@
 	  					<button style="float: right;" class="mb-xs mt-xs mr-xs btn btn-default print-hide" onclick="window.print();">Imprimir</button>
 	  					<br><br>
 		  					
+						<p class="print-hide">Atenção: Produtos de um determinado almoxarifado só serão exibidos caso o usuário esteja cadastrado como almoxarife.</p>
 						<table class="table table-bordered table-striped mb-none" id="datatable-default">
 							<thead>
 								<tr>
