@@ -35,6 +35,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`almoxarife` (
   `id_almoxarife` INT(11) NOT NULL AUTO_INCREMENT,
   `id_funcionario` INT(11) NOT NULL,
   `id_almoxarifado` INT NOT NULL,
+  `data_registro` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_almoxarife`),
   INDEX `id_almoxarife` (`id_almoxarife` ASC),
   CONSTRAINT `almoxarife_ibfk_1`

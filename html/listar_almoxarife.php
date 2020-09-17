@@ -145,7 +145,7 @@
 						.append($('<td />')
 							.text(item.descricao_funcionario || "Sem Nome"))
 						.append($('<td />')
-							.text(item.descricao_almoxarifado))
+							.text(item.descricao_almoxarifado || "Sem Nome"))
 						.append($('<td />')
 							.text(item.data_registro || "Sem Registro"))
 						.append($('<td />')
