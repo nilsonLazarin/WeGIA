@@ -10,6 +10,7 @@
     $pessoa = mysqli_fetch_array($resultado);
     $nome = $pessoa['nome'];
 ?>
+    <?php echo("teste"); ?>
     <?php require_once("./controller/import_head.php"); ?>
     <?php require_once("./controller/import_header.php"); ?>
     <?php require_once("./controller/import_sidebar.php"); ?>
