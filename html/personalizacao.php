@@ -393,6 +393,12 @@
 								<form class="form-horizontal" method="post" action="../controle/control.php">
                             		<input type="hidden" name="nomeClasse" value="EnderecoControle">
                             		<input type="hidden" name="metodo" value="alterarEndereco">
+                            		<div class="form-group">
+                              			<label class="col-md-3 control-label" for="nome">Nome da instituição</label>
+                              			<div class="col-md-8">
+                                			<input type="text" name="nome" size="10" class="form-control" id="nome">
+                              			</div>
+                            		</div>
 									<div class="form-group">
                               			<label class="col-md-3 control-label" for="cep">CEP</label>
                               			<div class="col-md-8">
@@ -435,9 +441,9 @@
                               			</div>
                             		</div>
                             		<div class="form-group">
-                              			<label class="col-md-3 control-label" for="profileCompany">Complemento</label>
+                              			<label class="col-md-3 control-label" for="complemento">Complemento</label>
                               			<div class="col-md-8">
-                                			<input type="text" class="form-control" name="complemento" id="complemento" id="profileCompany">
+                                			<input type="text" class="form-control" name="complemento" id="complemento">
                               			</div>
                             		</div>
                             		<div class="form-group">
