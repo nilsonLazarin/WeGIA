@@ -928,7 +928,24 @@ CREATE TABLE IF NOT EXISTS `wegia`.`log_contribuicao` (
     REFERENCES `wegia`.`sistema_pagamento` (`id`))
 ENGINE = InnoDB;
 
+					    
+-- -----------------------------------------------------
+-- Table `wegia`.`endereco_instituicao`
+-- -----------------------------------------------------
 
+CREATE TABLE IF NOT EXISTS `wegia`.`endereco_instituicao`(
+    id_inst INT(11) NOT NULL AUTO_INCREMENT,
+    nome VARCHAR(256) NOT NULL,
+    numero_endereco VARCHAR(256) NOT NULL,
+    logradouro VARCHAR(256) NOT NULL,
+    bairro VARCHAR(256),
+    cidade VARCHAR(256) NOT NULL,
+    estado VARCHAR(256) NOT NULL,
+    cep VARCHAR(256) NOT NULL,
+    complemento VARCHAR(256),
+    ibge VARCHAR(256) NOT NULL,
+    PRIMARY KEY (id_inst)
+) ENGINE= InnoDB;
 
 
 USE `wegia` ;
@@ -1384,6 +1401,31 @@ BEGIN
 END$$
 
 DELIMITER ;
+														    
+
+-- -----------------------------------------------------
+-- procedure insendereco_inst
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `wegia`$$
+CREATE PROCEDURE `insendereco_inst`(
+    IN `nome` VARCHAR(256), 
+    IN `numero_endereco` VARCHAR(256), 
+    IN `logradouro` VARCHAR(256), 
+    IN `bairro` VARCHAR(256), 
+    IN `cidade` VARCHAR(256), 
+    IN `estado` VARCHAR(256), 
+    IN `cep` VARCHAR(256), 
+    IN `complemento` VARCHAR(256), 
+    IN `ibge` VARCHAR(256))    
+begin
+
+	insert into endereco_instituicao (nome, numero_endereco, logradouro, bairro, cidade, estado, cep, complemento, ibge)
+    values (nome, numero_endereco, logradouro, bairro, cidade, estado, cep, complemento, ibge);
+   
+END$$
+														    
 
 USE `wegia`;
 

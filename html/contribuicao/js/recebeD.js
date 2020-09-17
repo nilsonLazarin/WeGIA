@@ -3,28 +3,25 @@ function dataVencimento()
         var dia = retorna_dia();
         var now = new Date;
         var diaA = now.getDate();
-        console.log(diaA);
-        var mesA = now.getMonth()+1;
-        var anoA = now.getFullYear();
-            if(dia<diaA)
-            {
-                var mes_atual = now.getMonth() + 2;
-            }
+          if(dia<diaA)
+          {
+              var mes_atual = now.getMonth() + 2;
+          }
             else
-            {
-                var mes_atual = now.getMonth() + 1;
-            }
+                {
+                  var mes_atual = now.getMonth() + 1;
+                }
 
         var ano_atual = now.getFullYear();
         var dataV = ano_atual+"-"+mes_atual+"-"+dia;
-
+             
         return dataV;
 }
 
 
 function recebe_dados()
 {
-  
+ 
   var id_sociotipo = tipo_socio();
  
   var horadata = new Date();
@@ -41,7 +38,7 @@ function recebe_dados()
               valor_contribuicao = $("#v").val();
             }
   var data_vencimento = dataVencimento();
-  console.log(data_vencimento);
+  
 
   var email = $("#email").val();
   var telefone = $("#telefone").val();
@@ -80,7 +77,7 @@ function recebe_dados()
       console.log(doc);
       dataN = "0000-00-00"
 
-      $.post("./php/cadastrar.php", {'tipo':fisjur, 'nome':nome, 'sobrenome':sobrenome, 'telefone':telefone, 'cep':cep, 'log':log, 'comp':comp, 'bairro':bairro, 'cidade':cidade, 'uf':uf, 'numero': num, 'doc':doc,'datanascimento':dataN, 'hora':hora, 'sistema':sistema, 'contato':email, 'id_sociotipo': id_sociotipo, 'status': status,  'datavencimento':data_vencimento, 'valor_doacao':valor_contribuicao}).done(function(data){});
+      $.post("./php/cadastrar.php", {'tipo':fisjur, 'nome':nome, 'sobrenome':sobrenome, 'telefone':telefone, 'cep':cep, 'log':log, 'comp':comp, 'bairro':bairro, 'cidade':cidade, 'uf':uf, 'numero': num, 'doc':doc,'datanascimento':dataN, 'hora':hora, 'sistema':sistema, 'contato':email, 'id_sociotipo': id_sociotipo, 'status': status,  'datavencimento':data_vencimento, 'valor_doacao':valor_contribuicao}).done(function(data){console.log(data);});
       
       gera_boleto();
     }
