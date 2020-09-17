@@ -35,6 +35,7 @@ $(document).ready(function(){
                     "estado": linha['UF'],
                     "cidade": linha['CIDADE'],
                     "status": 4,
+                    "contribuinte": null,
                     "data_nasc": data_nasc,
                     "cep":linha['CEP']
                 };
@@ -51,7 +52,7 @@ $(document).ready(function(){
                             log.html_log += "<p style='margin: 0.2em' class='text-green'> <b>[CADASTRADO]</b> - "+ linha['NOME/RAZÃO SOCIAL'] + "</p> ";
                           } else {
                             log.cadastrados--;
-                            log.html_log += "<p style='margin: 0.2em' class='text-danger'> <b>[ERRO: POSSUI CAD.]</b> - "+ linha['NOME/RAZÃO SOCIAL'] + " </p>";
+                            log.html_log += "<p style='margin: 0.2em' class='text-danger'> <b>[ERRO: POSSUI CAD/ARQUIVO MAL FORMATADO.]</b> - "+ linha['NOME/RAZÃO SOCIAL'] + " </p>";
                           }
                         },
                         error: function (e) {

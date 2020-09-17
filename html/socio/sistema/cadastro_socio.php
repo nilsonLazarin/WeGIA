@@ -34,7 +34,7 @@
                 $id_sociotipo = 2;
             } else{
                 $id_sociotipo = 0;
-            }if($contribuinte == null || $contribuinte == "si"){
+            }if($contribuinte == null || $contribuinte == "si" || $contribuinte == ""){
                 $id_sociotipo = 4;
             }  break;
         }
