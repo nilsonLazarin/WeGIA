@@ -136,7 +136,7 @@
 	</script>
 	<script>
 		$(function(){
-			var almoxarife= <?= $almoxarife; ?>;
+			var almoxarife = <?= $almoxarife; ?>;
 
 			$.each(almoxarife, function(i,item){
 
@@ -146,6 +146,8 @@
 							.text(item.descricao_funcionario || "Sem Nome"))
 						.append($('<td />')
 							.text(item.descricao_almoxarifado))
+						.append($('<td />')
+							.text(item.data_registro || "Sem Registro"))
 						.append($('<td />')
 							.attr('onclick','excluir("'+item.id_almoxarife+'")')
 							.html('<button><i class="fas fa-trash-alt" href="#"></i></button>')));
@@ -199,6 +201,7 @@
 										<tr>
 											<th>Funcionário</th>
 											<th>Almoxarifado</th>
+											<th>Data de Registro</th>
 											<th>Ação</th>
 										</tr>
 									</thead>
