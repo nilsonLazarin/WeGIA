@@ -161,8 +161,8 @@
           <!-- small box -->
           <div class="small-box bg-red">
             <div class="inner">
-              <h3><?php echo($socios_atrasados); ?></h3>
-
+              <h3><?php echo($socios_atrasados); echo("teste"); ?></h3>
+              
               <p>Sócio(s) com pagamento atrasado.</p>
             </div>
           </div>
