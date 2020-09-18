@@ -48,6 +48,8 @@
 	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
 	require_once "personalizacao_display.php";
 
+	require_once ROOT."/controle/EnderecoControle.php";
+
 	// Query das tabelas
 
 	$res = $pdo->query("select * from selecao_paragrafo;");
@@ -75,6 +77,9 @@
 		where c.nome_campo='$nome_campo';");
 		return $res->fetchAll(PDO::FETCH_ASSOC);
 	}
+
+	$endereco = new EnderecoControle;
+	$endereco->listarInstituicao();
 
 ?>
 <!doctype html>
@@ -149,9 +154,49 @@
 		$(function () {
 	      $("#header").load("header.php");
 	      $(".menuu").load("menu.html");
+
+	      $("#nome").prop('disabled', true);
+          $("#cep").prop('disabled', true);
+          $("#uf").prop('disabled', true);
+          $("#cidade").prop('disabled', true);
+          $("#bairro").prop('disabled', true);
+          $("#rua").prop('disabled', true);
+          $("#numero_residencia").prop('disabled', true);
+          $("#complemento").prop('disabled', true);
+          $("#ibge").prop('disabled', true);
+	      var endereco = <?php echo $_SESSION['endereco'];?> ;
+	      if(endereco=="")
+	      {
+	      	$("#metodo").val("incluirEndereco");
+	      }
+	      else
+	      {
+	      	$("#metodo").val("alterarEndereco");
+	      }
+	      $.each(endereco,function(i,item){	
+              $("#nome").val(item.nome).prop('disabled', true);
+              $("#cep").val(item.cep).prop('disabled', true);
+              $("#uf").val(item.estado).prop('disabled', true);
+              $("#cidade").val(item.cidade).prop('disabled', true);
+              $("#bairro").val(item.bairro).prop('disabled', true);
+              $("#rua").val(item.logradouro).prop('disabled', true);
+              $("#numero_residencia").val(item.numero_endereco).prop('disabled', true);
+              $("#complemento").val(item.complemento).prop('disabled', true);
+              $("#ibge").val(item.ibge).prop('disabled', true);
+              if (item.numero_endereco=='Nao possui' || item.numero_endereco==null ) {
+             
+                $("#numResidencial").prop('checked',true).prop('disabled', true);
+                $("#numero_residencia").prop('disabled', true);
+             
+              }else{
+                $("#numero_residencia").val(item.numero_endereco).prop('disabled', true);
+                $("#numResidencial").prop('disabled', true);  
+              }
+              });
 	    });	
 	    function editar_endereco(){
          
+         	$("#nome").prop('disabled', false);
             $("#cep").prop('disabled', false);
             $("#uf").prop('disabled', false);
             $("#cidade").prop('disabled', false);
@@ -273,6 +318,7 @@
 			<aside id="sidebar-left" class="sidebar-left menuu"></aside>
 			<!-- end: sidebar -->
 			<section role="main" class="content-body">
+
 				<header class="page-header">
 					<h2>Edição de Conteúdo</h2>
 					<div class="right-wrapper pull-right">
@@ -285,7 +331,7 @@
 							<li><span>Páginas</span></li>
 							<li><span>Edição de Conteúdo</span></li>
 						</ol>
-						<a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
+						<a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
 					</div>
 				</header>
 
@@ -392,7 +438,7 @@
 							<div class="tab-pane fade" id="address-tab" role="tabpanel" aria-labelledby="txt-tab">
 								<form class="form-horizontal" method="post" action="../controle/control.php">
                             		<input type="hidden" name="nomeClasse" value="EnderecoControle">
-                            		<input type="hidden" name="metodo" value="alterarEndereco">
+                            		<input type="hidden" name="metodo" id="metodo">
                             		<div class="form-group">
                               			<label class="col-md-3 control-label" for="nome">Nome da instituição</label>
                               			<div class="col-md-8">

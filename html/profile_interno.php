@@ -49,6 +49,10 @@
   require_once ROOT."/controle/InternoControle.php";
   $cpf1 = new InternoControle;
   $cpf1->listarCPF();
+
+  require_once ROOT."/controle/EnderecoControle.php";
+  $endereco = new EnderecoControle;
+  $endereco->listarInstituicao();
    
    $id=$_GET['id'];
    $cache = new Cache();
@@ -112,7 +116,16 @@
             }
          $(function(){
          	var interno=<?php echo $infInterno = $cache->read($id);?>;
+            var endereco=<?php echo $_SESSION['endereco']; ?>;
             console.log(interno);
+            $.each(endereco,function(i,item){
+               $("#cep").text("CEP: "+item.cep);
+               $("#cidade").text("Cidade: "+item.cidade);
+               $("#bairro").text("Bairro: "+item.bairro);
+               $("#logradouro").text("Logradouro: "+item.logradouro);
+               $("#numero").text("Numero: "+item.numero_endereco);
+               $("#complemento").text("Complemento: "+item.complemento);
+            });
          	$.each(interno,function(i,item){
          		if(i=1)
          		{
@@ -160,18 +173,6 @@
          			
          			$("#nascimento").text("Data de nascimento: "+alterardate(item.data_nascimento));
          			$("#nascimentoform").val(item.data_nascimento);
-         
-         			$("#cep").text("CEP: "+item.cep);
-         
-         			$("#cidade").text("Cidade: "+item.cidade);
-         
-         			$("#bairro").text("Bairro: "+item.bairro);
-         
-         			$("#logradouro").text("Logradouro: "+item.logradouro);
-         
-         			$("#numero").text("Numero: "+item.numero_endereco);
-         
-         			$("#complemento").text("Complemento: "+item.complemento);
          
          			$("#rg").text("Registro geral: "+item.registro_geral);
          			$("#rgform").val(item.registro_geral);

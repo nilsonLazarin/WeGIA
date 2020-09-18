@@ -167,14 +167,14 @@ class InternoControle
             	$imagem="";
                 }
             }
-            $cep='28625-520';
-            $estado="RJ";
-            $cidade='Nova Friburgo';
-            $bairro='Centro';
-            $logradouro='Rua Souza Cardoso';
-            $numeroEndereco='403';
-            $complemento='Mora no LAJE';
-            $ibge="3303401";
+            $cep='';
+            $estado="";
+            $cidade='';
+            $bairro='';
+            $logradouro='';
+            $numeroEndereco='';
+            $complemento='';
+            $ibge="";
             $numeroCPF=str_replace(".", '', $numeroCPF);
             $numeroCPF=str_replace("-", "", $numeroCPF);
             $interno = new Interno($numeroCPF,$nome,$sobrenome,$sexo,$nascimento,$rg,$orgaoEmissor,$dataExpedicao,$nomeMae,$pai,$sangue,$senha,$telefone,$imagem,$cep,$estado,$cidade,$bairro,$logradouro,$numeroEndereco,$complemento,$ibge);
