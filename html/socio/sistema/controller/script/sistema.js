@@ -18,7 +18,7 @@ $(document).ready(function(){
                 if (typeof linha['COMPLEMENTO'] == 'undefined') {
                     var complemento = "";
                 }else var complemento = linha['COMPLEMENTO'];
-                var data_nasc = "";
+                var data_nasc = "imp";
                 var telefone = linha['TELEFONE'].replace(" ", "");
                 
 
