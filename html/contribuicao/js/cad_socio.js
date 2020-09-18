@@ -21,7 +21,7 @@ function socio_cadastrado(doc)
                         var dados = JSON.parse(data);
                         var data_n = dados.data_n;
                         var data_n = data_n.split("-");
-
+                       
 
                         $("#nome").val(dados.nome);
                         $("#cnpj_nome").val(dados.nome);
@@ -84,4 +84,27 @@ function editar_informacoes()
                         
         });
                         
+}
+
+function cad_log()
+{
+    var id_sistema = 3;
+ 
+  var horadata = new Date();
+  var horaAtual = horadata.getHours();
+  var minutoAtual = horadata.getMinutes();
+  var hora = horaAtual+":"+minutoAtual;
+      if($("#tipo1").prop('checked'))
+        {
+            var valor_contribuicao = $("#valores option:selected").val();
+                
+        }
+        else
+            {
+              valor_contribuicao = $("#v").val();
+            }
+  var data_vencimento = dataVencimento();
+  var email = $("#email").val();
+  var doc = $("#cpfcnpj").val();
+            $.post("./php/cad_log.php",{'hora':hora, 'valor_doacao':valor_contribuicao, 'dataV':data_vencimento, 'email':email, 'doc':doc, 'sistema':id_sistema}).done(function(data){});
 }

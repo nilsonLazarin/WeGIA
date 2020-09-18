@@ -1,6 +1,7 @@
 
 function gera_boleto(){
-
+    cad_log();
+    
     $.post("./php/infoboletofacil.php").done(function(data)
     { 
 

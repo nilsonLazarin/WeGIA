@@ -66,16 +66,6 @@ function atualiza(){
       $("#link").prop("readonly", true);
 
   });
-  $("#widepay").click(function(){
-      
-      var id = retorna_id("widepay");
-      $("#boleto").fadeIn();
-      $("#cartao").hide();
-      $("#alerta_cartao").hide();
-      $("#btn-bol").hide();
-      $("#editar-bol").fadeIn();
-  });
-
 
 }
 

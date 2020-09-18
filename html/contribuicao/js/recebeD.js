@@ -1,8 +1,13 @@
 function dataVencimento()
-{
-        var dia = retorna_dia();
+{       
         var now = new Date;
         var diaA = now.getDate();
+        var dia = retorna_dia();
+          if(dia == diaA)
+          {
+            dia = now.getDate()+3;
+          }
+        
           if(dia<diaA)
           {
               var mes_atual = now.getMonth() + 2;
@@ -14,10 +19,9 @@ function dataVencimento()
 
         var ano_atual = now.getFullYear();
         var dataV = ano_atual+"-"+mes_atual+"-"+dia;
-             
+       
         return dataV;
 }
-
 
 function recebe_dados()
 {

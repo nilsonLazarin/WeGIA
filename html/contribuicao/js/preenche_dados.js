@@ -89,7 +89,7 @@ function preenche_dados_cartao(id)
        
     $.post("../php/atualiza_sistema_cartao_mensal.php", {'id_sistema':id})
     .done(function(data){
-        
+       
         var array = data.split("ERR");
             if(array.length == 2)
             {
@@ -103,7 +103,7 @@ function preenche_dados_cartao(id)
                 $("#insere_doacao_mensal").hide();
                 $("#form2").attr("action", "atualizacao_doacao.php");
                 $("#alerta_cartao").hide();   
-                conta = 1;
+                
             }        
     });
         
