@@ -7,7 +7,7 @@
             try{
                 $pdo = Conexao::connect();
                 $almoxarife = $pdo->query("
-                    SELECT afe.id_almoxarife, afe.id_funcionario, afe.id_almoxarifado, almox.descricao_almoxarifado, p.nome as descricao_funcionario
+                    SELECT afe.id_almoxarife, afe.id_funcionario, afe.id_almoxarifado, almox.descricao_almoxarifado, p.nome as descricao_funcionario, afe.data_registro
                     FROM almoxarife afe
                     LEFT JOIN almoxarifado almox ON almox.id_almoxarifado = afe.id_almoxarifado
                     LEFT JOIN funcionario f ON f.id_funcionario = afe.id_funcionario

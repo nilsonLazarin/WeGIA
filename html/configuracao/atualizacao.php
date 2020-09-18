@@ -21,7 +21,8 @@
     require_once($config_path);
     }
 
-    define("DEBUG_MODE", true);
+    // Controla o modo debug
+    define("DEBUG_MODE", false);
 
     define("DAY_TIME", date("YmdHi")); // Data e hora em formato AAAAMMDDHHII (I = minuto)
     define("BD_BKP", BKP_DIR.date("YmdHi").".bd.sql"); //Caminho para arquivo de backup temporário do Banco de dados

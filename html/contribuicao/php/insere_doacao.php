@@ -38,19 +38,18 @@
           }
 
 $cod_cartao = $_POST['cod_cartao'];
-     $link_avulso = $_POST['avulso_link'];
+$link_avulso = $_POST['avulso_link'];
+     
      $atualiza_avulso = mysqli_query($conexao, "CALL registra_cartao_avulso ('$link_avulso', '$cod_cartao')");
 
      $update = mysqli_query($conexao, "UPDATE doacao_cartao_avulso SET url = '$link_avulso' WHERE id_sistema = $cod_cartao");
 
 $valor = $_POST['valor'];
-$link = $_POST['link'];
+echo $link = $_POST['link'];
 
-     for($i =0; $i<count($valor); $i++)
-     {
-                    
-          mysqli_query($conexao, "CALL registra_cartao_mensal ('$valor[$i]', '$link[$i]', '$cod_cartao')");
-     }
+      mysqli_query($conexao,"INSERT INTO doacao_cartao_mensal (link, valor, id_sistema) values ('$link', '$valor', '$cod_cartao')" );
+     //mysqli_query($conexao, "CALL registra_cartao_mensal ('$valor', '$link', $cod_cartao')");
+     
 
 $id= $_POST['id'];
 

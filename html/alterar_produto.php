@@ -144,7 +144,7 @@ $("#botaoEditarIP").attr('onclick', "return editar_produto()");
 }
 		$(function () {
 	      $("#header").load("header.php");
-	      $(".menuu").load("menu.html");
+	      $(".menuu").load("menu.php");
 
 		  var produtos = <?php echo $produto; ?>;
 var categoria = <?php echo $categoria; ?>;

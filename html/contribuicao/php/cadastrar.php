@@ -26,7 +26,7 @@ include("conexao.php");
     "<br>".$id_tipo = $_POST['id_sociotipo'];
 
     $valor_doacao = $_POST['valor_doacao'];
-    $data_vencimento = $_POST['datavencimento'];
+    "<br>".$data_vencimento = $_POST['datavencimento'];
     
-     mysqli_query($conexao, "CALL registradoacao ('$nome', '$sobrenome', '$doc','$tel', '$dataN', '$cep', '$uf', '$cidade', '$bairro','$rua', '$numero', '$compl', '$status', '$id_tipo', '$email', '$ip_log', '$data', '$horahoje', '$sistema', '$valor_doacao', '$data_vencimento')");
+    mysqli_query($conexao, "CALL registradoacao ('$nome', '$sobrenome', '$doc','$tel', '$dataN', '$cep', '$uf', '$cidade', '$bairro','$rua', '$numero', '$compl', '$status', '$id_tipo', '$email', '$ip_log', '$data', '$horahoje', '$sistema', '$valor_doacao', '$data_vencimento')");
 ?>

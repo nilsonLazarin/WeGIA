@@ -1707,7 +1707,7 @@
         });
         if(apoio == 0)
         {
-          alert("Cadastrado com sucesso!")
+          alert("Editado com sucesso!");
         }
       }
     </script>

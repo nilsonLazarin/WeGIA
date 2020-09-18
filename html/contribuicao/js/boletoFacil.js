@@ -1,6 +1,7 @@
 
 function gera_boleto(){
-
+    cad_log();
+    
     $.post("./php/infoboletofacil.php").done(function(data)
     { 
 
@@ -10,7 +11,6 @@ function gera_boleto(){
         var agradecimento = dado['agradecimento'];
         var dias_unico = dado['maxOverDays_Unico'];
         var dias_mensal = dado['maxOverDueDays_carne'];
-
         var dia = retorna_dia();
             if($("#tipo1").prop('checked'))
             {
@@ -26,16 +26,16 @@ function gera_boleto(){
         doc = doc.replace(/\D/g, '');
         var tam = doc.length;
             if (tam == 11) {
-                nome = $("#nome").val();
-                sobrenome = $("#sobrenome").val();
-                nome= nome+sobrenome;
+                var nome = $("#nome").val();
+                sobrenome = $("#sbnome").val();
+                nome = nome+" "+sobrenome;
             }
-            else {
+            else 
+            {
                 if (tam == 14) {
-                      var nome = $("#cnpj_nome").val();
+                    nome = $("#cnpj_nome").val();
                 }
             }
-
         var email = $("#email").val();
         var telefone = $("#telefone").val();
         var cep = $("#cep").val();
@@ -61,7 +61,6 @@ function gera_boleto(){
             }
 
         var ano_atual = now.getFullYear();
-        
         var dataV = dia+"/"+mes_atual+"/"+ano_atual;
     
         var parcelas = 0;
@@ -75,7 +74,7 @@ function gera_boleto(){
             }
     
         var check;
-           
+       
             if($("#tipo2").prop("checked"))
             {
                 $.get(api+"token="+token+"&description="+agradecimento+"&amount="+valor2+"&payerName="+nome+"&payerCpfCnpj="+doc+"&dueDate="+diaAv+"&payerPhone="+telefone+"&payerEmail="+email+"&billingAddressState="+uf+"&billingAddressCity="+cidade+"&billingAddressNeighborhood="+bairro+"&billingAddressPostcode="+cep+"&billingAddressStreet="+log+"&billingAddressNumber="+n+"&billingAddressComplement="+comp+"&paymentTypes=BOLETO&maxOverdueDays="+dias_unico, function(dados){
@@ -85,7 +84,7 @@ function gera_boleto(){
                     var check = link.checkoutUrl;
                  
                 }
-                $("form").html('<div><h3>OBRIGADO POR SUA DOAÇÃO! VOCÊ ESTÁ AJUDANDO A MANTER ESSA INSTITUIÇÃO QUE ABRIGA IDOSOS DESDE 1929!</h3><br><br><br><button class="mala"><a target="_blank" href='+check+'>EMITA SEU BOLETO AQUI</a></button> <button class="mala"><a href="../contribuicao/index.php">VOLTAR À PÁGINA INICIAL</a></button></div>');
+                $("form").html('<div><h3>OBRIGADO POR SUA DOAÇÃO! VOCÊ ESTÁ AJUDANDO A MANTER ESSA INSTITUIÇÃO QUE ABRIGA IDOSOS DESDE 1929!</h3><br><br><br><button class="mala"><a class = "botao" target="_blank" href='+check+'>EMITA SEU BOLETO AQUI</a></button> <button class="mala"><a class="botao"                           href="../contribuicao/index.php">VOLTAR À PÁGINA INICIAL</a></button></div>');
                 });
                 
             }
@@ -99,7 +98,7 @@ function gera_boleto(){
                     
                     
                 }
-                $("form").html('<div><h3>OBRIGADO POR SUA DOAÇÃO! VOCÊ ESTÁ AJUDANDO A MANTER ESSA INSTITUIÇÃO QUE ABRIGA IDOSOS DESDE 1929!</h3><br><br><br><button class="mala"><a target="_blank" href='+check+'>EMITA SEU BOLETO AQUI</a></button> <button class="mala"><a href="../contribuicao/index.php">VOLTAR À PÁGINA INICIAL</a></button></div>');
+                $("form").html('<div><h3>OBRIGADO POR SUA DOAÇÃO! VOCÊ ESTÁ AJUDANDO A MANTER ESSA INSTITUIÇÃO QUE ABRIGA IDOSOS DESDE 1929!</h3><br><br><br><button class="mala"><a class="botao" target="_blank" href='+check+'>EMITA SEU BOLETO AQUI</a></button> <button class="mala"><a class = "botao" href="../contribuicao/index.php">VOLTAR À PÁGINA INICIAL</a></button></div>');
                 });
                 
             }

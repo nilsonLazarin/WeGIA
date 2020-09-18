@@ -48,6 +48,8 @@
 	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
 	require_once "personalizacao_display.php";
 
+	require_once ROOT."/controle/EnderecoControle.php";
+
 	// Query das tabelas
 
 	$res = $pdo->query("select * from selecao_paragrafo;");
@@ -75,6 +77,9 @@
 		where c.nome_campo='$nome_campo';");
 		return $res->fetchAll(PDO::FETCH_ASSOC);
 	}
+
+	$endereco = new EnderecoControle;
+	$endereco->listarInstituicao();
 
 ?>
 <!doctype html>
@@ -148,8 +153,155 @@
 	<script type="text/javascript">
 		$(function () {
 	      $("#header").load("header.php");
-	      $(".menuu").load("menu.html");
+	      $(".menuu").load("menu.php");
+
+	      $("#nome").prop('disabled', true);
+          $("#cep").prop('disabled', true);
+          $("#uf").prop('disabled', true);
+          $("#cidade").prop('disabled', true);
+          $("#bairro").prop('disabled', true);
+          $("#rua").prop('disabled', true);
+          $("#numero_residencia").prop('disabled', true);
+          $("#complemento").prop('disabled', true);
+          $("#ibge").prop('disabled', true);
+	      var endereco = <?php echo $_SESSION['endereco'];?> ;
+	      if(endereco=="")
+	      {
+	      	$("#metodo").val("incluirEndereco");
+	      }
+	      else
+	      {
+	      	$("#metodo").val("alterarEndereco");
+	      }
+	      $.each(endereco,function(i,item){	
+              $("#nome").val(item.nome).prop('disabled', true);
+              $("#cep").val(item.cep).prop('disabled', true);
+              $("#uf").val(item.estado).prop('disabled', true);
+              $("#cidade").val(item.cidade).prop('disabled', true);
+              $("#bairro").val(item.bairro).prop('disabled', true);
+              $("#rua").val(item.logradouro).prop('disabled', true);
+              $("#numero_residencia").val(item.numero_endereco).prop('disabled', true);
+              $("#complemento").val(item.complemento).prop('disabled', true);
+              $("#ibge").val(item.ibge).prop('disabled', true);
+              if (item.numero_endereco=='Nao possui' || item.numero_endereco==null ) {
+             
+                $("#numResidencial").prop('checked',true).prop('disabled', true);
+                $("#numero_residencia").prop('disabled', true);
+             
+              }else{
+                $("#numero_residencia").val(item.numero_endereco).prop('disabled', true);
+                $("#numResidencial").prop('disabled', true);  
+              }
+              });
 	    });	
+	    function editar_endereco(){
+         
+         	$("#nome").prop('disabled', false);
+            $("#cep").prop('disabled', false);
+            $("#uf").prop('disabled', false);
+            $("#cidade").prop('disabled', false);
+            $("#bairro").prop('disabled', false);
+            $("#rua").prop('disabled', false);
+            $("#complemento").prop('disabled', false);
+            $("#ibge").prop('disabled', false);         
+            $("#numResidencial").prop('disabled', false);
+           
+            if ($('#numResidencial').is(':checked')) {
+              $("#numero_residencia").prop('disabled', true);
+            }else{
+              $("#numero_residencia").prop('disabled', false);
+            }
+
+            $("#botaoEditarEndereco").html('Cancelar');
+            $("#botaoSalvarEndereco").prop('disabled', false);
+            $("#botaoEditarEndereco").removeAttr('onclick');
+            $("#botaoEditarEndereco").attr('onclick', "return cancelar_endereco()");
+        }
+        function cancelar_endereco(){
+            $("#cep").prop('disabled', true);
+            $("#uf").prop('disabled', true);
+            $("#cidade").prop('disabled', true);
+            $("#bairro").prop('disabled', true);
+            $("#rua").prop('disabled', true);
+            $("#complemento").prop('disabled', true);
+            $("#ibge").prop('disabled', true);
+            $("#numResidencial").prop('disabled', true);
+            $("#numero_residencia").prop('disabled', true);
+         
+            $("#botaoEditarEndereco").html('Editar');
+            $("#botaoSalvarEndereco").prop('disabled', true);
+            $("#botaoEditarEndereco").removeAttr('onclick');
+            $("#botaoEditarEndereco").attr('onclick', "return editar_endereco()");
+         
+          }
+        function limpa_formulário_cep() {
+            //Limpa valores do formulário de cep.
+            document.getElementById('rua').value=("");
+            document.getElementById('bairro').value=("");
+            document.getElementById('cidade').value=("");
+            document.getElementById('uf').value=("");
+            document.getElementById('ibge').value=("");
+          }
+
+        function meu_callback(conteudo) {
+            if (!("erro" in conteudo)) {
+                //Atualiza os campos com os valores.
+                document.getElementById('rua').value=(conteudo.logradouro);
+                document.getElementById('bairro').value=(conteudo.bairro);
+                document.getElementById('cidade').value=(conteudo.localidade);
+                document.getElementById('uf').value=(conteudo.uf);
+                document.getElementById('ibge').value=(conteudo.ibge);
+            }
+            else {
+                //CEP não Encontrado.
+                limpa_formulário_cep();
+                alert("CEP não encontrado.");
+            }
+          }
+
+        function pesquisacep(valor) {
+            //Nova variável "cep" somente com dígitos.
+            var cep = valor.replace(/\D/g, '');
+       
+            //Verifica se campo cep possui valor informado.
+            if (cep != "") {
+       
+              //Expressão regular para validar o CEP.
+              var validacep = /^[0-9]{8}$/;
+     
+              //Valida o formato do CEP.
+              if(validacep.test(cep)) {
+     
+                //Preenche os campos com "..." enquanto consulta webservice.
+                document.getElementById('rua').value="...";
+                document.getElementById('bairro').value="...";
+                document.getElementById('cidade').value="...";
+                document.getElementById('uf').value="...";
+                document.getElementById('ibge').value="...";
+   
+                //Cria um elemento javascript.
+                var script = document.createElement('script');
+   
+                //Sincroniza com o callback.
+                script.src = 'https://viacep.com.br/ws/'+ cep + '/json/?callback=meu_callback';
+   
+                //Insere script no documento e carrega o conteúdo.
+                document.body.appendChild(script);
+     
+              } //end if.
+              else {
+                  //cep é inválido.
+                  limpa_formulário_cep();
+                  alert("Formato de CEP inválido.");
+              }
+            } //end if.
+            else {
+                //cep sem valor, limpa formulário.
+                limpa_formulário_cep();
+            }
+         
+          };
+         
     </script>
     
     <!-- javascript tab management script -->
@@ -166,6 +318,7 @@
 			<aside id="sidebar-left" class="sidebar-left menuu"></aside>
 			<!-- end: sidebar -->
 			<section role="main" class="content-body">
+
 				<header class="page-header">
 					<h2>Edição de Conteúdo</h2>
 					<div class="right-wrapper pull-right">
@@ -178,7 +331,7 @@
 							<li><span>Páginas</span></li>
 							<li><span>Edição de Conteúdo</span></li>
 						</ol>
-						<a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
+						<a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
 					</div>
 				</header>
 
@@ -203,6 +356,9 @@
 							</li>
 							<li class="nav-item">
 								<a class="nav-link" id="txt-tab-selector" data-toggle="tab" href="#txt-tab" role="tab" aria-controls="txt" aria-selected="false">Textos</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" id="txt-tab-selector" data-toggle="tab" href="#address-tab" role="tab" aria-controls="txt" aria-selected="false">Endereço da instituição</a>
 							</li>
 						</ul>
 						<div class="tab-content" id="myTabContent">
@@ -277,6 +433,75 @@
 										?>
 									</tbody>
 								</table>
+							</div>
+
+							<div class="tab-pane fade" id="address-tab" role="tabpanel" aria-labelledby="txt-tab">
+								<form class="form-horizontal" method="post" action="../controle/control.php">
+                            		<input type="hidden" name="nomeClasse" value="EnderecoControle">
+                            		<input type="hidden" name="metodo" id="metodo">
+                            		<div class="form-group">
+                              			<label class="col-md-3 control-label" for="nome">Nome da instituição</label>
+                              			<div class="col-md-8">
+                                			<input type="text" name="nome" size="10" class="form-control" id="nome">
+                              			</div>
+                            		</div>
+									<div class="form-group">
+                              			<label class="col-md-3 control-label" for="cep">CEP</label>
+                              			<div class="col-md-8">
+                                			<input type="text" name="cep"  value="" size="10" onblur="pesquisacep(this.value);" class="form-control" id="cep" maxlength="9" placeholder="Ex: 22222-222" onkeypress="return Onlynumbers(event)" onkeyup="mascara('#####-###',this,event)" >
+                              			</div>
+                            		</div>
+                            		<div class="form-group">
+                              			<label class="col-md-3 control-label" for="uf">Estado</label>
+                              			<div class="col-md-8">
+                                		<input type="text" name="uf" size="60" class="form-control" id="uf" >
+                              			</div>
+                              		</div>
+                              		<div class="form-group">
+                              			<label class="col-md-3 control-label" for="cidade">Cidade</label>
+                              			<div class="col-md-8">
+                                			<input type="text" size="40" class="form-control" name="cidade" id="cidade" >
+                              			</div>
+                            		</div>
+                            		<div class="form-group">
+                              			<label class="col-md-3 control-label" for="bairro">Bairro</label>
+                              			<div class="col-md-8">
+                                			<input type="text" name="bairro" size="40" class="form-control" id="bairro" >
+                              			</div>
+                            		</div>
+                            		<div class="form-group">
+                              			<label class="col-md-3 control-label" for="rua">Logradouro</label>
+                              			<div class="col-md-8">
+                                			<input type="text" name="rua" size="2" class="form-control" id="rua" >
+                              			</div>
+                            		</div>
+                            		<div class="form-group">
+                              			<label class="col-md-3 control-label" for="profileCompany">Número residencial</label>
+                              			<div class="col-md-4">
+                                			<input type="number" min="0" oninput="this.value = Math.abs(this.value)" class="form-control" name="numero_residencia"  id="numero_residencia">
+                              			</div>
+                              			<div class="col-md-3"> 
+                                			<label>Não possuo número
+                                  				<input type="checkbox" id="numResidencial" name="naoPossuiNumeroResidencial"  style="margin-left: 4px" onclick="return numero_residencial()">
+                                			</label>
+                              			</div>
+                            		</div>
+                            		<div class="form-group">
+                              			<label class="col-md-3 control-label" for="complemento">Complemento</label>
+                              			<div class="col-md-8">
+                                			<input type="text" class="form-control" name="complemento" id="complemento">
+                              			</div>
+                            		</div>
+                            		<div class="form-group">
+                              			<label class="col-md-3 control-label" for="ibge">IBGE</label>
+                              			<div class="col-md-8">
+                                			<input type="text" size="8" name="ibge" class="form-control"  id="ibge">
+                              			</div>
+                            		</div>
+                            		<br/>
+                            		<button type="button" class="btn btn-primary" id="botaoEditarEndereco" onclick="return editar_endereco()">Editar</button>
+                            		<input type="submit" class="btn btn-primary" disabled="true"  value="Salvar" id="botaoSalvarEndereco" disabled="true">
+								</form>
 							</div>
 
 							<!-- end: text tab pane-->
