@@ -820,7 +820,7 @@
       $(function () {
         console.log(<?php echo $_SESSION['cpf_interno'];?>);
         $("#header").load("header.php");
-        $(".menuu").load("menu.html");
+        $(".menuu").load("menu.php");
       });
   </script>
     <!-- Head Libs -->
