@@ -27,20 +27,27 @@
      
       $cod_cartao = $_POST['cod_cartao'];
       $link_avulso = $_POST['avulso_link'];
-      $atualiza_avulso = mysqli_query($conexao, "UPDATE doacao_cartao_avulso SET url = '$link_avulso' WHERE id_sistema = $cod_cartao");
+      $possivel_link = $_POST['link_avulso'];
+          if($link_avulso == '')
+          {
+               $atualiza_avulso = mysqli_query($conexao, "UPDATE doacao_cartao_avulso SET url = '$possivel_link' WHERE id_sistema = '$cod_cartao'");
+          }else{
+              mysqli_query($conexao, "INSERT INTO doacao_cartao_avulso (url, id_sistema) values ('$link_avulso', '$cod_cartao')");
+          }
+     
 
-
-      print_r($link_mensal = $_POST['link_doacao']);
-      print_r($valor_mensal = $_POST['valores']);
+      $link_mensal = $_POST['link_doacao'];
+      $valor_mensal = $_POST['valores'];
       $id= $_POST['id'];
 
     for($i =0; $i<count($valor_mensal); $i++)
     {
           
-          mysqli_query($conexao, "UPDATE doacao_cartao_mensal SET  valor = '$valor_mensal[$i]', link = '$link_mensal[$i]' WHERE id = '$id[$i]' AND id_sistema = $cod_cartao");
+          mysqli_query($conexao,   "UPDATE doacao_cartao_mensal SET  valor = '$valor_mensal[$i]', link = '$link_mensal[$i]' WHERE id = '$id[$i]' AND id_sistema = $cod_cartao");
     }
 
    header("Location: configuracao_doacao.php");
+  
 ?>
 
 
