@@ -235,7 +235,7 @@
          });
          $(function () {
             $("#header").load("header.php");
-            $(".menuu").load("menu.html");
+            $(".menuu").load("menu.php");
          });
       </script>
    </head>
@@ -268,6 +268,15 @@
             <div class="col-md-4 col-lg-3">
                <section class="panel">
                         <div class="panel-body">
+                           <?php
+                              $enderecoArray = (array) $_SESSION['endereco'];
+                              if($enderecoArray[0] == "[]")
+                              {
+                           ?>
+                                 <div class="alert alert-warning" style="font-size: 15px;"><i class="fas fa-check mr-md"></i>O endereço da instituição não está cadastrado no sistema<br><a href=<?php echo WWW."html/personalizacao.php"; ?>>Cadastrar endereço da instituição</a></div>
+                           <?php
+                              }
+                           ?>
                            <div class="thumb-info mb-md">
                               <?php
                                  if($_SERVER['REQUEST_METHOD'] == 'POST')
