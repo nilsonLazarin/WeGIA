@@ -25,6 +25,9 @@ $nome = $_GET['nome'];
 $AnexoControle = new AnexoControle;
 $AnexoControle->listarAnexo($id_anexo);
 
-Header('Content-Disposition: attachment; filename="'.$nome.'.'.$extensao);
+header('Content-Type: application/force-download');
+header('Content-Disposition: attachment; filename="' . $nome . '.' . $extensao . '"');
+
+/*Header('Content-Disposition: attachment; filename="'.$nome.'.'.$extensao);*/
 echo $_SESSION['arq'][0]['anexo'];
 ?>

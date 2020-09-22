@@ -69,6 +69,7 @@
 	<script src="../assets/vendor/modernizr/modernizr.js"></script>
 	<script src="../Functions/lista.js"></script>
 	<!-- Vendor -->
+	<script src="../assets/vendor/jquery/jquery.min.js"></script>
 		
 	<script type="text/javascript">
 		$(function () {

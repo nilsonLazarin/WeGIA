@@ -172,7 +172,7 @@
 
     	$(function () {
 	        $("#header").load("header.php");
-	        $(".menuu").load("menu.html");
+	        $(".menuu").load("menu.php");
 	      });
 	</script>
 </head>

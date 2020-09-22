@@ -15,7 +15,7 @@ include_once ROOT."/dao/Conexao.php";
 
 class EnderecoControle
 {
-	public function alterarEndereco() 
+	public function incluirEndereco() 
 	{
 		extract($_REQUEST);
 		if((!isset($numero_residencia)) || empty(($numero_residencia))){
@@ -33,7 +33,7 @@ class EnderecoControle
         $endereco->setIbge($ibge);
         $enderecoDAO=new EnderecoDAO();
         try {
-            $enderecoDAO->alterarEndereco($endereco);
+            $enderecoDAO->incluirEndereco($endereco);
             header("Location: ../html/personalizacao.php");
         } catch (PDOException $e) {
             echo $e->getMessage();
@@ -44,7 +44,28 @@ class EnderecoControle
 	{
 		$enderecoDAO = new EnderecoDAO();
         $endereco = $enderecoDAO->listarInstituicao();
-        session_start();
         $_SESSION['endereco']=$endereco;
 	}
+
+	public function alterarEndereco()
+    {
+        extract($_REQUEST);
+        $endereco = new Endereco;
+        $endereco->setNome($nome);
+        $endereco->setNumeroEndereco($numero_residencia);
+        $endereco->setLogradouro($rua);
+        $endereco->setBairro($bairro);
+        $endereco->setCidade($cidade);
+        $endereco->setEstado($uf);
+        $endereco->setCep($cep);
+        $endereco->setComplemento($complemento);
+        $endereco->setIbge($ibge);
+        $enderecoDAO=new EnderecoDAO();
+        try {
+            $enderecoDAO->alterarEndereco($endereco);
+            header("Location: ../html/personalizacao.php");
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        } 
+    }
 }

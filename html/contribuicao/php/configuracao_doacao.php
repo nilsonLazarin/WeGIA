@@ -70,9 +70,6 @@
 							<li class="nav-item active">
 								<a class="nav-link active" id="boletofacil" data-toggle="tab" href="#img-tab" role="tab" aria-controls="img" aria-selected="true">BOLETOFACIL</a>
 							</li>
-							<li class="nav-item">
-								<a class="nav-link" id="widepay" data-toggle="tab" href="#txt-tab" role="tab" aria-controls="txt" aria-selected="false">WIDEPAY</a>
-                            </li>
                             <li class="nav-item">
 								<a class="nav-link" id="pagseguro" data-toggle="tab" href="#img-tab" role="tab" aria-controls="img" aria-selected="false">PAGSEGURO</a>
 							</li>
@@ -205,8 +202,8 @@
                                                 <th>VALOR</th><th>LINK</th>
                                             </tr>
                                             <tr>
-                                                <td><input type='number' class="form-control" readonly='true' name='valor[0]' id='valor' value =></td>
-                                                <td><input type='text' class="form-control" readonly='true' name='mensal_link[0]' id='link' value=></td>
+                                                <td><input type='number' class="form-control" readonly='true' name='valor' id='valor' value =></td>
+                                                <td><input type='text' class='form-control' readonly='true' name='link' id='link' value= ></td>
                                             </tr>
                                     
                                         </table>

@@ -296,6 +296,83 @@
     </div>
   </div>
 
+   <!-- Modal aniversariantes -->
+   <div class="modal fade" id="modal_aniversariantes" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+      <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span></button>
+                  <h4 class="modal-title">Sócios aniversariantes do mês</h4>
+                </div>
+        <div class="modal-body">
+        <!-- <div class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h4><i class="icon fa fa-warning"></i> Lista de sócios: </h4>
+                Dê os parabéns!
+              </div> -->
+        <div class="box box-success box_xlsx">
+            <div class="box-header with-border">
+              <h3 class="box-title">Lista dos sócios aniversariantes</h3>
+            </div>
+            <div class="box-body box_xlsx">
+            <table id="tb_aniversario" class="table table-hover" style="width: 100%">
+                  <thead>
+                    <tr>
+                      <th>Nome</th>
+                      <th>Email</th>
+                      <th>Telefone</th>
+                      <th>Data aniversário</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                      <?php
+                          $mes_atual = date("m");
+                          $query = mysqli_query($conexao, "SELECT *, s.id_socio as socioid, DATE_FORMAT(p.data_nascimento, '%d/%m') as aniversario FROM socio AS s LEFT JOIN pessoa AS p ON s.id_pessoa = p.id_pessoa  WHERE p.data_nascimento LIKE '%-$mes_atual-%'");
+                          while($resultado = mysqli_fetch_array($query)){
+                  
+                            $id = $resultado['socioid'];
+                            $cpf_cnpj = $resultado['cpf'];
+                            $aniversario = $resultado['aniversario'];
+                            $nome_s = $resultado['nome'];
+                            $email = $resultado['email'];
+                            $telefone = $resultado['telefone'];
+                            $endereco = $resultado['logradouro']." ".$resultado['numero_endereco'].", ".$resultado['bairro'].", ".$resultado['cidade']." - ".$resultado['estado'];
+                            if(strlen($telefone) == 14){
+                              $tel_url = preg_replace("/[^0-9]/", "", $telefone);
+                              $telefone = "<a target='_blank' href='http://wa.me/55$tel_url'>$telefone</a>";
+                            }
+                            if(strlen($cpf_cnpj) == 14){
+                              $pessoa = "fisica";
+                              $fisica++;
+                            }else{
+                              $pessoa = "juridica";
+                              $juridica++;
+                            } 
+                              
+                            $del_json = json_encode(array("id"=>$id,"nome"=>$nome_s,"pessoa"=>$pessoa));
+                            echo("<tr><td onclick='detalhar_socio($id);' style='cursor: pointer' class='$class'>$nome_s</td><td><a href='mailto:$email'>$email</a></td><td>$telefone</td><td>$aniversario</td></tr>");
+                          }
+                      ?>
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <th>Nome</th>
+                      <th>Email</th>
+                      <th>Telefone</th>
+                      <th>Data aniversário</th>
+                    </tr>
+                  </tfoot>
+                </table>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Modal perfil -->
 <div class="modal fade" id="modalPerfil" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">

@@ -173,6 +173,11 @@ if(file_exists($config_path)){
 									Permissões
 								</a>
 							</li>
+							<li id="46">
+								<a href="<?= WWW ?>html/configuracao/debug_info.php">
+									Informações de debug
+								</a>
+							</li>
 						</ul>
 					</li>
 				</ul>

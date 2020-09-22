@@ -49,6 +49,10 @@
   require_once ROOT."/controle/InternoControle.php";
   $cpf1 = new InternoControle;
   $cpf1->listarCPF();
+
+  require_once ROOT."/controle/EnderecoControle.php";
+  $endereco = new EnderecoControle;
+  $endereco->listarInstituicao();
    
    $id=$_GET['id'];
    $cache = new Cache();
@@ -112,7 +116,16 @@
             }
          $(function(){
          	var interno=<?php echo $infInterno = $cache->read($id);?>;
+            var endereco=<?php echo $_SESSION['endereco']; ?>;
             console.log(interno);
+            $.each(endereco,function(i,item){
+               $("#cep").text("CEP: "+item.cep);
+               $("#cidade").text("Cidade: "+item.cidade);
+               $("#bairro").text("Bairro: "+item.bairro);
+               $("#logradouro").text("Logradouro: "+item.logradouro);
+               $("#numero").text("Numero: "+item.numero_endereco);
+               $("#complemento").text("Complemento: "+item.complemento);
+            });
          	$.each(interno,function(i,item){
          		if(i=1)
          		{
@@ -160,18 +173,6 @@
          			
          			$("#nascimento").text("Data de nascimento: "+alterardate(item.data_nascimento));
          			$("#nascimentoform").val(item.data_nascimento);
-         
-         			$("#cep").text("CEP: "+item.cep);
-         
-         			$("#cidade").text("Cidade: "+item.cidade);
-         
-         			$("#bairro").text("Bairro: "+item.bairro);
-         
-         			$("#logradouro").text("Logradouro: "+item.logradouro);
-         
-         			$("#numero").text("Numero: "+item.numero_endereco);
-         
-         			$("#complemento").text("Complemento: "+item.complemento);
          
          			$("#rg").text("Registro geral: "+item.registro_geral);
          			$("#rgform").val(item.registro_geral);
@@ -234,7 +235,7 @@
          });
          $(function () {
             $("#header").load("header.php");
-            $(".menuu").load("menu.html");
+            $(".menuu").load("menu.php");
          });
       </script>
    </head>
@@ -267,6 +268,15 @@
             <div class="col-md-4 col-lg-3">
                <section class="panel">
                         <div class="panel-body">
+                           <?php
+                              $enderecoArray = (array) $_SESSION['endereco'];
+                              if($enderecoArray[0] == "[]")
+                              {
+                           ?>
+                                 <div class="alert alert-warning" style="font-size: 15px;"><i class="fas fa-check mr-md"></i>O endereço da instituição não está cadastrado no sistema<br><a href=<?php echo WWW."html/personalizacao.php"; ?>>Cadastrar endereço da instituição</a></div>
+                           <?php
+                              }
+                           ?>
                            <div class="thumb-info mb-md">
                               <?php
                                  if($_SERVER['REQUEST_METHOD'] == 'POST')

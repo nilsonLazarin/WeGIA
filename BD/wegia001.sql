@@ -918,11 +918,15 @@ CREATE TABLE IF NOT EXISTS `wegia`.`log_contribuicao` (
   `id_sistema` INT(11) NOT NULL,
   `valor_boleto` DECIMAL(10,2) NOT NULL,
   `data_venc_boleto` DATE NOT NULL,
+  `id_sociotipo` INT NOT NULL,
   INDEX `id_sistema` (`id_sistema` ASC),
   INDEX `FK_socio_log` (`id_socio` ASC),
   CONSTRAINT `FK_socio_log`
     FOREIGN KEY (`id_socio`)
     REFERENCES `wegia`.`socio` (`id_socio`),
+  CONSTRAINT `FK_sociotipo_log`
+    FOREIGN KEY (`id_sociotipo`)
+    REFERENCES `wegia`.`socio_tipo` (`id_sociotipo`),
   CONSTRAINT `log_ibfk_1`
     FOREIGN KEY (`id_sistema`)
     REFERENCES `wegia`.`sistema_pagamento` (`id`))

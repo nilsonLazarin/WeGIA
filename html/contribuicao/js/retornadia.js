@@ -30,7 +30,7 @@ function retorna_dia()
         if($("#tipo2").prop('checked'))
             { 
                 var now = new Date();
-                var dia = now.getDate()+3;
+                var dia = now.getDate();
             }
         }
     

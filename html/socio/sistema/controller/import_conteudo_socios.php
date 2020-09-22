@@ -83,6 +83,7 @@
                                   $contribuinte = "si";
                                   break;
                             }
+
                             $class = "bg-normal";
                             if($contribuinte == "mensal"){
                               $data_ultima_doacao = date_create($resultado['ultima_data_doacao']);
@@ -141,8 +142,11 @@
               <a id="btn_importar_xlsx" class="btn btn-app">
                 <i class="fa fa-upload"></i> Importar sócios
               </a>
-              <a onclick="location.reload()" id="btn_importar_xlsx" class="btn btn-app">
+              <a onclick="location.reload()" id="btn_atualizar" class="btn btn-app">
                 <i class="fa fa-refresh"></i> Atualizar
+              </a>
+              <a id="btn_aniversariantes" class="btn btn-app">
+                <i class="fa fa-child"></i> Aniversariantes do mês
               </a>
               <a id="btn_bd_off" class="btn btn-app" disabled>
                 <i class="fa fa-database"></i> Banco de dados
@@ -161,7 +165,7 @@
           <!-- small box -->
           <div class="small-box bg-red">
             <div class="inner">
-              <h3><?php echo($socios_atrasados); echo("teste"); ?></h3>
+              <h3><?php echo($socios_atrasados); ?></h3>
               
               <p>Sócio(s) com pagamento atrasado.</p>
             </div>

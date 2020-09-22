@@ -18,7 +18,7 @@ $(document).ready(function(){
                 if (typeof linha['COMPLEMENTO'] == 'undefined') {
                     var complemento = "";
                 }else var complemento = linha['COMPLEMENTO'];
-                var data_nasc = "";
+                var data_nasc = "imp";
                 var telefone = linha['TELEFONE'].replace(" ", "");
                 
 
@@ -339,7 +339,7 @@ $(document).ready(function(){
         $('#example').DataTable( {
             "processing": true,
             "language": {
-                "sEmptyTable": "Nenhum registro encontrado",
+                "sEmptyTable": "Nenhum sócio encontrado",
                 "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
                 "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
                 "sInfoFiltered": "(Filtrados de _MAX_ registros)",
@@ -348,7 +348,37 @@ $(document).ready(function(){
                 "sLengthMenu": "_MENU_ sócios por página",
                 "sLoadingRecords": "Carregando...",
                 "sProcessing": "Processando...",
-                "sZeroRecords": "Nenhum registro encontrado",
+                "sZeroRecords": "Nenhum sócio encontrado",
+                "sSearch": "Pesquisar",
+                "oPaginate": {
+                    "sNext": "Próximo",
+                    "sPrevious": "Anterior",
+                    "sFirst": "Primeiro",
+                    "sLast": "Último"
+                },
+                "oAria": {
+                    "sSortAscending": ": Ordenar colunas de forma ascendente",
+                    "sSortDescending": ": Ordenar colunas de forma descendente"
+                }
+            }
+        } );
+    } );
+    // Tabela aniversariantes
+    $(document).ready(function() {
+        $('#tb_aniversario').DataTable( {
+            "processing": true,
+            "searching": false,
+            "language": {
+                "sEmptyTable": "Nenhum sócio faz aniversário no mês atual.",
+                "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+                "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sInfoThousands": ".",
+                "sLengthMenu": "_MENU_ sócios por página",
+                "sLoadingRecords": "Carregando...",
+                "sProcessing": "Processando...",
+                "sZeroRecords": "Nenhum sócio faz aniversário no mês atual.",
                 "sSearch": "Pesquisar",
                 "oPaginate": {
                     "sNext": "Próximo",
@@ -497,4 +527,8 @@ $(document).ready(function(){
     $("#btn_Boletofacil").click(function(){
         $("#modalBoletofacil").modal("toggle");
     });
+    $("#btn_aniversariantes").click(function(){
+        $("#modal_aniversariantes").modal("toggle");
+    });
+    // teste
 });
