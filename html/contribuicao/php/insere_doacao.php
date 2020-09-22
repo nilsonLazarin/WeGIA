@@ -38,26 +38,35 @@
           }
 
 $cod_cartao = $_POST['cod_cartao'];
-$link_avulso = $_POST['avulso_link'];
-     
-     $atualiza_avulso = mysqli_query($conexao, "CALL registra_cartao_avulso ('$link_avulso', '$cod_cartao')");
+echo $link_avulso = $_POST['avulso_link'];
+echo $possivel_link = $_POST['link_avulso'];
+          if($link_avulso == '')
+          {
+               $atualiza_avulso = mysqli_query($conexao, "UPDATE doacao_cartao_avulso SET url = '$possivel_link' WHERE id_sistema = '$cod_cartao'");
+          }else{
+               mysqli_query($conexao,"INSERT INTO doacao_cartao_avulso (url, id_sistema) values ('$link_avulso', '$cod_cartao')") ;
+          }
+     //$atualiza_avulso = mysqli_query($conexao, "CALL registra_cartao_avulso ('$link_avulso', '$cod_cartao')");
 
-     $update = mysqli_query($conexao, "UPDATE doacao_cartao_avulso SET url = '$link_avulso' WHERE id_sistema = $cod_cartao");
 
 $valor = $_POST['valor'];
-echo $link = $_POST['link'];
+$link_1 = $_POST['link'];
+$link_2 = $_POST['link_doacao'];
+          if($valor == '')
+          {
 
-      mysqli_query($conexao,"INSERT INTO doacao_cartao_mensal (link, valor, id_sistema) values ('$link', '$valor', '$cod_cartao')" );
-     //mysqli_query($conexao, "CALL registra_cartao_mensal ('$valor', '$link', $cod_cartao')");
-     
+          }else{
+               if($link_2 == '')
+                    {
+                         mysqli_query($conexao,"INSERT INTO doacao_cartao_mensal (link, valor, id_sistema) values ('$link_1', '$valor', '$cod_cartao')" );
+                    }
+                    else{
+                         mysqli_query($conexao,"INSERT INTO doacao_cartao_mensal (link, valor, id_sistema) values ('$link_2', '$valor', '$cod_cartao')" );
+                    }
+          }
 
-$id= $_POST['id'];
-
-     for($i =0; $i<count($valor); $i++)
-     {
-           
-           mysqli_query($conexao, "UPDATE doacao_cartao_mensal SET  valor = '$valor[$i]', link = '$link[$i]' WHERE id = '$id[$i]' AND id_sistema = $cod_cartao");
-     }
+          
+      
 
      header("Location: configuracao_doacao.php");
     

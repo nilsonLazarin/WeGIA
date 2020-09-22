@@ -579,6 +579,7 @@
   <script type="text/javascript" >
 
     function funcao1(){
+    var send = $("#enviar");
     var cpfs = <?php echo $_SESSION['cpf_funcionario'];?> ;
     var cpf_funcionario = $("#cpf").val();
     var cpf_funcionario_correto = cpf_funcionario.replace(".", "");
@@ -592,6 +593,7 @@
       {
         alert("Cadastro não realizado! O CPF informado já está cadastrado no sistema");
         apoio = 1;
+        send.attr('disabled', 'disabled');
       }
     });
     $.each(cpfs1,function(i,item){
@@ -599,11 +601,12 @@
       { 
         alert("Cadastro não realizado! O CPF informado já está cadastrado no sistema");
         apoio = 1;
+        send.attr('disabled', 'disabled');
       }
     });
     if(apoio == 0)
     {
-      alert("Cadastrado com sucesso!")
+      alert("Cadastrado com sucesso!");
     }
     }
 
