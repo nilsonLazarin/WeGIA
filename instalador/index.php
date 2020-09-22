@@ -2,7 +2,7 @@
 <?php
 	$hasConfig = file_exists("../config.php");
 	if ($hasConfig){
-		header("Location: ../html/home.php");
+		//header("Location: ../html/home.php");
 	}
 ?>
 <html>
@@ -32,7 +32,7 @@
  <body>
 	 <form action="instalador.php" onsubmit="return validarForm()" method="post">
 		 <div>
-			 <p>Preencha o formulário com as informações necessárias para instalar o software:</p>
+			 <p>Preencha o formulário com as informações necessárias para instalar o software, ou em caso de dúvidas, acesse o <a href="./manual.php">Manual de Instalação do Wegia</a>.</p>
 		 </div>
 		<h5 class="required">Campos Obrigatórios: (*)</h5>
 
@@ -51,7 +51,7 @@
 		<label for="senha"><span class="required"></span>Senha do BD: </label>
 		<input type="password" name="senha">
 		
-		<p><input type="checkbox" name="reinstalar" value="">Instalar base de dados</p>
+		<p><input type="checkbox" name="reinstalar" value="">Reinstalar base de dados</p>
 
 		<p>
 			Arquivos e Domínio<hr>
