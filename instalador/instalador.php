@@ -35,6 +35,11 @@
 			return array_values($files);
 		}
 
+		function createInportFile($file, $new_file, $replace){
+			$new_file_content = fopen($new_file, "w");
+			fwrite($new_file_content, str_replace("`wegia`", "`$replace`", file_get_contents($file)));
+		}
+
 
 		$nomeDB = str_replace(' ', '_', $_POST["nomebd"]); // nome da base de dados
 		$dbDir = scandir("../BD/");
@@ -79,7 +84,7 @@ define( 'WWW', '$www');");
 		}
 
 
-
+		die();
 		/*conexao*/
 		$conn = new mysqli($local, $user, $senha);
 		verificarConexao($conn->connect_errno);//verificar se conexao foi estabelecida
