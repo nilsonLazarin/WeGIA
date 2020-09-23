@@ -301,6 +301,7 @@
                         <dir id="_pre_requisitos">
                             <h3>2.1. Pré-requisitos</h3><hr>
                             <p>Para melhor funcionamento, o sistema deve ser hospedado em um sistema <strong>Linux</strong>. Outros sistemas serão capazes de executar a maioria das funcionalidades, mas apresentarão instabilidades e erros ocasionais, além de não poderem executar backups e importar triggers do Banco de Dados, que utilizam comandos exclusivo do Linux.</p>
+                            <p>A instalação tanto do WeGIA quanto da Base de Dados deve ser feita em um <strong>servidor</strong> local ou online.</p>
                         </dir>
                         <dir id="_banco_de_dados">
                             <h3>2.2. Banco de Dados</h3><hr>
