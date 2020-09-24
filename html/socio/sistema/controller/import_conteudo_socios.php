@@ -146,7 +146,10 @@
                 <i class="fa fa-refresh"></i> Atualizar
               </a>
               <a id="btn_aniversariantes" class="btn btn-app">
-                <i class="fa fa-child"></i> Aniversariantes do mês
+                <i class="fa fa-birthday-cake"></i> Aniversariantes do mês
+              </a>
+              <a id="btn_graficos" class="btn btn-app" disabled>
+                <i class="fa fa-chart-area"></i> Gráficos
               </a>
               <a id="btn_bd_off" class="btn btn-app" disabled>
                 <i class="fa fa-database"></i> Banco de dados

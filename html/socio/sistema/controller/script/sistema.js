@@ -530,5 +530,8 @@ $(document).ready(function(){
     $("#btn_aniversariantes").click(function(){
         $("#modal_aniversariantes").modal("toggle");
     });
+    $("#btn_graficos").click(function(){
+        $("#modal_graficos").modal("toggle");
+    });
     // teste
 });
