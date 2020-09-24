@@ -19,7 +19,7 @@ $linhas = mysqli_num_rows($consulta);
             $dados = mysqli_fetch_row($dados_doador);
 
             $nome = $dados[0];
-            $sobrenome =  $dados[1];
+            //$sobrenome =  $dados[1];
             $tel =  $dados[2]; 
             $dataN = $dados[3];
             $cep = $dados[4];
@@ -32,7 +32,7 @@ $linhas = mysqli_num_rows($consulta);
             $email = $dados[11];
 
             $array['nome'] = $nome;
-            $array['sobrenome']=$sobrenome;
+            //$array['sobrenome']=$sobrenome;
             $array['tel']=$tel;
             $array['data_n']=$dataN;
             $array['cep']=$cep;

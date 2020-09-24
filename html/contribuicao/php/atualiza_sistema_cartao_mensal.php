@@ -27,9 +27,11 @@
                 echo("<td><input type='text' class='form-control' readonly='true' name='link_doacao[".$i."]' value=".$url."></td>"); 
                 echo("<input type='hidden' name='id[".$i."]' value=".$id.">");
                 echo"</tr>";  
-                
             }
-                
+        
+        echo"<tr>";
+        echo("<td><input type='number' name='valor_extra' readonly= 'true' class='form-control' value=></td>");
+        echo("<td><input type='text' class='form-control' readonly='true' name='link_extra' value=></td>");
         echo"</table>";
         
     } 

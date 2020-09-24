@@ -25,7 +25,7 @@ function dataVencimento()
 
 function recebe_dados()
 {
- 
+
   var id_sociotipo = tipo_socio();
  
   var horadata = new Date();
