@@ -6,7 +6,6 @@
     $ip_log = $_SERVER['REMOTE_ADDR'];
     $horahoje = $_POST['hora'];
     $sistema = $_POST['sistema'];
-    $status = 0;
     $email = $_POST['email'];
     $doc = $_POST['doc'];
     $valor_doacao = $_POST['valor_doacao'];

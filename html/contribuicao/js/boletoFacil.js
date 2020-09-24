@@ -1,6 +1,5 @@
 
 function gera_boleto(){
-    cad_log();
     
     $.post("./php/infoboletofacil.php").done(function(data)
     { 
@@ -27,8 +26,6 @@ function gera_boleto(){
         var tam = doc.length;
             if (tam == 11) {
                 var nome = $("#nome").val();
-                sobrenome = $("#sbnome").val();
-                nome = nome+" "+sobrenome;
             }
             else 
             {
@@ -78,10 +75,12 @@ function gera_boleto(){
             if($("#tipo2").prop("checked"))
             {
                 $.get(api+"token="+token+"&description="+agradecimento+"&amount="+valor2+"&payerName="+nome+"&payerCpfCnpj="+doc+"&dueDate="+diaAv+"&payerPhone="+telefone+"&payerEmail="+email+"&billingAddressState="+uf+"&billingAddressCity="+cidade+"&billingAddressNeighborhood="+bairro+"&billingAddressPostcode="+cep+"&billingAddressStreet="+log+"&billingAddressNumber="+n+"&billingAddressComplement="+comp+"&paymentTypes=BOLETO&maxOverdueDays="+dias_unico, function(dados){
-
+                
+                    cad_log();
+                
                 for(var link of dados.data.charges)
                 {
-                   
+                    
                     var check = link.checkoutUrl;
                  
                 }
@@ -92,6 +91,8 @@ function gera_boleto(){
             else
             {
                 $.get(api+"token="+token+"&description="+agradecimento+"&installments="+parcelas+"&amount="+valor2+"&payerName="+nome+"&payerCpfCnpj="+doc+"&dueDate="+dataV+"&payerPhone="+telefone+"&payerEmail="+email+"&billingAddressState="+uf+"&billingAddressCity="+cidade+"&billingAddressNeighborhood="+bairro+"&billingAddressPostcode="+cep+"&billingAddressStreet="+log+"&billingAddressNumber="+n+"&billingAddressComplement="+comp+"&paymentTypes=BOLETO&maxOverdueDays="+dias_mensal, function(dados){
+
+                   cad_log();
                 for(var link of dados.data.charges)
                 {
                     

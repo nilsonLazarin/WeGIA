@@ -71,7 +71,7 @@ function atualiza(){
 
 function transicoes()
 {
-  $("#tipo1").prop('checked', true);
+  			$("#tipo1").prop('checked', true);
 			$('input').keypress(function(e) {
 			if(e.which == 13) {
 			e.preventDefault();
@@ -136,7 +136,6 @@ function transicoes()
 		$("#op_cpf").click(function()
 		{
 			$("#nc").show();
-			$("#sobrenome").show();
 			$("#jnome").hide();
 		    $("#cpf").fadeIn();
 		    $("#cnpj").hide();  
@@ -162,7 +161,7 @@ function transicoes()
 			$("#avisoPJ").show();
 			$("#nc").hide();
 			$("#jnome").show();
-			$("#sobrenome").hide();
+		
 		});  
 
 		$("#u").click(function()

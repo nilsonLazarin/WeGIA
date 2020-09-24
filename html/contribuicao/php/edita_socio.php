@@ -3,7 +3,6 @@
     include("conexao.php");
 
 "<br>".$nome = $_POST['nome'];
-"<br>".$sobrenome = $_POST['sobrenome'];
 "<br>".$tel = $_POST['telefone'];
 "<br>".$email = $_POST['email'];
 "<br>".$doc = $_POST['doc'];
@@ -17,6 +16,6 @@
 "<br>".$cidade=$_POST['cidade'];
 "<br>".$uf=$_POST['uf'];
 
-    $update = mysqli_query($conexao, "UPDATE pessoa as p JOIN socio as s ON(p.id_pessoa = s.id_pessoa) SET nome = '$nome', sobrenome = '$sobrenome', telefone= '$tel', data_nascimento = '$dataN', cep = '$cep', logradouro = '$rua', numero_endereco = '$numero', complemento = '$compl', bairro = '$bairro', cidade = '$cidade', estado= '$uf', email = '$email' WHERE cpf = '$doc'");
+    $update = mysqli_query($conexao, "UPDATE pessoa as p JOIN socio as s ON(p.id_pessoa = s.id_pessoa) SET nome = '$nome', telefone= '$tel', data_nascimento = '$dataN', cep = '$cep', logradouro = '$rua', numero_endereco = '$numero', complemento = '$compl', bairro = '$bairro', cidade = '$cidade', estado= '$uf', email = '$email' WHERE cpf = '$doc'");
 
 ?>
