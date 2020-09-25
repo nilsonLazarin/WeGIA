@@ -145,7 +145,7 @@ class InternoControle
         if((!isset($nomeContato)) || (empty($nomeContato))){
             $nomeContato='Não informado';
         }  
-            $telefone='(22) 2522-5130';
+            $telefone='';
             $senha='null';
 
             $existeimagem = new InternoControle;
