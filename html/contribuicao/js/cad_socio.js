@@ -1,7 +1,12 @@
 function doc_cadastrado()
 {
-    var doc = $("#cpfcnpj").val();
-   
+        if($("#op_cpf").prop('checked'))
+        {
+            var doc = $("#dcpf").val();
+        }else{
+            doc = $("#dcnpj").val();
+        }
+
     cpf_cnpj(doc);
         
 }
@@ -9,6 +14,7 @@ function doc_cadastrado()
 function socio_cadastrado(doc)
 {
     var doc = doc;
+    doc = formata_cpf_cnpj(doc);
         $.post("./php/socio_cadastrado.php", {'doc':doc}).done(function(data){
                 if(data == 0)
                 {
@@ -57,7 +63,12 @@ function socio_cadastrado(doc)
 
 function editar_informacoes()
 {
-    var doc = $("#cpfcnpj").val();
+    if($("#op_cpf").prop('checked'))
+    {
+        var doc = $("#dcpf").val();
+    }else{
+        doc = $("#dcnpj").val();
+    }
     var nome = $("#nome").val();
     var cnpj_nome = $("#cnpj_nome").val();
     var data_n = $("#ano").val()+"-"+$("#mes").val()+"-"+$("#dia_n").val();
@@ -86,7 +97,6 @@ function editar_informacoes()
 function cad_log()
 {
     var id_sistema = 3;
- 
   var horadata = new Date();
   var horaAtual = horadata.getHours();
   var minutoAtual = horadata.getMinutes();
@@ -102,6 +112,11 @@ function cad_log()
             }
   var data_vencimento = dataVencimento();
   var email = $("#email").val();
-  var doc = $("#cpfcnpj").val();
-            $.post("./php/cad_log.php",{'hora':hora, 'valor_doacao':valor_contribuicao, 'dataV':data_vencimento, 'email':email, 'doc':doc, 'sistema':id_sistema}).done(function(data){});
+  if($("#op_cpf").prop('checked'))
+    {
+        var doc = $("#dcpf").val();
+    }else{
+        doc = $("#dcnpj").val();
+    }
+    $.post("./php/cad_log.php",{'hora':hora, 'valor_doacao':valor_contribuicao, 'dataV':data_vencimento, 'email':email, 'doc':doc, 'sistema':id_sistema}).done(function(data){console.log(data);});
 }

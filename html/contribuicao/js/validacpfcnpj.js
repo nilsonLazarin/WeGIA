@@ -3,11 +3,11 @@ function cpf_cnpj(doc)
     var doc = doc;
     var documento = doc.replace(/\D+/g, '');
     var tam = documento.length;
-    if (tam >= 11) {
+    if (tam == 11) {
         validacpf(doc);
     }
     else {
-        if (tam >= 14) {
+        if (tam == 14) {
             cnpj(doc);
         }
     }
@@ -95,6 +95,7 @@ function validacpf(doc)
     }
     function cnpj(doc) 
     {
+       
             var cnpj = doc;   
             cnpj = cnpj.replace(/\./g, '');
             cnpj = cnpj.replace('-', '');
@@ -111,7 +112,7 @@ function validacpf(doc)
             {
     
             }
-            if(cnpj.length > 1 || cnpj.length <14)
+            if(cnpj.length > 14 || cnpj.length <14)
             {
                 $("#avisa_cnpj").html("Digite um documento cnpj válido, por favor");
             }
@@ -177,7 +178,8 @@ function validacpf(doc)
     
             if((d1+d2) != 2)
             {
-               
+                $("#avisa_cnpj").show();
+                $("#avisa_cnpj").html("Digite um documento cnpj válido, por favor");
             }
             else
             {
@@ -185,6 +187,8 @@ function validacpf(doc)
                 $("#doacao_boleto").hide();
                 $("#pag2").hide();
                 $("#pag3").fadeIn();*/
+                $("#avisa_cnpj").hide();
+                $("#avisa_cnpj").html("");
                 socio_cadastrado(doc);
             }
      }

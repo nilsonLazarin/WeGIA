@@ -27,6 +27,7 @@
 	<script type="text/javascript" src="./js/cad_socio.js"></script>
 	<script type="text/javascript" src="./js/transicoes.js"></script>
 	<script type="text/javascript" src="./js/id_sistema.js"></script>
+	<script type="text/javascript" src="../socio/sistema/controller/script/valida_cpf_cnpj.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 	<link rel="stylesheet" type="text/css" href="outros/css/index.css">
@@ -76,7 +77,7 @@
 						<span id = "dinheiro">
 							<input  class = "radio" type = "radio"  name = "forma" id = "forma2" value = "1" checked>
 							<label class="label"  for = "forma2">BOLETO BANCÁRIO</label>
-						</span><br><br>
+							<input type='hidden' name='id_sistema' id='id_sistema'>
 					</div>
 					
 						<div id="tipo_cartao">
@@ -167,12 +168,12 @@
 					
 					<div id="cpf" class="wrap-input100 validate-input bg1" data-validate = "Digite um documento válido!">
                             <span class="label-input100">Digite um documento CPF*</span>
-                            <input class="input100" type="text" name="dcpf" id="cpfcnpj" class="text required"placeholder="Ex: 222.222.222-22"  onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##',this,event)" required><span id = "avisa_cpf"></span>
+                            <input class="input100" type="text" name="dcpf" id="dcpf" class="text required"placeholder="Ex: 222.222.222-22"  onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##',this,event)" required><span id = "avisa_cpf"></span>
                     </div>
 
                     <div id="cnpj" class="wrap-input100 validate-input bg1" data-validate = "Digite um documento válido!">
                             <span class="label-input100"> Digite um documento CNPJ *</span>
-                            <input class="input100" type="text" name="dcpf" id="cpfcnpj" onkeyup="FormataCnpj(this,event)"  maxlength="18" class="form-control input-md" ng-m placeholder = "22.222.222/2222-22"><span id = "avisa_cnpj"></span>
+                            <input class="input100" type="text" name="dcpf" id="dcnpj" onkeyup="FormataCnpj(this,event)"  maxlength="18" class="form-control input-md" ng-m placeholder = "22.222.222/2222-22"><span id = "avisa_cnpj"></span>
 					</div>
 						<div class="container-contact100-form-btn">
 							<span class="contact100-form-btn" id = "volta_btn">
