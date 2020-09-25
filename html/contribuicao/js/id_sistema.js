@@ -13,3 +13,13 @@ function retorna_id(nome_sistema)
         
     });   
 }
+
+function sistema_id(nome)
+{
+    $.post("./php/id_sistema.php",{'nome_sistema':nome}).done
+    (function(data)
+    {   
+       $("#id_sistema").val(data); 
+    });  
+   
+}

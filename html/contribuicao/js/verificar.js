@@ -102,7 +102,6 @@ function verifica2()
        var ano = $("#ano").val();
        var tel = $("#telefone").val();
        var email = $("#e_mail").val();
-       var cpf = $("#dcpf").val();
     
         if(nome == '' || dia == '' || mes == '' || ano == '' || tel == '' || email == '' ||cpf == '')
         {
@@ -135,9 +134,11 @@ function verifica2()
             }
             else
             {
-                cnpj();
                 $("#avisoPJ").hide();
-                $("#avisoPJ").html("");  
+                $("#avisoPJ").html("");
+                $("#doacao_boleto").hide();
+                $("#pag2").hide();
+                $("#pag3").fadeIn();  
             }
         }
     }

@@ -1,6 +1,5 @@
 
 function gera_boleto(){
-    
     $.post("./php/infoboletofacil.php").done(function(data)
     { 
 
@@ -20,8 +19,13 @@ function gera_boleto(){
             {
                 valor2 = $("#v").val();
             }
-       
-        var doc = $("#cpfcnpj").val();
+
+            if($("#op_cpf").prop('checked'))
+                {
+                    var doc = $("#dcpf").val();
+                }else{
+                    doc = $("#dcnpj").val();
+                }
         doc = doc.replace(/\D/g, '');
         var tam = doc.length;
             if (tam == 11) {

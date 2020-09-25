@@ -27,6 +27,7 @@ function recebe_dados()
 {
 
   var id_sociotipo = tipo_socio();
+
  
   var horadata = new Date();
   var horaAtual = horadata.getHours();
@@ -65,7 +66,8 @@ function recebe_dados()
       var dia = $("#dia_n").val();
       var mes = $("#mes").val();
       var ano = $("#ano").val();
-      var doc = $("#cpfcnpj").val();
+      var doc = $("#dcpf").val();
+      doc = formata_cpf_cnpj(doc);
       var dataN = ano.concat("-",mes,"-",dia);
 
       $.post("./php/cadastrar.php", {'tipo':fisjur, 'nome':nome, 'sobrenome': sobrenome, 'telefone':telefone, 'cep':cep, 'log':log, 'comp':comp, 'bairro':bairro, 'cidade':cidade, 'uf':uf, 'numero': num, 'doc':doc,'datanascimento':dataN, 'hora':hora, 'sistema':sistema, 'contato':email, 'id_sociotipo': id_sociotipo, 'status': status, 'datavencimento':data_vencimento, 'valor_doacao':valor_contribuicao}).done(function(data){console.log(data)});
@@ -77,8 +79,8 @@ function recebe_dados()
       nome = $("#cnpj_nome").val();
       sobrenome = "NULL";
       fisjur = $("#op_cnpj").val();
-      doc = $("#cpfcnpj").val();
-      console.log(doc);
+      doc = $("#dcnpj").val();
+      doc = formata_cpf_cnpj(doc);
       dataN = "0000-00-00"
 
       $.post("./php/cadastrar.php", {'tipo':fisjur, 'nome':nome, 'sobrenome':sobrenome, 'telefone':telefone, 'cep':cep, 'log':log, 'comp':comp, 'bairro':bairro, 'cidade':cidade, 'uf':uf, 'numero': num, 'doc':doc,'datanascimento':dataN, 'hora':hora, 'sistema':sistema, 'contato':email, 'id_sociotipo': id_sociotipo, 'status': status,  'datavencimento':data_vencimento, 'valor_doacao':valor_contribuicao}).done(function(data){console.log(data);});
