@@ -14,7 +14,7 @@
 
 			<section role="main" class="content-body">
 				<header class="page-header">
-					<h2>Sócios</h2>
+					<h2>Gráficos</h2>
 					
 					<div class="right-wrapper pull-right">
 						<ol class="breadcrumbs">
@@ -25,6 +25,7 @@
 							</li>
 							<li><span>Páginas</span></li>
 							<li><span>Sócios</span></li>
+              <li><span>Gráficos</span></li>
 						</ol>
 					
 						<a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
@@ -32,10 +33,10 @@
 				</header>
 
 				<!-- start: page -->
-				<div class="row">
+				<div class="row col-md-6 col-lg-6">
         <div class="box box-warning">
             <div class="box-header with-border">
-              <h3 class="box-title">Controle de sócios</h3>
+              <h3 class="box-title">Tipologia dos sócios</h3>
 
               <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -45,7 +46,7 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body" style="">
-            <table id="example" class="table table-hover" style="width: 100%">
+            <table id="example4" class="table table-hover" style="width: 100%; display: none">
                   <thead>
                     <tr>
                       <th>ID</th>
@@ -133,47 +134,26 @@
                     </tr>
                   </tfoot>
                 </table>
-                <?php $num_socios = mysqli_num_rows(mysqli_query($conexao,"select * from socio")); ?>
                 <div class="row">
-                <a id="btn_add_socio" class="btn btn-app">
-                <span class="badge bg-purple"><span id="qtd_socios"><?php echo($num_socios); ?></span></span>
-                <i class="fa fa-user-plus"></i> Adicionar Sócio
-              </a>
-              <a id="btn_importar_xlsx" class="btn btn-app">
-                <i class="fa fa-upload"></i> Importar sócios
-              </a>
-              <a onclick="location.reload()" id="btn_atualizar" class="btn btn-app">
-                <i class="fa fa-refresh"></i> Atualizar
-              </a>
-              <a id="btn_aniversariantes" class="btn btn-app">
-                <i class="fa fa-birthday-cake"></i> Aniversariantes do mês
-              </a>
-              <a href="graficos.php" id="btn_graficos" class="btn btn-app">
-                <i class="fa fa-chart-area"></i> Gráficos
-              </a>
-              <a id="btn_bd_off" class="btn btn-app" disabled>
-                <i class="fa fa-database"></i> Banco de dados
-              </a>
-                </div>
-             
+      <canvas id="grafico1" class="col-xs-6" height="200"></canvas><br>
+      <canvas id="grafico2" class="col-xs-6" height="200"></canvas>
+      </div>
     
             </div>
             <!-- /.box-body -->
           </div>
 				</div>
+
+        
+     
+
+
 			<!-- end: page -->
       <div class="row">
         <!-- ./col -->
-        <div class="col-lg-3 col-xs-6">
-          <!-- small box -->
-          <div class="small-box bg-red">
-            <div class="inner">
-              <h3><?php echo($socios_atrasados); ?></h3>
-              
-              <p>Sócio(s) com pagamento atrasado.</p>
-            </div>
-          </div>
-        </div>
+        <a href="./" class="btn btn-app">
+                <i class="fa fa-long-arrow-alt-left"></i> Voltar
+              </a>
         <!-- ./col -->
       </div>
 			</section>

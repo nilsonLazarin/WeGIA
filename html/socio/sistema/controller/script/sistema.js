@@ -339,7 +339,7 @@ $(document).ready(function(){
         $('#example').DataTable( {
             "processing": true,
             "language": {
-                "sEmptyTable": "Nenhum sócio encontrado",
+                "sEmptyTable": "Nenhum sócio encontrado no sistema.",
                 "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
                 "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
                 "sInfoFiltered": "(Filtrados de _MAX_ registros)",
@@ -530,8 +530,7 @@ $(document).ready(function(){
     $("#btn_aniversariantes").click(function(){
         $("#modal_aniversariantes").modal("toggle");
     });
-    $("#btn_graficos").click(function(){
-        $("#modal_graficos").modal("toggle");
-    });
-    // teste
+    // $("#btn_graficos").click(function(){
+    //      $("#modal_graficos").modal("toggle");
+    // });
 });
