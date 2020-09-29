@@ -87,7 +87,7 @@ require_once ROOT."/html/personalizacao_display.php";
     <!-- Basic -->
     <meta charset="UTF-8">
 
-    <title>Caixa de entrada</title>
+    <title>Despachos</title>
         
     <!-- Mobile Metas -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -156,6 +156,7 @@ require_once ROOT."/html/personalizacao_display.php";
 
    	<script>
 	$(function(){
+		var impressao = 0;
 		var despacho=<?php echo $_SESSION['despacho']?>;
 		var despachoAnexo=<?php echo $_SESSION['despachoComAnexo']?>;
 		var arquivo = <?php echo $_SESSION['arquivos']?>;
@@ -443,11 +444,18 @@ require_once ROOT."/html/personalizacao_display.php";
 				.append($("<option id="+item.id_pessoa+" value="+item.id_pessoa+" name="+item.id_pessoa+">"+item.nome+" "+item.sobrenome+"</option>"));
 		});
 		$("#btnPrint").click(function () {
-			$("a").removeAttr("href");
+			$("#myModal a").removeAttr("href");
         	//get the modal box content and load it into the printable div
+        	if((typeof(impressao) == "undefined") || impressao!=1)
+        	{
         	$(".printable").html($("#myModal").html());
-        	$(".printable").printThis({importStyle: true});
-        	$("a").removeAttr("href");
+        	}
+        	$(".printable").printThis();
+        	var impressao = 1;
+        	/*if($(".printable").text()==$("#myModal").text())
+        	{
+        		window.location.reload();
+        	}*/
     	});
 		});           	
 	</script>
