@@ -3,7 +3,6 @@
 include("conexao.php");
 
     "<br>". $nome = $_POST['nome'];
-    "<br>".$sobrenome = $_POST['sobrenome'];
     "<br>".$tel = $_POST['telefone'];
     "<br>".$email = $_POST['contato'];
     "<br>".$tipo = $_POST['tipo'];
@@ -28,5 +27,10 @@ include("conexao.php");
     $valor_doacao = $_POST['valor_doacao'];
     "<br>".$data_vencimento = $_POST['datavencimento'];
     
-    mysqli_query($conexao, "CALL registradoacao ('$nome', '$sobrenome', '$doc','$tel', '$dataN', '$cep', '$uf', '$cidade', '$bairro','$rua', '$numero', '$compl', '$status', '$id_tipo', '$email', '$ip_log', '$data', '$horahoje', '$sistema', '$valor_doacao', '$data_vencimento')");
+    //mysqli_query($conexao, "CALL registradoacao ('$nome', '$doc','$tel', '$dataN', '$cep', '$uf', '$cidade', '$bairro','$rua', '$numero', '$compl', '$status', '$id_tipo', '$email', '$ip_log', '$data', '$horahoje', '$sistema', '$valor_doacao', '$data_vencimento')");
+
+    mysqli_query($conexao, "INSERT INTO pessoa(nome,cpf,telefone,data_nascimento,cep,estado,cidade, bairro, logradouro, numero_endereco,complemento) VALUES ('$nome', '$doc','$tel', '$dataN', '$cep', '$uf', '$cidade', '$bairro','$rua', '$numero', '$compl')");
+
+    mysqli_query($conexao, "INSERT INTO socio(id_pessoa, id_sociostatus, id_sociotipo, email)values ((SELECT id_pessoa FROM pessoa WHERE pessoa.cpf='$doc'), '$status','$id_tipo', '$email')");
+
 ?>

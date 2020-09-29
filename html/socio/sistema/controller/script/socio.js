@@ -51,7 +51,7 @@ function deletar_socio_modal(del_obj){
         <div class="modal-body">
             <div class="alert alert-warning alert-dismissible">
             <h4><i class="icon fa fa-warning"></i> Atenção!</h4>
-            Você quer realmente deletar o sócio `+ del_obj.nome +`? Ao confirmar essa ação você deletará todos os dados pertencentes a este sócio do sistema.
+            Você quer realmente deletar o sócio `+ del_obj.nome +`? Ao confirmar essa ação você deletará todos os dados pertencentes a esse sócio do sistema, inclusive dados de contribuição.
         </div>
         </div>
         <div class="modal-footer">
@@ -69,9 +69,9 @@ function deletar_socio_modal(del_obj){
 function detalhar_socio(dados){
   var dados_socio = null;
    $.post("get_detalhes_socio.php",{"id_socio": dados}).done(function(resultadoBusca){
-    dados_socio = JSON.parse(resultadoBusca);
-    console.log(dados_socio);
-
+    dados_socio_multi_contrib = JSON.parse(resultadoBusca);
+    console.log(dados_socio_multi_contrib);
+    var dados_socio = dados_socio_multi_contrib[0];
     if(dados_socio.cpf == 14){
       pessoa = "Física";
     }else pessoa = "Jurídica";
@@ -89,6 +89,16 @@ function detalhar_socio(dados){
     }
     console.log(status);
 
+    let tb_contrib = "";
+    let total_contrib = 0;
+    for(contrib of dados_socio_multi_contrib){
+      var valor = Number(contrib.valor_boleto);
+      total_contrib += valor;
+      tb_contrib += "<tr><td>"+ contrib.sistema_pagamento +"</td><td>"+contrib.data_geracao+"</td><td>"+valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })+"</td><td>"+contrib.data_vencimento+"</td></tr>";
+    }
+    if(tb_contrib.indexOf("null") != -1){
+      tb_contrib = "<tr><td colspan='4'>Não foi possível encontrar informações de contribuição do sócio no sistema.</td></tr>"
+    }
 
     var modal_detalhes_html = `
   <div class="modal fade" id="detalharSocioModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -188,6 +198,32 @@ function detalhar_socio(dados){
                 <input type="text" class="form-control" id="cidade" name="cidade" value="`+ dados_socio.cidade +`" placeholder="" required disabled>
               </div>
             </div>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <div class="box box-danger contrib">
+            <div class="box-header with-border">
+              <h3 class="box-title">Contribuição</h3>
+            </div>
+            <div class="box-body">
+            <div class="row">
+            <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">Sistema</th>
+                <th scope="col">Data geração boleto</th>
+                <th scope="col">Valor</th>
+                <th scope="col">Data de vencimento</th>
+              </tr>
+            </thead>
+            <tbody>
+             `+ tb_contrib +`
+            </tbody>
+          </table>
+          <div class="alert alert-secondary" role="alert">
+            Atenção! As informações de contribuição aqui listadas são referentes às doações feitas pela página de doação integrada ao sistema.
+            <span class="badge badge-secondary">Total de contribuição <b>usando o sistema</b>: `+ total_contrib.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) +`</span>
+          </div>
             </div>
             <!-- /.box-body -->
           </div>

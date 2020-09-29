@@ -1,7 +1,12 @@
 function doc_cadastrado()
 {
-    var doc = $("#cpfcnpj").val();
-   
+        if($("#op_cpf").prop('checked'))
+        {
+            var doc = $("#dcpf").val();
+        }else{
+            doc = $("#dcnpj").val();
+        }
+
     cpf_cnpj(doc);
         
 }
@@ -9,6 +14,7 @@ function doc_cadastrado()
 function socio_cadastrado(doc)
 {
     var doc = doc;
+    doc = formata_cpf_cnpj(doc);
         $.post("./php/socio_cadastrado.php", {'doc':doc}).done(function(data){
                 if(data == 0)
                 {
@@ -22,10 +28,8 @@ function socio_cadastrado(doc)
                         var data_n = dados.data_n;
                         var data_n = data_n.split("-");
                        
-
                         $("#nome").val(dados.nome);
                         $("#cnpj_nome").val(dados.nome);
-                        $("#sbnome").val(dados.sobrenome);
                         $("#dia_n").val(data_n[2]);
                         $("#mes").val(data_n[1]);
                         $("#ano").val(data_n[0]);
@@ -43,7 +47,7 @@ function socio_cadastrado(doc)
                         $("#pag2").hide();
                         $("#pag3").hide();
                         $("#form2").fadeIn();
-                        $("#form2").html('<h3>Obrigado por contribuir mais uma vez, '+dados.nome+'!</h3><br><br><div class="container-contact100-form-btn"><span class="contact100-form-btn" id = "gerar_boleto"><i style="margin-right: 15px; " class="fa fa-long-arrow-right m-l-7"aria-hidden="true"></i>GERAR BOLETO</span></div><div class="container-contact100-form-btn"><span class="contact100-form-btn" id = "editar_infos"><i style="margin-right: 15px; " class="fa fa-long-arrow-left m-l-7"aria-hidden="true"></i>EDITAR DADOS CADASTRADOS</span></div><div class="container-contact100-form-btn"><span class="contact100-form-btn"><i style="margin-right: 15px; " aria-hidden="true"></i><a href="../contribuicao/index.php">VOLTAR A PÁGINA INICIAL</a></span></div>');
+                        $("#form2").html('<h3>Obrigado por contribuir mais uma vez, '+dados.nome+'!</h3><br><br><div class="container-contact100-form-btn"><span class="contact100-form-btn" id = "gerar_boleto"><i style="margin-right: 15px; " class="fa fa-long-arrow-right m-l-7"aria-hidden="true"></i>GERAR BOLETO</span></div><div class="container-contact100-form-btn"><span class="contact100-form-btn" id = "editar_infos"><i style="margin-right: 15px; " class="fa fa-long-arrow-left m-l-7"aria-hidden="true"></i>EDITAR DADOS CADASTRADOS</span></div><div class="container-contact100-form-btn"><span class="contact100-form-btn"><i style="margin-right: 15px; " aria-hidden="true"></i><a class= "botao" href="../contribuicao/index.php">VOLTAR A PÁGINA INICIAL</a></span></div>');
 
                         $("#gerar_boleto").click(function(){ gera_boleto();});
                         $("#editar_infos").click(function(){
@@ -59,10 +63,14 @@ function socio_cadastrado(doc)
 
 function editar_informacoes()
 {
-    var doc = $("#cpfcnpj").val();
+    if($("#op_cpf").prop('checked'))
+    {
+        var doc = $("#dcpf").val();
+    }else{
+        doc = $("#dcnpj").val();
+    }
     var nome = $("#nome").val();
     var cnpj_nome = $("#cnpj_nome").val();
-    var sbnome = $("#sbnome").val();
     var data_n = $("#ano").val()+"-"+$("#mes").val()+"-"+$("#dia_n").val();
     var tel = $("#telefone").val();
     var email = $("#email").val();
@@ -76,11 +84,11 @@ function editar_informacoes()
     if(nome == ''){
         nome = cnpj_nome;
     }
-        $.post("./php/edita_socio.php",{'nome':nome, 'sobrenome':sbnome, 'telefone':tel, 'email':email, 'doc':doc, 'datanascimento':data_n, 'cep': cep, 'log':rua, 'numero':numero, 'comp':compl, 'bairro':bairro, 'cidade':cidade, 'uf':uf}).done(function(data){
+        $.post("./php/edita_socio.php",{'nome':nome, 'telefone':tel, 'email':email, 'doc':doc, 'datanascimento':data_n, 'cep': cep, 'log':rua, 'numero':numero, 'comp':compl, 'bairro':bairro, 'cidade':cidade, 'uf':uf}).done(function(data){
                 $("#form2").fadeIn();
                 $("#form2").html('<h3> Dados atualizados com sucesso!</h3><br><br><div class="container-contact100-form-btn"><span class="contact100-form-btn" id = "dados_atualizados"><i style="margin-right: 15px; " class="fa fa-long-arrow m-l-7"aria-hidden="true"></i>OK</span></div>')
                 $("#pag3").hide();
-                        $("#dados_atualizados").click(function(){$("#form2").html('<h3>Obrigado por contribuir mais uma vez, '+nome+'!</h3><br><br><div class="container-contact100-form-btn"><span class="contact100-form-btn" id = "gerar_boleto"><i style="margin-right: 15px; " class="fa fa-long-arrow-right m-l-7"aria-hidden="true"></i>GERAR BOLETO</span></div><div class="container-contact100-form-btn"><span class="contact100-form-btn" id = "editar_infos"><i style="margin-right: 15px; " class="fa fa-long-arrow-left m-l-7"aria-hidden="true"></i>EDITAR DADOS CADASTRADOS</span></div><div class="container-contact100-form-btn"><span class="contact100-form-btn"><i style="margin-right: 15px; " aria-hidden="true"></i><a href="../contribuicao/index.php">VOLTAR A PÁGINA INICIAL</a></span></div>');});
+                        $("#dados_atualizados").click(function(){$("#form2").html('<h3>Obrigado por contribuir mais uma vez, '+nome+'!</h3><br><br><div class="container-contact100-form-btn"><span class="contact100-form-btn" id = "gerar_boleto"><i style="margin-right: 15px; " class="fa fa-long-arrow-right m-l-7"aria-hidden="true"></i>GERAR BOLETO</span></div><div class="container-contact100-form-btn"><span class="contact100-form-btn" id = "editar_infos"><i style="margin-right: 15px; " class="fa fa-long-arrow-left m-l-7"aria-hidden="true"></i>EDITAR DADOS CADASTRADOS</span></div><div class="container-contact100-form-btn"><span class="contact100-form-btn"><i style="margin-right: 15px; " aria-hidden="true"></i><a class="botao" href="../contribuicao/index.php">VOLTAR A PÁGINA INICIAL</a></span></div>');});
                         
         });
                         
@@ -89,7 +97,6 @@ function editar_informacoes()
 function cad_log()
 {
     var id_sistema = 3;
- 
   var horadata = new Date();
   var horaAtual = horadata.getHours();
   var minutoAtual = horadata.getMinutes();
@@ -105,6 +112,11 @@ function cad_log()
             }
   var data_vencimento = dataVencimento();
   var email = $("#email").val();
-  var doc = $("#cpfcnpj").val();
-            $.post("./php/cad_log.php",{'hora':hora, 'valor_doacao':valor_contribuicao, 'dataV':data_vencimento, 'email':email, 'doc':doc, 'sistema':id_sistema}).done(function(data){});
+  if($("#op_cpf").prop('checked'))
+    {
+        var doc = $("#dcpf").val();
+    }else{
+        doc = $("#dcnpj").val();
+    }
+    $.post("./php/cad_log.php",{'hora':hora, 'valor_doacao':valor_contribuicao, 'dataV':data_vencimento, 'email':email, 'doc':doc, 'sistema':id_sistema}).done(function(data){console.log(data);});
 }

@@ -1,55 +1,7 @@
 <?php
 	include("./php/conexao.php");
 	
-	//preenchendo o formulário com as opções determinadas no banco;
-
-	$select = mysqli_query($conexao, "select * from doacao_boleto_regras");
-	$result = mysqli_num_rows($select);
-	$fetch = mysqli_fetch_row($select);
-		if($result == 0)
-		{
-			$op0 = 1;
-			$op1 = 5;
-			$op2 = 10;
-			$op3 = 15;
-			$op4 = 20;
-			$op5 = 25;
-			$minvalunic = '10.00';
-			$valminparc = '30.00';
-			$valmaxparc = '1000.00';
-		}else{
-			$op0 = $fetch[9];
-			$op1 = $fetch[10];
-			$op2= $fetch[11];
-			$op3 = $fetch[12];
-			$op4 =$fetch[13];
-			$op5 = $fetch[14];
-			$minvalunic = $fetch[1];
-			$valminparc = $fetch[6];
-			$valmaxparc = $fetch[5];
-		}
-    
-	$querycartao = mysqli_query($conexao, "select * from doacao_cartao_mensal");
-	$qtd = mysqli_num_rows($querycartao);
-
-	$paypal_card = mysqli_query($conexao, "select url from doacao_cartao_avulso as ca join sistema_pagamento as sp on (ca.id_sistema = sp.id) where nome_sistema = 'PAYPAL'");
-	$result_paycard = mysqli_num_rows($paypal_card);
-		if($result_paycard == 0)
-		{
-			$paypal = "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=XX32RXEYVQS6G&source=url";
-		}else{
-			$fetch_link = mysqli_fetch_row($paypal_card);
-			$paypal = $fetch_link[0];
-		}
-	$pagseguro_card = mysqli_query($conexao, "select url from doacao_cartao_avulso as ca join sistema_pagamento as sp on (ca.id_sistema = sp.id) where nome_sistema = 'PAGSEGURO'");
-	$result_pagcard = mysqli_num_rows($pagseguro_card);
-		if($result_pagcard == 0)
-			{
-				$pagseguro = "http://pag.ae/bks9DRw";
-			}else{
-				$fetch_link = mysqli_fetch_row($pagseguro_card);
-				$pagseguro = $fetch_link[0];
-			}
+	include("./php/preenche_form.php");
 	
 ?>
 <!DOCTYPE html>
@@ -75,6 +27,7 @@
 	<script type="text/javascript" src="./js/cad_socio.js"></script>
 	<script type="text/javascript" src="./js/transicoes.js"></script>
 	<script type="text/javascript" src="./js/id_sistema.js"></script>
+	<script type="text/javascript" src="../socio/sistema/controller/script/valida_cpf_cnpj.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 	<link rel="stylesheet" type="text/css" href="outros/css/index.css">
@@ -124,7 +77,7 @@
 						<span id = "dinheiro">
 							<input  class = "radio" type = "radio"  name = "forma" id = "forma2" value = "1" checked>
 							<label class="label"  for = "forma2">BOLETO BANCÁRIO</label>
-						</span><br><br>
+							<input type='hidden' name='id_sistema' id='id_sistema'>
 					</div>
 					
 						<div id="tipo_cartao">
@@ -215,12 +168,12 @@
 					
 					<div id="cpf" class="wrap-input100 validate-input bg1" data-validate = "Digite um documento válido!">
                             <span class="label-input100">Digite um documento CPF*</span>
-                            <input class="input100" type="text" name="dcpf" id="cpfcnpj" class="text required"placeholder="Ex: 222.222.222-22"  onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##',this,event)" required><span id = "avisa_cpf"></span>
+                            <input class="input100" type="text" name="dcpf" id="dcpf" class="text required"placeholder="Ex: 222.222.222-22"  onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##',this,event)" required><span id = "avisa_cpf"></span>
                     </div>
 
                     <div id="cnpj" class="wrap-input100 validate-input bg1" data-validate = "Digite um documento válido!">
                             <span class="label-input100"> Digite um documento CNPJ *</span>
-                            <input class="input100" type="text" name="dcpf" id="cpfcnpj" onkeyup="FormataCnpj(this,event)"  maxlength="18" class="form-control input-md" ng-m placeholder = "22.222.222/2222-22"><span id = "avisa_cnpj"></span>
+                            <input class="input100" type="text" name="dcpf" id="dcnpj" onkeyup="FormataCnpj(this,event)"  maxlength="18" class="form-control input-md" ng-m placeholder = "22.222.222/2222-22"><span id = "avisa_cnpj"></span>
 					</div>
 						<div class="container-contact100-form-btn">
 							<span class="contact100-form-btn" id = "volta_btn">
@@ -239,17 +192,13 @@
                     <h3>INFORMAÇÕES PESSOAIS</h3><br>
 
                     <div class="wrap-input100 validate-input bg1" data-validate="Por Favor Digite seu Nome" id = "nc">
-                            <span class="label-input100">NOME *</span>
+                            <span class="label-input100">NOME COMPLETO *</span>
                             <input class="input100" type="text" name="nome" id="nome" class="text required" placeholder="Digite seu Nome" required>
                     </div>
 
                     <div class="wrap-input100 validate-input bg1" data-validate="Por Favor Digite o Nome" id = "jnome">
                             <span class="label-input100">NOME *</span>
                             <input class="input100" type="text" name="cnpj_nome" id="cnpj_nome" placeholder="Digite seu nome" required>
-                    </div>
-					<div class="wrap-input100 validate-input bg1" data-validate="Por Favor Digite o Sobrenome" id="sobrenome">
-                            <span class="label-input100">SOBRENOME *</span>
-                            <input class="input100" type="text" name="sobrenome" id="sbnome" placeholder="Digite seu sobrenome" required>
                     </div>
 
                     <div class="wrap-input100 validate-input bg1" style="height: 90px" id = "nascimento">
