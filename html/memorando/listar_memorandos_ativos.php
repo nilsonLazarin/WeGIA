@@ -289,11 +289,14 @@ require_once ROOT."/html/personalizacao_display.php";
         <script type="text/javascript">
             $(function(){
                 $("#btnPrint").click(function () {
-                    $("a").removeAttr("href");
+                    $("#myModal a").removeAttr("href");
                     //get the modal box content and load it into the printable div
-                    $(".printable").html($("#myModal").html());
-                    $(".printable").printThis({importStyle: true});
-                    $("#myModal").hide();
+                    if((typeof(impressao) == "undefined") || impressao!=1)
+                    {
+                        $(".printable").html($("#myModal").html());
+                    }
+                    $(".printable").printThis();
+                    var impressao = 1;
                 }); 
             });
         </script>
