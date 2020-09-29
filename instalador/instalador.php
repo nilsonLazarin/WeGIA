@@ -36,8 +36,9 @@
 		}
 
 		function createInportFile($file, $new_file, $replace){
+			$file = realpath($file);
 			$new_file_content = fopen($new_file, "w");
-			fwrite($new_file_content, str_replace("`wegia`", "`$replace`", file_get_contents($file)));
+			fwrite($new_file_content, str_replace("use wegia;", "use `$replace`;", str_replace("DROP DATABASE IF EXISTS wegia;", "DROP DATABASE IF EXISTS `$replace`;", str_replace("`wegia`", "`$replace`", file_get_contents($file)))));
 		}
 
 
@@ -50,20 +51,19 @@
 		$backup = $_POST["backup"];
 		$www = $_POST["www"];
 		$reinstalar = isset($_POST["reinstalar"]);
+		$inport_dir = "$backup/";
 
 		//Cria um diretório de Backup caso não haja um
 		if (!is_dir($backup)) {
 			$backup = "";
 		}
 
-		//Verifica se config.php já existe
-		if (!file_exists("../config.php")){
-			//Se não existir, cria um
-			$file_name = realpath('../').'/config.php';
-			$file = fopen($file_name, "w");
+		//Cria um config.php ou sobrescreve o anterior
+		$file_name = realpath('../').'/config.php';
+		$file = fopen($file_name, "w");
 
 
-			fwrite($file, "<?php
+		fwrite($file, "<?php
 /**
  *Configuração do WEGIA
 */
@@ -77,14 +77,17 @@ define( 'BKP_DIR', '$backup');
 define( 'WWW', '$www');");
 
 
-			echo('<p style="color:green;">config.php criado!</p>');
-			if (!$backup){
-				echo('<p style="color:orange;">Diretório para Backup não existe!</p>');
-			}
+		echo('<p style="color:green;">config.php criado!</p>');
+		if (!$backup){
+			echo('<p style="color:orange;">Diretório para Backup não existe!</p>');
+		}
+		
+		$sqlFiles = validSqlFiles($dbDir);
+
+		foreach ($sqlFiles as $key => $file){
+			createInportFile("../BD/$file", "$backup/$file", "$nomeDB");
 		}
 
-
-		die();
 		/*conexao*/
 		$conn = new mysqli($local, $user, $senha);
 		verificarConexao($conn->connect_errno);//verificar se conexao foi estabelecida
@@ -102,32 +105,32 @@ define( 'WWW', '$www');");
 			$conn->query("CREATE DATABASE ".$nomeDB.";");//criar db
 		}
 
-		$sqlFiles = validSqlFiles($dbDir);
 
 		/*importar base de dados*/
-		
-		if (PHP_OS != "Linux"){
-			// Caso o Sistema não seja Linux
-			echo("<p style='color:orange;'>ATENÇÃO: O Sistema é mais instável se executado em um sistema operacional diferente do Linux. O seu sistema atual é: ".PHP_OS."<p>");
-			foreach ($sqlFiles as $key => $file){
-				$sql = file_get_contents("../BD/$file");
-				
-				$mysqli = new mysqli("$local", "$user", "$senha", "$nomeDB");
-				
-				/* execute multi query */
-				if ($mysqli->multi_query($sql) === true){
-					echo("<p style='color:green;'>Arquivo $file importado para a Base de Dados</p>");
-				} else {
-					echo '<p style="color:red;">Falha ao inserir os dados iniciais no banco de dados: </p><br><pre>' . $mysqli->error . '</pre></br>';
+		if ($reinstalar){
+			if (PHP_OS != "Linux"){
+				// Caso o Sistema não seja Linux
+				echo("<p style='color:orange;'>ATENÇÃO: O Sistema é mais instável se executado em um sistema operacional diferente do Linux. O seu sistema atual é: ".PHP_OS."<p>");
+				foreach ($sqlFiles as $key => $file){
+					$sql = file_get_contents($inport_dir . $file);
+					
+					$mysqli = new mysqli("$local", "$user", "$senha", "$nomeDB");
+					
+					/* execute multi query */
+					if ($mysqli->multi_query($sql) === true){
+						echo("<p style='color:green;'>Arquivo $file importado para a Base de Dados</p>");
+					} else {
+						echo '<p style="color:red;">Falha ao inserir os dados iniciais no banco de dados: </p><br><pre>' . $mysqli->error . '</pre></br>';
+					}
 				}
-			}
-		}else{
-			foreach ($sqlFiles as $key => $file){
-				$log = shell_exec("mysql -u $user -p$senha $nomeDB < ".realpath("../BD/$file")."");
-				if (!$log){
-					echo("<p style='color:green;'>$file importado com sucesso<p>");
-				}else{
-					echo("<p style='color:red;'>Log da importação do arquivo $file<pre>$log</pre></p>");
+			}else{
+				foreach ($sqlFiles as $key => $file){
+					$log = shell_exec("mysql -u $user -p$senha $nomeDB < ".realpath($inport_dir . $file)."");
+					if (!$log){
+						echo("<p style='color:green;'>$file importado com sucesso<p>");
+					}else{
+						echo("<p style='color:red;'>Log da importação do arquivo $file<pre>$log</pre></p>");
+					}
 				}
 			}
 		}
@@ -156,10 +159,12 @@ define( 'WWW', '$www');");
 		*/
 		
 		/*verificar se base de dados foi criada*/
-		if(mysqli_select_db ($conn, $nomeDB)) 
-			echo '<p style="color:green;">Base de dados ' .$nomeDB .' importada!</p>';
-		else
-			die('<p style="color:red;">Falha na criaçao do banco de dados! Verifique se o nome do banco de dados foi inserido corretamente e se o usuario "' .$user .'" possui permissão para criar banco de dados.</p>');
+		if ($reinstalar){
+			if(mysqli_select_db ($conn, $nomeDB)) 
+				echo ( $reinstalar ? '<p style="color:green;">Base de dados ' .$nomeDB .' importada!</p>' : '');
+			else
+				die('<p style="color:red;">Falha na criaçao do banco de dados! Verifique se o nome do banco de dados foi inserido corretamente e se o usuario "' .$user .'" possui permissão para criar banco de dados.</p>');
+		}
 
 		/*configurar arquivo conexao dao*/
 		//configurarConexaoDao($local,$nomeDB, $user, $senha);
