@@ -1,0 +1,164 @@
+function gera_boleto(){
+    $.post("./php/infoboletofacil.php").done(function(data){
+        var dado = JSON.parse(data);
+        var api = dado.API;
+        var token = dado.token;
+        var agradecimento = dado.agradecimento;
+        var dias_venc_unico = dado.maxOverDays_Unico;
+        var dias_venc_mensal = dado.maxOverDueDays_carne;
+            var dia = retorna_dia();
+            var valor = retorna_valor();
+            var doc = retorna_doc();
+            var nome = retorna_nome(doc);
+            var dataV = retorna_dataV(dia);
+            var parcelas = retorna_parecela();
+        var email = $("#email").val();
+        var telefone = $("#telefone").val();
+        var cep = $("#cep").val();
+        var rua = $("#rua").val();
+        var bairro = $("#bairro").val();
+        var cidade = $("#localidade").val();
+        var uf = $("#uf").val();
+        var numero = $("#numero").val();
+        var complemento = $("#complemento").val();    
+            /*console.log(api);
+            console.log(token);
+            console.log(agradecimento);
+            console.log(dias_venc_unico);
+            console.log(dias_venc_mensal);
+            console.log(parcelas);*/
+
+        var check;
+
+            if($("#tipo2").prop("checked"))
+            {
+                $.get(api+"&token="+token+"&description="+agradecimento+"&amount="+valor+"&dueDate="+dataV+"&maxOverdueDays="+dias_venc_unico+"&payerName="+nome+"&payerCpfCnpj="+doc+"&payerEmail="+email+"&payerPhone="+telefone+"&billingAddressStreet="+rua+"&billingAddressNumber="+numero+"&billingAddressComplement="+complemento+"&billingAddressNeighborhood="+bairro+"&billingAddressCity="+cidade+"&billingAddressState="+uf+"&billingAddressPostcode="+cep+"&paymentTypes=BOLETO&notifyPayer=TRUE").done(function(dados){
+                    cad_log();
+                    for(var link of dados.data.charges)
+                    {
+                        
+                        var check = link.checkoutUrl;
+                    
+                    }
+                    $("form").html('<div><h3>OBRIGADO POR SUA DOAÇÃO! VOCÊ ESTÁ AJUDANDO A MANTER ESSA INSTITUIÇÃO QUE ABRIGA IDOSOS DESDE 1929!</h3><br><br><br><button class="mala"><a class = "botao" target="_blank" href='+check+'>EMITA SEU BOLETO AQUI</a></button> <button class="mala"><a class="botao" href="../contribuicao/index.php">VOLTAR À PÁGINA INICIAL</a></button></div>');
+                    
+                });
+            }
+            else{
+
+                $.get(api+"&token="+token+"&description="+agradecimento+"&amount="+valor+"&dueDate="+dataV+"&maxOverdueDays="+dias_venc_mensal+"&installments="+parcelas+"&payerName="+nome+"&payerCpfCnpj="+doc+"&payerEmail="+email+"&payerPhone="+telefone+"&billingAddressStreet="+rua+"&billingAddressNumber="+numero+"&billingAddressComplement="+complemento+"&billingAddressNeighborhood="+bairro+"&billingAddressCity="+cidade+"&billingAddressState="+uf+"&billingAddressPostcode="+cep+"&paymentTypes=BOLETO&notifyPayer=TRUE").done(function(dados){
+                    cad_log();
+                    for(var link of dados.data.charges)
+                    {
+                        
+                        var check = link.checkoutUrl; 
+    
+                    }
+                    $("form").html('<div><h3>OBRIGADO POR SUA DOAÇÃO! VOCÊ ESTÁ AJUDANDO A MANTER ESSA INSTITUIÇÃO QUE ABRIGA IDOSOS DESDE 1929!</h3><br><br><br><button class="mala"><a class="botao" target="_blank" href='+check+'>EMITA SEU BOLETO AQUI</a></button> <button class="mala"><a class = "botao" href="../contribuicao/index.php">VOLTAR À PÁGINA INICIAL</a></button></div>');
+                    
+                });
+            }
+
+    });
+}
+
+function retorna_valor(){
+    
+    if($("#tipo1").prop('checked'))
+    {
+        var valor = $("#valores option:selected").val();
+                
+    }
+     else
+        {
+            valor = $("#v").val();
+        }
+    
+        return valor;
+}
+
+function retorna_doc()
+{
+    if($("#op_cpf").prop('checked'))
+    {
+        var doc = $("#dcpf").val();
+    }
+    else
+        {
+            doc = $("#dcnpj").val();
+        }
+
+        return doc;
+}
+
+function retorna_nome(doc){
+    doc = doc.replace(/\D/g, '');
+        var tam = doc.length;
+            if (tam == 11) {
+                var nome = $("#nome").val();
+            }
+            else 
+            {
+                if (tam == 14) {
+                    nome = $("#cnpj_nome").val();
+                }
+            }
+        return nome;
+}
+
+function retorna_dataV(dia)
+{
+    var dia = dia;
+    var now = new Date;
+    if($("#tipo2").prop("checked")) 
+    {
+        var diaA = now.getDate() +3;
+            if(dia == 29 || dia == 30 || dia == 31)
+            {
+                diaA = 3;
+                var mesA = now.getMonth() + 2;
+            }
+        var mesA = now.getMonth()+1;
+        var anoA = now.getFullYear();
+        var DataV = diaA+"/"+mesA+"/"+anoA;
+
+        return DataV;
+    }
+        else
+        {
+            var diaA = now.getDate();
+                if(dia<=diaA)
+                {
+                    var mes_atual = now.getMonth() + 2;
+                }
+                else
+                {
+                    var mes_atual = now.getMonth() + 1;
+                }  
+
+            var ano_atual = now.getFullYear();
+            var DataV = dia+"/"+mes_atual+"/"+ano_atual;
+    
+            return DataV;
+        }
+            
+}
+
+function retorna_parecela()
+{
+    var now = new Date;
+    var mes = now.getMonth() + 1;
+   
+
+    var parcelas = 0;
+        if(mes <=6)
+        {
+            parcelas = 13 - mes;
+        }
+        else
+            {
+                parcelas = (12 - mes)+ 12;
+            }
+
+        return parcelas;
+}
