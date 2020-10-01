@@ -393,6 +393,36 @@ $(document).ready(function(){
             }
         } );
     } );
+    // Tabela doações
+    $(document).ready(function() {
+        $('#tbDoacoes').DataTable( {
+            "processing": true,
+            "searching": false,
+            "language": {
+                "sEmptyTable": "Nenhuma doação encontrada no sistema.",
+                "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+                "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sInfoThousands": ".",
+                "sLengthMenu": "_MENU_ doações por página",
+                "sLoadingRecords": "Carregando...",
+                "sProcessing": "Processando...",
+                "sZeroRecords": "Nenhum sócio faz aniversário no mês atual.",
+                "sSearch": "Pesquisar",
+                "oPaginate": {
+                    "sNext": "Próximo",
+                    "sPrevious": "Anterior",
+                    "sFirst": "Primeiro",
+                    "sLast": "Último"
+                },
+                "oAria": {
+                    "sSortAscending": ": Ordenar colunas de forma ascendente",
+                    "sSortDescending": ": Ordenar colunas de forma descendente"
+                }
+            }
+        } );
+    } );
     // Modal tabela sócios
     $("#btn_socios").click(function(){
         $("#modalSocios").modal("toggle");

@@ -221,7 +221,44 @@
                 -->
 
                 <section>
-                    
+                    <h3>3. Recursos</h3><hr>
+                    <p>[Descrição de recursos aqui]</p>
+                    <dir id="_memorando">
+                        <h3>3.3. Memorando</h3><hr>
+                        <p>O módulo do memorando é destinado à troca de mensagens institucionais pelos funcionários da instituição. Essa troca é feita através da criação, por um funcionário, de um <strong>memorando</strong> e de um <strong>despacho</strong>, que serão enviados a outro funcionário. O funcionário que receber esse memorando e esse despacho os enviará a outro e assim sucessivamente até que o memorando volte a sua origem e seja arquivado.</p>
+                        <dir id="_criacao_memorando">
+                            <h3>3.3.1. Criação do memorando</h3><hr>
+                            <p>Para criar um memorando o funcionário deverá, munido das credenciais necessárias, acessar a <a href="../html/memorando/listar_memorandos_ativos.php">caixa de entrada do módulo memorando</a> e preencher o assunto do memorando  no campo "Assunto", da seção "Criar memorando", e acionar o botão "Criar memorando". Em seguida o funcionário será direcionado a página de envio de despacho.</p>
+                        </dir>
+                        <dir id="_envio_despacho">
+                            <h3>3.3.2. Envio de despacho</h3><hr>
+                            <p>Existem duas possibilidades para o envio de despachos: <i>enviar um despacho em um memorando que foi recebido</i> ou <i>enviar um despacho em um memorando que foi criado naquele momento</i>.</p>
+                            <p>Para ambos os casos o procedimento é o mesmo:</p>
+                                <p>1. Selecionar, no campo "destino", o funcionário para quem será enviado o despacho.</p>
+                                <p>2. Selecionar arquivos para anexar ao despacho, clicando no botão "Escolher arquivos" <strong>(OPCIONAL)</strong></p>
+                                <p>3. Preencher o campo "Despacho" com as informações que devem ser enviadas no despacho. Na parte superior desse campo é possível alterar a formatação dele com alterações como: negrito, itálico, cor do texto e cor da marcação do texto.</p>
+                                <p>4. Acionar o botão "Enviar"</p>
+                        </dir>
+                        <dir id="_caixa_de_entrada">
+                            <h3>3.3.3. Caixa de entrada</h3><hr>
+                            <p>A <a href="../html/memorando/listar_memorandos_ativos.php">caixa de entrada do módulo memorando</a> é o espaço destinado ao recebimento de memorandos. Sempre que um despacho for enviado para você, o memorando desse despacho estará disponível na caixa de entrada. Para acessar um memorando basta clicar no seu título.</p>
+                            <p>Nesse espaço também é possível criar um novo memorando (leia <a href="#_criacao_memorando">3.3.1. Criar memorando</a>)
+                        </dir>
+                        <dir id="_memorandos_despachados">
+                            <h3>3.3.4. Memorandos despachados</h3><hr>
+                            <p>A <a href="../html/memorando/listar_memorandos_antigos.php">lista de memorandos despachados</a> é um local para visualização dos memorandos que já foram enviados para você, inclusive os que já foram despachados para outras pessoas. Para acessar um memorando despachado basta clicar no seu título.</p>
+                        </dir>
+                        <dir id="_memorandos_despachados">
+                            <h3>3.3.5. Opções da caixa de entrada</h3><hr>
+                            <p>Os memorandos na <a href="../html/memorando/listar_memorandos_ativos.php">caixa de entrada</a> possuem algumas opções de configuração que são:</p>
+                                <p>1. Não lido <img src="../img/nao-lido.png" width=25px height= 25px>, opção para marcar um memorando como não lido. <strong>Disponível apenas quando o memorando foi visualizado</strong>. Quando um memorando está marcado com essa opção sua cor fica <strong>azul</strong>.
+                                <p>2. Lido <img src="../img/lido.png" width=25px height= 25px>, opção para marcar um memorando como lido. <strong>Disponível apenas quando o memorando não foi visualizado</strong>.
+                                <p>3. Importante <img src="../img/importante.png" width=25px height= 25px>, opção para marcar um memorando como importante. Quando um memorando está marcado com essa opção sua cor fica <strong>vermelha</strong>.
+                                <p>3. Pendente <img src="../img/importante.png" width=25px height= 25px>, opção para marcar um memorando como pendente. Quando um memorando está marcado com essa opção sua cor fica <strong>amarela</strong>.
+                                <p>3. Arquivar memorando <img src="../img/arquivar.png" width=25px height= 25px>, opção para marcar um memorando como arquivado. Quando um memorando está marcado com essa opção ele não fica disponível na caixa de entrada, apenas na lista de memorandos despachados. <strong>Disponível apenas quando o usuário foi o criador do memorando</strong>.
+                            <p>
+                        </dir>
+                    </dir>
                     <div class="justify-content-between">
                         <a href="./instalacao.php" type="button" class="btn btn-secondary">
                             <i class="fas fa-arrow-left"></i>
