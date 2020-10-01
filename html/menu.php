@@ -181,7 +181,7 @@ if(file_exists($config_path)){
 						</ul>
 					</li>
 					<li id="5">
-						<a href="../manual/index.php">
+						<a href="<?= WWW ?>manual/index.php">
 							<i class="fas fa-book" aria-hidden="true"></i>
 							<span>Manual</span>
 						</a>
