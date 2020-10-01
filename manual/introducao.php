@@ -232,9 +232,9 @@
                             </dir>
                 -->
 
-                <section>
-                        <h3>1. Introdução</h3><hr>
-                        <p>WeGIA é uma ferramenta voltada para o gerenciamento de instituições assistenciais pensada para servidores locais de empresas. Com essa ferramenta, é possível gerenciar cadastros de funcionários e ter controle sobre seus cargos e níveis de acesso aos módulos do site, além de ter acesso ás informações cadastradas de cada um e controle sobre várias áreas da instituição, como controle de estoque, relatórios, memorandos e sócios.</p>
+                <section id="_introducao">
+                    <h3>1. Introdução</h3><hr>
+                    <p>WeGIA é uma ferramenta voltada para o gerenciamento de instituições assistenciais pensada para servidores locais de empresas. Com essa ferramenta, é possível gerenciar cadastros de funcionários e ter controle sobre seus cargos e níveis de acesso aos módulos do site, além de ter acesso ás informações cadastradas de cada um e controle sobre várias áreas da instituição, como controle de estoque, relatórios, memorandos e sócios.</p>
                     <div class="justify-content-between">
                         <a href="./" type="button" class="btn btn-secondary">
                             <i class="fas fa-arrow-left"></i>

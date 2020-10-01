@@ -167,6 +167,49 @@
                                         </li>
                                     </ul>
                                 </li>
+                                <li id="3" class="nav-parent nav-active">
+                                    <a>
+                                        <span>3. Recursos</span>
+                                    </a>
+                                    <ul class="nav nav-children">
+                                        <li>
+                                            <a href="#_recursos">
+                                                3.0 Recursos
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#_memorando">
+                                                3.3. Memorando
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#_criacao_memorando">
+                                                3.3.1. Criação do memorando
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#_envio_despacho">
+                                                3.3.2. Envio de despacho
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#_caixa_de_entrada">
+                                                3.3.3. Caixa de entrada
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#_memorandos_despachados">
+                                                3.3.4. Memorandos despachados
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#_opcoes_caixa_de_entrada">
+                                                3.3.5. Opções da caixa de entrada
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
                             </ul>
                         </nav>
                     </div>
@@ -220,7 +263,7 @@
                             </dir>
                 -->
 
-                <section>
+                <section id="_recursos">
                     <h3>3. Recursos</h3><hr>
                     <p>[Descrição de recursos aqui]</p>
                     <dir id="_memorando">
@@ -248,7 +291,7 @@
                             <h3>3.3.4. Memorandos despachados</h3><hr>
                             <p>A <a href="../html/memorando/listar_memorandos_antigos.php">lista de memorandos despachados</a> é um local para visualização dos memorandos que já foram enviados para você, inclusive os que já foram despachados para outras pessoas. Para acessar um memorando despachado basta clicar no seu título.</p>
                         </dir>
-                        <dir id="_memorandos_despachados">
+                        <dir id="_opcoes_caixa_de_entrada">
                             <h3>3.3.5. Opções da caixa de entrada</h3><hr>
                             <p>Os memorandos na <a href="../html/memorando/listar_memorandos_ativos.php">caixa de entrada</a> possuem algumas opções de configuração que são:</p>
                                 <p>1. Não lido <img src="../img/nao-lido.png" width=25px height= 25px>, opção para marcar um memorando como não lido. <strong>Disponível apenas quando o memorando foi visualizado</strong>. Quando um memorando está marcado com essa opção sua cor fica <strong>azul</strong>.

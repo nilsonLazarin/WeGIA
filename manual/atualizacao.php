@@ -220,7 +220,7 @@
                             </dir>
                 -->
 
-                <section>
+                <section id="_atualizacao">
                     <div class="justify-content-between">
                         <a href="./seguranca.php" type="button" class="btn btn-secondary">
                             <i class="fas fa-arrow-left"></i>
