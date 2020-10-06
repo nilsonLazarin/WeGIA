@@ -2,7 +2,7 @@
 <?php
 	$hasConfig = file_exists("../config.php");
 	if ($hasConfig){
-		//header("Location: ../html/home.php");
+		header("Location: ../html/home.php");
 	}
 ?>
 <html>
@@ -32,7 +32,7 @@
  <body>
 	 <form action="instalador.php" onsubmit="return validarForm()" method="post">
 		 <div>
-			 <p>Preencha o formulário com as informações necessárias para instalar o software, ou em caso de dúvidas, acesse o <a href="./manual.php">Manual de Instalação do Wegia</a>.</p>
+			 <p>Preencha o formulário com as informações necessárias para instalar o software, ou em caso de dúvidas, acesse o <a href="../manual/instalacao.php">Manual de Instalação do Wegia</a>.</p>
 		 </div>
 		<h5 class="required">Campos Obrigatórios: (*)</h5>
 

@@ -15,7 +15,7 @@
 	<script type="text/javascript" src="./js/outros.js"></script>
 	<script type="text/javascript" src="./js/data.js"></script>
 	<script type="text/javascript" src="./js/telefone.js"></script>
-	<script type="text/javascript" src="./js/boletoFacil.js"></script>
+	<script type="text/javascript" src="./js/geraboleto.js"></script>
 	<script type="text/javascript" src="./js/converte.js"></script>
 	<script type="text/javascript" src="./js/verificar.js"></script>
 	<script type="text/javascript" src="./js/validacpfcnpj.js"></script>

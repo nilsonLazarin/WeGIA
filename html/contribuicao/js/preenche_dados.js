@@ -1,11 +1,16 @@
+/*function preencher(id)
+{
+    //limpar();
+    $.post("infos_boleto.php", {'id_sistema':id})
+    .done(function(data){
+        console.log(data);
+    });
+}*/
 function preencher(id)
 {
-    limpar();
-
     $.post("atualiza_sistema_boleto.php", {'id_sistema':id})
     .done(function(data){
-        
-        var array = data.split('ERR');
+    var array = data.split('ERR');
             if(array.length == 2)
             {
                 $("#form1").attr("action", "insere_doacao.php"); 

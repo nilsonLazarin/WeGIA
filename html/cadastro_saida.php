@@ -121,8 +121,8 @@
 				
 			var tipo_saida = <?php 
 				echo $tipo_saida; 
-			?>;
-			
+			?>; 
+						
 			var produtos_autocomplete = <?php
 				echo $autocomplete;
 			?>;
@@ -312,45 +312,46 @@
 
 				<!-- start: page -->
 				<div class="row">
-					<div class="col-md-8 col-lg-8 box">
+					<div class="col-md-8 col-lg-8">
+						<div class="tabs">
 						<ul class="nav nav-tabs tabs-primary">
 							<li class="active">
 								<a href="#overview" data-toggle="tab">Registrar Saída</a>
 							</li>
 						</ul>
-						<div class="tab-content" style="width: 832px;">
+						<div class="tab-content">
 							<div id="overview" class="tab-pane active">
 								<form class="form-horizontal" method="post" id="formulario" onsubmit="return validar()" action="../controle/control.php" autocomplete="off">
 									<fieldset>
 										<div class="info-entrada" >
 											<div class="form-group">
-												<label class="col-md-3 control-label" >Destino</label>
+												<label class="col-md-3 control-label" for="origem">Destino</label>
+												<a href="cadastro_destino.php"><i class="fas fa-plus w3-xlarge"></i></a>
 												<div class="col-md-8">
 													<input type="search" list="origens" id="origem" name="destino" class="form-control" autocomplete="off" required>
 													<datalist id="origens">
 													</datalist>
 												</div>
-												<a href="cadastro_destino.php"><i class="fas fa-plus w3-xlarge"></i></a>
 											</div>
 											
 											<div class="form-group">
-												<label class="col-md-3 control-label" >Almoxarifado</label>
+												<label class="col-md-3 control-label" for="almoxarifado">Almoxarifado</label>
+												<a href="adicionar_almoxarifado.php"><i class="fas fa-plus w3-xlarge"></i></a>
 												<div class="col-md-6">
 													<select class="form-control " name="almoxarifado" id="almoxarifado">
 														<option selected disabled value="blank">Selecionar</option>
 													</select>
 												</div>
-												<a href="adicionar_almoxarifado.php"><i class="fas fa-plus w3-xlarge"></i></a>
 											</div>
 
 											<div class="form-group">
-												<label class="col-md-3 control-label" >Tipo</label>
+												<label class="col-md-3 control-label" for="tipo_entrada">Tipo</label>
+												<a href="adicionar_tipoSaida.php"><i class="fas fa-plus w3-xlarge"></i></a>
 												<div class="col-md-6">
 													<select class="form-control " name="tipo_saida" id="tipo_entrada">
 														<option selected disabled value="blank">Selecionar</option>
 													</select>
 												</div>
-												<a href="adicionar_tipoSaida.php"><i class="fas fa-plus w3-xlarge"></i></a>
 											</div>
 										</div>
 										
@@ -423,6 +424,7 @@
 								</form>
 							</div>
 						</div>
+					</div>
 					</div>
 				</div>
 			</section>

@@ -180,6 +180,12 @@ if(file_exists($config_path)){
 							</li>
 						</ul>
 					</li>
+					<li id="5">
+						<a href="<?= WWW ?>manual/index.php">
+							<i class="fas fa-book" aria-hidden="true"></i>
+							<span>Manual</span>
+						</a>
+					</li>
 				</ul>
 			</nav>
 		</div>
