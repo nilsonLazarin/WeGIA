@@ -4,7 +4,7 @@
 	<!-- Basic -->
 	<meta charset="UTF-8">
 
-	<title>5. Atualixação</title>
+	<title>5. Atualização</title>
 
 	<!-- Mobile Metas -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -214,13 +214,16 @@
                 <!--start: page-->
 
                 <!-- estrutura básica:
-                            <dir id="_">
-                                <h3></h3><hr>
-                                <p></p>
-                            </dir>
+                    <dir id="_">
+                        <h3></h3><hr>
+                        <p></p>
+                    </dir>
                 -->
 
                 <section id="_atualizacao">
+                    <h3>5. Atualização</h3><hr>
+                    <p>O WeGIA é um Software de Código Aberto e está disponível para download no GitHub. A atualização importa a versão mais recente do software disponível no repositório remoto para o servidor usando o seguinte comando git: <pre>git -C <strong style="color: red;">/caminho/para/o/diretorio</strong> pull 2>&1</pre></p>
+                    <p>A opção para atualizar o código do site está disponível em Configuração -> Configurações Gerais e gera um backup tanto da versão antiga quanto do banco de dados automaticamente.</p>
                     <div class="justify-content-between">
                         <a href="./seguranca.php" type="button" class="btn btn-secondary">
                             <i class="fas fa-arrow-left"></i>
