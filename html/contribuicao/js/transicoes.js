@@ -1,72 +1,104 @@
 function atualiza(){
-
  
-  $("#alerta_boleto").hide();
-  $("#alerta_cartao").hide();
-  $("#cartao").hide();
-  $("#insere_doacao_mensal").hide();
+  $("#alerta").hide();
+  $("#divpagseguro").hide();
+  $("#divpaypal").hide();
   $("#btn-bol").hide();
-  $("#btn-card").hide();
-  $("#alerta_cartao").hide();
   $('#foo').hide();
 
-  
-  $("#btn-bol").click(function(){
-      $('#foo').fadeIn();
-      setTimeout(function () {
-          $('#foo').hide(); 
-      }, 99000);
-  });
-  $("#btn-card").click(function(){
-      $('#foo').fadeIn();
-      setTimeout(function () {
-          $('#foo').hide(); 
-      }, 99000);
-  });
-
-  var id = retorna_id("boletofacil");
+  $("submit").click(function(){
+	$('#foo').fadeIn();
+	setTimeout(function () {
+		$('#foo').hide(); 
+	}, 99000);
+});
+	if($("#dadoBol").val() == 0)
+		{
+			$("#alerta").fadeIn();
+		}
+ 
   $("#header").load("../../header.php");
   $(".menuu").load("../../menu.php");
   $("input").prop("readonly", true);
+  $("textarea").prop("readonly", true);
 
   $("#editar-bol").click(function(){editando()});
-  $("#editar-card").click(function(){editando_card()});
+  $("#editar-pay").click(function(){editando_card()});
+  $("#editar-pag").click(function(){editando_card()});
+
   
-  $("#pagseguro").click(function(){ 
-      
-      var id = retorna_id('pagseguro');
-      $("#boleto").hide();
-      $("#cartao").fadeIn();
-      $("#btn-card").hide();
+  $("#pagseguro").click(function(){
+	$("#alerta").hide(); 
+	  if($("#dadoPag").val() == 0)
+	  {
+		  $("#alerta").fadeIn();
+	  }
+	  $("#divpagseguro").fadeIn();
+	  $("#divboleto").hide();
+	  $("#divpaypal").hide();
+      $("#btn-card-pag").hide();
       $("#alerta_boleto").hide();
-      $("#editar-card").fadeIn();
-      $("#valor").prop("readonly", true);
-      $("#link").prop("readonly", true);
+      $("#editar-pag").fadeIn();
+	  $("input").prop("readonly", true);
+	
      
      
   });
   $("#boletofacil").click(function(){
-     
-     var id = retorna_id("boletofacil");
-      $("#boleto").fadeIn();
-      $("#cartao").hide();
+	$("#alerta").hide();
+	if($("#dadoBol").val() == 0)
+	{
+		$("#alerta").fadeIn();
+	}
+      $("#divboleto").fadeIn();
+	  $("#divpagseguro").hide();
+	  $("#divpaypal").hide();
       $("#btn-bol").hide();
       $("#alerta_cartao").hide();
-      $("#editar-bol").fadeIn();
+	  $("#editar-bol").fadeIn();
+	  $("input").prop("readonly", true);
+	  $("textarea").prop("readonly", true);
+	
   });
-  $("#paypal").click(function(){ 
-
-      var id = retorna_id("paypal");
-      $("#boleto").hide();
-      $("#cartao").fadeIn();
-      $("#btn-card").hide();
+  $("#paypal").click(function(){
+	$("#alerta").hide();
+	if($("#dadopay").val() == 0)
+	{
+		$("#alerta").fadeIn();
+	} 
+	  $("#divpaypal").fadeIn();
+	  $("#divboleto").hide();
+	  $("#divpagseguro").hide();
+      $("#btn-card-pay").hide();
       $("#alerta_boleto").hide();
-      $("#editar-card").fadeIn();
-      $("#valor").prop("readonly", true);
-      $("#link").prop("readonly", true);
+      $("#editar-pay").fadeIn();
+      $("input").prop("readonly", true);
 
   });
 
+}
+function editando(){
+    $("#btn-bol").fadeIn();
+    $("#editar-bol").hide();
+
+    $("input").prop("readonly", false);
+    $("textarea").prop("readonly", false);
+    
+}
+
+function editando_card()
+{
+    $("#btn-bol").hide();
+    $("#editar-bol").hide();
+    $("#editar-pay").hide();
+	$("#btn-card-pay").fadeIn();
+	$("#btn-card-pag").fadeIn();
+	$("#editar-pag").hide();
+
+    $("input").prop("readonly", false);
+    $("#valor").prop("readonly", false);
+    $("#link").prop("readonly", false);
+   
 }
 
 function transicoes()
