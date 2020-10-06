@@ -247,7 +247,7 @@ $.each(unidade, function(i,item){
 								</li>
 							</ul>
 								
-							<div class="tab-content" style="width: 660px;">
+							<div class="tab-content">
 								<div id="overview" class="tab-pane active">
 									<div>
 										<section class="panel">
