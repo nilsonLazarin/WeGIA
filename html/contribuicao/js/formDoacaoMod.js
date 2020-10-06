@@ -1,3 +1,55 @@
+function toReal()
+{   
+    var valor = $("#v").val();
+    var valor = valor.replace(",",".");
+    var ponto = valor.indexOf(".");
+    var tamanho = valor.length;
+        if(ponto == "-1")
+        {
+            valor = valor+".00";  
+        }
+    $("#v").val(valor);
+    
+}
+function valida_email()
+{
+    var e_mail = $("#email").val();
+
+    $.post("./php/server.php",
+    {"email":e_mail}).done(function(resultado)
+    {
+        var r = JSON.parse(resultado);
+        
+            if(!r.resultado)
+            {
+                
+                $("#avisa_email").html('e-mail inválido');
+            }
+            else
+            {
+                
+                $("#avisa_email").html('');
+            }
+    });
+}
+function valida_telefone()
+{
+	var telefone=$("#telefone").val().replace(/\D/g, '');
+	var validatelefone=/^[1-9]{2}(([2-8]{1}[0-9]{7})|(9[1-9]{1}[0-9]{7}))$/;
+	if(telefone.length!=0)
+	{
+	if(validatelefone.test(telefone))
+	{
+	}
+	else
+	{
+		$("#telefone").parent().attr("data-validate", "Telefone não encontrado");
+		$("#telefone").parent().removeClass("true-validate");
+		$("#telefone").parent().addClass("alert-validate");
+	}
+}
+}
+
 function valida_cep(){
 	var url="https://viacep.com.br/ws/";
 	var saida="";
@@ -156,3 +208,37 @@ function valida_endereco(){
 		}
 	}
 }
+
+function valida_data(){
+	
+	var now = new Date();
+	var year=now.getFullYear();
+	var month=now.getMonth() +1;
+	var day=now.getDate();
+	function limpaAviso()
+	{
+		$("#aviso_data").text("");
+	}
+	limpaAviso();
+		var dia=$("#dia").val();
+		var mes=$("#mes").val();
+		var ano=$("#ano").val();
+			if(ano==year)
+			{
+				if(mes>month)
+				{
+					$("#aviso_data").text("Insira uma data válida");
+					
+				}
+				else
+				{
+					if(mes==month)
+					{
+						if(dia>day)
+						{
+							$("#aviso_data").html("Insira uma data válida");
+						}
+					}
+				}
+			}
+		}

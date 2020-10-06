@@ -1,8 +1,95 @@
 <?php
+require_once('conexao.php');
+$banco = new Conexao();
+
 	session_start();
 	if(!isset($_SESSION['usuario'])){
 		header ("Location: ../../../index.php");
     }
+$sistemas = [];
+
+    $banco->querydados("SELECT id FROM sistema_pagamento WHERE nome_sistema= 'BOLETOFACIL'");
+    $dados = $banco->result();
+    $sistemas[0] = $dados['id'];
+    
+    $banco->querydados("SELECT id FROM sistema_pagamento WHERE nome_sistema= 'PAGSEGURO'");
+    $dados = $banco->result();
+    $sistemas[1] = $dados['id'];
+        
+    $banco->querydados("SELECT id FROM sistema_pagamento WHERE nome_sistema= 'PAYPAL'");
+    $dados = $banco->result();
+    $sistemas[2] = $dados['id'];
+        
+
+//dados do boleto...
+
+    $banco->querydados("SELECT * FROM doacao_boleto_regras as regras JOIN doacao_boleto_info as info ON (info.id_regras = regras.id) WHERE info.id_sistema = '$sistemas[0]'");
+    $linhasboleto = $banco->rows();
+    $dadosBoleto = $banco->result();
+        if($linhasboleto != 0)
+        {
+            $valMinUni = $dadosBoleto['min_boleto_uni'];
+            $valMinParc = $dadosBoleto['min_parcela'];
+            $valMaxParc = $dadosBoleto['max_parcela']; 
+            $carenciaUni = $dadosBoleto['dias_boleto_a_vista'];
+            $carenciaMen = $dadosBoleto['max_dias_venc'];
+            $juros = $dadosBoleto['juros'];
+            $multa = $dadosBoleto['multa'];
+            $agradecimento = $dadosBoleto['agradecimento'];
+            $op1 =  $dadosBoleto['dias_venc_carne_op1'];
+            $op2 = $dadosBoleto['dias_venc_carne_op2'];
+            $op3 = $dadosBoleto['dias_venc_carne_op3'];
+            $op4 =  $dadosBoleto['dias_venc_carne_op4'];
+            $op5 = $dadosBoleto['dias_venc_carne_op5'];
+            $op6 = $dadosBoleto['dias_venc_carne_op6'];
+            $api =  $dadosBoleto['api'];
+            $token = $dadosBoleto['token_api'];
+            $sandbox = $dadosBoleto['sandbox'];
+            $tokenSand = $dadosBoleto['token_sandbox'];
+        }else{
+            $valMinUni = '';
+            $valMinParc = '';
+            $valMaxParc = '';
+            $carenciaUni = '';
+            $carenciaMen = '';
+            $juros = '';
+            $multa = '';
+            $agradecimento = '';
+            $op1 =  '';
+            $op2 = '';
+            $op3 ='';
+            $op4 =  '';
+            $op5 ='';
+            $op6 = '';
+            $api =  '';
+            $token = '';
+            $sandbox = '';
+            $tokenSand = '';
+        }
+    
+// dados do cartao paypal... 
+    $banco->querydados("SELECT * FROM doacao_cartao_mensal WHERE id_sistema = $sistemas[2]");
+    $dadosiniciais = $banco->result();
+    $dadospaypal = $banco->arraydados();
+    $linhaspaypal = $banco->rows();
+
+    $banco->querydados("SELECT url FROM doacao_cartao_avulso WHERE id_sistema = $sistemas[2]");
+    $linhaspaypal = $linhaspaypal + $banco->rows();
+    $linkAvulso = $banco->result();
+    $linkAvulsoPay = $linkAvulso['url'];
+
+// dados do cartao pagseguro...  
+    $banco->querydados("SELECT * FROM doacao_cartao_mensal WHERE id_sistema = $sistemas[1]");
+    $dadoinicial = $banco->result();
+    $dadospagseguro = $banco->arraydados();
+    $linhaspagseguro = $banco->rows();
+
+    $banco->querydados("SELECT url FROM doacao_cartao_avulso WHERE id_sistema = $sistemas[1]");
+    $linhaspagseguro = $linhaspagseguro + $banco->rows();
+    $linkAvulsoResult = $banco->result();
+    $linkAvulsoPag = $linkAvulsoResult['url'];
+
+
 ?>
 <!DOCTYPE html>
 <html class="fixed">
@@ -39,15 +126,30 @@
         <script type="text/javascript" src="../js/transicoes.js"></script>
 
     </head>
+    <style>
+        .alerta
+        {
+            padding: 2%;
+            border: 1px solid gray;
+            border-radius: 3px;
+            margin: 10px;
+            font-size: 15px;
+            border-color: #e8273b;
+            color: black;
+            background-color: rgb(237, 85, 101);
+            opacity: 60%;
+        }
+    </style>
+
     <body>
-	<section class="body">
-		<div id="header"></div>
+
+    <section class="body">
+        <div id="header"></div>
         <div class="inner-wrapper">
-			<!-- start: sidebar -->
-			<aside id="sidebar-left" class="sidebar-left menuu"></aside>
-			<!-- end: sidebar -->
-			<section role="main" class="content-body">
-				<header class="page-header">
+			
+            <aside id="sidebar-left" class="sidebar-left menuu"></aside>
+            <section role="main" class="content-body">
+            <header class="page-header">
 					<h2>Configuração de Contribuição</h2>
 					<div class="right-wrapper pull-right">
 						<ol class="breadcrumbs">
@@ -61,11 +163,12 @@
 						</ol>
 						<a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
 					</div>
-                </header>
-                <div class="row">
-					<div class="col-md-4 col-lg-2"></div>
-					<div class="col-md-8 col-lg-8">
+            </header>
+            <div class="row">
+                <div class="col-md-4 col-lg-2"></div>
+                <div class="col-md-8 col-lg-8">
                     <div id='foo'>Dados atualizados com sucesso!</div>
+                    <div class='alerta'>Faltam dados para o sistema selecionado :(</div>
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
 							<li class="nav-item active">
 								<a class="nav-link active" id="boletofacil" data-toggle="tab" href="#img-tab" role="tab" aria-controls="img" aria-selected="true">BOLETOFACIL</a>
@@ -74,157 +177,234 @@
 								<a class="nav-link" id="pagseguro" data-toggle="tab" href="#img-tab" role="tab" aria-controls="img" aria-selected="false">PAGSEGURO</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" id="paypal" data-toggle="tab" href="#txt-tab" role="tab" aria-controls="txt" aria-selected="false">PAYPAL</a>
+								<a class="nav-link" id="paypal" data-toggle="tab" href="#img-tab" role="tab" aria-controls="img" aria-selected="false">PAYPAL</a>
 							</li>
-						</ul>
-						<div class="tab-content" id="myTabContent" width = "50%"> 
-                        
-                        <div id='boleto'>  
-                        <div id="alerta_boleto">Não há informações sobre o sistema selecionado no Banco de Dados</div> 
-                            <form action="atualizacao_doacao.php" method = "POST" id="form1">
-                                <input type="hidden" id="regras_sistema" name="regras_sistema">
-                                <input type='hidden' id='id_sistema' name='id_sistema'>
-                                <input type='hidden' name='nome_sistema' id='nome_sistema'>
-                                <div class="tab-pane active" id="img-tab" role="tabpanel" aria-labelledby="img-tab">
-                                    <table class="table table-bordered mb-none">
-                                    <!--table class="table table-hover"-->
-                                        <!--thead-->
-                                        <h3>Regras Para Doação</h3>
-                                        <br>
-                                            <tr style= "width: 50px;">
-                                                <th scope="col" width="5%">Valor Mínimo Boleto Único</th>
-                                                <th scope="col" width="5%">Valor Mínimo Doação Mensal</th>
-                                                <th scope="col" width="5%">Valor Máximo Doação Mensal:</th>
-                                            </tr>
-                                            <tr id='preenche_bolr1' style= "width: 50px;">
-                                            <td><input id='minval' class="form-control" type='number'  name='minval' autocomplete="on" size="10" readonly='true'></td>
-                                            <td><input type='number' class="form-control" name='minvalparc' id='minvalparc'></td>
-                                            <td><input type='number' class="form-control"name='maivalparc' id='maivalparc'></td>
-                                            </tr>
-                                            <tr>
-                                            <th scope="col">Pagamento Após vencimento Boleto Único:</th>
-                                            <th scope="col">Pagamento Após Vencimento Doação Mensal:</th>
-                                            <th scope="col">Juros:</th>
-                                            </tr>
-                                            <tr id='preenche_bolr2'>
-                                            <td><input type='text' class="form-control" name='unicdiasv' id='unicdiasv'></td>
-                                            <td><input type='text' class="form-control" name='mensaldiasv' id='mensaldiasv'></td>
-                                            <td><input type='text' class="form-control" name='juros' id='juros'></td>
-                                            </tr>
-                                            <tr>
-                                            <th>Multa:</th>
-                                            <th>Agradecimentos</th>
-                                            </tr>
-                                            <tr id='preenche_bolr3'>
-                                            <td><input type='text' class="form-control" name='multa' id='multa'></td>
-                                            <td><textarea name='agradecimento' class="form-control" cols='18'  id='agrad'></textarea></td>
-                                            </tr>
-                                        <thead>
-                                    </table>
-                                    <!--table class="table table-hover"-->
-                                    <table class="table table-bordered mb-none">
-                                        <thead>
-                                            <h3>Datas de Vencimento Para Boleto Mensal</h3>
+                        </ul>
+                        <div class="tab-content" id="myTabContent" width = "50%">
+                            <div id='divpaypal'>
+                                <form action="dadosCartao.php?idSistema=<?php echo $sistemas[2];?>&dados=<?php echo $linhaspaypal;?>" method='POST' id="form2" name="PAYPAL">
+                                    <input type='hidden' id="dadopay" value='<?php echo $linhaspaypal;?>'>
+                                    <div class="tab-pane active" id="img-tab" role="tabpanel" aria-labelledby="img-tab">
+                                        <table class="table table-bordered mb-none">
+                                            <h3>DOAÇÃO AVULSA</h3>
                                             <br>
                                             <tr>
-                                                <th scope="col" width="5%">opção 1</th>
-                                                <th scope="col" width="5%">opção 2</th>
-                                                <th scope="col" width="5%">opcão 3</th>
-                                            </tr>
-                                            <tr id='preenche_bol1'>
-                                                <td><input type='number' class="form-control" name='op01' id='op01' value=></td>
-                                                <td><input type='number' class="form-control" name='op02' id='op02' value=></td>
-                                                <td><input type='number' class="form-control" name='op03' id='op03' value=></td>
+                                                <th>LINK</th>
                                             </tr>
                                             <tr>
-                                                <th scope="col" width="5%">opção 4</th>
-                                                <th scope="col" width="5%">opção 5</th>
-                                                <th scope="col" width="5%">opção 6</th>
+                                                <td><input type='text' class="form-control" readonly= 'true' id='avulso' name='avulso' value="<?php echo$linkAvulsoPay; ?>"></td>
                                             </tr>
-                                            <tr id='preenche_bol2'>
-                                                <td><input type='number' class="form-control" name='op04' id='op04' value=></td>
-                                                <td><input type='number' class="form-control" name='op05' id='op05' value=></td>
-                                                <td><input type='number' class="form-control" name='op06' id='op06' value=></td>
-                                            </tr>
-                                        </thead>
-                                    </table>
-                                    <!--table class="table table-hover"-->
-                                    <table class="table table-bordered mb-none">
-                                    <h3>Configuração de Sistema</h3>
-                                    <br>
-                                            <tr>
-                                                <th scope="col" width="5%">Link API</th>
-                                                <th scope="col" width="5%">TOKEN API</th>
-                                                <th scope="col" width="5%">Link SANDBOX</th>
-                                            </tr>
-                                            <tr id="info_bol3">
-                                                <td><input type='text' class="form-control" name='api' id='api' value=></td>
-                                                <td><input type='text' class="form-control" name='token_api' id='token_api' value=></td>
-                                                <td><input type='text' class="form-control" name='sandbox' id='sandbox' value=></td>
-                                            <tr>
-                                                <th scope="col" width="5%">TOKEN SANDBOX</th>
-                                            </tr>
-                                            <tr id="info_bol4">
-                                                <td><input type='text' class="form-control" name='token_sandbox' id='token_sandbox' value=></td>
-                                            </tr>
-                                    </table>
-                                <input type='button' class="btn btn-primary" id="editar-bol" value="Editar">
-                                <input type='submit' class="btn btn-primary" id="btn-bol" value='Salvar'>
-                                <a href="../index.php"><input type="button" class="btn btn-primary" value="Ir à Página de Contribuição"></a>
-                                </div>
-                                
-                            </form>
-                        </div>
-                               
-                        <div id='cartao'>
-                        <div id="alerta_cartao">Faltam links de doação para esse sistema :(</div>
-                            <form action="atualizacao_doacao.php" method='POST' id="form2">
-                                <div class="tab-pane active" id="img-tab" role="tabpanel" aria-labelledby="img-tab">
-                                    <input type='hidden' name='cod_cartao' id='cod_cartao'>
-                                    <input type='hidden' name='nome_sistema' id='nome_sistema'>
-                                    <table class="table table-bordered mb-none">
-                                        <h3>DOAÇÃO AVULSA</h3>
-                                        <br>
-                                        <tr>
-                                            <th>LINK</th>
-                                        </tr>
-                                        <tr id='avulso_link_tr'>
-                                            <td><input type='text' class="form-control" readonly= 'true' id='avulso_link' name='avulso_link' value=></td>
-                                        </tr>
-                                    </table>
-                                    <h3>DOAÇÃO MENSAL</h3>
-                                    <br>
-                                    <div id='doacao_mensal'>
-                                    </div> 
-                                    <div id = 'insere_doacao_mensal'>
-                                        <table class="table table-bordered mb-none">
-                                            <tr>
-                                                <th>VALOR</th><th>LINK</th>
-                                            </tr>
-                                            <tr>
-                                                <td><input type='number' class="form-control" readonly='true' name='valor' id='valor' value =></td>
-                                                <td><input type='text' class='form-control' readonly='true' name='link' id='link' value= ></td>
-                                            </tr>
-                                    
                                         </table>
+                                            <h3>DOAÇÃO MENSAL</h3>
+                                            <br>
+                                            <div id='doacao_mensal'>
+                                                <table class="table table-bordered mb-none">
+                                                    <tr>
+                                                        <th>VALOR</th><th>LINK</th>
+                                                    </tr>
+                                                    <?php
+                                                        if($linhaspaypal == 0){
+                                                            echo"<tr>";
+                                                            echo"<td><input type='number' class='form-control' readonly='true' name='valor_extra' id='valor_extra' value=></td>";
+                                                            echo"<td><input type='text' class='form-control' readonly='true' name='link_extra' id='link_extra' value= ></td>";
+                                                            echo"</tr>";
+                                                        } 
+                                                        else{
+                                                            echo"<tr>";
+                                                            echo("<td><input type='number' name='valores[]' readonly= 'true' class='form-control' value=".$dadosiniciais['valor']."></td>");
+                                                            echo("<td><input type='text' class='form-control' readonly='true' name='link_doacao[]' value=".$dadosiniciais['link']."></td>"); 
+                                                            echo("<input type='hidden' name='id[]' value=".$dadosiniciais['id'].">");
+                                                            echo"</tr>";
+                                                            foreach($dadospaypal as $dados)
+                                                            {
+                                                                echo"<tr>";
+                                                                echo("<td><input type='number' name='valores[]' readonly= 'true' class='form-control' value=".$dados['valor']."></td>");
+                                                                echo("<td><input type='text' class='form-control' readonly='true' name='link_doacao[]' value=".$dados['link']."></td>"); 
+                                                                echo("<input type='hidden' name='id[]' value=".$dados['id'].">");
+                                                                echo"</tr>";
+                                                            }
+                                                        
+                                                            echo"<tr>";
+                                                            echo"<td><input type='number' class='form-control' readonly='true' name='valor_extra' id='valor_extra' value=></td>";
+                                                            echo"<td><input type='text' class='form-control' readonly='true' name='link_extra' id='link_extra' value= ></td>";
+                                                            echo"</tr>";
+                                                        }     
+                                                    ?>
+                                                    
+                                                </table>
+                                            </div>
+                                            <br><br>
+                                        <input type="button" class= "btn btn-primary" id="editar-pay" value="Editar">
+                                        <input type="submit" class="btn btn-primary" id="btn-card-pay" value='Salvar'>
+                                        <a href="../index.php"><input type="button" class="btn btn-primary" value="Ir à Página de Contribuição"></a>
                                     </div>
-                                        <br><br>
-                                        <input type="button" class= "btn btn-primary" id="editar-card" value="Editar">
-                                    <input type="submit" class="btn btn-primary" id="btn-card" value='Salvar'>
-                                    <a href="../index.php"><input type="button" class="btn btn-primary" value="Ir à Página de Contribuição"></a>  
-                                </div> 
-                            </form>
-						</div>
-                    </div>
+                                </form>
+                            </div>
+                            <div id='divboleto'> 
+                                <form action="dadosBoleto.php?idSistema=<?php echo $sistemas[0];?>$idRegras=<?php echo $dadosBoleto['id_regras']; ?>&dados=<?php echo $linhasboleto; ?>" method = "POST" id="form1" name="BOLETO">
+                                    <input type='hidden' id="dadoBol" value='<?php echo $linhasboleto;?>'>
+                                    <div class="tab-pane active" id="img-tab" role="tabpanel" aria-labelledby="img-tab">
+                                        <table class="table table-bordered mb-none">
+                                            <!--table class="table table-hover"-->
+                                            <thead>
+                                                <h3>Regras Para Doação</h3>
+                                                <br>
+                                                <tr style= "width: 50px;">
+                                                    <th scope="col" width="5%">Valor Mínimo Boleto Único</th>
+                                                    <th scope="col" width="5%">Valor Mínimo Doação Mensal</th>
+                                                    <th scope="col" width="5%">Valor Máximo Doação Mensal:</th>
+                                                </tr>
+                                                <tr>
+                                                    <td><input id='minval' class="form-control" type='number'  name='minval' autocomplete="on" size="10" readonly='true' value="<?php echo$valMinUni; ?>"></td>
+                                                    <td><input type='number' class="form-control" name='minvalparc' id='minvalparc' value="<?php echo $valMinParc; ?>"></td>
+                                                    <td><input type='number' class="form-control"name='maivalparc' id='maivalparc' value="<?php echo$valMaxParc;?>"></td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="col">Pagamento Após vencimento Boleto Único:</th>
+                                                    <th scope="col">Pagamento Após Vencimento Doação Mensal:</th>
+                                                    <th scope="col">Juros:</th>
+                                                </tr>
+                                                <tr>
+                                                    <td><input type='text' class="form-control" name='unicdiasv' id='unicdiasv' value="<?php echo $carenciaUni; ?>"></td>
+                                                    <td><input type='text' class="form-control" name='mensaldiasv' id='mensaldiasv' value="<?php echo $carenciaMen; ?>"></td>
+                                                    <td><input type='text' class="form-control" name='juros' id='juros' value="<?php echo $juros; ?>"></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Multa:</th>
+                                                    <th>Agradecimentos</th>
+                                                </tr>
+                                                <tr>
+                                                    <td><input type='number' class="form-control" name='multa' id='multa' value="<?php echo $multa; ?>"></td>
+                                                    <td><textarea name='agradecimento' class="form-control" cols='18'  id='agradecimento'><?php echo $agradecimento; ?></textarea></td>
+                                                </tr>
+                                            <thead>
+                                        </table>
+                                        <!--table class="table table-hover"-->
+                                        <table class="table table-bordered mb-none">
+                                            <thead>
+                                                <h3>Datas de Vencimento Para Boleto Mensal</h3>
+                                                <br>
+                                                <tr>
+                                                    <th scope="col" width="5%">opção 1</th>
+                                                    <th scope="col" width="5%">opção 2</th>
+                                                    <th scope="col" width="5%">opcão 3</th>
+                                                </tr>
+                                                <tr>
+                                                    <td><input type='number' class="form-control" name='op01' id='op01' value="<?php echo $op1; ?>"></td>
+                                                    <td><input type='number' class="form-control" name='op02' id='op02' value="<?php echo $op2; ?>"></td>
+                                                    <td><input type='number' class="form-control" name='op03' id='op03' value="<?php echo $op3; ?>"></td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="col" width="5%">opção 4</th>
+                                                    <th scope="col" width="5%">opção 5</th>
+                                                    <th scope="col" width="5%">opção 6</th>
+                                                </tr>
+                                                <tr>
+                                                    <td><input type='number' class="form-control" name='op04' id='op04' value="<?php echo $op4; ?>"></td>
+                                                    <td><input type='number' class="form-control" name='op05' id='op05' value="<?php echo $op5; ?>"></td>
+                                                    <td><input type='number' class="form-control" name='op06' id='op06' value="<?php echo $op6; ?>"></td>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                        <!--table class="table table-hover"-->
+                                        <table class="table table-bordered mb-none">
+                                            <h3>Configuração de Sistema</h3>
+                                            <br>
+                                                <tr>
+                                                    <th scope="col" width="5%">Link API</th>
+                                                    <th scope="col" width="5%">TOKEN API</th>
+                                                    <th scope="col" width="5%">Link SANDBOX</th>
+                                                </tr>
+                                                <tr>
+                                                    <td><input type='text' class="form-control" name='api' id='api' value="<?php echo $api ?>"></td>
+                                                    <td><input type='number' class="form-control" name='token_api' id='token_api' value="<?php echo $token; ?>"></td>
+                                                    <td><input type='text' class="form-control" name='sandbox' id='sandbox' value="<?php echo $sandbox; ?>"></td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="col" width="5%">TOKEN SANDBOX</th>
+                                                </tr>
+                                                <tr>
+                                                    <td><input type='number' class="form-control" name='token_sandbox' id='token_sandbox' value="<?php echo $tokenSand;  ?>"></td>
+                                                </tr>
+                                        </table>
+                                
+                                        <input type='button' class="btn btn-primary" id="editar-bol" value="Editar">
+                                        <input type='submit' class="btn btn-primary" id="btn-bol" value='Salvar'>
+                                        <a href="../index.php"><input type="button" class="btn btn-primary" value="Ir à Página de Contribuição"></a>
+                                    </div>
+                                    
+                                </form> 
+                            </div> 
+                            <div id='divpagseguro'>
+                                <form action="dadosCartao.php?idSistema=<?php echo $sistemas[1];?>&dados=<?php echo $linhaspagseguro;?>" method='POST' id="form2" name="PAGSEGURO">
+                                    <input type='hidden' id="dadoPag" value='<?php echo $linhaspagseguro;?>'>
+                                    <div class="tab-pane active" id="img-tab" role="tabpanel" aria-labelledby="img-tab">
+                                        <table class="table table-bordered mb-none">
+                                            <h3>DOAÇÃO AVULSA</h3>
+                                            <br>
+                                            <tr>
+                                                <th>LINK</th>
+                                            </tr>
+                                            <tr>
+                                                <td><input type='text' class="form-control" readonly= 'true' id='avulso' name='avulso' value="<?php echo$linkAvulsoPag;?>"></td>
+                                            </tr>
+                                        </table>
+                                        <h3>DOAÇÃO MENSAL</h3>
+                                        <br>
+                                            <div id='doacao_mensal'>
+                                                <table class="table table-bordered mb-none">
+                                                    <tr>
+                                                        <th>VALOR</th><th>LINK</th>
+                                                    </tr>
+                                                    <?php
+                                                        if($linhaspagseguro == 0){
+                                                            echo"<tr>";
+                                                            echo"<td><input type='number' class='form-control' readonly='true' name='valor_extra' id='valor_extra' value=></td>";
+                                                            echo"<td><input type='text' class='form-control' readonly='true' name='link_extra' id='link_extra' value= ></td>";
+                                                            echo"</tr>";
+                                                        } 
+                                                        else{
+                                                            echo"<tr>";
+                                                            echo("<td><input type='number' name='valores[]' readonly= 'true' class='form-control' value=".$dadosiniciais['valor']."></td>");
+                                                            echo("<td><input type='text' class='form-control' readonly='true' name='link_doacao[]' value=".$dadosiniciais['link']."></td>"); 
+                                                            echo("<input type='hidden' name='id[]' value=".$dadosiniciais['id'].">");
+                                                            echo"</tr>";
+                                                            foreach($dadospaypal as $dados)
+                                                            {
+                                                                echo"<tr>";
+                                                                echo("<td><input type='number' name='valores[]' readonly= 'true' class='form-control' value=".$dados['valor']."></td>");
+                                                                echo("<td><input type='text' class='form-control' readonly='true' name='link_doacao[]' value=".$dados['link']."></td>"); 
+                                                                echo("<input type='hidden' name='id[]' value=".$dados['id'].">");
+                                                                echo"</tr>";
+                                                            }
+                                                        
+                                                            echo"<tr>";
+                                                            echo"<td><input type='number' class='form-control' readonly='true' name='valor_extra' id='valor_extra' value=></td>";
+                                                            echo"<td><input type='text' class='form-control' readonly='true' name='link_extra' id='link_extra' value= ></td>";
+                                                            echo"</tr>";
+                                                        }     
+                                                    ?>
+                                            
+                                                </table>
+                                            </div> 
+                                            <br><br>
+                                        <input type="button" class= "btn btn-primary" id="editar-pag" value="Editar">
+                                        <input type="submit" class="btn btn-primary" id="btn-card-pag" value='Salvar'>
+                                        <a href="../index.php"><input type="button" class="btn btn-primary" value="Ir à Página de Contribuição"></a>  
+                                    </div> 
+                                </form>
+                            </div>     
+                        </div>
                 </div>
-			</section>
-        </div>
-	</section>
-	<script>
+            </div>
+        </section>
+    </section>
+    </body>
+    <script>
         $(document).ready(function() 
         {   
             atualiza();
         });
 	
     </script>
-        
+</html>
