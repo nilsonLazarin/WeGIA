@@ -80,11 +80,7 @@ function validacpf(doc)
             {
                 
                 $("#avisa_cpf").hide();
-                socio_cadastrado(doc);
-                /*$("#doacao_boleto").hide();
-                $("#pag2").hide();
-                $("#pag3").fadeIn();*/
-                
+                socio_cadastrado(doc); 
             }
             else
             {
@@ -100,8 +96,7 @@ function validacpf(doc)
             cnpj = cnpj.replace(/\./g, '');
             cnpj = cnpj.replace('-', '');
             cnpj = cnpj.replace('/', ''); 
-            //cnpj = cnpj.split(''); 
-            //console.log(cnpj);
+            
             
             var v1 = 0;
             var v2 = 0;
@@ -183,10 +178,6 @@ function validacpf(doc)
             }
             else
             {
-                /*$("#avisa_cnpj").html("");
-                $("#doacao_boleto").hide();
-                $("#pag2").hide();
-                $("#pag3").fadeIn();*/
                 $("#avisa_cnpj").hide();
                 $("#avisa_cnpj").html("");
                 socio_cadastrado(doc);

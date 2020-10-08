@@ -46,8 +46,6 @@ function verificar()
                     $("#info_data").html("");
                     $("#verifica_socio").fadeIn();
                     $("#pag1").hide();
-                    //$("#pag2").fadeIn();
-                    
                 }
                                                                   
             }
@@ -77,14 +75,9 @@ function verificar()
                         
                     }else{
                             
-                               
-                                $("#avisa_valor").html("");
-                                $("#verifica_socio").fadeIn();
-                                $("#pag1").hide();
-                                /*$("#pag2").fadeIn();
-                                $("#forma").hide();
-                                $("#doacao_boleto").hide();*/
-                                  
+                        $("#avisa_valor").html("");
+                        $("#verifica_socio").fadeIn();
+                        $("#pag1").hide();      
                     }
                    
                 }
@@ -198,7 +191,7 @@ function verifica3()
                             }else
                                 {
                                     
-                                    recebe_dados();
+                                    cadastra_socio();
                                     $("#aviso").hide();
                                     $("#aviso").html("");
                                 }

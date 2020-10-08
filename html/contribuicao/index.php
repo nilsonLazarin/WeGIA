@@ -1,7 +1,8 @@
 <?php
 	include("./php/conexao.php");
 	
-	include("./php/preenche_form.php");
+	include("./php/preencheForm.php");
+	include("./php/logo_titulo.php");
 	
 ?>
 <!DOCTYPE html>
@@ -11,22 +12,14 @@
 	<meta charset="UTF-8">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 		
-	<script type="text/javascript" src="./js/validacep.js"></script>
 	<script type="text/javascript" src="./js/outros.js"></script>
-	<script type="text/javascript" src="./js/data.js"></script>
-	<script type="text/javascript" src="./js/telefone.js"></script>
-	<script type="text/javascript" src="./js/geraboleto.js"></script>
-	<script type="text/javascript" src="./js/converte.js"></script>
+	<script type="text/javascript" src="./js/geraBoleto.js"></script>
 	<script type="text/javascript" src="./js/verificar.js"></script>
 	<script type="text/javascript" src="./js/validacpfcnpj.js"></script>
-	<script type="text/javascript" src="./js/valida_email.js"></script>
-	<script type="text/javascript" src="./js/recebeD.js"></script>
 	<script type="text/javascript" src="./js/retornadia.js"></script>
-	<script type="text/javascript" src="./js/sociotipo.js"></script>
-	<script type="text/javascript" src="./js/logo_titulo.js"></script>
-	<script type="text/javascript" src="./js/cad_socio.js"></script>
+	<script type="text/javascript" src="./js/cadastroSocio.js"></script>
 	<script type="text/javascript" src="./js/transicoes.js"></script>
-	<script type="text/javascript" src="./js/id_sistema.js"></script>
+	<script type="text/javascript" src="./js/formDoacaoMod.js"></script>
 	<script type="text/javascript" src="../socio/sistema/controller/script/valida_cpf_cnpj.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
@@ -56,16 +49,20 @@
 	<link rel="stylesheet" type="text/css" href="outros/css/util.css">
 	<link rel="stylesheet" type="text/css" href="outros/css/main.css">
 <!--===============================================================================================-->
-		
-		
+<style>
+	#logo_img{
+				display: block;
+				margin-left: auto;
+				margin-right: auto;
+			}
+</style>		
 </head>
 <body>
-
 	<div class="container-contact100">
 		<div class="wrap-contact100">
 			<form class="contact100-form validate-form" method = "POST" name="f2">
-				<span id="img_logo"></span>
-				<span class="contact100-form-title" id="titulo_pag"></span>
+				<span id="logo_img"><?php resgataImagem();?></span>
+				<span class="contact100-form-title" id="titulo_pag"><?php resgataParagrafo();?></span>
 
 				<div id="pag1" class="wrap-input100">
 					<div id="forma">
@@ -77,7 +74,7 @@
 						<span id = "dinheiro">
 							<input  class = "radio" type = "radio"  name = "forma" id = "forma2" value = "1" checked>
 							<label class="label"  for = "forma2">BOLETO BANCÁRIO</label>
-							<input type='hidden' name='id_sistema' id='id_sistema'>
+							<input type='hidden' name='id_sistema' id='id_sistema' value="<?php echo $id_sistema; ?>">
 					</div>
 					
 						<div id="tipo_cartao">
@@ -91,18 +88,18 @@
 					
 						<div id = "cartao_mensal">
 							<?php 
-								for($i=0; $i<$qtd; $i++)
+								echo('<button class="btn"><a href='.$dadoInicialCartao['link'].'><input type="button" class="btn" value='.$dadoInicialCartao['valor'].'></a></button>');
+								foreach($dadosCartao as $dado)
 								{
-									$fetch_card = mysqli_fetch_row($querycartao);
-									echo('<button class="btn"><a href='.$fetch_card[1].'><input type="button" class="btn" value='.$fetch_card[2].'></a></button>');
+									echo('<button class="btn"><a href='.$dado['link'].'><input type="button" class="btn" value='.$dado['valor'].'></a></button>');
 								}
 							?>
 						</div>
 
 						<div id="cartao_unica">
-							<a href="<?php echo $paypal ?>"><img width='20%' src='./php/paypal.webp' alt='Faça doações com o PayPal'></a>
+							<a href="<?php echo $linkPaypal ?>"><img width='20%' src='./php/paypal.webp' alt='Faça doações com o PayPal'></a>
 
-							<a href="<?php echo $pagseguro ?>"><img width='20%' src='./php/pagseguro.png' alt='Faça doações com o PagSeguro'></a>
+							<a href="<?php echo $linkPagSeguro ?>"><img width='20%' src='./php/pagseguro.png' alt='Faça doações com o PagSeguro'></a>
 						</div>
 
 					<div id="doacao_boleto">

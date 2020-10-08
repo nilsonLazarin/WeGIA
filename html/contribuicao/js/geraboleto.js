@@ -1,6 +1,9 @@
-function gera_boleto(){
-    $.post("./php/infoboletofacil.php").done(function(data){
-        var dado = JSON.parse(data);
+function geraBoleto()
+{
+    $.post("./php/infoboletofacil.php").done(function(data)
+    {
+        console.log(data);
+        /*var dado = JSON.parse(data);
         var api = dado.API;
         var token = dado.token;
         var agradecimento = dado.agradecimento;
@@ -26,7 +29,7 @@ function gera_boleto(){
             console.log(agradecimento);
             console.log(dias_venc_unico);
             console.log(dias_venc_mensal);
-            console.log(parcelas);*/
+            console.log(parcelas);
 
         var check;
 
@@ -57,12 +60,12 @@ function gera_boleto(){
                     $("form").html('<div><h3>OBRIGADO POR SUA DOAÇÃO! VOCÊ ESTÁ AJUDANDO A MANTER ESSA INSTITUIÇÃO QUE ABRIGA IDOSOS DESDE 1929!</h3><br><br><br><button class="mala"><a class="botao" target="_blank" href='+check+'>EMITA SEU BOLETO AQUI</a></button> <button class="mala"><a class = "botao" href="../contribuicao/index.php">VOLTAR À PÁGINA INICIAL</a></button></div>');
                     
                 });
-            }
+            }*/
 
     });
 }
 
-function retorna_valor(){
+/*function retorna_valor(){
     
     if($("#tipo1").prop('checked'))
     {
@@ -161,4 +164,4 @@ function retorna_parecela()
             }
 
         return parcelas;
-}
+}*/
