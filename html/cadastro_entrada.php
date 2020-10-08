@@ -121,12 +121,6 @@
 		.body{
 			position: relative;
 		}
-		.row{
-			display: flex;
-			flex-direction: row;
-			justify-content: center;
-			align-items: center;
-		}
 		.box{		
 			padding-right: 34px;
 			border-right-width: 23px;
@@ -208,6 +202,7 @@
 										</div>
 										
 										<div class="panel-body" >
+											<div class="table-responsive">
 											<table class="table table-bordered mb-none">
 												<thead>
 													<tr style="width: 768px;">
@@ -233,6 +228,7 @@
 													</tr>
 												</thead>
 											</table><br>
+										</div>
 
 											<div class="table-responsive">
 												<table class="table table-bordered mb-none table">
