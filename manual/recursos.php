@@ -45,6 +45,9 @@ if(file_exists($config_path)){
 
     <!-- Atualizacao CSS -->
     <link rel="stylesheet" href="../css/atualizacao.css" />
+
+    <!-- Manual CSS -->
+    <link rel="stylesheet" href="../css/manual.css">
     
     <!-- Vendor -->
     <script src="../assets/vendor/jquery/jquery.min.js"></script>
@@ -79,35 +82,6 @@ if(file_exists($config_path)){
     
     <!-- javascript tab management script -->
 
-    <style>
-        .menuu{
-            top: 0 !important;
-        }
-
-        .page-header{
-            top: 0 !important;
-        }
-
-        p{
-            color: black;
-        }
-
-        hr{
-            border: 1px solid #ccc;
-            height: 0;
-        }
-
-        .nav-children li a {
-            padding: 6px 15px !important;
-        }
-
-        .img-fluid
-        {
-            max-width: 100%;
-            height: auto;
-            margin-bottom: 10px;
-        }
-    </style>
 
 </head>
 <body>
@@ -197,73 +171,77 @@ if(file_exists($config_path)){
                                             </a>
                                         </li>
 
-                                        <li>
+                                        <li class="sub1">
                                             <a href="#_rh">
                                                 3.1. Recursos Humanos
                                             </a>
                                         </li>
-                                        <li>
+                                        <li class="sub2">
                                             <a href="#_cadastro_funcionario">
                                                 3.1.1. Cadastro de Funcionários
                                             </a>
                                         </li>
-                                        <li>
+                                        <li class="sub2">
                                             <a href="#_info_funcionario">
                                                 3.1.2. Informações de Funcionários
                                             </a>
                                         </li>
-                                        <li>
+                                        <li class="sub2">
                                             <a href="#_cadastro_interno">
                                                 3.1.3. Cadastro de Internos
                                             </a>
                                         </li>
-                                        <li>
+                                        <li class="sub2">
                                             <a href="#_info_interno">
                                                 3.1.4. Informações de Internos
                                             </a>
                                         </li>
-
-                                        <li>
+                                        <li class="sub1">
+                                            <a href="#_material_patrimonio">
+                                                3.2. Material e Patrimônio
+                                            </a>
+                                        </li>
+                                        <li class="sub1">
                                             <a href="#_memorando">
                                                 3.3. Memorando
                                             </a>
                                         </li>
-                                        <li>
+                                        <li class="sub2">
                                             <a href="#_criacao_memorando">
                                                 3.3.1. Criação do memorando
                                             </a>
                                         </li>
-                                        <li>
+                                        <li class="sub2">
                                             <a href="#_envio_despacho">
                                                 3.3.2. Envio de despacho
                                             </a>
                                         </li>
-                                        <li>
+                                        <li class="sub2">
                                             <a href="#_caixa_de_entrada">
                                                 3.3.3. Caixa de entrada
                                             </a>
                                         </li>
-                                        <li>
+                                        <li class="sub2">
                                             <a href="#_opcoes_caixa_de_entrada">
                                                 3.3.4. Opções da caixa de entrada
                                             </a>
                                         </li>
-                                        <li>
+                                        <li class="sub2">
                                             <a href="#_memorandos_despachados">
                                                 3.3.5. Memorandos despachados
                                             </a>
                                         </li>
-                                        <li>
+                                        <li class="sub2">
                                             <a href="#_lista_despachos">
                                                 3.3.6. Leitura de despachos
                                             </a>
                                         </li>
-                                        <li>
+                                        <li class="sub2">
                                             <a href="#_lista_despachos">
                                                 3.1.7. Impressão
                                             </a>
                                         </li>
-                                        <li>
+                                        <li class="sub2">
                                             <a href="#_erros">
                                                 3.1.8. Erros
                                             </a>
@@ -317,10 +295,10 @@ if(file_exists($config_path)){
                 <!--start: page-->
 
                 <!-- estrutura básica:
-                            <dir id="_">
-                                <h3></h3><hr>
-                                <p></p>
-                            </dir>
+                    <dir id="_">
+                        <h3></h3><hr>
+                        <p></p>
+                    </dir>
                 -->
 
                 <section id="_recursos">
@@ -362,12 +340,43 @@ if(file_exists($config_path)){
                         </dir>
                         <dir id="_cadastro_interno">
                             <h3>3.1.3. Cadastro de Internos</h3><hr>
+                            <p>Cadastra uma pessoa como interno no sistema. O formulário apresentado exigirá as seguintes informações para realizar o cadastro:</p>
+                            <br>
+                            <h5>Informações Pessoais</h5>
+                            <ul>
+                                <p>1. Nome</p>
+                                <p>2. Sobrenome</p>
+                                <p>3. Sexo</p>
+                                <p>4. Nome de Contato</p>
+                                <p>5. 3 Telefones de Contato</p>
+                                <p>6. Data de Nascimento</p>
+                                <p>7. Nome dos pais</p>
+                                <p>8. Tipo Sanguíneo</p>
+                            </ul>
+                            <h5>Documentação</h5>
+                            <ul>
+                                <p>1. Número do RG</p>
+                                <p>2. Orgão Emissor</p>
+                                <p>3. Data de Expedição</p>
+                                <p>4. CPF</p>
+                                <p>5. Benefícios</p>
+                                <p>6. Fotos do RG e CPF</p>
+                                <p>7. Observações</p>
+
+                            </ul>
+                            <br>
+                            <p>Após o preenchimento dos campos, pressione Salvar para cadastrar ou Redefinir para descartar as informações inseridas no formulário e recomeçar.</p>
                             <p>Para cadastrar um interno no sistema basta acessar <strong><i class="far fa-address-book"></i> Pessoas </strong><i class="fas fa-chevron-right"></i> <a href="<?= WWW?>/html/cadastro_interno.php">Cadastrar Atendido</a></p>
                         </dir>
                         <dir id="_info_interno">
                             <h3>3.1.4. Informações de Internos</h3><hr>
+                            <p>Exibe as informações de cada interno e possibilita alteração de seus dados. Uma tabela mostrará o Nome e CPF, e a coluna Ação oferece a possibilidade de editar os dados.</p>
                             <p>Para acessar as informações de um interno no sistema basta acessar <strong><i class="far fa-address-book"></i> Pessoas </strong><i class="fas fa-chevron-right"></i> <a href="<?= WWW?>/html/informacao_interno.php">Informações Atendido</a></p>
                         </dir>
+                    </dir>
+                    <dir id="_material_patrimonio">
+                        <h3>3.2. Material e Patrimônio</h3><hr>
+                        <p></p>
                     </dir>
                     <dir id="_memorando">
                         <h3>3.3. Memorando</h3><hr>
