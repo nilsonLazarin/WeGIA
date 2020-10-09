@@ -46,6 +46,9 @@ if(file_exists($config_path)){
 	<!-- Atualizacao CSS -->
 	<link rel="stylesheet" href="../css/atualizacao.css" />
 	
+    <!-- Manual CSS -->
+    <link rel="stylesheet" href="../css/manual.css">
+    
 	<!-- Vendor -->
 	<script src="../assets/vendor/jquery/jquery.min.js"></script>
 	<script src="../assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
@@ -79,28 +82,6 @@ if(file_exists($config_path)){
     
     <!-- javascript tab management script -->
 
-    <style>
-        .menuu{
-            top: 0 !important;
-        }
-
-        .page-header{
-            top: 0 !important;
-        }
-
-        p{
-            color: black;
-        }
-
-        hr{
-            border: 1px solid #ccc;
-            height: 0;
-        }
-
-        .nav-children li a {
-            padding: 6px 15px !important;
-        }
-    </style>
 
 </head>
 <body>
@@ -185,82 +166,82 @@ if(file_exists($config_path)){
                                         <span>2. Instalação</span>
                                     </a>
                                     <ul class="nav nav-children">
-                                        <li id="20">
+                                        <li>
                                             <a href="#_instalacao">
                                                 2.0. Instalação
                                             </a>
                                         </li>
-                                        <li id="20">
+                                        <li class="sub1">
                                             <a href="#_pre_requisitos">
                                                 2.1. Pré-requisitos
                                             </a>
                                         </li>
-                                        <li id="20">
+                                        <li class="sub1">
                                             <a href="#_banco_de_dados">
                                                 2.2. Banco de Dados
                                             </a>
                                         </li>
-                                        <li id="20">
+                                        <li class="sub2">
                                             <a href="#_nome_bd">
                                                 2.2.1. Nome do Banco de Dados
                                             </a>
                                         </li>
-                                        <li id="20">
+                                        <li class="sub2">
                                             <a href="#_host_bd">
                                                 2.2.2. Host do Banco de Dados
                                             </a>
                                         </li>
-                                        <li id="20">
+                                        <li class="sub2">
                                             <a href="#_usuario_senha_bd">
-                                                2.2.3. Usuário e Senha do Banco de Dados
+                                                2.2.3. Usuário, Senha e Banco de Dados
                                             </a>
                                         </li>
-                                        <li id="20">
+                                        <li class="sub1">
                                             <a href="#_dominio_diretorios">
                                                 2.3. Domínio e Diretórios
                                             </a>
                                         </li>
-                                        <li id="30">
+                                        <li class="sub1">
                                             <a href="#_erros">
                                                 2.4. Erros
                                             </a>
                                         </li>
-                                        <li id="30">
+                                        <li class="sub2">
                                             <a href="#_erro_usuario_senha">
                                                 2.4.1. Usuário/Senha Incorretos
                                             </a>
                                         </li>
-                                        <li id="30">
+                                        <li class="sub2">
                                             <a href="#_erro_servidor_bd">
                                                 2.4.2. Servidor MYSQL não encontrado
                                             </a>
                                         </li>
-                                        <li id="30">
+                                        <li class="sub2">
                                             <a href="#_erro_dados_iniciais">
                                                 2.4.3. Falha ao inserir Dados Iniciais
                                             </a>
                                         </li>
-                                        <li id="30">
+                                        <li class="sub2">
                                             <a href="#_erro_criacao_bd">
-                                                2.4.4. Falha na criaçao do banco de dados
+                                                2.4.4. Falha ao criar Banco de Dados
                                             </a>
                                         </li>
-                                        <li id="40">
+                                        <li class="sub1">
                                             <a href="#_avisos">
                                                 2.5. Avisos
                                             </a>
                                         </li>
-                                        <li id="41">
+                                        <li class="sub2">
                                             <a href="#_aviso_bkp">
                                                 2.5.1. Diretório para Backup não existe
                                             </a>
                                         </li>
-                                        <li id="42">
+                                        <li class="sub2">
                                             <a href="#_aviso_bd_existente">
                                                 2.5.2. Base de dados já existe
                                             </a>
                                         </li>
-                                        <li id="43">
+                                        <li class="sub2">
                                             <a href="#_aviso_instavel">
                                                 2.5.3. Sistema Instável
                                             </a>

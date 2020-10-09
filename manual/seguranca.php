@@ -4,7 +4,7 @@
 	<!-- Basic -->
 	<meta charset="UTF-8">
 
-	<title>Manual de Instalação</title>
+	<title>4. Segurança</title>
 
 	<!-- Mobile Metas -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -34,6 +34,9 @@
 	<!-- Atualizacao CSS -->
 	<link rel="stylesheet" href="../css/atualizacao.css" />
 	
+    <!-- Manual CSS -->
+    <link rel="stylesheet" href="../css/manual.css">
+    
 	<!-- Vendor -->
 	<script src="../assets/vendor/jquery/jquery.min.js"></script>
 	<script src="../assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
@@ -67,28 +70,6 @@
     
     <!-- javascript tab management script -->
 
-    <style>
-        .menuu{
-            top: 0 !important;
-        }
-
-        .page-header{
-            top: 0 !important;
-        }
-
-        p{
-            color: black;
-        }
-
-        hr{
-            border: 1px solid #ccc;
-            height: 0;
-        }
-
-        .nav-children li a {
-            padding: 6px 15px !important;
-        }
-    </style>
 
 </head>
 <body>
@@ -203,10 +184,10 @@
 			<!-- end: sidebar -->
 			<section role="main" class="content-body">
 				<header class="page-header">
-					<h2>Manual de Instalação</h2>
+					<h2>Capitulo 4: Segurança</h2>
 					<div class="right-wrapper pull-right">
 						<ol class="breadcrumbs">
-							<li><span>Manual de Instalação</span></li>
+							<li><span>Capitulo 4: Segurança</span></li>
 						</ol>
 						<a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
 					</div>

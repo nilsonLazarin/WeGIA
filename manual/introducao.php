@@ -34,6 +34,9 @@
 	<!-- Atualizacao CSS -->
 	<link rel="stylesheet" href="../css/atualizacao.css" />
 	
+    <!-- Manual CSS -->
+    <link rel="stylesheet" href="../css/manual.css">
+    
 	<!-- Vendor -->
 	<script src="../assets/vendor/jquery/jquery.min.js"></script>
 	<script src="../assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
@@ -67,28 +70,6 @@
     
     <!-- javascript tab management script -->
 
-    <style>
-        .menuu{
-            top: 0 !important;
-        }
-
-        .page-header{
-            top: 0 !important;
-        }
-
-        p{
-            color: black;
-        }
-
-        hr{
-            border: 1px solid #ccc;
-            height: 0;
-        }
-
-        .nav-children li a {
-            padding: 6px 15px !important;
-        }
-    </style>
 
 </head>
 <body>
