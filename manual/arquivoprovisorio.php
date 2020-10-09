@@ -14,3 +14,4 @@ Para adicionar um EPI é necessário selecionar o EPI e o seu status e preencher
 Na seção de EPI é possível visualizar a lista de EPI's do funcionário. Nessa lista é exibido o nome do epi, o status e a data. Para editar um EPI basta clicar no botão verde ao seu lado, ao clicar o usuário é redirecionado para uma página onde é possível ediar os dados desejados. Para editá-los basta clicar no botão "Editar" e após editar clicar no botão "Salvar".
 Para excluir um EPI basta clicar no botão vermelho ao lado dos dados do EPI, o EPI será excluído automaticamente. 
 Na aba "Carga horária" é possível visualizar as informações da carga horária do funcionário, como escala, dias trabalhados, dias de folga, etc.
+Na aba "Editar carga" é possível alterar ou cadastrar a carga horária do funcionário. Para alterar/cadastrar a carga horária basta selecionar a escala, o tipo, preencher os horários de entrada e saída e selecionar os dias folga e os dias trabalhados.
