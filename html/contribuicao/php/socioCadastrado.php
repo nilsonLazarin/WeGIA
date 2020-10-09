@@ -1,8 +1,46 @@
 <?php
+    require_once('conexao.php');
+    $query = new Conexao();
 
-    include("conexao.php");
+    $doc = $_POST['doc'];
 
-$doc = $_POST['doc'];
+    $query -> querydados("SELECT id_pessoa FROM pessoa WHERE cpf = '$doc'");
+ 
+        if($query -> rows() == 0)
+        {
+            $doc = limpaCPF_CNPJ($doc);
+            $query ->querydados("SELECT id_pessoa FROM pessoa WHERE cpf = '$doc'");
+                if($query -> rows() == 0)
+                {
+                    echo '0';
+                }else{
+                    $result = $query->result();
+                    $id_pessoa = $result['id_pessoa'];
+
+                    $query ->querydados("SELECT nome, sobrenome, telefone, data_nascimento, cep, estado, cidade, bairro, logradouro, numero_endereco, complemento, email FROM pessoa JOIN socio ON(pessoa.id_pessoa = socio.id_pessoa) WHERE pessoa.id_pessoa = '$id_pessoa'");
+                    $result = $query->result();
+                    echo (json_encode($result));
+                    
+                }
+        }else{
+        $result = $query->result();
+        $id_pessoa = $result['id_pessoa'];
+        $query -> querydados("SELECT nome, telefone, data_nascimento, cep, estado, cidade, bairro, logradouro, numero_endereco, complemento, email FROM pessoa JOIN socio ON(pessoa.id_pessoa = socio.id_pessoa) WHERE pessoa.id_pessoa = '$id_pessoa'");
+        $result = $query->result();
+        echo (json_encode($result));
+           
+        }
+    
+        function limpaCPF_CNPJ($doc)
+        {
+            $doc = trim($doc);
+            $doc = str_replace(".", "", $doc);
+            $doc = str_replace("-", "", $doc);
+            $doc = str_replace("/", "",$doc);
+            return $doc;
+        }
+
+/*$doc = $_POST['doc'];
 
 $consulta = mysqli_query($conexao,"SELECT id_pessoa FROM pessoa WHERE cpf = '$doc'");
 $linhas = mysqli_num_rows($consulta);
@@ -86,14 +124,7 @@ $linhas = mysqli_num_rows($consulta);
         $array['email']=$email;
 
         echo (json_encode($array));
-        }
+        }*/
 
-    function limpaCPF_CNPJ($doc)
-    {
-        $doc = trim($doc);
-        $doc = str_replace(".", "", $doc);
-        $doc = str_replace("-", "", $doc);
-        $doc = str_replace("/", "",$doc);
-        return $doc;
-    }
+   
 ?>

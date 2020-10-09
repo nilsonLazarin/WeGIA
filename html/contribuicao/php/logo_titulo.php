@@ -1,24 +1,31 @@
 
 <?php
 
-include("conexao.php");
+    function resgataImagem()
+    {
+        require_once('conexao.php');
+        $banco = new Conexao();
 
-    
-    $selectImg = "SELECT imagem.imagem, imagem.tipo FROM imagem, campo_imagem, tabela_imagem_campo WHERE campo_imagem.id_campo=tabela_imagem_campo.id_campo AND imagem.id_imagem=tabela_imagem_campo.id_imagem AND campo_imagem.nome_campo='Logo'";
-    $query = mysqli_query($conexao, $selectImg);
-    $arquivo = mysqli_fetch_row($query);
-    
-    $tipo =$arquivo[1];
+        $banco->querydados("SELECT imagem.imagem, imagem.tipo FROM imagem, campo_imagem, tabela_imagem_campo WHERE campo_imagem.id_campo=tabela_imagem_campo.id_campo AND imagem.id_imagem=tabela_imagem_campo.id_imagem AND campo_imagem.nome_campo='Logo'");
+        $result = $banco->result();
 
-    $imagem = $arquivo[0];
-    
-    $selectPa = "SELECT paragrafo FROM selecao_paragrafo WHERE nome_campo = 'ContribuiçãoMSG'";
-    $queryP = mysqli_query($conexao, $selectPa);
-    $paragrafo = mysqli_fetch_row($queryP);
+        $imagem = $result['imagem'];
+        $tipo = $result['tipo'];
 
-    $texto = $paragrafo[0];
+        echo "<img id='logo_img' width='100px' src=data:image/".$tipo.";base64,".$imagem.">";
 
-    echo $logo= '<img width="100px" src=data:image/'.$tipo.';base64,'.$imagem.'>'."paragrafo:";
-    echo $texto;
+    } 
+
+    function resgataParagrafo()
+    {
+        require_once('conexao.php');
+        $banco = new Conexao();
+
+        $banco->querydados("SELECT paragrafo FROM selecao_paragrafo WHERE nome_campo = 'ContribuiçãoMSG'");
+        $result= $banco->result();
+
+        echo $result['paragrafo'];
+
+    }
     
 ?>

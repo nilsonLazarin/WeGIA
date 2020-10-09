@@ -110,7 +110,6 @@ function transicoes()
 			}
 			});
 		
-			preenche_campo();
 			$("#verifica_socio").hide();
 			$("#tipo_cartao").hide();
 			$("#cartao_mensal").hide();
