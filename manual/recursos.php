@@ -338,8 +338,56 @@ if(file_exists($config_path)){
                             <p>Exibe as informações de cada funcionário e possibilita alteração de seus dados. Uma tabela mostrará o Nome, CPF e Cargo, e a coluna Ação oferece a possibilidade de editar os dados.</p>
                             <p>Para acessar as informações de um funcionário no sistema basta acessar <strong><i class="far fa-address-book"></i> Pessoas </strong><i class="fas fa-chevron-right"></i> <a href="<?= WWW?>/html/informacao_funcionario.php">Informações Funcionário</a></p>
                         </dir>
+                        <dir id="_edicao_funcionario">
+                            <h3>3.1.3. Edição de dados de funcionários</h3><hr>
+                            <p>Ao acessar os dados de um funcionário é possível fazer a edição desses dados.</p>
+                            <p>
+                                Na aba <strong>"Visão Geral"</strong> é possível editar as informações pessoais do funcionário.
+                                <p>
+                                    Existem algumas seções nessa aba, são elas: <strong>Informações Pessoais, Endereço, Documentação e Outros. </strong>
+                                    Para fazer a edição de algum dado da página, basta verificar em qual seção ele se encontra e clicar no botão "Editar" da seção. Em seguida será posível alterar os dados, depois de alterados basta clicar no botão "Salvar".
+                                </p>
+                            </p>
+                            <hr>
+                            <p>Na aba <strong>"Benefícios"</strong> é possível adicionar e editar benefícios.</p>
+                            <p>
+                                Para adicionar um benefício basta clicar no botão "Adicionar" no fim da página. Ao clicar nesse botão é aberta uma caixa para adicionar o benefício.
+                                <p>
+                                    Para adicionar um benefício é necessário selecionar o benefício e o seu status e preencher a data de início, data de fim e o valor do benefício. Caso o benefício desejado não se encontre na listagem basta clicar no símbolo <i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i> ao seu lado e na nova caixa que será aberta escrever o nome do benefício e clicar em OK para salvá-lo.
+                                </p>
+                            </p>
+                            <p>
+                                Na seção de benefícios é possível visualizar a lista de benefícios do funcionário. Nessa lista é exibido o nome do benefício, o status, a data de início, a data de fim e valor. <br>
+                            </p>
+                            <p>
+                                Para <strong>editar</strong> um benefício basta clicar no botão verde ao seu lado, ao clicar o usuário é redirecionado para uma página onde é possível editar os dados desejados. Para editá-los basta clicar no botão "Editar" e após editar clicar no botão "salvar". <br>
+                                Para <strong>excluir</strong> um benefício basta clicar no botão vermelho ao lado dos dados do benefício, o benefício será excluído automaticamente.
+                            </p>
+                            </p>
+                            <img src="<?php echo WWW;?>img/beneficio.png" class="img-fluid">
+                            <hr>
+                            <p>Na aba <strong>"EPI"</strong> é possível adicionar e editar EPI's.</p>
+                            <p>
+                            Para adicionar um EPI basta clicar no botão "EPI" no fim da página. Ao clicar nesse botão é aberta uma caixa para adicionar o EPI.
+                            Para adicionar um EPI é necessário selecionar o EPI e o seu status e preencher a data. Caso o EPI desejado não se encontre na listagem basta clicar no símbolo <i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i> ao seu lado e na nova caixa que será aberta escrever o nome do EPI e clicar em OK para salvá-lo.
+                            </p>
+                            <p>
+                                Na seção de EPI é possível visualizar a lista de EPI's do funcionário. Nessa lista é exibido o nome do epi, o status e a data. Para editar um EPI basta clicar no botão verde ao seu lado, ao clicar o usuário é redirecionado para uma página onde é possível ediar os dados desejados. Para editá-los basta clicar no botão "Editar" e após editar clicar no botão "Salvar".
+                                Para excluir um EPI basta clicar no botão vermelho ao lado dos dados do EPI, o EPI será excluído automaticamente.
+                            </p> 
+                            <img src="<?php echo WWW;?>img/epi.png" class="img-fluid">
+                            <hr>
+                            <p>
+                                Na aba <strong>"Carga horária"</strong> é possível visualizar as informações da carga horária do funcionário, como escala, dias trabalhados, dias de folga, etc.
+                            </p>
+                            <hr>
+                            <p>
+                                Na aba <strong>"Editar carga"</strong> é possível alterar ou cadastrar a carga horária do funcionário. Para alterar/cadastrar a carga horária basta selecionar a escala, o tipo, preencher os horários de entrada e saída e selecionar os dias folga e os dias trabalhados.
+                            </p>
+
+                        </dir>
                         <dir id="_cadastro_interno">
-                            <h3>3.1.3. Cadastro de Internos</h3><hr>
+                            <h3>3.1.4. Cadastro de Internos</h3><hr>
                             <p>Cadastra uma pessoa como interno no sistema. O formulário apresentado exigirá as seguintes informações para realizar o cadastro:</p>
                             <br>
                             <h5>Informações Pessoais</h5>
@@ -368,7 +416,7 @@ if(file_exists($config_path)){
                             <p>Para cadastrar um interno no sistema basta acessar <strong><i class="far fa-address-book"></i> Pessoas </strong><i class="fas fa-chevron-right"></i> <a href="<?= WWW?>/html/cadastro_interno.php">Cadastrar Atendido</a></p>
                         </dir>
                         <dir id="_info_interno">
-                            <h3>3.1.4. Informações de Internos</h3><hr>
+                            <h3>3.1.5. Informações de Internos</h3><hr>
                             <p>Exibe as informações de cada interno e possibilita alteração de seus dados. Uma tabela mostrará o Nome e CPF, e a coluna Ação oferece a possibilidade de editar os dados.</p>
                             <p>Para acessar as informações de um interno no sistema basta acessar <strong><i class="far fa-address-book"></i> Pessoas </strong><i class="fas fa-chevron-right"></i> <a href="<?= WWW?>/html/informacao_interno.php">Informações Atendido</a></p>
                         </dir>
