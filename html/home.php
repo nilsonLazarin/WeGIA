@@ -127,7 +127,7 @@
 					<a href="">
 						<div class="col-lg-2 col-md-8 i" data-toggle="collapse" href="#pessoas" >
 							<i  class="far fa-address-book"></i>
-							<h4>Pessoa</h4>
+							<h4>Pessoas</h4>
 						</div>
 					</a>
 					<a href="#">
