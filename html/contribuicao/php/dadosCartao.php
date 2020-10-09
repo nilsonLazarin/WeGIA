@@ -18,7 +18,7 @@ function insereDados($idSistema)
     $doacaoMensalLink = $_POST['link_extra'];
     $doacaoMensalValor = $_POST['valor_extra'];
 
-    $bd->query("CALL registra_cartao_avulso('$doacaoAvulsaLink', '$idSistema')");
+    $bd->query("INSERT INTO doacao_cartao_avulso(url, id_sistema) VALUES ('$doacaoAvulsaLink', '$idSistema')");
     $bd->query("INSERT INTO doacao_cartao_mensal(link, valor, id_sistema)VALUES('$doacaoMensalLink', '$doacaoMensalValor', '$idSistema')");
 
     header("Location: configuracao_doacao.php");
@@ -44,15 +44,35 @@ function atualizaDados($idSistema)
         $bd->query("UPDATE doacao_cartao_mensal SET valor = '$arrayValoresMensal[$i]', link = '$arrayLinkMensal[$i]' WHERE id = '$arrayIdMensal[$i]' AND id_sistema = '$idSistema'");
     }
 
-    $bd->query("UPDATE doacao_cartao_avulso SET url = '$linkDoacaoAvulsa' WHERE id_sistema = '$idSistema'");
-
-    echo $doacaoMensalLink = $_POST['link_extra'];
-    echo $doacaoMensalValor = $_POST['valor_extra'];
+    $dadoCartao = verificaDadoCartao($idSistema);
+    if($dadoCartao == 0)
+    {
+         $bd->query("INSERT INTO doacao_cartao_avulso(url, id_sistema) VALUES ('$linkDoacaoAvulsa', '$idSistema')");
+    }else{
+        $bd->query("UPDATE doacao_cartao_avulso SET url = '$linkDoacaoAvulsa' WHERE id_sistema = '$idSistema'");
+    }
+   
+    $doacaoMensalLink = $_POST['link_extra'];
+    $doacaoMensalValor = $_POST['valor_extra'];
         if(!empty($doacaoMensalLink) && !empty($doacaoMensalValor))
         {
+
             $bd->query("INSERT INTO doacao_cartao_mensal(link, valor, id_sistema)VALUES('$doacaoMensalLink', '$doacaoMensalValor', '$idSistema')");
         }
     
-       header("Location: configuracao_doacao.php");
+    header("Location: configuracao_doacao.php");
 }  
+
+function verificaDadoCartao($idSistema)
+{
+    require_once('conexao.php');
+    $bd = new Conexao;
+
+    $bd->query("SELECT url FROM doacao_cartao_avulso WHERE id_sistema = '$idSistema'");
+    $result = $bd->linhas();
+
+    return $result;
+}
+
+
 ?>
