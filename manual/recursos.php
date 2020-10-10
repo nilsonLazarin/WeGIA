@@ -45,6 +45,9 @@ if(file_exists($config_path)){
 
     <!-- Atualizacao CSS -->
     <link rel="stylesheet" href="../css/atualizacao.css" />
+
+    <!-- Manual CSS -->
+    <link rel="stylesheet" href="../css/manual.css">
     
     <!-- Vendor -->
     <script src="../assets/vendor/jquery/jquery.min.js"></script>
@@ -79,35 +82,6 @@ if(file_exists($config_path)){
     
     <!-- javascript tab management script -->
 
-    <style>
-        .menuu{
-            top: 0 !important;
-        }
-
-        .page-header{
-            top: 0 !important;
-        }
-
-        p{
-            color: black;
-        }
-
-        hr{
-            border: 1px solid #ccc;
-            height: 0;
-        }
-
-        .nav-children li a {
-            padding: 6px 15px !important;
-        }
-
-        .img-fluid
-        {
-            max-width: 100%;
-            height: auto;
-            margin-bottom: 10px;
-        }
-    </style>
 
 </head>
 <body>
@@ -197,47 +171,77 @@ if(file_exists($config_path)){
                                             </a>
                                         </li>
 
-                                        <li>
+                                        <li class="sub1">
+                                            <a href="#_rh">
+                                                3.1. Recursos Humanos
+                                            </a>
+                                        </li>
+                                        <li class="sub2">
+                                            <a href="#_cadastro_funcionario">
+                                                3.1.1. Cadastro de Funcionários
+                                            </a>
+                                        </li>
+                                        <li class="sub2">
+                                            <a href="#_info_funcionario">
+                                                3.1.2. Informações de Funcionários
+                                            </a>
+                                        </li>
+                                        <li class="sub2">
+                                            <a href="#_cadastro_interno">
+                                                3.1.3. Cadastro de Internos
+                                            </a>
+                                        </li>
+                                        <li class="sub2">
+                                            <a href="#_info_interno">
+                                                3.1.4. Informações de Internos
+                                            </a>
+                                        </li>
+                                        <li class="sub1">
+                                            <a href="#_material_patrimonio">
+                                                3.2. Material e Patrimônio
+                                            </a>
+                                        </li>
+                                        <li class="sub1">
                                             <a href="#_memorando">
-                                                3.1. Memorando
+                                                3.3. Memorando
                                             </a>
                                         </li>
-                                        <li>
+                                        <li class="sub2">
                                             <a href="#_criacao_memorando">
-                                                3.1.1. Criação do memorando
+                                                3.3.1. Criação do memorando
                                             </a>
                                         </li>
-                                        <li>
+                                        <li class="sub2">
                                             <a href="#_envio_despacho">
-                                                3.1.2. Envio de despacho
+                                                3.3.2. Envio de despacho
                                             </a>
                                         </li>
-                                        <li>
+                                        <li class="sub2">
                                             <a href="#_caixa_de_entrada">
-                                                3.1.3. Caixa de entrada
+                                                3.3.3. Caixa de entrada
                                             </a>
                                         </li>
-                                        <li>
+                                        <li class="sub2">
                                             <a href="#_opcoes_caixa_de_entrada">
-                                                3.1.4. Opções da caixa de entrada
+                                                3.3.4. Opções da caixa de entrada
                                             </a>
                                         </li>
-                                        <li>
+                                        <li class="sub2">
                                             <a href="#_memorandos_despachados">
-                                                3.1.5. Memorandos despachados
+                                                3.3.5. Memorandos despachados
                                             </a>
                                         </li>
-                                        <li>
+                                        <li class="sub2">
                                             <a href="#_lista_despachos">
-                                                3.1.6. Leitura de despachos
+                                                3.3.6. Leitura de despachos
                                             </a>
                                         </li>
-                                        <li>
+                                        <li class="sub2">
                                             <a href="#_lista_despachos">
                                                 3.1.7. Impressão
                                             </a>
                                         </li>
-                                        <li>
+                                        <li class="sub2">
                                             <a href="#_erros">
                                                 3.1.8. Erros
                                             </a>
@@ -291,25 +295,146 @@ if(file_exists($config_path)){
                 <!--start: page-->
 
                 <!-- estrutura básica:
-                            <dir id="_">
-                                <h3></h3><hr>
-                                <p></p>
-                            </dir>
+                    <dir id="_">
+                        <h3></h3><hr>
+                        <p></p>
+                    </dir>
                 -->
 
                 <section id="_recursos">
                     <h3>3. Recursos</h3><hr>
-                    <p>[Descrição de recursos aqui]</p>
+                    <p>O WeGIA oferece diversas ferramentas para gerenciamento de instituições assistenciais, e esse capítulo serve para explicá-los.</p>
+                    <dir id="_rh">
+                        <h3>3.1. Recursos Humanos</h3><hr>
+                        <p>O módulo de Recursos Humanos, referido como <strong><i class="far fa-address-book"></i> Pessoas</strong> no menu, serve para controle e acesso a informações de funcionários e internos.</p>
+                        <dir id="_cadastro_funcionario">
+                            <h3>3.1.1. Cadastro de Funcionários</h3><hr>
+                            <p>Cadastra uma pessoa como funcionário no sistema. O formulário apresentado exigirá as seguintes informações para realizar o cadastro:</p>
+                            <br>
+                            <h5>Informações Pessoais</h5>
+                            <ul>
+                                <p>1. Nome</p>
+                                <p>2. Sobrenome</p>
+                                <p>3. Sexo</p>
+                                <p>4. Telefone de contato</p>
+                                <p>5. Data de Nascimento</p>
+                            </ul>
+                            <h5>Documentação</h5>
+                            <ul>
+                                <p>1. Número do RG</p>
+                                <p>2. Orgão Emissor</p>
+                                <p>3. Data de Expedição</p>
+                                <p>4. CPF</p>
+                                <p>5. Data de Admissão</p>
+                                <p>6. Situação: Por padrão, possui as situações Ativo e Inativo, mas outras podem ser adicionadas</p>
+                                <p>7. Cargo: Determina quais serão os níveis de acesso do funcionário</p>
+                            </ul>
+                            <br>
+                            <p>Após o preenchimento dos campos, pressione Salvar para cadastrar ou Redefinir para descartar as informações inseridas no formulário e recomeçar.</p>
+                            <p>Para cadastrar um funcionário no sistema basta acessar <strong><i class="far fa-address-book"></i> Pessoas </strong><i class="fas fa-chevron-right"></i> <a href="<?= WWW?>/html/cadastro_funcionario.php">Cadastrar Funcionário</a></p>
+                        </dir>
+                        <dir id="_info_funcionario">
+                            <h3>3.1.2. Informações de Funcionários</h3><hr>
+                            <p>Exibe as informações de cada funcionário e possibilita alteração de seus dados. Uma tabela mostrará o Nome, CPF e Cargo, e a coluna Ação oferece a possibilidade de editar os dados.</p>
+                            <p>Para acessar as informações de um funcionário no sistema basta acessar <strong><i class="far fa-address-book"></i> Pessoas </strong><i class="fas fa-chevron-right"></i> <a href="<?= WWW?>/html/informacao_funcionario.php">Informações Funcionário</a></p>
+                        </dir>
+                        <dir id="_edicao_funcionario">
+                            <h3>3.1.3. Edição de dados de funcionários</h3><hr>
+                            <p>Ao acessar os dados de um funcionário é possível fazer a edição desses dados.</p>
+                            <p>
+                                Na aba <strong>"Visão Geral"</strong> é possível editar as informações pessoais do funcionário.
+                                <p>
+                                    Existem algumas seções nessa aba, são elas: <strong>Informações Pessoais, Endereço, Documentação e Outros. </strong>
+                                    Para fazer a edição de algum dado da página, basta verificar em qual seção ele se encontra e clicar no botão "Editar" da seção. Em seguida será posível alterar os dados, depois de alterados basta clicar no botão "Salvar".
+                                </p>
+                            </p>
+                            <hr>
+                            <p>Na aba <strong>"Benefícios"</strong> é possível adicionar e editar benefícios.</p>
+                            <p>
+                                Para adicionar um benefício basta clicar no botão "Adicionar" no fim da página. Ao clicar nesse botão é aberta uma caixa para adicionar o benefício.
+                                <p>
+                                    Para adicionar um benefício é necessário selecionar o benefício e o seu status e preencher a data de início, data de fim e o valor do benefício. Caso o benefício desejado não se encontre na listagem basta clicar no símbolo <i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i> ao seu lado e na nova caixa que será aberta escrever o nome do benefício e clicar em OK para salvá-lo.
+                                </p>
+                            </p>
+                            <p>
+                                Na seção de benefícios é possível visualizar a lista de benefícios do funcionário. Nessa lista é exibido o nome do benefício, o status, a data de início, a data de fim e valor. <br>
+                            </p>
+                            <p>
+                                Para <strong>editar</strong> um benefício basta clicar no botão verde ao seu lado, ao clicar o usuário é redirecionado para uma página onde é possível editar os dados desejados. Para editá-los basta clicar no botão "Editar" e após editar clicar no botão "salvar". <br>
+                                Para <strong>excluir</strong> um benefício basta clicar no botão vermelho ao lado dos dados do benefício, o benefício será excluído automaticamente.
+                            </p>
+                            </p>
+                            <img src="<?php echo WWW;?>img/beneficio.png" class="img-fluid">
+                            <hr>
+                            <p>Na aba <strong>"EPI"</strong> é possível adicionar e editar EPI's.</p>
+                            <p>
+                            Para adicionar um EPI basta clicar no botão "EPI" no fim da página. Ao clicar nesse botão é aberta uma caixa para adicionar o EPI.
+                            Para adicionar um EPI é necessário selecionar o EPI e o seu status e preencher a data. Caso o EPI desejado não se encontre na listagem basta clicar no símbolo <i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i> ao seu lado e na nova caixa que será aberta escrever o nome do EPI e clicar em OK para salvá-lo.
+                            </p>
+                            <p>
+                                Na seção de EPI é possível visualizar a lista de EPI's do funcionário. Nessa lista é exibido o nome do epi, o status e a data. Para editar um EPI basta clicar no botão verde ao seu lado, ao clicar o usuário é redirecionado para uma página onde é possível ediar os dados desejados. Para editá-los basta clicar no botão "Editar" e após editar clicar no botão "Salvar".
+                                Para excluir um EPI basta clicar no botão vermelho ao lado dos dados do EPI, o EPI será excluído automaticamente.
+                            </p> 
+                            <img src="<?php echo WWW;?>img/epi.png" class="img-fluid">
+                            <hr>
+                            <p>
+                                Na aba <strong>"Carga horária"</strong> é possível visualizar as informações da carga horária do funcionário, como escala, dias trabalhados, dias de folga, etc.
+                            </p>
+                            <hr>
+                            <p>
+                                Na aba <strong>"Editar carga"</strong> é possível alterar ou cadastrar a carga horária do funcionário. Para alterar/cadastrar a carga horária basta selecionar a escala, o tipo, preencher os horários de entrada e saída e selecionar os dias folga e os dias trabalhados.
+                            </p>
+
+                        </dir>
+                        <dir id="_cadastro_interno">
+                            <h3>3.1.4. Cadastro de Internos</h3><hr>
+                            <p>Cadastra uma pessoa como interno no sistema. O formulário apresentado exigirá as seguintes informações para realizar o cadastro:</p>
+                            <br>
+                            <h5>Informações Pessoais</h5>
+                            <ul>
+                                <p>1. Nome</p>
+                                <p>2. Sobrenome</p>
+                                <p>3. Sexo</p>
+                                <p>4. Nome de Contato</p>
+                                <p>5. 3 Telefones de Contato</p>
+                                <p>6. Data de Nascimento</p>
+                                <p>7. Nome dos pais</p>
+                                <p>8. Tipo Sanguíneo</p>
+                            </ul>
+                            <h5>Documentação</h5>
+                            <ul>
+                                <p>1. Número do RG</p>
+                                <p>2. Orgão Emissor</p>
+                                <p>3. Data de Expedição</p>
+                                <p>4. CPF</p>
+                                <p>5. Benefícios</p>
+                                <p>6. Fotos do RG e CPF</p>
+                                <p>7. Observações</p>
+
+                            </ul>
+                            <br>
+                            <p>Para cadastrar um interno no sistema basta acessar <strong><i class="far fa-address-book"></i> Pessoas </strong><i class="fas fa-chevron-right"></i> <a href="<?= WWW?>/html/cadastro_interno.php">Cadastrar Atendido</a></p>
+                        </dir>
+                        <dir id="_info_interno">
+                            <h3>3.1.5. Informações de Internos</h3><hr>
+                            <p>Exibe as informações de cada interno e possibilita alteração de seus dados. Uma tabela mostrará o Nome e CPF, e a coluna Ação oferece a possibilidade de editar os dados.</p>
+                            <p>Para acessar as informações de um interno no sistema basta acessar <strong><i class="far fa-address-book"></i> Pessoas </strong><i class="fas fa-chevron-right"></i> <a href="<?= WWW?>/html/informacao_interno.php">Informações Atendido</a></p>
+                        </dir>
+                    </dir>
+                    <dir id="_material_patrimonio">
+                        <h3>3.2. Material e Patrimônio</h3><hr>
+                        <p></p>
+                    </dir>
                     <dir id="_memorando">
-                        <h3>3.1. Memorando</h3><hr>
+                        <h3>3.3. Memorando</h3><hr>
                         <p>O módulo memorando é destinado à troca de mensagens institucionais entre funcionários da instituição. Essa troca é feita através da criação, por um funcionário, de um <strong>memorando</strong> e de um <strong>despacho</strong>, que serão enviados a outro funcionário. O funcionário que receber esse memorando e esse despacho os enviará a um outro funcionário juntamente com outro despacho e assim sucessivamente até que o memorando volte a sua origem e possa ser arquivado.</p>
                         <dir id="_criacao_memorando">
-                            <h3>3.1.1. Criação do memorando</h3><hr>
+                            <h3>3.3.1. Criação do memorando</h3><hr>
                             <p>Para criar um memorando o funcionário deverá, munido das permissões necessárias, acessar a <a href="<?php echo WWW;?>html/memorando/listar_memorandos_ativos.php">caixa de entrada do módulo memorando</a> e preencher o campo "Assunto", da seção "Criar memorando", com o assunto do memorando e acionar o botão "Criar memorando". Em seguida o funcionário será direcionado automaticamente à página de envio de despachos (leia <a href="#_envio_despacho">3.1.2. Envio de despachos</a>).</p>
                             <img src="<?php echo WWW;?>img/criar_memorando.png" class="img-fluid">
                         </dir>
                         <dir id="_envio_despacho">
-                            <h3>3.1.2. Envio de despachos</h3><hr>
+                            <h3>3.3.2. Envio de despachos</h3><hr>
                             <p>Existem duas possibilidades para o envio de despachos: <i>enviar um despacho em um memorando que foi recebido</i> ou <i>enviar um despacho em um memorando que foi criado naquele momento</i>.</p>
                             <p>Para ambos os casos o procedimento é o mesmo:</p>
                                 <p>1. Selecionar, no campo "destino", da seção "Despachar memorando", o nome do funcionário para quem será enviado o despacho.</p>
@@ -322,13 +447,13 @@ if(file_exists($config_path)){
                                 <img src="<?php echo WWW;?>img/enviar.png" class="img-fluid">
                         </dir>
                         <dir id="_caixa_de_entrada">
-                            <h3>3.1.3. Caixa de entrada</h3><hr>
+                            <h3>3.3.3. Caixa de entrada</h3><hr>
                             <p>A <a href="<?php echo WWW;?>html/memorando/listar_memorandos_ativos.php">caixa de entrada do módulo memorando</a> é o espaço destinado ao recebimento de memorandos. Sempre que um despacho for enviado para você, o memorando desse despacho estará disponível na sua caixa de entrada. Nesse espaço é possível visualizar o título do memorando, a data e a hora da sua criação e as opções fornecidas (leia <a href="#_opcoes_caixa">3.1.4. Opções da caixa de entrada</a>). Para acessar um memorando basta clicar no seu título e você será direcionada.</p>
                             <p>Nessa página também é possível criar um novo memorando (leia <a href="#_criacao_memorando">3.1.1. Criação de memorando</a>)</p>
                             <img src="<?php echo WWW;?>img/caixa_de_entrada.png" class="img-fluid">
                         </dir>
                         <dir id="_opcoes_caixa">
-                            <h3>3.1.4. Opções da caixa de entrada</h3><hr>
+                            <h3>3.3.4. Opções da caixa de entrada</h3><hr>
                             <p>Os memorandos na <a href="<?php echo WWW;?>html/memorando/listar_memorandos_ativos.php">caixa de entrada</a> possuem algumas opções de configuração, para usá-las basta clicar no seu ícone. As opções são:</p>
                                 <p>1. Não lido <img src="<?php echo WWW;?>/img/nao-lido.png" width=25px height= 25px>, opção para marcar um memorando como não lido. <strong>Disponível apenas quando o memorando foi visualizado</strong>. Quando um memorando está marcado com essa opção sua cor fica <strong>azul</strong>.</p>
                                 <p>2. Lido <img src="<?php echo WWW;?>/img/lido.png" width=25px height= 25px>, opção para marcar um memorando como lido. <strong>Disponível apenas quando o memorando não foi visualizado</strong>.</p>
@@ -339,13 +464,13 @@ if(file_exists($config_path)){
                                 <p>Se um memorando estiver marcado como "Não lido" e for aberto ele é marcado com a opção "Lido". Se ele estiver marcado com qualquer outra opção e for aberto ele não perde sua opção permanece a mesma.</p>
                         </dir>
                         <dir id="_memorandos_despachados">
-                            <h3>3.1.5. Memorandos despachados</h3><hr>
+                            <h3>3.3.5. Memorandos despachados</h3><hr>
                             <p>A <a href="<?php echo WWW;?>html/memorando/listar_memorandos_antigos.php">lista de memorandos despachados</a> é um local para visualização dos memorandos que já foram enviados para você, inclusive os que já foram despachados para outras pessoas. Nesse espaço é possível visualizar o título do memorando, a sua origem (funcionário que o criou) e a data e a hora de criação. Para acessar um memorando despachado basta clicar no seu título e você será direcionado para a lista de despachos desse memorando.</p>
                             <p>Se o memorando estiver marcado com a opção <strong>[ARQUIVADO]</strong>, significa que ele foi arquivado pelo seu criador e por esse motivo ele não poderá ser enviado para outros funcionários.</p>
                             <img src="<?php echo WWW;?>img/memorandos_despachados.png" class="img-fluid">
                         </dir>
                         <dir id="_lista_despachos">
-                            <h3>3.1.6 Leitura de despachos</h3><hr>
+                            <h3>3.3.6 Leitura de despachos</h3><hr>
                             <p>Ao abrir um memorando o usuário será redirecionado para a lista de despachos desse memorando. Nessa lista é possível ver todos os despachos organizados do mais antigo para o mais recente. É possível ver o remetente do despacho, o destinatário, o texto do despacho e a data e hora do envio. Se houver arquivos anexados ao despacho, a linha <strong>Despacho</strong> estará presente seguida da lista de arquivos.</p>
                             <p>Ao acessar um memorando em que o último despacho foi enviado para você há após a lista de despachos um espaço para escrever um novo despacho nesse memorando e enviá-lo para outro funcionário (leia <a href="#_envio_despacho">3.1.2. Envio de despachos</a>). Caso o último destinatário desse memorando seja outro funcionário, não haverá, na lista de despachos, espaço para enviá-lo para outro funcionário</p>
                             <img src="<?php echo WWW;?>img/lista_despachos.png" class="img-fluid">
@@ -353,11 +478,11 @@ if(file_exists($config_path)){
                                     <p>Para acessar os arquivos anexos ao despacho basta clicar no nome do arquivo e seu download será feito automaticamente</p> 
                         </dir>
                         <dir id="_imprimir">
-                            <h3>3.1.7. Impressão de despachos e memorandos</h3><hr>
+                            <h3>3.3.7. Impressão de despachos e memorandos</h3><hr>
                             <p>É possível realizar a impressão dos memorandos da caixa de entrada (leia <a href="#_caixa_de_entrada">3.1.3. Caixa de entrada</a>), dos despachos da lista de despachos (leia <a href="#_lista_despachos">3.1.6. Leitura de despachos</a>) e dos memorandos da lista de memorandos despachados (leia <a href="#_memorandos_despachados">3.1.5. Memorandos Despachados</a>) bastando para isso clicar no botão "Imprimir" disponível em cada uma dessas páginas.</p>
                         </dir>
                         <dir id="_erros">
-                            <h3>3.1.8. Mensagens de erro</h3><hr>
+                            <h3>3.3.8. Mensagens de erro</h3><hr>
                             <p>1. <strong>"Desculpe, você não tem acesso a essa página"</strong>: se ao acessar a lista de despachos de um memorando a mensagem <strong>"Desculpe, você não tem acesso a essa página"</strong> for exibida isso significa que você está tentando acessar a lista de despachos de um memorando que nunca foi enviado para você. Para ter acesso a essa página o memorando precisa ter sido enviado para você.</p>
                             <img src="<?php echo WWW;?>img/erro1.png" class="img-fluid">
                         </dir>

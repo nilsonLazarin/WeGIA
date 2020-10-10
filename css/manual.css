@@ -1,0 +1,35 @@
+.menuu{
+    top: 0 !important;
+}
+
+.page-header{
+    top: 0 !important;
+}
+
+p{
+    color: black;
+}
+
+hr{
+    border: 1px solid #ccc;
+    height: 0;
+}
+
+.nav-children li a {
+    padding: 6px 15px !important;
+}
+
+.img-fluid
+{
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.sub1{
+    margin-left: 10px;
+}
+
+.sub2{
+    margin-left: 20px;
+}

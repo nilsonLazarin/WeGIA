@@ -31,7 +31,7 @@ if(file_exists($config_path)){
 					</li>
 					<li class="nav-parent nav-active">
 						<a>
-							<i class="fa fa-copy"></i>
+							<i class="far fa-address-book"></i>
 							<span>Pessoas</span>
 						</a>
 						<ul class="nav nav-children">

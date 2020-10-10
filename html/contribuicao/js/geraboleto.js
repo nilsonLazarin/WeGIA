@@ -1,20 +1,25 @@
+
 function geraBoleto()
 {
-    $.post("./php/infoboletofacil.php").done(function(data)
+    $.post("./php/infoBoletoFacil.php").done(function(data)
     {
-        console.log(data);
-        /*var dado = JSON.parse(data);
-        var api = dado.API;
-        var token = dado.token;
+        var dado = JSON.parse(data);
+        var api = dado.api;
+        var token = dado.token_api;
         var agradecimento = dado.agradecimento;
-        var dias_venc_unico = dado.maxOverDays_Unico;
-        var dias_venc_mensal = dado.maxOverDueDays_carne;
+        var dias_venc_unico = dado.dias_boleto_a_vista;
+        var dias_venc_mensal = dado.max_dias_venc;
+        var multa = dado.multa;
+        var juros = dado.juros;
+        var sandbox = dado.sandbox;
+        var token_sandbox = dado.token_sandbox;
             var dia = retorna_dia();
             var valor = retorna_valor();
             var doc = retorna_doc();
             var nome = retorna_nome(doc);
             var dataV = retorna_dataV(dia);
             var parcelas = retorna_parecela();
+            var socioTipo = tipo_socio();
         var email = $("#email").val();
         var telefone = $("#telefone").val();
         var cep = $("#cep").val();
@@ -29,14 +34,14 @@ function geraBoleto()
             console.log(agradecimento);
             console.log(dias_venc_unico);
             console.log(dias_venc_mensal);
-            console.log(parcelas);
-
+            console.log(parcelas);*/
+        cad_log(socioTipo);
         var check;
 
             if($("#tipo2").prop("checked"))
             {
-                $.get(api+"&token="+token+"&description="+agradecimento+"&amount="+valor+"&dueDate="+dataV+"&maxOverdueDays="+dias_venc_unico+"&payerName="+nome+"&payerCpfCnpj="+doc+"&payerEmail="+email+"&payerPhone="+telefone+"&billingAddressStreet="+rua+"&billingAddressNumber="+numero+"&billingAddressComplement="+complemento+"&billingAddressNeighborhood="+bairro+"&billingAddressCity="+cidade+"&billingAddressState="+uf+"&billingAddressPostcode="+cep+"&paymentTypes=BOLETO&notifyPayer=TRUE").done(function(dados){
-                    cad_log();
+                $.get(api+"&token="+token+"&description="+agradecimento+"&amount="+valor+"&dueDate="+dataV+"&maxOverdueDays="+dias_venc_unico+"&payerName="+nome+"&payerCpfCnpj="+doc+"&payerEmail="+email+"&payerPhone="+telefone+"&billingAddressStreet="+rua+"&billingAddressNumber="+numero+"&billingAddressComplement="+complemento+"&billingAddressNeighborhood="+bairro+"&billingAddressCity="+cidade+"&billingAddressState="+uf+"&billingAddressPostcode="+cep+"&fine="+multa+"&interest="+juros+"&paymentTypes=BOLETO&notifyPayer=TRUE").done(function(dados){
+                    //cad_log(socioTipo);
                     for(var link of dados.data.charges)
                     {
                         
@@ -49,8 +54,8 @@ function geraBoleto()
             }
             else{
 
-                $.get(api+"&token="+token+"&description="+agradecimento+"&amount="+valor+"&dueDate="+dataV+"&maxOverdueDays="+dias_venc_mensal+"&installments="+parcelas+"&payerName="+nome+"&payerCpfCnpj="+doc+"&payerEmail="+email+"&payerPhone="+telefone+"&billingAddressStreet="+rua+"&billingAddressNumber="+numero+"&billingAddressComplement="+complemento+"&billingAddressNeighborhood="+bairro+"&billingAddressCity="+cidade+"&billingAddressState="+uf+"&billingAddressPostcode="+cep+"&paymentTypes=BOLETO&notifyPayer=TRUE").done(function(dados){
-                    cad_log();
+                $.get(api+"&token="+token+"&description="+agradecimento+"&amount="+valor+"&dueDate="+dataV+"&maxOverdueDays="+dias_venc_mensal+"&installments="+parcelas+"&payerName="+nome+"&payerCpfCnpj="+doc+"&payerEmail="+email+"&payerPhone="+telefone+"&billingAddressStreet="+rua+"&billingAddressNumber="+numero+"&billingAddressComplement="+complemento+"&billingAddressNeighborhood="+bairro+"&billingAddressCity="+cidade+"&billingAddressState="+uf+"&billingAddressPostcode="+cep+"&fine="+multa+"&interest="+juros+"&paymentTypes=BOLETO&notifyPayer=TRUE").done(function(dados){
+                    //cad_log(socioTipo);
                     for(var link of dados.data.charges)
                     {
                         
@@ -60,12 +65,11 @@ function geraBoleto()
                     $("form").html('<div><h3>OBRIGADO POR SUA DOAÇÃO! VOCÊ ESTÁ AJUDANDO A MANTER ESSA INSTITUIÇÃO QUE ABRIGA IDOSOS DESDE 1929!</h3><br><br><br><button class="mala"><a class="botao" target="_blank" href='+check+'>EMITA SEU BOLETO AQUI</a></button> <button class="mala"><a class = "botao" href="../contribuicao/index.php">VOLTAR À PÁGINA INICIAL</a></button></div>');
                     
                 });
-            }*/
-
+            }
     });
 }
 
-/*function retorna_valor(){
+function retorna_valor(){
     
     if($("#tipo1").prop('checked'))
     {
@@ -164,4 +168,4 @@ function retorna_parecela()
             }
 
         return parcelas;
-}*/
+}

@@ -20,6 +20,7 @@ if(file_exists($config_path))
       public $banco;
       public $rows;
       public $vetordados;
+      public $affected;
 
       public function __construct()
       {

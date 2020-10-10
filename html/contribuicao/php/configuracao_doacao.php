@@ -1,6 +1,8 @@
 <?php
 require_once('conexao.php');
 $banco = new Conexao();
+ini_set('display_errors', 0);
+ini_set('display_startup_erros', 0);
 
 	session_start();
 	if(!isset($_SESSION['usuario'])){
@@ -127,7 +129,7 @@ $sistemas = [];
 
     </head>
     <style>
-        .alerta
+        .alerta_pay, .alerta_pag, .alerta_bol
         {
             padding: 2%;
             border: 1px solid gray;
@@ -168,7 +170,7 @@ $sistemas = [];
                 <div class="col-md-4 col-lg-2"></div>
                 <div class="col-md-8 col-lg-8">
                     <div id='foo'>Dados atualizados com sucesso!</div>
-                    <div class='alerta'>Faltam dados para o sistema selecionado :(</div>
+                    
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
 							<li class="nav-item active">
 								<a class="nav-link active" id="boletofacil" data-toggle="tab" href="#img-tab" role="tab" aria-controls="img" aria-selected="true">BOLETOFACIL</a>
@@ -181,9 +183,10 @@ $sistemas = [];
 							</li>
                         </ul>
                         <div class="tab-content" id="myTabContent" width = "50%">
+                        <div class='alerta_pay'>Faltam dados para o sistema selecionado :(</div>
                             <div id='divpaypal'>
                                 <form action="dadosCartao.php?idSistema=<?php echo $sistemas[2];?>&dados=<?php echo $linhaspaypal;?>" method='POST' id="form2" name="PAYPAL">
-                                    <input type='hidden' id="dadopay" value='<?php echo $linhaspaypal;?>'>
+                                    <input type='hidden' id="dadoPay" value='<?php echo $linhaspaypal;?>'>
                                     <div class="tab-pane active" id="img-tab" role="tabpanel" aria-labelledby="img-tab">
                                         <table class="table table-bordered mb-none">
                                             <h3>DOAÇÃO AVULSA</h3>
@@ -208,7 +211,9 @@ $sistemas = [];
                                                             echo"<td><input type='number' class='form-control' readonly='true' name='valor_extra' id='valor_extra' value=></td>";
                                                             echo"<td><input type='text' class='form-control' readonly='true' name='link_extra' id='link_extra' value= ></td>";
                                                             echo"</tr>";
-                                                        } 
+                                                         
+                                                     
+                                                        }  
                                                         else{
                                                             echo"<tr>";
                                                             echo("<td><input type='number' name='valores[]' readonly= 'true' class='form-control' value=".$dadosiniciais['valor']."></td>");
@@ -229,8 +234,7 @@ $sistemas = [];
                                                             echo"<td><input type='text' class='form-control' readonly='true' name='link_extra' id='link_extra' value= ></td>";
                                                             echo"</tr>";
                                                         }     
-                                                    ?>
-                                                    
+                                                    ?> 
                                                 </table>
                                             </div>
                                             <br><br>
@@ -241,7 +245,8 @@ $sistemas = [];
                                 </form>
                             </div>
                             <div id='divboleto'> 
-                                <form action="dadosBoleto.php?idSistema=<?php echo $sistemas[0];?>$idRegras=<?php echo $dadosBoleto['id_regras']; ?>&dados=<?php echo $linhasboleto; ?>" method = "POST" id="form1" name="BOLETO">
+                            <div class='alerta_bol'>Faltam dados para o sistema selecionado :(</div>
+                                <form action="dadosBoleto.php?idSistema=<?php echo $sistemas[0];?>&idRegras=<?php echo $dadosBoleto['id_regras']; ?>&dados=<?php echo $linhasboleto; ?>" method = "POST" id="form1" name="BOLETO">
                                     <input type='hidden' id="dadoBol" value='<?php echo $linhasboleto;?>'>
                                     <div class="tab-pane active" id="img-tab" role="tabpanel" aria-labelledby="img-tab">
                                         <table class="table table-bordered mb-none">
@@ -336,6 +341,7 @@ $sistemas = [];
                                 </form> 
                             </div> 
                             <div id='divpagseguro'>
+                            <div class='alerta_pag'>Faltam dados para o sistema selecionado :(</div>
                                 <form action="dadosCartao.php?idSistema=<?php echo $sistemas[1];?>&dados=<?php echo $linhaspagseguro;?>" method='POST' id="form2" name="PAGSEGURO">
                                     <input type='hidden' id="dadoPag" value='<?php echo $linhaspagseguro;?>'>
                                     <div class="tab-pane active" id="img-tab" role="tabpanel" aria-labelledby="img-tab">
@@ -362,14 +368,15 @@ $sistemas = [];
                                                             echo"<td><input type='number' class='form-control' readonly='true' name='valor_extra' id='valor_extra' value=></td>";
                                                             echo"<td><input type='text' class='form-control' readonly='true' name='link_extra' id='link_extra' value= ></td>";
                                                             echo"</tr>";
+                                                        
                                                         } 
                                                         else{
                                                             echo"<tr>";
-                                                            echo("<td><input type='number' name='valores[]' readonly= 'true' class='form-control' value=".$dadosiniciais['valor']."></td>");
-                                                            echo("<td><input type='text' class='form-control' readonly='true' name='link_doacao[]' value=".$dadosiniciais['link']."></td>"); 
-                                                            echo("<input type='hidden' name='id[]' value=".$dadosiniciais['id'].">");
+                                                            echo("<td><input type='number' name='valores[]' readonly= 'true' class='form-control' value=".$dadoinicial['valor']."></td>");
+                                                            echo("<td><input type='text' class='form-control' readonly='true' name='link_doacao[]' value=".$dadoinicial['link']."></td>"); 
+                                                            echo("<input type='hidden' name='id[]' value=".$dadoinicial['id'].">");
                                                             echo"</tr>";
-                                                            foreach($dadospaypal as $dados)
+                                                            foreach($dadospagseguro as $dados)
                                                             {
                                                                 echo"<tr>";
                                                                 echo("<td><input type='number' name='valores[]' readonly= 'true' class='form-control' value=".$dados['valor']."></td>");
@@ -384,7 +391,6 @@ $sistemas = [];
                                                             echo"</tr>";
                                                         }     
                                                     ?>
-                                            
                                                 </table>
                                             </div> 
                                             <br><br>

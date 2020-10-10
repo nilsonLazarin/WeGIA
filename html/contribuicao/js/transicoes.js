@@ -5,6 +5,9 @@ function atualiza(){
   $("#divpaypal").hide();
   $("#btn-bol").hide();
   $('#foo').hide();
+  $(".alerta_bol").hide();
+  $(".alerta_pay").hide(); 
+  $(".alerta_pag").hide();
 
   $("submit").click(function(){
 	$('#foo').fadeIn();
@@ -14,7 +17,9 @@ function atualiza(){
 });
 	if($("#dadoBol").val() == 0)
 		{
-			$("#alerta").fadeIn();
+			$(".alerta_bol").fadeIn();
+		}else{
+			$(".alerta_bol").hide();
 		}
  
   $("#header").load("../../header.php");
@@ -28,10 +33,14 @@ function atualiza(){
 
   
   $("#pagseguro").click(function(){
-	$("#alerta").hide(); 
+	$(".alerta_bol").hide();
+	$(".alerta_pay").hide(); 
+	$(".alerta_pag").hide();
 	  if($("#dadoPag").val() == 0)
 	  {
-		  $("#alerta").fadeIn();
+		  $(".alerta_pag").fadeIn();
+	  }else{
+		$(".alerta_pag").hide();
 	  }
 	  $("#divpagseguro").fadeIn();
 	  $("#divboleto").hide();
@@ -45,11 +54,16 @@ function atualiza(){
      
   });
   $("#boletofacil").click(function(){
-	$("#alerta").hide();
-	if($("#dadoBol").val() == 0)
-	{
-		$("#alerta").fadeIn();
-	}
+	$(".alerta_bol").hide();
+	$(".alerta_pay").hide(); 
+	$(".alerta_pag").hide();
+	  if($("#dadoBol").val() == 0)
+	  {
+		  $(".alerta_bol").fadeIn();
+	  }else{
+		$(".alerta_bol").hide();
+	  }
+
       $("#divboleto").fadeIn();
 	  $("#divpagseguro").hide();
 	  $("#divpaypal").hide();
@@ -61,11 +75,15 @@ function atualiza(){
 	
   });
   $("#paypal").click(function(){
-	$("#alerta").hide();
-	if($("#dadopay").val() == 0)
-	{
-		$("#alerta").fadeIn();
-	} 
+	$(".alerta_bol").hide();
+	$(".alerta_pay").hide(); 
+	$(".alerta_pag").hide();
+	  if($("#dadoPay").val() == 0)
+	  {
+		  $(".alerta_pay").fadeIn();
+	  }else{
+		$(".alerta_pay").hide();
+	  }
 	  $("#divpaypal").fadeIn();
 	  $("#divboleto").hide();
 	  $("#divpagseguro").hide();

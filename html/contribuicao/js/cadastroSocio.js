@@ -160,13 +160,16 @@ function cadastra_socio()
     }
 }
 
-function cad_log()
+function cad_log(socioTipo)
 {
     var id_sistema = $("#id_sistema").val();
-  var horadata = new Date();
-  var horaAtual = horadata.getHours();
-  var minutoAtual = horadata.getMinutes();
-  var hora = horaAtual+":"+minutoAtual;
+
+    var socioTipo = socioTipo;
+    console.log(socioTipo);
+    var horadata = new Date();
+    var horaAtual = horadata.getHours();
+    var minutoAtual = horadata.getMinutes();
+    var hora = horaAtual+":"+minutoAtual;
       if($("#tipo1").prop('checked'))
         {
             var valor_contribuicao = $("#valores option:selected").val();
@@ -184,7 +187,7 @@ function cad_log()
     }else{
         doc = $("#dcnpj").val();
     }
-    $.post("./php/cadastroLog.php",{'hora':hora, 'valor_doacao':valor_contribuicao, 'dataV':data_vencimento, 'email':email, 'doc':doc, 'sistema':id_sistema}).done(function(data){console.log(data);});
+    $.post("./php/cadastroLog.php",{'hora':hora, 'valor_doacao':valor_contribuicao, 'dataV':data_vencimento, 'email':email, 'doc':doc, 'sistema':id_sistema, 'socioTipo': socioTipo}).done(function(data){console.log(data);});
 }
 
 function dataVencimento()
