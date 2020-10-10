@@ -136,7 +136,6 @@
                 </table>
                 <div class="row">
       <canvas id="grafico1" class="col-xs-6" height="200"></canvas><br>
-      <canvas id="grafico2" class="col-xs-6" height="200"></canvas>
       </div>
     
             </div>
