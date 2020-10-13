@@ -1002,15 +1002,11 @@ DELIMITER ;
 
 DELIMITER $$
 USE `wegia`$$
-CREATE PROCEDURE `cadepi`(IN `id_epi` INT, IN `data` DATE, IN `epi_status` VARCHAR(100))
+CREATE PROCEDURE `cadepi`(IN `id_pessoa` INT, IN `id_epi` INT, IN `data` DATE, IN `epi_status` VARCHAR(100))
 begin
 
-declare idP int;
-
-select max(id_pessoa) into idP FROM pessoa;
-
 insert into pessoa_epi(id_pessoa,id_epi,data,epi_status)
-values(idP,id_epi,data,epi_status);
+values(id_pessoa,id_epi,data,epi_status);
 
 END$$
 
