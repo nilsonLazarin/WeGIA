@@ -360,6 +360,13 @@ class FuncionarioControle
         return $funcionario;
     }
 
+    public function retornarIdPessoa($id_funcionario)
+    {
+        $funcionariosDAO = new FuncionarioDAO();
+        $pessoa = $funcionariosDAO->retornarIdPessoa($id_funcionario);
+        $_SESSION['id_pessoaa']=$pessoa;
+    }
+
     public function verificarBeneficiados(){
         extract($_REQUEST);
         
@@ -383,8 +390,11 @@ class FuncionarioControle
             $valor='0000';
         }
 
+        $retornarPessoa = new FuncionarioControle();
+        $retornarPessoa->retornarIdPessoa($person);
         $beneficiados = new Beneficiados();
         $beneficiados->setId_beneficios($ibeneficios);
+        $beneficiados->setId_pessoa($_SESSION['id_pessoaa'][0]);
         $beneficiados->setData_inicio($data_inicio);
         $beneficiados->setData_fim($data_fim);
         $beneficiados->setBeneficios_status($beneficios_status);
@@ -410,10 +420,13 @@ class FuncionarioControle
             $epi_status='';
         }
 
+        $retornarPessoa = new FuncionarioControle();
+        $retornarPessoa->retornarIdPessoa($person2);
         $epi = new Pessoa_epi();
         $epi->setId_epi($descricao_epi);
         $epi->setData($data);
         $epi->setEpi_status($epi_status);
+        $epi->setId_pessoa($_SESSION['id_pessoaa'][0]);
 
         return $epi;
     }

@@ -21,7 +21,7 @@ class Pessoa_epiDAO
     public function incluir($epi){        
         try {
 
-            $sql = 'call cadepi(:id_epi,:data,:epi_status)';
+            $sql = 'call cadepi(:id_pessoa, :id_epi,:data,:epi_status)';
             $pdo = Conexao::connect();
             $sql = str_replace("'", "\'", $sql);            
             $stmt = $pdo->prepare($sql);
@@ -29,10 +29,12 @@ class Pessoa_epiDAO
             $id_epi = $epi->getId_epi();
             $data = $epi->getData();
             $epi_status = $epi->getEpi_status();
+            $id_pessoa = $epi->getId_pessoa();
 
             $stmt->bindParam(':id_epi',$id_epi);
             $stmt->bindParam(':data',$data);
             $stmt->bindParam(':epi_status',$epi_status);
+            $stmt->bindParam(':id_pessoa', $id_pessoa);
 
             $stmt->execute();
         }catch (PDOExeption $e) {
