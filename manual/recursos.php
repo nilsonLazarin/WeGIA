@@ -187,13 +187,18 @@ if(file_exists($config_path)){
                                             </a>
                                         </li>
                                         <li class="sub2">
+                                            <a href="#_edicao_funcionario">
+                                                3.1.3. Edição de dados de funcionários
+                                            </a>
+                                        </li>
+                                        <li class="sub2">
                                             <a href="#_cadastro_interno">
-                                                3.1.3. Cadastro de Internos
+                                                3.1.4. Cadastro de Internos
                                             </a>
                                         </li>
                                         <li class="sub2">
                                             <a href="#_info_interno">
-                                                3.1.4. Informações de Internos
+                                                3.1.5. Informações de Internos
                                             </a>
                                         </li>
                                         <li class="sub1">
