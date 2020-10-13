@@ -960,15 +960,11 @@ USE `wegia` ;
 
 DELIMITER $$
 USE `wegia`$$
-CREATE PROCEDURE `cadbeneficiados`(IN `id_beneficios` INT, IN `data_inicio` DATETIME, IN `data_fim` DATETIME, IN `beneficios_status` VARCHAR(100), IN `valor` DECIMAL(10,2))
+CREATE PROCEDURE `cadbeneficiados`(IN `id_pessoa` INT, IN `id_beneficios` INT, IN `data_inicio` DATETIME, IN `data_fim` DATETIME, IN `beneficios_status` VARCHAR(100), IN `valor` DECIMAL(10,2))
 begin
 
-declare idP int;
-
-select max(id_pessoa) into idP FROM pessoa;
-
 insert into beneficiados(id_pessoa,id_beneficios,data_inicio,data_fim,beneficios_status,valor)
-values(idP,id_beneficios,data_inicio,data_fim,beneficios_status,valor);
+values(id_pessoa,id_beneficios,data_inicio,data_fim,beneficios_status,valor);
 
 
 
@@ -1006,15 +1002,11 @@ DELIMITER ;
 
 DELIMITER $$
 USE `wegia`$$
-CREATE PROCEDURE `cadepi`(IN `id_epi` INT, IN `data` DATE, IN `epi_status` VARCHAR(100))
+CREATE PROCEDURE `cadepi`(IN `id_pessoa` INT, IN `id_epi` INT, IN `data` DATE, IN `epi_status` VARCHAR(100))
 begin
 
-declare idP int;
-
-select max(id_pessoa) into idP FROM pessoa;
-
 insert into pessoa_epi(id_pessoa,id_epi,data,epi_status)
-values(idP,id_epi,data,epi_status);
+values(id_pessoa,id_epi,data,epi_status);
 
 END$$
 
