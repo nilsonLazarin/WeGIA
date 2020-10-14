@@ -99,7 +99,6 @@ function cadastra_socio()
 {
 
   var id_sociotipo = tipo_socio();
-
  
   var horadata = new Date();
   var horaAtual = horadata.getHours();
@@ -141,9 +140,11 @@ function cadastra_socio()
       doc = formata_cpf_cnpj(doc);
       var dataN = ano.concat("-",mes,"-",dia);
 
-      $.post("./php/cadastrarSocio.php", {'tipo':fisjur, 'nome':nome, 'sobrenome': sobrenome, 'telefone':telefone, 'cep':cep, 'log':log, 'comp':comp, 'bairro':bairro, 'cidade':cidade, 'uf':uf, 'numero': num, 'doc':doc,'datanascimento':dataN, 'hora':hora, 'sistema':sistema, 'contato':email, 'id_sociotipo': id_sociotipo, 'status': status, 'datavencimento':data_vencimento, 'valor_doacao':valor_contribuicao}).done(function(data){console.log(data)});
+      $.post("./php/cadastrarSocio.php", {'tipo':fisjur, 'nome':nome, 'sobrenome': sobrenome, 'telefone':telefone, 'cep':cep, 'log':log, 'comp':comp, 'bairro':bairro, 'cidade':cidade, 'uf':uf, 'numero': num, 'doc':doc,'datanascimento':dataN, 'hora':hora, 'sistema':sistema, 'contato':email, 'id_sociotipo': id_sociotipo, 'status': status, 'datavencimento':data_vencimento, 'valor_doacao':valor_contribuicao}).done(function(data){console.log(data)
+    geraBoleto();
+    });
 
-      geraBoleto();
+      
     }
     else
     {
@@ -154,9 +155,11 @@ function cadastra_socio()
       doc = formata_cpf_cnpj(doc);
       dataN = "0000-00-00"
 
-      $.post("./php/cadastrarSocio.php", {'tipo':fisjur, 'nome':nome, 'sobrenome':sobrenome, 'telefone':telefone, 'cep':cep, 'log':log, 'comp':comp, 'bairro':bairro, 'cidade':cidade, 'uf':uf, 'numero': num, 'doc':doc,'datanascimento':dataN, 'hora':hora, 'sistema':sistema, 'contato':email, 'id_sociotipo': id_sociotipo, 'status': status,  'datavencimento':data_vencimento, 'valor_doacao':valor_contribuicao}).done(function(data){console.log(data);});
+      $.post("./php/cadastrarSocio.php", {'tipo':fisjur, 'nome':nome, 'sobrenome':sobrenome, 'telefone':telefone, 'cep':cep, 'log':log, 'comp':comp, 'bairro':bairro, 'cidade':cidade, 'uf':uf, 'numero': num, 'doc':doc,'datanascimento':dataN, 'hora':hora, 'sistema':sistema, 'contato':email, 'id_sociotipo': id_sociotipo, 'status': status,  'datavencimento':data_vencimento, 'valor_doacao':valor_contribuicao}).done(function(data){console.log(data);
+    geraBoleto();
+    });
       
-      geraBoleto();
+      
     }
 }
 
@@ -165,7 +168,6 @@ function cad_log(socioTipo)
     var id_sistema = $("#id_sistema").val();
 
     var socioTipo = socioTipo;
-    console.log(socioTipo);
     var horadata = new Date();
     var horaAtual = horadata.getHours();
     var minutoAtual = horadata.getMinutes();

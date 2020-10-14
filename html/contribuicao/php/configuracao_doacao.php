@@ -141,6 +141,15 @@ $sistemas = [];
             background-color: rgb(237, 85, 101);
             opacity: 60%;
         }
+        a:hover{
+				color: white;
+				text-decoration:none;
+			}
+		a{ 
+				font-weight: normal;	
+				color: white;
+
+			}
     </style>
 
     <body>
@@ -218,6 +227,7 @@ $sistemas = [];
                                                             echo"<tr>";
                                                             echo("<td><input type='number' name='valores[]' readonly= 'true' class='form-control' value=".$dadosiniciais['valor']."></td>");
                                                             echo("<td><input type='text' class='form-control' readonly='true' name='link_doacao[]' value=".$dadosiniciais['link']."></td>"); 
+                                                            echo("<td><button class= 'btn btn-danger'><a href = 'deleteValor.php?idValor=$dadosiniciais[id]&idSistema=$sistemas[2]' type='button' class='fas fa-trash-alt icon'></button></td>");
                                                             echo("<input type='hidden' name='id[]' value=".$dadosiniciais['id'].">");
                                                             echo"</tr>";
                                                             foreach($dadospaypal as $dados)
@@ -225,6 +235,7 @@ $sistemas = [];
                                                                 echo"<tr>";
                                                                 echo("<td><input type='number' name='valores[]' readonly= 'true' class='form-control' value=".$dados['valor']."></td>");
                                                                 echo("<td><input type='text' class='form-control' readonly='true' name='link_doacao[]' value=".$dados['link']."></td>"); 
+                                                                echo("<td><button class= 'btn btn-danger'><a href = 'deleteValor.php?idValor=$dados[id]&idSistema=$sistemas[2]' type='button' class='fas fa-trash-alt icon'></button></td>");
                                                                 echo("<input type='hidden' name='id[]' value=".$dados['id'].">");
                                                                 echo"</tr>";
                                                             }
@@ -360,7 +371,7 @@ $sistemas = [];
                                             <div id='doacao_mensal'>
                                                 <table class="table table-bordered mb-none">
                                                     <tr>
-                                                        <th>VALOR</th><th>LINK</th>
+                                                        <th>VALOR</th><th>LINK</th><th>DELETAR</th>
                                                     </tr>
                                                     <?php
                                                         if($linhaspagseguro == 0){
@@ -374,14 +385,18 @@ $sistemas = [];
                                                             echo"<tr>";
                                                             echo("<td><input type='number' name='valores[]' readonly= 'true' class='form-control' value=".$dadoinicial['valor']."></td>");
                                                             echo("<td><input type='text' class='form-control' readonly='true' name='link_doacao[]' value=".$dadoinicial['link']."></td>"); 
+                                                            echo("<td><button class= 'btn btn-danger'><a href = 'deleteValor.php?idValor=$dadoinicial[id]&idSistema=$sistemas[1]' type='button' class='fas fa-trash-alt icon'></button></td>");
                                                             echo("<input type='hidden' name='id[]' value=".$dadoinicial['id'].">");
+                                                            
                                                             echo"</tr>";
                                                             foreach($dadospagseguro as $dados)
                                                             {
                                                                 echo"<tr>";
                                                                 echo("<td><input type='number' name='valores[]' readonly= 'true' class='form-control' value=".$dados['valor']."></td>");
-                                                                echo("<td><input type='text' class='form-control' readonly='true' name='link_doacao[]' value=".$dados['link']."></td>"); 
+                                                                echo("<td><input type='text' class='form-control' readonly='true' name='link_doacao[]' value=".$dados['link']."></td>");
+                                                                echo("<td><button class= 'btn btn-danger'><a href = 'deleteValor.php?idValor=$dados[id]&idSistema=$sistemas[1]' type='button' class='fas fa-trash-alt icon'></button></td>");
                                                                 echo("<input type='hidden' name='id[]' value=".$dados['id'].">");
+                                                                
                                                                 echo"</tr>";
                                                             }
                                                         

@@ -1384,6 +1384,7 @@
                                       <div class="panel-footer">
                                         <div class="row">
                                            <div class="col-md-9 col-md-offset-3">
+                                            <input type="hidden" name="person" value=<?php echo $_GET['id_funcionario'];?>>
                                             <input type="hidden" name="nomeClasse" value="FuncionarioControle">
                                             <input type="hidden" name="metodo" value="incluirBeneficio">
                                             <input id="enviar" type="submit" class="btn btn-primary" value="Salvar" onclick="funcao1()">
@@ -1476,6 +1477,7 @@
                                       <div class="row">
                                         <div class="col-md-9 col-md-offset-3">
                                           <input type="hidden" name="nomeClasse" value="FuncionarioControle">
+                                          <input type="hidden" name="person2" value=<?php echo $_GET['id_funcionario'];?>>
                                           <input type="hidden" name="metodo" value="incluirEpi">
                                           <input id="enviar" type="submit" class="btn btn-primary" value="Salvar" onclick="funcao2()">
                                           <button button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>

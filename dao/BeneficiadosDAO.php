@@ -29,7 +29,7 @@ class BeneficiadosDAO
     public function incluir($beneficiados){        
       try {
 
-          $sql = 'call cadbeneficiados(:id_beneficios,:data_inicio,:data_fim,:beneficios_status,:valor)';
+          $sql = 'call cadbeneficiados(:id_pessoa,:id_beneficios,:data_inicio,:data_fim,:beneficios_status,:valor)';
           $sql = str_replace("'", "\'", $sql);
           $pdo = Conexao::connect();
           $stmt = $pdo->prepare($sql);
@@ -39,12 +39,14 @@ class BeneficiadosDAO
           $data_fim=$beneficiados->getData_fim();
           $beneficios_status=$beneficiados->getBeneficios_status();
           $valor=$beneficiados->getValor();
+          $pessoa=$beneficiados->getId_pessoa();
 
           $stmt->bindParam(':id_beneficios',$ibeneficios);  
           $stmt->bindParam(':data_inicio',$data_inicio);                
           $stmt->bindParam(':data_fim',$data_fim);
           $stmt->bindParam(':beneficios_status',$beneficios_status);
           $stmt->bindParam(':valor',$valor);
+          $stmt->bindParam(':id_pessoa',$pessoa);
 
           $stmt->execute();
       }catch (PDOExeption $e) {
