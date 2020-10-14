@@ -367,7 +367,7 @@ if(file_exists($config_path)){
                             <p>Se o Sistema Operacional em que o servidor for instalado não for em Linux (leia <a href="#_pre_requisitos">2.1. Pré-requisitos</a>). É fortemente recomendada a instalação do WeGIA em um servidor Linux.</p>
                         </dir>
                     </dir>
-                    <dir id="_memorando">
+                    <!-- <dir id="_memorando">
                         <h3>5. Memorando</h3><hr>
                         <p>O módulo do memorando é destinado à troca de mensagens institucionais pelos funcionários da instituição. Essa troca é feita através da criação, por um funcionário, de um <strong>memorando</strong> e de um <strong>despacho</strong>, que serão enviados a outro funcionário. O funcionário que receber esse memorando e esse despacho os enviará a outro e assim sucessivamente até que o memorando volte a sua origem e seja arquivado.</p>
                         <dir id="_criacao_memorando">
@@ -402,7 +402,7 @@ if(file_exists($config_path)){
                                 <p>3. Arquivar memorando <img src="<?php echo WWW;?>/img/arquivar.png" width=25px height= 25px>, opção para marcar um memorando como arquivado. Quando um memorando está marcado com essa opção ele não fica disponível na caixa de entrada, apenas na lista de memorandos despachados. <strong>Disponível apenas quando o usuário foi o criador do memorando</strong>.
                             <p>
                         </dir>
-                    </dir>
+                    </dir> -->
                     <div class="justify-content-between">
                         <a href="./introducao.php" type="button" class="btn btn-secondary">
                             <i class="fas fa-arrow-left"></i>

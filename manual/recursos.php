@@ -242,7 +242,7 @@ if(file_exists($config_path)){
                                             </a>
                                         </li>
                                         <li class="sub2">
-                                            <a href="#_lista_despachos">
+                                            <a href="#_imprimir">
                                                 3.1.7. Impressão
                                             </a>
                                         </li>
@@ -457,7 +457,7 @@ if(file_exists($config_path)){
                             <p>Nessa página também é possível criar um novo memorando (leia <a href="#_criacao_memorando">3.1.1. Criação de memorando</a>)</p>
                             <img src="<?php echo WWW;?>img/caixa_de_entrada.png" class="img-fluid">
                         </dir>
-                        <dir id="_opcoes_caixa">
+                        <dir id="_opcoes_caixa_de_entrada">
                             <h3>3.3.4. Opções da caixa de entrada</h3><hr>
                             <p>Os memorandos na <a href="<?php echo WWW;?>html/memorando/listar_memorandos_ativos.php">caixa de entrada</a> possuem algumas opções de configuração, para usá-las basta clicar no seu ícone. As opções são:</p>
                                 <p>1. Não lido <img src="<?php echo WWW;?>/img/nao-lido.png" width=25px height= 25px>, opção para marcar um memorando como não lido. <strong>Disponível apenas quando o memorando foi visualizado</strong>. Quando um memorando está marcado com essa opção sua cor fica <strong>azul</strong>.</p>
