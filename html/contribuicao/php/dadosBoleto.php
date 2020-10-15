@@ -65,6 +65,16 @@
         $opVenc4 = $_POST['op04'];
         $opVenc5 = $_POST['op05'];
         $opVenc6 = $_POST['op06'];
+            if($opVenc1 == '' && $opVenc2 == '' && $opVenc3 == '' && $opVenc4 == '' && $opVenc5 == '' && $opVenc6 == '')
+            {
+                $opVenc1 = 0;
+                $opVenc2 = 0;
+                $opVenc3 = 0;
+                $opVenc4 = 0;
+                $opVenc5 = 0;
+                $opVenc6 = 0;
+            }
+
         $API = $_POST['api'];
         $token = $_POST['token_api'];
         $sandbox = $_POST['sandbox'];
