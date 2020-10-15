@@ -243,12 +243,12 @@ if(file_exists($config_path)){
                                         </li>
                                         <li class="sub2">
                                             <a href="#_imprimir">
-                                                3.1.7. Impressão
+                                                3.3.7. Impressão
                                             </a>
                                         </li>
                                         <li class="sub2">
                                             <a href="#_erros">
-                                                3.1.8. Erros
+                                                3.3.8. Erros
                                             </a>
                                         </li>
                                     </ul>
@@ -350,7 +350,7 @@ if(file_exists($config_path)){
                                 Na aba <strong>"Visão Geral"</strong> é possível editar as informações pessoais do funcionário.
                                 <p>
                                     Existem algumas seções nessa aba, são elas: <strong>Informações Pessoais, Endereço, Documentação e Outros. </strong>
-                                    Para fazer a edição de algum dado da página, basta verificar em qual seção ele se encontra e clicar no botão "Editar" da seção. Em seguida será posível alterar os dados, depois de alterados basta clicar no botão "Salvar".
+                                    Para fazer a edição de algum dado da página, basta verificar em qual seção ele se encontra e clicar no botão "Editar" da seção. Em seguida será possível alterar os dados, depois de alterados basta clicar no botão "Salvar".
                                 </p>
                             </p>
                             <hr>
@@ -369,7 +369,7 @@ if(file_exists($config_path)){
                                 Para <strong>excluir</strong> um benefício basta clicar no botão vermelho ao lado dos dados do benefício, o benefício será excluído automaticamente.
                             </p>
                             </p>
-                            <img src="<?php echo WWW;?>img/beneficio.png" class="img-fluid">
+                            <img src="<?php echo WWW;?>img/beneficio.PNG" class="img-fluid">
                             <hr>
                             <p>Na aba <strong>"EPI"</strong> é possível adicionar e editar EPI's.</p>
                             <p>
@@ -380,7 +380,7 @@ if(file_exists($config_path)){
                                 Na seção de EPI é possível visualizar a lista de EPI's do funcionário. Nessa lista é exibido o nome do epi, o status e a data. Para editar um EPI basta clicar no botão verde ao seu lado, ao clicar o usuário é redirecionado para uma página onde é possível ediar os dados desejados. Para editá-los basta clicar no botão "Editar" e após editar clicar no botão "Salvar".
                                 Para excluir um EPI basta clicar no botão vermelho ao lado dos dados do EPI, o EPI será excluído automaticamente.
                             </p> 
-                            <img src="<?php echo WWW;?>img/epi.png" class="img-fluid">
+                            <img src="<?php echo WWW;?>img/epi.PNG" class="img-fluid">
                             <hr>
                             <p>
                                 Na aba <strong>"Carga horária"</strong> é possível visualizar as informações da carga horária do funcionário, como escala, dias trabalhados, dias de folga, etc.
@@ -435,36 +435,36 @@ if(file_exists($config_path)){
                         <p>O módulo memorando é destinado à troca de mensagens institucionais entre funcionários da instituição. Essa troca é feita através da criação, por um funcionário, de um <strong>memorando</strong> e de um <strong>despacho</strong>, que serão enviados a outro funcionário. O funcionário que receber esse memorando e esse despacho os enviará a um outro funcionário juntamente com outro despacho e assim sucessivamente até que o memorando volte a sua origem e possa ser arquivado.</p>
                         <dir id="_criacao_memorando">
                             <h3>3.3.1. Criação do memorando</h3><hr>
-                            <p>Para criar um memorando o funcionário deverá, munido das permissões necessárias, acessar a <a href="<?php echo WWW;?>html/memorando/listar_memorandos_ativos.php">caixa de entrada do módulo memorando</a> e preencher o campo "Assunto", da seção "Criar memorando", com o assunto do memorando e acionar o botão "Criar memorando". Em seguida o funcionário será direcionado automaticamente à página de envio de despachos (leia <a href="#_envio_despacho">3.1.2. Envio de despachos</a>).</p>
-                            <img src="<?php echo WWW;?>img/criar_memorando.png" class="img-fluid">
+                            <p>Para criar um memorando o funcionário deverá, munido das permissões necessárias, acessar a <a href="<?php echo WWW;?>html/memorando/listar_memorandos_ativos.php">caixa de entrada do módulo memorando</a> e preencher o campo "Assunto", da seção "Criar memorando", com o assunto do memorando e acionar o botão "Criar memorando". Em seguida o funcionário será direcionado automaticamente à página de envio de despachos (leia <a href="#_envio_despacho">3.3.2. Envio de despachos</a>).</p>
+                            <img src="<?php echo WWW;?>img/criar_memorando.PNG" class="img-fluid">
                         </dir>
                         <dir id="_envio_despacho">
                             <h3>3.3.2. Envio de despachos</h3><hr>
                             <p>Existem duas possibilidades para o envio de despachos: <i>enviar um despacho em um memorando que foi recebido</i> ou <i>enviar um despacho em um memorando que foi criado naquele momento</i>.</p>
                             <p>Para ambos os casos o procedimento é o mesmo:</p>
                                 <p>1. Selecionar, no campo "destino", da seção "Despachar memorando", o nome do funcionário para quem será enviado o despacho.</p>
-                                <img src="<?php echo WWW;?>img/destino.png" class="img-fluid">
+                                <img src="<?php echo WWW;?>img/destino.PNG" class="img-fluid">
                                 <p>2. Selecionar arquivos para anexar ao despacho, clicando no botão "Escolher arquivos" e posteriormente selecionando os arquivos. Podem ser adicionados um ou mais arquivos. <strong>(Esse passo é OPCIONAL, o despacho pode ser enviado sem arquivos anexados)</strong></p>
-                                <img src="<?php echo WWW;?>img/arquivo.png" class="img-fluid">
+                                <img src="<?php echo WWW;?>img/arquivo.PNG" class="img-fluid">
                                 <p>3. Preencher o campo "Despacho" com as informações que devem ser enviadas no despacho. Na parte superior desse campo é possível alterar a formatação dele com alterações como: negrito, itálico, cor do texto, cor da marcação do texto, etc.</p>
-                                <img src="<?php echo WWW;?>img/despacho.png" class="img-fluid">
-                                <p>4. Acionar o botão "Enviar". Nesse momento o despacho e o memorando serão enviados para o funcionário selecionado e o memorando estará disponível na caixa de entrada desse funcionário. (leia <a href="#_caixa_de_entrada">3.1.3. Caixa de entrada</a>)</p>
-                                <img src="<?php echo WWW;?>img/enviar.png" class="img-fluid">
+                                <img src="<?php echo WWW;?>img/despacho.PNG" class="img-fluid">
+                                <p>4. Acionar o botão "Enviar". Nesse momento o despacho e o memorando serão enviados para o funcionário selecionado e o memorando estará disponível na caixa de entrada desse funcionário. (leia <a href="#_caixa_de_entrada">3.3.3. Caixa de entrada</a>)</p>
+                                <img src="<?php echo WWW;?>img/enviar.PNG" class="img-fluid">
                         </dir>
                         <dir id="_caixa_de_entrada">
                             <h3>3.3.3. Caixa de entrada</h3><hr>
-                            <p>A <a href="<?php echo WWW;?>html/memorando/listar_memorandos_ativos.php">caixa de entrada do módulo memorando</a> é o espaço destinado ao recebimento de memorandos. Sempre que um despacho for enviado para você, o memorando desse despacho estará disponível na sua caixa de entrada. Nesse espaço é possível visualizar o título do memorando, a data e a hora da sua criação e as opções fornecidas (leia <a href="#_opcoes_caixa">3.1.4. Opções da caixa de entrada</a>). Para acessar um memorando basta clicar no seu título e você será direcionada.</p>
-                            <p>Nessa página também é possível criar um novo memorando (leia <a href="#_criacao_memorando">3.1.1. Criação de memorando</a>)</p>
-                            <img src="<?php echo WWW;?>img/caixa_de_entrada.png" class="img-fluid">
+                            <p>A <a href="<?php echo WWW;?>html/memorando/listar_memorandos_ativos.php">caixa de entrada do módulo memorando</a> é o espaço destinado ao recebimento de memorandos. Sempre que um despacho for enviado para você, o memorando desse despacho estará disponível na sua caixa de entrada. Nesse espaço é possível visualizar o título do memorando, a data e a hora da sua criação e as opções fornecidas (leia <a href="#_opcoes_caixa">3.3.4. Opções da caixa de entrada</a>). Para acessar um memorando basta clicar no seu título e você será direcionada.</p>
+                            <p>Nessa página também é possível criar um novo memorando (leia <a href="#_criacao_memorando">3.3.1. Criação de memorando</a>)</p>
+                            <img src="<?php echo WWW;?>img/caixa_de_entrada.PNG" class="img-fluid">
                         </dir>
                         <dir id="_opcoes_caixa_de_entrada">
                             <h3>3.3.4. Opções da caixa de entrada</h3><hr>
                             <p>Os memorandos na <a href="<?php echo WWW;?>html/memorando/listar_memorandos_ativos.php">caixa de entrada</a> possuem algumas opções de configuração, para usá-las basta clicar no seu ícone. As opções são:</p>
-                                <p>1. Não lido <img src="<?php echo WWW;?>/img/nao-lido.png" width=25px height= 25px>, opção para marcar um memorando como não lido. <strong>Disponível apenas quando o memorando foi visualizado</strong>. Quando um memorando está marcado com essa opção sua cor fica <strong>azul</strong>.</p>
-                                <p>2. Lido <img src="<?php echo WWW;?>/img/lido.png" width=25px height= 25px>, opção para marcar um memorando como lido. <strong>Disponível apenas quando o memorando não foi visualizado</strong>.</p>
-                                <p>3. Importante <img src="<?php echo WWW;?>/img/importante.png" width=25px height= 25px>, opção para marcar um memorando como importante. Quando um memorando está marcado com essa opção sua cor fica <strong>vermelha</strong>.</p>
-                                <p>4. Pendente <img src="<?php echo WWW;?>/img/pendente.png" width=25px height= 25px>, opção para marcar um memorando como pendente. Quando um memorando está marcado com essa opção sua cor fica <strong>amarela</strong>.</p>
-                                <p>5. Arquivar memorando <img src="<?php echo WWW;?>/img/arquivar.png" width=25px height= 25px>, opção para marcar um memorando como arquivado. Quando um memorando está marcado com essa opção ele não fica disponível na caixa de entrada, apenas na lista de memorandos despachados. <strong>Disponível apenas quando o usuário foi o criador do memorando</strong>. Somente o criador de um memorando pode arquivá-lo.</p>
+                                <p>1. Não lido <img src="<?php echo WWW;?>/img/nao-lido.PNG" width=25px height= 25px>, opção para marcar um memorando como não lido. <strong>Disponível apenas quando o memorando foi visualizado</strong>. Quando um memorando está marcado com essa opção sua cor fica <strong>azul</strong>.</p>
+                                <p>2. Lido <img src="<?php echo WWW;?>/img/lido.PNG" width=25px height= 25px>, opção para marcar um memorando como lido. <strong>Disponível apenas quando o memorando não foi visualizado</strong>.</p>
+                                <p>3. Importante <img src="<?php echo WWW;?>/img/importante.PNG" width=25px height= 25px>, opção para marcar um memorando como importante. Quando um memorando está marcado com essa opção sua cor fica <strong>vermelha</strong>.</p>
+                                <p>4. Pendente <img src="<?php echo WWW;?>/img/pendente.PNG" width=25px height= 25px>, opção para marcar um memorando como pendente. Quando um memorando está marcado com essa opção sua cor fica <strong>amarela</strong>.</p>
+                                <p>5. Arquivar memorando <img src="<?php echo WWW;?>/img/arquivar.PNG" width=25px height= 25px>, opção para marcar um memorando como arquivado. Quando um memorando está marcado com essa opção ele não fica disponível na caixa de entrada, apenas na lista de memorandos despachados. <strong>Disponível apenas quando o usuário foi o criador do memorando</strong>. Somente o criador de um memorando pode arquivá-lo.</p>
                                 <p>Por padrão, ao receber um memorando ele é marcado com a opção "Não lido" e sua cor fica azul</p>
                                 <p>Se um memorando estiver marcado como "Não lido" e for aberto ele é marcado com a opção "Lido". Se ele estiver marcado com qualquer outra opção e for aberto ele não perde sua opção permanece a mesma.</p>
                         </dir>
@@ -472,24 +472,24 @@ if(file_exists($config_path)){
                             <h3>3.3.5. Memorandos despachados</h3><hr>
                             <p>A <a href="<?php echo WWW;?>html/memorando/listar_memorandos_antigos.php">lista de memorandos despachados</a> é um local para visualização dos memorandos que já foram enviados para você, inclusive os que já foram despachados para outras pessoas. Nesse espaço é possível visualizar o título do memorando, a sua origem (funcionário que o criou) e a data e a hora de criação. Para acessar um memorando despachado basta clicar no seu título e você será direcionado para a lista de despachos desse memorando.</p>
                             <p>Se o memorando estiver marcado com a opção <strong>[ARQUIVADO]</strong>, significa que ele foi arquivado pelo seu criador e por esse motivo ele não poderá ser enviado para outros funcionários.</p>
-                            <img src="<?php echo WWW;?>img/memorandos_despachados.png" class="img-fluid">
+                            <img src="<?php echo WWW;?>img/memorandos_despachados.PNG" class="img-fluid">
                         </dir>
                         <dir id="_lista_despachos">
                             <h3>3.3.6 Leitura de despachos</h3><hr>
                             <p>Ao abrir um memorando o usuário será redirecionado para a lista de despachos desse memorando. Nessa lista é possível ver todos os despachos organizados do mais antigo para o mais recente. É possível ver o remetente do despacho, o destinatário, o texto do despacho e a data e hora do envio. Se houver arquivos anexados ao despacho, a linha <strong>Despacho</strong> estará presente seguida da lista de arquivos.</p>
-                            <p>Ao acessar um memorando em que o último despacho foi enviado para você há após a lista de despachos um espaço para escrever um novo despacho nesse memorando e enviá-lo para outro funcionário (leia <a href="#_envio_despacho">3.1.2. Envio de despachos</a>). Caso o último destinatário desse memorando seja outro funcionário, não haverá, na lista de despachos, espaço para enviá-lo para outro funcionário</p>
-                            <img src="<?php echo WWW;?>img/lista_despachos.png" class="img-fluid">
+                            <p>Ao acessar um memorando em que o último despacho foi enviado para você há após a lista de despachos um espaço para escrever um novo despacho nesse memorando e enviá-lo para outro funcionário (leia <a href="#_envio_despacho">3.3.2. Envio de despachos</a>). Caso o último destinatário desse memorando seja outro funcionário, não haverá, na lista de despachos, espaço para enviá-lo para outro funcionário</p>
+                            <img src="<?php echo WWW;?>img/lista_despachos.PNG" class="img-fluid">
                             <h3>Acesso aos arquivos</h3>
                                     <p>Para acessar os arquivos anexos ao despacho basta clicar no nome do arquivo e seu download será feito automaticamente</p> 
                         </dir>
                         <dir id="_imprimir">
                             <h3>3.3.7. Impressão de despachos e memorandos</h3><hr>
-                            <p>É possível realizar a impressão dos memorandos da caixa de entrada (leia <a href="#_caixa_de_entrada">3.1.3. Caixa de entrada</a>), dos despachos da lista de despachos (leia <a href="#_lista_despachos">3.1.6. Leitura de despachos</a>) e dos memorandos da lista de memorandos despachados (leia <a href="#_memorandos_despachados">3.1.5. Memorandos Despachados</a>) bastando para isso clicar no botão "Imprimir" disponível em cada uma dessas páginas.</p>
+                            <p>É possível realizar a impressão dos memorandos da caixa de entrada (leia <a href="#_caixa_de_entrada">3.3.3. Caixa de entrada</a>), dos despachos da lista de despachos (leia <a href="#_lista_despachos">3.3.6. Leitura de despachos</a>) e dos memorandos da lista de memorandos despachados (leia <a href="#_memorandos_despachados">3.3.5. Memorandos Despachados</a>) bastando para isso clicar no botão "Imprimir" disponível em cada uma dessas páginas.</p>
                         </dir>
                         <dir id="_erros">
                             <h3>3.3.8. Mensagens de erro</h3><hr>
                             <p>1. <strong>"Desculpe, você não tem acesso a essa página"</strong>: se ao acessar a lista de despachos de um memorando a mensagem <strong>"Desculpe, você não tem acesso a essa página"</strong> for exibida isso significa que você está tentando acessar a lista de despachos de um memorando que nunca foi enviado para você. Para ter acesso a essa página o memorando precisa ter sido enviado para você.</p>
-                            <img src="<?php echo WWW;?>img/erro1.png" class="img-fluid">
+                            <img src="<?php echo WWW;?>img/erro1.PNG" class="img-fluid">
                         </dir>
                     </dir>
                     <div class="justify-content-between">
