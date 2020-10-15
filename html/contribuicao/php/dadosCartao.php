@@ -17,10 +17,15 @@ function insereDados($idSistema)
     $doacaoAvulsaLink = $_POST['avulso'];
     $doacaoMensalLink = $_POST['link_extra'];
     $doacaoMensalValor = $_POST['valor_extra'];
-
-    $bd->query("INSERT INTO doacao_cartao_avulso(url, id_sistema) VALUES ('$doacaoAvulsaLink', '$idSistema')");
-    $bd->query("INSERT INTO doacao_cartao_mensal(link, valor, id_sistema)VALUES('$doacaoMensalLink', '$doacaoMensalValor', '$idSistema')");
-
+        if($doacaoMensalLink != '' && $doacaoMensalValor != '')
+        {
+           
+            $bd->query("INSERT INTO doacao_cartao_mensal(link, valor, id_sistema)VALUES('$doacaoMensalLink', '$doacaoMensalValor', '$idSistema')");
+        }
+        if($doacaoAvulsaLink != '')
+        {
+            $bd->query("INSERT INTO doacao_cartao_avulso(url, id_sistema) VALUES ('$doacaoAvulsaLink', '$idSistema')");
+        }
     header("Location: configuracao_doacao.php");
 
 }    

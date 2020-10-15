@@ -127,7 +127,8 @@ function transicoes()
 			e.preventDefault();
 			}
 			});
-		
+			
+			
 			$("#verifica_socio").hide();
 			$("#tipo_cartao").hide();
 			$("#cartao_mensal").hide();
@@ -143,6 +144,7 @@ function transicoes()
 			$("#salvar_infos").hide();
 			$("#avisoPF").hide();
 			$("#avisoPJ").hide();
+			
 			$("#aviso").hide();
 			
 			
@@ -246,7 +248,9 @@ function transicoes()
 			verifica3();
 			
 		});
-		$("#volta_btn").click(function(){$("#verifica_socio").hide(); $("#pag1").fadeIn();
+		$("#volta_btn").click(function(){
+			$("#verifica_socio").hide(); 
+			$("#pag1").fadeIn();
 			$("#doacao_boleto").fadeIn();
 			$("#forma").fadeIn();});
 

@@ -3,6 +3,8 @@
 	
 	include("./php/preencheForm.php");
 	include("./php/logo_titulo.php");
+	ini_set('display_errors', 0);
+	ini_set('display_startup_erros', 0);
 	
 ?>
 <!DOCTYPE html>
@@ -54,6 +56,22 @@
 				display: block;
 				margin-left: auto;
 				margin-right: auto;
+			}
+			#avisoPf
+			{	
+				font-size: 20px;
+				color: red;	
+				display: block;
+				margin-left: auto;
+				margin-right: auto;
+			}
+			#avisoPj
+			{
+				font-size: 20px;
+				color: red;
+				display: block;
+				margin-left: auto;
+				margin-right: auto;	
 			}
 </style>		
 </head>
@@ -255,8 +273,8 @@
 							<p id = "avisa_email"></p>
                     </div>
 
-					<p id = "avisoPF"></p>
-					<p id = "avisoPJ"></p>
+					<p id = "avisoPf"></p>
+					<p id = "avisoPj"></p>
 
 					<br>
                     <div class="container-contact100-form-btn">
@@ -353,9 +371,9 @@
 						<button class="contact100-form-btn" value = "GERAR BOLETO" id = "avanca3">GERAR BOLETO</button>					
 					</div>
 				</div>
-				<div class="ultima_div" id="form2">
-					
-				</div>
+				<div class="pultima_div" id="form2"></div>
+				<div class="ultima_div" id="form3"></div>
+				
 			</form>
 		</div>
 	</div>

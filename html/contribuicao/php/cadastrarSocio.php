@@ -6,7 +6,7 @@
     {
 
         require_once('conexao.php');
-        $query = new Conexao();
+        $query = new Conexao;
 
         $nome = $_POST['nome'];
         $tel = $_POST['telefone'];

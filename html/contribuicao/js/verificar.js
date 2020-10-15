@@ -98,12 +98,12 @@ function verifica2()
     
         if(nome == '' || dia == '' || mes == '' || ano == '' || tel == '' || email == '' ||cpf == '')
         {
-                $("#avisoPF").fadeIn();
-                $("#avisoPF").html('Preencha todos os campos marcados com "*"');
+                $("#avisoPf").fadeIn();
+                $("#avisoPf").html('Preencha todos os campos marcados com "*"');
         }
         else
         {
-                $("#avisoPF").hide();
+                $("#avisoPf").hide();
                 $("#doacao_boleto").hide();
                 $("#pag2").hide();
                 $("#pag3").fadeIn();
@@ -121,14 +121,14 @@ function verifica2()
           
             if(nome ==  ''||tel == ''||email == '')
             {
-                $("#avisoPJ").fadeIn();
-                $("#avisoPJ").html('Preencha todos os campos marcados com "*"');
+                $("#avisoPj").fadeIn();
+                $("#avisoPj").html('Preencha todos os campos marcados com "*"');
                 
             }
             else
             {
-                $("#avisoPJ").hide();
-                $("#avisoPJ").html("");
+                $("#avisoPj").hide();
+                $("#avisoPj").html("");
                 $("#doacao_boleto").hide();
                 $("#pag2").hide();
                 $("#pag3").fadeIn();  

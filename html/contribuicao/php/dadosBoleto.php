@@ -14,7 +14,7 @@
     function insereDados($idSistema)
     {
         require_once('conexao.php');
-        $banco = new Conexao();
+        $banco = new Conexao;
 
         $MinValUnic = $_POST['minval'];
         $MensalDiasV =$_POST['mensaldiasv'];
@@ -49,7 +49,7 @@
     function atualizaDados($idSistema, $idRegras)
     {
         require_once('conexao.php');
-        $banco = new Conexao();
+        $banco = new Conexao;
 
         $MinValUnic = $_POST['minval'];
         $MensalDiasV =$_POST['mensaldiasv'];

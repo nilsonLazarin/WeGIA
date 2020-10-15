@@ -51,8 +51,9 @@ function socio_cadastrado(doc)
                         $("#form2").fadeIn();
                         $("#form2").html('<h3>Obrigado por contribuir mais uma vez, '+dados.nome+'!</h3><br><br><div class="container-contact100-form-btn"><span class="contact100-form-btn" id = "gerar_boleto"><i style="margin-right: 15px; " class="fa fa-long-arrow-right m-l-7"aria-hidden="true"></i>GERAR BOLETO</span></div><div class="container-contact100-form-btn"><span class="contact100-form-btn" id = "editar_infos"><i style="margin-right: 15px; " class="fa fa-long-arrow-left m-l-7"aria-hidden="true"></i>EDITAR DADOS CADASTRADOS</span></div><div class="container-contact100-form-btn"><span class="contact100-form-btn"><i style="margin-right: 15px; " aria-hidden="true"></i><a class= "botao" href="../contribuicao/index.php">VOLTAR A PÁGINA INICIAL</a></span></div>');
 
-                        $("#gerar_boleto").click(function(){ geraBoleto();});
+                        $("#gerar_boleto").click(function(){console.log("oi no bot certo"); geraBoleto();});
                         $("#editar_infos").click(function(){
+                            console.log("socorro");
                             $("#form2").hide();
                             $("#pag2").fadeIn();
                             $("#avanca3").hide();
@@ -90,7 +91,17 @@ function editar_informacoes()
                 $("#form2").fadeIn();
                 $("#form2").html('<h3> Dados atualizados com sucesso!</h3><br><br><div class="container-contact100-form-btn"><span class="contact100-form-btn" id = "dados_atualizados"><i style="margin-right: 15px; " class="fa fa-long-arrow m-l-7"aria-hidden="true"></i>OK</span></div>')
                 $("#pag3").hide();
-                        $("#dados_atualizados").click(function(){$("#form2").html('<h3>Obrigado por contribuir mais uma vez, '+nome+'!</h3><br><br><div class="container-contact100-form-btn"><span class="contact100-form-btn" id = "gerar_boleto"><i style="margin-right: 15px; " class="fa fa-long-arrow-right m-l-7"aria-hidden="true"></i>GERAR BOLETO</span></div><div class="container-contact100-form-btn"><span class="contact100-form-btn" id = "editar_infos"><i style="margin-right: 15px; " class="fa fa-long-arrow-left m-l-7"aria-hidden="true"></i>EDITAR DADOS CADASTRADOS</span></div><div class="container-contact100-form-btn"><span class="contact100-form-btn"><i style="margin-right: 15px; " aria-hidden="true"></i><a class="botao" href="../contribuicao/index.php">VOLTAR A PÁGINA INICIAL</a></span></div>');});
+                        $("#dados_atualizados").click(function(){$("#form2").html('<h3>Obrigado por contribuir mais uma vez, '+nome+'!</h3><br><br><div class="container-contact100-form-btn"><span class="contact100-form-btn" id = "gerar_boleto"><i style="margin-right: 15px; " class="fa fa-long-arrow-right m-l-7"aria-hidden="true"></i>GERAR BOLETO</span></div><div class="container-contact100-form-btn"><span class="contact100-form-btn" id = "editar_infos"><i style="margin-right: 15px; " class="fa fa-long-arrow-left m-l-7"aria-hidden="true"></i>EDITAR DADOS CADASTRADOS</span></div><div class="container-contact100-form-btn"><span class="contact100-form-btn"><i style="margin-right: 15px; " aria-hidden="true"></i><a class= "botao" href="../contribuicao/index.php">VOLTAR A PÁGINA INICIAL</a></span></div>');
+                        $("#gerar_boleto").click(function(){geraBoleto();});
+                        $("#editar_infos").click(function(){
+                            
+                            $("#form2").hide();
+                            $("#pag2").fadeIn();
+                            $("#avanca3").hide();
+                            $("#salvar_infos").fadeIn();
+                        });
+                        $("#salvar_infos").click(function(){ editar_informacoes();});
+                });
                         
         });
                         

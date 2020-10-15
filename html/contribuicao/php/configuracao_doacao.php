@@ -1,6 +1,8 @@
 <?php
-require_once('conexao.php');
-$banco = new Conexao();
+    require_once('conexao.php');
+    $banco = new Conexao;
+    include('dadosConfig.php');
+
 ini_set('display_errors', 0);
 ini_set('display_startup_erros', 0);
 
@@ -8,90 +10,6 @@ ini_set('display_startup_erros', 0);
 	if(!isset($_SESSION['usuario'])){
 		header ("Location: ../../../index.php");
     }
-$sistemas = [];
-
-    $banco->querydados("SELECT id FROM sistema_pagamento WHERE nome_sistema= 'BOLETOFACIL'");
-    $dados = $banco->result();
-    $sistemas[0] = $dados['id'];
-    
-    $banco->querydados("SELECT id FROM sistema_pagamento WHERE nome_sistema= 'PAGSEGURO'");
-    $dados = $banco->result();
-    $sistemas[1] = $dados['id'];
-        
-    $banco->querydados("SELECT id FROM sistema_pagamento WHERE nome_sistema= 'PAYPAL'");
-    $dados = $banco->result();
-    $sistemas[2] = $dados['id'];
-        
-
-//dados do boleto...
-
-    $banco->querydados("SELECT * FROM doacao_boleto_regras as regras JOIN doacao_boleto_info as info ON (info.id_regras = regras.id) WHERE info.id_sistema = '$sistemas[0]'");
-    $linhasboleto = $banco->rows();
-    $dadosBoleto = $banco->result();
-        if($linhasboleto != 0)
-        {
-            $valMinUni = $dadosBoleto['min_boleto_uni'];
-            $valMinParc = $dadosBoleto['min_parcela'];
-            $valMaxParc = $dadosBoleto['max_parcela']; 
-            $carenciaUni = $dadosBoleto['dias_boleto_a_vista'];
-            $carenciaMen = $dadosBoleto['max_dias_venc'];
-            $juros = $dadosBoleto['juros'];
-            $multa = $dadosBoleto['multa'];
-            $agradecimento = $dadosBoleto['agradecimento'];
-            $op1 =  $dadosBoleto['dias_venc_carne_op1'];
-            $op2 = $dadosBoleto['dias_venc_carne_op2'];
-            $op3 = $dadosBoleto['dias_venc_carne_op3'];
-            $op4 =  $dadosBoleto['dias_venc_carne_op4'];
-            $op5 = $dadosBoleto['dias_venc_carne_op5'];
-            $op6 = $dadosBoleto['dias_venc_carne_op6'];
-            $api =  $dadosBoleto['api'];
-            $token = $dadosBoleto['token_api'];
-            $sandbox = $dadosBoleto['sandbox'];
-            $tokenSand = $dadosBoleto['token_sandbox'];
-        }else{
-            $valMinUni = '';
-            $valMinParc = '';
-            $valMaxParc = '';
-            $carenciaUni = '';
-            $carenciaMen = '';
-            $juros = '';
-            $multa = '';
-            $agradecimento = '';
-            $op1 =  '';
-            $op2 = '';
-            $op3 ='';
-            $op4 =  '';
-            $op5 ='';
-            $op6 = '';
-            $api =  '';
-            $token = '';
-            $sandbox = '';
-            $tokenSand = '';
-        }
-    
-// dados do cartao paypal... 
-    $banco->querydados("SELECT * FROM doacao_cartao_mensal WHERE id_sistema = $sistemas[2]");
-    $dadosiniciais = $banco->result();
-    $dadospaypal = $banco->arraydados();
-    $linhaspaypal = $banco->rows();
-
-    $banco->querydados("SELECT url FROM doacao_cartao_avulso WHERE id_sistema = $sistemas[2]");
-    $linhaspaypal = $linhaspaypal + $banco->rows();
-    $linkAvulso = $banco->result();
-    $linkAvulsoPay = $linkAvulso['url'];
-
-// dados do cartao pagseguro...  
-    $banco->querydados("SELECT * FROM doacao_cartao_mensal WHERE id_sistema = $sistemas[1]");
-    $dadoinicial = $banco->result();
-    $dadospagseguro = $banco->arraydados();
-    $linhaspagseguro = $banco->rows();
-
-    $banco->querydados("SELECT url FROM doacao_cartao_avulso WHERE id_sistema = $sistemas[1]");
-    $linhaspagseguro = $linhaspagseguro + $banco->rows();
-    $linkAvulsoResult = $banco->result();
-    $linkAvulsoPag = $linkAvulsoResult['url'];
-
-
 ?>
 <!DOCTYPE html>
 <html class="fixed">
@@ -212,13 +130,14 @@ $sistemas = [];
                                             <div id='doacao_mensal'>
                                                 <table class="table table-bordered mb-none">
                                                     <tr>
-                                                        <th>VALOR</th><th>LINK</th>
+                                                        <th>VALOR</th><th>LINK</th><th>DELETAR</th>
                                                     </tr>
                                                     <?php
                                                         if($linhaspaypal == 0){
                                                             echo"<tr>";
                                                             echo"<td><input type='number' class='form-control' readonly='true' name='valor_extra' id='valor_extra' value=></td>";
                                                             echo"<td><input type='text' class='form-control' readonly='true' name='link_extra' id='link_extra' value= ></td>";
+                                                            echo("<td><button class= 'btn btn-danger'><a class='fas fa-trash-alt icon'></button></td>");
                                                             echo"</tr>";
                                                          
                                                      
@@ -368,35 +287,37 @@ $sistemas = [];
                                         </table>
                                         <h3>DOAÇÃO MENSAL</h3>
                                         <br>
-                                            <div id='doacao_mensal'>
+                                        <div id='doacao_mensal'>
                                                 <table class="table table-bordered mb-none">
                                                     <tr>
                                                         <th>VALOR</th><th>LINK</th><th>DELETAR</th>
                                                     </tr>
                                                     <?php
                                                         if($linhaspagseguro == 0){
+                                                            
                                                             echo"<tr>";
                                                             echo"<td><input type='number' class='form-control' readonly='true' name='valor_extra' id='valor_extra' value=></td>";
                                                             echo"<td><input type='text' class='form-control' readonly='true' name='link_extra' id='link_extra' value= ></td>";
+                                                            echo("<td><button class= 'btn btn-danger'><a class='fas fa-trash-alt icon'></button></td>");
                                                             echo"</tr>";
-                                                        
-                                                        } 
+                                                         
+                                                     
+                                                        }  
                                                         else{
+                                                            
                                                             echo"<tr>";
                                                             echo("<td><input type='number' name='valores[]' readonly= 'true' class='form-control' value=".$dadoinicial['valor']."></td>");
                                                             echo("<td><input type='text' class='form-control' readonly='true' name='link_doacao[]' value=".$dadoinicial['link']."></td>"); 
                                                             echo("<td><button class= 'btn btn-danger'><a href = 'deleteValor.php?idValor=$dadoinicial[id]&idSistema=$sistemas[1]' type='button' class='fas fa-trash-alt icon'></button></td>");
                                                             echo("<input type='hidden' name='id[]' value=".$dadoinicial['id'].">");
-                                                            
                                                             echo"</tr>";
                                                             foreach($dadospagseguro as $dados)
                                                             {
                                                                 echo"<tr>";
                                                                 echo("<td><input type='number' name='valores[]' readonly= 'true' class='form-control' value=".$dados['valor']."></td>");
-                                                                echo("<td><input type='text' class='form-control' readonly='true' name='link_doacao[]' value=".$dados['link']."></td>");
+                                                                echo("<td><input type='text' class='form-control' readonly='true' name='link_doacao[]' value=".$dados['link']."></td>"); 
                                                                 echo("<td><button class= 'btn btn-danger'><a href = 'deleteValor.php?idValor=$dados[id]&idSistema=$sistemas[1]' type='button' class='fas fa-trash-alt icon'></button></td>");
                                                                 echo("<input type='hidden' name='id[]' value=".$dados['id'].">");
-                                                                
                                                                 echo"</tr>";
                                                             }
                                                         
@@ -405,9 +326,9 @@ $sistemas = [];
                                                             echo"<td><input type='text' class='form-control' readonly='true' name='link_extra' id='link_extra' value= ></td>";
                                                             echo"</tr>";
                                                         }     
-                                                    ?>
+                                                    ?> 
                                                 </table>
-                                            </div> 
+                                            </div>
                                             <br><br>
                                         <input type="button" class= "btn btn-primary" id="editar-pag" value="Editar">
                                         <input type="submit" class="btn btn-primary" id="btn-card-pag" value='Salvar'>
