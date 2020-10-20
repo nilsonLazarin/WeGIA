@@ -28,13 +28,13 @@ function socio_cadastrado(doc)
                      
                         var dados = JSON.parse(data);
                         var data_n = dados.data_nascimento;
-                        if(data_n != null)
+                        if(data_n == null)
                         {
-                           var data_n = data_n.split("-");
+                            data_n[2] = '00';
+                            data_n[1] = '00';
+                            data_n[0] = '0000';
                         }else{
-                            data_n[2] = 00;
-                            data_n[1] = 00;
-                            data_n[0] = 0000;
+                            data_n = data_n.split("-");
                         }
                        
                         $("#nome").val(dados.nome);
