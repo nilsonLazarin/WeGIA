@@ -28,7 +28,14 @@ function socio_cadastrado(doc)
                      
                         var dados = JSON.parse(data);
                         var data_n = dados.data_nascimento;
-                        var data_n = data_n.split("-");
+                        if(data_n != '')
+                        {
+                            data_n = data_n.split("-");
+                        }else{
+                            data_n[2] = 00;
+                            data_n[1] = 00;
+                            data_n[0] = 0000;
+                        }
                        
                         $("#nome").val(dados.nome);
                         $("#cnpj_nome").val(dados.nome);
