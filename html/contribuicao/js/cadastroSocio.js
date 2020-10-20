@@ -28,6 +28,7 @@ function socio_cadastrado(doc)
                      
                         var dados = JSON.parse(data);
                         var data_n = dados.data_nascimento;
+
                         if(data_n == null)
                         {
                             dataDia = '00';
@@ -39,8 +40,8 @@ function socio_cadastrado(doc)
                             dataMes = data_n[1];
                             dataAno = data_n[0];
                         }
-                        
-                       
+
+
                         $("#nome").val(dados.nome);
                         $("#cnpj_nome").val(dados.nome);
                         $("#dia_n").val(dataDia);
