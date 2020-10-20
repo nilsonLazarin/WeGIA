@@ -40,27 +40,6 @@ $sistemas = [];
             $op6 = $dadosBoleto['dias_venc_carne_op6'];
             $api =  $dadosBoleto['api'];
             $token = $dadosBoleto['token_api'];
-            $sandbox = $dadosBoleto['sandbox'];
-            $tokenSand = $dadosBoleto['token_sandbox'];
-        }else{
-            $valMinUni = '';
-            $valMinParc = '';
-            $valMaxParc = '';
-            $carenciaUni = '';
-            $carenciaMen = '';
-            $juros = '';
-            $multa = '';
-            $agradecimento = '';
-            $op1 =  '';
-            $op2 = '';
-            $op3 ='';
-            $op4 =  '';
-            $op5 ='';
-            $op6 = '';
-            $api =  '';
-            $token = '';
-            $sandbox = '';
-            $tokenSand = '';
         }
     
 // dados do cartao paypal... 

@@ -248,19 +248,14 @@ ini_set('display_startup_erros', 0);
                                                 <tr>
                                                     <th scope="col" width="5%">Link API</th>
                                                     <th scope="col" width="5%">TOKEN API</th>
-                                                    <th scope="col" width="5%">Link SANDBOX</th>
+                                                    
                                                 </tr>
                                                 <tr>
                                                     <td><input type='text' class="form-control" name='api' id='api' value="<?php echo $api ?>"></td>
                                                     <td><input type='text' class="form-control" name='token_api' id='token_api' value="<?php echo $token; ?>"></td>
-                                                    <td><input type='text' class="form-control" name='sandbox' id='sandbox' value="<?php echo $sandbox; ?>"></td>
+                                                    
                                                 </tr>
-                                                <tr>
-                                                    <th scope="col" width="5%">TOKEN SANDBOX</th>
-                                                </tr>
-                                                <tr>
-                                                    <td><input type='text' class="form-control" name='token_sandbox' id='token_sandbox' value="<?php echo $tokenSand;  ?>"></td>
-                                                </tr>
+                                                
                                         </table>
                                 
                                         <input type='button' class="btn btn-primary" id="editar-bol" value="Editar">
