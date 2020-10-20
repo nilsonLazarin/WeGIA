@@ -35,7 +35,14 @@
             $codePag = $retorno['success'];
             echo($retorno);
             if($codePag == 'true'){
-                // Coisas pra fazer no bd
+                // precisa adicionar o campo referencia no bd e o campo status
+                $referencia = $retorno['data']['payment']['charge']['reference'];
+                $status = $retorno['data']['payment']['status'];
+                if(mysqli_num_rows(mysqli_query($conexao, "SELECT * FROM `log_contribuicao` WHERE referencia = '$referencia'"))){
+                    $resultado = mysqli_query($conexao, "UPDATE `log_contribuicao` SET `status`= '$status' WHERE referencia = '$referencia'") or die(mysqli_connect_error());
+                }else{
+                    // Ainda não sei o que fazer caso entre o pagamento de uma pessoa não cadastrada
+                }
             }
 
         }
