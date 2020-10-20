@@ -157,14 +157,15 @@
 						
 						<div id = "venci" class="wrap-input100 validate-input bg1">
 							<span class="label-input100">Vencimento *</span><br>
-							<input type = "radio" value ="<?php echo $op0 ?>" id ="op1" name = "dta"><?php echo $op0 ?>
-							<input type = "radio" value ="<?php echo $op1 ?>" id ="op2"name = "dta"><?php echo $op1 ?> 
-							<input type = "radio" value ="<?php echo $op2 ?>" id ="op3"name = "dta"><?php echo $op2 ?>
-							<input type = "radio" value ="<?php echo $op3 ?>" id ="op4"name = "dta"><?php echo $op3 ?>
-							<input type = "radio" value ="<?php echo $op4 ?>" id ="op5"name = "dta"><?php echo $op4 ?>
-							<input type = "radio" value ="<?php echo $op5 ?>" id ="op6"name = "dta"><?php echo $op5 ?>
-							<br>
-							<span id="info_data" ></span>
+							<?php
+								for($i=0; $i<5; $i++)
+								{
+									if($arrayData[$i] != 0)
+									{
+										echo"<input type = 'radio' value ='".$arrayData[$i]."' name = 'dta' id='op".$i."'>".$arrayData[$i]."</t>"; 
+									}	
+								}
+							?>
 						</div>
 
 						<div class="container-contact100-form-btn">

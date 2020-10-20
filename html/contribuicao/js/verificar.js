@@ -2,24 +2,25 @@ function verificar()
 {   
     if($("#tipo1").prop('checked'))
     {
-        if($("#op1").prop('checked'))
-        { var dia = $("#op1").val();}
+        var dia=0;
+        if($("#op0").prop('checked'))
+        { dia = $("#op0").val();}
         else{
-            if($("#op2").prop('checked'))
-            {dia = $("#op2").val();} 
+            if($("#op1").prop('checked'))
+            {dia = $("#op1").val();} 
                 else{
-                        if($("#op3").prop('checked'))
-                        {dia = $("#op3").val();}
+                        if($("#op2").prop('checked'))
+                        {dia = $("#op2").val();}
                         else{
-                            if($("#op4").prop('checked'))
-                            {dia = $("#op4").val();}
+                            if($("#op3").prop('checked'))
+                            {dia = $("#op3").val();}
                             else{
-                                if($("#op5").prop('checked'))
-                                { dia = $("#op5").val();}
+                                if($("#op4").prop('checked'))
+                                { dia = $("#op4").val();}
                                 else
                                 {
-                                    if($("#op6").prop('checked'))
-                                    { dia = $("#op6").val();}
+                                    if($("#op5").prop('checked'))
+                                    { dia = $("#op5").val();}
                                     else
                                     {
                                         dia = "";
@@ -30,6 +31,7 @@ function verificar()
                         }
                     }
             }
+         
         var valor = $("#valores option:selected").val();
         if(valor == '')
         {
