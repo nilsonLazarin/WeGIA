@@ -11,8 +11,7 @@ function geraBoleto()
         var dias_venc_mensal = dado.max_dias_venc;
         var multa = dado.multa;
         var juros = dado.juros;
-        var sandbox = dado.sandbox;
-        var token_sandbox = dado.token_sandbox;
+       
             var dia = retorna_dia();
             var valor = retorna_valor();
             var doc = retorna_doc();

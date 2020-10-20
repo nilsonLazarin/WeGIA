@@ -28,13 +28,24 @@ function socio_cadastrado(doc)
                      
                         var dados = JSON.parse(data);
                         var data_n = dados.data_nascimento;
-                        var data_n = data_n.split("-");
+                        if(data_n == null)
+                        {
+                            dataDia = '00';
+                            dataMes = '00';
+                            dataAno = '0000';
+                        }else{
+                            data_n = data_n.split("-");
+                            dataDia = data_n[2];
+                            dataMes = data_n[1];
+                            dataAno = data_n[0];
+                        }
+                        
                        
                         $("#nome").val(dados.nome);
                         $("#cnpj_nome").val(dados.nome);
-                        $("#dia_n").val(data_n[2]);
-                        $("#mes").val(data_n[1]);
-                        $("#ano").val(data_n[0]);
+                        $("#dia_n").val(dataDia);
+                        $("#mes").val(dataMes);
+                        $("#ano").val(dataAno);
                         $("#telefone").val(dados.telefone);
                         $("#email").val(dados.email);
                         $("#cep").val(dados.cep);
