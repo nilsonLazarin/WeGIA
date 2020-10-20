@@ -41,8 +41,7 @@ ini_set('display_startup_erros', 0);
         <script src="../../../assets/javascripts/theme.js"></script>
         <script src="../../../assets/javascripts/theme.custom.js"></script>  
         <script src="../../../assets/javascripts/theme.init.js"></script>
-        <script type="text/javascript" src="../js/preenche_dados.js"></script>
-        <script type="text/javascript" src="../js/id_sistema.js"></script>
+       
         <script type="text/javascript" src="../js/transicoes.js"></script>
 
     </head>
