@@ -492,6 +492,21 @@ if(file_exists($config_path)){
                             <img src="<?php echo WWW;?>img/erro1.PNG" class="img-fluid">
                         </dir>
                     </dir>
+                    <dir id="_modulo_socio">
+                        <h3>3.4. Módulo Sócio</h3><hr>
+                        <p>O módulo sócio é destinado à administração e ao controle de sócios cadastrados no sistema. Nesse módulo é possível fazer cadastro, importação e mudança de status de sócios, além de poder acompanhar informações sobre pagamentos e gráficos sobre a tipologia dos sócios (casuais, mensais, ativos, inativos, pessoas físicas e jurídicas).</p>
+                        <p>Para ter acesso às informações do módulo <strong>é necessário que o funcionário logado esteja dotado das permissões adequadas</strong>, já que o módulo contém informações pessoais dos cadastrados.</p>
+                        <dir id="_cadastro_socio">
+                            <h3>3.4.1 Cadastro de sócios</h3><hr>
+                            <p>Para o cadastro de um sócio, o funcionário responsável por esse módulo, deverá acessar a <a href="<?php echo WWW;?>html/socio/">lista de sócios</a> e clicar no botão "Adicionar sócio", presente logo abaixo da lista de sócios.</p>
+                            <img src="<?php echo WWW;?>img/cadastro_socio.png" class="img-fluid">
+                            <p>Ao clicar nesse botão, uma caixa de diálogo (modal) aparecerá na tela, nesta caixa estará presente um formulário onde deverão ser preenchidos os dados do sócio a ser cadastrado.</p>
+                            <img src="<?php echo WWW;?>img/formulario_socio1.png" class="img-fluid">
+                            <p>Na primeira parte do formulário deverão ser preenchidos dados pessoais do sócio (nome completo, tipo de pessoa, cpf/cnpj, e-mail, telefone, tipo de contribuinte, status do sócio e sua data de nascimento).</p>
+                            <p>Após o preenchimento desses dados você poderá continuar com o preenchimento dos dados subsequentes referentes ao endereço do associado:</p>
+                            
+                        </dir>
+                    </dir>
                     <div class="justify-content-between">
                         <a href="./instalacao.php" type="button" class="btn btn-secondary">
                             <i class="fas fa-arrow-left"></i>
