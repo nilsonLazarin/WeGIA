@@ -15,7 +15,7 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 		
 	<script type="text/javascript" src="./js/outros.js"></script>
-	<script type="text/javascript" src="./js/geraBoleto.js"></script>
+	<script type="text/javascript" src="./js/geraboleto.js"></script>
 	<script type="text/javascript" src="./js/verificar.js"></script>
 	<script type="text/javascript" src="./js/validacpfcnpj.js"></script>
 	<script type="text/javascript" src="./js/retornadia.js"></script>
