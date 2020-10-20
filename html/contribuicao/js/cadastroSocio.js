@@ -30,7 +30,7 @@ function socio_cadastrado(doc)
                         var data_n = dados.data_nascimento;
                         if(data_n != null)
                         {
-                            data_n = data_n.split("-");
+                           var data_n = data_n.split("-");
                         }else{
                             data_n[2] = 00;
                             data_n[1] = 00;
