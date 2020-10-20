@@ -28,7 +28,7 @@ function socio_cadastrado(doc)
                      
                         var dados = JSON.parse(data);
                         var data_n = dados.data_nascimento;
-                        if(!empty(data_n))
+                        if(data_n != null)
                         {
                             data_n = data_n.split("-");
                         }else{
