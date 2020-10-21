@@ -20,6 +20,9 @@ if(!isset($_SESSION['usuario'])){
 	header ("Location: ".WWW."index.php");
 }
 
+// Adiciona a Função display_campo($nome_campo, $tipo_campo)
+require_once "../personalizacao_display.php";
+
 $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 $id_pessoa = $_SESSION['id_pessoa'];
 $resultado = mysqli_query($conexao, "SELECT * FROM funcionario WHERE id_pessoa=$id_pessoa");
@@ -112,6 +115,9 @@ require_once ROOT."/html/personalizacao_display.php";
 
     <!-- Theme Custom CSS -->
     <link rel="stylesheet" href="<?php echo WWW;?>assets/stylesheets/theme-custom.css">
+
+	<!-- Impressão CSS -->
+	<link rel="stylesheet" href="../../css/impressao.css">
 
     <!-- Head Libs -->
     <script src="<?php echo WWW;?>assets/vendor/modernizr/modernizr.js"></script>
@@ -348,10 +354,13 @@ require_once ROOT."/html/personalizacao_display.php";
 				?>
 					<div id="myModal">
 					<header class="panel-heading">
-						<h2 class="panel-title">Despacho</h2>
+						<h2 class="panel-title">
+							<img src="<?php display_campo("Logo","file");?>" height="40" class="print-logo" style="margin-right: 30px;" />
+							Despacho
+						</h2>
 					</header>
 					<div class="panel-body" id="listaDeDespachos">
-	  					<button style="margin-bottom: 0px !important;" class="mb-xs mt-xs mr-xs btn btn-default" id="btnPrint">Imprimir</button>
+	  					<button style="margin-bottom: 0px !important;" class="not-printable mb-xs mt-xs mr-xs btn btn-default" id="btnPrint">Imprimir</button>
 	  					<br><br>
 					</div>
 				</div>
@@ -398,13 +407,14 @@ require_once ROOT."/html/personalizacao_display.php";
 										</div>
 									</form>
 								</div>
-<?php
-}
-}?>
-	</div>
-	</div>
-	</div>
-<?php } ?> 
+								<?php
+								}
+								}
+								?>
+							</div>
+						</div>
+					</div>
+					<?php } ?> 
 				</section>
 			</section>
 		</div>

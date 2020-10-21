@@ -1,0 +1,22 @@
+.print-logo{
+    display: none;
+}
+
+@media print{
+    #header {
+        display: none;
+    }
+
+    .menuu {
+        display: none;
+    }
+
+    .print-logo{
+        display: block;
+        margin-right: 30px !important;
+    }
+
+    .not-printable{
+        display: none !important;
+    }
+}
