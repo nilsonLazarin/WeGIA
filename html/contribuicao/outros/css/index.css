@@ -57,28 +57,14 @@
 				font-family: 'Bitter', serif;
 			    }
 			#avisoPF
-			{
-				padding: 0.5%;
-				border: 1px solid gray;
-				border-radius: 2px;
-				margin: 5px;
+			{	
 				font-size: 20px;
-				border-color: #e8273b;
-				color: #f5b2b2;
-				background-color: rgb(226, 67, 83);
-				
+				color: red;	
 			}
 			#avisoPJ
 			{
-				padding: 2%;
-				border: 1px solid gray;
-				border-radius: 3px;
-				margin: 10px;
 				font-size: 15px;
-				border-color: #e8273b;
-				color: #f5b2b2;
-				background-color: rgb(226, 67, 83);
-				
+				color: red;	
 			}
 			#aviso
 			{

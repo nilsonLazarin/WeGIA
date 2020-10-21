@@ -1,7 +1,7 @@
 <?php
 
     require_once('conexao.php');
-    $query = new Conexao();
+    $query = new Conexao;
 
 
     $data = date("Y-m-d");

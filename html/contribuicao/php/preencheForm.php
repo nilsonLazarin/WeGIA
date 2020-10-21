@@ -16,17 +16,25 @@
 			$op3 = 15;
 			$op4 = 20;
 			$op5 = 25;
+			$arrayData[0] = $op0;
+			$arrayData[1] = $op1;
+			$arrayData[2] = $op2;
+			$arrayData[3] = $op3;
+			$arrayData[4] = $op4;
+			$arrayData[5] = $op5;
 			$minvalunic = '10.00';
 			$valminparc = '30.00';
 			$valmaxparc = '1000.00';
 			$id_sistema = 3;
+			
 		}else{
-			$op0 = $result['dias_venc_carne_op1'];
-			$op1 = $result['dias_venc_carne_op2'];
-			$op2 = $result['dias_venc_carne_op3'];
-			$op3 = $result['dias_venc_carne_op4'];
-			$op4 = $result['dias_venc_carne_op5'];
-			$op5 = $result['dias_venc_carne_op6'];
+			
+			$arrayData[0] = $result['dias_venc_carne_op1'];
+			$arrayData[1] = $result['dias_venc_carne_op2'];
+			$arrayData[2] =	$result['dias_venc_carne_op3'];
+			$arrayData[3] = $result['dias_venc_carne_op4'];
+			$arrayData[4] = $result['dias_venc_carne_op5'];
+			$arrayData[5] = $result['dias_venc_carne_op6'];
 			$minvalunic = $result['min_boleto_uni'];
 			$valminparc = $result['min_parcela'];
 			$valmaxparc = $result['max_parcela'];

@@ -2,24 +2,25 @@ function verificar()
 {   
     if($("#tipo1").prop('checked'))
     {
-        if($("#op1").prop('checked'))
-        { var dia = $("#op1").val();}
+        var dia=0;
+        if($("#op0").prop('checked'))
+        { dia = $("#op0").val();}
         else{
-            if($("#op2").prop('checked'))
-            {dia = $("#op2").val();} 
+            if($("#op1").prop('checked'))
+            {dia = $("#op1").val();} 
                 else{
-                        if($("#op3").prop('checked'))
-                        {dia = $("#op3").val();}
+                        if($("#op2").prop('checked'))
+                        {dia = $("#op2").val();}
                         else{
-                            if($("#op4").prop('checked'))
-                            {dia = $("#op4").val();}
+                            if($("#op3").prop('checked'))
+                            {dia = $("#op3").val();}
                             else{
-                                if($("#op5").prop('checked'))
-                                { dia = $("#op5").val();}
+                                if($("#op4").prop('checked'))
+                                { dia = $("#op4").val();}
                                 else
                                 {
-                                    if($("#op6").prop('checked'))
-                                    { dia = $("#op6").val();}
+                                    if($("#op5").prop('checked'))
+                                    { dia = $("#op5").val();}
                                     else
                                     {
                                         dia = "";
@@ -30,6 +31,7 @@ function verificar()
                         }
                     }
             }
+         
         var valor = $("#valores option:selected").val();
         if(valor == '')
         {
@@ -98,12 +100,12 @@ function verifica2()
     
         if(nome == '' || dia == '' || mes == '' || ano == '' || tel == '' || email == '' ||cpf == '')
         {
-                $("#avisoPF").fadeIn();
-                $("#avisoPF").html('Preencha todos os campos marcados com "*"');
+                $("#avisoPf").fadeIn();
+                $("#avisoPf").html('Preencha todos os campos marcados com "*"');
         }
         else
         {
-                $("#avisoPF").hide();
+                $("#avisoPf").hide();
                 $("#doacao_boleto").hide();
                 $("#pag2").hide();
                 $("#pag3").fadeIn();
@@ -121,14 +123,14 @@ function verifica2()
           
             if(nome ==  ''||tel == ''||email == '')
             {
-                $("#avisoPJ").fadeIn();
-                $("#avisoPJ").html('Preencha todos os campos marcados com "*"');
+                $("#avisoPj").fadeIn();
+                $("#avisoPj").html('Preencha todos os campos marcados com "*"');
                 
             }
             else
             {
-                $("#avisoPJ").hide();
-                $("#avisoPJ").html("");
+                $("#avisoPj").hide();
+                $("#avisoPj").html("");
                 $("#doacao_boleto").hide();
                 $("#pag2").hide();
                 $("#pag3").fadeIn();  

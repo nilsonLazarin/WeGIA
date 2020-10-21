@@ -3,6 +3,8 @@
 	
 	include("./php/preencheForm.php");
 	include("./php/logo_titulo.php");
+	ini_set('display_errors', 0);
+	ini_set('display_startup_erros', 0);
 	
 ?>
 <!DOCTYPE html>
@@ -13,7 +15,7 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 		
 	<script type="text/javascript" src="./js/outros.js"></script>
-	<script type="text/javascript" src="./js/geraBoleto.js"></script>
+	<script type="text/javascript" src="./js/geraboleto.js"></script>
 	<script type="text/javascript" src="./js/verificar.js"></script>
 	<script type="text/javascript" src="./js/validacpfcnpj.js"></script>
 	<script type="text/javascript" src="./js/retornadia.js"></script>
@@ -54,6 +56,22 @@
 				display: block;
 				margin-left: auto;
 				margin-right: auto;
+			}
+			#avisoPf
+			{	
+				font-size: 20px;
+				color: red;	
+				display: block;
+				margin-left: auto;
+				margin-right: auto;
+			}
+			#avisoPj
+			{
+				font-size: 20px;
+				color: red;
+				display: block;
+				margin-left: auto;
+				margin-right: auto;	
 			}
 </style>		
 </head>
@@ -139,14 +157,15 @@
 						
 						<div id = "venci" class="wrap-input100 validate-input bg1">
 							<span class="label-input100">Vencimento *</span><br>
-							<input type = "radio" value ="<?php echo $op0 ?>" id ="op1" name = "dta"><?php echo $op0 ?>
-							<input type = "radio" value ="<?php echo $op1 ?>" id ="op2"name = "dta"><?php echo $op1 ?> 
-							<input type = "radio" value ="<?php echo $op2 ?>" id ="op3"name = "dta"><?php echo $op2 ?>
-							<input type = "radio" value ="<?php echo $op3 ?>" id ="op4"name = "dta"><?php echo $op3 ?>
-							<input type = "radio" value ="<?php echo $op4 ?>" id ="op5"name = "dta"><?php echo $op4 ?>
-							<input type = "radio" value ="<?php echo $op5 ?>" id ="op6"name = "dta"><?php echo $op5 ?>
-							<br>
-							<span id="info_data" ></span>
+							<?php
+								for($i=0; $i<5; $i++)
+								{
+									if($arrayData[$i] != 0)
+									{
+										echo"<input type = 'radio' value ='".$arrayData[$i]."' name = 'dta' id='op".$i."'>".$arrayData[$i]."</t>"; 
+									}	
+								}
+							?>
 						</div>
 
 						<div class="container-contact100-form-btn">
@@ -255,8 +274,8 @@
 							<p id = "avisa_email"></p>
                     </div>
 
-					<p id = "avisoPF"></p>
-					<p id = "avisoPJ"></p>
+					<p id = "avisoPf"></p>
+					<p id = "avisoPj"></p>
 
 					<br>
                     <div class="container-contact100-form-btn">
@@ -353,9 +372,9 @@
 						<button class="contact100-form-btn" value = "GERAR BOLETO" id = "avanca3">GERAR BOLETO</button>					
 					</div>
 				</div>
-				<div class="ultima_div" id="form2">
-					
-				</div>
+				<div class="pultima_div" id="form2"></div>
+				<div class="ultima_div" id="form3"></div>
+				
 			</form>
 		</div>
 	</div>
