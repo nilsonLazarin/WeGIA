@@ -318,6 +318,7 @@
 								<form class="form-horizontal" method="post" id="formulario" onsubmit="return validar()" action="../controle/control.php" autocomplete="off">
 									<fieldset>
 										<div class="info-entrada" >
+											<p>Atenção: Almoxarifados só serão exibidos como opção caso o usuário esteja cadastrado como almoxarife.</p>
 											<div class="form-group">
 												<label class="col-md-3 control-label" for="origem">Destino</label>
 												<a href="cadastro_destino.php"><i class="fas fa-plus w3-xlarge"></i></a>
