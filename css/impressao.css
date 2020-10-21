@@ -2,21 +2,38 @@
     display: none;
 }
 
+.just-printable{
+    display: none;
+}
+
 @media print{
     #header {
         display: none;
     }
-
+    
     .menuu {
         display: none;
     }
-
+    
     .print-logo{
         display: block;
         margin-right: 30px !important;
     }
-
+    
     .not-printable{
         display: none !important;
+    }
+    
+    .just-printable{
+        display: block;
+    }
+    
+    ul {
+        list-style: none !important;
+    }
+    
+    .panel-title{
+        display: flex;
+        align-items: center;
     }
 }

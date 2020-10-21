@@ -22,6 +22,7 @@ if(!isset($_SESSION['usuario'])){
 
 // Adiciona a Função display_campo($nome_campo, $tipo_campo)
 require_once "../personalizacao_display.php";
+require_once "../../dao/Conexao.php";
 
 $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 $id_pessoa = $_SESSION['id_pessoa'];
@@ -78,6 +79,8 @@ $id_status->buscarIdStatusMemorando($id_memorando);
 
 $memorandosDespachados = new MemorandoControle;
 $memorandosDespachados->listarIdTodosInativos();
+
+// var_dump($memorando);
 	
 // Adiciona a Função display_campo($nome_campo, $tipo_campo)
 require_once ROOT."/html/personalizacao_display.php";
@@ -117,7 +120,7 @@ require_once ROOT."/html/personalizacao_display.php";
     <link rel="stylesheet" href="<?php echo WWW;?>assets/stylesheets/theme-custom.css">
 
 	<!-- Impressão CSS -->
-	<link rel="stylesheet" href="../../css/impressao.css">
+	<link rel="stylesheet" href="<?php echo WWW;?>css/impressao.css">
 
     <!-- Head Libs -->
     <script src="<?php echo WWW;?>assets/vendor/modernizr/modernizr.js"></script>
@@ -233,6 +236,10 @@ require_once ROOT."/html/personalizacao_display.php";
 	</script>
 
 	<style type="text/css">
+
+		ul {
+			list-style: none;
+		}
 
 		.select{
 			position: absolute;
@@ -352,7 +359,7 @@ require_once ROOT."/html/personalizacao_display.php";
 				else
 				{
 				?>
-					<div id="myModal">
+				<div id="myModal">
 					<header class="panel-heading">
 						<h2 class="panel-title">
 							<img src="<?php display_campo("Logo","file");?>" height="40" class="print-logo" style="margin-right: 30px;" />
@@ -360,8 +367,29 @@ require_once ROOT."/html/personalizacao_display.php";
 						</h2>
 					</header>
 					<div class="panel-body" id="listaDeDespachos">
-	  					<button style="margin-bottom: 0px !important;" class="not-printable mb-xs mt-xs mr-xs btn btn-default" id="btnPrint">Imprimir</button>
-	  					<br><br>
+						<button style="margin-bottom: 0px !important;" class="not-printable mb-xs mt-xs mr-xs btn btn-default" id="btnPrint">Imprimir</button>
+						<br>
+						<div class="just-printable">
+							<?php
+								$pdo = Conexao::connect();
+								$memorandosDespachados->listarTodosId($id_memorando);
+								$memorando = $_SESSION['memorandoId'][0];
+								extract($memorando);
+								$status = $pdo->query("SELECT status_atual FROM status_memorando WHERE id_status_memorando=$id_status_memorando;")->fetch(PDO::FETCH_ASSOC)["status_atual"];
+								$pessoa_memorando = $pdo->query("SELECT nome, sobrenome FROM pessoa WHERE id_pessoa=$id_pessoa;")->fetch(PDO::FETCH_ASSOC);
+								$pessoa_memorando = $pessoa_memorando["nome"] . ($pessoa_memorando["sobrenome"] ? (" " . $pessoa_memorando["sobrenome"]) : "");
+								$data_expedicao = $pdo->query("SELECT `data` FROM memorando WHERE id_memorando=$id_memorando")->fetch(PDO::FETCH_ASSOC)["data"];
+								echo("
+								
+								<p>Título: $titulo</p>
+								<p>Pessoa: $pessoa_memorando</p>
+								<p>Data de Expedição: $data_expedicao</p>
+								<p>Status: $status</p>
+								
+								");
+								?>
+						</div>
+						<br>
 					</div>
 				</div>
 					<div class="printable"></div>							
@@ -448,26 +476,26 @@ require_once ROOT."/html/personalizacao_display.php";
 	?>
 	<script>
 		$(function(){
-		var funcionario=<?php echo $_SESSION['funcionarios2']?>;
-    		$.each(funcionario,function(i,item){	
-			$("#destinatario")
-				.append($("<option id="+item.id_pessoa+" value="+item.id_pessoa+" name="+item.id_pessoa+">"+item.nome+" "+item.sobrenome+"</option>"));
-		});
-		$("#btnPrint").click(function () {
-			$("#myModal a").removeAttr("href");
-        	//get the modal box content and load it into the printable div
-        	if((typeof(impressao) == "undefined") || impressao!=1)
-        	{
-        	$(".printable").html($("#myModal").html());
-        	}
-        	$(".printable").printThis();
-        	var impressao = 1;
-        	/*if($(".printable").text()==$("#myModal").text())
-        	{
-        		window.location.reload();
-        	}*/
-    	});
-		});           	
+			var funcionario=<?php echo $_SESSION['funcionarios2']?>;
+				$.each(funcionario,function(i,item){	
+				$("#destinatario")
+					.append($("<option id="+item.id_pessoa+" value="+item.id_pessoa+" name="+item.id_pessoa+">"+item.nome+" "+item.sobrenome+"</option>"));
+			});
+			$("#btnPrint").click(function () {
+				$("#myModal a").removeAttr("href");
+				//get the modal box content and load it into the printable div
+				if((typeof(impressao) == "undefined") || impressao!=1)
+				{
+				$(".printable").html($("#myModal").html());
+				}
+				$(".printable").printThis();
+				var impressao = 1;
+				/*if($(".printable").text()==$("#myModal").text())
+				{
+					window.location.reload();
+				}*/
+			});
+		});       	
 	</script>
 	</body>
 </html>
