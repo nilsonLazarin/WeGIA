@@ -1,4 +1,5 @@
 
+
 function geraBoleto()
 {
     $.post("./php/infoBoletoFacil.php").done(function(data)
@@ -16,6 +17,7 @@ function geraBoleto()
             var valor = retorna_valor();
             var doc = retorna_doc();
             var nome = retorna_nome(doc);
+            var nomerefer = retorna_nomerefer(nome);
             var dataV = retorna_dataV(dia);
             var parcelas = retorna_parecela();
             var socioTipo = tipo_socio();
@@ -28,6 +30,8 @@ function geraBoleto()
         var uf = $("#uf").val();
         var numero = $("#numero").val();
         var complemento = $("#complemento").val();    
+        var numeroRandom = Math.round(Math.random()*100000000);
+        var reference=nomerefer+numeroRandom;
             /*console.log(api);
             console.log(token);
             console.log(agradecimento);
@@ -36,11 +40,12 @@ function geraBoleto()
             console.log(parcelas);*/
         
         var check;
-
+      
             if($("#tipo2").prop("checked"))
             {
-                $.get(api+"token="+token+"&description="+agradecimento+"&amount="+valor+"&dueDate="+dataV+"&maxOverdueDays="+dias_venc_unico+"&payerName="+nome+"&payerCpfCnpj="+doc+"&payerEmail="+email+"&payerPhone="+telefone+"&billingAddressStreet="+rua+"&billingAddressNumber="+numero+"&billingAddressComplement="+complemento+"&billingAddressNeighborhood="+bairro+"&billingAddressCity="+cidade+"&billingAddressState="+uf+"&billingAddressPostcode="+cep+"&fine="+multa+"&interest="+juros+"&paymentTypes=BOLETO&notifyPayer=TRUE").done(function(dados){
-                    cad_log(socioTipo);
+
+                $.get(api+"token="+token+"&description='"+agradecimento+"'&amount="+valor+"&dueDate="+dataV+"&maxOverdueDays="+dias_venc_unico+"&payerName="+nome+"&payerCpfCnpj="+doc+"&payerEmail="+email+"&payerPhone="+telefone+"&billingAddressStreet="+rua+"&billingAddressNumber="+numero+"&billingAddressComplement="+complemento+"&billingAddressNeighborhood="+bairro+"&billingAddressCity="+cidade+"&billingAddressState="+uf+"&billingAddressPostcode="+cep+"&fine="+multa+"&interest="+juros+"&paymentTypes=BOLETO&notifyPayer=TRUE&reference="+nomerefer+numeroRandom).done(function(dados){
+                    cad_log(socioTipo,reference);
                     for(var link of dados.data.charges)
                     {
                         
@@ -52,9 +57,8 @@ function geraBoleto()
                 });
             }
             else{
-
-                $.get(api+"token="+token+"&description="+agradecimento+"&amount="+valor+"&dueDate="+dataV+"&maxOverdueDays="+dias_venc_mensal+"&installments="+parcelas+"&payerName="+nome+"&payerCpfCnpj="+doc+"&payerEmail="+email+"&payerPhone="+telefone+"&billingAddressStreet="+rua+"&billingAddressNumber="+numero+"&billingAddressComplement="+complemento+"&billingAddressNeighborhood="+bairro+"&billingAddressCity="+cidade+"&billingAddressState="+uf+"&billingAddressPostcode="+cep+"&fine="+multa+"&interest="+juros+"&paymentTypes=BOLETO&notifyPayer=TRUE").done(function(dados){
-                    cad_log(socioTipo);
+                $.get(api+"token="+token+"&description='"+agradecimento+"'&amount="+valor+"&dueDate="+dataV+"&maxOverdueDays="+dias_venc_mensal+"&installments="+parcelas+"&payerName="+nome+"&payerCpfCnpj="+doc+"&payerEmail="+email+"&payerPhone="+telefone+"&billingAddressStreet="+rua+"&billingAddressNumber="+numero+"&billingAddressComplement="+complemento+"&billingAddressNeighborhood="+bairro+"&billingAddressCity="+cidade+"&billingAddressState="+uf+"&billingAddressPostcode="+cep+"&fine="+multa+"&interest="+juros+"&paymentTypes=BOLETO&notifyPayer=TRUE&reference="+nomerefer+numeroRandom).done(function(dados){
+                    cad_log(socioTipo, reference);
                     for(var link of dados.data.charges)
                     {
                         
@@ -110,6 +114,12 @@ function retorna_nome(doc){
                 }
             }
         return nome;
+}
+function retorna_nomerefer(nome)
+{
+    var nome = nome.replace(/[^a-zA-Zs]/g, "");
+    nome = nome.replace(" ",",");
+    return nome;
 }
 
 function retorna_dataV(dia)
