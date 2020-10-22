@@ -19,7 +19,7 @@ class EnderecoControle
 	{
 		extract($_REQUEST);
 		if((!isset($numero_residencia)) || empty(($numero_residencia))){
-            $numero_residencia = "null";
+            $numero_residencia = "Sem número";
         }
         $endereco = new Endereco();
         $endereco->setNome($nome);
@@ -50,6 +50,9 @@ class EnderecoControle
 	public function alterarEndereco()
     {
         extract($_REQUEST);
+        if((!isset($numero_residencia)) || empty(($numero_residencia))){
+            $numero_residencia = "Sem número";
+        }
         $endereco = new Endereco;
         $endereco->setNome($nome);
         $endereco->setNumeroEndereco($numero_residencia);

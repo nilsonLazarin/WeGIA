@@ -174,6 +174,7 @@
 	      	$("#metodo").val("alterarEndereco");
 	      }
 	      $.each(endereco,function(i,item){	
+	      	console.log(endereco);
               $("#nome").val(item.nome).prop('disabled', true);
               $("#cep").val(item.cep).prop('disabled', true);
               $("#uf").val(item.estado).prop('disabled', true);
@@ -183,14 +184,8 @@
               $("#numero_residencia").val(item.numero_endereco).prop('disabled', true);
               $("#complemento").val(item.complemento).prop('disabled', true);
               $("#ibge").val(item.ibge).prop('disabled', true);
-              if (item.numero_endereco=='Nao possui' || item.numero_endereco==null ) {
-             
-                $("#numResidencial").prop('checked',true).prop('disabled', true);
-                $("#numero_residencia").prop('disabled', true);
-             
-              }else{
-                $("#numero_residencia").val(item.numero_endereco).prop('disabled', true);
-                $("#numResidencial").prop('disabled', true);  
+              if (item.numero_endereco=='Sem número' || item.numero_endereco==null ) {
+                $("#numResidencial").prop('checked',true);
               }
               });
 	    });	
@@ -205,17 +200,22 @@
             $("#complemento").prop('disabled', false);
             $("#ibge").prop('disabled', false);         
             $("#numResidencial").prop('disabled', false);
-           
-            if ($('#numResidencial').is(':checked')) {
-              $("#numero_residencia").prop('disabled', true);
-            }else{
-              $("#numero_residencia").prop('disabled', false);
-            }
-
+            $("#numero_residencia").prop('disabled', false)
             $("#botaoEditarEndereco").html('Cancelar');
             $("#botaoSalvarEndereco").prop('disabled', false);
             $("#botaoEditarEndereco").removeAttr('onclick');
             $("#botaoEditarEndereco").attr('onclick', "return cancelar_endereco()");
+        }
+        function numero_residencial()
+        {
+        	if($("#numResidencial").prop('checked'))
+        	{
+        		document.getElementById("numero_residencia").readOnly=true;
+        	}
+        	else
+        	{
+        		document.getElementById("numero_residencia").readOnly=false;
+        	}
         }
         function cancelar_endereco(){
             $("#cep").prop('disabled', true);
