@@ -78,7 +78,7 @@ function valida_cep(){
 			$.get(url+cep+"/json/", function(dados){
 				if(!("erro" in dados))
 				{
-					console.log(dados.logradouro);
+					
 					$("#rua").val(dados.logradouro);
 					$("#rua").attr("info", dados.logradouro);
 					$("#complemento").val(dados.complemento);
@@ -116,7 +116,7 @@ function valida_cep(){
 }
 
 function valida_endereco(){
-	console.log("1");
+	
 	var saida="";
 	var url="http://viacep.com.br/ws/";
 	/*function limpaformulario() {
@@ -139,19 +139,14 @@ function valida_endereco(){
 	var uf_info=$("#uf").attr("info");
 	if(rua!="" && localidade!="" && uf!="" && (uf!=uf_info || rua!=rua_info || localidade!=localidade_info))
 	{
-		console.log("2");
-		console.log("oi");
 		if(rua.length>=3 && localidade.length>=3)
 		{
-		console.log("3");
-		console.log("oi");
 		var teste=url+uf+"/"+localidade+"/"+rua+"/json/";
 		//console.log(teste);
 		$.get(url+uf+"/"+localidade+"/"+rua+"/json/", function(ceps){
-			console.log("4");
 			if(ceps=='')
 			{
-				console.log("5");
+				
 				$("#rua").parent().attr("data-validate", "Endereço não encontrado");
 				$("#rua").parent().removeClass("true-validate");
 				$("#rua").parent().addClass("alert-validate");
@@ -180,7 +175,7 @@ function valida_endereco(){
 				$("#cep").removeAttr("data-validate");
 			}*/
 			$(".endereco").click(function(){
-				console.log("7");
+			
 				var rua_saida=$(this).attr("val_rua");
 				var rua_final=rua_saida.replace(/_/g," ");
 				var bairro_saida=$(this).attr("val_bairro");
@@ -199,7 +194,7 @@ function valida_endereco(){
 		});
 		}
 		else{
-			console.log("8");
+		
 		$("#rua").parent().attr("data-validate", "Especifique mais pos seus dados");
 		$("#rua").parent().removeClass("true-validate");
 		$("#rua").parent().addClass("alert-validate");

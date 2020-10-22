@@ -1,5 +1,4 @@
 
-
 function geraBoleto()
 {
     $.post("./php/infoBoletoFacil.php").done(function(data)
@@ -42,8 +41,8 @@ function geraBoleto()
         var check;
       
             if($("#tipo2").prop("checked"))
-            {
-
+            { 
+                
                 $.get(api+"token="+token+"&description='"+agradecimento+"'&amount="+valor+"&dueDate="+dataV+"&maxOverdueDays="+dias_venc_unico+"&payerName="+nome+"&payerCpfCnpj="+doc+"&payerEmail="+email+"&payerPhone="+telefone+"&billingAddressStreet="+rua+"&billingAddressNumber="+numero+"&billingAddressComplement="+complemento+"&billingAddressNeighborhood="+bairro+"&billingAddressCity="+cidade+"&billingAddressState="+uf+"&billingAddressPostcode="+cep+"&fine="+multa+"&interest="+juros+"&paymentTypes=BOLETO&notifyPayer=TRUE&reference="+nomerefer+numeroRandom).done(function(dados){
                     cad_log(socioTipo,reference);
                     for(var link of dados.data.charges)
