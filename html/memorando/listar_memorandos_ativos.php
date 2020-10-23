@@ -20,32 +20,32 @@ require_once ROOT."/controle/memorando/MemorandoControle.php";
 $memorando = new MemorandoControle;
 $memorando->listarTodos();
 
-	$conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-	$id_pessoa = $_SESSION['id_pessoa'];
-	$resultado = mysqli_query($conexao, "SELECT * FROM funcionario WHERE id_pessoa=$id_pessoa");
-	if(!is_null($resultado)){
-		$id_cargo = mysqli_fetch_array($resultado);
-		if(!is_null($id_cargo)){
-			$id_cargo = $id_cargo['id_cargo'];
-		}
-		$resultado = mysqli_query($conexao, "SELECT * FROM permissao WHERE id_cargo=$id_cargo and id_recurso=3");
-		if(!is_bool($resultado) and mysqli_num_rows($resultado)){
-			$permissao = mysqli_fetch_array($resultado);
-			if($permissao['id_acao'] == 1){
+  $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+  $id_pessoa = $_SESSION['id_pessoa'];
+  $resultado = mysqli_query($conexao, "SELECT * FROM funcionario WHERE id_pessoa=$id_pessoa");
+  if(!is_null($resultado)){
+    $id_cargo = mysqli_fetch_array($resultado);
+    if(!is_null($id_cargo)){
+      $id_cargo = $id_cargo['id_cargo'];
+    }
+    $resultado = mysqli_query($conexao, "SELECT * FROM permissao WHERE id_cargo=$id_cargo and id_recurso=3");
+    if(!is_bool($resultado) and mysqli_num_rows($resultado)){
+      $permissao = mysqli_fetch_array($resultado);
+      if($permissao['id_acao'] == 1){
         $msg = "Você não tem as permissões necessárias para essa página.";
         header("Location: ".WWW."html/home.php?msg_c=$msg");
-			}
-			$permissao = $permissao['id_acao'];
-		}else{
-        	$permissao = 1;
+      }
+      $permissao = $permissao['id_acao'];
+    }else{
+          $permissao = 1;
           $msg = "Você não tem as permissões necessárias para essa página.";
           header("Location: ".WWW."html/home.php?msg_c=$msg");
-		}	
-	}else{
-		$permissao = 1;
+    } 
+  }else{
+    $permissao = 1;
     $msg = "Você não tem as permissões necessárias para essa página.";
     header("Location: ".WWW."html/home.php?msg_c=$msg");
-	}	
+  } 
 
 // Adiciona a Função display_campo($nome_campo, $tipo_campo)
 require_once ROOT."/html/personalizacao_display.php";
@@ -135,31 +135,31 @@ require_once ROOT."/html/personalizacao_display.php";
                     .append($("<td id=opcoes_"+item.id_memorando+">")
                         .html("<a href=<?php echo WWW;?>controle/control.php?nomeClasse=MemorandoControle&metodo=alterarIdStatusMemorando&id_memorando="+item.id_memorando+"&id_status_memorando=3&modulo=memorando id=naolido"+item.id_memorando+"><img src=<?php echo WWW;?>img/nao-lido.png width=25px height=25px title='Não Lido'></a> <a href=<?php echo WWW;?>controle/control.php?nomeClasse=MemorandoControle&metodo=alterarIdStatusMemorando&id_memorando="+item.id_memorando+"&id_status_memorando=4&modulo=memorando id=importante"+item.id_memorando+"><img src=<?php echo WWW;?>img/importante.png width=25px height=25px title='Importante'></a> <a href=<?php echo WWW;?>controle/control.php?nomeClasse=MemorandoControle&metodo=alterarIdStatusMemorando&id_memorando="+item.id_memorando+"&id_status_memorando=5&modulo=memorando id=pendente"+item.id_memorando+"><img src=<?php echo WWW;?>img/pendente.png width=25px height=25px title='Pendente'></a>")));
 
-                	if(item.id_status_memorando==4)
-                	{
-                		document.getElementById(item.id_memorando).style.backgroundColor = '#ffa0a0d4';
-                		$("#importante"+item.id_memorando).html("<a href=<?php echo WWW;?>controle/control.php?nomeClasse=MemorandoControle&metodo=alterarIdStatusMemorando&id_memorando="+item.id_memorando+"&id_status_memorando=1&modulo=memorando id=importante"+item.id_memorando+"><img src=<?php echo WWW;?>img/importante.png width=25px height=25px title='Importante'></a>");
-                	}
+                  if(item.id_status_memorando==4)
+                  {
+                    document.getElementById(item.id_memorando).style.backgroundColor = '#ffa0a0d4';
+                    $("#importante"+item.id_memorando).html("<a href=<?php echo WWW;?>controle/control.php?nomeClasse=MemorandoControle&metodo=alterarIdStatusMemorando&id_memorando="+item.id_memorando+"&id_status_memorando=1&modulo=memorando id=importante"+item.id_memorando+"><img src=<?php echo WWW;?>img/importante.png width=25px height=25px title='Importante'></a>");
+                  }
 
-                	if(item.id_status_memorando==5)
-                	{
-                		document.getElementById(item.id_memorando).style.backgroundColor = "rgba(249, 255, 160, 0.9)";
-                		$("#pendente"+item.id_memorando).html("<a href=<?php echo WWW;?>controle/control.php?nomeClasse=MemorandoControle&metodo=alterarIdStatusMemorando&id_memorando="+item.id_memorando+"&id_status_memorando=1&modulo=memorando id=pendente"+item.id_memorando+"><img src=<?php echo WWW;?>img/pendente.png width=25px height=25px title='Pendente'></a>");
-                	}
+                  if(item.id_status_memorando==5)
+                  {
+                    document.getElementById(item.id_memorando).style.backgroundColor = "rgba(249, 255, 160, 0.9)";
+                    $("#pendente"+item.id_memorando).html("<a href=<?php echo WWW;?>controle/control.php?nomeClasse=MemorandoControle&metodo=alterarIdStatusMemorando&id_memorando="+item.id_memorando+"&id_status_memorando=1&modulo=memorando id=pendente"+item.id_memorando+"><img src=<?php echo WWW;?>img/pendente.png width=25px height=25px title='Pendente'></a>");
+                  }
 
-                	if(item.id_status_memorando==3)
-                	{
-                		document.getElementById(item.id_memorando).style.backgroundColor = "rgba(195, 230, 255, 0.83)";
-                		$("#naolido"+item.id_memorando).html("<a href=<?php echo WWW;?>controle/control.php?nomeClasse=MemorandoControle&metodo=alterarIdStatusMemorando&id_memorando="+item.id_memorando+"&id_status_memorando=1&modulo=memorando class=naolido><img src='<?php echo WWW;?>img/lido.png' width=25px height=25px title='Lido'></a>");
-                	}
-                	if(item.id_status_memorando==2)
-                	{
-                		$("#naolido"+item.id).html("<a href=<?php echo WWW;?>controle/control.php?nomeClasse=MemorandoControle&metodo=alterarIdStatusMemorando&id_memorando="+item.id_memorando+"&id_status_memorando=3&modulo=memorando class=naolido><img src='<?php echo WWW;?>img/nao-lido.png' width=25px height=25px title='Não lido'></a>");
-                	}
-                	if(item.id_pessoa==item.id_destinatario)
-                	{
-                		$("#opcoes_"+item.id_memorando).append("<a href=<?php echo WWW;?>controle/control.php?nomeClasse=MemorandoControle&metodo=alterarIdStatusMemorando&id_memorando="+item.id_memorando+"&id_status_memorando=6&modulo=memorando><img src='<?php echo WWW;?>img/arquivar.png' width=25px height=25px title='Arquivar memorando'></a>")
-                	}
+                  if(item.id_status_memorando==3)
+                  {
+                    document.getElementById(item.id_memorando).style.backgroundColor = "rgba(195, 230, 255, 0.83)";
+                    $("#naolido"+item.id_memorando).html("<a href=<?php echo WWW;?>controle/control.php?nomeClasse=MemorandoControle&metodo=alterarIdStatusMemorando&id_memorando="+item.id_memorando+"&id_status_memorando=1&modulo=memorando class=naolido><img src='<?php echo WWW;?>img/lido.png' width=25px height=25px title='Lido'></a>");
+                  }
+                  if(item.id_status_memorando==2)
+                  {
+                    $("#naolido"+item.id).html("<a href=<?php echo WWW;?>controle/control.php?nomeClasse=MemorandoControle&metodo=alterarIdStatusMemorando&id_memorando="+item.id_memorando+"&id_status_memorando=3&modulo=memorando class=naolido><img src='<?php echo WWW;?>img/nao-lido.png' width=25px height=25px title='Não lido'></a>");
+                  }
+                  if(item.id_pessoa==item.id_destinatario)
+                  {
+                    $("#opcoes_"+item.id_memorando).append("<a href=<?php echo WWW;?>controle/control.php?nomeClasse=MemorandoControle&metodo=alterarIdStatusMemorando&id_memorando="+item.id_memorando+"&id_status_memorando=6&modulo=memorando><img src='<?php echo WWW;?>img/arquivar.png' width=25px height=25px title='Arquivar memorando'></a>")
+                  }
 
         });
 
@@ -181,7 +181,7 @@ require_once ROOT."/html/personalizacao_display.php";
 
         img
         {
-        	margin-left:10px;
+          margin-left:10px;
         }
         /* print styles*/
         @media print {
@@ -289,14 +289,15 @@ require_once ROOT."/html/personalizacao_display.php";
         <script type="text/javascript">
             $(function(){
                 $("#btnPrint").click(function () {
-                    $("#myModal a").removeAttr("href");
                     //get the modal box content and load it into the printable div
                     if((typeof(impressao) == "undefined") || impressao!=1)
                     {
+                      $("#myModal a").removeAttr("href");
                         $(".printable").html($("#myModal").html());
                     }
                     $(".printable").printThis();
                     var impressao = 1;
+                    $("#myModal").hide();
                 }); 
             });
         </script>
