@@ -22,10 +22,16 @@ function insereDados($idSistema)
            
             $bd->query("INSERT INTO doacao_cartao_mensal(link, valor, id_sistema)VALUES('$doacaoMensalLink', '$doacaoMensalValor', '$idSistema')");
         }
-        if($doacaoAvulsaLink != '')
+
+    $dadoCartao = verificaDadoCartao($idSistema);
+        if($dadoCartao == 0)
         {
             $bd->query("INSERT INTO doacao_cartao_avulso(url, id_sistema) VALUES ('$doacaoAvulsaLink', '$idSistema')");
+        }else{
+            $bd->query("UPDATE doacao_cartao_avulso SET url = '$doacaoAvulsaLink' WHERE id_sistema = '$idSistema'");
         }
+    
+    
     header("Location: configuracao_doacao.php");
 
 }    
@@ -37,6 +43,7 @@ function atualizaDados($idSistema)
     $bd = new Conexao;
 
     $linkDoacaoAvulsa = $_POST['avulso'];
+    echo $linkDoacaoAvulsa;
     $arrayValoresMensal = $_POST['valores'];
     //print_r($arrayValoresMensal);
     $arrayLinkMensal = $_POST['link_doacao'];

@@ -1,6 +1,17 @@
 function atualiza(){
  
-  $("#alerta").hide();
+	$("#header").load("../../header.php");
+	$(".menuu").load("../../menu.php");
+
+	$("submit").click(function(){
+	$('#foo').fadeIn();
+	setTimeout(function () {
+		$('#foo').hide(); 
+	}, 99000);
+	});
+  
+
+	$("#alerta").hide();
   $("#divpagseguro").hide();
   $("#divpaypal").hide();
   $("#btn-bol").hide();
@@ -9,12 +20,7 @@ function atualiza(){
   $(".alerta_pay").hide(); 
   $(".alerta_pag").hide();
 
-  $("submit").click(function(){
-	$('#foo').fadeIn();
-	setTimeout(function () {
-		$('#foo').hide(); 
-	}, 99000);
-});
+  
 	if($("#dadoBol").val() == 0)
 		{
 			$(".alerta_bol").fadeIn();
@@ -22,8 +28,8 @@ function atualiza(){
 			$(".alerta_bol").hide();
 		}
  
-  $("#header").load("../../header.php");
-  $(".menuu").load("../../menu.php");
+  
+
   $("input").prop("readonly", true);
   $("textarea").prop("readonly", true);
 
@@ -74,6 +80,7 @@ function atualiza(){
 	  $("textarea").prop("readonly", true);
 	
   });
+  
   $("#paypal").click(function(){
 	$(".alerta_bol").hide();
 	$(".alerta_pay").hide(); 
@@ -121,8 +128,10 @@ function editando_card()
 
 function transicoes()
 {
-  			$("#tipo1").prop('checked', true);
-			$('input').keypress(function(e) {
+			  $("#tipo1").prop('checked', true);
+			  $("#op_cpf").prop('checked', true);
+			
+			  $('input').keypress(function(e) {
 			if(e.which == 13) {
 			e.preventDefault();
 			}
