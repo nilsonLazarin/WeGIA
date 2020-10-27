@@ -103,7 +103,7 @@
 							</span>
 						</span>
 					</div>
-					<a href="./html/esqueceu_senha.php">Esqueceu sua Senha?</a>
+					<a href="./html/alterar_senha.php">Esqueceu sua Senha?</a>
 				</div>
 			</div>
 			<input type="submit" value="Entrar" class="btn btn-primary hidden-xs entrar"></input>
