@@ -42,7 +42,7 @@
             <?php
         $id_socio = $_GET['socio'];
         $resultado = mysqli_query($conexao, "SELECT *, s.id_socio as socioid FROM socio AS s LEFT JOIN pessoa AS p ON s.id_pessoa = p.id_pessoa LEFT JOIN socio_tipo AS st ON s.id_sociotipo = st.id_sociotipo LEFT JOIN (SELECT id_socio, MAX(data) AS ultima_data_doacao FROM log_contribuicao GROUP BY id_socio) AS lc ON lc.id_socio = s.id_socio");
-        $registro = mysqli_fetch_assoc($resultado);
+        $registro = mysqli_fetch_array($resultado);
         $nome_socio = $registro['nome'];
         $email = $registro['email'];
         $telefone = $registro['telefone'];
@@ -58,44 +58,13 @@
         $bairro = $registro['bairro'];
         $cidade = $registro['cidade'];
         $estado = $registro['estado'];
-
-        $dados_contrib = json_encode($registro);
-
-        echo("<input type='hidden' name='dados_contrib' value='$dados_contrib'>")
     ?>
         
-        <div class="box box-info">
-            <div class="box-header with-border">
-              <h3 class="box-title">Opções de geração -  Sócio: <?php echo($nome_socio." ($tipo_socio)"); ?></h3>
-            </div>
-            <div class="box-body">
-            <div class="row">
-            <div class="form-group mb-2 col-xs-6">
-            <label for="pessoa">O que você deseja gerar?</label>
-                <select class="form-control" name="tipo_geracao" id="tipo_geracao">
-                    <option value="1" selected>Boleto único</option>
-                    <option value="2">Carnê do próximo ano</option>
-                </select>
-            </div>
-            <div class="form-group mb-2 col-xs-6">
-           
-            <div class="valor">
-            <label for="pessoa">Valor</label>
-            <input type="text" class="form-control" id="valor_u" name="valor" placeholder="Valor único" required>
-            </div>
-            
-
-
-            </div>
-            <div class="form-group mb-2 col-xs-6 mb-3">
-           
-
-            <div class="dta">
-            
-            </div>
-
-            <input type="hidden" id="dataV">
-           
+        <div class="box box-info resultado">
+            <?php
+                $resultado = mysqli_query("SELECT * FROM doacao_boleto_info AS bi JOIN sistema_pagamento AS sp ON (bi.id_sistema = sp.id) JOIN doacao_boleto_regras AS br ON (br.id = bi.id_regras)  WHERE nome_sistema = 'BOLETOFACIL'");
+                
+            ?>
             
             
 
@@ -129,6 +98,17 @@
 </body>
 <script>
     $(document).ready(function(){
+
+      $.get(api+"token="+token+"&description='"+agradecimento+"'&amount="+valor+"&dueDate="+dataV+"&maxOverdueDays="+dias_venc_mensal+"&installments="+parcelas+"&payerName="+nome+"&payerCpfCnpj="+doc+"&payerEmail="+email+"&payerPhone="+telefone+"&billingAddressStreet="+rua+"&billingAddressNumber="+numero+"&billingAddressComplement="+complemento+"&billingAddressNeighborhood="+bairro+"&billingAddressCity="+cidade+"&billingAddressState="+uf+"&billingAddressPostcode="+cep+"&fine="+multa+"&interest="+juros+"&paymentTypes=BOLETO&notifyPayer=TRUE&reference="+nomerefer+numeroRandom).done(function(dados){
+                    cad_log(socioTipo, reference);
+                    for(var link of dados.data.charges)
+                    {
+                        
+                        var check = link.checkoutUrl; 
+    
+                    }
+        }
+
         var sociotipo = <?php echo($socio_tipo); ?>;
         var status = <?php echo($status); ?>;
         $("#status").val(status);
