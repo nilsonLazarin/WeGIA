@@ -37,8 +37,8 @@
 
 		<!-- Skin CSS -->
 		<link rel="stylesheet" href="./assets/stylesheets/skins/default.css" />
-
-
+		
+		
 		<!-- Theme Custom CSS -->
 		<link rel="stylesheet" href="./css/index-theme.css"/>
 
@@ -54,7 +54,8 @@
 			 	if (erro!='erro') {
 			 		
 			 		alert('Senha e/ou cpf inválido');
-			 	}
+				 }
+				 
 		</script>
 
 	</head>
