@@ -39,30 +39,16 @@
             <div class="box-body">
             <form id="frm_editar_socio" action="processa_contribuicao.php" method="POST">
             <input type="hidden" id="id_socio" name="id_socio" value="<?php echo($_GET['socio']); ?>">
-            <?php
-        $id_socio = $_GET['socio'];
-        $resultado = mysqli_query($conexao, "SELECT *, s.id_socio as socioid FROM socio AS s LEFT JOIN pessoa AS p ON s.id_pessoa = p.id_pessoa LEFT JOIN socio_tipo AS st ON s.id_sociotipo = st.id_sociotipo LEFT JOIN (SELECT id_socio, MAX(data) AS ultima_data_doacao FROM log_contribuicao GROUP BY id_socio) AS lc ON lc.id_socio = s.id_socio");
-        $registro = mysqli_fetch_array($resultado);
-        $nome_socio = $registro['nome'];
-        $email = $registro['email'];
-        $telefone = $registro['telefone'];
-        $status = $registro['id_sociostatus'];
-        $data_nasc = $registro['data_nascimento'];
-        $cpf_cnpj = $registro['cpf'];
-        $logradouro = $registro['logradouro'];
-        $numero = $registro['numero_endereco'];
-        $tipo_socio = $registro['tipo'];
-        $complemento = $registro['complemento'];
-        $cep = $registro['cep'];
-        $socio_tipo = $registro['id_sociotipo'];
-        $bairro = $registro['bairro'];
-        $cidade = $registro['cidade'];
-        $estado = $registro['estado'];
-    ?>
         
         <div class="box box-info resultado">
             <?php
-                $resultado = mysqli_query("SELECT * FROM doacao_boleto_info AS bi JOIN sistema_pagamento AS sp ON (bi.id_sistema = sp.id) JOIN doacao_boleto_regras AS br ON (br.id = bi.id_regras)  WHERE nome_sistema = 'BOLETOFACIL'");
+                $resultado = mysqli_query($conexao,"SELECT * FROM doacao_boleto_info AS bi JOIN sistema_pagamento AS sp ON (bi.id_sistema = sp.id) JOIN doacao_boleto_regras AS br ON (br.id = bi.id_regras)  WHERE nome_sistema = 'BOLETOFACIL'");
+                $dados_sistema = mysqli_fetch_assoc($resultado);
+                $token_api = $dados_sistema['token_api'];
+                echo($token_api);
+                extract($dados_sistema);
+                extract(json_decode($_REQUEST ['dados_contrib'], 1));
+                extract($_REQUEST);
                 
             ?>
             
@@ -99,33 +85,23 @@
 <script>
     $(document).ready(function(){
 
-      $.get(api+"token="+token+"&description='"+agradecimento+"'&amount="+valor+"&dueDate="+dataV+"&maxOverdueDays="+dias_venc_mensal+"&installments="+parcelas+"&payerName="+nome+"&payerCpfCnpj="+doc+"&payerEmail="+email+"&payerPhone="+telefone+"&billingAddressStreet="+rua+"&billingAddressNumber="+numero+"&billingAddressComplement="+complemento+"&billingAddressNeighborhood="+bairro+"&billingAddressCity="+cidade+"&billingAddressState="+uf+"&billingAddressPostcode="+cep+"&fine="+multa+"&interest="+juros+"&paymentTypes=BOLETO&notifyPayer=TRUE&reference="+nomerefer+numeroRandom).done(function(dados){
+      var nome = <?php echo("'$nome'"); ?>.replace(/[^a-zA-Zs]/g, "");
+      nome = nome.replace(" ",",");
+      referencia = nome + Math.round(Math.random()*100000000);
+
+      var api = ""+<?php echo("'$api'"); ?>;
+
+      $.get(api+`token=<?php echo($token_api); ?>&description=<?php echo($agradecimento); ?>&amount=<?php echo($valor); ?>&dueDate=<?php echo($dataV); ?>&maxOverdueDays=<?php echo($max_dias_venc); ?>&installments=12&payerName=<?php echo($nome); ?>&payerCpfCnpj=<?php echo($cpf); ?>&payerEmail=<?php echo($email); ?>&payerPhone=<?php echo($telefone); ?>&billingAddressStreet=<?php echo($logradouro); ?>&billingAddressNumber=<?php echo($numero_endereco); ?>&billingAddressComplement=<?php echo($complemento); ?>&billingAddressNeighborhood=<?php echo($bairro); ?>&billingAddressCity=<?php echo($cidade); ?>&billingAddressState=<?php echo($estado); ?>&billingAddressPostcode=<?php echo($cep); ?>&fine=<?php echo($multa); ?>&interest<?php echo($juros); ?>&paymentTypes=BOLETO&notifyPayer=TRUE&reference=${referencia}`).done(function(dados){
                     cad_log(socioTipo, reference);
+                    console.log(dados);
                     for(var link of dados.data.charges)
                     {
                         
-                        var check = link.checkoutUrl; 
+                        var check = link.checkoutUrl;
+                        console.log(check);
     
                     }
-        }
+        })
 
-        var sociotipo = <?php echo($socio_tipo); ?>;
-        var status = <?php echo($status); ?>;
-        $("#status").val(status);
-        if(status == 4){
-          $("#contribuinte").val("si");
-        }
-
-        switch(sociotipo){
-          case 0: case 1: 
-              $("#contribuinte").val("casual");
-              break;
-          case 2: case 3:
-              $("#contribuinte").val("mensal");
-              break;
-          default:
-              $("#contribuinte").val("si");
-              break;
-        }
     });
 </script>

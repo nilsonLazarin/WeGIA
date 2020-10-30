@@ -188,8 +188,12 @@
                         }  
 
                     var ano_atual = now.getFullYear();
-                    if(tipo == "mensal_proximo") ano_atual++;
-                    var DataV = dia+"/"+mes_atual+"/"+ano_atual;
+                    if(tipo == "mensal_proximo"){
+                        ano_atual++;
+                        var DataV = dia+"/01/"+ano_atual;
+                    }else{
+                        var DataV = dia+"/"+mes_atual+"/"+ano_atual;
+                    } 
             
                     return DataV;
                 }

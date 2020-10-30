@@ -37,7 +37,7 @@
               <h3 class="box-title"><i class="far fa-list-alt"></i> Gerar boleto/carnê</h3>
             </div>
             <div class="box-body">
-            <form id="frm_editar_socio" action="processa_contribuicao.php" method="POST">
+            <form action="processa_contribuicao.php" method="GET">
             <input type="hidden" id="id_socio" name="id_socio" value="<?php echo($_GET['socio']); ?>">
             <?php
         $id_socio = $_GET['socio'];
@@ -61,7 +61,8 @@
 
         $dados_contrib = json_encode($registro);
 
-        echo("<input type='hidden' name='dados_contrib' value='$dados_contrib'>")
+        echo("<input type='hidden' name='dados_contrib' value='$dados_contrib'>");
+        echo("<input type='hidden' name='socio' value='$id_socio'>");
     ?>
         
         <div class="box box-info">
@@ -94,7 +95,7 @@
             
             </div>
 
-            <input type="hidden" id="dataV">
+            <input type="hidden" name="dataV" id="dataV">
            
             
             
@@ -117,6 +118,7 @@
         <button type="submit" class="btn btn-primary btn_salvar_socio">Gerar</button>
             </div>
             </div>
+            </form>
             <!-- /.box-body -->
           </div>
           <!-- /.box -->
