@@ -37,11 +37,11 @@
               <h3 class="box-title"><i class="far fa-list-alt"></i> Gerar boleto/carnê</h3>
             </div>
             <div class="box-body">
-            <form action="processa_contribuicao.php" method="GET">
+            <form action="processa_contribuicao.php" method="POST">
             <input type="hidden" id="id_socio" name="id_socio" value="<?php echo($_GET['socio']); ?>">
             <?php
         $id_socio = $_GET['socio'];
-        $resultado = mysqli_query($conexao, "SELECT *, s.id_socio as socioid FROM socio AS s LEFT JOIN pessoa AS p ON s.id_pessoa = p.id_pessoa LEFT JOIN socio_tipo AS st ON s.id_sociotipo = st.id_sociotipo LEFT JOIN (SELECT id_socio, MAX(data) AS ultima_data_doacao FROM log_contribuicao GROUP BY id_socio) AS lc ON lc.id_socio = s.id_socio");
+        $resultado = mysqli_query($conexao, "SELECT *, s.id_socio as socioid FROM socio AS s LEFT JOIN pessoa AS p ON s.id_pessoa = p.id_pessoa LEFT JOIN socio_tipo AS st ON s.id_sociotipo = st.id_sociotipo LEFT JOIN (SELECT id_socio, MAX(data) AS ultima_data_doacao FROM log_contribuicao GROUP BY id_socio) AS lc ON lc.id_socio = s.id_socio WHERE s.id_socio = $id_socio");
         $registro = mysqli_fetch_assoc($resultado);
         $nome_socio = $registro['nome'];
         $email = $registro['email'];
@@ -82,9 +82,8 @@
            
             <div class="valor">
             <label for="pessoa">Valor</label>
-            <input type="text" class="form-control" id="valor_u" name="valor" placeholder="Valor único" required>
+            <input type="number" class="form-control" id="valor_u" name="valor" placeholder="Valor único" required>
             </div>
-            
 
 
             </div>
@@ -96,6 +95,8 @@
             </div>
 
             <input type="hidden" name="dataV" id="dataV">
+            <input type="hidden" name="parcelas" id="parcelas">
+
            
             
             

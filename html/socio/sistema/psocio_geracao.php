@@ -139,6 +139,10 @@
     <!-- Theme Initialization Files -->
     <script src="<?php echo WWW;?>assets/javascripts/theme.init.js"></script>
 
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  	<link type="text/css" rel="stylesheet" charset="UTF-8" href="https://translate.googleapis.com/translate_static/css/translateelement.css">
 
     <!-- javascript functions -->
     <script src="<?php echo WWW;?>Functions/onlyNumbers.js"></script>
@@ -153,105 +157,8 @@
 	</script>
 </head>
 <body>
-    <?php require_once("./controller/import_conteudo_gerarcontribuicao.php"); ?>
+    <?php require_once("./controller/import_conteudo_psociogeracao.php"); ?>
     <?php require_once("./controller/import_scripts.php"); ?>
     <?php require_once("./controller/import_scripts_socio.php"); ?>
-    <script>
-        function retorna_dataV_tipo(dia, tipo)
-        {
-            var dia = dia;
-            var now = new Date;
-            if(tipo == "unico") 
-            {
-                var diaA = now.getDate() +3;
-                    if(dia == 29 || dia == 30 || dia == 31)
-                    {
-                        diaA = 3;
-                        var mesA = now.getMonth() + 2;
-                    }
-                var mesA = now.getMonth()+1;
-                var anoA = now.getFullYear();
-                var DataV = diaA+"/"+mesA+"/"+anoA;
-
-                return DataV;
-            }
-                else
-                {
-                    var diaA = now.getDate();
-                        if(dia<=diaA)
-                        {
-                            var mes_atual = now.getMonth() + 2;
-                        }
-                        else
-                        {
-                            var mes_atual = now.getMonth() + 1;
-                        }  
-
-                    var ano_atual = now.getFullYear();
-                    if(tipo == "mensal_proximo"){
-                        ano_atual++;
-                        var DataV = dia+"/01/"+ano_atual;
-                    }else{
-                        var DataV = dia+"/"+mes_atual+"/"+ano_atual;
-                    } 
-            
-                    return DataV;
-                }
-                    
-        }
-        var now = new Date;
-        var dv = retorna_dataV_tipo(now.getDate(), "unico");
-        console.log(dv);
-        $(".datas").html(`<span>Data de vencimento para boleto gerado hoje: ${dv}</span>`);
-
-        $("#tipo_geracao").change(function(){
-            switch(this.value){
-                case "1": $(".valor").html(`<label for="pessoa">Valor</label><input type="text" class="form-control" id="valor_u" name="valor" placeholder="Valor único" required>`);
-                    $(".dta").html("");
-                    var dv = retorna_dataV_tipo(now.getDate(), "unico");
-                    console.log(dv);
-                    $(".datas").html(`<span>Data de vencimento para boleto gerado hoje: ${dv}</span>`);
-                    $("#dataV").val(dv);
-                break;
-                case "2": $(".valor").html(`<label for="pessoa">Valor</label>
-            <select class="form-control" name="valor" id="valor">
-                    <option value=''>Selecione um valor mensal</option>
-                    <option value = '<?php echo $valminparc ?>'>R$<?php echo $valminparc ?></option>
-                    <option value = '50.00'>R$50,00</option>
-                    <option value = '100.00'>R$100,00</option>
-                    <option value = '150.00'>R$150,00</option>
-                    <option value = '200.00'>R$200,00</option>
-                    <option value = '250.00'>R$250,00</option>
-                    <option value = '300.00'>R$300,00</option>
-                    <option value = '500.00'>R$500,00</option>
-                    <option value = '<?php echo $valmaxparc ?>'>R$<?php echo $valmaxparc ?></option>
-                </select>`);
-                $(".dta").html(`<label for="pessoa">Dia de vencimento mensal</label>
-            <select class="form-control" name="dta" id="dta">
-                    <?php
-                        for($i=0; $i<5; $i++)
-                        {
-                            if($arrayData[$i] != 0)
-                            {
-                                echo"<option value ='".$arrayData[$i]."' id='op".$i."'>".$arrayData[$i]."</option>"; 
-                            }	
-                        }
-                    ?>
-                </select>`);
-
-                var dv = retorna_dataV_tipo($("#dta").val(), "mensal_proximo");
-                console.log(dv);
-                $(".datas").html(`<span>Data de vencimento da primeira parcela do carnê: ${dv}, as demais parcelas também respeitarão o dia da primeira parcela.</span>`);
-                $("#dataV").val(dv);
-                $("#dta").change(function(){
-                    var dv = retorna_dataV_tipo($("#dta").val(), "mensal_proximo");
-                    console.log(dv);
-                    $(".datas").html(`<span>Data de vencimento da primeira parcela do carnê: ${dv}, as demais parcelas também respeitarão o dia da primeira parcela.</span>`);
-                    $("#dataV").val(dv);
-                })
-                break;
-            }
-        })
-    </script>
 </body>
 </html>
