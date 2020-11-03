@@ -91,7 +91,21 @@
     $(document).ready(function(){
 
       if(<?php echo($tipo_geracao); ?> == 1){
+        var nome = <?php echo("'$nome'"); ?>.replace(/[^a-zA-Zs]/g, "");
+        nome = nome.replace(" ",",");
+        referencia = nome + Math.round(Math.random()*100000000);
 
+        var api = ""+<?php echo("'$api'"); ?>;
+
+        $.get(api+`token=<?php echo("$token_api"); ?>&description=<?php echo($agradecimento); ?>&amount=<?php echo($valor); ?>&dueDate=<?php echo($dataV); ?>&maxOverdueDays=<?php echo($max_dias_venc); ?>&installments=1&payerName=<?php echo($nome); ?>&payerCpfCnpj=<?php echo($cpf); ?>&payerEmail=<?php echo($email); ?>&payerPhone=<?php echo($telefone); ?>&billingAddressStreet=<?php echo($logradouro); ?>&billingAddressNumber=<?php echo($numero_endereco); ?>&billingAddressComplement=<?php echo($complemento); ?>&billingAddressNeighborhood=<?php echo($bairro); ?>&billingAddressCity=<?php echo($cidade); ?>&billingAddressState=<?php echo($estado); ?>&billingAddressPostcode=<?php echo($cep); ?>&fine=<?php echo($multa); ?>&interest<?php echo($juros); ?>&paymentTypes=BOLETO&notifyPayer=TRUE&reference=${referencia}`).done(function(dados){
+                      // cad_log(socioTipo, reference);
+                      console.log(dados);
+                      for(var charge of dados.data.charges)
+                      {
+                          $("#parcelas_tb").append(`<tr><td>${charge.dueDate}</td><td><a href="${charge.installmentLink}">Link de pagamento</a></td><td>${charge.payNumber}</td></tr>`)
+      
+                      }
+          })
       }else{
         var nome = <?php echo("'$nome'"); ?>.replace(/[^a-zA-Zs]/g, "");
         nome = nome.replace(" ",",");

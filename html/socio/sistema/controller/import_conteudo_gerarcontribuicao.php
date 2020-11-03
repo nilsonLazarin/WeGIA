@@ -38,9 +38,15 @@
             </div>
             <div class="box-body">
             <form action="processa_contribuicao.php" method="POST">
-            <input type="hidden" id="id_socio" name="id_socio" value="<?php echo($_GET['socio']); ?>">
+            <?php if(isset($_REQUEST['id_pesquisa'])){
+              $id_socio = $_REQUEST['id_pesquisa'];
+              $id_socio = explode("|",$id_socio)[2];
+            }else{
+              $id_socio = $_GET['socio'];
+            } 
+            ?>
+            <input type="hidden" id="id_socio" name="id_socio" value="<?php echo($id_socio); ?>">
             <?php
-        $id_socio = $_GET['socio'];
         $resultado = mysqli_query($conexao, "SELECT *, s.id_socio as socioid FROM socio AS s LEFT JOIN pessoa AS p ON s.id_pessoa = p.id_pessoa LEFT JOIN socio_tipo AS st ON s.id_sociotipo = st.id_sociotipo LEFT JOIN (SELECT id_socio, MAX(data) AS ultima_data_doacao FROM log_contribuicao GROUP BY id_socio) AS lc ON lc.id_socio = s.id_socio WHERE s.id_socio = $id_socio");
         $registro = mysqli_fetch_assoc($resultado);
         $nome_socio = $registro['nome'];
