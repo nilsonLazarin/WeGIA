@@ -60,6 +60,7 @@
                         ui.item = ui.content[0];
                         $(this).val(ui.item.value)
                         $(this).data('ui-autocomplete')._trigger('select', 'autocompleteselect', ui);
+						$("#id_pesquisa" ).blur();
                       }
 			            }
   			        });

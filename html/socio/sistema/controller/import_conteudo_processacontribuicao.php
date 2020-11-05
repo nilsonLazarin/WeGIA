@@ -121,6 +121,7 @@
                           $("#parcelas_tb").append(`<tr><td>${charge.dueDate}</td><td><a href="${charge.installmentLink}">Link de pagamento</a></td><td>${charge.payNumber}</td></tr>`)
       
                       }
+                      $("#parcelas_tb").append(`<tr><td colspan='2'>Link do carnê inteiro: </td><td>${charge.link}</td></tr>`)
           })
       }
 
