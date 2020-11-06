@@ -560,9 +560,14 @@
             <!-- end: page -->
          </section>
       </div>
-      </section>
-      <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    </section>
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+  <!-- JQuery Online -->
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  
+  <!-- JQuery Local -->
+  <script src="../assets/vendor/jquery/jquery.min.js"></script>
   <script src="https://requirejs.org/docs/release/2.3.6/r.js"></script>
   <style type="text/css">
 

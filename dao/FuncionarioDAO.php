@@ -34,11 +34,14 @@ class FuncionarioDAO
 
     public function formatoDataDMY($data)
     {
-        $data_arr = explode("-", $data);
-        
-        $datad = $data_arr[2] . '/' . $data_arr[1] . '/' . $data_arr[0];
-        
-        return $datad;
+        if ($data){
+            $data_arr = explode("-", $data);
+            
+            $datad = $data_arr[2] . '/' . $data_arr[1] . '/' . $data_arr[0];
+            
+            return $datad;
+        }
+        return "Sem informação";
     }
     public function incluir($funcionario)
     {

@@ -656,8 +656,8 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `wegia`.`quadro_horario_funcionario` (
   `id_quadro_horario` INT(11) NOT NULL AUTO_INCREMENT,
   `id_funcionario` INT(11) NOT NULL,
-  `escala` VARCHAR(200) NULL DEFAULT NULL,
-  `tipo` VARCHAR(200) NULL DEFAULT NULL,
+  `escala` INT(11) NOT NULL,
+  `tipo` INT(11) NOT NULL,
   `carga_horaria` VARCHAR(200) NULL DEFAULT NULL,
   `entrada1` VARCHAR(200) NULL DEFAULT NULL,
   `saida1` VARCHAR(200) NULL DEFAULT NULL,
@@ -670,7 +670,13 @@ CREATE TABLE IF NOT EXISTS `wegia`.`quadro_horario_funcionario` (
   INDEX `id_funcionario` (`id_funcionario` ASC),
   CONSTRAINT `quadro_horario_funcionario_ibfk_1`
     FOREIGN KEY (`id_funcionario`)
-    REFERENCES `wegia`.`funcionario` (`id_funcionario`))
+    REFERENCES `wegia`.`funcionario` (`id_funcionario`),
+  CONSTRAINT `quadro_horario_funcionario_ibfk_2` 
+    FOREIGN KEY (`escala`)
+    REFERENCES `wegia`.`escala_quadro_horario` (`id_escala`),
+  CONSTRAINT `quadro_horario_funcionario_ibfk_3` 
+    FOREIGN KEY (`tipo`)
+    REFERENCES `wegia`.`tipo_quadro_horario` (`id_tipo`))
 ENGINE = InnoDB;
 
 

@@ -11,79 +11,154 @@ if(file_exists($config_path)){
 }
 require_once ROOT."/dao/Conexao.php";
 require_once ROOT.'/classes/Documento.php';
-	class QuadroHorarioDAO
-	{
-		public function incluir($quadro_horario)
-		{
-      		try {
-                  $sql = 'call cadhorariofunc(:escala, :tipo, :carga_horaria, :entrada1, :saida1,:entrada2,:saida2, :total, :dias_trabalhados, :folga)';
-                  $sql = str_replace("'", "\'", $sql);            
-                  $pdo = Conexao::connect();
-                  $stmt = $pdo->prepare($sql);
 
-                  $escala=$quadro_horario->getEscala();
-                  $tipo=$quadro_horario->getTipo();
-                  $carga_horaria=$quadro_horario->getCarga_horaria();
-                  $entrada1=$quadro_horario->getEntrada1();
-                  $saida1=$quadro_horario->getSaida1();
-                  $entrada2=$quadro_horario->getEntrada2();
-                  $saida2=$quadro_horario->getSaida2();
-                  $total=$quadro_horario->getTotal();
-                  $dias_trabalhados=$quadro_horario->getDias_trabalhados();
-                  $folga=$quadro_horario->getFolga();
+class QuadroHorarioDAO
+{
+    public function incluir($quadro_horario, $id_funcionario)
+    {
+        try {
+            $sql = 'call cadhorariofunc(:escala, :tipo, :carga_horaria, :entrada1, :saida1,:entrada2,:saida2, :total, :dias_trabalhados, :folga)';
+            $sql2 = "call cadhorariofunc2( $id_funcionario , :escala, :tipo, :carga_horaria, :entrada1, :saida1,:entrada2,:saida2, :total, :dias_trabalhados, :folga)";
+            $sql = str_replace("'", "\'", $sql);            
+            $pdo = Conexao::connect();
+            $stmt = $pdo->prepare($sql2);
 
-                  $stmt->bindParam(':escala',$escala);
-                  $stmt->bindParam(':tipo',$tipo);
-                  $stmt->bindParam(':carga_horaria',$carga_horaria);
-                  $stmt->bindParam(':entrada1',$entrada1);
-                  $stmt->bindParam(':saida1',$saida1);
-                  $stmt->bindParam(':entrada2',$entrada2);
-                  $stmt->bindParam(':saida2',$saida2);
-                  $stmt->bindParam(':total',$total);
-                  $stmt->bindParam(':dias_trabalhados',$dias_trabalhados);
-                  $stmt->bindParam(':folga',$folga);
+            $escala=$quadro_horario->getEscala();
+            $tipo=$quadro_horario->getTipo();
+            $carga_horaria=$quadro_horario->getCarga_horaria();
+            $entrada1=$quadro_horario->getEntrada1();
+            $saida1=$quadro_horario->getSaida1();
+            $entrada2=$quadro_horario->getEntrada2();
+            $saida2=$quadro_horario->getSaida2();
+            $total=$quadro_horario->getTotal();
+            $dias_trabalhados=$quadro_horario->getDias_trabalhados();
+            $folga=$quadro_horario->getFolga();
 
-                  $stmt->execute();
-      	        }catch (PDOExeption $e) {
-      	            echo 'Error: <b>  na tabela quadro horario = ' . $sql . '</b> <br /><br />' . $e->getMessage();
-      	        }
-		}
+            $stmt->bindParam(':escala',$escala);
+            $stmt->bindParam(':tipo',$tipo);
+            $stmt->bindParam(':carga_horaria',$carga_horaria);
+            $stmt->bindParam(':entrada1',$entrada1);
+            $stmt->bindParam(':saida1',$saida1);
+            $stmt->bindParam(':entrada2',$entrada2);
+            $stmt->bindParam(':saida2',$saida2);
+            $stmt->bindParam(':total',$total);
+            $stmt->bindParam(':dias_trabalhados',$dias_trabalhados);
+            $stmt->bindParam(':folga',$folga);
 
-            public function alterar($quadro_horario, $id_funcionario)
-            {
-                  try {
-                  $sql = 'UPDATE quadro_horario_funcionario SET escala=:escala, tipo=:tipo, carga_horaria=:carga_horaria, entrada1=:entrada1, saida1=:saida1,entrada2=:entrada2,saida2=:saida2, total=:total, dias_trabalhados=:dias_trabalhados, folga=:folga WHERE id_funcionario=:id_funcionario';
-                  $sql = str_replace("'", "\'", $sql);            
-                  $pdo = Conexao::connect();
-                  $stmt = $pdo->prepare($sql);
+            $stmt->execute();
+        }catch (PDOExeption $e) {
+            echo 'Error: <b>  na tabela quadro horario = ' . $sql . '</b> <br /><br />' . $e->getMessage();
+        }
+    }
 
-                  $escala=$quadro_horario->getEscala();
-                  $tipo=$quadro_horario->getTipo();
-                  $carga_horaria=$quadro_horario->getCarga_horaria();
-                  $entrada1=$quadro_horario->getEntrada1();
-                  $saida1=$quadro_horario->getSaida1();
-                  $entrada2=$quadro_horario->getEntrada2();
-                  $saida2=$quadro_horario->getSaida2();
-                  $total=$quadro_horario->getTotal();
-                  $dias_trabalhados=$quadro_horario->getDias_trabalhados();
-                  $folga=$quadro_horario->getFolga();
+    public function alterar($quadro_horario, $id_funcionario)
+    {
+        try {
+            $pdo = Conexao::connect();
+            $quadro = $pdo->query("SELECT id_quadro_horario FROM quadro_horario_funcionario WHERE id_funcionario=$id_funcionario;")->fetch(PDO::FETCH_ASSOC);
+            if ($quadro){
+                $sql = 'UPDATE quadro_horario_funcionario SET escala=:escala, tipo=:tipo, carga_horaria=:carga_horaria, entrada1=:entrada1, saida1=:saida1,entrada2=:entrada2,saida2=:saida2, total=:total, dias_trabalhados=:dias_trabalhados, folga=:folga WHERE id_funcionario=:id_funcionario';
+                $sql = str_replace("'", "\'", $sql);            
+                $stmt = $pdo->prepare($sql);
 
-                  $stmt->bindParam(':id_funcionario',$id_funcionario);
-                  $stmt->bindParam(':escala',$escala);
-                  $stmt->bindParam(':tipo',$tipo);
-                  $stmt->bindParam(':carga_horaria',$carga_horaria);
-                  $stmt->bindParam(':entrada1',$entrada1);
-                  $stmt->bindParam(':saida1',$saida1);
-                  $stmt->bindParam(':entrada2',$entrada2);
-                  $stmt->bindParam(':saida2',$saida2);
-                  $stmt->bindParam(':total',$total);
-                  $stmt->bindParam(':dias_trabalhados',$dias_trabalhados);
-                  $stmt->bindParam(':folga',$folga);
+                $escala=$quadro_horario->getEscala();
+                $tipo=$quadro_horario->getTipo();
+                $carga_horaria=$quadro_horario->getCarga_horaria();
+                $entrada1=$quadro_horario->getEntrada1();
+                $saida1=$quadro_horario->getSaida1();
+                $entrada2=$quadro_horario->getEntrada2();
+                $saida2=$quadro_horario->getSaida2();
+                $total=$quadro_horario->getTotal();
+                $dias_trabalhados=$quadro_horario->getDias_trabalhados();
+                $folga=$quadro_horario->getFolga();
 
-                  $stmt->execute();
-                    }catch (PDOExeption $e) {
-                        echo 'Error: <b>  na tabela quadro horario = ' . $sql . '</b> <br /><br />' . $e->getMessage();
-                    }
+                $stmt->bindParam(':id_funcionario',$id_funcionario);
+                $stmt->bindParam(':escala',$escala);
+                $stmt->bindParam(':tipo',$tipo);
+                $stmt->bindParam(':carga_horaria',$carga_horaria);
+                $stmt->bindParam(':entrada1',$entrada1);
+                $stmt->bindParam(':saida1',$saida1);
+                $stmt->bindParam(':entrada2',$entrada2);
+                $stmt->bindParam(':saida2',$saida2);
+                $stmt->bindParam(':total',$total);
+                $stmt->bindParam(':dias_trabalhados',$dias_trabalhados);
+                $stmt->bindParam(':folga',$folga);
+
+                $stmt->execute();
+            }else{
+                $this->incluir($quadro_horario, $id_funcionario);
             }
-	}
+        }catch (PDOExeption $e) {
+            echo 'Error: <b>  na tabela quadro horario = ' . $sql . '</b> <br /><br />' . $e->getMessage();
+        }
+    }
+
+    public function adicionarTipo($desc){
+        $pdo = Conexao::connect();
+        try {
+            $ins = $pdo->prepare("INSERT INTO tipo_quadro_horario (descricao) VALUES (:d);");
+            $ins->bindParam(':d', $desc);
+            $ins->execute();
+        } catch (PDOExeption $e) {
+            echo "Erro ao incluir o tipo '$desc': " . $e->getMessage();
+        }
+    }
+
+    public function adicionarEscala($desc){
+        $pdo = Conexao::connect();
+        try {
+            $ins = $pdo->prepare("INSERT INTO escala_quadro_horario (descricao) VALUES (:d);");
+            $ins->bindParam(':d', $desc);
+            $ins->execute();
+        } catch (PDOExeption $e) {
+            echo "Erro ao incluir a escala '$desc': " . $e->getMessage();
+        }
+    }
+
+    public function alterarTipo($id, $desc){
+        $pdo = Conexao::connect();
+        try {
+            $ins = $pdo->prepare("UPDATE tipo_quadro_horario SET descricao=:d WHERE id=:id;");
+            $ins->bindParam(':d', $desc);
+            $ins->bindParam(':id', $id);
+            $ins->execute();
+        } catch (PDOExeption $e) {
+            echo "Erro ao alterar o tipo de id $id para '$desc': " . $e->getMessage();
+        }
+    }
+
+    public function alterarEscala($id, $desc){
+        $pdo = Conexao::connect();
+        try {
+            $ins = $pdo->prepare("UPDATE escala_quadro_horario SET descricao=:d WHERE id=:id;");
+            $ins->bindParam(':d', $desc);
+            $ins->bindParam(':id', $id);
+            $ins->execute();
+        } catch (PDOExeption $e) {
+            echo "Erro ao alterar o tipo de id $id para '$desc': " . $e->getMessage();
+        }
+    }
+
+    public function removerTipo($id){
+        $pdo = Conexao::connect();
+        try {
+            $ins = $pdo->prepare("DELETE FROM tipo_quadro_horario WHERE id=:id;");
+            $ins->bindParam(':id', $id);
+            $ins->execute();
+        } catch (PDOExeption $e) {
+            echo "Erro ao excluir o tipo de id $id: " . $e->getMessage();
+        }
+    }
+
+    public function removerEscala($id){
+        $pdo = Conexao::connect();
+        try {
+            $ins = $pdo->prepare("DELETE FROM escala_quadro_horario WHERE id=:id;");
+            $ins->bindParam(':id', $id);
+            $ins->execute();
+        } catch (PDOExeption $e) {
+            echo "Erro ao excluir a escala de id $id: " . $e->getMessage();
+        }
+    }
+}
 ?>

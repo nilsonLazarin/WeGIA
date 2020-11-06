@@ -7,7 +7,7 @@ class AlmoxarifadoControle
         extract($_REQUEST);
         
         if((!isset($descricao_almoxarifado)) || (empty($descricao_almoxarifado))){
-            $msg .= "Descricao da Almoxarifado nÃ£o informada. Por favor, informe uma descricao!";
+            $msg .= "Descricao da Almoxarifado não informada. Por favor, informe uma descricao!";
             header('Location: ../html/almoxarifado.html?msg='.$msg);
         }else{
             $almoxarifado = new Almoxarifado($descricao_almoxarifado);
@@ -33,7 +33,7 @@ class AlmoxarifadoControle
             $_SESSION['link']="../html/adicionar_almoxarifado.php";
             header("Location: ../html/adicionar_almoxarifado.php");
         } catch (PDOException $e){
-            $msg= "NÃ£o foi possÃ­vel registrar o almoxarifado"."<br>".$e->getMessage();
+            $msg= "Não foi possível registrar o almoxarifado"."<br>".$e->getMessage();
             echo $msg;
         }
     }

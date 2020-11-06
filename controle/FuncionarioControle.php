@@ -35,47 +35,53 @@ class FuncionarioControle
         $hora1 = explode(":",$subtotal1);
         $hora2 = explode(":",$subtotal2);
 
-        $tempoTotal = (intval($hora1[0])*60) + (intval($hora2[0])*60) + intval($hora1[1]) + intval($hora2[1]);
+        
+        if (sizeof($hora1) > 1 && sizeof($hora2) > 1){
+            $tempoTotal = (intval($hora1[0])*60) + (intval($hora2[0])*60) + intval($hora1[1]) + intval($hora2[1]);
 
-        $horaTotal = floor($tempoTotal/60);
-        $minutoTotal = $tempoTotal%60;
+            $horaTotal = floor($tempoTotal/60);
+            $minutoTotal = $tempoTotal%60;
 
-        if (strlen($minutoTotal) == 1) {
-                $minutoTotal = "0" . $minutoTotal;
-            }
+            if (strlen($minutoTotal) == 1) {
+                    $minutoTotal = "0" . $minutoTotal;
+                }
 
-            if (strlen($horaTotal) == 1) {
-                $horaTotal = "0" . $horaTotal;
-            }
+                if (strlen($horaTotal) == 1) {
+                    $horaTotal = "0" . $horaTotal;
+                }
 
-            $final = $horaTotal . ":" . $minutoTotal;
+                $final = $horaTotal . ":" . $minutoTotal;
 
 
 
-        return $final;
-
+            return $final;
+        }
+        return '';
 
     }
 
     function calcularHora($entrada, $saida){
         $hora1 = explode(":",$entrada);
         $hora2 = explode(":",$saida);
-        $horaTotal = ((intval($hora2[0])*60) + intval($hora2[1])) - ((intval($hora1[0])*60) + intval($hora1[1]));
-
-        $horaTotall = floor($horaTotal/60);
-        $minutoTotal = $horaTotal%60;
-
-        if (strlen($minutoTotal) == 1) {
+        if (sizeof($hora1) > 1 && sizeof($hora2) > 1){
+            $horaTotal = ((intval($hora2[0])*60) + intval($hora2[1])) - ((intval($hora1[0])*60) + intval($hora1[1]));
+    
+            $horaTotall = floor($horaTotal/60);
+            $minutoTotal = $horaTotal%60;
+    
+            if (strlen($minutoTotal) == 1) {
                 $minutoTotal = "0" . $minutoTotal;
             }
-
+    
             if (strlen($horaTotall) == 1) {
                 $horaTotal = "0" . $horaTotal;
             }
-
+    
             $final = $horaTotall . ":" . $minutoTotal;
+            return $final;
+        }
 
-        return $final;
+        return '';
     }
 
     function geraChave($cpf, $tamanho = 8, $maiusculas = true, $numeros = true, $simbolos = false)
@@ -182,31 +188,38 @@ class FuncionarioControle
 
             $diasMultiplicados = count($diasTrabalhados);
 
-            $arrayHorasDiarias = explode(":", $total);
-            $minutosDiarios = intval($arrayHorasDiarias[0])*60 + intval($arrayHorasDiarias[1]);
+            if ($total){
+                $arrayHorasDiarias = explode(":", $total);
+                $minutosDiarios = intval($arrayHorasDiarias[0])*60 + intval($arrayHorasDiarias[1]);
+                $minutosDiarios = $minutosDiarios * $diasMultiplicados;
+                $minutosDiarios = $minutosDiarios * 4;
+    
+                $horaTotal = floor($minutosDiarios/60);
+                $minutoTotal = $minutosDiarios%60;
 
-            $minutosDiarios = $minutosDiarios * $diasMultiplicados;
-            $minutosDiarios = $minutosDiarios * 4;
-
-            $horaTotal = floor($minutosDiarios/60);
-            $minutoTotal = $minutosDiarios%60;
-
-            if (strlen($minutoTotal) == 1) {
-                $minutoTotal = "0" . $minutoTotal;
+                if (strlen($minutoTotal) == 1) {
+                    $minutoTotal = "0" . $minutoTotal;
+                }
+    
+                if (strlen($horaTotal) == 1) {
+                    $horaTotal = "0" . $horaTotal;
+                }
+    
+                $carga_horaria = $horaTotal . ":" . $minutoTotal;
+    
+                
+                if(isset($plantao)) {
+                    $dias_trabalhados = $plantao;
+                    $carga_horaria = 174;
+                }
+                
+            }else{
+                $dias_trabalhados = null;
+                $carga_horaria = null;
             }
-
-            if (strlen($horaTotal) == 1) {
-                $horaTotal = "0" . $horaTotal;
-            }
-
-            $carga_horaria = $horaTotal . ":" . $minutoTotal;
-
+            
             $dias_trabalhados = implode(",", $diasTrabalhados);
 
-            if(isset($plantao)) {
-                $dias_trabalhados = $plantao;
-                $carga_horaria = 174;
-            }
 
         $horario = new QuadroHorario();
 

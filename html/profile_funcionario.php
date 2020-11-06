@@ -1,5 +1,8 @@
 <?php
   session_start();
+  
+  require_once "../dao/Conexao.php";
+  $pdo = Conexao::connect();
   if(!isset($_SESSION['usuario'])){
     header ("Location: ../index.php");
   }else if(!isset($_SESSION['funcionario'])) {
@@ -19,6 +22,13 @@
       unset($_SESSION['funcionario']);
       unset($_SESSION['beneficio']);
       unset($_SESSION['epi']);
+
+      // Adiciona Descrição de escala e tipo
+
+      $func = json_decode($func)[0];
+      $func->tipo_descricao = $pdo->query("SELECT descricao FROM tipo_quadro_horario WHERE id_tipo=".$func->tipo)->fetch(PDO::FETCH_ASSOC)['descricao'];
+      $func->escala_descricao = $pdo->query("SELECT descricao FROM escala_quadro_horario WHERE id_escala=".$func->escala)->fetch(PDO::FETCH_ASSOC)['descricao'];
+      $func = json_encode([$func]);
       
   } 
   $config_path = "config.php";
@@ -67,6 +77,7 @@
 
 	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
   require_once "personalizacao_display.php";
+  require_once "../dao/Conexao.php";
   require_once ROOT."/controle/FuncionarioControle.php";
   $cpf = new FuncionarioControle;
   $cpf->listarCPF();
@@ -357,12 +368,12 @@
               $("#radioF").prop('checked',true).prop('disabled', true);
               }
            
-              if(item.imagem!=""){
-                $("#imagem").attr("src","data:image/gif;base64,"+item.imagem);
-              }
-              else{
-                $("#imagem").attr("src", "../img/semfoto.png");
-              }
+              // if(item.imagem!=""){
+              //   $("#imagem").attr("src","data:image/gif;base64,"+item.imagem);
+              // }
+              // else{
+              //   $("#imagem").attr("src", "../img/semfoto.png");
+              // }
          
               $("#telefone").val(item.telefone).prop('disabled', true);
               $("#nascimento").val(alterardate(item.data_nascimento)).prop('disabled', true);
@@ -412,20 +423,20 @@
                 $("#cargo").val(item.id_cargo).prop('disabled', true);
 
                 //CARGA HORÁRIA
-                $("#escala").text("Escala: "+item.escala);
-                $("#tipo").text("Tipo: "+item.tipo);
-                $("#dias_trabalhados").text("Dias trabalhados: "+item.dias_trabalhados);
+                $("#escala").text("Escala: "+(item.escala || "Sem informação"));
+                $("#tipo").text("Tipo: "+(item.tipo || "Sem informação"));
+                $("#dias_trabalhados").text("Dias trabalhados: "+(item.dias_trabalhados || "Não informado"));
                 if(item.dias_trabalhados=="Plantão")
                 {
-                  $("#dias_trabalhados").text("Dias trabalhados: "+item.dias_trabalhados+" 12/36");
+                  $("#dias_trabalhados").text("Dias trabalhados: "+(item.dias_trabalhados || "Sem informação")+" 12/36");
                 }
-                $("#dias_folga").text("Dias de folga: "+item.folga);
-                $("#entrada1").text("Primeira entrada: "+item.entrada1);
-                $("#saida1").text("Primeira Saída: "+item.saida1);
-                $("#entrada2").text("Segunda entrada: "+item.entrada2);
-                $("#saida2").text("Segunda saída: "+item.saida2);
-                $("#total").text("Carga horária diária: "+item.total);
-                $("#carga_horaria_mensal").text("Carga horária mensal: "+item.carga_horaria);
+                $("#dias_folga").text("Dias de folga: "+(item.folga || "Não informado"));
+                $("#entrada1").text("Primeira entrada: "+(item.entrada1 || "Não informado"));
+                $("#saida1").text("Primeira Saída: "+(item.saida1 || "Não informado"));
+                $("#entrada2").text("Segunda entrada: "+(item.entrada2 || "Não informado"));
+                $("#saida2").text("Segunda saída: "+(item.saida2 || "Não informado"));
+                $("#total").text("Carga horária diária: "+(item.total || "Sem informação"));
+                $("#carga_horaria_mensal").text("Carga horária mensal: "+(item.carga_horaria || "Sem informação"));
 
                 $("#escala_input").val(item.escala);
                 $("#tipoCargaHoraria_input").val(item.tipo);
@@ -930,7 +941,7 @@
                                       $foto = 'data:image;base64,'.$foto;
                                     else $foto = WWW."img/semfoto.png";
                                   }
-                                  echo "<img id='imagem' class='rounded img-responsive' alt='John Doe'>";
+                                  echo "<img src='$foto' id='imagem' class='rounded img-responsive' alt='John Doe'>";
 
                                  ?>
                               <i class="fas fa-camera-retro btn btn-info btn-lg" data-toggle="modal" data-target="#myModal"></i>
@@ -1516,26 +1527,38 @@
                           <section class="panel">
                             <form class="form-horizontal" method="post" action="../controle/control.php">
                               <h4 class="mb-xlg doch4">Carga Horária</h4>
+                              
                               <div class="form-group">
                                 <label class="col-md-3 control-label" >Escala</label>
                                 <div class="col-md-6">
                                   <select class="form-control input-lg mb-md" name="escala" id="escala_input">
                                     <option selected disabled>Selecionar</option>
-                                    <option value="Plantonista">Plantonista</option>
-                                    <option value="Diarista">Diarista</option>
+                                    <?php
+                                      $pdo = Conexao::connect();
+                                      $escala = $pdo->query("SELECT * FROM escala_quadro_horario;")->fetchAll(PDO::FETCH_ASSOC);
+                                      foreach ($escala as $key => $value) {
+                                        echo("<option value=".$value["id_escala"].">".$value["id_escala"]." | ".$value["descricao"]."</option>");
+                                      }
+                                    ?>
                                   </select>
                                 </div>
+                                <!-- <a href="adicionar_escala.php"><i class="fas fa-plus w3-xlarge"></i></a> -->
                               </div>
                               <div class="form-group">
                                 <label class="col-md-3 control-label">Tipo</label>
-                                  <div class="col-md-6">
-                                    <select class="form-control input-lg mb-md" name="tipoCargaHoraria" id="tipoCargaHoraria_input">
-                                      <option selected disabled>Selecionar</option>
-                                      <option value="Mensalista">Mensalista</option>
-                                      <option value="Diarista">Diarista</option>
-                                      <option value="Horista">Horista</option>
-                                    </select>
-                                  </div>
+                                <div class="col-md-6">
+                                  <select class="form-control input-lg mb-md" name="tipoCargaHoraria" id="tipoCargaHoraria_input">
+                                    <option selected disabled>Selecionar</option>
+                                    <?php
+                                      $pdo = Conexao::connect();
+                                      $tipo = $pdo->query("SELECT * FROM tipo_quadro_horario;")->fetchAll(PDO::FETCH_ASSOC);
+                                      foreach ($tipo as $key => $value) {
+                                        echo("<option value=".$value["id_tipo"].">".$value["id_tipo"]." | ".$value["descricao"]."</option>");
+                                      }
+                                    ?>
+                                  </select>
+                                </div>
+                                <!-- <a href="adicionar_tipo_quadro_horario.php"><i class="fas fa-plus w3-xlarge"></i></a> -->
                               </div>
                               <div class="form-group">
                                 <label class="col-md-3 control-label" >Primeira entrada</label>
@@ -1640,6 +1663,7 @@
                                 <div class="panel-footer">
                                   <div class="row">
                                     <div class="col-md-9 col-md-offset-3">
+
                                       <input type="hidden" name="nomeClasse" value="FuncionarioControle">
                                       <input type="hidden" name="metodo" value="alterarCargaHoraria">
                                       <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?> >
