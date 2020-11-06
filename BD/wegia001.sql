@@ -925,6 +925,8 @@ CREATE TABLE IF NOT EXISTS `wegia`.`log_contribuicao` (
   `valor_boleto` DECIMAL(10,2) NOT NULL,
   `data_venc_boleto` DATE NOT NULL,
   `id_sociotipo` INT NOT NULL,
+  `referencia` VARCHAR(255) UNIQUE KEY,
+  `status` VARCHAR(255) NOT NULL,
   INDEX `id_sistema` (`id_sistema` ASC),
   INDEX `FK_socio_log` (`id_socio` ASC),
   CONSTRAINT `FK_socio_log`

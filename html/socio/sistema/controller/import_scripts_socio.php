@@ -1,6 +1,7 @@
 <script src="controller/script/socio.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+<script src="./controller/script/jquery.inputmask.js"></script>
 <script>
 var ctx1 = document.getElementById('grafico1').getContext('2d');
 var grafico1 = new Chart(ctx1, {

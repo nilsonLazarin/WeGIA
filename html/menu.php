@@ -139,6 +139,9 @@ if(file_exists($config_path)){
 								<a href="<?= WWW ?>html/socio/">
 									 Lista de sócios
 								</a>
+								<a href="<?= WWW ?>html/socio/sistema/psocio_geracao.php">
+									 Gerar carnê/boleto para sócio
+								</a>
 							</li>
 						</ul>
 					</li>
@@ -171,6 +174,11 @@ if(file_exists($config_path)){
 							<li id="45">
 								<a href="<?= WWW ?>html/geral/editar_permissoes.php">
 									Permissões
+								</a>
+							</li>
+							<li id="47">
+								<a href="<?= WWW ?>html/geral/cargos.php">
+									Cargos
 								</a>
 							</li>
 							<li id="46">

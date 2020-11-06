@@ -12,14 +12,17 @@ $(document).ready(function(){
                 if(linha['CPF/CNPJ'].length == 14){
                     var pessoa = "fisica";
                 }else var pessoa = "juridica";
-                if (typeof linha['EMAIL'] == 'undefined') {
+                if (typeof linha['EMAIL'] == 'undefined' || linha['EMAIL'] == '' || linha['EMAIL'] == undefined || typeof linha['EMAIL'] == undefined) {
                     var email = "";
                 }else var email = linha['EMAIL'];
                 if (typeof linha['COMPLEMENTO'] == 'undefined') {
                     var complemento = "";
                 }else var complemento = linha['COMPLEMENTO'];
                 var data_nasc = "imp";
-                var telefone = linha['TELEFONE'].replace(" ", "");
+                if(typeof linha['TELEFONE'] == 'undefined'){
+                    var telefone = '';
+                }else var telefone = linha['TELEFONE'].replace(" ", "");
+                
                 
 
                 var dados = {

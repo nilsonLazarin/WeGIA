@@ -186,10 +186,11 @@ function cadastra_socio()
     }
 }
 
-function cad_log(socioTipo)
+function cad_log(socioTipo, reference)
 {
     var id_sistema = $("#id_sistema").val();
 
+    var reference = reference;
     var socioTipo = socioTipo;
     var horadata = new Date();
     var horaAtual = horadata.getHours();
@@ -212,8 +213,9 @@ function cad_log(socioTipo)
     }else{
         doc = $("#dcnpj").val();
     }
-    $.post("./php/cadastroLog.php",{'hora':hora, 'valor_doacao':valor_contribuicao, 'dataV':data_vencimento, 'email':email, 'doc':doc, 'sistema':id_sistema, 'socioTipo': socioTipo}).done(function(data){console.log(data);});
+    $.post("./php/cadastroLog.php",{'hora':hora, 'valor_doacao':valor_contribuicao, 'dataV':data_vencimento, 'email':email, 'doc':doc, 'sistema':id_sistema, 'socioTipo': socioTipo, 'referencia':reference}).done(function(data){console.log(data);});
 }
+
 
 function dataVencimento()
 {       

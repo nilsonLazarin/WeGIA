@@ -37,8 +37,8 @@
 
 		<!-- Skin CSS -->
 		<link rel="stylesheet" href="./assets/stylesheets/skins/default.css" />
-
-
+		
+		
 		<!-- Theme Custom CSS -->
 		<link rel="stylesheet" href="./css/index-theme.css"/>
 
@@ -54,7 +54,8 @@
 			 	if (erro!='erro') {
 			 		
 			 		alert('Senha e/ou cpf inválido');
-			 	}
+				 }
+				 
 		</script>
 
 	</head>
@@ -103,7 +104,7 @@
 							</span>
 						</span>
 					</div>
-					<a href="./html/esqueceu_senha.php">Esqueceu sua Senha?</a>
+					<a href="./html/alterar_senha.php">Esqueceu sua Senha?</a>
 				</div>
 			</div>
 			<input type="submit" value="Entrar" class="btn btn-primary hidden-xs entrar"></input>

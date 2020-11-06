@@ -205,7 +205,7 @@
                             <div class="form-group">
                               <label class="col-md-3 control-label" for="telefone">Telefone<sup class="obrig">*</sup></label>
                               <div class="col-md-8">
-                                <input type="text" class="form-control" maxlength="14" minlength="14" name="telefone" id="telefone" id="telefone" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeyup="mascara('(##)#####-####',this,event)" required>
+                                <input type="text" class="form-control" maxlength="14" minlength="14" name="telefone" id="telefone" id="telefone" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeyup="mascara('(##)#####-####',this,event)">
                               </div>
                             </div>
                             <div class="form-group">
