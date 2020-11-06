@@ -45,11 +45,17 @@
 				<!-- Head Libs -->
 		<script src="./assets/vendor/modernizr/modernizr.js"></script>
 
-
+		<?php
+			if (isset($_GET['erro'])){
+				$erro = $_GET['erro'];
+			}else{
+				$erro = "";
+			}			
+		?>
 		<script>
 
-			
-				var erro = <?php echo $_GET['erro'];?>;
+
+				var erro = <?php echo $erro;?>;
 
 			 	if (erro!='erro') {
 			 		
@@ -104,7 +110,7 @@
 							</span>
 						</span>
 					</div>
-					<a href="./html/alterar_senha.php">Esqueceu sua Senha?</a>
+					<a href="./html/esqueceu_senha.php">Esqueceu sua Senha?</a>
 				</div>
 			</div>
 			<input type="submit" value="Entrar" class="btn btn-primary hidden-xs entrar"></input>
@@ -175,7 +181,7 @@
 		
 	</div>
       <!-- Vendor -->
-<script src="../assets/vendor/select2/select2.js"></script>
+<script src="./assets/vendor/select2/select2.js"></script>
 		<script src="./assets/vendor/jquery-datatables/media/js/jquery.dataTables.js"></script>
 		<script src="./assets/vendor/jquery-datatables/extras/TableTools/js/dataTables.tableTools.min.js"></script>
 		<script src="./assets/vendor/jquery-datatables-bs3/assets/js/datatables.js"></script>

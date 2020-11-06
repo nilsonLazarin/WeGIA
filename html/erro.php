@@ -79,7 +79,7 @@
     .select-table-filter{
       width: 140px;
       float: left;
-    }-->
+    }
   </style>
 </head>
 <body>
