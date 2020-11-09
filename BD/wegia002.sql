@@ -3,6 +3,7 @@ use wegia;
 INSERT INTO `pessoa` (`id_pessoa`, `cpf`, `senha`, `nome`) VALUES (NULL, 'admin', '9dcc9cbd309bfe63101c96687fb79ca847e9f238ce965f82eb44e8daf825cdbb', 'admin');
 
 INSERT INTO `cargo`(`id_cargo`, `cargo`) VALUES (1,'Administrador');
+INSERT INTO `cargo`(`id_cargo`, `cargo`) VALUES (2,'SEM CARGO');
 
 INSERT INTO `situacao` (`situacoes`) VALUES ('Ativo'), ('Inativo');
 

@@ -128,6 +128,7 @@ require_once ROOT."/html/personalizacao_display.php";
             var cargo = response;
             $('#tabela').empty();
             $.each(cargo,function(i,item){
+			  if(item.id_cargo != 1 && item.id_cargo != 2)
               $('#tabela').append(`<tr><td>${item.id_cargo}</td><td><input id='${item.id_cargo}' type='text' value='${item.cargo}'></td><td><a id='a_${item.id_cargo}' class='btn btn-primary' href='salvar_cargo.php?id_cargo=${item.id_cargo}&value='>Salvar</a><td><a class='btn btn-danger' href='deletar_cargo.php?id_cargo=${item.id_cargo}'>Deletar</a></td></tr>`);
             });
           },
@@ -226,6 +227,7 @@ require_once ROOT."/html/personalizacao_display.php";
                                         {
 											$id_cargo = $row['id_cargo'];
 											$cargo = $row['cargo'];
+											if($id_cargo != 1 && $id_cargo != 2)
                                             echo "<tr><td>$id_cargo</td><td><input id='$id_cargo' type='text' value='$cargo'></td><td><a id='a_$id_cargo' class='btn btn-primary' href='salvar_cargo.php?id_cargo=$id_cargo&value='>Salvar</a><td><a class='btn btn-danger' href='deletar_cargo.php?id_cargo=$id_cargo'>Deletar</a></td></tr>";
                                         }         
 									?>
@@ -257,7 +259,15 @@ require_once ROOT."/html/personalizacao_display.php";
                     console.log($(this).val());
                     var id = this.id;
                     $("#a_"+id).attr("href", `salvar_cargo.php?id_cargo=${id}&value=${$(this).val()}`)
-                })
+				})
+				
+				setInterval(function(){
+					$("input").change(function(){
+						console.log($(this).val());
+						var id = this.id;
+						$("#a_"+id).attr("href", `salvar_cargo.php?id_cargo=${id}&value=${$(this).val()}`)
+					})
+				}, 300)
             })
       </script>
 	  <script>
