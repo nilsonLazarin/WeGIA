@@ -20,6 +20,7 @@ require_once ROOT."/html/personalizacao_display.php";
 	$conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 	$id_pessoa = $_SESSION['id_pessoa'];
 	$resultado = mysqli_query($conexao, "SELECT `imagem`, `nome` FROM `pessoa` WHERE id_pessoa=$id_pessoa");
+	$cargo = mysqli_fetch_assoc(mysqli_query($conexao, "SELECT c.cargo FROM pessoa p join funcionario f on f.id_pessoa = p.id_pessoa join cargo c on c.id_cargo = f.id_cargo WHERE p.id_pessoa = $id_pessoa"))['cargo'];
 	$pessoa = mysqli_fetch_array($resultado);
 ?>
 
@@ -52,7 +53,7 @@ require_once ROOT."/html/personalizacao_display.php";
 				</figure>
 				<div class="profile-info" data-lock-name="John Doe" data-lock-email="johndoe@okler.com">
 					<span class="name"><?php echo($pessoa['nome']); ?></span>
-					<span class="role">Funcionário</span>
+					<span class="role"><?php echo($cargo); ?></span>
 				</div>
 				<i class="fa custom-caret"></i>
 			</a>

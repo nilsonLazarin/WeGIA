@@ -105,7 +105,10 @@
           <label for="pessoa">Contribuinte</label>
           <select class="form-control" name="contribuinte" id="contribuinte">
                     <option value="mensal">Mensal</option>
-                    <option value="casual">Casual</option>
+                    <option value="bimestral">Bimestral</option>
+                    <option value="trimestral">Trimestral</option>
+                    <option value="semestral">Semestral</option>
+                    <option value="casual">Casual (avulso)</option>
                     <option value="si">Sem informação</option>
           </select>
         </div>
@@ -210,6 +213,15 @@
               break;
           case 2: case 3:
               $("#contribuinte").val("mensal");
+              break;
+          case 6: case 7:
+              $("#contribuinte").val("bimestral");
+              break;
+          case 8: case 9:
+              $("#contribuinte").val("trimestral");
+              break;
+          case 10: case 11:
+              $("#contribuinte").val("semestral");
               break;
           default:
               $("#contribuinte").val("si");

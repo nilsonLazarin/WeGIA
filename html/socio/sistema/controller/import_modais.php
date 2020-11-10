@@ -60,10 +60,13 @@
         </div>
         <div class="row">
         <div class="form-group col-xs-4">
-          <label for="pessoa">Contribuinte</label>
+          <label for="pessoa">Periodiciade (Contribuinte)</label>
           <select class="form-control" name="contribuinte" id="contribuinte">
                     <option value="mensal">Mensal</option>
-                    <option value="casual">Casual</option>
+                    <option value="bimestral">Bimestral</option>
+                    <option value="trimestral">Trimestral</option>
+                    <option value="semestral">Semestral</option>
+                    <option value="casual">Casual (avulso)</option>
           </select>
         </div>
         <div class="form-group col-xs-4">

@@ -19,18 +19,38 @@
     $id_pessoa = mysqli_fetch_array(mysqli_query($conexao, "SELECT id_pessoa FROM socio WHERE id_socio = $id_socio"))['id_pessoa'];
     if($resultado = mysqli_query($conexao, "UPDATE `pessoa` SET `cpf` = '$cpf_cnpj', `nome` = '$socio_nome', `telefone` = '$telefone', `data_nascimento` = '$data_nasc', `cep` = '$cep', `estado` = '$estado', `cidade` = '$cidade', `bairro` = '$bairro', `logradouro` = '$rua', `numero_endereco` = '$numero', `complemento` = '$complemento' WHERE id_pessoa = $id_pessoa")){
         switch($pessoa){
-            case "juridica": if($contribuinte == "mensal"){
+            case "juridica": 
+            if($contribuinte == "mensal"){
                 $id_sociotipo = 3;
-            }else{
+            }else if($contribuinte == "casual"){
                 $id_sociotipo = 1;
-            }if($contribuinte == null || $contribuinte == "si"){
+            }else if($contribuinte == "bimestral"){
+                $id_sociotipo = 7;
+            }else if($contribuinte == "trimestral"){
+                $id_sociotipo = 9;
+            }else if($contribuinte == "semestral"){
+                $id_sociotipo = 11;
+            }
+            
+            if($contribuinte == null || $contribuinte == "si" || $contribuinte == ""){
                 $id_sociotipo = 5;
             }  break;
-            case "fisica": if($contribuinte == "mensal"){
+
+            case "fisica": 
+            if($contribuinte == "mensal"){
                 $id_sociotipo = 2;
-            } else{
+            }else if($contribuinte == "casual"){
                 $id_sociotipo = 0;
-            }if($contribuinte == null || $contribuinte == "si"){
+            }else if($contribuinte == "bimestral"){
+                $id_sociotipo = 6;
+            }else if($contribuinte == "trimestral"){
+                $id_sociotipo = 8;
+            }else if($contribuinte == "semestral"){
+                $id_sociotipo = 10;
+            }
+            
+            
+            if($contribuinte == null || $contribuinte == "si" || $contribuinte == ""){
                 $id_sociotipo = 4;
             }  break;
         }

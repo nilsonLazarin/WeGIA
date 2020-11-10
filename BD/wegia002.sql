@@ -33,7 +33,13 @@ INSERT INTO `socio_tipo` (`id_sociotipo`, `tipo`) VALUES
 (2, 'Pessoa Física - Contribuinte Mensal'),
 (3, 'Pessoa Jurídica - Contribuinte Mensal'),
 (4, 'Pessoa Física - Sem informação'),
-(5, 'Pessoa Jurídica - Sem informação');
+(5, 'Pessoa Jurídica - Sem informação'),
+(6, 'Pessoa Física - Contribuinte Bimestral'),
+(7, 'Pessoa Jurídica - Contribuinte Bimestral'),
+(8, 'Pessoa Física - Contribuinte Trimestral'),
+(9, 'Pessoa Jurídica - Contribuinte Trimestral'),
+(10, 'Pessoa Física - Contribuinte Semestral'),
+(11, 'Pessoa Jurídica - Contribuinte Semestral');
 
 INSERT INTO `socio_status` (`id_sociostatus`, `status`) VALUES
 (0, 'Ativo'),
