@@ -402,7 +402,13 @@ class FuncionarioDAO
     public function listar($id_funcionario){
         try{
             $pdo = Conexao::connect();
-            $sql = "SELECT p.imagem,p.nome,p.sobrenome,p.cpf,p.senha,p.sexo,p.telefone,p.data_nascimento,p.cep,p.ibge,p.estado,p.cidade,p.bairro,p.logradouro,p.numero_endereco,p.complemento,p.ibge,p.registro_geral,p.orgao_emissor,p.data_expedicao,p.nome_pai,p.nome_mae,p.tipo_sanguineo,f.id_funcionario,f.data_admissao,f.pis,f.ctps,f.uf_ctps,f.numero_titulo,f.zona,f.secao,f.certificado_reservista_numero,f.certificado_reservista_serie,s.id_situacao,s.situacoes,c.id_cargo,c.cargo,qh.escala,qh.tipo,qh.carga_horaria,qh.entrada1,qh.saida1,qh.entrada2,qh.saida2,qh.total,qh.dias_trabalhados,qh.folga FROM pessoa p INNER JOIN funcionario f ON p.id_pessoa = f.id_pessoa INNER JOIN quadro_horario_funcionario qh ON qh.id_funcionario = f.id_funcionario INNER JOIN situacao s ON s.id_situacao = f.id_situacao INNER JOIN cargo c ON c.id_cargo = f.id_cargo WHERE f.id_funcionario = :id_funcionario";
+            $sql = "SELECT p.imagem,p.nome,p.sobrenome,p.cpf,p.senha,p.sexo,p.telefone,p.data_nascimento,p.cep,p.ibge,p.estado,p.cidade,p.bairro,p.logradouro,p.numero_endereco,p.complemento,p.ibge,p.registro_geral,p.orgao_emissor,p.data_expedicao,p.nome_pai,p.nome_mae,p.tipo_sanguineo,f.id_funcionario,f.data_admissao,f.pis,f.ctps,f.uf_ctps,f.numero_titulo,f.zona,f.secao,f.certificado_reservista_numero,f.certificado_reservista_serie,s.id_situacao,s.situacoes,c.id_cargo,c.cargo,qh.escala,qh.tipo,qh.carga_horaria,qh.entrada1,qh.saida1,qh.entrada2,qh.saida2,qh.total,qh.dias_trabalhados,qh.folga 
+            FROM pessoa p 
+            INNER JOIN funcionario f ON p.id_pessoa = f.id_pessoa 
+            LEFT JOIN quadro_horario_funcionario qh ON qh.id_funcionario = f.id_funcionario 
+            LEFT JOIN situacao s ON s.id_situacao = f.id_situacao 
+            LEFT JOIN cargo c ON c.id_cargo = f.id_cargo 
+            WHERE f.id_funcionario = :id_funcionario";
            
 
             $stmt = $pdo->prepare($sql);

@@ -24,11 +24,17 @@
       unset($_SESSION['epi']);
 
       // Adiciona Descrição de escala e tipo
-
-      $func = json_decode($func)[0];
-      $func->tipo_descricao = $pdo->query("SELECT descricao FROM tipo_quadro_horario WHERE id_tipo=".$func->tipo)->fetch(PDO::FETCH_ASSOC)['descricao'];
-      $func->escala_descricao = $pdo->query("SELECT descricao FROM escala_quadro_horario WHERE id_escala=".$func->escala)->fetch(PDO::FETCH_ASSOC)['descricao'];
-      $func = json_encode([$func]);
+      $func = json_decode($func);
+      if ($func){
+        $func = $func[0];
+        if ($func->tipo){
+          $func->tipo_descricao = $pdo->query("SELECT descricao FROM tipo_quadro_horario WHERE id_tipo=".$func->tipo)->fetch(PDO::FETCH_ASSOC)['descricao'];
+        }
+        if ($func->escala){
+          $func->escala_descricao = $pdo->query("SELECT descricao FROM escala_quadro_horario WHERE id_escala=".$func->escala)->fetch(PDO::FETCH_ASSOC)['descricao'];
+        }
+        $func = json_encode([$func]);
+      }
       
   } 
   $config_path = "config.php";
@@ -353,7 +359,7 @@
             var funcionario = <?= $func ?>;
             $.each(funcionario,function(i,item){
               //Informações pessoais
-              console.log(funcionario)
+              // console.log(funcionario)
               $("#nomeForm").val(item.nome).prop('disabled', true);
               $("#sobrenomeForm").val(item.sobrenome).prop('disabled', true);
               if(item.sexo=="m"){
@@ -445,8 +451,8 @@
                 $("#entrada2_input").val(item.entrada2);
                 $("#saida2_input").val(item.saida2);
 
-                var dia_trabalhado = item.dias_trabalhados.split(",");
-                var dia_folga = item.folga.split(",");
+                var dia_trabalhado = (item.dias_trabalhados ? item.dias_trabalhados.split(",") : []);
+                var dia_folga = (item.folga ? item.folga.split(",") : []);
                 for (var i = 0; i<dia_trabalhado.length; i++)
                 {
                     $("#diaTrabalhado_"+dia_trabalhado[i]).prop("checked", true);
@@ -742,7 +748,7 @@
 
             data = 'situacao=' +situacao; 
 
-            console.log(data);
+            // console.log(data);
             $.ajax({
             type: "POST",
             url: url,
@@ -780,7 +786,7 @@
           if(cargo == ''){return}              
           
             data = 'cargo=' +cargo; 
-            console.log(data);
+            // console.log(data);
             $.ajax({
             type: "POST",
             url: url,
@@ -819,7 +825,7 @@
           situacao = beneficios.trim();
           if(beneficios == ''){return}  
             data = 'beneficios=' +beneficios; 
-            console.log(data);
+            // console.log(data);
             $.ajax({
             type: "POST",
             url: url,
@@ -857,7 +863,7 @@
         situacao = descricao_epi.trim();
         if(descricao_epi == ''){return}  
           data = 'descricao_epi=' +descricao_epi; 
-          console.log(data);
+          // console.log(data);
           $.ajax({
           type: "POST",
           url: url,
@@ -1532,7 +1538,7 @@
                                 <label class="col-md-3 control-label" >Escala</label>
                                 <div class="col-md-6">
                                   <select class="form-control input-lg mb-md" name="escala" id="escala_input">
-                                    <option selected disabled>Selecionar</option>
+                                    <option selected disabled value="">Selecionar</option>
                                     <?php
                                       $pdo = Conexao::connect();
                                       $escala = $pdo->query("SELECT * FROM escala_quadro_horario;")->fetchAll(PDO::FETCH_ASSOC);
@@ -1548,7 +1554,7 @@
                                 <label class="col-md-3 control-label">Tipo</label>
                                 <div class="col-md-6">
                                   <select class="form-control input-lg mb-md" name="tipoCargaHoraria" id="tipoCargaHoraria_input">
-                                    <option selected disabled>Selecionar</option>
+                                    <option selected disabled value="">Selecionar</option>
                                     <?php
                                       $pdo = Conexao::connect();
                                       $tipo = $pdo->query("SELECT * FROM tipo_quadro_horario;")->fetchAll(PDO::FETCH_ASSOC);
