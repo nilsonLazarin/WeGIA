@@ -680,6 +680,31 @@ CREATE TABLE IF NOT EXISTS `wegia`.`quadro_horario_funcionario` (
 ENGINE = InnoDB;
 
 
+
+-- -----------------------------------------------------
+-- Table `wegia`.`escala_quadro_horario`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `escala_quadro_horario`;
+CREATE TABLE IF NOT EXISTS `escala_quadro_horario` (
+  `id_escala` int(11) NOT NULL AUTO_INCREMENT,
+  `descricao` varchar(200) NOT NULL,
+  PRIMARY KEY (`id_escala`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+
+-- -----------------------------------------------------
+-- Table `wegia`.`tipo_quadro_horario`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `tipo_quadro_horario`;
+CREATE TABLE IF NOT EXISTS `tipo_quadro_horario` (
+  `id_tipo` int(11) NOT NULL AUTO_INCREMENT,
+  `descricao` varchar(200) NOT NULL,
+  PRIMARY KEY (`id_tipo`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+COMMIT;
+
+
 -- -----------------------------------------------------
 -- Table `wegia`.`voluntario`
 -- -----------------------------------------------------
