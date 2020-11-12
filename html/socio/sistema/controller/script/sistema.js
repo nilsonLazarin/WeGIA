@@ -1,4 +1,109 @@
 $(document).ready(function(){
+    // Cadastro de cobraças/sócios/pessoa
+    function cadastro_cobrancas_socio_xlsx(tabela){
+        log = {
+            cadastrados: tabela.length,
+            html_log: ""
+        };
+        for(linha of tabela){
+            if(valida_cpf_cnpj(linha['CPF/CNPJ Cliente'])){
+                
+                if(linha['CPF/CNPJ Cliente'].length == 14){
+                    var pessoa = "fisica";
+                }else var pessoa = "juridica";
+                if (typeof linha['E-mail'] == 'undefined') {
+                    var email = "";
+                }else var email = linha['E-mail'];
+                if(typeof linha['Telefone'] == 'undefined'){
+                    var telefone = '';
+                }else var telefone = linha['Telefone'];
+                if(typeof linha['Descrição'] == 'undefined'){
+                    var descricao = '';
+                }else var descricao = linha['Descrição'];
+                if(typeof linha['Emissão'] == 'undefined'){
+                    var data_emissao = '';
+                }else var data_emissao = linha['Emissão'];
+                if(typeof linha['Vencimento'] == 'undefined'){
+                    var data_vencimento = '';
+                }else var data_vencimento = linha['Vencimento'];
+                if(typeof linha['Valor'] == 'undefined'){
+                    var valor = '';
+                }else var valor = linha['Valor'];
+                if(typeof linha['Valor Pago'] == 'undefined'){
+                    var valor_pago = '';
+                }else var valor_pago = linha['Valor Pago'];
+                if(typeof linha['Data Pgto.'] == 'undefined'){
+                    var data_pgto = '';
+                }else var data_pgto = linha['Data Pgto.'];
+                if(typeof linha['Link da Cobrança'] == 'undefined'){
+                    var link_cobranca = '';
+                }else var link_cobranca = linha['Link da Cobrança'];
+                if(typeof linha['Link do Boleto'] == 'undefined'){
+                    var link_boleto = '';
+                }else var link_boleto = linha['Link do Boleto'];
+                if(typeof linha['Linha Digitável'] == 'undefined'){
+                    var linha_digitavel = '';
+                }else var linha_digitavel = linha['Linha Digitável'];
+                if(typeof linha['Código'] == 'undefined'){
+                    var codigo = '';
+                }else var codigo = linha['Código'];
+                if(typeof linha['Status'] == 'undefined'){
+                    var status = '';
+                }else var status = linha['Status'];
+                
+                
+                
+                
+
+                var dados = {
+                    "socio_nome": linha['Nome Cliente'],
+                    "pessoa": pessoa,
+                    "email": email,
+                    "telefone": telefone,
+                    "cpf_cnpj": linha['CPF/CNPJ Cliente'],
+                    "descricao": descricao,
+                    "data_emissao": data_emissao,
+                    "data_vencimento": data_vencimento,
+                    "data_pagamento": data_pgto,
+                    "valor": valor,
+                    "valor_pago": valor_pago,
+                    "link_cobranca": link_cobranca,
+                    "link_boleto": link_boleto,
+                    "linha_digitavel": linha_digitavel,
+                    "status": status,
+                    "codigo": codigo
+                };
+                // var dados = JSON.stringify(dados);
+
+                $.ajax({
+                    async: false,
+                    url: "cadastro_cobranca.php",
+                    data: dados,
+                    type: "POST",
+                        success: function (resp) {
+                            var r = JSON.parse(resp);
+                          if (r) {
+                            log.html_log += "<p style='margin: 0.2em' class='text-green'> <b>[CADASTRADO]</b> - "+ linha['NOME/RAZÃO SOCIAL'] + "</p> ";
+                          } else {
+                            log.cadastrados--;
+                            log.html_log += "<p style='margin: 0.2em' class='text-danger'> <b>[ERRO: POSSUI CAD/ARQUIVO MAL FORMATADO.]</b> - "+ linha['NOME/RAZÃO SOCIAL'] + " </p>";
+                          }
+                        },
+                        error: function (e) {
+                          log.cadastrados--;
+                          log.html_log += "<p style='margin: 0.2em' class='danger'> <b>[ERRO: CON.]</b> - "+ linha['NOME/RAZÃO SOCIAL'] + " </p>";
+                          console.dir(e);
+                        }
+                  });
+            }else{
+                console.log("erro cpf");
+                log.cadastrados--;
+                log.html_log += "<p style='margin: 0.2em' class='text-danger'> <b>[ERRO: CPF/CNPJ]</b> - "+ linha['NOME/RAZÃO SOCIAL'] + " </p>";
+            }
+        }
+        log.html_log = "Total cadastrados = "+ log.cadastrados +"/"+tabela.length+log.html_log;
+        return log;
+    }
 
     // Função de cadastro de sócios
     function cadastro_socios_xlsx(tabela){
@@ -426,6 +531,36 @@ $(document).ready(function(){
             }
         } );
     } );
+    // Tabela cobranças
+    $(document).ready(function() {
+        $('#tbCobrancas').DataTable( {
+            "processing": true,
+            "searching": false,
+            "language": {
+                "sEmptyTable": "Nenhuma cobrança encontrada no sistema.",
+                "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+                "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sInfoThousands": ".",
+                "sLengthMenu": "_MENU_ cobranças por página",
+                "sLoadingRecords": "Carregando...",
+                "sProcessing": "Processando...",
+                "sZeroRecords": "Nenhuma cobrança encontrada no sistema.",
+                "sSearch": "Pesquisar",
+                "oPaginate": {
+                    "sNext": "Próximo",
+                    "sPrevious": "Anterior",
+                    "sFirst": "Primeiro",
+                    "sLast": "Último"
+                },
+                "oAria": {
+                    "sSortAscending": ": Ordenar colunas de forma ascendente",
+                    "sSortDescending": ": Ordenar colunas de forma descendente"
+                }
+            }
+        } );
+    } );
     // Modal tabela sócios
     $("#btn_socios").click(function(){
         $("#modalSocios").modal("toggle");
@@ -462,7 +597,26 @@ $(document).ready(function(){
     $("#btn_importar_xlsx").click(function(){
         $("#modal_importar_xlsx").modal("toggle");
     });
+    $("#btn_importar_xlsx_cobranca").click(function(){
+        $("#modal_importar_xlsx_cobranca").modal("toggle");
+    });
     var arquivo = document.getElementById('arquivo_xlsx');
+    if (typeof arquivo !== 'undefined' && arquivo !== null) {
+        arquivo.onchange = function(e){
+            var ext = this.value.match(/\.([^\.]+)$/)[1];
+            switch (ext) {
+                case 'xlsx':
+                case 'xls':
+                console.log("extensão ok");
+                break;
+                default:
+                modalSimples("Status","Extensão inválida!", "erro");
+                this.value = '';
+            }
+        }
+    }
+
+    var arquivo = document.getElementById('arquivo_xlsx_cobranca');
     if (typeof arquivo !== 'undefined' && arquivo !== null) {
         arquivo.onchange = function(e){
             var ext = this.value.match(/\.([^\.]+)$/)[1];
@@ -539,6 +693,81 @@ $(document).ready(function(){
                         resetaForm("#form_xlsx");
                         $(".barra_envio").css("width","0"+"%");
                         location.reload();
+                    }else{
+                        $("#modal_importar_xlsx").modal("toggle");
+                        $("#qtd_socios").html(Number($("#qtd_socios").html())+log.cadastrados);
+                        modalSimples("Status", 'Não foi possível concluir a importação por completo. <div  class="box box-default"> <div class="box-header with-border"> <h3 class="box-title">Log de importação</h3> <div class="box-tools pull-right"> <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i> </button> </div> </div>  <div class="box-body"> <div style="font-size: 12px; color:black; overflow: auto; max-height: 340px; text-justify: left;" class="log">'+ log.html_log +'</div> </div> </div>' , "normal");
+                        $(".box_xlsx .overlay").remove();
+                        resetaForm("#form_xlsx");
+                        $(".barra_envio").css("width","0"+"%");
+                    }
+                }
+
+                oReq.send();
+
+            }
+      }
+    }
+    // Upload de cobranças xlsx
+    $(document).on("submit", "#form_xlsx_cobranca", function(e){
+        e.preventDefault();
+        var $form = $(this);
+        uploadArquivosCobranca($form);
+        $(".barra_envio").css("width","0"+"%");
+      });
+
+      function uploadArquivosCobranca($form){
+        var dados = new FormData($form[0]);
+        var request = new XMLHttpRequest();
+        $(".box_xlsx").prepend('<div class="overlay"> <i class="fa fa-refresh fa-spin"></i> </div>');
+        request.upload.addEventListener("progress", function(e){
+          var porcentagem = e.loaded/e.total *100;
+          $(".barra_envio").css("width",porcentagem+"%");
+        });
+
+        request.open('post', './controller/controla_xlsx_cobranca.php');
+        request.send(dados);
+        request.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var r = JSON.parse(this.response);
+                console.log(r);
+                /* requisição */
+                var url = r.url;
+                var oReq = new XMLHttpRequest();
+                oReq.open("GET", url, true);
+                oReq.responseType = "arraybuffer";
+
+                oReq.onload = function(e) {
+                    var arraybuffer = oReq.response;
+
+                    /* convertendo dados para binário */
+                    var data = new Uint8Array(arraybuffer);
+                    var arr = new Array();
+                    for (var i = 0; i != data.length; ++i) arr[i] = String.fromCharCode(data[i]);
+                    var bstr = arr.join("");
+
+                    /* chamando api para conveter tabela xlsx */
+                    var workbook = XLSX.read(bstr, {
+                        type: "binary"
+                    });
+
+                //   ----
+                    var first_sheet_name = workbook.SheetNames[0];
+               
+                    var worksheet = workbook.Sheets[first_sheet_name];
+                    var tabela = (XLSX.utils.sheet_to_json(worksheet, {
+                        raw: true
+                    }));
+                    console.log(tabela);
+                    var log = cadastro_cobrancas_socio_xlsx(tabela);
+                    console.log(log.cadastrados+" - "+tabela.length);
+                    if(log.cadastrados == tabela.length){
+                        $(".box_xlsx .overlay").remove();
+                        $("#modal_importar_xlsx").modal("toggle");
+                        modalSimples("Status", 'Importação bem sucedida. <div  class="box box-default"> <div class="box-header with-border"> <h3 class="box-title">Log de importação</h3> <div class="box-tools pull-right"> <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i> </button> </div> </div>  <div class="box-body"> <div style="font-size: 12px; color:black; overflow: auto; max-height: 340px; text-justify: left;" class="log">'+ log.html_log +'</div> </div> </div>' , "sucesso");
+                        resetaForm("#form_xlsx");
+                        $(".barra_envio").css("width","0"+"%");
+                        // location.reload();
                     }else{
                         $("#modal_importar_xlsx").modal("toggle");
                         $("#qtd_socios").html(Number($("#qtd_socios").html())+log.cadastrados);

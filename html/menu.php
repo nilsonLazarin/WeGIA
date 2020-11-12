@@ -142,6 +142,9 @@ if(file_exists($config_path)){
 								<a href="<?= WWW ?>html/socio/sistema/psocio_geracao.php">
 									 Gerar carnê/boleto para sócio
 								</a>
+								<a href="<?= WWW ?>html/socio/sistema/cobrancas.php">
+									 Cobranças
+								</a>
 							</li>
 						</ul>
 					</li>

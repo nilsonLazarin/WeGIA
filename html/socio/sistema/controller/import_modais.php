@@ -254,6 +254,52 @@
     </div>
   </div>
 
+  <!-- Modal importar cobranças -->
+  <div class="modal fade" id="modal_importar_xlsx_cobranca" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+      <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span></button>
+                  <h4 class="modal-title">Importar cobranças</h4>
+                </div>
+        <div class="modal-body">
+        <div class="alert alert-warning alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h4><i class="icon fa fa-warning"></i> Atenção!</h4>
+                A importação pode demorar alguns minutos, não feche a página.
+              </div>
+        <div class="box box-warning box_xlsx">
+            <div class="box-header with-border">
+              <h3 class="box-title">Importar cobranças através de arquivo .xlsx</h3>
+            </div>
+            <div class="box-body box_xlsx">
+            <form action="" id="form_xlsx_cobranca" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                  <label for="exampleInputFile">Tabela .xlsx</label>
+                  <input type="file" id="arquivo_xlsx_cobranca" accept=".xls,.xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" name="arquivo" required>
+                  <p class="help-block">Envie um arquivo .xlsx para continuar.</p>
+            </div>
+            <input type="submit" class="btn btn-primary pull-right" name="btn_envia_xlsx_cobranca">
+            </form>
+              <!-- /input-group -->
+            </div>
+            <div class="progress progress-sm active">
+                <div class="progress-bar progress-bar-info progress-bar-striped barra_envio" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+                  <span class="sr-only">20% Complete</span>
+                </div>
+              </div>
+            <!-- /.box-body -->
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
    <!-- Modal aniversariantes -->
    <div class="modal fade" id="modal_aniversariantes" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
