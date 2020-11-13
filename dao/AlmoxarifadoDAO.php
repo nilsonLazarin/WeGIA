@@ -1,7 +1,7 @@
 <?php
-require_once'../classes/Almoxarifado.php';
-require_once'Conexao.php';
-require_once'../Functions/funcoes.php';
+require_once '../classes/Almoxarifado.php';
+require_once 'Conexao.php';
+require_once '../Functions/funcoes.php';
 
 class AlmoxarifadoDAO
 {
@@ -11,7 +11,7 @@ class AlmoxarifadoDAO
             $pdo = Conexao::connect();
 
             $sql = 'INSERT almoxarifado(descricao_almoxarifado) VALUES(:descricao_almoxarifado)';
-            $sql = str_replace("'", "\'", $sql);            
+            $sql = str_replace("'", "\'", $sql);
  
             $stmt = $pdo->prepare($sql);
 

@@ -210,5 +210,53 @@
 			}
 		}
 	}
+
+	function sessionMsg($msgName = 'msg', $flagName = 'flag'){
+		
+
+		/**
+		 * Flags:
+		 * 
+		 * 'sccs': Exibe uma mensagem de sucesso
+		 * 'warn': Exibe uma mensagem de atenção
+		 * 'err': Exibe uma mensagem de erro
+		 * 
+		 */
+		if (isset($_SESSION[$msgName])){
+			$flag = $_SESSION[$flagName] ?? "sucesso";
+			$msg = $_SESSION[$msgName];
+			$log = $_SESSION['log'] ?? null;
+
+			if (isset($_SESSION['log'])){
+				unset($_SESSION['log']);
+			}
+			if (isset($_SESSION[$msgName])){
+				unset($_SESSION[$msgName]);
+			}
+			if (isset($_SESSION[$flagName])){
+				unset($_SESSION[$flagName]);
+			}
+			
+			switch ($flag){
+				default:
+				case "sccs":
+				case "success":
+				case "sucesso":
+					displaySuccess($msg, $log);
+				break;
+				case "warn":
+				case "warning":
+				case "aviso":
+					displayWarning($msg, $log);
+				break;
+				case "err":
+				case "error":
+				case "erro":
+				case "danger":
+					displayError($msg, $log);
+				break;
+			}
+		}
+	}
     
 ?>

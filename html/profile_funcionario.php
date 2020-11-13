@@ -431,16 +431,16 @@
                 //CARGA HORÁRIA
                 $("#escala").text("Escala: "+(item.escala || "Sem informação"));
                 $("#tipo").text("Tipo: "+(item.tipo || "Sem informação"));
-                $("#dias_trabalhados").text("Dias trabalhados: "+(item.dias_trabalhados || "Não informado"));
+                $("#dias_trabalhados").text("Dias trabalhados: "+(item.dias_trabalhados || "Sem informação"));
                 if(item.dias_trabalhados=="Plantão")
                 {
                   $("#dias_trabalhados").text("Dias trabalhados: "+(item.dias_trabalhados || "Sem informação")+" 12/36");
                 }
-                $("#dias_folga").text("Dias de folga: "+(item.folga || "Não informado"));
-                $("#entrada1").text("Primeira entrada: "+(item.entrada1 || "Não informado"));
-                $("#saida1").text("Primeira Saída: "+(item.saida1 || "Não informado"));
-                $("#entrada2").text("Segunda entrada: "+(item.entrada2 || "Não informado"));
-                $("#saida2").text("Segunda saída: "+(item.saida2 || "Não informado"));
+                $("#dias_folga").text("Dias de folga: "+(item.folga || "Sem informação"));
+                $("#entrada1").text("Primeira entrada: "+(item.entrada1 || "Sem informação"));
+                $("#saida1").text("Primeira Saída: "+(item.saida1 || "Sem informação"));
+                $("#entrada2").text("Segunda entrada: "+(item.entrada2 || "Sem informação"));
+                $("#saida2").text("Segunda saída: "+(item.saida2 || "Sem informação"));
                 $("#total").text("Carga horária diária: "+(item.total || "Sem informação"));
                 $("#carga_horaria_mensal").text("Carga horária mensal: "+(item.carga_horaria || "Sem informação"));
 
@@ -1543,12 +1543,12 @@
                                       $pdo = Conexao::connect();
                                       $escala = $pdo->query("SELECT * FROM escala_quadro_horario;")->fetchAll(PDO::FETCH_ASSOC);
                                       foreach ($escala as $key => $value) {
-                                        echo("<option value=".$value["id_escala"].">".$value["id_escala"]." | ".$value["descricao"]."</option>");
+                                        echo("<option value=".$value["id_escala"].">".$value["descricao"]."</option>");
                                       }
                                     ?>
                                   </select>
                                 </div>
-                                <!-- <a href="adicionar_escala.php"><i class="fas fa-plus w3-xlarge"></i></a> -->
+                                <a href="./quadro_horario/adicionar_escala.php"><i class="fas fa-plus w3-xlarge"></i></a>
                               </div>
                               <div class="form-group">
                                 <label class="col-md-3 control-label">Tipo</label>
@@ -1559,12 +1559,12 @@
                                       $pdo = Conexao::connect();
                                       $tipo = $pdo->query("SELECT * FROM tipo_quadro_horario;")->fetchAll(PDO::FETCH_ASSOC);
                                       foreach ($tipo as $key => $value) {
-                                        echo("<option value=".$value["id_tipo"].">".$value["id_tipo"]." | ".$value["descricao"]."</option>");
+                                        echo("<option value=".$value["id_tipo"].">".$value["descricao"]."</option>");
                                       }
                                     ?>
                                   </select>
                                 </div>
-                                <!-- <a href="adicionar_tipo_quadro_horario.php"><i class="fas fa-plus w3-xlarge"></i></a> -->
+                                <a href="./quadro_horario/adicionar_tipo_quadro_horario.php"><i class="fas fa-plus w3-xlarge"></i></a>
                               </div>
                               <div class="form-group">
                                 <label class="col-md-3 control-label" >Primeira entrada</label>

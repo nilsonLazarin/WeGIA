@@ -96,28 +96,43 @@ class QuadroHorarioDAO
     public function adicionarTipo($desc){
         $pdo = Conexao::connect();
         try {
+            $desc = str_replace("'", "\'", $desc);
+            if ($pdo->query("SELECT id_tipo FROM tipo_quadro_horario WHERE descricao='$desc';")->fetch(PDO::FETCH_ASSOC)){
+                $_SESSION['flag'] = 'warn';
+                return "O tipo '$desc' já foi cadastrado.";
+            }
             $ins = $pdo->prepare("INSERT INTO tipo_quadro_horario (descricao) VALUES (:d);");
             $ins->bindParam(':d', $desc);
             $ins->execute();
+            return "Tipo '$desc' cadastrado com sucesso.";
         } catch (PDOExeption $e) {
             echo "Erro ao incluir o tipo '$desc': " . $e->getMessage();
+            return "Houve um erro ao cadastrar o tipo '$desc': " . $e->getMessage();
         }
     }
 
     public function adicionarEscala($desc){
         $pdo = Conexao::connect();
         try {
+            $desc = str_replace("'", "\'", $desc);
+            if ($pdo->query("SELECT id_escala FROM escala_quadro_horario WHERE descricao='$desc';")->fetch(PDO::FETCH_ASSOC)){
+                $_SESSION['flag'] = 'warn';
+                return "A escala '$desc' já foi cadastrada.";
+            }
             $ins = $pdo->prepare("INSERT INTO escala_quadro_horario (descricao) VALUES (:d);");
             $ins->bindParam(':d', $desc);
             $ins->execute();
+            return "Escala '$desc' adicionada com sucesso.";
         } catch (PDOExeption $e) {
             echo "Erro ao incluir a escala '$desc': " . $e->getMessage();
+            return "Houve um erro ao cadastrar a escala '$desc': " . $e->getMessage();
         }
     }
 
     public function alterarTipo($id, $desc){
         $pdo = Conexao::connect();
         try {
+            $desc = str_replace("'", "\'", $desc);
             $ins = $pdo->prepare("UPDATE tipo_quadro_horario SET descricao=:d WHERE id=:id;");
             $ins->bindParam(':d', $desc);
             $ins->bindParam(':id', $id);
@@ -130,6 +145,7 @@ class QuadroHorarioDAO
     public function alterarEscala($id, $desc){
         $pdo = Conexao::connect();
         try {
+            $desc = str_replace("'", "\'", $desc);
             $ins = $pdo->prepare("UPDATE escala_quadro_horario SET descricao=:d WHERE id=:id;");
             $ins->bindParam(':d', $desc);
             $ins->bindParam(':id', $id);
@@ -142,22 +158,58 @@ class QuadroHorarioDAO
     public function removerTipo($id){
         $pdo = Conexao::connect();
         try {
-            $ins = $pdo->prepare("DELETE FROM tipo_quadro_horario WHERE id=:id;");
+            if ($pdo->query("SELECT id_quadro_horario FROM quadro_horario_funcionario WHERE tipo = $id;")->fetch(PDO::FETCH_ASSOC)){
+                $_SESSION['flag'] = "warn";
+                return "Não é possível excluir um tipo ainda atribuído ao quadro horário de um funcionário.";
+            }
+            $ins = $pdo->prepare("DELETE FROM tipo_quadro_horario WHERE id_tipo=:id;");
             $ins->bindParam(':id', $id);
             $ins->execute();
+            return "Tipo removido";
         } catch (PDOExeption $e) {
             echo "Erro ao excluir o tipo de id $id: " . $e->getMessage();
+            $_SESSION['flag'] = "erro";
+            return "Erro ao remover tipo: " . $e->getMessage();
         }
     }
 
     public function removerEscala($id){
         $pdo = Conexao::connect();
         try {
-            $ins = $pdo->prepare("DELETE FROM escala_quadro_horario WHERE id=:id;");
+            if ($pdo->query("SELECT id_quadro_horario FROM quadro_horario_funcionario WHERE escala = $id;")->fetch(PDO::FETCH_ASSOC)){
+                $_SESSION['flag'] = "warn";
+                return "Não é possível excluir uma escala ainda atribuída ao quadro horário de um funcionário.";
+            }
+            $ins = $pdo->prepare("DELETE FROM escala_quadro_horario WHERE id_escala=:id;");
             $ins->bindParam(':id', $id);
             $ins->execute();
+            return "Escala removida";
         } catch (PDOExeption $e) {
             echo "Erro ao excluir a escala de id $id: " . $e->getMessage();
+            $_SESSION['flag'] = "erro";
+            return "Erro ao remover escala: " . $e->getMessage();
+        }
+    }
+
+    public function listarTipos(){
+        $pdo = Conexao::connect();
+        try {
+            $tipo = $pdo->query("SELECT * FROM tipo_quadro_horario;")->fetchAll(PDO::FETCH_ASSOC);
+            session_start();
+            $_SESSION['tipo_quadro_horario'] = json_encode($tipo);
+        } catch (PDOExeption $e) {
+            echo "Erro ao listar tipos: " . $e->getMessage();
+        }
+    }
+
+    public function listarEscalas(){
+        $pdo = Conexao::connect();
+        try {
+            $tipo = $pdo->query("SELECT * FROM escala_quadro_horario;")->fetchAll(PDO::FETCH_ASSOC);
+            session_start();
+            $_SESSION['escala_quadro_horario'] = json_encode($tipo);
+        } catch (PDOExeption $e) {
+            echo "Erro ao listar escalas: " . $e->getMessage();
         }
     }
 }
