@@ -1,4 +1,9 @@
-
+<?php
+  $locale = ( isset($_COOKIE['locale']) ) ? 
+  $_COOKIE['locale'] : 
+  $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+setlocale(LC_ALL, $locale);
+?>
 <section class="body">
 
 <!-- start: header -->
@@ -48,16 +53,16 @@
     <table id="tbCobrancas" class="table table-hover" style="width: 100%">
           <thead>
             <tr>
-              <th>ID</th>
-              <th>Nome</th>
-              <th>Email</th>
-              <th>Telefone</th>
-              <th>Endereço</th>
-              <th>CPF/CNPJ</th>
-              <th>Tipo</th>
-              <th>Editar</th>
-              <th>Deletar</th>
-              <th>Boleto/Carnê</th>
+              <th>Cod.</th>
+              <th>N. Sócio</th>
+              <th>D. emissão</th>
+              <th>D. vencimento</th>
+              <th>D. pagamento</th>
+              <th>Valor</th>
+              <th>Valor pago</th>
+              <th>Link cobrança</th>
+              <th>Link boleto</th>
+              <th>N. de pag. online</th>
             </tr>
           </thead>
           <tbody>
@@ -68,70 +73,27 @@
                   $mensal = 0;
                   $casual = 0;
                   $si_contrib = 0;
-                  $query = mysqli_query($conexao, "SELECT *, s.id_socio as socioid FROM socio AS s LEFT JOIN pessoa AS p ON s.id_pessoa = p.id_pessoa LEFT JOIN socio_tipo AS st ON s.id_sociotipo = st.id_sociotipo LEFT JOIN (SELECT id_socio, MAX(data) AS ultima_data_doacao FROM log_contribuicao GROUP BY id_socio) AS lc ON lc.id_socio = s.id_socio");
+                  $query = mysqli_query($conexao, "SELECT *, DATE_FORMAT(data_emissao, '%d/%m/%Y') as data_emissao, DATE_FORMAT(data_vencimento, '%d/%m/%Y') as data_vencimento, DATE_FORMAT(data_pagamento, '%d/%m/%Y') as data_pagamento FROM cobrancas c JOIN socio s ON s.id_socio = c.id_socio JOIN pessoa p ON s.id_pessoa = p.id_pessoa");
                   while($resultado = mysqli_fetch_array($query)){
-                    switch($resultado['id_sociotipo']){
-                      case 0: case 1: 
-                          $casual++;
-                          $contribuinte = "casual";
-                          break;
-                      case 2: case 3:
-                          $mensal++;
-                          $contribuinte = "mensal";
-                          break;
-                      default:
-                          $si_contrib++;
-                          $contribuinte = "si";
-                          break;
-                    }
-
-                    $class = "bg-normal";
-                    if($contribuinte == "mensal"){
-                      $data_ultima_doacao = date_create($resultado['ultima_data_doacao']);
-                      $data_hoje = date_create();
-                      $subtracao_datas = date_diff($data_ultima_doacao, $data_hoje);
-                      if($subtracao_datas->days > 31){
-                          // Adiciona tag vermelha indicando atraso
-                          $socios_atrasados++;
-                          $class = "bg-danger";
-                      }
-                    }
-                    $id = $resultado['socioid'];
-                    $cpf_cnpj = $resultado['cpf'];
-                    $nome_s = $resultado['nome'];
-                    $email = $resultado['email'];
-                    $telefone = $resultado['telefone'];
-                    $tipo_socio = $resultado['tipo'];
-                    $endereco = $resultado['logradouro']." ".$resultado['numero_endereco'].", ".$resultado['bairro'].", ".$resultado['cidade']." - ".$resultado['estado'];
-                    if(strlen($telefone) == 14){
-                      $tel_url = preg_replace("/[^0-9]/", "", $telefone);
-                      $telefone = "<a target='_blank' href='http://wa.me/55$tel_url'>$telefone</a>";
-                    }
-                    if(strlen($cpf_cnpj) == 14){
-                      $pessoa = "fisica";
-                      $fisica++;
-                    }else{
-                      $pessoa = "juridica";
-                      $juridica++;
-                    } 
-                      
-                    $del_json = json_encode(array("id"=>$id,"nome"=>$nome_s,"pessoa"=>$pessoa));
-                    echo("<tr><td >$id</td><td onclick='detalhar_socio($id);' style='cursor: pointer' class='$class'>$nome_s</td><td><a href='mailto:$email'>$email</a></td><td>$telefone</td><td>$endereco</td><td>$cpf_cnpj</td><td>$tipo_socio</td><td><a href='editar_socio.php?socio=$id'><button type='button' class='btn btn-default btn-flat'><i class='fa fa-edit'></i></button></a></td><td><button onclick='deletar_socio_modal($del_json)' type='button' class='btn btn-default btn-flat'><i class='fa fa-remove text-red'></i></button></td><td><a href='gerar_contribuicao.php?socio=$id'><button type='button' class='btn btn-default btn-flat'><i class='far fa-list-alt'></i> Gerar</button></a></td></tr>");
+                    extract($resultado);
+                    $valor = number_format($valor,2, ',', '.');
+                    $valor_pago = number_format($valor_pago,2, ',', '.');
+                    echo("<tr><td>$codigo</td><td onclick='detalhar_socio($id_socio);' style='cursor: pointer' class=''>$nome</td><td>$data_emissao</td><td>$data_vencimento</td><td>$data_pagamento</td><td>R$$valor</td><td>R$$valor_pago</td><td><a target='_blank' href='$link_cobranca'><button type='button' class='btn btn-default btn-flat'><i class='far fa-list-alt'></i> Link cobrança</button></a></td><td><a target='_blank' href='$link_boleto'><button type='button' class='btn btn-default btn-flat'><i class='far fa-list-alt'></i> 2ª via boleto</button></a></td><td><button onclick='codigo_barras($codigo);' type='button' class='btn btn-default btn-flat'><i style='font-size: 32px' class='fas fa-barcode'></i></button></td></tr>");
                   }
               ?>
           </tbody>
           <tfoot>
             <tr>
-              <th>ID</th>
-              <th>Nome</th>
-              <th>Email</th>
-              <th>Telefone</th>
-              <th>Endereço</th>
-              <th>CPF/CNPJ</th>
-              <th>Tipo</th>
-              <th>Editar</th>
-              <th>Deletar</th>
-              <th>Boleto/Carnê</th>
+              <th>Cod.</th>
+              <th>Nome contribuinte</th>
+              <th>Data de emissão</th>
+              <th>Data de vencimento</th>
+              <th>Data de pagamento</th>
+              <th>Valor</th>
+              <th>Valor pago</th>
+              <th>Link cobrança</th>
+              <th>Link boleto</th>
+              <th>N. de pag. online</th>
             </tr>
           </tfoot>
         </table>

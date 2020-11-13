@@ -33,8 +33,8 @@ $(document).ready(function(){
                     var valor_pago = '';
                 }else var valor_pago = linha['Valor Pago'];
                 if(typeof linha['Data Pgto.'] == 'undefined'){
-                    var data_pgto = '';
-                }else var data_pgto = linha['Data Pgto.'];
+                    var data_pagamento = '';
+                }else var data_pagamento = linha['Data Pgto.'];
                 if(typeof linha['Link da Cobrança'] == 'undefined'){
                     var link_cobranca = '';
                 }else var link_cobranca = linha['Link da Cobrança'];
@@ -64,7 +64,7 @@ $(document).ready(function(){
                     "descricao": descricao,
                     "data_emissao": data_emissao,
                     "data_vencimento": data_vencimento,
-                    "data_pagamento": data_pgto,
+                    "data_pagamento": data_pagamento,
                     "valor": valor,
                     "valor_pago": valor_pago,
                     "link_cobranca": link_cobranca,
@@ -83,22 +83,22 @@ $(document).ready(function(){
                         success: function (resp) {
                             var r = JSON.parse(resp);
                           if (r) {
-                            log.html_log += "<p style='margin: 0.2em' class='text-green'> <b>[CADASTRADO]</b> - "+ linha['NOME/RAZÃO SOCIAL'] + "</p> ";
+                            log.html_log += "<p style='margin: 0.2em' class='text-green'> <b>[CADASTRADO]</b> - "+ linha['Nome Cliente'] + "</p> ";
                           } else {
                             log.cadastrados--;
-                            log.html_log += "<p style='margin: 0.2em' class='text-danger'> <b>[ERRO: POSSUI CAD/ARQUIVO MAL FORMATADO.]</b> - "+ linha['NOME/RAZÃO SOCIAL'] + " </p>";
+                            log.html_log += "<p style='margin: 0.2em' class='text-danger'> <b>[ERRO: POSSUI CAD/ARQUIVO MAL FORMATADO.]</b> - "+ linha['Nome Cliente'] + " </p>";
                           }
                         },
                         error: function (e) {
                           log.cadastrados--;
-                          log.html_log += "<p style='margin: 0.2em' class='danger'> <b>[ERRO: CON.]</b> - "+ linha['NOME/RAZÃO SOCIAL'] + " </p>";
+                          log.html_log += "<p style='margin: 0.2em' class='danger'> <b>[ERRO: CON.]</b> - "+ linha['Nome Cliente'] + " </p>";
                           console.dir(e);
                         }
                   });
             }else{
                 console.log("erro cpf");
                 log.cadastrados--;
-                log.html_log += "<p style='margin: 0.2em' class='text-danger'> <b>[ERRO: CPF/CNPJ]</b> - "+ linha['NOME/RAZÃO SOCIAL'] + " </p>";
+                log.html_log += "<p style='margin: 0.2em' class='text-danger'> <b>[ERRO: CPF/CNPJ]</b> - "+ linha['Nome Cliente'] + " </p>";
             }
         }
         log.html_log = "Total cadastrados = "+ log.cadastrados +"/"+tabela.length+log.html_log;
@@ -535,7 +535,7 @@ $(document).ready(function(){
     $(document).ready(function() {
         $('#tbCobrancas').DataTable( {
             "processing": true,
-            "searching": false,
+            "searching": true,
             "language": {
                 "sEmptyTable": "Nenhuma cobrança encontrada no sistema.",
                 "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
