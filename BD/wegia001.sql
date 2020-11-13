@@ -984,6 +984,28 @@ CREATE TABLE IF NOT EXISTS `wegia`.`endereco_instituicao`(
     PRIMARY KEY (id_inst)
 ) ENGINE= InnoDB;
 
+CREATE TABLE IF NOT EXISTS `wegia`.`cobrancas` 
+(   `id` INT NOT NULL AUTO_INCREMENT ,  
+    `codigo` INT NULL ,  
+    `descricao` VARCHAR(255) NULL ,  
+    `data_emissao` DATE NULL ,  
+    `data_vencimento` DATE NULL ,  
+    `data_pagamento` DATE NULL ,  
+    `valor` FLOAT NULL ,  
+    `valor_pago` INT NULL ,  
+    `status` VARCHAR(255) NULL ,  
+    `link_cobranca` VARCHAR(255) NULL ,  
+    `link_boleto` VARCHAR(255) NULL ,  
+    `linha_digitavel` VARCHAR(255) NULL ,  
+    `id_socio` INT NULL ,    
+    PRIMARY KEY  (`id`),    
+    UNIQUE  (`codigo`)
+  ) ENGINE = InnoDB;
+
+ALTER TABLE `cobrancas` 
+ADD CONSTRAINT `fk_cobranca_socio` 
+FOREIGN KEY (`id_socio`) REFERENCES `socio`(`id_socio`) 
+ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 USE `wegia` ;
 

@@ -262,4 +262,59 @@ setTimeout(function(){
   })
 
 }
-  
+
+
+function codigo_barras(codigo_cobranca){
+   $.post("get_codigobarras_cobranca.php",{"codigo": codigo_cobranca}).done(function(resultadoBusca){
+    codigodebarras = JSON.parse(resultadoBusca)[0].linha_digitavel;
+    console.log(codigodebarras);
+
+
+    var modal_codigo_html = `
+    <div class="modal fade" id="detalharSocioModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+   <div class="modal-content">
+      <div class="modal-header">
+         <h5 class="modal-title" id="exampleModalLabel"></h5>
+      </div>
+      <div class="modal-body">
+         <div class="box box-info box-solid boxDetalhes">
+            <div class="box-header">
+               <h3 class="box-title"><i class="fa fa-list" aria-hidden="true"></i> Linha digitável</h3>
+            </div>
+            <div class="box-body">
+               
+                    <h4>Boleto (código digitável):</h4>
+                    <input type="text" class="form-control" id="email" name="email" value="`+ codigodebarras +`" placeholder="" disabled>
+
+                  </div>
+                  <div class="modal-footer">
+                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                  </div>
+               </form>
+            </div>
+            <!-- /.box-body -->
+            <!-- Loading (remove the following to stop the loading)-->
+            <!-- end loading -->
+         </div>
+      </div>
+   </div>
+</div>
+    `;
+  // inputs = $(modal_detalhes_html).find("input");
+  // console.log(inputs);
+  // for(input of inputs){
+  //   console.log(input);
+  // }
+  $(".boxCodigo").prepend(
+    '<div class="overlay"> <i class="fa fa-refresh fa-spin"></i> </div>'
+);
+
+setTimeout(function(){
+    $(".boxCodigo .overlay").remove();
+},600);
+  $(modal_codigo_html).modal("toggle");
+
+  })
+
+}
