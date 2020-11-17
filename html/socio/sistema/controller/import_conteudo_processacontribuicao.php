@@ -102,7 +102,7 @@
                       console.log(dados);
                       for(var charge of dados.data.charges)
                       {
-                          $("#parcelas_tb").append(`<tr><td>${charge.dueDate}</td><td><a href="${charge.installmentLink}">Link de pagamento</a></td><td>${charge.payNumber}</td></tr>`)
+                          $("#parcelas_tb").append(`<tr><td>${charge.dueDate}</td><td><a target='_blank' href="${charge.installmentLink}">Link de pagamento</a></td><td>${charge.payNumber}</td></tr>`)
       
                       }
           })
@@ -118,10 +118,10 @@
                       console.log(dados);
                       for(var charge of dados.data.charges)
                       {
-                          $("#parcelas_tb").append(`<tr><td>${charge.dueDate}</td><td><a href="${charge.installmentLink}">Link de pagamento</a></td><td>${charge.payNumber}</td></tr>`)
+                          $("#parcelas_tb").append(`<tr><td>${charge.dueDate}</td><td><a target='_blank' href="${charge.installmentLink}">Link de pagamento</a></td><td>${charge.payNumber}</td></tr>`)
       
                       }
-                      $("#parcelas_tb").append(`<tr><td colspan='2'>Link do carnê inteiro: </td><td>${charge.link}</td></tr>`)
+                      $("#parcelas_tb").append(`<tr><td colspan='2'>Link do carnê inteiro: </td><td><a target='_blank' href='${charge.link}'>${charge.link}</a></td></tr>`)
           })
       }
 
