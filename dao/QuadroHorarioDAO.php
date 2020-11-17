@@ -14,14 +14,16 @@ require_once ROOT.'/classes/Documento.php';
 
 class QuadroHorarioDAO
 {
-    public function incluir($quadro_horario, $id_funcionario)
+    public function incluir($quadro_horario)
     {
         try {
+            $pdo = Conexao::connect();
+            
             $sql = 'call cadhorariofunc(:escala, :tipo, :carga_horaria, :entrada1, :saida1,:entrada2,:saida2, :total, :dias_trabalhados, :folga)';
-            $sql2 = "call cadhorariofunc2( $id_funcionario , :escala, :tipo, :carga_horaria, :entrada1, :saida1,:entrada2,:saida2, :total, :dias_trabalhados, :folga)";
+            // $sql2 = "call cadhorariofunc2( $id_funcionario , :escala, :tipo, :carga_horaria, :entrada1, :saida1,:entrada2,:saida2, :total, :dias_trabalhados, :folga)";
             $sql = str_replace("'", "\'", $sql);            
             $pdo = Conexao::connect();
-            $stmt = $pdo->prepare($sql2);
+            $stmt = $pdo->prepare($sql);
 
             $escala=$quadro_horario->getEscala();
             $tipo=$quadro_horario->getTipo();
