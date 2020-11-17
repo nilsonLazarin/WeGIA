@@ -71,7 +71,7 @@ function detalhar_socio(dados){
    $.post("get_detalhes_socio.php",{"id_socio": dados}).done(function(resultadoBusca){
     dados_socio_multi_contrib = JSON.parse(resultadoBusca);
     console.log(dados_socio_multi_contrib);
-    var dados_socio = dados_socio_multi_contrib[0];
+    var dados_socio = dados_socio_multi_contrib.log_contribuicao[0];
     if(dados_socio.cpf == 14){
       pessoa = "Física";
     }else pessoa = "Jurídica";
@@ -91,14 +91,24 @@ function detalhar_socio(dados){
 
     let tb_contrib = "";
     let total_contrib = 0;
-    for(contrib of dados_socio_multi_contrib){
-      var valor = Number(contrib.valor_boleto);
-      total_contrib += valor;
-      tb_contrib += "<tr><td>"+ contrib.sistema_pagamento +"</td><td>"+contrib.data_geracao+"</td><td>"+valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })+"</td><td>"+contrib.data_vencimento+"</td></tr>";
-    }
-    if(tb_contrib.indexOf("null") != -1){
+    if(dados_socio_multi_contrib['log_contribuicao'].length < 2 && !Array.isArray(dados_socio_multi_contrib['log_cobranca'])){
       tb_contrib = "<tr><td colspan='4'>Não foi possível encontrar informações de contribuição do sócio no sistema.</td></tr>"
+    }else{
+      dados_socio_multi_contrib['log_contribuicao'].shift();
+      for(contrib of dados_socio_multi_contrib['log_contribuicao']){
+        var valor = Number(contrib.valor_boleto);
+        total_contrib += valor;
+        tb_contrib += "<tr style='text-center'><td>"+ contrib.sistema_pagamento +"</td><td>"+contrib.data_geracao+"</td><td>"+valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })+"</td><td>"+contrib.data_vencimento+"</td><td>"+contrib.status+"</td></tr>";
+      }
+      if(Array.isArray(dados_socio_multi_contrib['log_cobranca'])){
+        for(contrib of dados_socio_multi_contrib['log_cobranca']){
+          var valor = Number(contrib.valor);
+          total_contrib += valor;
+          tb_contrib += "<tr style='text-center'><td> - </td><td>"+contrib.data_emissao+"</td><td>"+valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })+"</td><td>"+contrib.data_vencimento+"</td><td>"+contrib.status+"</td></tr>";
+        }
+      }
     }
+
 
     var modal_detalhes_html = `
   <div class="modal fade" id="detalharSocioModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -206,14 +216,15 @@ function detalhar_socio(dados){
               <h3 class="box-title">Contribuição</h3>
             </div>
             <div class="box-body">
-            <div class="row">
-            <table class="table table-hover">
+            <div class="row" style='max-height: 350px; overflow: auto;'>
+            <table class="table table-hover" style="text-center">
             <thead>
               <tr>
                 <th scope="col">Sistema</th>
                 <th scope="col">Data geração boleto</th>
                 <th scope="col">Valor</th>
                 <th scope="col">Data de vencimento</th>
+                <th scope="col">Status</th>
               </tr>
             </thead>
             <tbody>

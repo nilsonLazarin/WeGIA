@@ -50,6 +50,22 @@ setlocale(LC_ALL, $locale);
     </div>
     <!-- /.box-header -->
     <div class="box-body" style="">
+    <?php
+									if(isset($_GET['msg_c'])){
+										$msg = $_GET['msg_c'];
+										echo('<div class="alert alert-success" role="alert">
+										'. $msg .'
+									  </div>');
+									}else if(isset($_GET['msg_e'])){
+										$msg = $_GET['msg_e'];
+										echo('<div class="alert alert-danger" role="alert">
+										'. $msg .'
+									  </div>');
+									}
+							?>
+              <div class='alert alert-info'>
+                  Você pode clicar no nome do sócio para mais detalhes.
+              </div>
     <table id="tbCobrancas" class="table table-hover" style="width: 100%">
           <thead>
             <tr>
@@ -63,6 +79,8 @@ setlocale(LC_ALL, $locale);
               <th>Link cobrança</th>
               <th>Link boleto</th>
               <th>N. de pag. online</th>
+              <th>Status</th>
+              <th>Deletar</th>
             </tr>
           </thead>
           <tbody>
@@ -78,7 +96,11 @@ setlocale(LC_ALL, $locale);
                     extract($resultado);
                     $valor = number_format($valor,2, ',', '.');
                     $valor_pago = number_format($valor_pago,2, ',', '.');
-                    echo("<tr><td>$codigo</td><td onclick='detalhar_socio($id_socio);' style='cursor: pointer' class=''>$nome</td><td>$data_emissao</td><td>$data_vencimento</td><td>$data_pagamento</td><td>R$$valor</td><td>R$$valor_pago</td><td><a target='_blank' href='$link_cobranca'><button type='button' class='btn btn-default btn-flat'><i class='far fa-list-alt'></i> Link cobrança</button></a></td><td><a target='_blank' href='$link_boleto'><button type='button' class='btn btn-default btn-flat'><i class='far fa-list-alt'></i> 2ª via boleto</button></a></td><td><button onclick='codigo_barras($codigo);' type='button' class='btn btn-default btn-flat'><i style='font-size: 32px' class='fas fa-barcode'></i></button></td></tr>");
+                    switch(trim($status)){
+                      case 'Pago': $classe_status = 'text-success'; break;
+                      default: $classe_status = 'text-danger'; break;
+                    }
+                    echo("<tr><td>$codigo</td><td onclick='detalhar_socio($id_socio);' style='cursor: pointer' class=''>$nome</td><td>$data_emissao</td><td>$data_vencimento</td><td>$data_pagamento</td><td>R$$valor</td><td>R$$valor_pago</td><td><a target='_blank' href='$link_cobranca'><button type='button' class='btn btn-default btn-flat'><i class='far fa-list-alt'></i> Link</button></a></td><td><a target='_blank' href='$link_boleto'><button type='button' class='btn btn-default btn-flat'><i class='far fa-list-alt'></i> 2ª via</button></a></td><td><button onclick='codigo_barras($codigo);' type='button' class='btn btn-default btn-flat'><i class='fas fa-barcode'></i></button></td><td class='$classe_status'>$status</td><td><a href='deletar_cobranca.php?cobranca=$codigo'><button type='button' class='btn btn-default btn-flat'><i class='fa fa-remove text-red'></i></button></a></td></tr>");
                   }
               ?>
           </tbody>
@@ -94,6 +116,8 @@ setlocale(LC_ALL, $locale);
               <th>Link cobrança</th>
               <th>Link boleto</th>
               <th>N. de pag. online</th>
+              <th>Status</th>
+              <th>Deletar</th>
             </tr>
           </tfoot>
         </table>
@@ -126,6 +150,14 @@ setlocale(LC_ALL, $locale);
 </aside>
 </section>
 </body>
+<script>
+	  	$(document).ready(function(){
+		setTimeout(function(){
+			$(".alert").fadeOut();
+			window.history.replaceState({}, document.title, window.location.pathname);
+		}, 3000);
+	});
+	  </script>
 <script>
 function gerarCargo(){
   url = '../../dao/exibir_cargo.php';

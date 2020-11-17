@@ -102,7 +102,12 @@
                             $email = $resultado['email'];
                             $telefone = $resultado['telefone'];
                             $tipo_socio = $resultado['tipo'];
-                            $endereco = $resultado['logradouro']." ".$resultado['numero_endereco'].", ".$resultado['bairro'].", ".$resultado['cidade']." - ".$resultado['estado'];
+                            if($resultado['logradouro'] == ""){
+                              $endereco = "Endereço não informado.";
+                            }else{
+                              $endereco = $resultado['logradouro']." ".$resultado['numero_endereco'].", ".$resultado['bairro'].", ".$resultado['cidade']." - ".$resultado['estado'];
+                            }
+                            
                             if(strlen($telefone) == 14){
                               $tel_url = preg_replace("/[^0-9]/", "", $telefone);
                               $telefone = "<a target='_blank' href='http://wa.me/55$tel_url'>$telefone</a>";
