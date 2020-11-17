@@ -217,6 +217,9 @@ function detalhar_socio(dados){
             </div>
             <div class="box-body">
             <div class="row" style='max-height: 350px; overflow: auto;'>
+            <div class="alert alert-secondary" role="alert">
+            <span class="badge badge-secondary">Total de contribuição <b>cadastrada no sistema</b>: `+ total_contrib.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) +`</span>
+          </div>
             <table class="table table-hover" style="text-center">
             <thead>
               <tr>
@@ -231,10 +234,6 @@ function detalhar_socio(dados){
              `+ tb_contrib +`
             </tbody>
           </table>
-          <div class="alert alert-secondary" role="alert">
-            Atenção! As informações de contribuição aqui listadas são referentes às doações feitas pela página de doação integrada ao sistema.
-            <span class="badge badge-secondary">Total de contribuição <b>usando o sistema</b>: `+ total_contrib.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) +`</span>
-          </div>
             </div>
             <!-- /.box-body -->
           </div>

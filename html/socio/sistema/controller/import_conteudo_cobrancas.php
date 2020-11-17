@@ -49,7 +49,7 @@ setlocale(LC_ALL, $locale);
       <!-- /.box-tools -->
     </div>
     <!-- /.box-header -->
-    <div class="box-body" style="">
+    <div class="box-body box_tabela_cobranca" style="">
     <?php
 									if(isset($_GET['msg_c'])){
 										$msg = $_GET['msg_c'];
@@ -106,11 +106,11 @@ setlocale(LC_ALL, $locale);
           </tbody>
           <tfoot>
             <tr>
-              <th>Cod.</th>
-              <th>Nome contribuinte</th>
-              <th>Data de emissão</th>
-              <th>Data de vencimento</th>
-              <th>Data de pagamento</th>
+            <th>Cod.</th>
+              <th>N. Sócio</th>
+              <th>D. emissão</th>
+              <th>D. vencimento</th>
+              <th>D. pagamento</th>
               <th>Valor</th>
               <th>Valor pago</th>
               <th>Link cobrança</th>
@@ -153,7 +153,7 @@ setlocale(LC_ALL, $locale);
 <script>
 	  	$(document).ready(function(){
 		setTimeout(function(){
-			$(".alert").fadeOut();
+			$(".box_tabela_cobranca .alert").fadeOut();
 			window.history.replaceState({}, document.title, window.location.pathname);
 		}, 3000);
 	});
