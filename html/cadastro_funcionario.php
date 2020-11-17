@@ -282,6 +282,39 @@
                             </div>
                           </div>
 
+                          <div class="form-group">
+                            <label class="col-md-3 control-label" >Escala</label>
+                            <div class="col-md-6">
+                              <select class="form-control input-lg mb-md" name="escala" id="escala_input">
+                                <option selected disabled value="">Selecionar</option>
+                                <?php
+                                  $pdo = Conexao::connect();
+                                  $escala = $pdo->query("SELECT * FROM escala_quadro_horario;")->fetchAll(PDO::FETCH_ASSOC);
+                                  foreach ($escala as $key => $value) {
+                                    echo("<option value=".$value["id_escala"].">".$value["descricao"]."</option>");
+                                  }
+                                ?>
+                              </select>
+                            </div>
+                            <a href="./quadro_horario/adicionar_escala.php"><i class="fas fa-plus w3-xlarge"></i></a>
+                          </div>
+                          <div class="form-group">
+                            <label class="col-md-3 control-label">Tipo</label>
+                            <div class="col-md-6">
+                              <select class="form-control input-lg mb-md" name="tipoCargaHoraria" id="tipoCargaHoraria_input">
+                                <option selected disabled value="">Selecionar</option>
+                                <?php
+                                  $pdo = Conexao::connect();
+                                  $tipo = $pdo->query("SELECT * FROM tipo_quadro_horario;")->fetchAll(PDO::FETCH_ASSOC);
+                                  foreach ($tipo as $key => $value) {
+                                    echo("<option value=".$value["id_tipo"].">".$value["descricao"]."</option>");
+                                  }
+                                ?>
+                              </select>
+                            </div>
+                            <a href="./quadro_horario/adicionar_tipo_quadro_horario.php"><i class="fas fa-plus w3-xlarge"></i></a>
+                          </div>
+
                         <!--div id="endereco" class="tab-pane">
                         
                            <h4 class="mb-xlg">Endereço</h4>

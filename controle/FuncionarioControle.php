@@ -109,10 +109,10 @@ class FuncionarioControle
     public function verificarHorario(){
         extract($_REQUEST);
         if((!isset($escala)) || (empty($escala))){
-            $escala = '';
+            $escala = null;
         }
         if((!isset($tipoCargaHoraria)) || (empty($tipoCargaHoraria))){
-            $tipoCargaHoraria = '';
+            $tipoCargaHoraria = null;
         }
         if((!isset($entrada1)) || (empty($entrada1))){
             $entrada1 = '';

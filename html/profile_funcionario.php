@@ -429,8 +429,8 @@
                 $("#cargo").val(item.id_cargo).prop('disabled', true);
 
                 //CARGA HORÁRIA
-                $("#escala").text("Escala: "+(item.escala || "Sem informação"));
-                $("#tipo").text("Tipo: "+(item.tipo || "Sem informação"));
+                $("#escala").text("Escala: "+(item.escala_descricao || "Sem informação"));
+                $("#tipo").text("Tipo: "+(item.tipo_descricao || "Sem informação"));
                 $("#dias_trabalhados").text("Dias trabalhados: "+(item.dias_trabalhados || "Sem informação"));
                 if(item.dias_trabalhados=="Plantão")
                 {
