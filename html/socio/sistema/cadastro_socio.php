@@ -20,7 +20,6 @@
     // si = sem informação
     if($resultado = mysqli_query($conexao, "INSERT INTO `pessoa`(`cpf`, `nome`, `telefone`, `data_nascimento`, `cep`, `estado`, `cidade`, `bairro`, `logradouro`, `numero_endereco`, `complemento`) VALUES ('$cpf_cnpj', '$socio_nome',  '$telefone', $data_nasc, '$cep', '$estado', '$cidade', '$bairro', '$rua', '$numero', '$complemento' )")){
         $id_pessoa = mysqli_insert_id($conexao);
-        echo("teste");
         switch($pessoa){
             case "juridica": 
             if($contribuinte == "mensal"){
