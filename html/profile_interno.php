@@ -526,48 +526,50 @@
                      <div class="form-group">
                         <label class="col-md-3 control-label">Benefícios</label>
                         <div class="col-md-8 " >
-                           <div class="">
-                              <label>
-                              <input type="checkbox" name="certidao" value="Possui" id="certidao-checkbox" >Certidão de Nascimento			
-                              </label><br>
-                              <label>
-                              <input type="checkbox" name="curatela" value="Possui" id="curatela-checkbox" >Curatela
-                              </label><br>
-                              <label>
-                              <input type="checkbox" name="inss" value="Possui" id="inss-checkbox" >INSS
-                              </label><br>
-                              <label>
-                              <input type="checkbox" name="loas" value="Possui" id="loas-checkbox" >LOAS
-                              </label><br>
-                              <label>
-                              <input type="checkbox" name="funrural" value="Possui" id="funrural-checkbox" >FUNRURAL
-                              </label><br>
-                              <label>
-                              <input type="checkbox" name="rg" value="Possui" id="rg-checkbox" >RG
-                              </label><br>
-                              <label>
-                              <input type="checkbox" name="cpf" value="Possui" id="cpf-checkbox" >CPF
-                              </label><br>
-                              <label>
-                              <input type="checkbox" name="tituloEleitor" value="Possui" id="tituloEleitor-checkbox" >Título de Eleitor
-                              <input type="hidden" name="nomeClasse" value="InternoControle">
-                              <input type="hidden" name="id" value="<?php echo $_GET['id'];?>">
-                              <input type="hidden" name="metodo" value="alterar">
-                              </label><br>
-                              <label>
-                              <input type="checkbox" name="ctps" value="Possui" id="ctps-checkbox" >CTPS
-                              </label><br>
-                              <label>
-                              <input type="checkbox" name="saf" value="Possui" id="saf-checkbox" >SAF
-                              </label><br>
-                              <label>
-                              <input type="checkbox" name="sus" value="Possui" id="sus-checkbox" >SUS
-                              </label><br>
-                              <label>
-                              <input type="checkbox" name="bpc" value="Possui" id="bpc-checkbox" >BPC
-                              </label><br>
-                           </div>
-                        </div>
+												<div class="">
+													<label>
+														<input type="checkbox" name="certidao" value="Possui" id="certidao-checkbox" >Certidão de Nascimento			
+													</label><br>
+													<label>
+														<input type="checkbox" name="certidaoCasamento" value="Possui" id="certidaoCasamento-checkbox" >Certidão de Casamento			
+													</label><br>
+													<label>
+														<input type="checkbox" name="curatela" value="Possui" id="curatela-checkbox" >Curatela
+													</label><br>
+													<label>
+														<input type="checkbox" name="inss" value="Possui" id="inss-checkbox" >INSS
+													</label><br>
+													
+													<label>
+														<input type="checkbox" name="loas" value="Possui" id="loas-checkbox" >LOAS
+													</label><br>
+													
+													<label>
+														<input type="checkbox" name="funrural" value="Possui" id="funrural-checkbox" >FUNRURAL
+													</label><br>														
+													<label>
+														<input type="checkbox" name="tituloEleitor" value="Possui" id="tituloEleitor-checkbox" >Título de Eleitor
+														<input type="hidden" name="nomeClasse" value="InternoControle">
+														<input type="hidden" name="metodo" value="incluir">
+													</label><br>
+													
+													<label>
+														<input type="checkbox" name="ctps" value="Possui" id="ctps-checkbox" >CTPS
+													</label><br>
+													
+													<label>
+														<input type="checkbox" name="saf" value="Possui" id="saf-checkbox" >SAF
+													</label><br>
+													
+													<label>
+														<input type="checkbox" name="sus" value="Possui" id="sus-checkbox" >SUS
+													</label><br>
+
+													<label>
+														<input type="checkbox" name="bpc" value="Possui" id="bpc-checkbox" >BPC
+													</label><br>
+												</div>
+											</div>
                         <br>
                         <hr class="dotted short">
                         <h4 class="mb-xlg doch4" id="label-imagens" style="display: none;">Imagens</h4>
