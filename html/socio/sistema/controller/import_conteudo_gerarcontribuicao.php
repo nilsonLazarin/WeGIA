@@ -81,7 +81,9 @@
             <label for="pessoa">O que você deseja gerar?</label>
                 <select class="form-control" name="tipo_geracao" id="tipo_geracao">
                     <option value="1" selected>Boleto único</option>
-                    <option value="2">Carnê do próximo ano</option>
+                    <option value="2">Carnê mensal do próximo ano</option>
+                    <option value="3">Carnê mensal meses restantes ano corrente + próximo ano</option>
+                    <option value="4">Carnê bimestral meses restantes ano corrente + próximo ano</option>
                 </select>
             </div>
             <div class="form-group mb-2 col-xs-6">
@@ -136,25 +138,3 @@
 		</div>	
 	</section>
 </body>
-<script>
-    $(document).ready(function(){
-        var sociotipo = <?php echo($socio_tipo); ?>;
-        var status = <?php echo($status); ?>;
-        $("#status").val(status);
-        if(status == 4){
-          $("#contribuinte").val("si");
-        }
-
-        switch(sociotipo){
-          case 0: case 1: 
-              $("#contribuinte").val("casual");
-              break;
-          case 2: case 3:
-              $("#contribuinte").val("mensal");
-              break;
-          default:
-              $("#contribuinte").val("si");
-              break;
-        }
-    });
-</script>

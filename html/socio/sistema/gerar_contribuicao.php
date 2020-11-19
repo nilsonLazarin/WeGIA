@@ -157,6 +157,24 @@
     <?php require_once("./controller/import_scripts.php"); ?>
     <?php require_once("./controller/import_scripts_socio.php"); ?>
     <script>
+        function retorna_parecela()
+        {
+            var now = new Date;
+            var mes = now.getMonth() + 1;
+        
+
+            var parcelas = 0;
+                if(mes <=6)
+                {
+                    parcelas = 13 - mes;
+                }
+                else
+                    {
+                        parcelas = (12 - mes)+ 12;
+                    }
+
+                return parcelas;
+        }
         function retorna_dataV_tipo(dia, tipo)
         {
             var dia = dia;
@@ -248,6 +266,43 @@
                     console.log(dv);
                     $(".datas").html(`<span>Data de vencimento da primeira parcela do carnê: ${dv}, as demais parcelas também respeitarão o dia da primeira parcela.</span>`);
                     $("#dataV").val(dv);
+                })
+                break;
+                case "3": $(".valor").html(`<label for="pessoa">Valor</label>
+            <select class="form-control" name="valor" id="valor">
+                    <option value=''>Selecione um valor mensal</option>
+                    <option value = '<?php echo $valminparc ?>'>R$<?php echo $valminparc ?></option>
+                    <option value = '50.00'>R$50,00</option>
+                    <option value = '100.00'>R$100,00</option>
+                    <option value = '150.00'>R$150,00</option>
+                    <option value = '200.00'>R$200,00</option>
+                    <option value = '250.00'>R$250,00</option>
+                    <option value = '300.00'>R$300,00</option>
+                    <option value = '500.00'>R$500,00</option>
+                    <option value = '<?php echo $valmaxparc ?>'>R$<?php echo $valmaxparc ?></option>
+                </select>`);
+                $(".dta").html(`<label for="pessoa">Dia de vencimento mensal</label>
+            <select class="form-control" name="dta" id="dta">
+                    <?php
+                        for($i=0; $i<5; $i++)
+                        {
+                            if($arrayData[$i] != 0)
+                            {
+                                echo"<option value ='".$arrayData[$i]."' id='op".$i."'>".$arrayData[$i]."</option>"; 
+                            }	
+                        }
+                    ?>
+                </select>`);
+                var dv = retorna_dataV_tipo($("#dta").val(), "mensal");
+                console.log(dv);
+                $(".datas").html(`<span>Data de vencimento da primeira parcela do carnê: ${dv}, as demais parcelas também respeitarão o dia da primeira parcela.</span>`);
+                $("#dataV").val(dv);
+                $("#dta").change(function(){
+                    var dv = retorna_dataV_tipo($("#dta").val(), "mensal");
+                    console.log(dv);
+                    $(".datas").html(`<span>Data de vencimento da primeira parcela do carnê: ${dv}, as demais parcelas também respeitarão o dia da primeira parcela.</span>`);
+                    $("#dataV").val(dv);
+                    $("#parcelas").val(retorna_parecela());
                 })
                 break;
             }
