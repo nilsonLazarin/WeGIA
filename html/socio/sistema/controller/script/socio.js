@@ -164,6 +164,16 @@ function detalhar_socio(dados){
           <input type="text" class="form-control" name="pessoa" value="`+ status +`" id="pessoa" disabled>
         </div>
         </div>
+        <div class="row">
+        <div class="form-group col-xs-6">
+            <label for="valor">Data referência (ínicio contribuição)</label>
+            <input type="date" class="form-control" id="data_referencia" name="data_referencia" value="`+ dados_socio.data_referencia +`" disabled>
+          </div>
+          <div class="form-group col-xs-6">
+            <label for="valor">Valor/período em R$</label>
+            <input type="number" class="form-control" id="valor_periodo" name="valor_periodo" value="`+ dados_socio.valor_periodo +`" disabled>
+          </div>
+        </div>
         <div class="box box-info endereco">
             <div class="box-header with-border">
               <h3 class="box-title">Endereço</h3>

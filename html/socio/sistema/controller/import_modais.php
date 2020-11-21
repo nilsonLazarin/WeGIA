@@ -85,6 +85,16 @@
           </div>
           </div>
         </div>
+        <div class="row">
+        <div class="form-group col-xs-6">
+            <label for="valor">Data referência (ínicio contribuição)</label>
+            <input type="date" class="form-control" id="data_referencia" name="data_referencia">
+          </div>
+          <div class="form-group col-xs-6">
+            <label for="valor">Valor/período em R$</label>
+            <input type="number" class="form-control" id="valor_periodo" name="valor_periodo">
+          </div>
+        </div>
         <div class="box box-info endereco">
             <div class="box-header with-border">
               <h3 class="box-title">Endereço</h3>
