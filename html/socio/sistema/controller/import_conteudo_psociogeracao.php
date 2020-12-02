@@ -107,7 +107,7 @@
 				</div>
 				
              <div style="margin-top: 2em" class="pull-right mt-2">
-							<button type="submit" class="btn btn-primary">Próximo</button>
+							<button type="button" id="btn_geracao_auto" class="btn btn-primary">Próximo</button>
 						</div>
 					  </form>
 
