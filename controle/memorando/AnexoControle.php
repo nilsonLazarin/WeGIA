@@ -2,7 +2,7 @@
 
 $config_path = "config.php";
 if(file_exists($config_path)){
-    require_once($config_path);
+    require_once($config_path); 
 }else{
     while(true){
         $config_path = "../" . $config_path;
@@ -95,7 +95,7 @@ class AnexoControle
 				$msg= "Não foi possível criar o despacho"."<br>".$e->getMessage();
             	echo $msg;
 			}
-	}
+		}
 	}
 }
 ?>
