@@ -172,7 +172,7 @@
                     {
                         parcelas = (12 - mes)+ 12;
                     }
-
+                console.log(parcelas);
                 return parcelas;
         }
         function retorna_dataV_tipo(dia, tipo)
