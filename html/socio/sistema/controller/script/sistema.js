@@ -71,7 +71,9 @@ $(document).ready(function(){
                     "link_boleto": link_boleto,
                     "linha_digitavel": linha_digitavel,
                     "status": status,
-                    "codigo": codigo
+                    "codigo": codigo,
+                    "valor_periodo": null,
+                    "data_referencia": null
                 };
                 // var dados = JSON.stringify(dados);
 
@@ -145,7 +147,9 @@ $(document).ready(function(){
                     "status": 4,
                     "contribuinte": null,
                     "data_nasc": data_nasc,
-                    "cep":linha['CEP']
+                    "cep":linha['CEP'],
+                    "valor_periodo": null,
+                    "data_referencia": null
                 };
                 // var dados = JSON.stringify(dados);
 
@@ -259,6 +263,8 @@ $(document).ready(function(){
         var cidade = $("#cidade").val();
         var data_nasc = $("#data_nasc").val();
         var cep = $("#cep").val();
+        var data_referencia = $("#data_referencia").val();
+        var valor_periodo = $("#valor_periodo").val();
         // Requisição POST - AJAX
         if(valida_cpf_cnpj(cpf_cnpj)){
             $.post("./cadastro_socio.php",{
@@ -276,7 +282,9 @@ $(document).ready(function(){
                 "estado": estado,
                 "cidade": cidade,
                 "data_nasc": data_nasc,
-                "cep":cep
+                "cep":cep,
+                "data_referencia": data_referencia,
+                "valor_periodo": valor_periodo
             }).done(function(resultadoCadastro){
                 var resultado = JSON.parse(resultadoCadastro);
                 if(resultado){
@@ -316,6 +324,8 @@ $(document).ready(function(){
         var cidade = $("#cidade").val();
         var data_nasc = $("#data_nasc").val();
         var cep = $("#cep").val();
+        var data_referencia = $("#data_referencia").val();
+        var valor_periodo = $("#valor_periodo").val();
         // Requisição POST - AJAX
         if(valida_cpf_cnpj(cpf_cnpj)){
             $.post("./processa_edicao_socio.php",{
@@ -334,7 +344,9 @@ $(document).ready(function(){
                 "estado": estado,
                 "cidade": cidade,
                 "data_nasc": data_nasc,
-                "cep":cep
+                "cep":cep,
+                "data_referencia": data_referencia,
+                "valor_periodo": valor_periodo
             }).done(function(resultadoCadastro){
                 var resultado = JSON.parse(resultadoCadastro);
                 if(resultado){

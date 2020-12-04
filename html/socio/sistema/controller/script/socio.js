@@ -91,14 +91,15 @@ function detalhar_socio(dados){
 
     let tb_contrib = "";
     let total_contrib = 0;
-    if(dados_socio_multi_contrib['log_contribuicao'].length < 2 && !Array.isArray(dados_socio_multi_contrib['log_cobranca'])){
+    if(dados_socio_multi_contrib['log_contribuicao'][0]['id_log'] == null && !Array.isArray(dados_socio_multi_contrib['log_cobranca'])){
       tb_contrib = "<tr><td colspan='4'>Não foi possível encontrar informações de contribuição do sócio no sistema.</td></tr>"
     }else{
-      dados_socio_multi_contrib['log_contribuicao'].shift();
-      for(contrib of dados_socio_multi_contrib['log_contribuicao']){
-        var valor = Number(contrib.valor_boleto);
-        total_contrib += valor;
-        tb_contrib += "<tr style='text-center'><td>"+ contrib.sistema_pagamento +"</td><td>"+contrib.data_geracao+"</td><td>"+valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })+"</td><td>"+contrib.data_vencimento+"</td><td>"+contrib.status+"</td></tr>";
+      if(dados_socio_multi_contrib['log_contribuicao'][0]['id_log'] != null){
+        for(contrib of dados_socio_multi_contrib['log_contribuicao']){
+          var valor = Number(contrib.valor_boleto);
+          total_contrib += valor;
+          tb_contrib += "<tr style='text-center'><td>"+ contrib.sistema_pagamento +"</td><td>"+contrib.data_geracao+"</td><td>"+valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })+"</td><td>"+contrib.data_vencimento+"</td><td>"+contrib.status+"</td></tr>";
+        }
       }
       if(Array.isArray(dados_socio_multi_contrib['log_cobranca'])){
         for(contrib of dados_socio_multi_contrib['log_cobranca']){
@@ -162,6 +163,16 @@ function detalhar_socio(dados){
           <label for="pessoa">Status</label>
           <input type="text" class="form-control" name="pessoa" value="`+ status +`" id="pessoa" disabled>
         </div>
+        </div>
+        <div class="row">
+        <div class="form-group col-xs-6">
+            <label for="valor">Data referência (ínicio contribuição)</label>
+            <input type="date" class="form-control" id="data_referencia" name="data_referencia" value="`+ dados_socio.data_referencia +`" disabled>
+          </div>
+          <div class="form-group col-xs-6">
+            <label for="valor">Valor/período em R$</label>
+            <input type="number" class="form-control" id="valor_periodo" name="valor_periodo" value="`+ dados_socio.valor_periodo +`" disabled>
+          </div>
         </div>
         <div class="box box-info endereco">
             <div class="box-header with-border">

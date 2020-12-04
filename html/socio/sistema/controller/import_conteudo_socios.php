@@ -200,9 +200,9 @@
                           $query = mysqli_query($conexao, "SELECT *, sp.nome_sistema as sistema_pagamento, DATE_FORMAT(lc.data, '%d/%m/%Y') as data_geracao, DATE_FORMAT(lc.data_venc_boleto, '%d/%m/%Y') as data_vencimento, s.id_socio as socioid FROM socio AS s LEFT JOIN pessoa AS p ON s.id_pessoa = p.id_pessoa LEFT JOIN socio_tipo AS st ON s.id_sociotipo = st.id_sociotipo LEFT JOIN log_contribuicao AS lc ON lc.id_socio = s.id_socio LEFT JOIN sistema_pagamento as sp ON sp.id = lc.id_sistema WHERE s.id_socio");
                           while($resultado = mysqli_fetch_assoc($query)){
                             $nome = $resultado['nome'];
+                            $id_log = $resultado['id_log'];
                             $sistema_pag = $resultado['sistema_pagamento'];
-                            if(is_null($sistema_pag)){
-                              echo("<tr><td style='text-align: center;' colspan='5'>Não foi possível encontrar informações de contribuição no sistema.</td></tr>");
+                            if(is_null($id_log)){
                               break;
                             }
                             $data_geracao = $resultado['data_geracao'];

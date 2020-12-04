@@ -34,7 +34,7 @@
 				<div class="row">
         <div class="box box-info box-solid socioModal">
             <div class="box-header">
-              <h3 class="box-title"><i class="far fa-list-alt"></i> Gerar boleto/carnê</h3>
+              <h3 class="box-title"><i class="far fa-list-alt"></i> Gerar boleto/carnê personalizado</h3>
             </div>
             <div class="box-body">
             <form action="gerar_contribuicao.php" method="POST">
@@ -69,11 +69,53 @@
 							<button type="submit" class="btn btn-primary">Próximo</button>
 						</div>
 					  </form>
+
             </div>
             </div>
 
           <!-- /.box -->
-        </div>  
+        </div> 
+		<div class="row">
+        <div class="box box-warning box-solid socioModal">
+            <div class="box-header">
+              <h3 class="box-title"><i class="far fa-list-alt"></i> Geração em massa automática</h3>
+            </div>
+            <div class="box-body">
+				<div class="alert alert-dark text-center" role="alert">
+  					Geração em massa de carnês para sócios mensais, bimestrais, trimestrais e semestrais que não sejam inativos e/ou inadimplentes.<br>
+					Para ser possível a geração, os sócio devem ter o cpf, data de referência e valor por período cadastrados.
+				</div>
+            <form action="geracao_auto.php" method="POST">
+                <div class="row">
+							<div class="form-group col-xs-12">
+								<label for="pessoa">Gerar para</label>
+								<select class="form-control" name="geracao" id="geracao">
+											<option selected disabled>Selecionar</option>
+											<option value="0">Todos</option>
+											<option value="4">Mensais</option>
+											<option value="1">Bimestrais</option>
+											<option value="2">Trimestrais</option>
+											<option value="3">Semestrais</option>
+								</select>
+							</div>
+				</div>
+
+				<div class="row">
+					  <div class="detalhes">
+
+					  </div>
+				</div>
+				
+             <div style="margin-top: 2em" class="pull-right mt-2">
+							<button type="submit" class="btn btn-primary">Próximo</button>
+						</div>
+					  </form>
+
+            </div>
+            </div>
+
+          <!-- /.box -->
+        </div>   
       </div>
 			<!-- end: page -->
 			</section>

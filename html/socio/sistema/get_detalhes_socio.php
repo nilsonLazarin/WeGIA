@@ -14,7 +14,7 @@
         $dados['log_contribuicao'][] = $resultado;
     }
 
-    $query = mysqli_query($conexao, "SELECT *, DATE_FORMAT(data_emissao, '%d/%m/%Y') as data_emissao, DATE_FORMAT(data_vencimento, '%d/%m/%Y') as data_vencimento, DATE_FORMAT(data_pagamento, '%d/%m/%Y') as data_pagamento FROM cobrancas c JOIN socio s ON s.id_socio = c.id_socio JOIN pessoa p ON s.id_pessoa = p.id_pessoa");
+    $query = mysqli_query($conexao, "SELECT *, DATE_FORMAT(data_emissao, '%d/%m/%Y') as data_emissao, DATE_FORMAT(data_vencimento, '%d/%m/%Y') as data_vencimento, DATE_FORMAT(data_pagamento, '%d/%m/%Y') as data_pagamento FROM cobrancas c JOIN socio s ON s.id_socio = c.id_socio JOIN pessoa p ON s.id_pessoa = p.id_pessoa WHERE s.id_socio = $id_socio");
     while($resultado = mysqli_fetch_assoc($query)){
         $dados['log_cobranca'][] = $resultado;
     }
