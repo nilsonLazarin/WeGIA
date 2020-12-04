@@ -62,7 +62,7 @@ $(document).ready(function(){
                                                 console.log(`${dia} - ${diaA}`);
                                                 if(dia <= diaA){
                                                     console.log("teste");
-                                                    parcelas = (6 - Mes) + 6;
+                                                    parcelas = (proximoAno.getMonth() - Now.getMonth() + (12 * (proximoAno.getFullYear() - Now.getFullYear())))/2;
                                                 }else{
                                                     for(var dataHoje = Now; dataHoje < proximoAno; dataHoje.setMonth(dataHoje.getMonth() + 2)){
                                                         parcelas++;
@@ -71,21 +71,23 @@ $(document).ready(function(){
                                             }
                                         break;
                                         case 'trimestral':
-                                            var Now =  new Date();
+                                            var Now =  new Date('2021', '04', '06');
                                             var Mes = Now.getMonth() + 1;
                                             var proximoAno = new Date(String(Now.getFullYear() + 1), '11', '31');
                                             var parcelas = 0;
                                             if(Mes <= 6){
                                                 diaA = Now.getDate();
                                                 if(dia <= diaA){
-                                                    parcelas = 4 - Mes;
-                                                }else parcelas = 5 - Mes;
+                                                    if(Mes == 1){
+                                                        parcelas = 4;
+                                                    }else parcelas = Math.floor(5 - (Mes/3));
+                                                }else parcelas = Math.floor(5 - (Mes/3)) + 4;
                                             }else{
                                                 diaA = Now.getDate();
                                                 console.log(`${dia} - ${diaA}`);
                                                 if(dia <= diaA){
                                                     console.log("teste");
-                                                    parcelas = (4 - Mes) + 4;
+                                                    parcelas = (proximoAno.getMonth() - Now.getMonth() + (12 * (proximoAno.getFullYear() - Now.getFullYear())))/3;
                                                 }else{
                                                     for(var dataHoje = Now; dataHoje <= proximoAno; dataHoje.setMonth(dataHoje.getMonth() + 3)){
                                                         parcelas++;
@@ -103,23 +105,35 @@ $(document).ready(function(){
                                 function geraRef(socioNome){
                                     return socioNome.replace(/[^a-zA-Zs]/g, "").replace(" ", "") + Math.round(Math.random()*100000000);
                                 }
-                                function gerarMes(Now, tipo){
-                                    switch(tipo){
-                                        case 4:
-                                            Now.setMonth(Now.getMonth() + 1);
-                                        break;
-                                        case 1:
-                                            Now.setMonth(Now.getMonth() + 2);
-                                        break;
-                                        case 2:
-                                            Now.setMonth(Now.getMonth() + 3);
-                                        break;
-                                        case 2:
-                                            Now.setMonth(Now.getMonth() + 6);
-                                        break;
+                                function gerarData(Now, tipo, dia_preferencial){
+                                    var NovaData = new Date(Now);
+                                    console.log(NovaData.getMonth() + 1);
+                                    var fimDoAno = new Date(String(Now.getFullYear()), '11', '31');
+                                    var retornoDatas = [];
+                                    if(tipo == 1){
+                                        NovaData.setMonth(NovaData.getMonth() + 2);
+                                    }else if(tipo == 2){
+                                        if((fimDoAno.getMonth() - Now.getMonth() + (12 * (fimDoAno.getFullYear() - Now.getFullYear()))) % 3 != 0 && dia_preferencial >= Now.getDate()){
+                                            console.log(`Até o fim do ano ${fimDoAno.getMonth() - Now.getMonth() + (12 * (fimDoAno.getFullYear() - Now.getFullYear()))} meses`)
+                                            while((NovaData.getMonth() + 1) % 3 != 0){
+                                                NovaData.setMonth(NovaData.getMonth() + 1);
+                                                console.log(`Mês: ${NovaData.getMonth() + 1}`);
+                                            }
+                                        }else{
+                                            if(dia_preferencial > Now.getDate()){
+                                                NovaData.setMonth(Now.getMonth());
+                                                console.log(`Mês diapref >= Now : ${NovaData.getMonth() + 1}`);
+                                            }else{NovaData.setMonth(NovaData.getMonth() + 3);}
+                                        }
+                                    }else if(tipo == 3){
+                                        NovaData.setMonth(NovaData.getMonth() + 6);
+                                    }else{
+                                        NovaData.setMonth(NovaData.getMonth() + 1);
                                     }
-                                    
-                                    return Number(Now.getMonth() + 1);
+                                    retornoDatas.push(String(`${dia_preferencial}/${NovaData.getMonth() + 1}/${NovaData.getFullYear()}`));
+                                    retornoDatas.push(String(`${NovaData.getFullYear()}-${NovaData.getMonth()}-${dia_preferencial}`));
+                                    console.log(retornoDatas);
+                                    return retornoDatas;
                                 }
                                 var apiData = JSON.parse(dados_api)[0];
                                 console.log(apiData);
@@ -128,7 +142,7 @@ $(document).ready(function(){
                                     switch(Number(tipo_desejado)){
                                         case 4:
                                             var Now = new Date();
-                                            var dataV = Number(dia = socio.data_referencia.split("-")[2]) <= Number(Now.getDate()) ? `${dia}/${gerarMes(Now)}/${Now.getFullYear()}` : `${dia}/${Now.getMonth() + 1}/${Now.getFullYear()}`;
+                                            var dataV = Number(dia = socio.data_referencia.split("-")[2]) <= Number(Now.getDate()) ? `${gerarData(Now, tipo_desejado)[0]}}` : `${dia}/${Now.getMonth() + 1}/${Now.getFullYear()}`;
                                             $.get(`${apiData.api}token=${apiData.token_api}&description=${apiData.agradecimento}&amount=${socio.valor_periodo}&dueDate=${dataV}&maxOverdueDays=${apiData.max_dias_venc}&installments=${calcula_parcelas('mensal', dia)}&payerName=${socio.nome}&payerCpfCnpj=${socio.cpf}&payerEmail=${socio.email}&payerPhone=${socio.telefone}&billingAddressStreet=${socio.logradouro}&billingAddressNumber=${socio.numero_endereco}&billingAddressComplement=${socio.complemento}&billingAddressNeighborhood=${socio.bairro}&billingAddressCity=${socio.cidade}&billingAddressState=${socio.estado}&billingAddressPostcode=${socio.cep}&fine=${apiData.multa}&interest=${apiData.juros}&paymentTypes=BOLETO&notifyPayer=TRUE&reference=${geraRef(socio.nome)}`)
                                                 .done(function(dadosCarne){
                                                     console.log(dadosCarne);
@@ -138,8 +152,8 @@ $(document).ready(function(){
                                         break;
                                         case 1:
                                             var Now = new Date();
-                                            var dataV = Number(dia = socio.data_referencia.split("-")[2]) <= Number(Now.getDate()) ? `${dia}/${gerarMes(Now, tipo_desejado)}/${Now.getFullYear()}` : `${dia}/${Now.getMonth() + 1}/${Now.getFullYear()}`;
-                                            var dataV_formatada = Number(dia = socio.data_referencia.split("-")[2]) <= Number(Now.getDate()) ? `${Now.getFullYear()}-${gerarMes(Now, tipo_desejado) - 1}-${dia}` : `${Now.getFullYear()}-${Now.getMonth()}-${dia}`;
+                                            var dataV = Number(dia = socio.data_referencia.split("-")[2]) <= Number(Now.getDate()) ? `${gerarData(Now, tipo_desejado, dia)[0]}` : `${dia}/${Now.getMonth() + 1}/${Now.getFullYear()}`;
+                                            var dataV_formatada = Number(dia = socio.data_referencia.split("-")[2]) <= Number(Now.getDate()) ? `${gerarData(Now, tipo_desejado, dia)[1]}` : `${Now.getFullYear()}-${Now.getMonth()}-${dia}`;
                                             var quantidadeParcelas = calcula_parcelas('bimestral', dia);
                                             console.log(quantidadeParcelas);
                                             for(i = 0; i < quantidadeParcelas; i++){
@@ -163,9 +177,9 @@ $(document).ready(function(){
                                             socios = [];
                                         break;
                                         case 2:
-                                            var Now = new Date();
-                                            var dataV = Number(dia = socio.data_referencia.split("-")[2]) <= Number(Now.getDate()) ? `${dia}/${gerarMes(Now, tipo_desejado)}/${Now.getFullYear()}` : `${dia}/${Now.getMonth() + 1}/${Now.getFullYear()}`;
-                                            var dataV_formatada = Number(dia = socio.data_referencia.split("-")[2]) <= Number(Now.getDate()) ? `${Now.getFullYear()}-${gerarMes(Now, tipo_desejado) - 1}-${dia}` : `${Now.getFullYear()}-${Now.getMonth()}-${dia}`;
+                                            var Now = new Date('2021', '04', '06');
+                                            var dataV = Number(dia = socio.data_referencia.split("-")[2]) <= Number(Now.getDate()) ? `${gerarData(Now, tipo_desejado, dia)[0]}` : `${gerarData(Now, tipo_desejado, dia)[0]}`;
+                                            var dataV_formatada = Number(dia = socio.data_referencia.split("-")[2]) <= Number(Now.getDate()) ? `${gerarData(Now, tipo_desejado, dia)[1]}` : `${gerarData(Now, tipo_desejado, dia)[1]}`;
                                             var quantidadeParcelas = calcula_parcelas('trimestral', dia);
                                             console.log(quantidadeParcelas);
                                             for(i = 0; i < quantidadeParcelas; i++){
@@ -190,8 +204,8 @@ $(document).ready(function(){
                                         break;
                                         case 3:
                                             var Now = new Date();
-                                            var dataV = Number(dia = socio.data_referencia.split("-")[2]) <= Number(Now.getDate()) ? `${dia}/${gerarMes(Now, tipo_desejado)}/${Now.getFullYear()}` : `${dia}/${Now.getMonth() + 1}/${Now.getFullYear()}`;
-                                            var dataV_formatada = Number(dia = socio.data_referencia.split("-")[2]) <= Number(Now.getDate()) ? `${Now.getFullYear()}-${gerarMes(Now, tipo_desejado) - 1}-${dia}` : `${Now.getFullYear()}-${Now.getMonth()}-${dia}`;
+                                            var dataV = Number(dia = socio.data_referencia.split("-")[2]) <= Number(Now.getDate()) ? `${gerarData(Now, tipo_desejado, dia)[0]}` : `${dia}/${Now.getMonth() + 1}/${Now.getFullYear()}`;
+                                            var dataV_formatada = Number(dia = socio.data_referencia.split("-")[2]) <= Number(Now.getDate()) ? `${gerarData(Now, tipo_desejado, dia)[1]}` : `${Now.getFullYear()}-${Now.getMonth()}-${dia}`;
                                             var quantidadeParcelas = calcula_parcelas('semestral', dia);
                                             console.log(quantidadeParcelas);
                                             for(i = 0; i < quantidadeParcelas; i++){
