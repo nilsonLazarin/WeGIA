@@ -1,7 +1,7 @@
 WeGIA - Web Gerenciador Institucional
     Copyright (C) 2020  Nilson Mori Lazarin
 
-    Este programa é um software livre: você pode redistribuí-lo e/ou
+    Este programa é um software livre: você pode redistribuí-lo e/ou 
     modificá-lo sob os termos da Licença Pública Geral GNU, conforme
     publicado pela Free Software Foundation, seja a versão 3 da Licença
     ou (a seu critério) qualquer versão posterior.
@@ -12,4 +12,5 @@ WeGIA - Web Gerenciador Institucional
     Licença Pública Geral GNU para obter mais detalhes.
 
     Você deve ter recebido uma cópia da Licença Pública Geral GNU
-    junto com este programa. Se não, veja <https://www.gnu.org/licenses/>.
+    junto com este programa (arquivo gpl-3.0.pt-br.pdf). 
+    Se não, veja <https://www.gnu.org/licenses/>.
