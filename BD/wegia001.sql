@@ -1150,7 +1150,7 @@ DELIMITER ;
 
 DELIMITER $$
 USE `wegia`$$
-CREATE PROCEDURE `cadimagem`(IN `id_pessoa` INT, IN `imagem` LONGTEXT, IN `imagem_extensao` VARCHAR(10), IN `descricao` VARCHAR(40))
+CREATE PROCEDURE `cadimagem`(IN `id_pessoa` INT, IN `imagem` LONGBLOB, IN `imagem_extensao` VARCHAR(10), IN `descricao` VARCHAR(40))
 begin
 declare idD int;
 insert into documento(id_pessoa,imgdoc,imagem_extensao,descricao) VALUES (id_pessoa,imagem,imagem_extensao,descricao);
