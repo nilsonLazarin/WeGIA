@@ -22,6 +22,34 @@ $(document).ready(function(){
                         })
                             .done(function(dados_api){
                                 carneBoletos = [];
+                                function montaTabela(nome_socio, carne){
+                                    $(".detalhes").append(`
+                                    <div class="box box-info">
+                                    <div class="box-header with-border">
+                                          <h3 class="box-title">Controle de sócios</h3>
+                                          <div class="box-tools pull-right">
+                                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+                                          </div>
+                                      <!-- /.box-tools -->
+                                    </div>
+                                    <!-- /.box-header -->
+                                <div class="box-body" style="display: none;">
+                                    <table class="table table-striped table-hover">
+                                          <thead>
+                                              <tr>
+                                                  <th>Teste</th>
+                                                <th>Teste</th>
+                                                <th>Teste</th>
+                                                <th>Teste</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                                <!-- /.box-body -->
+                              </div>
+                                    `)
+                                }
                                 function calcula_parcelas(tipo_socio, dia){
                                     switch(tipo_socio){
                                         case 'mensal':
@@ -48,7 +76,7 @@ $(document).ready(function(){
                                             }
                                         break;
                                         case 'bimestral':
-                                            var Now =  new Date();
+                                            var Now =  new Date('2021', '08', '11');
                                             var Mes = Now.getMonth() + 1;
                                             var proximoAno = new Date(String(Now.getFullYear() + 1), '11', '31');
                                             var parcelas = 0;
@@ -62,7 +90,7 @@ $(document).ready(function(){
                                                 console.log(`${dia} - ${diaA}`);
                                                 if(dia <= diaA){
                                                     console.log("teste");
-                                                    parcelas = (proximoAno.getMonth() - Now.getMonth() + (12 * (proximoAno.getFullYear() - Now.getFullYear())))/2;
+                                                    parcelas = Math.floor((proximoAno.getMonth() - Now.getMonth() + (12 * (proximoAno.getFullYear() - Now.getFullYear())))/2);
                                                 }else{
                                                     for(var dataHoje = Now; dataHoje < proximoAno; dataHoje.setMonth(dataHoje.getMonth() + 2)){
                                                         parcelas++;
@@ -105,33 +133,85 @@ $(document).ready(function(){
                                 function geraRef(socioNome){
                                     return socioNome.replace(/[^a-zA-Zs]/g, "").replace(" ", "") + Math.round(Math.random()*100000000);
                                 }
-                                function gerarData(Now, tipo, dia_preferencial){
+                                function gerarDataParcelas(Now, tipo, dia_preferencial){
                                     var NovaData = new Date(Now);
-                                    console.log(NovaData.getMonth() + 1);
                                     var fimDoAno = new Date(String(Now.getFullYear()), '11', '31');
-                                    var retornoDatas = [];
+                                    var proximoAno = new Date(String(Now.getFullYear() + 1), '11', '31');
+                                    console.log(Now, fimDoAno, proximoAno);
+                                    var retornoDatas = {
+                                        dataV: null,
+                                        dataV_formatada: null,
+                                        parcelas: null
+                                    };
                                     if(tipo == 1){
-                                        NovaData.setMonth(NovaData.getMonth() + 2);
-                                    }else if(tipo == 2){
-                                        if((fimDoAno.getMonth() - Now.getMonth() + (12 * (fimDoAno.getFullYear() - Now.getFullYear()))) % 3 != 0 && dia_preferencial >= Now.getDate()){
-                                            console.log(`Até o fim do ano ${fimDoAno.getMonth() - Now.getMonth() + (12 * (fimDoAno.getFullYear() - Now.getFullYear()))} meses`)
-                                            while((NovaData.getMonth() + 1) % 3 != 0){
-                                                NovaData.setMonth(NovaData.getMonth() + 1);
-                                                console.log(`Mês: ${NovaData.getMonth() + 1}`);
-                                            }
+                                        var parcelas = 0;
+                                        while((NovaData.getMonth() + 1) % 2 != 0){
+                                            NovaData.setMonth(NovaData.getMonth() + 1);
+                                        }
+                                        
+                                        if(Now.getMonth() == NovaData.getMonth() && dia_preferencial <= Now.getDate()){
+                                            NovaData.setMonth(NovaData.getMonth() + 2);
+                                        }
+                                        var Mes = NovaData.getMonth() + 1;
+                                        if(Mes <= 6){
+                                            parcelas = 7 - Math.floor(Mes/2);
                                         }else{
-                                            if(dia_preferencial > Now.getDate()){
-                                                NovaData.setMonth(Now.getMonth());
-                                                console.log(`Mês diapref >= Now : ${NovaData.getMonth() + 1}`);
-                                            }else{NovaData.setMonth(NovaData.getMonth() + 3);}
+                                            for(var dataHoje = new Date(NovaData); dataHoje < proximoAno; dataHoje.setMonth(dataHoje.getMonth() + 2)){
+                                                parcelas++;
+                                                console.log(parcelas);
+                                            }
+                                        }
+                                    }else if(tipo == 2){
+                                        var parcelas = 0;
+                                        while((NovaData.getMonth() + 1) % 3 != 0){
+                                            NovaData.setMonth(NovaData.getMonth() + 1);
+                                        }
+                                        
+                                        if(Now.getMonth() == NovaData.getMonth() && dia_preferencial <= Now.getDate()){
+                                            NovaData.setMonth(NovaData.getMonth() + 3);
+                                        }
+                                        var Mes = NovaData.getMonth() + 1;
+                                        if(Mes <= 6){
+                                            parcelas = 5 - Math.floor(Mes/3);
+                                        }else{
+                                            for(var dataHoje = new Date(NovaData); dataHoje < proximoAno; dataHoje.setMonth(dataHoje.getMonth() + 3)){
+                                                parcelas++;
+                                            }
                                         }
                                     }else if(tipo == 3){
-                                        NovaData.setMonth(NovaData.getMonth() + 6);
+                                        var parcelas = 0;
+                                        while((NovaData.getMonth() + 1) % 6 != 0){
+                                            NovaData.setMonth(NovaData.getMonth() + 1);
+                                        }
+                                        
+                                        if(Now.getMonth() == NovaData.getMonth() && dia_preferencial <= Now.getDate()){
+                                            NovaData.setMonth(NovaData.getMonth() + 6);
+                                        }
+                                        var Mes = NovaData.getMonth() + 1;
+                                        if(Mes <= 6){
+                                            parcelas = 3 - Math.floor(Mes/6);
+                                        }else{
+                                            for(var dataHoje = new Date(NovaData); dataHoje < proximoAno; dataHoje.setMonth(dataHoje.getMonth() + 6)){
+                                                parcelas++;
+                                            }
+                                        }
                                     }else{
-                                        NovaData.setMonth(NovaData.getMonth() + 1);
+                                        var parcelas = 0;
+                                        if(dia_preferencial <= Now.getDate()){
+                                            NovaData.setMonth(NovaData.getMonth() + 1);
+                                        }
+                                        Mes = NovaData.getMonth() + 1;
+                                        if(Mes <= 6){
+                                            parcelas = 13 - Mes;
+                                        }else{
+                                            for(var dataHoje = new Date(Now); dataHoje < proximoAno; dataHoje.setMonth(dataHoje.getMonth() + 1)){
+                                                parcelas++;
+                                            }
+                                        }
                                     }
-                                    retornoDatas.push(String(`${dia_preferencial}/${NovaData.getMonth() + 1}/${NovaData.getFullYear()}`));
-                                    retornoDatas.push(String(`${NovaData.getFullYear()}-${NovaData.getMonth()}-${dia_preferencial}`));
+                                    retornoDatas.dataV = (String(`${dia_preferencial}/${NovaData.getMonth() + 1}/${NovaData.getFullYear()}`));
+                                    retornoDatas.dataV_formatada = (String(`${NovaData.getFullYear()}-${NovaData.getMonth()}-${dia_preferencial}`));
+                                    retornoDatas.parcelas = parcelas;
                                     console.log(retornoDatas);
                                     return retornoDatas;
                                 }
@@ -142,21 +222,29 @@ $(document).ready(function(){
                                     switch(Number(tipo_desejado)){
                                         case 4:
                                             var Now = new Date();
-                                            var dataV = Number(dia = socio.data_referencia.split("-")[2]) <= Number(Now.getDate()) ? `${gerarData(Now, tipo_desejado)[0]}}` : `${dia}/${Now.getMonth() + 1}/${Now.getFullYear()}`;
-                                            $.get(`${apiData.api}token=${apiData.token_api}&description=${apiData.agradecimento}&amount=${socio.valor_periodo}&dueDate=${dataV}&maxOverdueDays=${apiData.max_dias_venc}&installments=${calcula_parcelas('mensal', dia)}&payerName=${socio.nome}&payerCpfCnpj=${socio.cpf}&payerEmail=${socio.email}&payerPhone=${socio.telefone}&billingAddressStreet=${socio.logradouro}&billingAddressNumber=${socio.numero_endereco}&billingAddressComplement=${socio.complemento}&billingAddressNeighborhood=${socio.bairro}&billingAddressCity=${socio.cidade}&billingAddressState=${socio.estado}&billingAddressPostcode=${socio.cep}&fine=${apiData.multa}&interest=${apiData.juros}&paymentTypes=BOLETO&notifyPayer=TRUE&reference=${geraRef(socio.nome)}`)
-                                                .done(function(dadosCarne){
-                                                    console.log(dadosCarne);
-                                                    // Mostrar tabela do carnê
-                                                })
-                                            socios = [];
+                                            var dadosDataParcelas = gerarDataParcelas(Now, tipo_desejado, socio.data_referencia.split("-")[2]);
+                                            var dataV = dadosDataParcelas['dataV'];
+                                            var dataV_formatada = dadosDataParcelas['dataV_formatada'];
+                                            var parcelas = dadosDataParcelas['parcelas'];
+                                            $.ajax({
+                                                type: "GET",
+                                                url: `${apiData.api}token=${apiData.token_api}&description=${apiData.agradecimento}&amount=${socio.valor_periodo}&dueDate=${dataV}&maxOverdueDays=${apiData.max_dias_venc}&installments=${parcelas}&payerName=${socio.nome}&payerCpfCnpj=${socio.cpf}&payerEmail=${socio.email}&payerPhone=${socio.telefone}&billingAddressStreet=${socio.logradouro}&billingAddressNumber=${socio.numero_endereco}&billingAddressComplement=${socio.complemento}&billingAddressNeighborhood=${socio.bairro}&billingAddressCity=${socio.cidade}&billingAddressState=${socio.estado}&billingAddressPostcode=${socio.cep}&fine=${apiData.multa}&interest=${apiData.juros}&paymentTypes=BOLETO&notifyPayer=TRUE&reference=${geraRef(socio.nome)}`,
+                                                async: false,
+                                                success : function(dadosBoleto) {
+                                                    for(boleto of dadosBoleto.data.charges){
+                                                        carneBoletos.push(boleto);
+                                                    }
+                                                }
+                                            });
+                                            montaTabela(socio.nome, carneBoletos);
                                         break;
                                         case 1:
                                             var Now = new Date();
-                                            var dataV = Number(dia = socio.data_referencia.split("-")[2]) <= Number(Now.getDate()) ? `${gerarData(Now, tipo_desejado, dia)[0]}` : `${dia}/${Now.getMonth() + 1}/${Now.getFullYear()}`;
-                                            var dataV_formatada = Number(dia = socio.data_referencia.split("-")[2]) <= Number(Now.getDate()) ? `${gerarData(Now, tipo_desejado, dia)[1]}` : `${Now.getFullYear()}-${Now.getMonth()}-${dia}`;
-                                            var quantidadeParcelas = calcula_parcelas('bimestral', dia);
-                                            console.log(quantidadeParcelas);
-                                            for(i = 0; i < quantidadeParcelas; i++){
+                                            var dadosDataParcelas = gerarDataParcelas(Now, tipo_desejado, socio.data_referencia.split("-")[2]);
+                                            var dataV = dadosDataParcelas['dataV'];
+                                            var dataV_formatada = dadosDataParcelas['dataV_formatada'];
+                                            var parcelas = dadosDataParcelas['parcelas'];
+                                            for(i = 0; i < parcelas; i++){
                                                 $.ajax({
                                                     type: "GET",
                                                     url: `${apiData.api}token=${apiData.token_api}&description=${apiData.agradecimento}&amount=${socio.valor_periodo}&dueDate=${dataV}&maxOverdueDays=${apiData.max_dias_venc}&installments=1&payerName=${socio.nome}&payerCpfCnpj=${socio.cpf}&payerEmail=${socio.email}&payerPhone=${socio.telefone}&billingAddressStreet=${socio.logradouro}&billingAddressNumber=${socio.numero_endereco}&billingAddressComplement=${socio.complemento}&billingAddressNeighborhood=${socio.bairro}&billingAddressCity=${socio.cidade}&billingAddressState=${socio.estado}&billingAddressPostcode=${socio.cep}&fine=${apiData.multa}&interest=${apiData.juros}&paymentTypes=BOLETO&notifyPayer=TRUE&reference=${geraRef(socio.nome)}`,
@@ -177,12 +265,12 @@ $(document).ready(function(){
                                             socios = [];
                                         break;
                                         case 2:
-                                            var Now = new Date('2021', '04', '06');
-                                            var dataV = Number(dia = socio.data_referencia.split("-")[2]) <= Number(Now.getDate()) ? `${gerarData(Now, tipo_desejado, dia)[0]}` : `${gerarData(Now, tipo_desejado, dia)[0]}`;
-                                            var dataV_formatada = Number(dia = socio.data_referencia.split("-")[2]) <= Number(Now.getDate()) ? `${gerarData(Now, tipo_desejado, dia)[1]}` : `${gerarData(Now, tipo_desejado, dia)[1]}`;
-                                            var quantidadeParcelas = calcula_parcelas('trimestral', dia);
-                                            console.log(quantidadeParcelas);
-                                            for(i = 0; i < quantidadeParcelas; i++){
+                                            var Now = new Date();
+                                            var dadosDataParcelas = gerarDataParcelas(Now, tipo_desejado, socio.data_referencia.split("-")[2]);
+                                            var dataV = dadosDataParcelas['dataV'];
+                                            var dataV_formatada = dadosDataParcelas['dataV_formatada'];
+                                            var parcelas = dadosDataParcelas['parcelas'];
+                                            for(i = 0; i < parcelas; i++){
                                                 $.ajax({
                                                     type: "GET",
                                                     url: `${apiData.api}token=${apiData.token_api}&description=${apiData.agradecimento}&amount=${socio.valor_periodo}&dueDate=${dataV}&maxOverdueDays=${apiData.max_dias_venc}&installments=1&payerName=${socio.nome}&payerCpfCnpj=${socio.cpf}&payerEmail=${socio.email}&payerPhone=${socio.telefone}&billingAddressStreet=${socio.logradouro}&billingAddressNumber=${socio.numero_endereco}&billingAddressComplement=${socio.complemento}&billingAddressNeighborhood=${socio.bairro}&billingAddressCity=${socio.cidade}&billingAddressState=${socio.estado}&billingAddressPostcode=${socio.cep}&fine=${apiData.multa}&interest=${apiData.juros}&paymentTypes=BOLETO&notifyPayer=TRUE&reference=${geraRef(socio.nome)}`,
@@ -204,11 +292,11 @@ $(document).ready(function(){
                                         break;
                                         case 3:
                                             var Now = new Date();
-                                            var dataV = Number(dia = socio.data_referencia.split("-")[2]) <= Number(Now.getDate()) ? `${gerarData(Now, tipo_desejado, dia)[0]}` : `${dia}/${Now.getMonth() + 1}/${Now.getFullYear()}`;
-                                            var dataV_formatada = Number(dia = socio.data_referencia.split("-")[2]) <= Number(Now.getDate()) ? `${gerarData(Now, tipo_desejado, dia)[1]}` : `${Now.getFullYear()}-${Now.getMonth()}-${dia}`;
-                                            var quantidadeParcelas = calcula_parcelas('semestral', dia);
-                                            console.log(quantidadeParcelas);
-                                            for(i = 0; i < quantidadeParcelas; i++){
+                                            var dadosDataParcelas = gerarDataParcelas(Now, tipo_desejado, socio.data_referencia.split("-")[2]);
+                                            var dataV = dadosDataParcelas['dataV'];
+                                            var dataV_formatada = dadosDataParcelas['dataV_formatada'];
+                                            var parcelas = dadosDataParcelas['parcelas'];
+                                            for(i = 0; i < parcelas; i++){
                                                 $.ajax({
                                                     type: "GET",
                                                     url: `${apiData.api}token=${apiData.token_api}&description=${apiData.agradecimento}&amount=${socio.valor_periodo}&dueDate=${dataV}&maxOverdueDays=${apiData.max_dias_venc}&installments=1&payerName=${socio.nome}&payerCpfCnpj=${socio.cpf}&payerEmail=${socio.email}&payerPhone=${socio.telefone}&billingAddressStreet=${socio.logradouro}&billingAddressNumber=${socio.numero_endereco}&billingAddressComplement=${socio.complemento}&billingAddressNeighborhood=${socio.bairro}&billingAddressCity=${socio.cidade}&billingAddressState=${socio.estado}&billingAddressPostcode=${socio.cep}&fine=${apiData.multa}&interest=${apiData.juros}&paymentTypes=BOLETO&notifyPayer=TRUE&reference=${geraRef(socio.nome)}`,
@@ -231,7 +319,6 @@ $(document).ready(function(){
 
                                     }
                                 }
-                                console.log(carneBoletos);
                             })
                     });
                 }else{

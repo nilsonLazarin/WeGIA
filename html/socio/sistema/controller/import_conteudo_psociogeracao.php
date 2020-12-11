@@ -100,9 +100,9 @@
 							</div>
 				</div>
 
-				<div class="row">
-					  <div class="detalhes">
-
+				<div style="margin-top: 2em" class="row mt-3 pt-3">
+					  <div class="detalhes col-xs-12">
+					 
 					  </div>
 				</div>
 				
