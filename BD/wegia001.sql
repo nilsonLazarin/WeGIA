@@ -992,7 +992,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`cobrancas`
     `data_vencimento` DATE NULL ,  
     `data_pagamento` DATE NULL ,  
     `valor` FLOAT NULL ,  
-    `valor_pago` INT NULL ,  
+    `valor_pago` FLOAT NULL ,  
     `status` VARCHAR(255) NULL ,  
     `link_cobranca` VARCHAR(255) NULL ,  
     `link_boleto` VARCHAR(255) NULL ,  

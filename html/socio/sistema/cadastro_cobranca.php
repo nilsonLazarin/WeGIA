@@ -29,14 +29,11 @@
     $data_vencimento = implode('-', array_reverse(explode('/', $data_vencimento)));
     $data_pagamento = implode('-', array_reverse(explode('/', $data_pagamento)));
 
-
     // si = sem informação
-    if($resultado = mysqli_query($conexao, "UPDATE `cobrancas` SET `status` = '$status', `linha_digitavel`='$linha_digitavel' WHERE codigo=$codigo")){
-        if(mysqli_affected_rows($conexao)){
-            $cadastrado = true;
-        }
-    }else
-    if($resultado = mysqli_query($conexao, "INSERT INTO `pessoa`(`cpf`, `nome`, `telefone`) VALUES ('$cpf_cnpj', '$socio_nome',  '$telefone')")){
+    $resultado = mysqli_query($conexao, "UPDATE `cobrancas` SET `status` = '$status', `valor_pago` = $valor_pago, `linha_digitavel`='$linha_digitavel' WHERE codigo=$codigo");
+    if(mysqli_affected_rows($conexao)){
+        $cadastrado = true;
+    }else if($resultado = mysqli_query($conexao, "INSERT INTO `pessoa`(`cpf`, `nome`, `telefone`) VALUES ('$cpf_cnpj', '$socio_nome',  '$telefone')")){
         $id_pessoa = mysqli_insert_id($conexao);
         switch($pessoa){
             case "juridica": 

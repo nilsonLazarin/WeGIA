@@ -1,5 +1,6 @@
 $(document).ready(function(){
     // Iniciando
+    // Funcões do expansable
     $("#btn_geracao_auto").attr("disabled", true);
     function procurar_desejados(tipo_desejado){
         switch(Number(tipo_desejado)){
@@ -10,125 +11,58 @@ $(document).ready(function(){
             case 4: var td = "2,3"; break; //Mensais
         }
         $.post("./controller/query_geracao_auto.php", {
-            "query": `SELECT * FROM socio s JOIN pessoa p ON p.id_pessoa = s.id_pessoa WHERE s.id_sociostatus NOT IN (1,2,3,4) AND s.id_sociotipo in (${td})`
+            "query": `SELECT * FROM socio s JOIN pessoa p ON p.id_pessoa = s.id_pessoa WHERE s.id_sociostatus NOT IN (1,2,3,4) AND s.id_sociotipo in (${td}) AND s.valor_periodo <> '' AND s.data_referencia <> '0000-00-00'`
         })
             .done(function(dados){
                 var socios = JSON.parse(dados);
                 if(socios){
                     $("#btn_geracao_auto").attr("disabled", false);
-                    $("#btn_geracao_auto").click(function(){
+                    $("#btn_geracao_auto").click(function(event){
+                        $(".box-geracao").prepend('<div class="overlay"> <i class="fa fa-refresh fa-spin"></i> </div>');
                         $.post("./controller/query_geracao_auto.php",{
                             "query": `SELECT * FROM doacao_boleto_info AS bi JOIN sistema_pagamento AS sp ON (bi.id_sistema = sp.id) JOIN doacao_boleto_regras AS br ON (br.id = bi.id_regras)  WHERE nome_sistema = 'BOLETOFACIL'`
                         })
                             .done(function(dados_api){
                                 carneBoletos = [];
-                                function montaTabela(nome_socio, carne){
-                                    $(".detalhes").append(`
-                                    <div class="box box-info">
-                                    <div class="box-header with-border">
-                                          <h3 class="box-title">Controle de sócios</h3>
-                                          <div class="box-tools pull-right">
-                                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
-                                          </div>
-                                      <!-- /.box-tools -->
-                                    </div>
-                                    <!-- /.box-header -->
-                                <div class="box-body" style="display: none;">
-                                    <table class="table table-striped table-hover">
-                                          <thead>
-                                              <tr>
-                                                  <th>Teste</th>
-                                                <th>Teste</th>
-                                                <th>Teste</th>
-                                                <th>Teste</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody></tbody>
-                                    </table>
-                                </div>
-                                <!-- /.box-body -->
-                              </div>
-                                    `)
-                                }
-                                function calcula_parcelas(tipo_socio, dia){
-                                    switch(tipo_socio){
-                                        case 'mensal':
-                                            var Now =  new Date();
-                                            var Mes = Now.getMonth() + 1;
-                                            var proximoAno = new Date(String(Now.getFullYear() + 1), '11', '31');
-                                            var parcelas = 0;
-                                            if(Mes <= 6){
-                                                diaA = Now.getDate();
-                                                if(dia <= diaA){
-                                                    parcelas = 12 - Mes;
-                                                }else parcelas = 13 - Mes;
-                                            }else{
-                                                diaA = Now.getDate();
-                                                console.log(`${dia} - ${diaA}`);
-                                                if(dia <= diaA){
-                                                    console.log("teste");
-                                                    parcelas = (12 - Mes) + 12;
-                                                }else{
-                                                    for(var dataHoje = Now; dataHoje < proximoAno; dataHoje.setMonth(dataHoje.getMonth() + 1)){
-                                                        parcelas++;
-                                                    }
-                                                }
-                                            }
-                                        break;
-                                        case 'bimestral':
-                                            var Now =  new Date('2021', '08', '11');
-                                            var Mes = Now.getMonth() + 1;
-                                            var proximoAno = new Date(String(Now.getFullYear() + 1), '11', '31');
-                                            var parcelas = 0;
-                                            if(Mes <= 6){
-                                                diaA = Now.getDate();
-                                                if(dia <= diaA){
-                                                    parcelas = 6 - Mes;
-                                                }else parcelas = 7 - Mes;
-                                            }else{
-                                                diaA = Now.getDate();
-                                                console.log(`${dia} - ${diaA}`);
-                                                if(dia <= diaA){
-                                                    console.log("teste");
-                                                    parcelas = Math.floor((proximoAno.getMonth() - Now.getMonth() + (12 * (proximoAno.getFullYear() - Now.getFullYear())))/2);
-                                                }else{
-                                                    for(var dataHoje = Now; dataHoje < proximoAno; dataHoje.setMonth(dataHoje.getMonth() + 2)){
-                                                        parcelas++;
-                                                    }
-                                                }
-                                            }
-                                        break;
-                                        case 'trimestral':
-                                            var Now =  new Date('2021', '04', '06');
-                                            var Mes = Now.getMonth() + 1;
-                                            var proximoAno = new Date(String(Now.getFullYear() + 1), '11', '31');
-                                            var parcelas = 0;
-                                            if(Mes <= 6){
-                                                diaA = Now.getDate();
-                                                if(dia <= diaA){
-                                                    if(Mes == 1){
-                                                        parcelas = 4;
-                                                    }else parcelas = Math.floor(5 - (Mes/3));
-                                                }else parcelas = Math.floor(5 - (Mes/3)) + 4;
-                                            }else{
-                                                diaA = Now.getDate();
-                                                console.log(`${dia} - ${diaA}`);
-                                                if(dia <= diaA){
-                                                    console.log("teste");
-                                                    parcelas = (proximoAno.getMonth() - Now.getMonth() + (12 * (proximoAno.getFullYear() - Now.getFullYear())))/3;
-                                                }else{
-                                                    for(var dataHoje = Now; dataHoje <= proximoAno; dataHoje.setMonth(dataHoje.getMonth() + 3)){
-                                                        parcelas++;
-                                                    }
-                                                }
-                                            }
-                                        break;
-                                        case 'semestral':
-                                            
-                                        break;
+                                function montaTabela(nome_socio, carne, tipo_socio){
+                                    referenciaAccordion = nome_socio.replace(/[^a-zA-Zs]/g, "") + Math.round(Math.random()*100000000);
+                                    console.log(nome_socio, tipo_socio, carne);
+                                    var tabela = ``;
+                                    var qtd_parcelas = carne.length;
+                                    for(const [i, boleto] of carne.entries()){
+                                        tabela += `<tr><td>${i+1}/${qtd_parcelas}</td><td>${boleto.dueDate}</td><td><a target='_blank' href='${boleto.installmentLink}'>${boleto.installmentLink}</a></td><td>${boleto.payNumber}</td><tr>`;
                                     }
-                                    console.log(parcelas);
-                                    return parcelas;
+                                    if(tipo_socio == "mensal"){
+                                        tabela += `<tr><td colspan='2'>Link carnê completo:</td><td colspan='2'><a target='_blank' href='${carne[0].link}'>${carne[0].link}</a></td></tr>`;
+                                    }
+                                    $(".detalhes").append(`
+                                    <div class="accordion" id="accordionExample">
+                                    <div class="card">
+                                      <div class="card-header" id="headingThree">
+                                        <h2 class="mb-0">
+                                          <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse${referenciaAccordion}" aria-expanded="false" aria-controls="collapseThree">
+                                            ${nome_socio} - Sócio ${tipo_socio}
+                                          </button>
+                                        </h2>
+                                      </div>
+                                      <div id="collapse${referenciaAccordion}" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                                        <div class="card-body">
+                                        <table class="table table-striped table-hover">
+                                        <thead>
+                                            <tr>
+                                              <th>Parcela</th>
+                                              <th>Data de vencimento</th>
+                                              <th>Link parcela</th>
+                                              <th>Código de pagamento</th>
+                                          </tr>
+                                      </thead>
+                                      <tbody>${tabela}</tbody>
+                                  </table>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                    `)
                                 }
                                 function geraRef(socioNome){
                                     return socioNome.replace(/[^a-zA-Zs]/g, "").replace(" ", "") + Math.round(Math.random()*100000000);
@@ -137,7 +71,6 @@ $(document).ready(function(){
                                     var NovaData = new Date(Now);
                                     var fimDoAno = new Date(String(Now.getFullYear()), '11', '31');
                                     var proximoAno = new Date(String(Now.getFullYear() + 1), '11', '31');
-                                    console.log(Now, fimDoAno, proximoAno);
                                     var retornoDatas = {
                                         dataV: null,
                                         dataV_formatada: null,
@@ -158,7 +91,6 @@ $(document).ready(function(){
                                         }else{
                                             for(var dataHoje = new Date(NovaData); dataHoje < proximoAno; dataHoje.setMonth(dataHoje.getMonth() + 2)){
                                                 parcelas++;
-                                                console.log(parcelas);
                                             }
                                         }
                                     }else if(tipo == 2){
@@ -212,17 +144,14 @@ $(document).ready(function(){
                                     retornoDatas.dataV = (String(`${dia_preferencial}/${NovaData.getMonth() + 1}/${NovaData.getFullYear()}`));
                                     retornoDatas.dataV_formatada = (String(`${NovaData.getFullYear()}-${NovaData.getMonth()}-${dia_preferencial}`));
                                     retornoDatas.parcelas = parcelas;
-                                    console.log(retornoDatas);
                                     return retornoDatas;
                                 }
                                 var apiData = JSON.parse(dados_api)[0];
-                                console.log(apiData);
                                 for(socio of socios){
-                                    console.log(socio);
-                                    switch(Number(tipo_desejado)){
-                                        case 4:
+                                    switch(Number(socio.id_sociotipo)){
+                                        case 2: case 3:
                                             var Now = new Date();
-                                            var dadosDataParcelas = gerarDataParcelas(Now, tipo_desejado, socio.data_referencia.split("-")[2]);
+                                            var dadosDataParcelas = gerarDataParcelas(Now, 4, socio.data_referencia.split("-")[2]);
                                             var dataV = dadosDataParcelas['dataV'];
                                             var dataV_formatada = dadosDataParcelas['dataV_formatada'];
                                             var parcelas = dadosDataParcelas['parcelas'];
@@ -236,11 +165,12 @@ $(document).ready(function(){
                                                     }
                                                 }
                                             });
-                                            montaTabela(socio.nome, carneBoletos);
+                                            montaTabela(socio.nome, carneBoletos, 'mensal');
+                                            carneBoletos = [];
                                         break;
-                                        case 1:
+                                        case 6: case 7:
                                             var Now = new Date();
-                                            var dadosDataParcelas = gerarDataParcelas(Now, tipo_desejado, socio.data_referencia.split("-")[2]);
+                                            var dadosDataParcelas = gerarDataParcelas(Now, 1, socio.data_referencia.split("-")[2]);
                                             var dataV = dadosDataParcelas['dataV'];
                                             var dataV_formatada = dadosDataParcelas['dataV_formatada'];
                                             var parcelas = dadosDataParcelas['parcelas'];
@@ -257,16 +187,16 @@ $(document).ready(function(){
                                                 });
                                                 var arrayDataSegments = dataV_formatada.split('-');
                                                 var novaData = new Date(arrayDataSegments[0], arrayDataSegments[1], arrayDataSegments[2]);
-                                                console.log(`${novaData.getDate()}/${novaData.getMonth()+1}/${novaData.getFullYear()}`);
                                                 novaData.setMonth(novaData.getMonth() + 2);
                                                 dataV_formatada = `${novaData.getFullYear()}-${novaData.getMonth()}-${novaData.getDate()}`;
                                                 dataV = `${novaData.getDate()}/${novaData.getMonth()+1}/${novaData.getFullYear()}`;
                                             }
-                                            socios = [];
+                                            montaTabela(socio.nome, carneBoletos, 'bimestral');
+                                            carneBoletos = [];
                                         break;
-                                        case 2:
+                                        case 8: case 9:
                                             var Now = new Date();
-                                            var dadosDataParcelas = gerarDataParcelas(Now, tipo_desejado, socio.data_referencia.split("-")[2]);
+                                            var dadosDataParcelas = gerarDataParcelas(Now, 2, socio.data_referencia.split("-")[2]);
                                             var dataV = dadosDataParcelas['dataV'];
                                             var dataV_formatada = dadosDataParcelas['dataV_formatada'];
                                             var parcelas = dadosDataParcelas['parcelas'];
@@ -283,16 +213,16 @@ $(document).ready(function(){
                                                 });
                                                 var arrayDataSegments = dataV_formatada.split('-');
                                                 var novaData = new Date(arrayDataSegments[0], arrayDataSegments[1], arrayDataSegments[2]);
-                                                console.log(`${novaData.getDate()}/${novaData.getMonth()+1}/${novaData.getFullYear()}`);
                                                 novaData.setMonth(novaData.getMonth() + 3);
                                                 dataV_formatada = `${novaData.getFullYear()}-${novaData.getMonth()}-${novaData.getDate()}`;
                                                 dataV = `${novaData.getDate()}/${novaData.getMonth()+1}/${novaData.getFullYear()}`;
                                             }
-                                            socios = [];
+                                            montaTabela(socio.nome, carneBoletos, 'trimestral');
+                                            carneBoletos = [];
                                         break;
-                                        case 3:
+                                        case 10: case 11:
                                             var Now = new Date();
-                                            var dadosDataParcelas = gerarDataParcelas(Now, tipo_desejado, socio.data_referencia.split("-")[2]);
+                                            var dadosDataParcelas = gerarDataParcelas(Now, 3, socio.data_referencia.split("-")[2]);
                                             var dataV = dadosDataParcelas['dataV'];
                                             var dataV_formatada = dadosDataParcelas['dataV_formatada'];
                                             var parcelas = dadosDataParcelas['parcelas'];
@@ -309,17 +239,20 @@ $(document).ready(function(){
                                                 });
                                                 var arrayDataSegments = dataV_formatada.split('-');
                                                 var novaData = new Date(arrayDataSegments[0], arrayDataSegments[1], arrayDataSegments[2]);
-                                                console.log(`${novaData.getDate()}/${novaData.getMonth()+1}/${novaData.getFullYear()}`);
                                                 novaData.setMonth(novaData.getMonth() + 6);
                                                 dataV_formatada = `${novaData.getFullYear()}-${novaData.getMonth()}-${novaData.getDate()}`;
                                                 dataV = `${novaData.getDate()}/${novaData.getMonth()+1}/${novaData.getFullYear()}`;
                                             }
-                                            socios = [];
+                                            montaTabela(socio.nome, carneBoletos, 'semestral');
+                                            carneBoletos = [];
                                         break;
 
                                     }
                                 }
+                                $(".box-geracao .overlay").remove();
                             })
+                            event.stopPropagation();
+                            $(this).off();
                     });
                 }else{
                     console.log("SEM SÓCIOS DA CATEGORIA.");

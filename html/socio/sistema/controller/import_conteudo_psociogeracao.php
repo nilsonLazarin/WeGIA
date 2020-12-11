@@ -76,7 +76,7 @@
           <!-- /.box -->
         </div> 
 		<div class="row">
-        <div class="box box-warning box-solid socioModal">
+        <div class="box box-warning box-solid socioModal box-geracao">
             <div class="box-header">
               <h3 class="box-title"><i class="far fa-list-alt"></i> Geração em massa automática</h3>
             </div>
