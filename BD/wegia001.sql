@@ -236,7 +236,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `wegia`.`documento` (
   `id_documento` INT(11) NOT NULL AUTO_INCREMENT,
   `id_pessoa` INT(11) NOT NULL,
-  `imgdoc` LONGTEXT NULL DEFAULT NULL,
+  `imgdoc` LONGBLOB NULL DEFAULT NULL,
   `imagem_extensao` VARCHAR(10) NULL DEFAULT NULL,
   `descricao` VARCHAR(40) NULL DEFAULT NULL,
   PRIMARY KEY (`id_documento`),
