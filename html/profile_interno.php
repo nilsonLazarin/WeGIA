@@ -97,6 +97,9 @@
       <!-- Head Libs -->
       <script src="../assets/vendor/modernizr/modernizr.js"></script>
       <script src="../Functions/lista.js"></script>
+
+      <!-- JavaScript Functions -->
+	   <script src="../Functions/enviar_dados.js"></script>
       <script>
          function alterardate(data)
          {
