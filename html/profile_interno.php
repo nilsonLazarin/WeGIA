@@ -553,7 +553,7 @@
 													<label>
 														<input type="checkbox" name="tituloEleitor" value="Possui" id="tituloEleitor-checkbox" >Título de Eleitor
 														<input type="hidden" name="nomeClasse" value="InternoControle">
-														<input type="hidden" name="metodo" value="incluir">
+														<input type="hidden" name="metodo" value="alterar">
 													</label><br>
 													
 													<label>
@@ -786,7 +786,7 @@
 	      <h3>Excluir um Documento</h3>
          </div>
          <div class="modal-body">
-         <p> Tem certeza que deseja a imagem desse documento? Essa ação não poderá ser desfeita! </p>
+         <p> Tem certeza que deseja excluir a imagem desse documento? Essa ação não poderá ser desfeita! </p>
          <form action="../controle/control.php" method="GET">
             <input type="hidden" name="id_documento" id="excluirdoc">
             <input type="hidden" name="nomeClasse" value="DocumentoControle">
