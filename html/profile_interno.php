@@ -553,7 +553,7 @@
 													<label>
 														<input type="checkbox" name="tituloEleitor" value="Possui" id="tituloEleitor-checkbox" >Título de Eleitor
 														<input type="hidden" name="nomeClasse" value="InternoControle">
-														<input type="hidden" name="metodo" value="incluir">
+														<input type="hidden" name="metodo" value="alterar">
 													</label><br>
 													
 													<label>
