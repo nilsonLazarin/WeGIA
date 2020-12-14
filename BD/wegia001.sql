@@ -915,7 +915,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`socio` (
   `id_sociostatus` INT NOT NULL,
   `id_sociotipo` INT NOT NULL,
   `email` VARCHAR(256) NULL,
-  `valor_periodo` FLOAT NULL,
+  `valor_periodo` DECIMAL(10,2) NULL,
   `data_referencia` DATE NULL,
   PRIMARY KEY (`id_socio`),
   INDEX `fk_socio_socio_status1_idx` (`id_sociostatus` ASC),
