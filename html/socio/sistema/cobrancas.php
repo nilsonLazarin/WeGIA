@@ -156,5 +156,6 @@
     <?php require_once("./controller/import_conteudo_cobrancas.php"); ?>
     <?php require_once("./controller/import_modais.php"); ?>
     <?php require_once("./controller/import_scripts.php"); ?>
+    <?php require_once("./controller/import_scripts_socio.php"); ?>
 </body>
 </html>
