@@ -16,7 +16,7 @@
 
     if(!isset($data_referencia) or ($data_referencia == null) or ($data_referencia == "") or empty($data_referencia) or ($data_referencia == "imp")){
         $data_referencia = "null";
-    }else $data_referencia = "$data_referencia";
+    }else $data_referencia = "'$data_referencia'";
 
     if(!isset($valor_periodo) or ($valor_periodo == null) or ($valor_periodo == "") or empty($valor_periodo) or ($valor_periodo == "imp")){
         $valor_periodo = "null";
