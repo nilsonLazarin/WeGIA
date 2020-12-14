@@ -64,7 +64,7 @@
                 $id_sociotipo = 4;
             }  break;
         }
-
+        echo("INSERT INTO `socio`(`id_pessoa`, `id_sociostatus`, `id_sociotipo`, `email`, `valor_periodo`, `data_referencia`) VALUES ($id_pessoa, $status, $id_sociotipo, '$email', $valor_periodo, '$data_referencia')");
         $resultado = mysqli_query($conexao, "INSERT INTO `socio`(`id_pessoa`, `id_sociostatus`, `id_sociotipo`, `email`, `valor_periodo`, `data_referencia`) VALUES ($id_pessoa, $status, $id_sociotipo, '$email', $valor_periodo, '$data_referencia')");
         if(mysqli_affected_rows($conexao)) $cadastrado = true;
 
