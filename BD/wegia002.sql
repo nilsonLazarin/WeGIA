@@ -11,6 +11,8 @@ INSERT INTO `funcionario` (`id_pessoa`, `id_cargo`, `id_situacao`, `data_admissa
 
 INSERT INTO `escala_quadro_horario` (`descricao`) VALUES ('5x2 - 5 dias trabalhados com 2 dias de folga'), ('12x36 - 12 horas trabalhadas com 36 horas de folga');
 
+INSERT INTO `tipo_quadro_horario` (`descricao`) VALUES ('Segunda à Sexta, folga Sábado e Domingo'), ('Dias alternados');
+
 INSERT INTO `selecao_paragrafo` (`id_selecao`, `nome_campo`, `paragrafo`, `original`) VALUES
 (1, 'Titulo', 'WEGIA', 1),
 (2, 'Subtitulo', 'Web Gerenciador de instituições assistenciais', 1),
