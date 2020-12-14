@@ -9,6 +9,8 @@ INSERT INTO `situacao` (`situacoes`) VALUES ('Ativo'), ('Inativo');
 
 INSERT INTO `funcionario` (`id_pessoa`, `id_cargo`, `id_situacao`, `data_admissao`, `pis`, `ctps`, `uf_ctps`, `numero_titulo`, `zona`, `secao`, `certificado_reservista_numero`, `certificado_reservista_serie`) VALUES ('1', '1', '1', '2020-06-03', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL);
 
+INSERT INTO `escala_quadro_horario` (`descricao`) VALUES ('5x2 - 5 dias trabalhados com 2 dias de folga'), ('12x36 - 12 horas trabalhadas com 36 horas de folga');
+
 INSERT INTO `selecao_paragrafo` (`id_selecao`, `nome_campo`, `paragrafo`, `original`) VALUES
 (1, 'Titulo', 'WEGIA', 1),
 (2, 'Subtitulo', 'Web Gerenciador de instituições assistenciais', 1),
