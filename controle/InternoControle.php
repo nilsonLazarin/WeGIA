@@ -260,7 +260,7 @@ class InternoControle
             $idPessoa=$intDAO->incluir($interno);
             if(!empty($_FILES['imgRg']['tmp_name']) && $rg!="Não informado")
 				{
-					$imagem=comprimir(file_get_contents($_FILES['imgRg']['tmp_name']));
+					$imagem=base64_encode(file_get_contents($_FILES['imgRg']['tmp_name']));
 					$extensao=pathinfo($_FILES['imgRg']['name'],PATHINFO_EXTENSION);
 					$descricao="Registro Geral";
 					$documento=new Documento($idPessoa,$imagem,$extensao,$descricao);
@@ -268,7 +268,7 @@ class InternoControle
 				}
 			if(!empty($_FILES['imgCpf']['tmp_name']))
 				{
-					$imagem=comprimir(file_get_contents($_FILES['imgCpf']['tmp_name']));
+					$imagem=base64_encode(file_get_contents($_FILES['imgCpf']['tmp_name']));
 					$extensao=pathinfo($_FILES['imgCpf']['name'],PATHINFO_EXTENSION);
 					$descricao="CPF";
 					$documento=new Documento($idPessoa,$imagem,$extensao,$descricao);
@@ -276,7 +276,7 @@ class InternoControle
 				}
 			if(!empty($_FILES['imgCtps']['tmp_name']))
 				{
-					$imagem=comprimir(file_get_contents($_FILES['imgCtps']['tmp_name']));
+					$imagem=base64_encode(file_get_contents($_FILES['imgCtps']['tmp_name']));
 					$extensao=pathinfo($_FILES['imgCtps']['name'],PATHINFO_EXTENSION);
 					$descricao="CTPS";
 					$documento=new Documento($idPessoa,$imagem,$extensao,$descricao);
@@ -284,7 +284,7 @@ class InternoControle
 				}
             if(!empty($_FILES['imgCertidaoNascimento']['tmp_name']))
             {
-                    $imagem=comprimir(file_get_contents($_FILES['imgCertidaoNascimento']['tmp_name']));
+                    $imagem=base64_encode(file_get_contents($_FILES['imgCertidaoNascimento']['tmp_name']));
                     $extensao=pathinfo($_FILES['imgCertidaoNascimento']['name'],PATHINFO_EXTENSION);
                     $descricao="Certidão de Nascimento";
                     $documento=new Documento($idPessoa,$imagem,$extensao,$descricao);
@@ -292,7 +292,7 @@ class InternoControle
             }
                 if(!empty($_FILES['imgCuratela']['tmp_name']))
                 {
-                    $imagem=comprimir(file_get_contents($_FILES['imgCuratela']['tmp_name']));
+                    $imagem=base64_encode(file_get_contents($_FILES['imgCuratela']['tmp_name']));
                     $extensao=pathinfo($_FILES['imgCuratela']['name'],PATHINFO_EXTENSION);
                     $descricao="Curatela";
                     $documento=new Documento($idPessoa,$imagem,$extensao,$descricao);
@@ -300,7 +300,7 @@ class InternoControle
                 }
                 if(!empty($_FILES['imgTituloEleitor']['tmp_name']))
                 {
-                    $imagem=comprimir(file_get_contents($_FILES['imgTituloEleitor']['tmp_name']));
+                    $imagem=base64_encode(file_get_contents($_FILES['imgTituloEleitor']['tmp_name']));
                     $extensao=pathinfo($_FILES['imgTituloEleitor']['name'],PATHINFO_EXTENSION);
                     $descricao="Título de Eleitor";
                     $documento=new Documento($idPessoa,$imagem,$extensao,$descricao);
@@ -308,7 +308,7 @@ class InternoControle
                 }
                 if(!empty($_FILES['imgCertidaoCasamento']['tmp_name']))
                 {
-                    $imagem=comprimir(file_get_contents($_FILES['imgCertidaoCasamento']['tmp_name']));
+                    $imagem=base64_encode(file_get_contents($_FILES['imgCertidaoCasamento']['tmp_name']));
                     $extensao=pathinfo($_FILES['imgCertidaoCasamento']['name'],PATHINFO_EXTENSION);
                     $descricao="Certidão de Casamento";
                     $documento=new Documento($idPessoa,$imagem,$extensao,$descricao);
@@ -316,7 +316,7 @@ class InternoControle
                 }
                 if(!empty($_FILES['imgCtps']['tmp_name']))
                 {
-                    $imagem=comprimir(file_get_contents($_FILES['imgCtps']['tmp_name']));
+                    $imagem=base64_encode(file_get_contents($_FILES['imgCtps']['tmp_name']));
                     $extensao=pathinfo($_FILES['imgCtps']['name'],PATHINFO_EXTENSION);
                     $descricao="CTPS";
                     $documento=new Documento($idPessoa,$imagem,$extensao,$descricao);
@@ -324,7 +324,7 @@ class InternoControle
                 }
                 if(!empty($_FILES['imgInss']['tmp_name']))
                 {
-                    $imagem=comprimir(file_get_contents($_FILES['imgInss']['tmp_name']));
+                    $imagem=base64_encode(file_get_contents($_FILES['imgInss']['tmp_name']));
                     $extensao=pathinfo($_FILES['imgInss']['name'],PATHINFO_EXTENSION);
                     $descricao="INSS";
                     $documento=new Documento($idPessoa,$imagem,$extensao,$descricao);
@@ -332,7 +332,7 @@ class InternoControle
                 }
                 if(!empty($_FILES['imgLoas']['tmp_name']))
                 {
-                    $imagem=comprimir(file_get_contents($_FILES['imgLoas']['tmp_name']));
+                    $imagem=base64_encode(file_get_contents($_FILES['imgLoas']['tmp_name']));
                     $extensao=pathinfo($_FILES['imgLoas']['name'],PATHINFO_EXTENSION);
                     $descricao="LOAS";
                     $documento=new Documento($idPessoa,$imagem,$extensao,$descricao);
@@ -340,7 +340,7 @@ class InternoControle
                 }
                 if(!empty($_FILES['imgBpc']['tmp_name']))
                 {
-                    $imagem=comprimir(file_get_contents($_FILES['imgBpc']['tmp_name']));
+                    $imagem=base64_encode(file_get_contents($_FILES['imgBpc']['tmp_name']));
                     $extensao=pathinfo($_FILES['imgBpc']['name'],PATHINFO_EXTENSION);
                     $descricao="BPC";
                     $documento=new Documento($idPessoa,$imagem,$extensao,$descricao);
@@ -348,7 +348,7 @@ class InternoControle
                 }
                 if(!empty($_FILES['imgFunrural']['tmp_name']))
                 {
-                    $imagem=comprimir(file_get_contents($_FILES['imgFunrural']['tmp_name']));
+                    $imagem=base64_encode(file_get_contents($_FILES['imgFunrural']['tmp_name']));
                     $extensao=pathinfo($_FILES['imgFunrural']['name'],PATHINFO_EXTENSION);
                     $descricao="Funrural";
                     $documento=new Documento($idPessoa,$imagem,$extensao,$descricao);
@@ -356,7 +356,7 @@ class InternoControle
                 }
                 if(!empty($_FILES['imgSaf']['tmp_name']))
                 {
-                    $imagem=comprimir(file_get_contents($_FILES['imgSaf']['tmp_name']));
+                    $imagem=base64_encode(file_get_contents($_FILES['imgSaf']['tmp_name']));
                     $extensao=pathinfo($_FILES['imgSaf']['name'],PATHINFO_EXTENSION);
                     $descricao="SAF";
                     $documento=new Documento($idPessoa,$imagem,$extensao,$descricao);
@@ -364,11 +364,11 @@ class InternoControle
                 }
                 if(!empty($_FILES['imgSus']['tmp_name']))
                 {
-                    $imagem=comprimir(file_get_contents($_FILES['imgSus']['tmp_name']));
+                    $imagem=base64_encode(file_get_contents($_FILES['imgSus']['tmp_name']));
                     $extensao=pathinfo($_FILES['imgSus']['name'],PATHINFO_EXTENSION);
                     $descricao="SUS";
                     $documento=new Documento($idPessoa,$imagem,$extensao,$descricao);
-                    $docDAO->incluir($documento);
+                    $docDAO->incluir($documento); 
                 }
             $_SESSION['msg']="Interno cadastrado com sucesso";
             $_SESSION['proxima']="Cadastrar outro interno";

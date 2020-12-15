@@ -1,15 +1,23 @@
 <?php
-
+$config_path = "config.php";
+if(file_exists($config_path)){
+    require_once($config_path);
+}else{
+    while(true){
+        $config_path = "../" . $config_path;
+        if(file_exists($config_path)) break;
+    }
+    require_once($config_path);
 class Acesso
 {
 
-    private $host = 'localhost';
+    private $host = DB_HOST;
 
-    private $usuario = 'root';
+    private $usuario = DB_USER;
 
-    private $senha = '';
+    private $senha = DB_PASSWORD;
 
-    private $banco = 'wegia';
+    private $banco = DB_NAME;
 
     function getHost()
     {

@@ -236,7 +236,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `wegia`.`documento` (
   `id_documento` INT(11) NOT NULL AUTO_INCREMENT,
   `id_pessoa` INT(11) NOT NULL,
-  `imgdoc` LONGTEXT NULL DEFAULT NULL,
+  `imgdoc` LONGBLOB NULL DEFAULT NULL,
   `imagem_extensao` VARCHAR(10) NULL DEFAULT NULL,
   `descricao` VARCHAR(40) NULL DEFAULT NULL,
   PRIMARY KEY (`id_documento`),
@@ -915,6 +915,8 @@ CREATE TABLE IF NOT EXISTS `wegia`.`socio` (
   `id_sociostatus` INT NOT NULL,
   `id_sociotipo` INT NOT NULL,
   `email` VARCHAR(256) NULL,
+  `valor_periodo` DECIMAL(10,2) NULL,
+  `data_referencia` DATE NULL,
   PRIMARY KEY (`id_socio`),
   INDEX `fk_socio_socio_status1_idx` (`id_sociostatus` ASC),
   INDEX `fk_socio_pessoa1_idx` (`id_pessoa` ASC),
@@ -991,8 +993,8 @@ CREATE TABLE IF NOT EXISTS `wegia`.`cobrancas`
     `data_emissao` DATE NULL ,  
     `data_vencimento` DATE NULL ,  
     `data_pagamento` DATE NULL ,  
-    `valor` FLOAT NULL ,  
-    `valor_pago` INT NULL ,  
+    `valor` DECIMAL(10,2) NULL ,  
+    `valor_pago` DECIMAL(10,2) NULL ,  
     `status` VARCHAR(255) NULL ,  
     `link_cobranca` VARCHAR(255) NULL ,  
     `link_boleto` VARCHAR(255) NULL ,  
@@ -1150,7 +1152,7 @@ DELIMITER ;
 
 DELIMITER $$
 USE `wegia`$$
-CREATE PROCEDURE `cadimagem`(IN `id_pessoa` INT, IN `imagem` LONGTEXT, IN `imagem_extensao` VARCHAR(10), IN `descricao` VARCHAR(40))
+CREATE PROCEDURE `cadimagem`(IN `id_pessoa` INT, IN `imagem` LONGBLOB, IN `imagem_extensao` VARCHAR(10), IN `descricao` VARCHAR(40))
 begin
 declare idD int;
 insert into documento(id_pessoa,imgdoc,imagem_extensao,descricao) VALUES (id_pessoa,imagem,imagem_extensao,descricao);

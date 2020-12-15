@@ -3,11 +3,15 @@ use wegia;
 INSERT INTO `pessoa` (`id_pessoa`, `cpf`, `senha`, `nome`) VALUES (NULL, 'admin', '9dcc9cbd309bfe63101c96687fb79ca847e9f238ce965f82eb44e8daf825cdbb', 'admin');
 
 INSERT INTO `cargo`(`id_cargo`, `cargo`) VALUES (1,'Administrador');
-INSERT INTO `cargo`(`id_cargo`, `cargo`) VALUES (2,'SEM CARGO');
+INSERT INTO `cargo`(`id_cargo`, `cargo`) VALUES (2,'Sem cargo definido');
 
 INSERT INTO `situacao` (`situacoes`) VALUES ('Ativo'), ('Inativo');
 
 INSERT INTO `funcionario` (`id_pessoa`, `id_cargo`, `id_situacao`, `data_admissao`, `pis`, `ctps`, `uf_ctps`, `numero_titulo`, `zona`, `secao`, `certificado_reservista_numero`, `certificado_reservista_serie`) VALUES ('1', '1', '1', '2020-06-03', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL);
+
+INSERT INTO `escala_quadro_horario` (`descricao`) VALUES ('5x2 - 5 dias trabalhados com 2 dias de folga'), ('12x36 - 12 horas trabalhadas com 36 horas de folga');
+
+INSERT INTO `tipo_quadro_horario` (`descricao`) VALUES ('Segunda à Sexta, folga Sábado e Domingo'), ('Dias alternados');
 
 INSERT INTO `selecao_paragrafo` (`id_selecao`, `nome_campo`, `paragrafo`, `original`) VALUES
 (1, 'Titulo', 'WEGIA', 1),

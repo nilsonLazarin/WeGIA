@@ -16,11 +16,11 @@
 
     if(!isset($data_referencia) or ($data_referencia == null) or ($data_referencia == "") or empty($data_referencia) or ($data_referencia == "imp")){
         $data_referencia = "null";
-    }else $data_referencia = "$data_referencia";
+    }else $data_referencia = "'$data_referencia'";
 
     if(!isset($valor_periodo) or ($valor_periodo == null) or ($valor_periodo == "") or empty($valor_periodo) or ($valor_periodo == "imp")){
         $valor_periodo = "null";
-    }else $valor_periodo = "'$valor_periodo'";
+    }else $valor_periodo = "$valor_periodo";
 
     if(!isset($contribuinte)){
         $contribuinte = null;
@@ -65,7 +65,7 @@
             }  break;
         }
 
-        $resultado = mysqli_query($conexao, "INSERT INTO `socio`(`id_pessoa`, `id_sociostatus`, `id_sociotipo`, `email`, `valor_periodo`, `data_referencia`) VALUES ($id_pessoa, $status, $id_sociotipo, '$email', $valor_periodo, '$data_referencia')");
+        $resultado = mysqli_query($conexao, "INSERT INTO `socio`(`id_pessoa`, `id_sociostatus`, `id_sociotipo`, `email`, `valor_periodo`, `data_referencia`) VALUES ($id_pessoa, $status, $id_sociotipo, '$email', $valor_periodo, $data_referencia)");
         if(mysqli_affected_rows($conexao)) $cadastrado = true;
 
     }

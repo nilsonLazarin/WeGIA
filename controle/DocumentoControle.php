@@ -23,7 +23,7 @@
 			extract($_REQUEST);
 			$docuDAO=new DocumentoDAO();
 			try {
-				$imagem=comprimir(file_get_contents($_FILES['doc']['tmp_name']));
+				$imagem=file_get_contents($_FILES['doc']['tmp_name']);
                 $extensao=pathinfo($_FILES['doc']['name'],PATHINFO_EXTENSION);
                 $documento=new Documento(1,$imagem,$extensao,$descricao);
 				$documento->setIdDocumento($id_documento);
