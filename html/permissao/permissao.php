@@ -1,7 +1,7 @@
 <?php
 
 function permissao($id_pessoa, $id_recurso, $id_acao = 1){
-	define("DEBUG", true);
+	define("DEBUG", false);
     $wegia_path = '';
     $config_path = "config.php";
 	if(file_exists($wegia_path.$config_path)){
@@ -16,7 +16,11 @@ function permissao($id_pessoa, $id_recurso, $id_acao = 1){
 	}
 	$conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 	$resultado = mysqli_query($conexao, "SELECT * FROM funcionario WHERE id_pessoa=$id_pessoa");
-	if(!is_null($resultado)){
+	if (DEBUG){
+		var_dump($resultado);
+		die();
+	}
+	if($resultado){
 		$id_cargo = mysqli_fetch_array($resultado);
 		if(!is_null($id_cargo)){
 			$id_cargo = $id_cargo['id_cargo'];
