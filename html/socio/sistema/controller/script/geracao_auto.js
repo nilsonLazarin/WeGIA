@@ -22,6 +22,7 @@ $(document).ready(function(){
                 if(socios){
                     $("#btn_geracao_auto").attr("disabled", false);
                     $("#btn_geracao_auto").click(function(event){
+                        $("#btn_geracao_auto").attr("disabled", true);
                         $("#estimacao_tempo").css("color", "orange");
                         $(".box-geracao").prepend('<div class="overlay"> <i class="fa fa-refresh fa-spin"></i> </div>');
                         $.post("./controller/query_geracao_auto.php",{
