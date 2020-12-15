@@ -236,7 +236,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `wegia`.`documento` (
   `id_documento` INT(11) NOT NULL AUTO_INCREMENT,
   `id_pessoa` INT(11) NOT NULL,
-  `imgdoc` VARCHAR(255) NULL DEFAULT NULL,
+  `imgdoc` LONGBLOB NULL DEFAULT NULL,
   `imagem_extensao` VARCHAR(10) NULL DEFAULT NULL,
   `descricao` VARCHAR(40) NULL DEFAULT NULL,
   PRIMARY KEY (`id_documento`),
@@ -1152,7 +1152,7 @@ DELIMITER ;
 
 DELIMITER $$
 USE `wegia`$$
-CREATE PROCEDURE `cadimagem`(IN `id_pessoa` INT, IN `imagem` VARCHAR, IN `imagem_extensao` VARCHAR(10), IN `descricao` VARCHAR(40))
+CREATE PROCEDURE `cadimagem`(IN `id_pessoa` INT, IN `imagem` LONGBLOB, IN `imagem_extensao` VARCHAR(10), IN `descricao` VARCHAR(40))
 begin
 declare idD int;
 insert into documento(id_pessoa,imgdoc,imagem_extensao,descricao) VALUES (id_pessoa,imagem,imagem_extensao,descricao);
