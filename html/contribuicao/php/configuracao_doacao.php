@@ -1,16 +1,62 @@
 <?php
-    require_once('conexao.php');
-    $banco = new Conexao;
-    include('dadosConfig.php');
+
+require_once('conexao.php');
+$banco = new Conexao;
+include('dadosConfig.php');
 
 ini_set('display_errors', 0);
 ini_set('display_startup_erros', 0);
 
-	session_start();
-	if(!isset($_SESSION['usuario'])){
-		header ("Location: ../../../index.php");
+session_start();
+if(!isset($_SESSION['usuario'])){
+    header ("Location: ../../../index.php");
+}
+
+$config_path = "config.php";
+if(file_exists($config_path)){
+    require_once($config_path);
+} else {
+    while(true){
+        $config_path = "../" . $config_path;
+        if(file_exists($config_path)) break;
     }
+    require_once($config_path);
+}
+$mysqli = new mysqli(DB_HOST,DB_USER,DB_PASSWORD,DB_NAME);
+$situacao = $mysqli->query("SELECT * FROM situacao");
+$cargo = $mysqli->query("SELECT * FROM cargo");
+$beneficios = $mysqli->query("SELECT * FROM beneficios");
+$descricao_epi = $mysqli->query("SELECT * FROM epi");
+
+$conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+$id_pessoa = $_SESSION['id_pessoa'];
+$resultado = mysqli_query($conexao, "SELECT * FROM funcionario WHERE id_pessoa=$id_pessoa");
+if(!is_null($resultado)){
+    $id_cargo = mysqli_fetch_array($resultado);
+    if(!is_null($id_cargo)){
+        $id_cargo = $id_cargo['id_cargo'];
+    }
+    $resultado = mysqli_query($conexao, "SELECT * FROM permissao WHERE id_cargo=$id_cargo and id_recurso=9");
+    if(!is_bool($resultado) and mysqli_num_rows($resultado)){
+        $permissao = mysqli_fetch_array($resultado);
+        if($permissao['id_acao'] < 3){
+            $msg = "Você não tem as permissões necessárias para essa página.";
+            header("Location: ./home.php?msg_c=$msg");
+        }
+        $permissao = $permissao['id_acao'];
+    }else{
+        $permissao = 1;
+        $msg = "Você não tem as permissões necessárias para essa página.";
+        header("Location: ./home.php?msg_c=$msg");
+    }	
+}else{
+    $permissao = 1;
+    $msg = "Você não tem as permissões necessárias para essa página.";
+    header("Location: ./home.php?msg_c=$msg");
+}
+    
 ?>
+
 <!DOCTYPE html>
 <html class="fixed">
     <head>
