@@ -3,6 +3,13 @@
 	require_once'Conexao.php';
 	class DocumentoDAO
 	{
+
+		public function comprimir($anexoParaCompressao)
+		{
+			$arquivo_zip = gzcompress($anexoParaCompressao);
+			return $arquivo_zip;
+		}
+
 		public function incluir($documento)
 		{
 			try {
@@ -11,7 +18,7 @@
             $pdo = Conexao::connect();
             $stmt = $pdo->prepare($sql);
             $idPessoa=$documento->getIdPessoa();
-            $imagem=$documento->getImagem();
+			$imagem=$documento->getImagem();
             $extensao=$documento->getExtensao();
             $descricao=$documento->getDescricao();
             $stmt->bindParam(':idPessoa',$idPessoa);
@@ -32,7 +39,7 @@
 	            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	            $stmt = $pdo->prepare($sql);
 	            $idDocumento=$documento->getIdDocumento();
-            	$imagem=$documento->getImagem();
+				$imagem=$documento->getImagem();
             	$extensao=$documento->getExtensao();
            	 	$descricao=$documento->getDescricao();
            	 	$stmt->bindParam(':id_documento',$idDocumento);
