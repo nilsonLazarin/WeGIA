@@ -16,7 +16,7 @@ $config_path = "config.php";
 if(file_exists($config_path)){
     require_once($config_path);
 } else {
-    while(true){
+    while(true) {
         $config_path = "../" . $config_path;
         if(file_exists($config_path)) break;
     }
