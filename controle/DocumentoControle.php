@@ -15,7 +15,7 @@
 			{
 				$docuDAO->incluir($documento);
 			} catch (PDOException $e) {
-				echo $e->getMessage();
+				echo $e->getMessage(); 
 			}
 		}
 		public function alterar()
