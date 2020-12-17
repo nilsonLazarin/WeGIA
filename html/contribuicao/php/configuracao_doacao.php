@@ -44,12 +44,12 @@ if(!is_null($resultado)){
             header("Location: ./home.php?msg_c=$msg");
         }
         $permissao = $permissao['id_acao'];
-    }else{
+    } else {
         $permissao = 1;
         $msg = "Você não tem as permissões necessárias para essa página.";
         header("Location: ./home.php?msg_c=$msg");
     }	
-}else{
+} else {
     $permissao = 1;
     $msg = "Você não tem as permissões necessárias para essa página.";
     header("Location: ./home.php?msg_c=$msg");
