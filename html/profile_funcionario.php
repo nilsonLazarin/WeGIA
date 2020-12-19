@@ -938,8 +938,10 @@
 
 
                                   $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-                                  $id_pessoa = $_SESSION['id_pessoa'];
-                                  $resultado = mysqli_query($conexao, "SELECT `imagem`, `nome` FROM `pessoa` WHERE id_pessoa=$id_pessoa");
+                                  $id_pessoa = $_SESSION['id_pessoa'];    
+                                  $donoimagem=$_GET['id_funcionario'];                  
+                                  //$resultado = mysqli_query($conexao, "SELECT `imagem`, `nome` FROM `pessoa` WHERE id_pessoa=$id_pessoa");
+                                  $resultado = mysqli_query($conexao, "SELECT pessoa.imagem, pessoa.nome FROM pessoa, funcionario  WHERE pessoa.id_pessoa=funcionario.id_pessoa and funcionario.id_funcionario=$donoimagem");
                                   $pessoa = mysqli_fetch_array($resultado);
                                   if(isset($_SESSION['id_pessoa']) and !empty($_SESSION['id_pessoa'])){
                                     $foto = $pessoa['imagem'];
