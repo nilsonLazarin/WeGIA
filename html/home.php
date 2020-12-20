@@ -207,7 +207,7 @@
 						<a href="../controle/control.php?metodo=listarTodos&nomeClasse=FuncionarioControle&nextPage=../html/informacao_funcionario.php">
 							<div class="col-lg-2 col-md-8 i">
 									<i  class="far fa-address-card" id="listarFuncionario"></i>
-									<h4>Informação funcionarios</h4>
+									<h4>Informação funcionários</h4>
 							</div>
 						</a>
 
