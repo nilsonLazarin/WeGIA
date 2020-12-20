@@ -1,17 +1,50 @@
+#main-container-index {
+    min-height: 90vh;
+    margin-top: 2em;
+    font-family: 'Inter', sans-serif;
+}
+
+.text-inner-paragraph  h1 {
+    font-size: 30px;
+    text-transform: uppercase;
+    padding-bottom: 10px;
+    text-align: justify;
+}
+
+.text-inner-paragraph:nth-child(2n) {
+    padding-top: 20px;
+}
+
+.header-description {
+    font-family: 'Montserrat', sans-serif;
+}
 
 @media only screen and (min-width: 801px){
-    .formulario{
-        margin-top: 5px;
+    .formulario {
+ 
+    }
+
+    .form-group-login {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
     
-    .logo{
-        margin: 10px;
+    .pass-form {
         margin-top: 20px;
+    }
+
+    .logo{
+
     }
     
     .cabecalho{
         background-color: #d9d9d9;
         border-bottom: solid 1px #bfbfbf;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        padding: 12px;
     }
     
     .corpo{
@@ -37,9 +70,13 @@
     .mb-lg{
         width: 300px;
     }
-    
+
     .carrosel{
         padding-left: 30px;
+    }
+
+    .index-logo > .item > img {
+        max-width: 500px;
     }
     
     .informacao{
@@ -62,22 +99,30 @@
     
     .lar{
         font-size: 20px;
-        position: absolute;
     }
     
     .wegia{
-        position: relative;
-        top: 10px;
-        left: 50px;
     }
     
     .entrar{
-        margin-left: -10px;
-        margin-top: 20px;
+        margin-bottom: 15px;
+        width: 100%;
     }
     
-    .descricao{
-        margin-top: 10px;
+    .descricao div {
+        display: flex;
+        flex-direction: column;
+
+    }
+
+    .main-menu-logo, .login-button {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .entrar {
+        width: 100%;
     }
     
 }
