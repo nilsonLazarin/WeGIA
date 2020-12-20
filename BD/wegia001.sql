@@ -944,16 +944,16 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `wegia`.`log_contribuicao` (
   `id_log` INT AUTO_INCREMENT PRIMARY KEY,
-  `id_socio` INT NOT NULL,
-  `ip` VARCHAR(128) NOT NULL,
+  `id_socio` INT(11) NOT NULL,
+  `ip` VARCHAR(256) NOT NULL,
   `data` DATE NOT NULL,
   `hora` TIME NOT NULL,
   `id_sistema` INT(11) NOT NULL,
   `valor_boleto` DECIMAL(10,2) NOT NULL,
   `data_venc_boleto` DATE NOT NULL,
   `id_sociotipo` INT NOT NULL,
-  `referencia` VARCHAR(100) UNIQUE KEY,
-  `status` VARCHAR(50) NOT NULL,
+  `referencia` VARCHAR(255) UNIQUE KEY,
+  `status` VARCHAR(255) NOT NULL,
   INDEX `id_sistema` (`id_sistema` ASC),
   INDEX `FK_socio_log` (`id_socio` ASC),
   CONSTRAINT `FK_socio_log`
@@ -1528,7 +1528,7 @@ BEGIN
     UPDATE estoque SET qtd = qtd-NEW.qtd WHERE id_produto = NEW.id_produto AND id_almoxarifado = (SELECT id_almoxarifado FROM saida WHERE id_saida = NEW.id_saida);
   
 END$$
-/*
+
 USE `wegia`$$
 DROP TRIGGER IF EXISTS `wegia`.`tgr_ientrada_atualiza_preco` $$
 
@@ -1565,7 +1565,7 @@ BEGIN
 	
     UPDATE produto SET preco = (@preco_total / @qtd_total) WHERE id_produto = NEW.id_produto;
 END$$
-*/
+
 DELIMITER ;
 
 
