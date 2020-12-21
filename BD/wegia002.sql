@@ -105,3 +105,5 @@ INSERT INTO `doacao_boleto_regras` (`id`, `min_boleto_uni`, `max_dias_venc`, `ju
 
 INSERT INTO `doacao_boleto_info` (`id`, `api`, `token_api`, `sandbox`, `token_sandbox`, `id_sistema`, `id_regras`) VALUES 
 ('0', 'https://sandbox.boletobancario.com/boletofacil/integration/api/v1/issue-charge?', 'CADASTRA-SE NO GATEWAY DE PAGAMENTO PARA RECEBER UM TOKEN', '', '', '3', '1');
+
+INSERT INTO `doacao_cartao_avulso` (`url`, `id_sistema`) VALUES ('Cadastre sua instituição no gateway de pagamento', 1);

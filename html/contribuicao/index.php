@@ -115,9 +115,7 @@
 						</div>
 
 						<div id="cartao_unica">
-							<a href="<?php echo $linkPaypal ?>"><img width='20%' src='./php/paypal.webp' alt='Faça doações com o PayPal'></a>
-
-							<a href="<?php echo $linkPagSeguro ?>"><img width='20%' src='./php/pagseguro.png' alt='Faça doações com o PagSeguro'></a>
+							<a href="<?php echo $linkPagSeguro ?>"><img width='20%' src='./outros/images/icone-doacao.png' alt='Doação via cartão de Crédito'></a>
 						</div>
 
 					<div id="doacao_boleto">

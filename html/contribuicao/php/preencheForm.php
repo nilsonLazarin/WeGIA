@@ -47,21 +47,22 @@
 	$dadosCartao = $banco->arraydados();
 	$linhas = $banco->rows();
 
+	/*
 	$banco->querydados("SELECT url FROM doacao_cartao_avulso AS ca JOIN sistema_pagamento AS sp ON (ca.id_sistema = sp.id) WHERE nome_sistema = 'PAYPAL'");
 	$fetch = $banco->result();
 		if(empty($fetch['url']))
 		{
-			$linkPaypal = "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=XX32RXEYVQS6G&source=url";
+			$linkPaypal = "https://www.paypal.com/donate?hosted_button_id=Q65HLXLCNHVZ8&source=url";
 		}else{
 			$linkPaypal = $fetch['url'];
 		}		
-	
+	*/
 
 	$banco->querydados("SELECT url FROM doacao_cartao_avulso AS ca JOIN sistema_pagamento AS sp ON (ca.id_sistema = sp.id) WHERE nome_sistema = 'PAGSEGURO'");
 	$fetch = $banco->result();
 		if(empty($fetch['url']))
 		{
-			$linkPagSeguro = "http://pag.ae/bks9DRw";
+			$linkPagSeguro = "https://www.paypal.com/donate?hosted_button_id=Q65HLXLCNHVZ8&source=url";
 		}else{
 			$linkPagSeguro = $fetch['url'];
 		}
