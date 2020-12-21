@@ -145,6 +145,13 @@
 						</div>
 					</a>
 					<a href="#">
+						<div class="col-lg-2 col-md-8 i" data-toggle="collapse" href="#socios">
+							<i  class="fa fa-users"></i>
+							<h4>Sócios
+							</h4>
+						</div>
+					</a>
+					<a href="#">
 						<div class="col-lg-2 col-md-8 i" data-toggle="collapse" href="#configuracao">
 							<i  class="fa fa-cogs"></i>
 							<h4>Configurações</h4>
@@ -304,6 +311,31 @@
 							<div class="col-lg-2 col-md-8 i">
 								<i  class="fa fa-mail-forward"></i>
 								<h4>Memorandos despachados</h4>
+							</div>
+						</a>
+					</div>
+				</div><br>
+
+				<div class="row">
+					<div id="socios" class="collapse">
+						<a href="../html/socio/sistema/">	
+							<div class="col-lg-2 col-md-8 i">
+								<i  class="fa fa-users"></i>
+								<h4>Listar Sócios</h4>
+							</div>
+						</a>
+
+						<a href="../html/socio/sistema/psocio_geracao.php">	
+							<div class="col-lg-2 col-md-8 i">
+							<i class="fas fa-hand-holding-usd"></i>
+								<h4>Gerar Boleto</h4>
+							</div>
+						</a>
+
+						<a href="../html/socio/sistema/cobrancas.php">	
+							<div class="col-lg-2 col-md-8 i">
+							<i class="fas fa-chart-bar"></i>
+								<h4>Cobranças</h4>
 							</div>
 						</a>
 					</div>
