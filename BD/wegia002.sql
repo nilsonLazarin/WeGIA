@@ -104,4 +104,4 @@ INSERT INTO `doacao_boleto_regras` (`id`, `min_boleto_uni`, `max_dias_venc`, `ju
 ('1', '10.00', '29', '0', '0', '1000.00', '30.00', 'Agradecemos sua ajuda financeira!', '3', '1', '5', '10', '15', '20', '25');
 
 INSERT INTO `doacao_boleto_info` (`id`, `api`, `token_api`, `sandbox`, `token_sandbox`, `id_sistema`, `id_regras`) VALUES 
-('0', 'https://sandbox.boletobancario.com/boletofacil/integration/api/v1/issue-charge?', 'SIGA AS INSTRUÇÕES ABAIXO', '', '', '3', '1');
+('0', 'https://sandbox.boletobancario.com/boletofacil/integration/api/v1/issue-charge?', 'CADASTRA-SE NO GATEWAY DE PAGAMENTO PARA RECEBER UM TOKEN', '', '', '3', '1');

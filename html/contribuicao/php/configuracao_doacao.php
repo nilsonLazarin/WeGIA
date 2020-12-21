@@ -289,13 +289,12 @@ if(!is_null($resultado)){
                                         <!--table class="table table-hover"-->
                                         <table class="table table-bordered mb-none">
                                             <h3>Configuração de Sistema</h3>
+                                                <a href="https://app.juno.com.br/#/onboarding/308993:f4f47e" target="_blank"><input type="button" class="btn btn-primary" value="Cadastre sua Instituição"></a>
                                             <br>
-                                                TESTE
                                             <br>
                                                 <tr>
                                                     <th scope="col" width="5%">Link API</th>
                                                     <th scope="col" width="5%">TOKEN API</th>
-                                                    
                                                 </tr>
                                                 <tr>
                                                     <td><input type='text' class="form-control" name='api' id='api' value="<?php echo $api ?>"></td>
@@ -308,7 +307,8 @@ if(!is_null($resultado)){
                                 
                                         <input type='button' class="btn btn-primary" id="editar-bol" value="Editar">
                                         <input type='submit' class="btn btn-primary" id="btn-bol" value='Salvar'>
-                                        <a href="../index.php"><input type="button" class="btn btn-primary" value="Ir à Página de Contribuição"></a>
+                                        <a href="../index.php"><input type="button" class="btn btn-primary" value="Ir à Página de Doações"></a>
+                                       
                                     </div>
                                     
                                 </form> 
