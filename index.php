@@ -122,7 +122,8 @@
 							</span>
 							
 						</div>
-						<a href="./html/esqueceu_senha.php">Esqueceu sua Senha?</a>
+						<!-- AINDA NÃO IMPLEMENTADO 
+							<a href="./html/esqueceu_senha.php">Esqueceu sua Senha?</a> -->
 						
 					</div>
 				</div>
@@ -194,8 +195,12 @@
 			</div>
 			<div class="col-md-4">
 				<div class="pull-right">
-
-						<a href="https://www.facebook.com/LarAbrigoAmorAJesus/" target="_blank" class="btn btn-block btn-social btn-facebook"><span class="fa fa-facebook-square" style="color: white"></span></a>
+				<a href="https://github.com/nilsonmori/WeGIA" target="_blank">
+							<span class="fa fa-github-square" style="color: white"></span></a>
+					<a href="https://www.facebook.com/cefetrjoficial" target="_blank">
+						<span class="fa fa-facebook-square" style="color: white"></span></a>
+					<a href="https://cefet-rj.br" target="_blank">
+							<span class="fa fa-globe" style="color: white"></span></a>
 				</div>
 			</div>
 			

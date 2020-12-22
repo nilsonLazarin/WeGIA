@@ -145,14 +145,16 @@ if(!is_null($resultado)){
                     
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
 							<li class="nav-item active">
-								<a class="nav-link active" id="boletofacil" data-toggle="tab" href="#img-tab" role="tab" aria-controls="img" aria-selected="true">BOLETOFACIL</a>
+								<a class="nav-link active" id="boletofacil" data-toggle="tab" href="#img-tab" role="tab" aria-controls="img" aria-selected="true">BOLETO BANCÁRIO</a>
 							</li>
                             <li class="nav-item">
-								<a class="nav-link" id="pagseguro" data-toggle="tab" href="#img-tab" role="tab" aria-controls="img" aria-selected="false">PAGSEGURO</a>
+								<a class="nav-link" id="pagseguro" data-toggle="tab" href="#img-tab" role="tab" aria-controls="img" aria-selected="false">CARTÃO DE CRÉDITO</a>
 							</li>
-							<li class="nav-item">
+							<!--
+                            <li class="nav-item">
 								<a class="nav-link" id="paypal" data-toggle="tab" href="#img-tab" role="tab" aria-controls="img" aria-selected="false">PAYPAL</a>
 							</li>
+                            -->
                         </ul>
                         <div class="tab-content" id="myTabContent" width = "50%">
                         <div class='alerta_pay'>Faltam dados para o sistema selecionado :(</div>
@@ -221,6 +223,7 @@ if(!is_null($resultado)){
                             </div>
                             <div id='divboleto'> 
                             <div class='alerta_bol'>Faltam dados para o sistema selecionado :(</div>
+                            <a href="https://app.juno.com.br/#/onboarding/308993:f4f47e" target="_blank"><input type="button" class="btn btn-primary" value="Cadastre sua Instituição no Gateway de Pagamentos via Boleto"></a>
                                 <form action="dadosBoleto.php?idSistema=<?php echo $sistemas[0];?>&idRegras=<?php echo $dadosBoleto['id_regras']; ?>&dados=<?php echo $linhasboleto; ?>" method = "POST" id="form1" name="BOLETO">
                                     <input type='hidden' id="dadoBol" value='<?php echo $linhasboleto;?>'>
                                     <div class="tab-pane active" id="img-tab" role="tabpanel" aria-labelledby="img-tab">
@@ -290,10 +293,10 @@ if(!is_null($resultado)){
                                         <table class="table table-bordered mb-none">
                                             <h3>Configuração de Sistema</h3>
                                             <br>
+                                            <br>
                                                 <tr>
                                                     <th scope="col" width="5%">Link API</th>
                                                     <th scope="col" width="5%">TOKEN API</th>
-                                                    
                                                 </tr>
                                                 <tr>
                                                     <td><input type='text' class="form-control" name='api' id='api' value="<?php echo $api ?>"></td>
@@ -302,17 +305,20 @@ if(!is_null($resultado)){
                                                 </tr>
                                                 
                                         </table>
+                                        
                                 
                                         <input type='button' class="btn btn-primary" id="editar-bol" value="Editar">
                                         <input type='submit' class="btn btn-primary" id="btn-bol" value='Salvar'>
-                                        <a href="../index.php"><input type="button" class="btn btn-primary" value="Ir à Página de Contribuição"></a>
+                                        <a href="../index.php"><input type="button" class="btn btn-primary" value="Ir à Página de Doações"></a>
+                                       
                                     </div>
                                     
                                 </form> 
                             </div> 
                             <div id='divpagseguro'>
-                            <div class='alerta_pag'>Faltam dados para o sistema selecionado :(</div>
+                            <!-- <div class='alerta_pag'>Faltam dados para o sistema selecionado :(</div> -->
                                 <form action="dadosCartao.php?idSistema=<?php echo $sistemas[1];?>&dados=<?php echo $linhaspagseguro;?>" method='POST' id="form2" name="PAGSEGURO">
+                                    <a href="https://indicapagbank.page.link/hqF3Grm4gFqpANtu5" target="_blank"><input type="button" class="btn btn-primary" value="Cadastre sua Instituição no Gateway de Pagamentos via Cartão"></a>
                                     <input type='hidden' id="dadoPag" value='<?php echo $linhaspagseguro;?>'>
                                     <div class="tab-pane active" id="img-tab" role="tabpanel" aria-labelledby="img-tab">
                                         <table class="table table-bordered mb-none">

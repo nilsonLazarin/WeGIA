@@ -14,12 +14,12 @@ INSERT INTO `escala_quadro_horario` (`descricao`) VALUES ('5x2 - 5 dias trabalha
 INSERT INTO `tipo_quadro_horario` (`descricao`) VALUES ('Segunda à Sexta, folga Sábado e Domingo'), ('Dias alternados');
 
 INSERT INTO `selecao_paragrafo` (`id_selecao`, `nome_campo`, `paragrafo`, `original`) VALUES
-(1, 'Titulo', 'WEGIA', 1),
-(2, 'Subtitulo', 'Web Gerenciador de instituições assistenciais', 1),
+(1, 'Titulo', 'WeGIA', 1),
+(2, 'Subtitulo', 'Web Gerenciador de Instituições Assistenciais', 1),
 (3, 'Conheça', 'O WEGIA é um sistema que visa auxiliar no controle de instituições assistenciais.', 1),
 (4, 'Objetivo', 'Promover uma boa administração ao fornecer serviços de ajuda e controle de estoques, gerenciamento de funcionários e pessoal, visando um maior proveito de recursos.\r\n\r\nEntre com suas credenciais padrão de administrador para configurar o sistema:\r\n\r\nusuário: admin\r\nsenha: wegia', 1),
-(5, 'Rodapé', 'WEGIA - Em desenvolvimento', 1),
-(6, 'ContribuiçãoMSG', 'Seja um doador', '1');
+(5, 'Rodapé', 'WeGIA - Desenvolvido pelo Cefet/RJ UnED Nova Friburgo', 1),
+(6, 'ContribuiçãoMSG', 'Contribua você também!', '1');
 
 INSERT INTO `campo_imagem` (`id_campo`, `nome_campo`, `tipo`) VALUES 
 (1, 'Logo', 'img'), 
@@ -101,7 +101,9 @@ INSERT INTO `sistema_pagamento` (`id`, `nome_sistema`) VALUES
 (4, 'WIDEPAY');
 
 INSERT INTO `doacao_boleto_regras` (`id`, `min_boleto_uni`, `max_dias_venc`, `juros`, `multa`, `max_parcela`, `min_parcela`, `agradecimento`, `dias_boleto_a_vista`, `dias_venc_carne_op1`, `dias_venc_carne_op2`, `dias_venc_carne_op3`, `dias_venc_carne_op4`, `dias_venc_carne_op5`, `dias_venc_carne_op6`) VALUES 
-('1', '10.00', '29', '0', '0', '1000.00', '30.00', 'Obrigado por fazer parte do Projeto Sócio Amigo do LAJE. Você faz a diferença!', '3', '1', '5', '10', '15', '20', '25');
+('1', '10.00', '29', '0', '0', '1000.00', '30.00', 'Agradecemos sua ajuda financeira!', '3', '1', '5', '10', '15', '20', '25');
 
 INSERT INTO `doacao_boleto_info` (`id`, `api`, `token_api`, `sandbox`, `token_sandbox`, `id_sistema`, `id_regras`) VALUES 
-('0', 'https://sandbox.boletobancario.com/boletofacil/integration/api/v1/issue-charge?', 'FE2A4FC9B15FEBE651F9C50C4E1774EB365827849E04A711F9D0E02C1ACFAD13\r\n', '', '', '3', '1');
+('0', 'https://sandbox.boletobancario.com/boletofacil/integration/api/v1/issue-charge?', 'CADASTRA-SE NO GATEWAY DE PAGAMENTO PARA RECEBER UM TOKEN', '', '', '3', '1');
+
+INSERT INTO `doacao_cartao_avulso` (`url`, `id_sistema`) VALUES ('Cadastre sua instituição no gateway de pagamento', 1);
