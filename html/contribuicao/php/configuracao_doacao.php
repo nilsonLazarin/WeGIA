@@ -254,7 +254,7 @@ if(!is_null($resultado)){
                                                 </tr>
                                                 <tr>
                                                     <th>Multa:</th>
-                                                    <th>Agradecimentos</th>
+                                                    <th>Mensagem impressa no boleto:</th>
                                                 </tr>
                                                 <tr>
                                                     <td><input type='number' class="form-control" name='multa' id='multa' value="<?php echo $multa; ?>"></td>
@@ -309,7 +309,7 @@ if(!is_null($resultado)){
                                 
                                         <input type='button' class="btn btn-primary" id="editar-bol" value="Editar">
                                         <input type='submit' class="btn btn-primary" id="btn-bol" value='Salvar'>
-                                        <a href="../index.php"><input type="button" class="btn btn-primary" value="Ir à Página de Doações"></a>
+                                        <a href="../index.php" target="_blank"><input type="button" class="btn btn-primary" value="Ir à Página de Doações"></a>
                                        
                                     </div>
                                     
