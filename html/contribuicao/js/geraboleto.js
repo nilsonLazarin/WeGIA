@@ -72,18 +72,20 @@ function geraBoleto()
 }
 
 function retorna_valor(){
+
+    if ($(".input-donation-method").val() != "") {
+        var valor = $(".input-donation-method").val();
+    }
     
-    if($("#tipo1").prop('checked'))
-    {
+    if($("#tipo1").prop('checked') && $(".input-donation-method").val() == "") {
+
         var valor = $("#valores option:selected").val();
                 
+    } else {
+        valor = $("#v").val();
     }
-     else
-        {
-            valor = $("#v").val();
-        }
     
-        return valor;
+    return valor;
 }
 
 function retorna_doc()

@@ -50,6 +50,8 @@
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="outros/css/util.css">
 	<link rel="stylesheet" type="text/css" href="outros/css/main.css">
+	<link rel="stylesheet" type="text/css" href="outros/css/donation.css">
+
 <!--===============================================================================================-->
 <style>
 	#logo_img{
@@ -135,9 +137,11 @@
 
 						<p id = "avisa_valor"></p>
 						</div>
-						<div id = "valores" class="wrap-input100 input100-select bg1">
+						<div id ="div-valores" class="wrap-input100 input100-select bg1">
 							<span class="label-input100">Valor *</span>
-							<select class="js-select2" name="service" id="valores">
+							
+						
+							<select id="valores" required>
 								<option value=''>Selecione um valor</option>
 								<option value = '<?php echo $valminparc ?>'>R$<?php echo $valminparc ?></option>
 								<option value = '50.00'>R$50,00</option>
@@ -149,8 +153,26 @@
 								<option value = '500.00'>R$500,00</option>
 								<option value = '<?php echo $valmaxparc ?>'>R$<?php echo $valmaxparc ?></option>
 							</select>
+
+							
+
+
 							<div class="dropDownSelect2"></div>
-						<p id = "avisa_valor2"></p>
+						<!-- <p id = "avisa_valor2"></p> -->
+						</div>
+
+						<div class="input-donation-field">
+							<button type="button" class="btn btn-outline-primary" id="switch-donation-method">Outro valor</button>
+
+							<div class="input-group mb-3 input-donation-method">
+								<div class="input-group-prepend">
+									<span class="input-group-text">R$</span>
+								</div>
+								<input type="number" class="form-control" aria-label="Valor" min="<?=$valminparc?>" max="<?=$valmaxparc?>">
+								<div class="input-group-append">
+									<span class="input-group-text">.00</span>
+								</div>
+							</div>
 						</div>
 						
 						<div id = "venci" class="wrap-input100 validate-input bg1">
@@ -387,7 +409,7 @@
 	<!--script src="outros/vendor/noui/nouislider.min.js"></script-->
 <!--===============================================================================================-->
 	<!--script src="outros/vendor/jquery/jquery-3.2.1.min.js"></script-->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"/></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
 <!--===============================================================================================-->
 	<!--script src="../outros/vendor/animsition/js/animsition.min.js"></script-->
 <!--===============================================================================================-->
@@ -474,7 +496,36 @@
 			transicoes();
 		});
 
-	</script>
+</script>
+
+<script>
+
+$(document).ready(function() {
+	$(".input-donation-method").hide();
+});
+
+// $("#tipo2").change(function (){
+// 	if ($(this).is(':checked')) {
+// 		$("#switch-donation-method").hide();
+// 		$(".input-donation-method").hide();
+// 		$(".input-donation-method").val("");
+// })
+
+
+
+// seleciona entre select ou input no valor de doacao
+$("#switch-donation-method").click(function() {
+	$(".input-donation-method").show();
+	$("#valores").val("");
+	$("#valores").removeAttr("required");
+});
+
+$('#valores').change(function() {
+	$(".input-donation-method").hide();
+});
+
+</script>
+
 
 </body>
 </html>

@@ -32,15 +32,15 @@ function verificar()
                     }
             }
          
-        var valor = $("#valores option:selected").val();
-        if(valor == '')
-        {
-            $("#avisa_valor2").html("Selecione um valor");
+        // var valor = $("#valores option:selected").val();
+        // if(valor == '')
+        // {
+            // $("#avisa_valor2").html("Selecione um valor");
             
-        }
-            else
-            {
-                $("#avisa_valor2").html("");
+        // }
+            // else
+            // {
+                // $("#avisa_valor2").html("");
                 if(dia == "")
                 {
                     $("#info_data").html("Escolha a melhor data de vencimento");
@@ -50,7 +50,7 @@ function verificar()
                     $("#pag1").hide();
                 }
                                                                   
-            }
+            // }
     }
     else
     {
