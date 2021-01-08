@@ -45,10 +45,18 @@ function verificar()
                 {
                     $("#info_data").html("Escolha a melhor data de vencimento");
                 }else{
-                    $("#info_data").html("");
-                    $("#verifica_socio").fadeIn();
-                    $("#pag1").hide();
+                    if($("#vm").val() < Number($("#vm").prop("min")))
+                    {
+                        $("#avisa_valor_m").html("O valor mínimo para doação é <i>R$"+Number($("#vm").prop("min"))+"</i>"); 
+                        
+                    }else{
+                            
+                        $("#avisa_valor").html("");
+                        $("#verifica_socio").fadeIn();
+                        $("#pag1").hide();      
+                    }
                 }
+
                                                                   
             // }
     }

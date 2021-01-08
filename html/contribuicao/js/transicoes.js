@@ -229,6 +229,7 @@ function transicoes()
 		    $("#valores").hide();
 			$("#input").fadeIn();
 			$("#venci").hide();
+			$("#input_mensal_v").hide();
 			
 		});
 
@@ -238,6 +239,7 @@ function transicoes()
 		    $("#valores").show();
 		    $("#venci").show();
 			$("#input").hide();
+			$("#input_mensal_v").show();
 			
 		});
 

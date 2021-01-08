@@ -129,7 +129,7 @@ function cadastra_socio()
   var hora = horaAtual+":"+minutoAtual;
       if($("#tipo1").prop('checked'))
         {
-            var valor_contribuicao = $("#valores option:selected").val();
+            var valor_contribuicao = $("#vm").val();
                 
         }
         else
@@ -198,7 +198,7 @@ function cad_log(socioTipo, reference)
     var hora = horaAtual+":"+minutoAtual;
       if($("#tipo1").prop('checked'))
         {
-            var valor_contribuicao = $("#valores option:selected").val();
+            var valor_contribuicao = $("#vm").val();
                 
         }
         else

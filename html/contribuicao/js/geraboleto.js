@@ -77,9 +77,9 @@ function retorna_valor(){
         var valor = $(".input-donation-method").val();
     }
     
-    if($("#tipo1").prop('checked') && $(".input-donation-method").val() == "") {
+    if($("#tipo1").prop('checked')) {
 
-        var valor = $("#valores option:selected").val();
+        var valor = $("#vm").val();
                 
     } else {
         valor = $("#v").val();

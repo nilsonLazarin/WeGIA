@@ -137,43 +137,15 @@
 
 						<p id = "avisa_valor"></p>
 						</div>
-						<div id ="div-valores" class="wrap-input100 input100-select bg1">
-							<span class="label-input100">Valor *</span>
-							
+						<div id = "input_mensal_v" class="wrap-input100 validate-input bg1">
+							<span class="label-input100">Digite um valor</span>
+							<input class="input100" type = 'number' min = '<?php echo $valminparc ?>' max = '<?php echo $valmaxparc ?>' id = 'vm' name = 'vm' placeholder="Digite um valor de doação mensal." onblur = "toReal(v);" required>
+							<input type='hidden' id='valunic' value='<?php echo$minvalunic ?>'>
+
+						<p id = "avisa_valor_m"></p>
+						</div>
+
 						
-							<select id="valores" required>
-								<option value=''>Selecione um valor</option>
-								<option value = '<?php echo $valminparc ?>'>R$<?php echo $valminparc ?></option>
-								<option value = '50.00'>R$50,00</option>
-								<option value = '100.00'>R$100,00</option>
-								<option value = '150.00'>R$150,00</option>
-								<option value = '200.00'>R$200,00</option>
-								<option value = '250.00'>R$250,00</option>
-								<option value = '300.00'>R$300,00</option>
-								<option value = '500.00'>R$500,00</option>
-								<option value = '<?php echo $valmaxparc ?>'>R$<?php echo $valmaxparc ?></option>
-							</select>
-
-							
-
-
-							<div class="dropDownSelect2"></div>
-						<!-- <p id = "avisa_valor2"></p> -->
-						</div>
-
-						<div class="input-donation-field">
-							<button type="button" class="btn btn-outline-primary" id="switch-donation-method">Outro valor</button>
-
-							<div class="input-group mb-3 input-donation-method">
-								<div class="input-group-prepend">
-									<span class="input-group-text">R$</span>
-								</div>
-								<input type="number" class="form-control" aria-label="Valor" min="<?=$valminparc?>" max="<?=$valmaxparc?>">
-								<div class="input-group-append">
-									<span class="input-group-text">.00</span>
-								</div>
-							</div>
-						</div>
 						
 						<div id = "venci" class="wrap-input100 validate-input bg1">
 							<span class="label-input100">Vencimento *</span><br>
