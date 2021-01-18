@@ -72,6 +72,7 @@
         }
         if($resultado = mysqli_query($conexao, "INSERT INTO `socio`(`id_pessoa`, `id_sociostatus`, `id_sociotipo`, `email`) VALUES ($id_pessoa, 4, $id_sociotipo, '$email')")){
             $id_socio = mysqli_insert_id($conexao);
+            echo("teste");
             echo("INSERT INTO `cobrancas`(`codigo`, `descricao`, `data_emissao`, `data_vencimento`, `data_pagamento`, `valor`, `valor_pago`, `status`, `link_cobranca`, `link_boleto`, `linha_digitavel`, `id_socio`) VALUES ($codigo, '$descricao', '$data_emissao', '$data_vencimento', $data_pagamento, $valor, $valor_pago, '$status', '$link_cobranca', '$link_boleto', '$linha_digitavel', $id_socio)");
             if($resultado = mysqli_query($conexao, "INSERT INTO `cobrancas`(`codigo`, `descricao`, `data_emissao`, `data_vencimento`, `data_pagamento`, `valor`, `valor_pago`, `status`, `link_cobranca`, `link_boleto`, `linha_digitavel`, `id_socio`) VALUES ($codigo, '$descricao', '$data_emissao', '$data_vencimento', $data_pagamento, $valor, $valor_pago, '$status', '$link_cobranca', '$link_boleto', '$linha_digitavel', $id_socio)")){
                 if(mysqli_affected_rows($conexao)){
