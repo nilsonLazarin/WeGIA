@@ -16,7 +16,7 @@
 
     if(!isset($data_pagamento) or ($data_pagamento == null) or ($data_pagamento == "") or empty($data_pagamento) or ($data_pagamento == "imp")){
         $data_pagamento = "null";
-    }else $data_pagamento = "'$data_pagamento'";
+    }else $data_pagamento = "$data_pagamento";
 
     if(!isset($valor_pago) or ($valor_pago == null) or ($valor_pago == "") or empty($valor_pago) or ($valor_pago == "imp")){
         $valor_pago = 0;
