@@ -8,14 +8,13 @@
         $_POST = json_decode($_POST, true);
     }
     $cadastrado =  false;
-
     extract($_REQUEST);
     if(!isset($data_nasc) or ($data_nasc == null) or ($data_nasc == "") or empty($data_nasc) or ($data_nasc == "imp")){
         $data_nasc = "null";
     }else $data_nasc = "'$data_nasc'";
 
     if(!isset($data_pagamento) or ($data_pagamento == null) or ($data_pagamento == "") or empty($data_pagamento) or ($data_pagamento == "imp")){
-        $data_pagamento = "null";
+        $data_pagamento = "0000-00-00";
     }else $data_pagamento = $data_pagamento;
 
     if(!isset($valor_pago) or ($valor_pago == null) or ($valor_pago == "") or empty($valor_pago) or ($valor_pago == "imp")){
@@ -72,7 +71,7 @@
         }
         if($resultado = mysqli_query($conexao, "INSERT INTO `socio`(`id_pessoa`, `id_sociostatus`, `id_sociotipo`, `email`) VALUES ($id_pessoa, 4, $id_sociotipo, '$email')")){
             $id_socio = mysqli_insert_id($conexao);
-            if($resultado = mysqli_query($conexao, "INSERT INTO `cobrancas`(`codigo`, `descricao`, `data_emissao`, `data_vencimento`, `data_pagamento`, `valor`, `valor_pago`, `status`, `link_cobranca`, `link_boleto`, `linha_digitavel`, `id_socio`) VALUES ($codigo, '$descricao', '$data_emissao', '$data_vencimento', $data_pagamento, $valor, $valor_pago, '$status', '$link_cobranca', '$link_boleto', '$linha_digitavel', $id_socio)")){
+            if($resultado = mysqli_query($conexao, "INSERT INTO `cobrancas`(`codigo`, `descricao`, `data_emissao`, `data_vencimento`, `data_pagamento`, `valor`, `valor_pago`, `status`, `link_cobranca`, `link_boleto`, `linha_digitavel`, `id_socio`) VALUES ($codigo, '$descricao', '$data_emissao', '$data_vencimento', '$data_pagamento', $valor, $valor_pago, '$status', '$link_cobranca', '$link_boleto', '$linha_digitavel', $id_socio)")){
                 if(mysqli_affected_rows($conexao)){
                     $cadastrado = true;
                 }
@@ -84,7 +83,7 @@
         $id_pessoa = mysqli_fetch_assoc($resultado)['id_pessoa'];
         if(mysqli_num_rows($resultado = mysqli_query($conexao, "SELECT * FROM `socio` WHERE id_pessoa=$id_pessoa"))){
             $id_socio = mysqli_fetch_assoc($resultado)['id_socio'];
-            if($resultado = mysqli_query($conexao, "INSERT INTO `cobrancas`(`codigo`, `descricao`, `data_emissao`, `data_vencimento`, `data_pagamento`, `valor`, `valor_pago`, `status`, `link_cobranca`, `link_boleto`, `linha_digitavel`, `id_socio`) VALUES ($codigo, '$descricao', '$data_emissao', '$data_vencimento', $data_pagamento, $valor, $valor_pago, '$status', '$link_cobranca', '$link_boleto', '$linha_digitavel', $id_socio)")){
+            if($resultado = mysqli_query($conexao, "INSERT INTO `cobrancas`(`codigo`, `descricao`, `data_emissao`, `data_vencimento`, `data_pagamento`, `valor`, `valor_pago`, `status`, `link_cobranca`, `link_boleto`, `linha_digitavel`, `id_socio`) VALUES ($codigo, '$descricao', '$data_emissao', '$data_vencimento', '$data_pagamento', $valor, $valor_pago, '$status', '$link_cobranca', '$link_boleto', '$linha_digitavel', $id_socio)")){
                 if(mysqli_affected_rows($conexao)){
                     $cadastrado = true;
                 }
@@ -128,7 +127,7 @@
             }
             if($resultado = mysqli_query($conexao, "INSERT INTO `socio`(`id_pessoa`, `id_sociostatus`, `id_sociotipo`, `email`) VALUES ($id_pessoa, 4, $id_sociotipo, '$email')")){
                 $id_socio = mysqli_insert_id($conexao);
-                if($resultado = mysqli_query($conexao, "INSERT INTO `cobrancas`(`codigo`, `descricao`, `data_emissao`, `data_vencimento`, `data_pagamento`, `valor`, `valor_pago`, `status`, `link_cobranca`, `link_boleto`, `linha_digitavel`, `id_socio`) VALUES ($codigo, '$descricao', '$data_emissao', '$data_vencimento', $data_pagamento, $valor, $valor_pago, '$status', '$link_cobranca', '$link_boleto', '$linha_digitavel', $id_socio)")){
+                if($resultado = mysqli_query($conexao, "INSERT INTO `cobrancas`(`codigo`, `descricao`, `data_emissao`, `data_vencimento`, `data_pagamento`, `valor`, `valor_pago`, `status`, `link_cobranca`, `link_boleto`, `linha_digitavel`, `id_socio`) VALUES ($codigo, '$descricao', '$data_emissao', '$data_vencimento', '$data_pagamento', $valor, $valor_pago, '$status', '$link_cobranca', '$link_boleto', '$linha_digitavel', $id_socio)")){
                     if(mysqli_affected_rows($conexao)){
                         $cadastrado = true;
                     }

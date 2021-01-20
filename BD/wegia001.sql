@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`pessoa` (
   `cidade` VARCHAR(40) NULL DEFAULT NULL,
   `bairro` VARCHAR(40) NULL DEFAULT NULL,
   `logradouro` VARCHAR(40) NULL DEFAULT NULL,
-  `numero_endereco` VARCHAR(10) NULL DEFAULT NULL,
+  `numero_endereco` VARCHAR(80) NULL DEFAULT NULL,
   `complemento` VARCHAR(50) NULL DEFAULT NULL,
   `ibge` VARCHAR(20) NULL DEFAULT NULL,
   `registro_geral` VARCHAR(120) NULL DEFAULT NULL,
