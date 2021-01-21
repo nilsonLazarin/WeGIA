@@ -84,7 +84,25 @@ setlocale(LC_ALL, $locale);
             </tr>
           </thead>
           <tbody>
-              
+              <?php
+                  $fisica = 0;
+                  $juridica = 0;
+                  $socios_atrasados = 0;
+                  $mensal = 0;
+                  $casual = 0;
+                  $si_contrib = 0;
+                  $query = mysqli_query($conexao, "SELECT *, DATE_FORMAT(data_emissao, '%d/%m/%Y') as data_emissao, DATE_FORMAT(data_vencimento, '%d/%m/%Y') as data_vencimento, DATE_FORMAT(data_pagamento, '%d/%m/%Y') as data_pagamento FROM cobrancas c JOIN socio s ON s.id_socio = c.id_socio JOIN pessoa p ON s.id_pessoa = p.id_pessoa");
+                  while($resultado = mysqli_fetch_array($query)){
+                    extract($resultado);
+                    $valor = number_format($valor,2, ',', '.');
+                    $valor_pago = number_format($valor_pago,2, ',', '.');
+                    switch(trim($status)){
+                      case 'Pago': $classe_status = 'text-success'; break;
+                      default: $classe_status = 'text-danger'; break;
+                    }
+                    echo("<tr><td>$codigo</td><td onclick='detalhar_socio($id_socio);' style='cursor: pointer' class=''>$nome</td><td>$data_emissao</td><td>$data_vencimento</td><td>$data_pagamento</td><td>R$$valor</td><td>R$$valor_pago</td><td><a target='_blank' href='$link_cobranca'><button type='button' class='btn btn-default btn-flat'><i class='far fa-list-alt'></i> Link</button></a></td><td><a target='_blank' href='$link_boleto'><button type='button' class='btn btn-default btn-flat'><i class='far fa-list-alt'></i> 2ª via</button></a></td><td><button onclick='codigo_barras($codigo);' type='button' class='btn btn-default btn-flat'><i class='fas fa-barcode'></i></button></td><td class='$classe_status'>$status</td><td><a href='deletar_cobranca.php?cobranca=$codigo'><button type='button' class='btn btn-default btn-flat'><i class='fa fa-remove text-red'></i></button></a></td></tr>");
+                  }
+              ?>
           </tbody>
           <tfoot>
             <tr>

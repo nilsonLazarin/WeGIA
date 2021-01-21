@@ -547,7 +547,6 @@ $(document).ready(function(){
     $(document).ready(function() {
         $('#tbCobrancas').DataTable( {
             "processing": true,
-            "ajax": "processa_cobrancas_tabela.php",
             "searching": true,
             "language": {
                 "sEmptyTable": "Nenhuma cobrança encontrada no sistema.",
