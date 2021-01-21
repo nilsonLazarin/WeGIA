@@ -87,7 +87,7 @@
 				<div id="pag1" class="wrap-input100">
 					<div id="forma">
 						<h3>DEFINA UMA FORMA DE PAGAMENTO:</h3>
-						<span id = "cartao">
+						<span id = "cartao" style="margin-right: 1em">
 							<input class = "radio" type = "radio"  name = "forma" id = "forma1" value = "cartao">
 							<label  class="label" for = "forma1">CARTÃO DE CRÉDITO</label>
 						</span>
@@ -100,7 +100,7 @@
 						<div id="tipo_cartao">
 							<h3>TIPO DE DOAÇÃO:</h3>
 							<span id = "mensal_cartao"><input class = "radio" type = "radio"  name = "tipoc1" id = "tipoc1" checked>
-							<label  class="label" for = "tipoc1">DOAÇÃO MENSAL</label></span>
+							<label style='margin-right: 1em' class="label" for = "tipoc1">DOAÇÃO MENSAL</label></span>
 
 							<span id = "unica_cartao"><input class = "radio" type = "radio"  name = "tipoc2" id = "tipoc2">
 							<label  class="label" for = "tipoc2">DOAÇÃO ÚNICA</label></span>
@@ -108,23 +108,23 @@
 					
 						<div id = "cartao_mensal">
 							<?php 
-								echo('<button class="btn"><a href='.$dadoInicialCartao['link'].'><input type="button" class="btn" value='.$dadoInicialCartao['valor'].'></a></button>');
+								echo('<a style="cursor: pointer; margin-right: 1em" target="_blank" href='.$dadoInicialCartao['link'].'><input type="button" class="btn" value='.$dadoInicialCartao['valor'].'></a>');
 								foreach($dadosCartao as $dado)
 								{
-									echo('<button class="btn"><a href='.$dado['link'].'><input type="button" class="btn" value='.$dado['valor'].'></a></button>');
+									echo('<a style="cursor: pointer; margin-right: 1em" target="_blank" href='.$dado['link'].'><input type="button" class="btn" value='.$dado['valor'].'></a>');
 								}
 							?>
 						</div>
 
 						<div id="cartao_unica">
-							<a href="<?php echo $linkPagSeguro ?>"><img width='20%' src='./outros/images/icone-doacao.png' alt='Doação via cartão de Crédito'></a>
+							<a target="_blank" href="<?php echo $linkPagSeguro ?>"><img width='20%' src='./outros/images/icone-doacao.png' alt='Doação via cartão de Crédito'></a>
 						</div>
 
 					<div id="doacao_boleto">
 						<h3>TIPO DE DOAÇÃO:</h3>
 
 						<span id = "m"><input class = "radio" type = "radio"  name = "tipo" id = "tipo1" value = "M" checked>
-						<label  class="label" for = "tipo1">DOAÇÃO MENSAL</label></span>
+						<label style='margin-right: 1em'  class="label" for = "tipo1">DOAÇÃO MENSAL</label></span>
 
 						<span id = "u"><input class = "radio" type = "radio"  name = "tipo" id = "tipo2" value = "U">
 						<label  class="label" for = "tipo2">DOAÇÃO ÚNICA</label></span>
@@ -148,13 +148,13 @@
 						
 						
 						<div id = "venci" class="wrap-input100 validate-input bg1">
-							<span class="label-input100">Vencimento *</span><br>
+							<span class="label-input100">Escolha uma data de vencimento *</span><br>
 							<?php
 								for($i=0; $i<5; $i++)
 								{
 									if($arrayData[$i] != 0)
 									{
-										echo"<input type = 'radio' value ='".$arrayData[$i]."' name = 'dta' id='op".$i."'>".$arrayData[$i]."</t>"; 
+										echo"<input type = 'radio' value ='".$arrayData[$i]."' name = 'dta' id='op".$i."'>"."<span style='margin-right: 1.5em'>".$arrayData[$i]."</span>"; 
 									}	
 								}
 							?>
