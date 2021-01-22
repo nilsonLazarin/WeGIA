@@ -1,8 +1,77 @@
-function teste() {
-    console.log("Botão foi clicado!!");
+function chamaModal(tr) {
+    codigo_cobranca = tr[0].childNodes[0].innerHTML;
+    $.post("get_detalhes_cobranca.php",{"codigo": codigo_cobranca}).done(function(resultadoBusca){
+        dadosCobranca = JSON.parse(resultadoBusca);
+        console.log(resultadoBusca);
+    
+    
+        var modal_codigo_html = `
+        <div class="modal fade" id="detalharSocioModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+       <div class="modal-content">
+          <div class="modal-header">
+             <h5 class="modal-title" id="exampleModalLabel"></h5>
+          </div>
+          <div class="modal-body">
+             <div class="box box-info box-solid boxDetalhes">
+                <div class="box-header">
+                   <h3 class="box-title"><i class="fa fa-list" aria-hidden="true"></i> Opções cobrança</h3>
+                </div>
+                <div class="box-body">
+                   
+                <a id="btn_importar_xlsx_cobranca" onclick="codigo_barras('${dadosCobranca[0].codigo}')" class="btn btn-app">
+                <i class="fas fa-barcode"></i> Código pagamento online
+              </a>
+
+              <a id="btn_importar_xlsx_cobranca" onclick="detalhar_socio('${dadosCobranca[0].id_socio}')" class="btn btn-app">
+              <i class="fas fa-user"></i> Detalhar sócio
+            </a>
+
+            <a target="_blank" href="${dadosCobranca[0].link_cobranca}" id="btn_importar_xlsx_cobranca" class="btn btn-app">
+            <i class="fas fa-file-alt"></i> Link da cobrança
+            </a>
+
+            <a target="_blank" href="${dadosCobranca[0].link_boleto}" id="btn_importar_xlsx_cobranca" class="btn btn-app">
+            <i class="fas fa-file-alt"></i> Link do boleto
+            </a>
+
+            
+
+           
+    
+                      </div>
+                      <div class="modal-footer">
+                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                      </div>
+                   </form>
+                </div>
+                <!-- /.box-body -->
+                <!-- Loading (remove the following to stop the loading)-->
+                <!-- end loading -->
+             </div>
+          </div>
+       </div>
+    </div>
+        `;
+      // inputs = $(modal_detalhes_html).find("input");
+      // console.log(inputs);
+      // for(input of inputs){
+      //   console.log(input);
+      // }
+      $(".boxCodigo").prepend(
+        '<div class="overlay"> <i class="fa fa-refresh fa-spin"></i> </div>'
+    );
+    
+    setTimeout(function(){
+        $(".boxCodigo .overlay").remove();
+    },600);
+      $(modal_codigo_html).modal("toggle");
+    
+      })
+
 }
 function criarBotoes(){
-    return '<button id="manageBtn" type="button" onclick="teste()" class="btn btn-success btn-xs">btn</button>';
+    return `<button id="manageBtn" type="button" onclick="chamaModal($(this).closest('tr'))" class="btn btn-success btn-xs"><i class="far fa-address-card"></i> +Informações</button>`;
 }
 $(document).ready(function(){
     // Cadastro de cobraças/sócios/pessoa
@@ -555,7 +624,7 @@ $(document).ready(function(){
             "processing": true,
             "searching": true,
             "ajax": "processa_cobrancas_tabela.php",
-            "columnDefs": [{"render": criarBotoes, "data": null, "targets": [11]}],
+            "columnDefs": [{"render": criarBotoes, "data": null, "targets": [8]}],
             "language": {
                 "sEmptyTable": "Nenhuma cobrança encontrada no sistema.",
                 "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",

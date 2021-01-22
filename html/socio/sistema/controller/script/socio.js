@@ -286,7 +286,9 @@ setTimeout(function(){
 
 
 function codigo_barras(codigo_cobranca){
+  console.log(codigo_cobranca);
    $.post("get_codigobarras_cobranca.php",{"codigo": codigo_cobranca}).done(function(resultadoBusca){
+    console.log(resultadoBusca);
     codigodebarras = JSON.parse(resultadoBusca)[0].linha_digitavel;
     console.log(codigodebarras);
 

@@ -76,9 +76,6 @@ setlocale(LC_ALL, $locale);
               <th>D. pagamento</th>
               <th>Valor</th>
               <th>Valor pago</th>
-              <th>Link cobrança</th>
-              <th>Link boleto</th>
-              <th>N. de pag. online</th>
               <th>Status</th>
               <th>Opções</th>
             </tr>
@@ -95,9 +92,6 @@ setlocale(LC_ALL, $locale);
               <th>D. pagamento</th>
               <th>Valor</th>
               <th>Valor pago</th>
-              <th>Link cobrança</th>
-              <th>Link boleto</th>
-              <th>N. de pag. online</th>
               <th>Status</th>
               <th>Opções</th>
             </tr>
