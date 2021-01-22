@@ -35,6 +35,10 @@ function chamaModal(tr) {
             <i class="fas fa-file-alt"></i> Link do boleto
             </a>
 
+            <a href="./deletar_cobranca.php?cobranca=${dadosCobranca[0].codigo}" id="btn_importar_xlsx_cobranca" class="btn btn-app">
+            <i class="fas fa-trash-alt"></i> Deletar cobrança
+            </a>
+
             
 
            
