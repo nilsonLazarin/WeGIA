@@ -80,7 +80,7 @@ setlocale(LC_ALL, $locale);
               <th>Link boleto</th>
               <th>N. de pag. online</th>
               <th>Status</th>
-              <th>Deletar</th>
+              <th>Opções</th>
             </tr>
           </thead>
           <tbody>
@@ -99,7 +99,7 @@ setlocale(LC_ALL, $locale);
               <th>Link boleto</th>
               <th>N. de pag. online</th>
               <th>Status</th>
-              <th>Deletar</th>
+              <th>Opções</th>
             </tr>
           </tfoot>
         </table>

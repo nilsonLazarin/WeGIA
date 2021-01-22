@@ -555,7 +555,7 @@ $(document).ready(function(){
             "processing": true,
             "searching": true,
             "ajax": "processa_cobrancas_tabela.php",
-            "columnDefs": [{"render": criarBotoes, "data": null, "targets": [0]}],
+            "columnDefs": [{"render": criarBotoes, "data": null, "targets": [11]}],
             "language": {
                 "sEmptyTable": "Nenhuma cobrança encontrada no sistema.",
                 "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
