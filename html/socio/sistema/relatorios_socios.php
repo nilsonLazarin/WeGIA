@@ -156,6 +156,18 @@
             $(".menuu").load("<?php echo WWW;?>html/menu.php");
 	    });	
 	</script>
+    <style>
+        @media print {
+            .menuu, .page-header, .box-geracaounica, .header, .print-button{
+                display: none;
+            }
+            .resultado{
+                display: block;
+                position: fixed;
+                top: 0;
+            }
+        }
+    </style>
 </head>
 <body>
     <?php require_once("./controller/import_conteudo_relatorios_socios.php"); ?>

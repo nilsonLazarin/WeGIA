@@ -92,11 +92,11 @@
 								<label class="col-md-3 control-label">Valor</label>
 								<div class="col-md-2">
 								<select id="operador">
-									  <option value="">Maior que</option>
-                                      <option value="">Maior ou igual a</option>
-                                      <option value="">Igual a</option>
-                                      <option value="">Menor ou igual a</option>
-                                      <option value="">Menor que</option>
+									  <option value="maior_q">Maior que</option>
+                                      <option value="maior_ia">Maior ou igual a</option>
+                                      <option value="igual_a">Igual a</option>
+                                      <option value="menor_ia">Menor ou igual a</option>
+                                      <option value="menor_q">Menor que</option>
 								</select>
                                 <input type="number" min="0" step="any" style="display: inline-block" class="form-control" id="valor">
 								</div>
@@ -111,6 +111,9 @@
             </div>
             </div>
 
+			<div class="resultado">
+					
+			</div>
           <!-- /.box -->
         </div> 
 		
