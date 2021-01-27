@@ -332,6 +332,13 @@
 							</div>
 						</a>
 
+						<a href="../html/socio/sistema/relatorios_socios.php">	
+							<div class="col-lg-2 col-md-8 i">
+								<i  class="far fa-clipboard"></i>
+								<h4>Relatórios</h4>
+							</div>
+						</a>
+
 						<a href="../html/socio/sistema/cobrancas.php">	
 							<div class="col-lg-2 col-md-8 i">
 							<i class="fas fa-chart-bar"></i>
