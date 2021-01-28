@@ -127,7 +127,7 @@
 					.append($('<tr />')
 						.attr('onclick','listarId("'+ item.id_entrada +'")')
 						.append($('<td />')
-							.text(item.desc_produto))
+							.text(item.desc_produto + ", [clique para ver todos produtos]"))
 						.append($('<td />')
 							.text(item.nome_origem))
 						.append($('<td />')
