@@ -121,13 +121,15 @@
 				?>;
 
 			$.each(entrada, function(i,item){
-				console.log(entrada);
+				if(item.desc_produto.split(",").length >= 5){
+					var msg = ", [clique para ver todos produtos]";
+				}else msg = "";
 
 				$('#tabela')
 					.append($('<tr />')
 						.attr('onclick','listarId("'+ item.id_entrada +'")')
 						.append($('<td />')
-							.text(item.desc_produto + ", [clique para ver todos produtos]"))
+							.text(item.desc_produto + msg))
 						.append($('<td />')
 							.text(item.nome_origem))
 						.append($('<td />')
