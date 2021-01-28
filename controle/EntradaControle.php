@@ -36,6 +36,15 @@ class EntradaControle
         $_SESSION['entrada']=$origens;
         header('Location: ../html/listar_entrada.php');
     }
+
+    public function listarTodosComProdutos(){
+        extract($_REQUEST);
+        $entradaDAO= new EntradaDAO();
+        $origens = $entradaDAO->listarTodosComProdutos();
+        session_start();
+        $_SESSION['entrada']=$origens;
+        header('Location: ../html/listar_entrada.php');
+    }
     
     public function incluir(){
         extract($_REQUEST);

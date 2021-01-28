@@ -59,6 +59,30 @@ class EntradaDAO
         }
         return json_encode($entradas);
     }
+    public function listarTodosComProdutos(){
+
+        try{
+            $entradas=array();
+            $pdo = Conexao::connect();
+            $consulta = $pdo->query("SELECT e.id_entrada, o.nome_origem, a.descricao_almoxarifado, t.descricao, p.nome, e.data, e.hora, e.valor_total, GROUP_CONCAT(DISTINCT pr.descricao SEPARATOR ', ') as desc_produto
+            FROM entrada e 
+                INNER JOIN origem o ON o.id_origem = e.id_origem
+                INNER JOIN ientrada ie ON ie.id_entrada = e.id_entrada
+                INNER JOIN produto pr ON pr.id_produto = ie.id_produto
+                INNER JOIN almoxarifado a ON a.id_almoxarifado = e.id_almoxarifado
+                INNER JOIN tipo_entrada t ON t.id_tipo = e.id_tipo
+                INNER JOIN pessoa p ON p.id_pessoa = e.id_responsavel
+            GROUP BY e.id_entrada");
+            $x=0;
+            while($linha = $consulta->fetch(PDO::FETCH_ASSOC)){
+                $entradas[$x]=array('id_entrada'=>$linha['id_entrada'],'nome_origem'=>$linha['nome_origem'],'descricao_almoxarifado'=>$linha['descricao_almoxarifado'],'descricao'=>$linha['descricao'],'nome'=>$linha['nome'],'data'=>$linha['data'],'hora'=>$linha['hora'],'valor_total'=>$linha['valor_total'], 'desc_produto'=>$linha['desc_produto']);
+                $x++;
+            }
+            } catch (PDOExeption $e){
+                echo 'Error:' . $e->getMessage;
+            }
+            return json_encode($entradas);
+        }
     public function listarUm($id)
         {
              try {

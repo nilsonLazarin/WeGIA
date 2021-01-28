@@ -51,7 +51,7 @@
   	include_once '../dao/EntradaDAO.php';
   
 	if(!isset($_SESSION['entrada'])){
-		header('Location: ../controle/control.php?metodo=listarTodos&nomeClasse=EntradaControle&nextPage=../html/listar_entrada.php');
+		header('Location: ../controle/control.php?metodo=listarTodosComProdutos&nomeClasse=EntradaControle&nextPage=../html/listar_entrada.php');
 	}
 	if(isset($_SESSION['entrada'])){
 		$entrada = $_SESSION['entrada'];
@@ -121,10 +121,13 @@
 				?>;
 
 			$.each(entrada, function(i,item){
+				console.log(entrada);
 
 				$('#tabela')
 					.append($('<tr />')
 						.attr('onclick','listarId("'+ item.id_entrada +'")')
+						.append($('<td />')
+							.text(item.desc_produto))
 						.append($('<td />')
 							.text(item.nome_origem))
 						.append($('<td />')
@@ -189,6 +192,7 @@
 								<table class="table table-bordered table-striped mb-none" id="datatable-default">
 									<thead>
 										<tr>
+											<th>Produto(s)</th>
 											<th>Origem</th>
 											<th>Almoxarifado</th>
 											<th>Tipo</th>
