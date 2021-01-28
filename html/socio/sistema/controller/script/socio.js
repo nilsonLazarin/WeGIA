@@ -196,7 +196,7 @@ function detalhar_socio(dados){
                     </div>
               <div class="form-group col-xs-4">
                 <label for="data_corte">Número</label>
-                <input type="number" class="form-control" min="0" id="numero" value="`+ dados_socio.numero_endereco +`" name="numero" placeholder="" required disabled>
+                <input type="text" class="form-control" id="numero" value="`+ dados_socio.numero_endereco +`" name="numero" placeholder="" required disabled>
               </div>
             </div>
             <div class="row">

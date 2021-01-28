@@ -131,7 +131,7 @@
           
           <div class="form-group col-xs-4">
             <label for="valor">Data de nascimento</label>
-            <input type="date" class="form-control" id="data_nasc" value="<?php echo($data_nasc); ?>" name="data_nasc" required>
+            <input type="date" class="form-control" id="data_nasc" value="<?php echo($data_nasc); ?>" name="data_nasc">
           </div>
         
           <?php
@@ -172,7 +172,7 @@
                     </div>
               <div class="form-group col-xs-4">
                 <label for="data_corte">Número</label>
-                <input type="number" class="form-control" min="0" id="numero" name="numero" value="<?php echo($numero); ?>" placeholder="" required>
+                <input type="text" class="form-control" id="numero" name="numero" value="<?php echo($numero); ?>" placeholder="">
               </div>
             </div>
             <div class="row">
