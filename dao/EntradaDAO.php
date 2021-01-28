@@ -64,7 +64,7 @@ class EntradaDAO
         try{
             $entradas=array();
             $pdo = Conexao::connect();
-            $consulta = $pdo->query("SELECT e.id_entrada, o.nome_origem, a.descricao_almoxarifado, t.descricao, p.nome, e.data, e.hora, e.valor_total, GROUP_CONCAT(DISTINCT pr.descricao SEPARATOR ', ') as desc_produto
+            $consulta = $pdo->query("SELECT e.id_entrada, o.nome_origem, a.descricao_almoxarifado, t.descricao, p.nome, e.data, e.hora, e.valor_total, substring_index(group_concat(pr.descricao SEPARATOR ','), ',', 5) as desc_produto
             FROM entrada e 
                 INNER JOIN origem o ON o.id_origem = e.id_origem
                 INNER JOIN ientrada ie ON ie.id_entrada = e.id_entrada
