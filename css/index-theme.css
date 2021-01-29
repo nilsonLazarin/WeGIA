@@ -19,6 +19,10 @@
     font-family: 'Montserrat', sans-serif;
 }
 
+.formulario {
+    margin-top: 10px
+}
+
 @media only screen and (min-width: 801px){
     .formulario {
  
@@ -46,6 +50,7 @@
         justify-content: space-around;
         align-items: center;
         padding: 12px;
+        flex-wrap: wrap;
     }
     
     .corpo{
@@ -72,12 +77,20 @@
         width: 300px;
     }
 
+    @media screen and (max-width: 460px) {
+        .carrosel {
+            height: 55vh;
+            padding-left: 0;
+        }
+    }
+
     .carrosel{
         padding-left: 30px;
     }
 
     .index-logo > .item > img {
-        max-width: 500px;
+        max-height: 400px;
+        width: auto;
     }
     
     .informacao{
@@ -124,6 +137,7 @@
 
     .entrar {
         width: 100%;
+        margin-top: 10px;
     }
     
 }
