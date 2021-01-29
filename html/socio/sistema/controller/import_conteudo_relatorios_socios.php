@@ -89,6 +89,20 @@
 							</div>
 
 							<div class="form-group" style="display: block;">
+								<label class="col-md-3 control-label">Status</label>
+								<div class="col-md-8">
+								<select id="tipo_pessoa">
+									  <option value="x">Todas as Opções</option>
+                                      <option value="0">Ativos</option>
+                                      <option value="1">Inativos</option>
+									  <option value="2">Inadimplentes</option>
+									  <option value="3">Inativos temporariamente</option>
+									  <option value="4">Sem informações de status</option>
+								</select>
+								</div>
+							</div>
+
+							<div class="form-group" style="display: block;">
 								<label class="col-md-3 control-label">Valor</label>
 								<div class="col-md-2">
 								<select id="operador">
@@ -99,6 +113,26 @@
                                       <option value="menor_q">Menor que</option>
 								</select>
                                 <input type="number" min="0" step="any" style="display: inline-block" class="form-control" id="valor">
+								</div>
+							</div>
+
+							<div class="form-group" style="display: block;">
+								<label class="col-md-3 control-label">Supor periodicidade e valor de contribuição dos sócios através das cobranças</label>
+								<div class="col-md-8">
+								<select id="sup">
+									  <option value="n">Não</option>
+                                      <option value="s">Sim</option>
+								</select>
+								</div>
+							</div>
+
+							<div class="form-group" style="display: block;">
+								<label class="col-md-3 control-label">Supor inatividade dos sócios através das cobranças (mais de um ano sem contribuir)</label>
+								<div class="col-md-8">
+								<select id="sup_inatividade">
+									  <option value="n">Não</option>
+                                      <option value="s">Sim</option>
+								</select>
 								</div>
 							</div>
 

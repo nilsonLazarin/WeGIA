@@ -5,12 +5,16 @@ $(document).ready(function(){
         var tipo_pessoa = $("#tipo_pessoa").val();
         var operador = $("#operador").val();
         var valor = $("#valor").val();
+        var suposicao = $("#sup").val();
+        var suposicao_inatividade = $("#sup_inatividade").val();
 
         $.get("get_relatorios_socios.php", {
             "tipo_socio": tipo_socio,
             "tipo_pessoa": tipo_pessoa,
             "operador": operador,
-            "valor": valor
+            "valor": valor,
+            "sup": suposicao,
+            "sup_inatividade": suposicao_inatividade
         })
             .done(function(retorno){
                 var socios = JSON.parse(retorno);
