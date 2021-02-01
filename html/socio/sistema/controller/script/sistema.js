@@ -872,6 +872,7 @@ $(document).ready(function(){
                 }
 
                 oReq.send();
+                // Deletar tabelas por motivos de segurança * IMPORTANTE (FAZER O MAIS RÁPIDO QUE DER)
 
             }
       }
