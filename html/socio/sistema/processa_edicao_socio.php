@@ -25,6 +25,15 @@
         $valor_periodo = "null";
     }else $valor_periodo = "'$valor_periodo'";
 
+    // Lidando com aspas simples e duplas
+    $socio_nome = addslashes($socio_nome);
+    $cidade = addslashes($cidade);
+    $bairro = addslashes($bairro);
+    $numero = addslashes($numero);
+    $rua = addslashes($rua);
+    $complemento = addslashes($complemento);
+
+
     $id_pessoa = mysqli_fetch_array(mysqli_query($conexao, "SELECT id_pessoa FROM socio WHERE id_socio = $id_socio"))['id_pessoa'];
     if($resultado = mysqli_query($conexao, "UPDATE `pessoa` SET `cpf` = '$cpf_cnpj', `nome` = '$socio_nome', `telefone` = '$telefone', `data_nascimento` = '$data_nasc', `cep` = '$cep', `estado` = '$estado', `cidade` = '$cidade', `bairro` = '$bairro', `logradouro` = '$rua', `numero_endereco` = '$numero', `complemento` = '$complemento' WHERE id_pessoa = $id_pessoa")){
         switch($pessoa){

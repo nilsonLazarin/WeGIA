@@ -25,6 +25,15 @@
     if(!isset($contribuinte)){
         $contribuinte = null;
     }
+
+    // Lidando com aspas simples e duplas
+    $socio_nome = addslashes($socio_nome);
+    $cidade = addslashes($cidade);
+    $bairro = addslashes($bairro);
+    $numero = addslashes($numero);
+    $rua = addslashes($rua);
+    $complemento = addslashes($complemento);
+
     // si = sem informação
     if($resultado = mysqli_query($conexao, "INSERT INTO `pessoa`(`cpf`, `nome`, `telefone`, `data_nascimento`, `cep`, `estado`, `cidade`, `bairro`, `logradouro`, `numero_endereco`, `complemento`) VALUES ('$cpf_cnpj', '$socio_nome',  '$telefone', $data_nasc, '$cep', '$estado', '$cidade', '$bairro', '$rua', '$numero', '$complemento' )")){
         $id_pessoa = mysqli_insert_id($conexao);

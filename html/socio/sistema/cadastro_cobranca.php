@@ -24,6 +24,14 @@
     if(!isset($contribuinte)){
         $contribuinte = null;
     }
+    // Lidando com aspas simples e duplas
+    $socio_nome = addslashes($socio_nome);
+    $cidade = addslashes($cidade);
+    $bairro = addslashes($bairro);
+    $numero = addslashes($numero);
+    $rua = addslashes($rua);
+    $complemento = addslashes($complemento);
+    
     $data_emissao = implode('-', array_reverse(explode('/', $data_emissao)));
     $data_vencimento = implode('-', array_reverse(explode('/', $data_vencimento)));
     $data_pagamento = implode('-', array_reverse(explode('/', $data_pagamento)));
