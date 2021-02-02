@@ -117,19 +117,9 @@
 							</div>
 
 							<div class="form-group" style="display: block;">
-								<label class="col-md-3 control-label">Supor periodicidade e valor de contribuição dos sócios através das cobranças</label>
+								<label class="col-md-3 control-label">Supor periodicidade, (in)atividade e valor de contribuição dos sócios através das cobranças</label>
 								<div class="col-md-8">
 								<select id="sup">
-									  <option value="n">Não</option>
-                                      <option value="s">Sim</option>
-								</select>
-								</div>
-							</div>
-
-							<div class="form-group" style="display: block;">
-								<label class="col-md-3 control-label">Supor inatividade dos sócios através das cobranças (mais de um ano sem contribuir)</label>
-								<div class="col-md-8">
-								<select id="sup_inatividade">
 									  <option value="n">Não</option>
                                       <option value="s">Sim</option>
 								</select>

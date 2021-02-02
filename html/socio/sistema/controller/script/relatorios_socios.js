@@ -6,22 +6,23 @@ $(document).ready(function(){
         var operador = $("#operador").val();
         var valor = $("#valor").val();
         var suposicao = $("#sup").val();
-        var suposicao_inatividade = $("#sup_inatividade").val();
 
         $.get("get_relatorios_socios.php", {
             "tipo_socio": tipo_socio,
             "tipo_pessoa": tipo_pessoa,
             "operador": operador,
             "valor": valor,
-            "sup": suposicao,
-            "sup_inatividade": suposicao_inatividade
+            "suposicao": suposicao,
         })
             .done(function(retorno){
                 var socios = JSON.parse(retorno);
                 var tabela = "";
                 console.log(socios);
                 for(socio of socios){
-                    tabela += `<tr><td>${socio.nome}</td><td>${socio.cpf}</td><td>${socio.telefone}</td><td>${socio.tipo}</td><td>${socio.valor_periodo}</td></tr>`
+                    if(suposicao === "s"){
+                        valor_periodo = socio.m_valor;
+                    }
+                    tabela += `<tr><td>${socio.nome}</td><td>${socio.cpf}</td><td>${socio.telefone}</td><td>${socio.tipo}</td><td>${valor_periodo}</td></tr>`
                 }
                 $(".resultado").html(`
                 <div class="tab-content">
