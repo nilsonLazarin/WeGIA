@@ -21,6 +21,11 @@
         $data_referencia = "null";
     }else $data_referencia = "'$data_referencia'";
 
+    if(!isset($data_nasc) or ($data_nasc == null) or ($data_nasc == "") or empty($data_nasc) or ($data_nasc == "imp")){
+        $data_nasc = "null";
+    }else $data_nasc = "'$data_nasc'";
+
+
     if(!isset($valor_periodo) or ($valor_periodo == null) or ($valor_periodo == "") or empty($valor_periodo) or ($valor_periodo == "imp")){
         $valor_periodo = "null";
     }else $valor_periodo = "'$valor_periodo'";
@@ -35,7 +40,7 @@
 
 
     $id_pessoa = mysqli_fetch_array(mysqli_query($conexao, "SELECT id_pessoa FROM socio WHERE id_socio = $id_socio"))['id_pessoa'];
-    if($resultado = mysqli_query($conexao, "UPDATE `pessoa` SET `cpf` = '$cpf_cnpj', `nome` = '$socio_nome', `telefone` = '$telefone', `data_nascimento` = '$data_nasc', `cep` = '$cep', `estado` = '$estado', `cidade` = '$cidade', `bairro` = '$bairro', `logradouro` = '$rua', `numero_endereco` = '$numero', `complemento` = '$complemento' WHERE id_pessoa = $id_pessoa")){
+    if($resultado = mysqli_query($conexao, "UPDATE `pessoa` SET `cpf` = '$cpf_cnpj', `nome` = '$socio_nome', `telefone` = '$telefone', `data_nascimento` = $data_nasc, `cep` = '$cep', `estado` = '$estado', `cidade` = '$cidade', `bairro` = '$bairro', `logradouro` = '$rua', `numero_endereco` = '$numero', `complemento` = '$complemento' WHERE id_pessoa = $id_pessoa")){
         switch($pessoa){
             case "juridica": 
             if($contribuinte == "mensal"){
