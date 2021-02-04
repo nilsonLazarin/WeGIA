@@ -164,6 +164,11 @@
             .resultado{
                 display: block;
                 margin-top: -100px;
+                width: 100%;
+            }
+            .resultado table{
+                font-size: 9px;
+                width: 100%;
             }
         }
     </style>
