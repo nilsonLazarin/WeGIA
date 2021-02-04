@@ -163,8 +163,7 @@
             }
             .resultado{
                 display: block;
-                position: fixed;
-                top: 0;
+                margin-top: -100px;
             }
         }
     </style>

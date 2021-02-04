@@ -20,9 +20,24 @@ $(document).ready(function(){
                 console.log(socios);
                 for(socio of socios){
                     if(suposicao === "s"){
-                        valor_periodo = socio.m_valor;
+                        valor_periodo = socio.valor;
+                        if(socio.provavel_periodicidade >= 28 && socio.provavel_periodicidade <= 49){
+                            var p_periodicidade = "Mensal";
+                        }else if(socio.provavel_periodicidade > 49 && socio.provavel_periodicidade <= 70){
+                            var p_periodicidade = "Bimestral";
+                        }else if(socio.provavel_periodicidade > 70 && socio.provavel_periodicidade <= 100){
+                            var p_periodicidade = "Trimestral";
+                        }else if(socio.provavel_periodicidade > 100 && socio.provavel_periodicidade <= 200){
+                            var p_periodicidade = "Semestral";
+                        }else{
+                            p_periodicidade = "sem informação/ocasional";
+                        }
+                        tipo_socio = `Provalvelmente ${$("#tipo_socio option:selected").text()}`;
+                    }else{
+                        valor_periodo = socio.valor_periodo;
+                        p_periodicidade = socio.tipo;
                     }
-                    tabela += `<tr><td>${socio.nome}</td><td>${socio.cpf}</td><td>${socio.telefone}</td><td>${socio.tipo}</td><td>${valor_periodo}</td></tr>`
+                    tabela += `<tr><td>${socio.nome}</td><td>${socio.cpf}</td><td>${socio.data_formatada}</td><td>${socio.telefone}</td><td>Provavelmente ${p_periodicidade}</td><td>${valor_periodo}</td></tr>`
                 }
                 $(".resultado").html(`
                 <div class="tab-content">
@@ -40,6 +55,7 @@ $(document).ready(function(){
                         <tr>
                         <th scope="col" width="25%">Nome</th>
                         <th scope="col">CPF/CPNJ</th>
+                        <th scope="col">Último vencimento</th>
                         <th scope="col">Telefone</th>
                         <th scope="col" width="14%">Tipo Sócio</th>                            
                         <th scope="col" width="12%" class="tot">Valor/Período</th>
