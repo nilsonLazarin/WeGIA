@@ -21,12 +21,20 @@
         case "f": $p = "and LENGTH(p.cpf) = 14"; break;
         case "j": $p = "and LENGTH(p.cpf) = 18"; break;
     }
+    switch($tipo_pessoa){
+        case "x": $p = ""; break; //Todos
+        case "f": $p = "and LENGTH(p.cpf) = 14"; break;
+        case "j": $p = "and LENGTH(p.cpf) = 18"; break;
+    }
     switch($operador){
         case "maior_q": $op = ">"; break;
         case "maior_ia": $op = ">="; break;
         case "igual_a": $op = "="; break;
         case "menor_ia": $op = "<="; break;
         case "menor_q": $op = "<"; break;
+    }
+    if($status == "x"){
+        $status = "0,1,2,3,4";
     }
     // switch($suposicao){
     //     case "s": $sql = "SELECT *, max(c.data_vencimento) as ultimo_vencimento, ((SELECT c.data_vencimento FROM cobrancas c Where c.id_socio=s.id_socio ORDER BY c.data_vencimento DESC LIMIT 1,1)) penultimo_vencimento FROM socio s JOIN pessoa p on p.id_pessoa = s.id_pessoa JOIN socio_tipo st on st.id_sociotipo = s.id_sociotipo JOIN cobrancas c on c.id_socio = s.id_socio JOIN (SELECT *, valor as m_valor FROM cobrancas GROUP BY valor ORDER BY COUNT(*) DESC) cv on cv.id_socio = s.id_socio WHERE s.id_sociotipo in ($td) and c.valor $op $valor $p GROUP BY s.id_socio"; break;
@@ -59,6 +67,19 @@
         }
 
     }else{
+        $sql = "
+        SELECT p.nome, p.cpf, p.telefone, s.valor_periodo, st.tipo, ss.status FROM pessoa p
+        JOIN socio s ON (s.id_pessoa = p.id_pessoa)
+        JOIN socio_tipo st ON (s.id_sociotipo = st.id_sociotipo)
+        JOIN socio_status ss ON (ss.id_sociostatus = s.id_sociostatus)
+        WHERE s.id_sociotipo IN ($td) AND s.valor_periodo $op $valor $p AND ss.id_sociostatus IN ($status) 
+        ORDER BY p.nome
+        ";
+
+        $query = mysqli_query($conexao, $sql);
+        while($resultado = mysqli_fetch_assoc($query)){
+            $dados[] = $resultado;
+        }
 
     }
 
@@ -75,6 +96,9 @@
     //         $val = mb_convert_encoding($val, 'UTF-8', 'UTF-8');
     //     }
     // });
-
-    echo json_encode($dados);
+    if(!isset($dados)){
+        echo json_encode(null);
+    }else{
+        echo json_encode($dados);
+    }
 ?>

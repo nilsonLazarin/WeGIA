@@ -1,10 +1,12 @@
 $(document).ready(function(){
     $(document).on("submit", "#form_relatorio", function(e){
+        $(".resultado").html("");
         e.preventDefault();
         var tipo_socio = $("#tipo_socio").val();
         var tipo_pessoa = $("#tipo_pessoa").val();
         var operador = $("#operador").val();
         var valor = $("#valor").val();
+        var status = $("#status").val();
         var suposicao = $("#sup").val();
 
         $.get("get_relatorios_socios.php", {
@@ -12,6 +14,7 @@ $(document).ready(function(){
             "tipo_pessoa": tipo_pessoa,
             "operador": operador,
             "valor": valor,
+            "status": status,
             "suposicao": suposicao,
         })
             .done(function(retorno){
@@ -20,6 +23,14 @@ $(document).ready(function(){
                 console.log(socios);
                 for(socio of socios){
                     if(suposicao === "s"){
+                        var estrutura_tab = `<tr>
+                        <th scope="col" width="25%">Nome</th>
+                        <th scope="col">CPF/CPNJ</th>
+                        <th scope="col">Último Vencimento</th>
+                        <th scope="col">Telefone</th>
+                        <th scope="col" width="14%">Tipo Sócio</th>                            
+                        <th scope="col" width="12%" class="tot">Valor/Período</th>
+                        </tr>`
                         valor_periodo = socio.valor;
                         if(socio.provavel_periodicidade >= 28 && socio.provavel_periodicidade <= 49){
                             var p_periodicidade = "Mensal";
@@ -33,11 +44,20 @@ $(document).ready(function(){
                             p_periodicidade = "sem informação/ocasional";
                         }
                         tipo_socio = `Provalvelmente ${$("#tipo_socio option:selected").text()}`;
+                        tabela += `<tr><td>${socio.nome}</td><td>${socio.cpf}</td><td>${socio.data_formatada}</td><td>${socio.telefone}</td><td>Provavelmente ${p_periodicidade}</td><td>${valor_periodo}</td></tr>`
                     }else{
                         valor_periodo = socio.valor_periodo;
                         p_periodicidade = socio.tipo;
+                        var estrutura_tab = `<tr>
+                        <th scope="col" width="25%">Nome</th>
+                        <th scope="col">CPF/CPNJ</th>
+                        <th scope="col">Telefone</th>
+                        <th scope="col" width="14%">Tipo Sócio</th>                            
+                        <th scope="col" width="12%" class="tot">Valor/Período</th>
+                        <th scope="col" width="12%" class="tot">Status</th>
+                        </tr>`
+                        tabela += `<tr><td>${socio.nome}</td><td>${socio.cpf}</td><td>${socio.telefone}</td><td>${socio.tipo}</td><td>${valor_periodo}</td><td>${socio.status}</td></tr>`
                     }
-                    tabela += `<tr><td>${socio.nome}</td><td>${socio.cpf}</td><td>${socio.data_formatada}</td><td>${socio.telefone}</td><td>Provavelmente ${p_periodicidade}</td><td>${valor_periodo}</td></tr>`
                 }
                 $(".resultado").html(`
                 <div class="tab-content">
@@ -52,14 +72,7 @@ $(document).ready(function(){
 
                 <table class="table table-striped">
                     <thead class="thead-dark">
-                        <tr>
-                        <th scope="col" width="25%">Nome</th>
-                        <th scope="col">CPF/CPNJ</th>
-                        <th scope="col">Último vencimento</th>
-                        <th scope="col">Telefone</th>
-                        <th scope="col" width="14%">Tipo Sócio</th>                            
-                        <th scope="col" width="12%" class="tot">Valor/Período</th>
-                        </tr>
+                        ${estrutura_tab}
                     </thead>
                     <tbody>
                         ${tabela}

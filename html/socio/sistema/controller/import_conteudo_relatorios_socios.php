@@ -91,7 +91,7 @@
 							<div class="form-group" style="display: block;">
 								<label class="col-md-3 control-label">Status</label>
 								<div class="col-md-8">
-								<select id="tipo_pessoa">
+								<select id="status">
 									  <option value="x">Todas as Opções</option>
                                       <option value="0">Ativos</option>
                                       <option value="1">Inativos</option>
