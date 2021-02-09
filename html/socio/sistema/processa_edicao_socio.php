@@ -77,7 +77,7 @@
                 $id_sociotipo = 4;
             }  break;
         }
-        if($resultado = mysqli_query($conexao, "UPDATE `socio` SET `id_sociostatus`= '$status', `id_sociotipo` = '$id_sociotipo', `email` = '$email', `data_referencia` = $data_referencia, `valor_periodo` = $valor_periodo WHERE id_socio = $id_socio")){
+        if($resultado = mysqli_query($conexao, "UPDATE `socio` SET `id_sociostatus`= '$status', `id_sociotipo` = $id_sociotipo, `email` = '$email', `data_referencia` = $data_referencia, `valor_periodo` = $valor_periodo WHERE id_socio = $id_socio")){
             $cadastrado = true;
         }
         
