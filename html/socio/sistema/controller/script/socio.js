@@ -37,6 +37,42 @@ function deletar_socio(id,pessoa){
             }
       });
 }
+function gerarTags(){
+  url = 'exibir_tags.php';
+  $.ajax({
+  data: '',
+  type: "POST",
+  url: url,
+  success: function(response){
+    var tags = response;
+    $('#tags').empty();
+    $('#tags').append('<option selected disabled>Selecionar tag</option>');
+    $.each(tags,function(i,item){
+      $('#tags').append('<option value="' + item.id_sociotag + '">' + item.tag + '</option>');
+    });
+  },
+  dataType: 'json'
+});
+}
+function adicionar_tag(){
+  url = 'adicionar_tag.php';
+  var tag = window.prompt("Cadastre uma nova TAG:");
+  if(!tag){return}
+  tag = tag.trim();
+  if(tag == ''){return}              
+  
+    data = 'tag=' +tag; 
+    console.log(data);
+    $.ajax({
+    type: "POST",
+    url: url,
+    data: data,
+    success: function(response){
+      gerarTags();
+    },
+    dataType: 'text'
+  })
+}
 function deletar_socio_modal(del_obj){
     console.log(del_obj);
     modal = `

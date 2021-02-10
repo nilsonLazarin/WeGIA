@@ -905,6 +905,12 @@ CREATE TABLE IF NOT EXISTS `wegia`.`socio_tipo` (
   PRIMARY KEY (`id_sociotipo`))
 ENGINE = InnoDB;
 
+CREATE TABLE IF NOT EXISTS `wegia`.`socio_tag` ( 
+  `id_sociotag` INT NOT NULL AUTO_INCREMENT ,  
+  `tag` VARCHAR(80) NOT NULL ,    
+  PRIMARY KEY  (`id_sociotag`)) 
+ENGINE = InnoDB;
+
 
 -- -----------------------------------------------------
 -- Table `wegia`.`socio`
@@ -914,6 +920,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`socio` (
   `id_pessoa` INT(11) NOT NULL UNIQUE,
   `id_sociostatus` INT NOT NULL,
   `id_sociotipo` INT NOT NULL,
+  `id_sociotag` TINYINT NULL,
   `email` VARCHAR(256) NULL,
   `valor_periodo` DECIMAL(10,2) NULL,
   `data_referencia` DATE NULL,

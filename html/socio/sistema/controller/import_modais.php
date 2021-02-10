@@ -95,6 +95,25 @@
             <input type="number" class="form-control" id="valor_periodo" name="valor_periodo">
           </div>
         </div>
+        <div class="row">
+          <div style="margin-bottom:  1em" class="form-group col-xs-12 mb-2">
+            <label for="valor">Tag</label>
+            <a onclick="adicionar_tag()">
+							<i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i>
+						</a>
+            <select class="form-control" name="tags" id="tags">
+            <option value="none" disabled selected>Selecionar tag</option>
+            <?php
+                  $tags = mysqli_query($conexao, "SELECT * FROM socio_tag");
+                  while($row = $tags->fetch_array(MYSQLI_NUM))
+                  {
+                      echo "<option value=".$row[0].">".$row[1]."</option>";
+                  }
+           
+            ?>
+            </select>
+          </div>
+        </div>
         <div class="box box-info endereco">
             <div class="box-header with-border">
               <h3 class="box-title">Endereço</h3>

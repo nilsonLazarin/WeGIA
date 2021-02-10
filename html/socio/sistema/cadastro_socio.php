@@ -26,6 +26,10 @@
         $contribuinte = null;
     }
 
+    if(!isset($tag) or ($tag == null)){
+        $tag = "null";
+    }
+
     // Lidando com aspas simples e duplas
     $socio_nome = addslashes($socio_nome);
     $cidade = addslashes($cidade);
@@ -74,7 +78,7 @@
             }  break;
         }
 
-        $resultado = mysqli_query($conexao, "INSERT INTO `socio`(`id_pessoa`, `id_sociostatus`, `id_sociotipo`, `email`, `valor_periodo`, `data_referencia`) VALUES ($id_pessoa, $status, $id_sociotipo, '$email', $valor_periodo, $data_referencia)");
+        $resultado = mysqli_query($conexao, "INSERT INTO `socio`(`id_pessoa`, `id_sociostatus`, `id_sociotipo`, `email`, `valor_periodo`, `data_referencia`, `id_sociotag`) VALUES ($id_pessoa, $status, $id_sociotipo, '$email', $valor_periodo, $data_referencia, $tag)");
         if(mysqli_affected_rows($conexao)) $cadastrado = true;
 
     }

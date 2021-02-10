@@ -340,6 +340,7 @@ $(document).ready(function(){
         var bairro = $("#bairro").val();
         var estado = $("#estado").val();
         var cidade = $("#cidade").val();
+        var tag = $("#tags").val();
         var data_nasc = $("#data_nasc").val();
         var cep = $("#cep").val();
         var data_referencia = $("#data_referencia").val();
@@ -352,6 +353,7 @@ $(document).ready(function(){
                 "contribuinte": contribuinte,
                 "status": status,
                 "email": email,
+                "tag": tag,
                 "telefone": telefone,
                 "cpf_cnpj": cpf_cnpj,
                 "rua": rua,
