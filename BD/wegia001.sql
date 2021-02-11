@@ -905,10 +905,10 @@ CREATE TABLE IF NOT EXISTS `wegia`.`socio_tipo` (
   PRIMARY KEY (`id_sociotipo`))
 ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `wegia`.`socio_tag` ( 
-  `id_sociotag` INT NOT NULL AUTO_INCREMENT ,  
-  `tag` VARCHAR(80) NOT NULL ,    
-  PRIMARY KEY  (`id_sociotag`)) 
+CREATE TABLE IF NOT EXISTS `wegia`.`socio_tag` (
+  `id_sociotag` INT NOT NULL AUTO_INCREMENT,
+  `tag` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`id_sociotag`))
 ENGINE = InnoDB;
 
 
@@ -920,7 +920,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`socio` (
   `id_pessoa` INT(11) NOT NULL UNIQUE,
   `id_sociostatus` INT NOT NULL,
   `id_sociotipo` INT NOT NULL,
-  `id_sociotag` TINYINT NULL,
+  `id_sociotag` INT NULL,
   `email` VARCHAR(256) NULL,
   `valor_periodo` DECIMAL(10,2) NULL,
   `data_referencia` DATE NULL,
@@ -928,6 +928,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`socio` (
   INDEX `fk_socio_socio_status1_idx` (`id_sociostatus` ASC),
   INDEX `fk_socio_pessoa1_idx` (`id_pessoa` ASC),
   INDEX `fk_socio_socio_tipo1_idx` (`id_sociotipo` ASC),
+  INDEX `fk_socio_socio_tag1_idx` (`id_sociotag` ASC),
   CONSTRAINT `fk_socio_socio_status1`
     FOREIGN KEY (`id_sociostatus`)
     REFERENCES `wegia`.`socio_status` (`id_sociostatus`)
@@ -941,6 +942,11 @@ CREATE TABLE IF NOT EXISTS `wegia`.`socio` (
   CONSTRAINT `fk_socio_socio_tipo1`
     FOREIGN KEY (`id_sociotipo`)
     REFERENCES `wegia`.`socio_tipo` (`id_sociotipo`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_socio_socio_tag1`
+    FOREIGN KEY (`id_sociotag`)
+    REFERENCES `wegia`.`socio_tag` (`id_sociotag`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
