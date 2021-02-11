@@ -117,6 +117,25 @@
 							</div>
 
 							<div class="form-group" style="display: block;">
+								<label class="col-md-3 control-label">Tag (grupo)</label>
+								<div class="col-md-2">
+								<select id="tag">
+								<option value="x">Todas as Opções</option>
+								<?php
+										$tags = mysqli_query($conexao, "SELECT * FROM socio_tag");
+										while($row = $tags->fetch_array(MYSQLI_NUM))
+										{
+												echo("<option value=".$row[0].">".$row[1]."</option>");
+										}
+           
+            					?>
+								</select>
+								</div>
+							</div>
+
+							
+
+							<div class="form-group" style="display: block;">
 								<label class="col-md-3 control-label">Supor periodicidade, (in)atividade e valor de contribuição dos sócios através das cobranças</label>
 								<div class="col-md-8">
 								<select id="sup">

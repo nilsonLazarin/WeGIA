@@ -38,6 +38,10 @@
     $rua = addslashes($rua);
     $complemento = addslashes($complemento);
 
+    if(!isset($tag) or ($tag == null) or ($tag == "none")){
+        $tag = "null";
+    }
+
 
     $id_pessoa = mysqli_fetch_array(mysqli_query($conexao, "SELECT id_pessoa FROM socio WHERE id_socio = $id_socio"))['id_pessoa'];
     if($resultado = mysqli_query($conexao, "UPDATE `pessoa` SET `cpf` = '$cpf_cnpj', `nome` = '$socio_nome', `telefone` = '$telefone', `data_nascimento` = $data_nasc, `cep` = '$cep', `estado` = '$estado', `cidade` = '$cidade', `bairro` = '$bairro', `logradouro` = '$rua', `numero_endereco` = '$numero', `complemento` = '$complemento' WHERE id_pessoa = $id_pessoa")){
@@ -77,7 +81,7 @@
                 $id_sociotipo = 4;
             }  break;
         }
-        if($resultado = mysqli_query($conexao, "UPDATE `socio` SET `id_sociostatus`= '$status', `id_sociotipo` = $id_sociotipo, `email` = '$email', `data_referencia` = $data_referencia, `valor_periodo` = $valor_periodo WHERE id_socio = $id_socio")){
+        if($resultado = mysqli_query($conexao, "UPDATE `socio` SET `id_sociostatus`= '$status', `id_sociotipo` = $id_sociotipo, `email` = '$email', `data_referencia` = $data_referencia, `valor_periodo` = $valor_periodo, `id_sociotag` = $tag WHERE id_socio = $id_socio")){
             $cadastrado = true;
         }
         

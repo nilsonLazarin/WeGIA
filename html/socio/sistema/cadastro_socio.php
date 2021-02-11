@@ -26,7 +26,7 @@
         $contribuinte = null;
     }
 
-    if(!isset($tag) or ($tag == null)){
+    if(!isset($tag) or ($tag == null) or ($tag == "none")){
         $tag = "null";
     }
 

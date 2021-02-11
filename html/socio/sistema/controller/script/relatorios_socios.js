@@ -7,6 +7,7 @@ $(document).ready(function(){
         var operador = $("#operador").val();
         var valor = $("#valor").val();
         var status = $("#status").val();
+        var tag = $("#tag").val();
         var suposicao = $("#sup").val();
 
         $.get("get_relatorios_socios.php", {
@@ -14,6 +15,7 @@ $(document).ready(function(){
             "tipo_pessoa": tipo_pessoa,
             "operador": operador,
             "valor": valor,
+            "tag": tag,
             "status": status,
             "suposicao": suposicao,
         })

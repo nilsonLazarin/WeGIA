@@ -401,6 +401,7 @@ $(document).ready(function(){
         var numero = $("#numero").val();
         var complemento = $("#complemento").val();
         var bairro = $("#bairro").val();
+        var tag = $("#tags").val();
         var estado = $("#estado").val();
         var cidade = $("#cidade").val();
         var data_nasc = $("#data_nasc").val();
@@ -419,6 +420,7 @@ $(document).ready(function(){
                 "telefone": telefone,
                 "cpf_cnpj": cpf_cnpj,
                 "rua": rua,
+                "tag": tag,
                 "numero": numero,
                 "complemento": complemento,
                 "bairro": bairro,

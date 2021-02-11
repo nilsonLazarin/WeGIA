@@ -209,6 +209,10 @@ function detalhar_socio(dados){
             <label for="valor">Valor/período em R$</label>
             <input type="number" class="form-control" id="valor_periodo" name="valor_periodo" value="`+ dados_socio.valor_periodo +`" disabled>
           </div>
+          <div style="margin-bottom: 1em" class="form-group col-xs-12">
+            <label for="valor">Tag</label>
+            <input type="text" class="form-control" id="tag" name="tag" value="`+ dados_socio.tag +`" disabled>
+          </div>
         </div>
         <div class="box box-info endereco">
             <div class="box-header with-border">

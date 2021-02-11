@@ -36,6 +36,9 @@
     if($status == "x"){
         $status = "0,1,2,3,4";
     }
+    if($tag != "x"){
+        $tag_search = "AND stag.id_sociotag = $tag";
+    }else $tag_search = "";
     // switch($suposicao){
     //     case "s": $sql = "SELECT *, max(c.data_vencimento) as ultimo_vencimento, ((SELECT c.data_vencimento FROM cobrancas c Where c.id_socio=s.id_socio ORDER BY c.data_vencimento DESC LIMIT 1,1)) penultimo_vencimento FROM socio s JOIN pessoa p on p.id_pessoa = s.id_pessoa JOIN socio_tipo st on st.id_sociotipo = s.id_sociotipo JOIN cobrancas c on c.id_socio = s.id_socio JOIN (SELECT *, valor as m_valor FROM cobrancas GROUP BY valor ORDER BY COUNT(*) DESC) cv on cv.id_socio = s.id_socio WHERE s.id_sociotipo in ($td) and c.valor $op $valor $p GROUP BY s.id_socio"; break;
     //     case "n": $sql = "SELECT * FROM socio s JOIN pessoa p on p.id_pessoa = s.id_pessoa JOIN socio_tipo st on st.id_sociotipo = s.id_sociotipo  WHERE s.id_sociotipo in ($td) $p and s.valor_periodo $op $valor"; break;
@@ -53,6 +56,7 @@
             JOIN socio s on (s.id_pessoa = p.id_pessoa)
             JOIN socio_tipo st on (s.id_sociotipo = st.id_sociotipo)
             LEFT JOIN cobrancas c on (c.id_socio = s.id_socio)
+            LEFT JOIN socio_tag stag on (stag.id_sociotag = s.id_sociotag)
             WHERE DATEDIFF(c.data_vencimento, (SELECT DISTINCT c.data_vencimento FROM cobrancas c Where c.id_socio = s.id_socio ORDER BY c.data_vencimento DESC LIMIT 1,1)) 
                 $periodo
             $p
@@ -72,6 +76,7 @@
         JOIN socio s ON (s.id_pessoa = p.id_pessoa)
         JOIN socio_tipo st ON (s.id_sociotipo = st.id_sociotipo)
         JOIN socio_status ss ON (ss.id_sociostatus = s.id_sociostatus)
+        LEFT JOIN socio_tag stag on (stag.id_sociotag = s.id_sociotag)
         WHERE s.id_sociotipo IN ($td) AND s.valor_periodo $op $valor $p AND ss.id_sociostatus IN ($status) 
         ORDER BY p.nome
         ";

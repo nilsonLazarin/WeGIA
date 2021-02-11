@@ -51,6 +51,7 @@
         $cpf_cnpj = $registro['cpf'];
         $logradouro = $registro['logradouro'];
         $numero = $registro['numero_endereco'];
+        $tag = $registro['id_sociotag'];
         $complemento = $registro['complemento'];
         $cep = $registro['cep'];
         $socio_tipo = $registro['id_sociotipo'];
@@ -147,6 +148,28 @@
           <div class="form-group col-xs-6">
             <label for="valor">Valor/período em R$</label>
             <input type="number" class="form-control" id="valor_periodo" name="valor_periodo" value="<?php echo($valor_periodo); ?>">
+          </div>
+        </div>
+
+        <div class="row">
+          <div style="margin-bottom:  1em" class="form-group col-xs-12 mb-2">
+            <label for="valor">Tag</label>
+            <a onclick="adicionar_tag()">
+							<i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i>
+						</a>
+            <select class="form-control" name="tags" id="tags">
+            <option value="none" disabled>Selecionar tag</option>
+            <?php
+                  $tags = mysqli_query($conexao, "SELECT * FROM socio_tag");
+                  while($row = $tags->fetch_array(MYSQLI_NUM))
+                  {
+                      if($row[0] == $tag){
+                        echo("<option value=".$row[0]." selected>".$row[1]."</option>");
+                      }else echo ("<option value=".$row[0].">".$row[1]."</option>");
+                  }
+           
+            ?>
+            </select>
           </div>
         </div>
         
