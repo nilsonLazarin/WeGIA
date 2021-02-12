@@ -61,6 +61,7 @@
                 $periodo
             $p
             AND c.valor $op $valor
+            $tag_search
             GROUP BY s.id_socio
             ORDER BY c.data_vencimento DESC
         ";
@@ -77,7 +78,8 @@
         JOIN socio_tipo st ON (s.id_sociotipo = st.id_sociotipo)
         JOIN socio_status ss ON (ss.id_sociostatus = s.id_sociostatus)
         LEFT JOIN socio_tag stag on (stag.id_sociotag = s.id_sociotag)
-        WHERE s.id_sociotipo IN ($td) AND s.valor_periodo $op $valor $p AND ss.id_sociostatus IN ($status) 
+        WHERE s.id_sociotipo IN ($td) AND s.valor_periodo $op $valor $p AND ss.id_sociostatus IN ($status)
+        $tag_search 
         ORDER BY p.nome
         ";
 
