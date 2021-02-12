@@ -45,7 +45,7 @@ systemctl reload apache2
 mysql -u root
 CREATE USER 'wegiauser'@'localhost' IDENTIFIED BY 'senha';
 CREATE DATABASE wegia;
-GRANT ALL PRIVILEGES ON wegia.* TO 'wegiauser'@'localhost';
+GRANT ALL PRIVILEGES ON wegia.* TO 'wegiauser'@'localhost' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
 quit;
 
