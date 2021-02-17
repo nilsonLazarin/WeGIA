@@ -46,9 +46,11 @@ function gerarTags(){
   success: function(response){
     var tags = response;
     $('#tags').empty();
+    $('#tagsT').empty();
     $('#tags').append('<option selected disabled>Selecionar tag</option>');
     $.each(tags,function(i,item){
       $('#tags').append('<option value="' + item.id_sociotag + '">' + item.tag + '</option>');
+      $('#tagsT').append(`<tr><td>${item.id_sociotag}</td><td><input id='${item.id_sociotag}' type='text' value='${item.tag}'></td><td><a id='a_${item.id_sociotag}' class='btn btn-primary' href='salvar_tag.php?id_tag=${item.id_sociotag}&value='>Salvar</a><td><a class='btn btn-danger' href='deletar_tag.php?id_tag=${item.id_sociotag}'>Deletar</a></td></tr>`);
     });
   },
   dataType: 'json'

@@ -145,6 +145,9 @@ if(file_exists($config_path)){
 								<a href="<?= WWW ?>html/socio/sistema/cobrancas.php">
 									 Cobranças
 								</a>
+								<a href="<?= WWW ?>html/socio/sistema/tags.php">
+									 Tags (grupos)
+								</a>
 								<a href="<?= WWW ?>html/socio/sistema/relatorios_socios.php">
 									 Relatórios Sócios
 								</a>
