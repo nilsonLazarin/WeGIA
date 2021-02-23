@@ -158,14 +158,17 @@
 							<i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i>
 						</a>
             <select class="form-control" name="tags" id="tags">
-            <option value="none" disabled>Selecionar tag</option>
             <?php
                   $tags = mysqli_query($conexao, "SELECT * FROM socio_tag");
-                  while($row = $tags->fetch_array(MYSQLI_NUM))
+                  if($tag == null){
+                    echo(`<option value="none" disabled>Selecionar tag</option>`);
+                  }else{
+                    while($row = $tags->fetch_array(MYSQLI_NUM))
                   {
                       if($row[0] == $tag){
                         echo("<option value=".$row[0]." selected>".$row[1]."</option>");
                       }else echo ("<option value=".$row[0].">".$row[1]."</option>");
+                  }
                   }
            
             ?>
