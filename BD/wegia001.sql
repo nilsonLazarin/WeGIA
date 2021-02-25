@@ -907,7 +907,7 @@ ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `wegia`.`socio_tag` (
   `id_sociotag` INT NOT NULL AUTO_INCREMENT,
-  `tag` VARCHAR(255) NOT NULL,
+  `tag` VARCHAR(255) NOT NULL UNIQUE,
   PRIMARY KEY (`id_sociotag`))
 ENGINE = InnoDB;
 
