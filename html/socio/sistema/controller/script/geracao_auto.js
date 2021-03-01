@@ -782,6 +782,7 @@ $(document).ready(function(){
                     });
                 }else{
                     console.log("SEM SÓCIOS DA CATEGORIA.");
+                    alert(`Para gerar carnês/boletos para o sócio desejado você deve completar o cadastro dele primeiro com os seguintes dados: valor por período, data de referência e a periodicidade.`);
                 } 
             })
             .fail(function(dados){
