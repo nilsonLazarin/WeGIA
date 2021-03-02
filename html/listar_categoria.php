@@ -127,6 +127,9 @@
 	function excluir(id){
 		window.location.replace('../controle/control.php?metodo=excluir&nomeClasse=CategoriaControle&id_categoria_produto='+id);
 	}
+	function editar(id){
+		window.location.replace('./editar_categoria.php?id_categoria='+id);
+	}
 	</script>
 	<script>
 		$(function(){
@@ -141,8 +144,8 @@
 						.append($('<td />')
 							.text(item.descricao_categoria))
 						.append($('<td />')
-							.html('<i class="fas fa-trash-alt"></i>')
-							.attr('onclick','excluir("'+item.id_categoria_produto+'")')));
+							.html(`<i class="fas fa-trash-alt" onclick="excluir(${item.id_categoria_produto})"></i> <i class="fas fa-pencil-alt" onclick="editar(${item.id_categoria_produto})"></i>`))
+						);
 			});
 		});
 		$(function () {

@@ -23,6 +23,23 @@ class CategoriaDAO
             }
         }
 
+        public function editar($id_categoria_produto, $descricao_categoria){
+            try {
+                  $sql = 'UPDATE `categoria_produto` SET `descricao_categoria`=:descricao_categoria WHERE `id_categoria_produto`=:id_categoria_produto';
+      
+                  $sql = str_replace("'", "\'", $sql);            
+                  $pdo = Conexao::connect();
+                  $stmt = $pdo->prepare($sql);
+      
+                  $stmt->bindParam(':descricao_categoria',$descricao_categoria);
+                  $stmt->bindParam(':id_categoria_produto',$id_categoria_produto);  
+      
+                  $stmt->execute();
+            }catch (PDOExeption $e) {
+                echo 'Error: <b>  na tabela categoria_produto = ' . $sql . '</b> <br /><br />' . $e->getMessage();
+            }
+          }
+
         public function listarUm($id)
         {
              try {
