@@ -813,7 +813,19 @@ $(document).ready(function(){
         $(".barra_envio").css("width","0"+"%");
       });
 
+    //   Função para deletar o diretório de tabelas de sócios e cobranças por motivos de segurança
+    function deletar_diretorio_tabelas(){
+        $.post('./controller/deletar_diretorio_tabelas.php')
+            .done(function(r){
+                if(r){
+                    return true;
+                }
+                return false;
+            })
+    }
+
       function uploadArquivosCobranca($form){
+        deletar_diretorio_tabelas();
         var dados = new FormData($form[0]);
         var request = new XMLHttpRequest();
         $(".box_xlsx").prepend('<div class="overlay"> <i class="fa fa-refresh fa-spin"></i> </div>');
@@ -865,6 +877,7 @@ $(document).ready(function(){
                         resetaForm("#form_xlsx");
                         $(".barra_envio").css("width","0"+"%");
                         // location.reload();
+                        deletar_diretorio_tabelas();
                     }else{
                         $("#modal_importar_xlsx").modal("toggle");
                         $("#qtd_socios").html(Number($("#qtd_socios").html())+log.cadastrados);
@@ -872,11 +885,12 @@ $(document).ready(function(){
                         $(".box_xlsx .overlay").remove();
                         resetaForm("#form_xlsx");
                         $(".barra_envio").css("width","0"+"%");
+                        deletar_diretorio_tabelas();
                     }
                 }
 
                 oReq.send();
-                // Deletar tabelas por motivos de segurança * IMPORTANTE (FAZER O MAIS RÁPIDO QUE DER)
+                
 
             }
       }
