@@ -160,6 +160,7 @@
 		let almox = $('#almox').val();
 		$('#datatable-default').DataTable().destroy();
 		$('#datatable-default').DataTable({
+			"order":[[1, 'asc']],
 			aLengthMenu: [
 				[-1],
 				["Mostrar Todos"]
@@ -182,6 +183,7 @@
 		// Recria a tabela com paginação
 		$('#datatable-default').DataTable().destroy();
 		$('#datatable-default').DataTable({
+			"order":[[1, 'asc']],
 			aLengthMenu: [
 				[10, 25, 50, 100, -1],
 				[10, 25, 50, 100, "Tudo"]

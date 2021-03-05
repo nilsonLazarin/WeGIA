@@ -11,6 +11,7 @@ class EstoqueDAO
         try{
             $Estoques=array();
             $pdo = Conexao::connect();
+            // Ordenar alfabeticamente
             $consulta = $pdo->query("
                 SELECT p.descricao, p.codigo, a.descricao_almoxarifado, e.qtd, c.descricao_categoria as categoria, a.id_almoxarifado 
                 FROM produto p 
