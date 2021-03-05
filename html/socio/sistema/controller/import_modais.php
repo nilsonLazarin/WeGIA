@@ -313,13 +313,14 @@
             </form>
               <!-- /input-group -->
             </div>
-            <div class="progress progress-sm active">
+            <!-- /.box-body -->
+          </div>
+
+          <div class="progress progress-sm active">
                 <div class="progress-bar progress-bar-info progress-bar-striped barra_envio" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
                   <span class="sr-only">20% Complete</span>
                 </div>
               </div>
-            <!-- /.box-body -->
-          </div>
 
         </div>
         <div class="modal-footer">
