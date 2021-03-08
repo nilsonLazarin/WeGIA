@@ -114,6 +114,8 @@
     <!-- Theme Custom CSS -->
     <link rel="stylesheet" href="<?php echo WWW;?>assets/stylesheets/theme-custom.css">
 
+    <link rel="stylesheet" href="./controller/css/animacoes.css">
+
     <!-- Head Libs -->
     <script src="<?php echo WWW;?>assets/vendor/modernizr/modernizr.js"></script>
         

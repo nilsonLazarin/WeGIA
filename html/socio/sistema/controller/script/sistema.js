@@ -80,10 +80,12 @@ function criarBotoes(){
 $(document).ready(function(){
     // Cadastro de cobraças/sócios/pessoa
     function cadastro_cobrancas_socio_xlsx(tabela){
+        deletar_diretorio_tabelas();
         log = {
             cadastrados: tabela.length,
             html_log: ""
         };
+        var count_progress = 0;
         for(linha of tabela){
             if(valida_cpf_cnpj(linha['CPF/CNPJ Cliente'])){
                 
@@ -155,27 +157,59 @@ $(document).ready(function(){
                     "data_referencia": null
                 };
                 // var dados = JSON.stringify(dados);
-
-                $.ajax({
-                    async: false,
-                    url: "cadastro_cobranca.php",
-                    data: dados,
-                    type: "POST",
-                        success: function (resp) {
-                            var r = JSON.parse(resp);
-                          if (r) {
-                            log.html_log += "<p style='margin: 0.2em' class='text-green'> <b>[CADASTRADO]</b> - "+ linha['Nome Cliente'] + "</p> ";
-                          } else {
-                            log.cadastrados--;
-                            log.html_log += "<p style='margin: 0.2em' class='text-danger'> <b>[ERRO: POSSUI CAD/ARQUIVO MAL FORMATADO.]</b> - "+ linha['Nome Cliente'] + " </p>";
-                          }
-                        },
-                        error: function (e) {
-                          log.cadastrados--;
-                          log.html_log += "<p style='margin: 0.2em' class='danger'> <b>[ERRO: CON.]</b> - "+ linha['Nome Cliente'] + " </p>";
-                          console.dir(e);
-                        }
-                  });
+                setTimeout(function(){
+                    $.ajax({
+                        async: false,
+                        url: "cadastro_cobranca.php",
+                        data: dados,
+                        type: "POST",
+                            success: function (resp) {
+                                count_progress++;
+                                var porcentagem = count_progress/tabela.length * 100;
+                                $(".barra_envio").css("width",porcentagem+"%");
+                                if(porcentagem == 100){
+                                    deletar_diretorio_tabelas();
+                                    setTimeout(function(){
+                                        $(".ls-container").html("");
+                                    }, 4000)
+                                    $(".box_xlsx .overlay").remove();
+                                    $(".barra_envio").css("width","0%");
+                                }
+                                console.log(porcentagem);
+                                var r = JSON.parse(resp);
+                              if (r) {
+                                log.html_log += "<p style='margin: 0.2em' class='text-green'> <b>[CADASTRADO]</b> - "+ linha['Nome Cliente'] + "</p> ";
+                                $(".ls-container").prepend(`
+                                    <div  class="space-between">
+                                        <div>${linha['Nome Cliente']}:</div>
+                                        <p>CADASTRADO</p>
+                                    </div>
+                                `)
+                              } else {
+                                log.cadastrados--;
+                                log.html_log += "<p style='margin: 0.2em' class='text-danger'> <b>[ERRO: POSSUI CAD/ARQUIVO MAL FORMATADO.]</b> - "+ linha['Nome Cliente'] + " </p>";
+                                $(".ls-container").prepend(`
+                                <div  class="space-between">
+                                    <div>${linha['Nome Cliente']}:</div>
+                                    <p>ERRO: POSSUI CAD/ARQUIVO MAL FORMATADO.</p>
+                                </div>
+                                `)
+                              }
+                            },
+                            error: function (e) {
+                              log.cadastrados--;
+                              log.html_log += "<p style='margin: 0.2em' class='danger'> <b>[ERRO: CON.]</b> - "+ linha['Nome Cliente'] + " </p>";
+                              $(".ls-container").prepend(`
+                              <div  class="space-between">
+                                  <div>${linha['Nome Cliente']}:</div>
+                                  <p>ERRO: CON.</p>
+                              </div>
+                              `)
+                              console.dir(e);
+                            }
+                      });
+                }, 50)
+                
             }else{
                 console.log("erro cpf");
                 log.cadastrados--;
@@ -244,6 +278,7 @@ $(document).ready(function(){
                           } else {
                             log.cadastrados--;
                             log.html_log += "<p style='margin: 0.2em' class='text-danger'> <b>[ERRO: POSSUI CAD/ARQUIVO MAL FORMATADO.]</b> - "+ linha['NOME/RAZÃO SOCIAL'] + " </p>";
+                          
                           }
                         },
                         error: function (e) {
@@ -831,7 +866,7 @@ $(document).ready(function(){
         $(".box_xlsx").prepend('<div class="overlay"> <i class="fa fa-refresh fa-spin"></i> </div>');
         request.upload.addEventListener("progress", function(e){
           var porcentagem = e.loaded/e.total *100;
-          $(".barra_envio").css("width",porcentagem+"%");
+        //   $(".barra_envio").css("width",porcentagem+"%");
         });
 
         request.open('post', './controller/controla_xlsx_cobranca.php');
@@ -868,25 +903,7 @@ $(document).ready(function(){
                         raw: true
                     }));
                     console.log(tabela);
-                    var log = cadastro_cobrancas_socio_xlsx(tabela);
-                    console.log(log.cadastrados+" - "+tabela.length);
-                    if(log.cadastrados == tabela.length){
-                        $(".box_xlsx .overlay").remove();
-                        $("#modal_importar_xlsx").modal("toggle");
-                        modalSimples("Status", 'Importação bem sucedida. <div  class="box box-default"> <div class="box-header with-border"> <h3 class="box-title">Log de importação</h3> <div class="box-tools pull-right"> <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i> </button> </div> </div>  <div class="box-body"> <div style="font-size: 12px; color:black; overflow: auto; max-height: 340px; text-justify: left;" class="log">'+ log.html_log +'</div> </div> </div>' , "sucesso");
-                        resetaForm("#form_xlsx");
-                        $(".barra_envio").css("width","0"+"%");
-                        // location.reload();
-                        deletar_diretorio_tabelas();
-                    }else{
-                        $("#modal_importar_xlsx").modal("toggle");
-                        $("#qtd_socios").html(Number($("#qtd_socios").html())+log.cadastrados);
-                        modalSimples("Status", 'Não foi possível concluir a importação por completo. <div  class="box box-default"> <div class="box-header with-border"> <h3 class="box-title">Log de importação</h3> <div class="box-tools pull-right"> <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i> </button> </div> </div>  <div class="box-body"> <div style="font-size: 12px; color:black; overflow: auto; max-height: 340px; text-justify: left;" class="log">'+ log.html_log +'</div> </div> </div>' , "normal");
-                        $(".box_xlsx .overlay").remove();
-                        resetaForm("#form_xlsx");
-                        $(".barra_envio").css("width","0"+"%");
-                        deletar_diretorio_tabelas();
-                    }
+                    cadastro_cobrancas_socio_xlsx(tabela);
                 }
 
                 oReq.send();

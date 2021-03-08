@@ -322,6 +322,19 @@
                 </div>
               </div>
 
+              <session class="panel">
+					<header class="panel-heading">
+						<div class="panel-actions">
+							<a href="#" class="fa fa-caret-down"></a>
+						</div>
+						<h2 class="panel-title">Status</h2>
+					</header>
+					<div class="panel-body" style="display: block;">
+						<div style="max-height: 350px; overflow: auto;" class="ls-container">
+							             
+						</div>
+					</div>
+				</session>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
