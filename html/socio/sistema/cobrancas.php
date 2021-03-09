@@ -139,6 +139,7 @@
         
     <!-- Theme Initialization Files -->
     <script src="<?php echo WWW;?>assets/javascripts/theme.init.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 
     <!-- javascript functions -->

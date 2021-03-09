@@ -180,6 +180,97 @@
     </div>
   </div>
 </div>
+
+<!-- modal inserir cobrança -->
+<div class="modal fade" id="adicionarCobrancaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Nova cobrança</h5>
+      </div>
+      <div class="modal-body">
+      <!-- <div class="callout callout-info">
+                <h4>Adicione um novo sócio</h4>
+                <p>Preencha os dados corretamente para cadastrar um novo sócio.</p>
+              </div> -->
+              <div class="box box-info box-solid socioModal">
+            <div class="box-header">
+              <h3 class="box-title"><i class="fa fa-plus-square"></i> Nova cobrança</h3>
+            </div>
+            <div class="box-body">
+            <form id="frm_nova_cobranca" method="POST">
+        <div class="row">
+        <div class="form-group mb-2 col-xs-12">
+        <?php
+            $socios = array();
+						$resultado = mysqli_query($conexao,"SELECT *, s.id_socio as socioid FROM socio AS s LEFT JOIN pessoa AS p ON s.id_pessoa = p.id_pessoa LEFT JOIN socio_tipo AS st ON s.id_sociotipo = st.id_sociotipo LEFT JOIN (SELECT id_socio, MAX(data) AS ultima_data_doacao FROM log_contribuicao GROUP BY id_socio) AS lc ON lc.id_socio = s.id_socio");
+						while($registro = mysqli_fetch_assoc($resultado)){
+							$socios[] = $registro['nome'].'|'.$registro['cpf'].'|'.$registro['socioid'];
+						}
+        ?>
+                  <label for="nome_cliente">Sócio</label>
+                  <input type="text" class="form-control" id="socio_nome_ci" name="socio_nome" placeholder="" required>
+              </div>
+              <script>
+                var socios = <?php
+                  echo(json_encode($socios));
+                ?>;
+                  $("#socio_nome_ci").autocomplete({
+				            source: socios,
+				            response: function(event,ui) {
+				            if (ui.content.length == 1)
+                      {
+                        ui.item = ui.content[0];
+                        $(this).val(ui.item.value)
+                        $(this).data('ui-autocomplete')._trigger('select', 'autocompleteselect', ui);
+						            $("#socio_nome_ci" ).blur();
+                      }
+			            }
+  			        });
+                </script>
+        <div class="form-group col-xs-12">
+          <label id="label_cpf_cnpj" for="valor">Local de recepção</label>
+          <input type="text"  class="form-control" id="cpf_cnpj" name="cpf" required>
+        </div>
+        </div>
+        <div class="row">
+        <div class="form-group col-xs-6">
+          <label for="obs">Receptor</label>
+          <input type="email" class="form-control" id="email" name="email" placeholder="">
+        </div>
+        <div class="form-group col-xs-6">
+          <label for="valor">Valor</label>
+          <input type="tel" min="0"  class="form-control" id="telefone" name="telefone" required>
+        </div>
+        </div>
+        <div class="row">
+
+          <div class="form-group col-xs-12">
+            <label for="valor">Data de recepção</label>
+            <input type="date" class="form-control" id="data_nasc" value="<?php echo(date('Y-m-d')); ?>" name="data_nasc" required>
+          </div>
+
+        </div>
+        
+      </div>
+      <div class="modal-footer">
+      <button id="btn_reset" type="reset" class="btn btn-danger">Resetar</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+        <button type="submit" class="btn btn-primary btn_salvar_socio">Salvar cobrança</button>
+      </div>
+        </form>
+            </div>
+            <!-- /.box-body -->
+            <!-- Loading (remove the following to stop the loading)-->
+            
+            <!-- end loading -->
+          </div>
+       
+        
+    </div>
+  </div>
+</div>
+
 <!-- Modal configurações -->
 <div class="modal fade" id="configModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
