@@ -193,7 +193,7 @@
                 <h4>Adicione um novo sócio</h4>
                 <p>Preencha os dados corretamente para cadastrar um novo sócio.</p>
               </div> -->
-              <div class="box box-info box-solid socioModal">
+              <div class="box box-info box-solid cobrancaModal">
             <div class="box-header">
               <h3 class="box-title"><i class="fa fa-plus-square"></i> Nova cobrança</h3>
             </div>
@@ -209,7 +209,7 @@
 						}
         ?>
                   <label for="nome_cliente">Sócio</label>
-                  <input type="text" class="form-control" id="socio_nome_ci" name="socio_nome" placeholder="" required>
+                  <input type="text" class="form-control" id="socio_nome_ci" name="socio_nome_ci" placeholder="" required>
               </div>
               <script>
                 var socios = <?php
@@ -230,24 +230,29 @@
                 </script>
         <div class="form-group col-xs-12">
           <label id="label_cpf_cnpj" for="valor">Local de recepção</label>
-          <input type="text"  class="form-control" id="cpf_cnpj" name="cpf" required>
+          <input type="text"  class="form-control" id="local_recepcao" name="local_recepcao" required>
         </div>
         </div>
         <div class="row">
         <div class="form-group col-xs-6">
           <label for="obs">Receptor</label>
-          <input type="email" class="form-control" id="email" name="email" placeholder="">
+          <input type="text" class="form-control" id="receptor" value="<?php echo($nome); ?>" name="receptor" placeholder="">
         </div>
         <div class="form-group col-xs-6">
           <label for="valor">Valor</label>
-          <input type="tel" min="0"  class="form-control" id="telefone" name="telefone" required>
+          <input type="number" min="0"  class="form-control" id="valor_cobranca" name="valor_cobranca" required>
         </div>
         </div>
         <div class="row">
 
-          <div class="form-group col-xs-12">
-            <label for="valor">Data de recepção</label>
-            <input type="date" class="form-control" id="data_nasc" value="<?php echo(date('Y-m-d')); ?>" name="data_nasc" required>
+          <div class="form-group col-xs-6">
+            <label for="valor">Forma de doação</label>
+            <input type="text" class="form-control" id="forma_doacao" name="forma_doacao" required>
+          </div>
+
+          <div class="form-group col-xs-6">
+            <label for="valor">Data Doação</label>
+            <input type="date" class="form-control" id="data_doacao" value="<?php echo(Date("Y-m-d")); ?>" name="forma_doacao" required>
           </div>
 
         </div>

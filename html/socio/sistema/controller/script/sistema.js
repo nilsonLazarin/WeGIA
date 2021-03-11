@@ -449,6 +449,48 @@ $(document).ready(function(){
         }
         
     });
+
+    $(document).on("submit", "#frm_nova_cobranca", function(e){
+        e.preventDefault();
+        var socio_nome = $("#socio_nome_ci").val().split("|")[0];
+        var cpf_cnpj = $("#socio_nome_ci").val().split("|")[1];
+        var socio_id = $("#socio_nome_ci").val().split("|")[2];
+        var local_recepcao = $("#local_recepcao").val();
+        var receptor = $("#receptor").val();
+        var valor = $("#valor").val();
+        var forma_doacao = $("#forma_doacao").val();
+        var data_doacao = $("#data_doacao").val();
+        // Requisição POST - AJAX
+        if(valida_cpf_cnpj(cpf_cnpj)){
+            $.post("./cadastro_cobranca_m.php",{
+                "socio_nome": socio_nome,
+                "socio_id": socio_id,
+                "local_recpcao": local_recepcao,
+                "receptor": receptor,
+                "data_doacao": data_doacao,
+                "valor": valor,
+                "forma_doacao": forma_doacao
+            }).done(function(resultadoCadastro){
+                var resultado = JSON.parse(resultadoCadastro);
+                if(resultado){
+                    $(".cobrancaModal").append(
+                        '<div class="overlay"> <i style="font-size: 72px; color: green;" class="fa fa-refresh fa-spin"></i> </div>'
+                    );
+                    setTimeout(function(){
+                        $("#adicionarCobrancaModal").modal("toggle");
+                        $(".cobrancaModal .overlay").remove();
+                        resetaForm("#frm_nova_cobranca");
+                    },1000);
+                }else{
+                    modalSimples("Status", "Erro ao cadastrar cobranca, verifique os dados e tente novamente.", "erro");
+                }
+            });
+        }else{
+            modalSimples("Status", "O CPF/CNPJ informado é inválido!", "erro");
+        }
+        
+    });
+
     // Validação de CEP e API de CEP
     $("#cep").blur(function(){
         //Nova variável "cep" somente com dígitos.
