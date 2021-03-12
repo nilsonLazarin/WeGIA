@@ -115,6 +115,7 @@
     <link rel="stylesheet" href="<?php echo WWW;?>assets/stylesheets/theme-custom.css">
 
     <link rel="stylesheet" href="./controller/css/animacoes.css">
+    <link rel="stylesheet" href="./controller/css/jquery-ui.css">
 
     <!-- Head Libs -->
     <script src="<?php echo WWW;?>assets/vendor/modernizr/modernizr.js"></script>
@@ -140,6 +141,7 @@
     <!-- Theme Initialization Files -->
     <script src="<?php echo WWW;?>assets/javascripts/theme.init.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 
 
     <!-- javascript functions -->

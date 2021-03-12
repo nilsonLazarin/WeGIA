@@ -457,7 +457,7 @@ $(document).ready(function(){
         var socio_id = $("#socio_nome_ci").val().split("|")[2];
         var local_recepcao = $("#local_recepcao").val();
         var receptor = $("#receptor").val();
-        var valor = $("#valor").val();
+        var valor = $("#valor_cobranca").val();
         var forma_doacao = $("#forma_doacao").val();
         var data_doacao = $("#data_doacao").val();
         // Requisição POST - AJAX
@@ -465,7 +465,7 @@ $(document).ready(function(){
             $.post("./cadastro_cobranca_m.php",{
                 "socio_nome": socio_nome,
                 "socio_id": socio_id,
-                "local_recpcao": local_recepcao,
+                "local_recepcao": local_recepcao,
                 "receptor": receptor,
                 "data_doacao": data_doacao,
                 "valor": valor,
