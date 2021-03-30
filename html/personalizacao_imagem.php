@@ -205,7 +205,7 @@
                             <div class="tab-pane active" id="img-tab" role="tabpanel" aria-labelledby="home-tab">
                                 <div style="display: flex; flex-direction: column;">
                                     <button class="btn btn-primary fill-space" onclick="open_tab('add_form',this)" id="add"><i class="fas fa-plus icon"></i>Adicionar Imagem</button>
-                                    <form action="personalizacao_upload.php" class="container" style="display: none;width: -webkit-fill-available;justify-content: space-between;" method="post" id="add_form" enctype="multipart/form-data">
+                                    <form action="personalizacao_upload.php" class="container" style="display: none;width: -webkit-fill-available;width: -moz-available;justify-content: space-between;" method="post" id="add_form" enctype="multipart/form-data">
 										<input type="file" name="img_file" class="form-control-file" style="padding: 10px;">
 										<input type="text" name="source" class="none" value="personalizacao_imagem.php" readonly>
                                         <button type="submit" class="btn btn-success"><i class="fas fa-arrow-right"></i></button>

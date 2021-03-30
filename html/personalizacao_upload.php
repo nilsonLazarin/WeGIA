@@ -177,7 +177,7 @@
             }
         }else{
             foreach ($carrossel as $key => $val){
-                $carrossel[$key] = $file[$key];
+                $carrossel[$key]['id_novo'] = $file[$key]['id'];
                 unset($file[$key]);
                 $carrossel[$key]["action"] = 'change';
             }
