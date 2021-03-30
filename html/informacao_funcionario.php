@@ -184,7 +184,7 @@
 									<a href="#" class="fa fa-caret-down"></a>
 								</div>
 						
-								<h2 class="panel-title">Funcionario</h2>
+								<h2 class="panel-title">Funcionário</h2>
 							</header>
 							<div class="panel-body">
 								<table class="table table-bordered table-striped mb-none" id="datatable-default">
