@@ -145,7 +145,7 @@ class Display_campo{
         // Retorna uma array de arquivos
         $nome_campo = $this->getCampo();
         $result = $this->getQuery("
-        select c.id_campo as id, c.nome_campo as nome, i.imagem as arquivo
+        select c.id_campo as id, c.nome_campo as nome, i.imagem as arquivo, i.tipo as tipo
         from campo_imagem c
         inner join tabela_imagem_campo ic on c.id_campo = ic.id_campo
         inner join imagem i on ic.id_imagem = i.id_imagem

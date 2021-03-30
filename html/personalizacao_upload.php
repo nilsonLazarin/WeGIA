@@ -186,7 +186,6 @@
             }
         }
         unset($file);
-        var_dump($carrossel);
 
         if (count($carrossel) == 0){
             header("location: personalizacao.php?msg=success");
@@ -227,7 +226,8 @@
         header ("Location: personalizacao.php?msg=success");
     }
     ?>
-    <div class="alert alert-danger">Se você está vendo esta mensagem, houve um erro no codigo da pagina ou na comunicação com o banco de dados.</div>
+    <div class="alert alert-danger">Houve um erro na comunicação com o servidor.</div>
+    <p><a href="./personalizacao.php">Retornar</a></p>
     </div>
 </body>
 </html>
