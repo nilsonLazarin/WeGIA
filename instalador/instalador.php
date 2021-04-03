@@ -61,7 +61,9 @@ error_reporting(E_ALL);
 
 		//Cria um diretório de Backup caso não haja um
 		if (!is_dir($backup)) {
-			$backup = "";
+			if (!mkdir($backup, 0777, TRUE)){
+				$backup = "";
+			}
 		}
 
 		//Cria um config.php ou sobrescreve o anterior
@@ -85,7 +87,7 @@ define( 'WWW', '$www');");
 
 		echo('<p style="color:green;">config.php criado!</p>');
 		if (!$backup){
-			echo('<p style="color:orange;">Diretório para Backup não existe!</p>');
+			echo('<p style="color:orange;">Falha ao criar pasta de backup!</p>');
 		}
 		
 		$sqlFiles = validSqlFiles($dbDir);
