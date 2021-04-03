@@ -130,7 +130,7 @@
                 <!-- Caso haja uma mensagem do sistema -->
 				<?php displayMsg(); getMsgSession("mensagem","tipo");?>
 
-				<session class="panel">
+				<!-- <session class="panel">
 					<header class="panel-heading">
 						<div class="panel-actions">
 							<a href="#" class="fa fa-caret-down"></a>
@@ -150,6 +150,7 @@
 						</div>
 					</div>
 				</session>
+
 				<session class="panel">
 					<header class="panel-heading">
 						<div class="panel-actions">
@@ -165,7 +166,57 @@
 							</div>
 						</div>
 					</div>
+				</session> -->
+
+				<session class="panel">
+					<header class="panel-heading">
+						<div class="panel-actions">
+							<a href="#" class="fa fa-caret-up"></a>
+						</div>
+						<h2 class="panel-title">Ações Globais</h2>
+					</header>
+					<div class="panel-body" style="display: none;">
+						<div class="ls-container">
+							<!-- Conteúdo -->
+							<div class="space-between">
+								<div>Atualizar sistema:</div>
+								<button id="btn2" class="btn btn-primary" onClick="setLoader(this)"><a href="./atualizacao.php"><i class="fas fa-download" aria-hidden="true"></i></a></button>
+							</div>
+							<div class="space-between">
+								<div>Corrigir erros no Estoque:</div>
+								<button id="btn1" class="btn btn-primary" onClick="setLoader(this)"><a href="./correcao_estoque.php"><i class="fas fa-wrench"></i></a></button>
+							</div>
+						</div>
+					</div>
 				</session>
+
+				<session class="panel">
+					<header class="panel-heading">
+						<div class="panel-actions">
+							<a href="#" class="fa fa-caret-up"></a>
+						</div>
+						<h2 class="panel-title">Banco de Dados</h2>
+					</header>
+					<div class="panel-body" style="display: none;">
+						<div class="ls-container">
+							<!-- Conteúdo -->
+							<div class="space-between">
+								<div>Fazer backup:</div>
+								<button id="btn1" class="btn btn-primary" onClick="setLoader(this)"><a href="./backup.php"><i class="fa fa-floppy-o" aria-hidden="true"></i></a></button>
+							</div>
+							<div class="space-between">
+								<div>Listar backup:</div>
+								<button id="btn1" class="btn btn-primary" onClick="setLoader(this)"><a href="#"><i class="fa fa-list" aria-hidden="true"></i></a></button>
+							</div>
+							<div class="space-between">
+								<div>Restaurar backup:</div>
+								<button id="btn1" class="btn btn-primary" onClick="setLoader(this)"><a href="#"><i class="fa fa-undo" aria-hidden="true"></i></a></button>
+							</div>
+						</div>
+					</div>
+				</session>
+
+
 			</section>
 		</div>
 	</section>
