@@ -49,7 +49,7 @@
         // Executa os comandos
         $dblog = shell_exec($cmdStream);
 
-        
+        /*
         var_dump(
             DUMP_NAME, 
             $dbDump,
@@ -59,7 +59,7 @@
             $dblog
         );
         die();
-        
+        */
     
         /*Executando Backup do Diretório do site*/
         
