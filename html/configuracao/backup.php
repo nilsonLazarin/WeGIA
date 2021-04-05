@@ -71,16 +71,16 @@
         
         if ($dblog || $filelog){
             if ($dblog){
-                $log .= "Houve um erro ao realizar o Backup do Banco de Dados:\n";
-                foreach ($dblog as $value){
-                    $log .= $value . "\n";
-                }
+                $log .= "Houve um erro ao realizar o Backup do Banco de Dados:\n" . $dblog;
+                // foreach ($dblog as $value){
+                //     $log .= $value . "\n";
+                // }
             }
             if ($filelog){
-                $log .= "Houve um erro ao realizar o Backup do Sistema:\n";
-                foreach ($filelog as $value){
-                    $log .= $value . "\n";
-                }
+                $log .= "Houve um erro ao realizar o Backup do Sistema:\n" . $filelog;
+                // foreach ($filelog as $value){
+                //     $log .= $value . "\n";
+                // }
             }
             header("Location: ./configuracao_geral.php?msg=error&err=Houve um erro no processo de execução dos Backups&log=".base64_encode($log));
         }

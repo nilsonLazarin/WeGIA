@@ -3,8 +3,6 @@
 	if(!isset($_SESSION['usuario'])){
 		header ("Location: ../../index.php");
 	}
-
-
 	
 	// Verifica Permissão do Usuário
 	require_once '../permissao/permissao.php';
@@ -17,6 +15,31 @@
 	require_once "../geral/msg.php";
 
     require_once "../../config.php";
+
+	require_once "./Lista_bkp_display.php";
+
+	define("DUMP_IDENTIFIER", "dump");
+
+
+	$bkpFiles = scandir(BKP_DIR);
+	array_shift($bkpFiles);
+	array_shift($bkpFiles);
+	foreach($bkpFiles as $key => $file){
+		$bkpFiles[$key] = explode(".", $file);
+		if ($bkpFiles[$key][1] != DUMP_IDENTIFIER){
+			unset($bkpFiles[$key]);
+		}else{
+			$bkpFiles[$key] = (object)[
+				'nome' => implode(".",$bkpFiles[$key]),
+				'ano' => substr($bkpFiles[$key][0], 0, 4),
+				'mes' => substr($bkpFiles[$key][0], 4, 2),
+				'dia' => substr($bkpFiles[$key][0], 6, 2),
+				'hora' => substr($bkpFiles[$key][0], 8, 2),
+				'min' => substr($bkpFiles[$key][0], 10)
+			];
+		}
+	}
+	$bkpFiles = array_values($bkpFiles);
 
 ?>
 <!doctype html>
@@ -100,6 +123,37 @@
 		.btn{
 			width: 10%;
 		}
+
+		.a {
+			height: 60px;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			border: #ccc solid 1px;
+			margin: 10px 0;
+			border-radius: 5px;
+			background-color: #f6f6f6;
+		}
+
+		.b {
+			display: flex;
+    		margin-left: 10px;
+		}
+
+		.b p {
+			margin: 5px 5px 5px 5px;
+		}
+
+		.c {
+			width: 10%;
+			display: flex;
+			justify-content: space-evenly;
+			align-content: center;
+		}
+
+		.c button {
+			padding: 0 10px;
+		}
 	</style>
 
 </head>
@@ -132,11 +186,15 @@
                 <!-- Caso haja uma mensagem do sistema -->
 				<?php displayMsg(); getMsgSession("mensagem","tipo");?>
 
-                <?php
-                    $bkpFiles = scandir("../" . BKP_DIR);
-                    
-                    var_dump($bkpFiles);
-                ?>
+				
+				<div class="tab-content">
+					<?php
+						// var_dump($bkpFiles);
+						foreach($bkpFiles as $file){
+							(new BackupBD($file))->display();
+						}
+					?>
+				</div>
 
                 <!-- end: page -->
 			</section>
