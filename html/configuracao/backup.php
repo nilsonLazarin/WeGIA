@@ -1,3 +1,4 @@
+<pre>
 <?php
     session_start();
     if (!isset($_SESSION['usuario'])) {
@@ -29,7 +30,36 @@
     }else{
         /*Executando Backup do Banco de Dados*/
         
-        $dblog = shell_exec("mysqldump -u ".DB_USER."  ".DB_NAME." -p".DB_PASSWORD." --no-create-info > ".BKP_DIR.date("YmdHi").".bd.sql");
+        // Define nome do arquivo (sem o path)
+        define("DUMP_NAME", date("YmdHi"));
+
+        // Define o comando para exportar o banco de dados para a pasta de backup com o nome definido acima
+        $dbDump = "mysqldump -u ".DB_USER."  ".DB_NAME." -p".DB_PASSWORD." --no-create-info > ".BKP_DIR.DUMP_NAME.".bd.sql";
+
+        // Compacta o dump gerado em um .dump.tar.gz
+        $dbComp = "tar -czf ".BKP_DIR.DUMP_NAME.".dump.tar.gz ".BKP_DIR.DUMP_NAME.".bd.sql";
+
+        // Remove o arquivo não compactado
+        $dbRemv = "rm ".BKP_DIR.DUMP_NAME.".bd.sql";
+
+        // Faz os 3 comandos acima serem executados na mesma linha
+        $cmdStream = $dbDump . " && " . $dbComp . " && " . $dbRemv;
+
+        
+        // Executa os comandos
+        $dblog = shell_exec($cmdStream);
+
+        /*
+        var_dump(
+            DUMP_NAME, 
+            $dbDump,
+            $dbComp,
+            $dbRemv,
+            $cmdStream,
+            $dblog
+        );
+        die();
+        */
     
         /*Executando Backup do Diretório do site*/
         
