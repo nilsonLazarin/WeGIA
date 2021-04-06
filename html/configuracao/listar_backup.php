@@ -171,9 +171,9 @@
 			text-align: center;
 		}
 
-		.space-around {
+		.space-between {
 			display:flex;
-    		justify-content: space-evenly;
+    		justify-content: space-between;
 		}
 	</style>
 
@@ -211,7 +211,11 @@
 						<h2 class="panel-title">Backups do Bando de Dados</h2>
 					</header>
 					<div class="panel-body">
-		  					<table class="table table-bordered table-striped mb-none" id="datatable-default">
+						<p class="space-between">
+							<a href="./configuracao_geral.php" class="btn btn-outline-primary btn-sm">< Configurações Gerais</a>
+							<a href=".backup.php" class="btn btn-primary btn-sm">Gerar Backup <i class="fa fa-floppy-o" aria-hidden="true"></i></a>
+						</p>
+		  				<table class="table table-bordered table-striped mb-none" id="datatable-default">
 							<thead>
 								<tr>
 									<th class='txt-center' width="30%">Arquivo</th>
@@ -242,6 +246,15 @@
         }
         window.location.href = btn.firstElementChild.href;
 	}
+
+	function confirmDelete(){
+
+	}
+
+	function confirmRestore(){
+
+	}
+
 </script>
 
 <!-- Vendor -->
