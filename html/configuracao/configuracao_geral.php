@@ -205,11 +205,11 @@
 								<button id="btn1" class="btn btn-primary" onClick="setLoader(this)"><a href="./backup.php"><i class="fa fa-floppy-o" aria-hidden="true"></i></a></button>
 							</div>
 							<div class="space-between">
-								<div>Listar backup:</div>
+								<div>Gerenciar backup:</div>
 								<button id="btn1" class="btn btn-primary" onClick="setLoader(this)"><a href="./listar_backup.php"><i class="fa fa-list" aria-hidden="true"></i></a></button>
 							</div>
 							<!-- <div class="space-between">
-								<div>Restaurar backup:</div>
+								<div>Importar backup:</div>
 								<button id="btn1" class="btn btn-primary"><a href="#"><i class="fa fa-undo" aria-hidden="true"></i></a></button>
 							</div> -->
 						</div>
