@@ -33,7 +33,8 @@
 				'mes' => substr($bkpFiles[$key][0], 4, 2),
 				'dia' => substr($bkpFiles[$key][0], 6, 2),
 				'hora' => substr($bkpFiles[$key][0], 8, 2),
-				'min' => substr($bkpFiles[$key][0], 10)
+				'min' => substr($bkpFiles[$key][0], 10, 2),
+				'seg' => substr($bkpFiles[$key][0], 12, 2),
 			];
 		}
 	}
@@ -136,7 +137,7 @@
 						.text((!isNaN(Number(item.dia, 10)) && !isNaN(Number(item.mes, 10)) && !isNaN(Number(item.ano))) ? item.dia + "/" + item.mes + "/" + item.ano : "Indefinido")
 					)
 					.append($("<td class='txt-center'>")
-						.text((!isNaN(Number(item.hora, 10)) && !isNaN(Number(item.dia, 10))) ? item.hora + ":" + item.min : "N/A")
+						.text((!isNaN(Number(item.hora, 10)) && !isNaN(Number(item.dia, 10)) && !isNaN(Number(item.seg))) ? item.hora + ":" + item.min  + (item.seg ? ":" + item.seg : "") : "N/A")
 					)
 					.append($("<td class='txt-center'>")
 						// .append($("<a href='#'/>")
@@ -212,8 +213,8 @@
 					</header>
 					<div class="panel-body">
 						<p class="space-between">
-							<a href="./configuracao_geral.php" class="btn btn-outline-primary btn-sm">< Configurações Gerais</a>
-							<a href=".backup.php" class="btn btn-primary btn-sm">Gerar Backup <i class="fa fa-floppy-o" aria-hidden="true"></i></a>
+							<a href="./configuracao_geral.php" class="btn btn-outline-primary btn-sm"><i class="fa fa-chevron-left" aria-hidden="true"></i> Configurações Gerais</a>
+							<a href="./backup.php?action=bd" class="btn btn-primary btn-sm">Gerar Backup <i class="fa fa-floppy-o" aria-hidden="true"></i></a>
 						</p>
 		  				<table class="table table-bordered table-striped mb-none" id="datatable-default">
 							<thead>

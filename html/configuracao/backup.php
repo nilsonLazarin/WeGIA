@@ -23,15 +23,20 @@
     }
 
 
-    /*require_once("../../config.php");*/
+    // require_once("../../config.php");
 
-    if (PHP_OS != 'Linux'){
-        header("Location: ./configuracao_geral.php?msg=error&err=Função de backup compatível apenas com Linux. Seu Sistema Operacional: ".PHP_OS."");
-    }else{
-        /*Executando Backup do Banco de Dados*/
+    // Define os redirecionamentos padrão para cada tipo de backup.
+    define('REDIRECT_URLS', [
+        "./configuracao_geral.php",
+        "./listar_backup.php",
+        "./configuracao_geral.php"
+    ]);
+
+    function backupBD(){
+        // Executando Backup do Banco de Dados
         
         // Define nome do arquivo (sem o path)
-        define("DUMP_NAME", date("YmdHi"));
+        define("DUMP_NAME", date("YmdHis"));
 
         // Define o comando para exportar o banco de dados para a pasta de backup com o nome definido acima
         $dbDump = "mysqldump -u ".DB_USER."  ".DB_NAME." -p".DB_PASSWORD." --no-create-info > ".BKP_DIR.DUMP_NAME.".bd.sql";
@@ -45,10 +50,6 @@
         // Faz os 3 comandos acima serem executados na mesma linha
         $cmdStream = $dbDump . " && " . $dbComp . " && " . $dbRemv;
 
-        
-        // Executa os comandos
-        $dblog = shell_exec($cmdStream);
-
         /*
         var_dump(
             DUMP_NAME, 
@@ -60,12 +61,68 @@
         );
         die();
         */
-    
-        /*Executando Backup do Diretório do site*/
         
-        $filelog = shell_exec("tar -czf ".BKP_DIR.date("YmdHi").".site.tar.gz ".ROOT);
-    
+        // Executa os comandos
+        return shell_exec($cmdStream);
+    }
+
+    function backupSite(){
+        // Executando Backup do Diretório do site
         
+        return shell_exec("tar -czf ".BKP_DIR.date("YmdHis").".site.tar.gz ".ROOT);
+    }
+
+    if (PHP_OS != 'Linux'){
+        header("Location: ./configuracao_geral.php?msg=error&err=Função de backup compatível apenas com Linux. Seu Sistema Operacional: ".PHP_OS."");
+    }else{
+        $dblog = "";
+        $filelog = "";
+
+        /*
+        Identifica o tipo de ação:
+            false: Backup do banco de dados e do site
+            bd: backup do banco de dados apenas
+            site: backup do site apenas
+            default: Backup do banco de dados e do site
+        */
+        $action = $_GET['action'] ?? false;
+        if(!$action){
+            $redirect = REDIRECT_URLS[0];
+        
+            // Executa os comandos
+            $dblog = backupBD();
+    
+            // Executando Backup do Diretório do site
+            $filelog = backupSite();
+
+        }else{
+            if ($action == "bd"){
+                $redirect = REDIRECT_URLS[1];
+        
+                // Executa os comandos
+                $dblog = backupBD();
+
+            }else if ($action == "site"){
+                $redirect = REDIRECT_URLS[2];
+    
+                // Executando Backup do Diretório do site
+                $filelog = backupSite();
+
+            }
+            else {
+                $redirect = REDIRECT_URLS[0];
+        
+                // Executa os comandos
+                $dblog = backupBD();
+    
+                // Executando Backup do Diretório do site
+                $filelog = backupSite();
+
+            }
+        }
+
+        // Caso exista um redirect definido, ele terá prioridade sobre o padrão
+        $redirect = $_GET['redirect'] ?? $redirect;
     
         $log = "";
         
@@ -82,9 +139,9 @@
                 //     $log .= $value . "\n";
                 // }
             }
-            header("Location: ./configuracao_geral.php?msg=error&err=Houve um erro no processo de execução dos Backups&log=".base64_encode($log));
+            header("Location: $redirect?msg=error&err=Houve um erro no processo de execução dos Backups&log=".base64_encode($log));
         }
 
-        header("Location: ./configuracao_geral.php?msg=success&sccs=Backup realizado com sucesso!");
+        header("Location: $redirect?msg=success&sccs=Backup realizado com sucesso!");
     }
 ?>
