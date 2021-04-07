@@ -149,7 +149,7 @@
 					.append($("<td class='txt-center'>")
 						.append($("<a href='#' onclick='confirmDelete(`"+item.nome+"`)'/>")
 							.append($("<button class='btn btn-danger' />")
-								.text("B")
+								.html('<i class="fa fa-trash-o" aria-hidden="true" style="font-family: FontAwesome;" />')
 							)
 						)
 					)
