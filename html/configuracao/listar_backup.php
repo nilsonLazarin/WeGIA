@@ -147,11 +147,11 @@
 						// )
 					)
 					.append($("<td class='txt-center'>")
-						// .append($("<a href='#'/>")
-						// 	.append($("<button class='btn btn-danger' />")
-						// 		.text("B")
-						// 	)
-						// )
+						.append($("<a href='#' onclick='confirmDelete(`"+item.nome+"`)'/>")
+							.append($("<button class='btn btn-danger' />")
+								.text("B")
+							)
+						)
 					)
 				)
 			});
@@ -248,11 +248,19 @@
         window.location.href = btn.firstElementChild.href;
 	}
 
-	function confirmDelete(){
+	function confirmDelete(file){
+		if (window.confirm("ATENÇÃO! Você tem certeza que deseja deletar esse arquivo de backup do sistema?")){
+			form = $("<form method='post' action='./gerenciar_backup.php' />")
+				.append($("<input type='text' name='file' value='"+file+"' readonly hidden />"))
+				.append($("<input type='text' name='action' value='remove' readonly hidden />"))
+			;
+			$('.panel').append(form);
+			form.submit();
 
+		}
 	}
 
-	function confirmRestore(){
+	function confirmRestore(file){
 
 	}
 
