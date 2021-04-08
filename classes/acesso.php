@@ -8,6 +8,7 @@ if(file_exists($config_path)){
         if(file_exists($config_path)) break;
     }
     require_once($config_path);
+}
 class Acesso
 {
 
