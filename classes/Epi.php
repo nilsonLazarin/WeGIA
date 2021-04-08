@@ -8,7 +8,7 @@ class Epi
 
 	public function getId_epi()
     {
-        return $this->id_epi
+        return $this->id_epi;
     }
 
     public function getDescricao_epi()
