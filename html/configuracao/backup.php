@@ -39,10 +39,10 @@
         define("DUMP_NAME", date("YmdHis"));
 
         // Define o comando para exportar o banco de dados para a pasta de backup com o nome definido acima
-        $dbDump = "mysqldump -u ".DB_USER."  ".DB_NAME." -p".DB_PASSWORD." --no-create-info > ".BKP_DIR.DUMP_NAME.".bd.sql";
+        $dbDump = "cd ".BKP_DIR." && mysqldump -u ".DB_USER."  ".DB_NAME." -p".DB_PASSWORD." --add-drop-table > ".BKP_DIR.DUMP_NAME.".bd.sql";
 
         // Compacta o dump gerado em um .dump.tar.gz
-        $dbComp = "tar -czf ".BKP_DIR.DUMP_NAME.".dump.tar.gz ".BKP_DIR.DUMP_NAME.".bd.sql";
+        $dbComp = "tar -czf ".DUMP_NAME.".dump.tar.gz ".DUMP_NAME.".bd.sql";
 
         // Remove o arquivo não compactado
         $dbRemv = "rm ".BKP_DIR.DUMP_NAME.".bd.sql";
@@ -50,17 +50,14 @@
         // Faz os 3 comandos acima serem executados na mesma linha
         $cmdStream = $dbDump . " && " . $dbComp . " && " . $dbRemv;
 
-        /*
-        var_dump(
-            DUMP_NAME, 
-            $dbDump,
-            $dbComp,
-            $dbRemv,
-            $cmdStream,
-            $dblog
-        );
-        die();
-        */
+        // var_dump(
+        //     DUMP_NAME, 
+        //     $dbDump,
+        //     $dbComp,
+        //     $dbRemv,
+        //     $cmdStream
+        // );
+        // die();
         
         // Executa os comandos
         return shell_exec($cmdStream);

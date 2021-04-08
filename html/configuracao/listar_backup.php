@@ -140,11 +140,11 @@
 						.text((!isNaN(Number(item.hora, 10)) && !isNaN(Number(item.dia, 10)) && !isNaN(Number(item.seg))) ? item.hora + ":" + item.min  + (item.seg ? ":" + item.seg : "") : "N/A")
 					)
 					.append($("<td class='txt-center'>")
-						// .append($("<a href='#'/>")
-						// 	.append($("<button class='btn btn-primary'/>")
-						// 		.text("A")
-						// 	)
-						// )
+						.append($("<a href='#' onclick='confirmRestore(`"+item.nome+"`)'/>")
+							.append($("<button class='btn btn-primary'/>")
+								.html('<i class="fa fa-refresh" aria-hidden="true"></i>')
+							)
+						)
 					)
 					.append($("<td class='txt-center'>")
 						.append($("<a href='#' onclick='confirmDelete(`"+item.nome+"`)'/>")
@@ -256,12 +256,18 @@
 			;
 			$('.panel').append(form);
 			form.submit();
-
 		}
 	}
 
 	function confirmRestore(file){
-
+		if (window.confirm("ATENÇÃO! Você tem certeza que deseja sobrescrever a Base de Dados atual pela selecionada?")){
+			form = $("<form method='post' action='./gerenciar_backup.php' />")
+				.append($("<input type='text' name='file' value='"+file+"' readonly hidden />"))
+				.append($("<input type='text' name='action' value='restore' readonly hidden />"))
+			;
+			$('.panel').append(form);
+			form.submit();
+		}
 	}
 
 </script>
