@@ -2,6 +2,7 @@
 
 
 define("DEBUG", false);
+require "../../config.php";
 
 function backupBD(){
     // Executando Backup do Banco de Dados
@@ -10,7 +11,7 @@ function backupBD(){
     define("DUMP_NAME", date("YmdHis"));
 
     // Define o comando para exportar o banco de dados para a pasta de backup com o nome definido acima
-    $dbDump = "cd ".BKP_DIR." && mysqldump -u ".DB_USER."  ".DB_NAME." -p".DB_PASSWORD." --add-drop-table > ".BKP_DIR.DUMP_NAME.".bd.sql";
+    $dbDump = "cd ".BKP_DIR." && mysqldump -u ".DB_USER."  ".DB_NAME." -p".DB_PASSWORD." --no-create-db --no-create-info --skip-triggers > ".BKP_DIR.DUMP_NAME.".bd.sql";
 
     // Compacta o dump gerado em um .dump.tar.gz
     $dbComp = "tar -czf ".DUMP_NAME.".dump.tar.gz ".DUMP_NAME.".bd.sql";
@@ -51,7 +52,7 @@ function autosaveBD(){
     define("AUTOSAVE_ERROR_FATAL", true);
 
     // Define o comando para exportar o banco de dados para a pasta de backup com o nome definido acima
-    $dbDump = "cd ".BKP_DIR." && mysqldump -u ".DB_USER."  ".DB_NAME." -p".DB_PASSWORD." --add-drop-table > ".BKP_DIR.AUTOSAVE_DUMP_NAME.".bd.sql";
+    $dbDump = "cd ".BKP_DIR." && mysqldump -u ".DB_USER."  ".DB_NAME." -p".DB_PASSWORD." --no-create-db --no-create-info --skip-triggers > ".BKP_DIR.AUTOSAVE_DUMP_NAME.".bd.sql";
 
     // Compacta o dump gerado em um .dump.tar.gz
     $dbComp = "tar -czf ".AUTOSAVE_DUMP_NAME.".dump.tar.gz ".AUTOSAVE_DUMP_NAME.".bd.sql";
@@ -82,6 +83,7 @@ function backupSite(){
 }
 
 function loadBackupDB($file){
+    $importStruct = "cd ".ROOT."/BD && mysql  -u ".DB_USER."  ".DB_NAME." -p".DB_PASSWORD." < wegia001.sql";
     $extract = "cd ".BKP_DIR." && tar -xf ".$file;
     $import = "mysql  -u ".DB_USER."  ".DB_NAME." -p".DB_PASSWORD." < ".explode('.', $file)[0].".bd.sql";
     $rmDump = "rm ".explode('.', $file)[0].".bd.sql";
@@ -89,5 +91,5 @@ function loadBackupDB($file){
         var_dump($extract, $import, $rmDump, $extract . " && " . $import . " && " . $rmDump);
         die();
     }
-    return shell_exec($extract . " && " . $import . " && " . $rmDump);
+    return shell_exec($importStruct . " && " . $extract . " && " . $import . " && " . $rmDump);
 }
