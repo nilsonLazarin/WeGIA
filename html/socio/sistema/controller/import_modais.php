@@ -235,7 +235,7 @@
         </div>
         <div class="row">
         <div class="form-group col-xs-6">
-          <label for="obs">Receptor</label>
+          <label for="obs">Recebido por: </label>
           <input type="text" class="form-control" id="receptor" value="<?php echo($nome); ?>" name="receptor" placeholder="">
         </div>
         <div class="form-group col-xs-6">
