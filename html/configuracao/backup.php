@@ -8,6 +8,8 @@
     // Verifica Permissão do Usuário
 	require_once '../permissao/permissao.php';
     permissao($_SESSION['id_pessoa'], 9);
+
+    require_once "./config_funcoes.php";
     
     /*Buscando arquivo de configuração.. */
     $config_path = "config.php";
@@ -31,43 +33,6 @@
         "./listar_backup.php",
         "./configuracao_geral.php"
     ]);
-
-    function backupBD(){
-        // Executando Backup do Banco de Dados
-        
-        // Define nome do arquivo (sem o path)
-        define("DUMP_NAME", date("YmdHis"));
-
-        // Define o comando para exportar o banco de dados para a pasta de backup com o nome definido acima
-        $dbDump = "cd ".BKP_DIR." && mysqldump -u ".DB_USER."  ".DB_NAME." -p".DB_PASSWORD." --add-drop-table > ".BKP_DIR.DUMP_NAME.".bd.sql";
-
-        // Compacta o dump gerado em um .dump.tar.gz
-        $dbComp = "tar -czf ".DUMP_NAME.".dump.tar.gz ".DUMP_NAME.".bd.sql";
-
-        // Remove o arquivo não compactado
-        $dbRemv = "rm ".BKP_DIR.DUMP_NAME.".bd.sql";
-
-        // Faz os 3 comandos acima serem executados na mesma linha
-        $cmdStream = $dbDump . " && " . $dbComp . " && " . $dbRemv;
-
-        // var_dump(
-        //     DUMP_NAME, 
-        //     $dbDump,
-        //     $dbComp,
-        //     $dbRemv,
-        //     $cmdStream
-        // );
-        // die();
-        
-        // Executa os comandos
-        return shell_exec($cmdStream);
-    }
-
-    function backupSite(){
-        // Executando Backup do Diretório do site
-        
-        return shell_exec("tar -czf ".BKP_DIR.date("YmdHis").".site.tar.gz ".ROOT);
-    }
 
     if (PHP_OS != 'Linux'){
         header("Location: ./configuracao_geral.php?msg=error&err=Função de backup compatível apenas com Linux. Seu Sistema Operacional: ".PHP_OS."");
