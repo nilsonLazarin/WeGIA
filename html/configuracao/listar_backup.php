@@ -35,6 +35,7 @@
 				'hora' => substr($bkpFiles[$key][0], 8, 2),
 				'min' => substr($bkpFiles[$key][0], 10, 2),
 				'seg' => substr($bkpFiles[$key][0], 12, 2),
+				'tamanho' => filesize(BKP_DIR.implode(".",$bkpFiles[$key]))
 			];
 		}
 	}
@@ -128,10 +129,21 @@
 			let estoque=<?= JSON_encode($bkpFiles) ?> ;
 			
 			$.each(estoque,function(i,item){
+				let fSize = item.tamanho;
+				if (fSize >= 1000000000){
+					fSize = (item.tamanho / 1000000000).toFixed(1) + " GB";
+				} else if (fSize >= 1000000){
+					fSize = (item.tamanho / 1000000).toFixed(1) + " MB";
+				} else {
+					fSize = (item.tamanho / 1000).toFixed(1) + " KB";
+				}
 				$("#tabela")
 				.append($("<tr class='item "+item.nome+"'>")
 					.append($("<td class='txt-center'>")
 						.text(item.nome)
+					)
+					.append($("<td class='txt-center'>")
+						.text(fSize)
 					)
 					.append($("<td class='txt-center'>")
 						.text((!isNaN(Number(item.dia, 10)) && !isNaN(Number(item.mes, 10)) && !isNaN(Number(item.ano))) ? item.dia + "/" + item.mes + "/" + item.ano : "Indefinido")
@@ -219,9 +231,10 @@
 		  				<table class="table table-bordered table-striped mb-none" id="datatable-default">
 							<thead>
 								<tr>
-									<th class='txt-center' width="30%">Arquivo</th>
-									<th class='txt-center' width="20%">Data</th>
-									<th class='txt-center' width="15%">Hora</th>
+									<th class='txt-center' width='30%'>Arquivo</th>
+									<th class='txt-center' width='15%'>Tamanho</th>
+									<th class='txt-center' width='15%'>Data</th>
+									<th class='txt-center' width='15%'>Hora</th>
 									<th class='txt-center'>Restaurar</th>
 									<th class='txt-center'>Deletar</th>
 								</tr>
