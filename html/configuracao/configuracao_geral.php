@@ -221,7 +221,7 @@
 											<i class="fas fa-arrow-right"></i>
 										</button>
 										<form method="post" action="./importar_dump.php" id="form5" enctype="multipart/form-data">
-											<input type="file" name="import" id="impFile" accept=".sql" required>
+											<input type="file" name="import" id="impFile" accept=".dump.tar.gz" required>
 										</form>
 									</div>
 								</div>
