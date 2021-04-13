@@ -52,7 +52,7 @@
 	<script src="../../assets/vendor/modernizr/modernizr.js"></script>
 
 	<!-- Atualizacao CSS -->
-	<link rel="stylesheet" href="../../css/atualizacao.css" />
+	<link rel="stylesheet" href="../../css/configuracao.css" />
 	
 	<!-- Vendor -->
 	<script src="../../assets/vendor/jquery/jquery.min.js"></script>
@@ -178,13 +178,13 @@
 					<div class="panel-body" style="display: none;">
 						<div class="ls-container">
 							<!-- Conteúdo -->
-							<div class="space-between">
+							<div class="config-item">
 								<div>Atualizar sistema:</div>
 								<button id="btn2" class="btn btn-primary" onClick="setLoader(this)"><a href="./atualizacao.php"><i class="fas fa-download" aria-hidden="true"></i></a></button>
 							</div>
-							<div class="space-between">
+							<div class="config-item">
 								<div>Recalcular Estoque:</div>
-								<button id="btn1" class="btn btn-primary" onClick="setLoader(this)"><a href="./correcao_estoque.php"><i class="fas fa-wrench"></i></a></button>
+								<button id="btn2" class="btn btn-primary" onClick="setLoader(this)"><a href="./correcao_estoque.php"><i class="fas fa-wrench"></i></a></button>
 							</div>
 						</div>
 					</div>
@@ -200,18 +200,32 @@
 					<div class="panel-body" style="display: none;">
 						<div class="ls-container">
 							<!-- Conteúdo -->
-							<div class="space-between">
+							<div class="config-item">
 								<div>Fazer backup:</div>
-								<button id="btn1" class="btn btn-primary" onClick="setLoader(this)"><a href="./backup.php"><i class="fa fa-floppy-o" aria-hidden="true"></i></a></button>
+								<button id="btn3" class="btn btn-primary" onClick="setLoader(this)"><a href="./backup.php"><i class="fa fa-floppy-o" aria-hidden="true"></i></a></button>
 							</div>
-							<div class="space-between">
+							<div class="config-item">
 								<div>Gerenciar backup:</div>
-								<button id="btn1" class="btn btn-primary" onClick="setLoader(this)"><a href="./listar_backup.php"><i class="fa fa-list" aria-hidden="true"></i></a></button>
+								<button id="btn4" class="btn btn-primary" onClick="setLoader(this)"><a href="./listar_backup.php"><i class="fa fa-list" aria-hidden="true"></i></a></button>
 							</div>
-							<!-- <div class="space-between">
+							<div class="config-item">
 								<div>Importar backup:</div>
-								<button id="btn1" class="btn btn-primary"><a href="#"><i class="fa fa-undo" aria-hidden="true"></i></a></button>
-							</div> -->
+								<div>
+									<button id="btn5" class="btn btn-primary" onclick="openItem('btn5', 'section1')">
+										<a href="#">
+											<i class="fa fa-download" aria-hidden="true"></i>
+										</a>
+									</button>
+									<div id="section1" style="display: none;">
+										<button id="btn51" class="btn btn-success" onclick="submitForm('form5')">
+											<i class="fas fa-arrow-right"></i>
+										</button>
+										<form method="post" action="./importar_dump.php" id="form5" enctype="multipart/form-data">
+											<input type="file" name="import" id="impFile" accept=".sql" required>
+										</form>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</session>
@@ -231,6 +245,39 @@
         }
         window.location.href = btn.firstElementChild.href;
 	}
+
+	var selectionState = {};
+
+	function openItem(id, sectionId){
+		let btn = document.getElementById(id);
+		let section = document.getElementById(sectionId);
+		let open = selectionState[id] ? selectionState[id] : false ;
+		let icon = document.querySelector("#" + id + " a i");
+
+		if (open){
+			$("#" + sectionId).hide();
+			selectionState[id] = false;
+			icon.className = "fa fa-download";
+			icon.style = "color: white;"
+			btn.className = "btn btn-primary";
+		} else {
+			$("#" + sectionId).show();
+			selectionState[id] = true;
+			icon.className = "fa fa-times";
+			icon.style = "color: black;"
+			btn.className = "btn btn-light";
+		}
+	}
+
+	function submitForm(id){
+		if (!!$("#" + id + " input").val()){
+			if (window.confirm("ATENÇÃO! Backups podem alterar o seu Banco de Dados quando restaurados. Ao importar esse arquivo, você aceita que ele estará disponível na lista de Backups e poderá alterar por completo o Banco de Dados. Tem certeza que deseja importar esse arquivo?"))
+			$("#" + id).submit();
+		} else {
+			window.alert("Preencha todos os campos antes de enviar o formulário!")
+		}
+	}
+
 </script>
 
 <!-- Adiciona função de fechar mensagem e tirá-la da url -->

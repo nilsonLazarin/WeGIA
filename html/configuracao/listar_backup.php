@@ -188,6 +188,14 @@
 			display:flex;
     		justify-content: space-between;
 		}
+
+		.padding-down {
+			padding-bottom: 20px;
+		}
+
+		.flex {
+			display:flex;
+		}
 	</style>
 
 </head>
@@ -224,10 +232,12 @@
 						<h2 class="panel-title">Backups do Bando de Dados</h2>
 					</header>
 					<div class="panel-body">
-						<p class="space-between">
+						<div class="space-between padding-down">
 							<a href="./configuracao_geral.php" class="btn btn-outline-primary btn-sm"><i class="fa fa-chevron-left" aria-hidden="true"></i> Configurações Gerais</a>
-							<a href="./backup.php?action=bd" class="btn btn-primary btn-sm">Gerar Backup <i class="fa fa-floppy-o" aria-hidden="true"></i></a>
-						</p>
+							<div class="flex">
+								<a href="./backup.php?action=bd" class="btn btn-primary btn-sm">Gerar Backup <i class="fa fa-floppy-o" aria-hidden="true"></i></a>
+							</div>
+						</div>
 		  				<table class="table table-bordered table-striped mb-none" id="datatable-default">
 							<thead>
 								<tr>
