@@ -10,8 +10,6 @@ if (!isset($_SESSION["usuario"])){
 require_once '../permissao/permissao.php';
 permissao($_SESSION['id_pessoa'], 9);
 
-require_once "../../dao/Conexao.php";
-
 require_once "../../config.php";
 
 define("REDIRECT", $_REQUEST["redirect"] ?? "./configuracao_geral.php");

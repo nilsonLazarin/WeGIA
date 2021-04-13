@@ -213,7 +213,7 @@
 								<div>
 									<button id="btn5" class="btn btn-primary" onclick="openItem('btn5', 'section1')">
 										<a href="#">
-											<i class="fa fa-download" aria-hidden="true"></i>
+											<i class="fa fa-upload" aria-hidden="true"></i>
 										</a>
 									</button>
 									<div id="section1" style="display: none;">

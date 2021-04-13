@@ -152,16 +152,21 @@
 						.text((!isNaN(Number(item.hora, 10)) && !isNaN(Number(item.dia, 10)) && !isNaN(Number(item.seg))) ? item.hora + ":" + item.min  + (item.seg ? ":" + item.seg : "") : "N/A")
 					)
 					.append($("<td class='txt-center'>")
-						.append($("<a href='#' onclick='confirmRestore(`"+item.nome+"`)'/>")
-							.append($("<button class='btn btn-primary'/>")
-								.html('<i class="fa fa-refresh" aria-hidden="true"></i>')
+						.append($("<div class='btn-container'>")
+							.append($("<a href='#' onclick='confirmRestore(`"+item.nome+"`)'/>")
+								.append($("<button class='btn btn-primary'/>")
+									.html('<i class="fa fa-refresh" aria-hidden="true"></i>')
+								)
 							)
-						)
-					)
-					.append($("<td class='txt-center'>")
-						.append($("<a href='#' onclick='confirmDelete(`"+item.nome+"`)'/>")
-							.append($("<button class='btn btn-danger' />")
-								.html('<i class="fa fa-trash-o" aria-hidden="true" style="font-family: FontAwesome;" />')
+							.append($("<a href='#' onclick='confirmDelete(`"+item.nome+"`)'/>")
+								.append($("<button class='btn btn-danger' />")
+									.html('<i class="fa fa-trash-o" aria-hidden="true" style="font-family: FontAwesome;" />')
+								)
+							)
+							.append($("<a href='#' onclick='confirmDownload(`"+item.nome+"`)'/>")
+								.append($("<button class='btn btn-success' />")
+									.html('<i class="fa fa-download" aria-hidden="true" style="font-family: FontAwesome;" />')
+								)
 							)
 						)
 					)
@@ -195,6 +200,11 @@
 
 		.flex {
 			display:flex;
+		}
+
+		.btn-container {
+			display: flex;
+			justify-content: space-evenly;
 		}
 	</style>
 
@@ -245,8 +255,7 @@
 									<th class='txt-center' width='15%'>Tamanho</th>
 									<th class='txt-center' width='15%'>Data</th>
 									<th class='txt-center' width='15%'>Hora</th>
-									<th class='txt-center'>Restaurar</th>
-									<th class='txt-center'>Deletar</th>
+									<th class='txt-center'>Restaurar | Deletar | Exportar</th>
 								</tr>
 							</thead>
 							<tbody id="tabela">
@@ -291,6 +300,14 @@
 			$('.panel').append(form);
 			form.submit();
 		}
+	}
+
+	function confirmDownload(file){
+		form = $("<form method='post' action='./exportar_dump.php' />")
+			.append($("<input type='text' name='file' value='"+file+"' readonly hidden />"))
+		;
+		$('.panel').append(form);
+		form.submit();
 	}
 
 </script>
