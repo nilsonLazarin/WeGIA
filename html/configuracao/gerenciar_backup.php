@@ -43,11 +43,8 @@ if (PHP_OS != 'Linux'){
             if ($log){
                 header("Location: ./listar_backup.php?msg=error&err=Houve um erro ao restaurar a Base de Dados!&log=".base64_encode($log));
             }else{
-                if ($logAS){
-                    header("Location: ./listar_backup.php?msg=warning&warn=AVISO:&log=".base64_encode("O backup foi restaurado com sucesso, mas houve um erro ao gerar um Backup automático de segurança. Log:\n\n".$logAS));
-                }else{
-                    header("Location: ./listar_backup.php?msg=success&sccs=Backup restaurado com sucesso!");
-                }
+                session_destroy();
+                header("Location: ../../index.php");
             }
         } else {
             header("Location: ./listar_backup.php?msg=warning&warn=Nenhuma ação válida foi selecionada!");
