@@ -187,9 +187,13 @@
 		</div>
 
 				
+
+	<div align="right">
+	<iframe src="https://www.wegia.org/software/footer/index.html" width="200" height="60" style="border:none;"></iframe>
+	</div>
+
 	<div class="container-fluid">
 		<div class="footer row" style="background-color: black">
-
 			<div class="col-md-8">
 				<p style="color: white; margin-left: 10px; margin-top: 8px;"><?php display_campo("Rodapé","str");?></p>
 			</div>
@@ -197,13 +201,12 @@
 				<div class="pull-right">
 				<a href="https://github.com/nilsonmori/WeGIA" target="_blank">
 							<span class="fa fa-github-square" style="color: white"></span></a>
-					<a href="https://www.facebook.com/cefetrjoficial" target="_blank">
+					<a href="https://www.facebook.com/wegiasoftware" target="_blank">
 						<span class="fa fa-facebook-square" style="color: white"></span></a>
-					<a href="https://cefet-rj.br" target="_blank">
+					<a href="https://www.wegia.org" target="_blank">
 							<span class="fa fa-globe" style="color: white"></span></a>
 				</div>
 			</div>
-			
 		</div>
 		<!-- Vendor -->
 	<script src="./assets/vendor/select2/select2.js"></script>
