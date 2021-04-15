@@ -81,7 +81,7 @@
           <div class="div_nasc">
           <div class="form-group col-xs-4">
             <label for="valor">Data de nascimento</label>
-            <input type="date" class="form-control" id="data_nasc" name="data_nasc" required>
+            <input type="date" class="form-control" id="data_nasc" name="data_nasc">
           </div>
           </div>
         </div>
