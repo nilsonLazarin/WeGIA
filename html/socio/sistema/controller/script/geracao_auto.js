@@ -169,6 +169,9 @@ $(document).ready(function(){
                                                     for(boleto of dadosBoleto.data.charges){
                                                         carneBoletos.push(boleto);
                                                     }
+                                                },
+                                                error : function(){
+                                                    alert(`Houve um erro ao gerar o carnê de ${socio.nome}, verifique se os dados são válidos ou entre em contato com um administrador.`)
                                                 }
                                             });
                                             montaTabela(socio.nome, carneBoletos, 'mensal');
@@ -189,6 +192,9 @@ $(document).ready(function(){
                                                         for(boleto of dadosBoleto.data.charges){
                                                             carneBoletos.push(boleto);
                                                         }
+                                                    },
+                                                    error : function(){
+                                                        alert(`Houve um erro ao gerar o carnê de ${socio.nome}, verifique se os dados são válidos ou entre em contato com um administrador.`)
                                                     }
                                                 });
                                                 var arrayDataSegments = dataV_formatada.split('-');
@@ -215,6 +221,9 @@ $(document).ready(function(){
                                                         for(boleto of dadosBoleto.data.charges){
                                                             carneBoletos.push(boleto);
                                                         }
+                                                    },
+                                                    error : function(){
+                                                        alert(`Houve um erro ao gerar o carnê de ${socio.nome}, verifique se os dados são válidos ou entre em contato com um administrador.`)
                                                     }
                                                 });
                                                 var arrayDataSegments = dataV_formatada.split('-');
@@ -241,6 +250,9 @@ $(document).ready(function(){
                                                         for(boleto of dadosBoleto.data.charges){
                                                             carneBoletos.push(boleto);
                                                         }
+                                                    },
+                                                    error : function(){
+                                                        alert(`Houve um erro ao gerar o carnê de ${socio.nome}, verifique se os dados são válidos ou entre em contato com um administrador.`)
                                                     }
                                                 });
                                                 var arrayDataSegments = dataV_formatada.split('-');
@@ -669,6 +681,9 @@ $(document).ready(function(){
                                                     for(boleto of dadosBoleto.data.charges){
                                                         carneBoletos.push(boleto);
                                                     }
+                                                },
+                                                error : function(){
+                                                    alert(`Houve um erro ao gerar o carnê de ${socio.nome}, verifique se os dados são válidos ou entre em contato com um administrador.`)
                                                 }
                                             });
                                             montaTabela(socio.nome, carneBoletos, 'casual (avulso)', socio.telefone);
@@ -688,6 +703,9 @@ $(document).ready(function(){
                                                     for(boleto of dadosBoleto.data.charges){
                                                         carneBoletos.push(boleto);
                                                     }
+                                                },
+                                                error : function(){
+                                                    alert(`Houve um erro ao gerar o carnê de ${socio.nome}, verifique se os dados são válidos ou entre em contato com um administrador.`)
                                                 }
                                             });
                                             montaTabela(socio.nome, carneBoletos, 'mensal', socio.telefone);
@@ -708,6 +726,9 @@ $(document).ready(function(){
                                                         for(boleto of dadosBoleto.data.charges){
                                                             carneBoletos.push(boleto);
                                                         }
+                                                    },
+                                                    error : function(){
+                                                        alert(`Houve um erro ao gerar o carnê de ${socio.nome}, verifique se os dados são válidos ou entre em contato com um administrador.`)
                                                     }
                                                 });
                                                 var arrayDataSegments = dataV_formatada.split('-');
@@ -734,6 +755,9 @@ $(document).ready(function(){
                                                         for(boleto of dadosBoleto.data.charges){
                                                             carneBoletos.push(boleto);
                                                         }
+                                                    },
+                                                    error : function(){
+                                                        alert(`Houve um erro ao gerar o carnê de ${socio.nome}, verifique se os dados são válidos ou entre em contato com um administrador.`)
                                                     }
                                                 });
                                                 var arrayDataSegments = dataV_formatada.split('-');
@@ -760,6 +784,9 @@ $(document).ready(function(){
                                                         for(boleto of dadosBoleto.data.charges){
                                                             carneBoletos.push(boleto);
                                                         }
+                                                    },
+                                                    error : function(){
+                                                        alert(`Houve um erro ao gerar o carnê de ${socio.nome}, verifique se os dados são válidos ou entre em contato com um administrador.`)
                                                     }
                                                 });
                                                 var arrayDataSegments = dataV_formatada.split('-');
