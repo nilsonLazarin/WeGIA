@@ -97,7 +97,7 @@
         </div>
         <div class="row">
           <div style="margin-bottom:  1em" class="form-group col-xs-12 mb-2">
-            <label for="valor">Tag</label>
+            <label for="valor">Grupo</label>
             <a onclick="adicionar_tag()">
 							<i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i>
 						</a>
