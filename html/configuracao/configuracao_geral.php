@@ -16,6 +16,13 @@
 	// Adiciona o Sistema de Mensagem
 	require_once "../geral/msg.php";
 
+	// Ultima release disponível
+	$last_release = intval(file_get_contents("https://www.wegia.org/software/release"));
+	// Release instalada
+	$local_release = intval(file_get_contents("../../.release"));
+
+	define("SYSTEM_UP_TO_DATE", $local_release >= $last_release);
+
 ?>
 <!doctype html>
 <html class="fixed">
@@ -130,44 +137,6 @@
                 <!-- Caso haja uma mensagem do sistema -->
 				<?php displayMsg(); getMsgSession("mensagem","tipo");?>
 
-				<!-- <session class="panel">
-					<header class="panel-heading">
-						<div class="panel-actions">
-							<a href="#" class="fa fa-caret-down"></a>
-						</div>
-						<h2 class="panel-title">Atualização e Backup</h2>
-					</header>
-					<div class="panel-body">
-						<div class="ls-container">
-							<div class="space-between">
-								<div>Fazer backup:</div>
-								<button id="btn1" class="btn btn-primary" onClick="setLoader(this)"><a href="./backup.php"><i class="fa fa-floppy-o" aria-hidden="true"></i></a></button>
-							</div>
-							<div class="space-between">
-								<div>Atualizar sistema:</div>
-								<button id="btn2" class="btn btn-primary" onClick="setLoader(this)"><a href="./atualizacao.php"><i class="fas fa-download" aria-hidden="true"></i></a></button>
-							</div>
-						</div>
-					</div>
-				</session>
-
-				<session class="panel">
-					<header class="panel-heading">
-						<div class="panel-actions">
-							<a href="#" class="fa fa-caret-down"></a>
-						</div>
-						<h2 class="panel-title">Correção de Erros</h2>
-					</header>
-					<div class="panel-body">
-						<div class="ls-container">
-							<div class="space-between">
-								<div>Corrigir erros no Estoque:</div>
-								<button id="btn1" class="btn btn-primary" onClick="setLoader(this)"><a href="./correcao_estoque.php"><i class="fas fa-wrench"></i></a></button>
-							</div>
-						</div>
-					</div>
-				</session> -->
-
 				<session class="panel">
 					<header class="panel-heading">
 						<div class="panel-actions">
@@ -178,9 +147,17 @@
 					<div class="panel-body" style="display: none;">
 						<div class="ls-container">
 							<!-- Conteúdo -->
-							<div class="config-item">
+							<div class="config-item" <?= SYSTEM_UP_TO_DATE ? "style='display: none;'" : "" ;?>>
 								<div>Atualizar sistema:</div>
 								<button id="btn2" class="btn btn-primary" onClick="setLoader(this)"><a href="./atualizacao.php"><i class="fas fa-download" aria-hidden="true"></i></a></button>
+							</div>
+							<div class="config-item" <?= SYSTEM_UP_TO_DATE ? "" : "style='display: none;'" ;?>>
+								<div>Atualizar sistema:</div>
+								<div>
+									<button disabled="disabled" class="btn btn-info"><i class="fas fa-download" aria-hidden="true"></i></button>
+									<i class="fas fa-check-circle" style="color: green; padding: 0 5px;"></i>
+									Sistema atualizado
+								</div>
 							</div>
 							<div class="config-item">
 								<div>Recalcular Estoque:</div>
