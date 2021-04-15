@@ -57,6 +57,24 @@
             }
             $_SESSION['log'] = $log;
             if (tempBackup()){
+
+                // Ultima release disponível
+                $last_release = intval(file_get_contents("https://www.wegia.org/software/release"));
+                // Release instalada
+                $local_release = intval(file_get_contents("../../.release"));
+
+                $outdated = "";
+
+                if ($local_release < $last_release){
+                    require "./geral/msg.php";
+                    setSessionMsg("O sistema possui atualizações disponíveis", "warn");
+                    $outdated = " (desatualizado)";
+                }
+                setlocale(LC_TIME, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
+                date_default_timezone_set('America/Sao_Paulo');
+                $_SESSION['local_release'] = strftime('%A, %d de %B de %Y, às %H:%M', intval(file_get_contents("../.release"))) . $outdated;
+
+
                 // header("Location: ./configuracao_geral.php?msg=success&sccs=Backup realizado e Atualização concluída!&log=".base64_encode($log));
                 header("Location: ./configuracao_geral.php?tipo=success&mensagem=Backup realizado e Atualização concluída!");
                 

@@ -63,7 +63,7 @@
 						}
 						setlocale(LC_TIME, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
 						date_default_timezone_set('America/Sao_Paulo');
-						$_SESSION['local_release'] = utf8_encode(strftime('%A, %d de %B de %Y, %H:%M', intval(file_get_contents("../.release")))) . $outdated;
+						$_SESSION['local_release'] = strftime('%A, %d de %B de %Y, às %H:%M', intval(file_get_contents("../.release"))) . $outdated;
 						header("Location: ../html/home.php");
 					}
 				}
