@@ -9,6 +9,8 @@ if(file_exists($config_path)){
     }
     require_once($config_path);
 }
+
+session_start();
 ?>
 	<div class="sidebar-header">
 		<div class="sidebar-title">
@@ -20,7 +22,7 @@ if(file_exists($config_path)){
 	</div>
 	
 	<div class="nano">
-		<div class="nano-content">
+		<div class="nano-content" tabindex="0" style="right: -17px;display: flex;flex-direction: column;justify-content: space-between; padding-bottom: 0;">
 			<nav id="menu" class="nav-main" role="navigation">
 				<ul class="nav nav-main">
 					<li>
@@ -205,6 +207,7 @@ if(file_exists($config_path)){
 					</li>
 				</ul>
 			</nav>
+			<p style="text-align: center;"><?= "Release instalada:<br> ".$_SESSION['local_release']?></p>
 		</div>
 	</div>
 	<form id="listarFuncionario" method="POST" action="<?= WWW ?>controle/control.php">

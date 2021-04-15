@@ -225,7 +225,7 @@
 		if (isset($_SESSION[$msgName])){
 			$flag = $_SESSION[$flagName] ?? "sucesso";
 			$msg = $_SESSION[$msgName];
-			$log = $_SESSION['log'] ?? null;
+			$log = $_SESSION['session_msg_log'] ?? $_SESSION['log'] ?? null;
 
 			if (isset($_SESSION['log'])){
 				unset($_SESSION['log']);
@@ -256,6 +256,14 @@
 					displayError($msg, $log);
 				break;
 			}
+		}
+	}
+
+	function setSessionMsg($msg, $flag = "success", $log = null){
+		$_SESSION['flag'] = $flag;
+		$_SESSION['msg'] = $msg;
+		if ($log){
+			$_SESSION['session_msg_log'] = $log;
 		}
 	}
     

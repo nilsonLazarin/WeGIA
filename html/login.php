@@ -29,6 +29,17 @@
 					$_SESSION['usuario'] = $cpf;
 					$_SESSION['id_pessoa'] = $id_pessoa;
 					$_SESSION['time']=time()+(30);
+					// Ultima release disponível
+					$last_release = intval(file_get_contents("https://www.wegia.org/software/release"));
+					// Release instalada
+					$local_release = intval(file_get_contents("../.release"));
+
+					if ($local_release < $last_release){
+						require "./geral/msg.php";
+						setSessionMsg("O sistema possui atualizações disponíveis", "warn");
+					}
+
+					$_SESSION['local_release'] = gmdate('d/m/Y, h:m:i', intval(file_get_contents("../.release")));
 					header ("Location: ../html/home.php");
 				}
 				else{
@@ -37,7 +48,24 @@
 					if($linha['adm_configurado'] == 0 && $linha['cpf'] == "admin" && $linha['nivel_acesso'] == 2){
 						header("Location: ../html/alterar_senha.php");
 
-					}else header("Location: ../html/home.php");
+					}else {
+						// Ultima release disponível
+						$last_release = intval(file_get_contents("https://www.wegia.org/software/release"));
+						// Release instalada
+						$local_release = intval(file_get_contents("../.release"));
+
+						$outdated = "";
+
+						if ($local_release < $last_release){
+							require "./geral/msg.php";
+							setSessionMsg("O sistema possui atualizações disponíveis", "warn");
+							$outdated = " (desatualizado)";
+						}
+						setlocale(LC_TIME, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
+						date_default_timezone_set('America/Sao_Paulo');
+						$_SESSION['local_release'] = utf8_encode(strftime('%A, %d de %B de %Y, %H:%M', intval(file_get_contents("../.release")))) . $outdated;
+						header("Location: ../html/home.php");
+					}
 				}
 			}
 			else{

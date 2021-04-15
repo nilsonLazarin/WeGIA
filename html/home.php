@@ -7,6 +7,8 @@
 	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
 	require_once "personalizacao_display.php";
 
+	// Funções de display de mensagens
+	require_once "./geral/msg.php";
 ?>
 <!doctype html>
 <html class="fixed">
@@ -116,6 +118,10 @@
 
 				<!-- start: page -->
 				<div class="row" >
+
+				<!-- Recebe mensagem se houver -->
+				<?php displayMsg(); sessionMsg();?>
+
 				<?php
 					if(isset($_GET['msg_c'])){
 						$msg = $_GET['msg_c'];
