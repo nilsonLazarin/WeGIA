@@ -22,6 +22,13 @@
         require_once($config_path);
     }
 
+    define("REDIRECT", [
+        "./configuracao_geral.php",
+        "./debug_info.php"
+    ]);
+
+    $redirect = $_GET["redirect"] ?? REDIRECT[0];
+
     function tempBackup() {
         if (PHP_OS != 'Linux'){
             return false;
@@ -46,9 +53,9 @@
     if ($output) {
         if (sizeof($output) == 1){
             if ($output[0] == 'Already up to date.'){
-                header("Location: ./configuracao_geral.php?msg=success&sccs=O sistema já está atualizado!");
+                header("Location: $redirect?msg=success&sccs=O sistema já está atualizado!");
             }else{
-                header("Location: ./configuracao_geral.php?msg=error&err=Houve um erro ao executar o comando git -C ".ROOT." pull");
+                header("Location: $redirect?msg=error&err=Houve um erro ao executar o comando git -C ".ROOT." pull");
             }
         }elseif (sizeof($output) != 0) {
             $log = "Status da atualização: \n";
@@ -74,18 +81,20 @@
                 date_default_timezone_set('America/Sao_Paulo');
                 $_SESSION['local_release'] = strftime('%A, %d de %B de %Y, às %H:%M', intval(file_get_contents("../.release"))) . $outdated;
 
+                
+
 
                 // header("Location: ./configuracao_geral.php?msg=success&sccs=Backup realizado e Atualização concluída!&log=".base64_encode($log));
-                header("Location: ./configuracao_geral.php?tipo=success&mensagem=Backup realizado e Atualização concluída!");
+                header("Location: $redirect?tipo=success&mensagem=Backup realizado e Atualização concluída!");
                 
             }else{
                 // header("Location: ./configuracao_geral.php?msg=warning&warn=Atualização concluída, mas houve um erro ao realizar o backup (Sistema compatível: Linux, Seu Sistema: ".PHP_OS.")!&log=".base64_encode($log));
-                header("Location: ./configuracao_geral.php?tipo=warning&mensagem=Atualização concluída, mas houve um erro ao realizar os backups!");
+                header("Location: $redirect?tipo=warning&mensagem=Atualização concluída, mas houve um erro ao realizar os backups!");
             }
         }
     } else {
         // header("Location: ./configuracao_geral.php?msg=error&err=Houve um erro ao executar o comando git -C ".ROOT." pull");
-        header("Location: ./configuracao_geral.php?tipo=error&mensagem=Houve um erro ao executar o comando git -C ".ROOT." pull");
+        header("Location: $redirect?tipo=error&mensagem=Houve um erro ao executar o comando git -C ".ROOT." pull");
     }
 
 ?>

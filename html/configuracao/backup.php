@@ -31,7 +31,7 @@
     define('REDIRECT_URLS', [
         "./configuracao_geral.php",
         "./listar_backup.php",
-        "./configuracao_geral.php"
+        "./debug_info.php"
     ]);
 
     if (PHP_OS != 'Linux'){
@@ -65,7 +65,7 @@
                 $dblog = backupBD();
 
             }else if ($action == "site"){
-                $redirect = REDIRECT_URLS[2];
+                $redirect = REDIRECT_URLS[0];
     
                 // Executando Backup do Diretório do site
                 $filelog = backupSite();

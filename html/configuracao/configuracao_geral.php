@@ -58,7 +58,7 @@
 	<!-- Head Libs -->
 	<script src="../../assets/vendor/modernizr/modernizr.js"></script>
 
-	<!-- Atualizacao CSS -->
+	<!-- Configuração CSS -->
 	<link rel="stylesheet" href="../../css/configuracao.css" />
 	
 	<!-- Vendor -->
