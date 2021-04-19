@@ -63,8 +63,8 @@
 	<!-- Head Libs -->
 	<script src="../../assets/vendor/modernizr/modernizr.js"></script>
 
-	<!-- Atualizacao CSS -->
-	<link rel="stylesheet" href="../../css/atualizacao.css" />
+	<!-- Configuração CSS -->
+	<link rel="stylesheet" href="../../css/configuracao.css" />
 	
 	<!-- Vendor -->
 	<script src="../../assets/vendor/jquery/jquery.min.js"></script>
@@ -185,11 +185,17 @@
                                     ?></p>
 							</div>
                             <div class="space-between">
-								<div>Tamanho bando de dados:</div>
+								<div>Tamanho banco de dados:</div>
 								<p class="float-right" style="float: right">
 
                                 <?php echo(mysqli_fetch_assoc(mysqli_query($conexao, "SELECT table_schema AS 'Database', ROUND(SUM(data_length + index_length) / 1024 / 1024, 2) AS 'size' FROM information_schema.TABLES WHERE table_schema = 'wegia' GROUP BY table_schema"))['size'] . " MB");
                                     ?></p>
+							</div>
+							<div>
+								<div class="config-item">
+									<div>Atualizar sistema para versão em desenvolvimento:</div>
+									<button id="btn2" class="btn btn-warning" onClick="setLoader(this)"><a href="./atualizacao.php?redirect=./debug_info.php"><i class="fas fa-download" aria-hidden="true"></i></a></button>
+								</div>
 							</div>
                             
                             <div>
