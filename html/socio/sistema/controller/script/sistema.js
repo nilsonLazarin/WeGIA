@@ -262,11 +262,15 @@ $(document).ready(function(){
         return log;
     }
     // Setando máscaras dos inputs
-    if($("#pessoa").val() == "fisica"){
-        $("#cpf_cnpj").mask("999.999.999-99");
-    }else{
-        $("#cpf_cnpj").mask("99.999.999/9999-99");
+    if(!$("#check_veri_cpf").prop("checked")){
+        if($("#pessoa").val() == "fisica"){
+            $("#cpf_cnpj").mask("999.999.999-99");
+        }else{
+            $("#cpf_cnpj").mask("99.999.999/9999-99");
+        }
     }
+    
+    
     $("#cep").mask("99999-999");
     function modalSimples(titulo, msg, tipo){
         switch(tipo){
@@ -327,6 +331,7 @@ $(document).ready(function(){
     }
     $(document).on("submit", "#frm_novo_socio", function(e){
         e.preventDefault();
+        var verificaCpf = $("#check_veri_cpf").prop("checked");
         var socio_nome = $("#socio_nome").val();
         var pessoa_tipo = $("#pessoa").val();
         var contribuinte = $("#contribuinte").val();
@@ -383,7 +388,46 @@ $(document).ready(function(){
                 }
             });
         }else{
-            modalSimples("Status", "O CPF/CNPJ informado é inválido!", "erro");
+            console.log(verificaCpf);
+            if(verificaCpf == false){
+                $.post("./cadastro_socio.php",{
+                    "socio_nome": socio_nome,
+                    "pessoa": pessoa_tipo,
+                    "contribuinte": contribuinte,
+                    "status": status,
+                    "email": email,
+                    "tag": tag,
+                    "telefone": telefone,
+                    "cpf_cnpj": cpf_cnpj,
+                    "rua": rua,
+                    "numero": numero,
+                    "complemento": complemento,
+                    "bairro": bairro,
+                    "estado": estado,
+                    "cidade": cidade,
+                    "data_nasc": data_nasc,
+                    "cep":cep,
+                    "data_referencia": data_referencia,
+                    "valor_periodo": valor_periodo
+                }).done(function(resultadoCadastro){
+                    var resultado = JSON.parse(resultadoCadastro);
+                    if(resultado){
+                        $(".socioModal").append(
+                            '<div class="overlay"> <i style="font-size: 72px; color: green;" class="fa fa-refresh fa-spin"></i> </div>'
+                        );
+                        setTimeout(function(){
+                            $("#adicionarSocioModal").modal("toggle");
+                            $(".socioModal .overlay").remove();
+                            $("#qtd_socios").html(Number($("#qtd_socios").html())+1);
+                            resetaForm("#frm_novo_socio");
+                        },1000);
+                    }else{
+                        modalSimples("Status", "Erro ao cadastrar sócio, verifique os dados e tente novamente.", "erro");
+                    }
+                });
+            }else{
+                modalSimples("Status", "O CPF/CNPJ informado é inválido!", "erro");
+            }
         }
         
     });
@@ -543,14 +587,36 @@ $(document).ready(function(){
     $("#pessoa").change(function(){
         if($(this).val() == "juridica"){
             $("#label_cpf_cnpj").html("CNPJ");
-            $("#cpf_cnpj").mask("99.999.999/9999-99");
+            if(!$("#check_veri_cpf").prop("checked")){
+                $("#cpf_cnpj").mask("99.999.999/9999-99");
+            }else $("#cpf_cnpj").unmask();
             $("#cpf_cnpj").val("");
             $(".div_nasc").html("");
         }else{
             $("#label_cpf_cnpj").html("CPF");
-            $("#cpf_cnpj").mask("999.999.999-99");
+            if(!$("#check_veri_cpf").prop("checked")){
+                $("#cpf_cnpj").mask("999.999.999-99");
+            }else $("#cpf_cnpj").unmask();
             $("#cpf_cnpj").val("");
             $(".div_nasc").append('<div class="form-group col-xs-4 animacao2"> <label for="valor">Data de nascimento</label> <input type="date" class="form-control" id="data_nasc" name="data_nasc" required> </div>');
+        }
+    })
+    // Removendo máscara ao apertar opção de desligar máscara
+    $("#check_veri_cpf").change(function(){
+        if($(this).prop("checked")){
+            $("#cpf_cnpj").unmask();
+            $("#label_cpf_cnpj").html("Identificação");
+            $("#cpf_cnpj").val("");
+        }else{
+            if($("#pessoa").val() == "juridica"){
+                $("#label_cpf_cnpj").html("CNPJ");
+                $("#cpf_cnpj").mask("99.999.999/9999-99");
+                $("#cpf_cnpj").val("");
+            }else{
+                $("#label_cpf_cnpj").html("CPF");
+                $("#cpf_cnpj").mask("999.999.999-99");
+                $("#cpf_cnpj").val("");
+            }
         }
     })
     // Máscara telefone/celular

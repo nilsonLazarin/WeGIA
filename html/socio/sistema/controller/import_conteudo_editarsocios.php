@@ -158,7 +158,7 @@
 							<i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i>
 						</a>
             <select class="form-control" name="tags" id="tags">
-            <option value="none">Selecionar tag</option>
+            <option value="none">Selecionar Grupo</option>
             <?php
                   $tags = mysqli_query($conexao, "SELECT * FROM socio_tag");
                   while($row = $tags->fetch_array(MYSQLI_NUM))

@@ -45,6 +45,10 @@
         </div>
         <div class="form-group col-xs-4 cpf_div">
           <label id="label_cpf_cnpj" for="valor">CPF</label>
+          <div class="form-check">
+    <input type="checkbox" class="form-check-input" id="check_veri_cpf">
+    <label class="form-check-label" for="exampleCheck1">Deslig. Verif. Cpf</label>
+  </div>
           <input type="text"  class="form-control" id="cpf_cnpj" name="cpf" required>
         </div>
         </div>
@@ -102,7 +106,7 @@
 							<i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i>
 						</a>
             <select class="form-control" name="tags" id="tags">
-            <option value="none" disabled selected>Selecionar tag</option>
+            <option value="none" disabled selected>Selecionar Grupo</option>
             <?php
                   $tags = mysqli_query($conexao, "SELECT * FROM socio_tag");
                   while($row = $tags->fetch_array(MYSQLI_NUM))
