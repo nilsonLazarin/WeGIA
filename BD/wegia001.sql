@@ -437,7 +437,7 @@ CONSTRAINT `funcionariodocs_ibfk_2`
 -- Table `wegia`.`funcionario_dependente_parentesco`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `wegia`.`funcionario_dependente_parentesco` (
-  `id_parentesco` INT NOT NULL,
+  `id_parentesco` INT NOT NULL AUTO_INCREMENT,
   `descricao` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`id_parentesco`))
 ENGINE = InnoDB;
@@ -446,7 +446,7 @@ ENGINE = InnoDB;
 -- Table `wegia`.`funcionario_dependentes`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `wegia`.`funcionario_dependentes` (
-  `id_dependente` INT NOT NULL,
+  `id_dependente` INT NOT NULL AUTO_INCREMENT,
   `id_funcionario` INT(11) NOT NULL,
   `id_pessoa` INT(11) NOT NULL,
   `id_parentesco` INT NOT NULL,
