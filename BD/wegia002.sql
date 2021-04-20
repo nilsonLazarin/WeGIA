@@ -15,8 +15,8 @@ INSERT INTO `tipo_quadro_horario` (`descricao`) VALUES ('Segunda à Sexta, folga
 
 INSERT INTO `selecao_paragrafo` (`id_selecao`, `nome_campo`, `paragrafo`, `original`) VALUES
 (1, 'Titulo', 'WeGIA', 1),
-(2, 'Subtitulo', 'Web Gerenciador de Instituições Assistenciais', 1),
-(3, 'Conheça', 'O WEGIA é um sistema que visa auxiliar no controle de instituições assistenciais.', 1),
+(2, 'Subtitulo', 'Web Gerenciador Institucional', 1),
+(3, 'Conheça', 'O WEGIA é um software livre licenciado pela GNU/GPL v3.', 1),
 (4, 'Objetivo', 'Promover uma boa administração ao fornecer serviços de ajuda e controle de estoques, gerenciamento de funcionários e pessoal, visando um maior proveito de recursos.\r\n\r\nEntre com suas credenciais padrão de administrador para configurar o sistema:\r\n\r\nusuário: admin\r\nsenha: wegia', 1),
 (5, 'Rodapé', 'WeGIA - Desenvolvido pelo Cefet/RJ UnED Nova Friburgo', 1),
 (6, 'ContribuiçãoMSG', 'Contribua você também!', '1');
@@ -151,3 +151,14 @@ INSERT INTO `funcionario_docfuncional`(`id_docfuncional`, `nome_docfuncional`) V
 (12, 'Carteira de Motorista'),
 (13, 'Exame Admissional'),
 (14, 'Registro Profissional');
+
+INSERT INTO `funcionario_dependente_parentesco` (`id_parentesco`, `descricao`) VALUES 
+(1, 'Companheiro(a)'),
+(2, 'Cônjuge'),
+(3, 'Enteado(a)'),
+(4, 'Ex-cônjuge'),
+(5, 'Filho(a)'),
+(6, 'Irmão(ã)'),
+(7, 'Neto(a)'),
+(8, 'Pais'),
+(9, 'Outra relação de dependência');

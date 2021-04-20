@@ -434,6 +434,47 @@ CONSTRAINT `funcionariodocs_ibfk_2`
 ) ENGINE = InnoDB; 
 
 -- -----------------------------------------------------
+-- Table `wegia`.`funcionario_dependente_parentesco`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `wegia`.`funcionario_dependente_parentesco` (
+  `id_parentesco` INT NOT NULL AUTO_INCREMENT,
+  `descricao` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`id_parentesco`))
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `wegia`.`funcionario_dependentes`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `wegia`.`funcionario_dependentes` (
+  `id_dependente` INT NOT NULL AUTO_INCREMENT,
+  `id_funcionario` INT(11) NOT NULL,
+  `id_pessoa` INT(11) NOT NULL,
+  `id_parentesco` INT NOT NULL,
+  `extensao_arquivo` VARCHAR(45) NULL,
+  `nome_arquivo` VARCHAR(256) NULL,
+  `documento` LONGBLOB NULL,
+  PRIMARY KEY (`id_dependente`),
+  INDEX `fk_funcionario_dependente_funcionario1_idx` (`id_funcionario` ASC),
+  INDEX `fk_funcionario_dependente_pessoa1_idx` (`id_pessoa` ASC),
+  INDEX `fk_funcionario_dependente_funcionario_dependente_parentesco_idx` (`id_parentesco` ASC),
+  CONSTRAINT `fk_funcionario_dependente_funcionario1`
+    FOREIGN KEY (`id_funcionario`)
+    REFERENCES `wegia`.`funcionario` (`id_funcionario`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_funcionario_dependente_pessoa1`
+    FOREIGN KEY (`id_pessoa`)
+    REFERENCES `wegia`.`pessoa` (`id_pessoa`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_funcionario_dependente_funcionario_dependente_parentesco1`
+    FOREIGN KEY (`id_parentesco`)
+    REFERENCES `wegia`.`funcionario_dependente_parentesco` (`id_parentesco`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
 -- Table `wegia`.`ientrada`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `wegia`.`ientrada` (
