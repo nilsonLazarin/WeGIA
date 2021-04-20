@@ -402,8 +402,36 @@ CREATE TABLE IF NOT EXISTS `wegia`.`funcionario` (
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
+				       
+-- -----------------------------------------------------
+-- Table `wegia`.`funcionario_docfuncional`
+-- -----------------------------------------------------
+CREATE TABLE `wegia`.`funcionario_docfuncional`(
+ `id_docfuncional` INT NOT NULL AUTO_INCREMENT,
+ `nome_docfuncional` VARCHAR(50) NOT NULL,
+ `descricao_docfuncional` VARCHAR(256) NULL DEFAULT NULL,
+ PRIMARY KEY (`id_docfuncional`)
+) ENGINE = InnoDB; 
 
-
+-- -----------------------------------------------------
+-- Table `wegia`.`funcionario_docs`
+-- -----------------------------------------------------
+CREATE TABLE `wegia`.`funcionario_docs` (
+`id_fundocs` INT NOT NULL AUTO_INCREMENT,
+`id_funcionario` INT NOT NULL, 
+`id_docfuncional` INT NOT NULL,
+`data` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+`extensao_arquivo` VARCHAR(50) NOT NULL,
+`nome_arquivo` VARCHAR(256) NOT NULL,
+`arquivo` LONGBLOB NOT NULL,
+PRIMARY KEY (`id_fundocs`),
+CONSTRAINT `funcionariodocs_ibfk_1`
+    FOREIGN KEY (`id_funcionario`)
+    REFERENCES `wegia`.`funcionario` (`id_funcionario`),
+CONSTRAINT `funcionariodocs_ibfk_2`
+    FOREIGN KEY (`id_docfuncional`)
+    REFERENCES `wegia`.`funcionario_docfuncional` (`id_docfuncional`)
+) ENGINE = InnoDB; 
 
 -- -----------------------------------------------------
 -- Table `wegia`.`ientrada`
