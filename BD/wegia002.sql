@@ -135,3 +135,19 @@ INSERT INTO `doacao_boleto_info` (`id`, `api`, `token_api`, `sandbox`, `token_sa
 ('0', 'https://sandbox.boletobancario.com/boletofacil/integration/api/v1/issue-charge?', 'CADASTRA-SE NO GATEWAY DE PAGAMENTO PARA RECEBER UM TOKEN', '', '', '3', '1');
 
 INSERT INTO `doacao_cartao_avulso` (`url`, `id_sistema`) VALUES ('Cadastre sua instituição no gateway de pagamento', 1);
+
+INSERT INTO `funcionario_docfuncional`(`id_docfuncional`, `nome_docfuncional`) VALUES
+(1, 'Carteira de Identidade'),
+(2, 'CPF'),
+(3, 'CTPS'),
+(4, 'PIS/PASEP'),
+(5, 'Título de Eleitor'),
+(6, 'Comprovante de Residência'),
+(7, 'Comprovante de Escolaridade'),
+(8, 'Certificado de Reservista'),
+(9, 'Carteira do SUS'),
+(10, 'Certidão de Nascimento'),
+(11, 'Certidão de Casamento'),
+(12, 'Carteira de Motorista'),
+(13, 'Exame Admissional'),
+(14, 'Registro Profissional');
