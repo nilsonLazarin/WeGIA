@@ -151,3 +151,14 @@ INSERT INTO `funcionario_docfuncional`(`id_docfuncional`, `nome_docfuncional`) V
 (12, 'Carteira de Motorista'),
 (13, 'Exame Admissional'),
 (14, 'Registro Profissional');
+
+INSERT INTO `funcionario_dependente_parentesco` (`id_parentesco`, `descricao`) VALUES 
+(1, 'Companheiro(a)'),
+(2, 'Cônjuge'),
+(3, 'Enteado(a)'),
+(4, 'Ex-cônjuge'),
+(5, 'Filho(a)'),
+(6, 'Irmão(ã)'),
+(7, 'Neto(a)'),
+(8, 'Pais'),
+(9, 'Outra relação de dependência');
