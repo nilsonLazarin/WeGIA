@@ -331,7 +331,7 @@ $(document).ready(function(){
     }
     $(document).on("submit", "#frm_novo_socio", function(e){
         e.preventDefault();
-        var verificaCpf = $("#check_veri_cpf").prop("checked");
+        var DesabilitaverificaCpf = $("#check_veri_cpf").prop("checked");
         var socio_nome = $("#socio_nome").val();
         var pessoa_tipo = $("#pessoa").val();
         var contribuinte = $("#contribuinte").val();
@@ -388,8 +388,7 @@ $(document).ready(function(){
                 }
             });
         }else{
-            console.log(verificaCpf);
-            if(verificaCpf == false){
+            if(DesabilitaverificaCpf == true){
                 $.post("./cadastro_socio.php",{
                     "socio_nome": socio_nome,
                     "pessoa": pessoa_tipo,
