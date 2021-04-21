@@ -432,6 +432,7 @@ $(document).ready(function(){
     });
     $(document).on("submit", "#frm_editar_socio", function(e){
         e.preventDefault();
+        var DesabilitaverificaCpf = $("#check_veri_cpf").prop("checked");
         var id_socio = $("#id_socio").val();
         var socio_nome = $("#socio_nome").val();
         var pessoa_tipo = $("#pessoa").val();
@@ -488,7 +489,44 @@ $(document).ready(function(){
                 }
             });
         }else{
-            modalSimples("Status", "O CPF/CNPJ informado é inválido!", "erro");
+            if(DesabilitaverificaCpf == true){
+                $.post("./processa_edicao_socio.php",{
+                    "id_socio": id_socio,
+                    "socio_nome": socio_nome,
+                    "pessoa": pessoa_tipo,
+                    "contribuinte": contribuinte,
+                    "status": status,
+                    "email": email,
+                    "telefone": telefone,
+                    "cpf_cnpj": cpf_cnpj,
+                    "rua": rua,
+                    "tag": tag,
+                    "numero": numero,
+                    "complemento": complemento,
+                    "bairro": bairro,
+                    "estado": estado,
+                    "cidade": cidade,
+                    "data_nasc": data_nasc,
+                    "cep":cep,
+                    "data_referencia": data_referencia,
+                    "valor_periodo": valor_periodo
+                }).done(function(resultadoCadastro){
+                    var resultado = JSON.parse(resultadoCadastro);
+                    if(resultado){
+                        $(".socioModal").append(
+                            '<div class="overlay"> <i style="font-size: 72px; color: green;" class="fa fa-refresh fa-spin"></i> </div>'
+                        );
+                        setTimeout(function(){
+                            resetaForm("#frm_editar_socio");
+                            window.location.replace("./");
+                        },1000);
+                    }else{
+                        modalSimples("Status", "Erro ao editar sócio, verifique os dados e tente novamente.", "erro");
+                    }
+                });
+            }else{
+                modalSimples("Status", "O CPF/CNPJ informado é inválido!", "erro");
+            }
         }
         
     });

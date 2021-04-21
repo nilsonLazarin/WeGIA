@@ -88,6 +88,10 @@
           </select>
         </div>
         <div class="form-group col-xs-4 cpf_div">
+        <div class="form-check">
+    <input type="checkbox" class="form-check-input" id="check_veri_cpf" checked>
+    <label class="form-check-label" for="exampleCheck1">Deslig. Verif. Cpf</label>
+  </div>
           <label id="label_cpf_cnpj" for="valor">CPF</label>
           <input type="text"  class="form-control" value="<?php echo($cpf_cnpj); ?>" id="cpf_cnpj" name="cpf" required>
         </div>
