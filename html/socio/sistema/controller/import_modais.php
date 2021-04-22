@@ -100,6 +100,16 @@
           </div>
         </div>
         <div class="row">
+        <div class="form-group col-xs-12">
+            <label for="valor">Tipo de contribuição</label>
+            <select class="form-control" name="tipo_contribuicao" id="tipo_contribuicao">
+                    <option value="1">Boleto</option>
+                    <option value="2">Cartão de crédito</option>
+                    <option value="3">Outros</option>
+          </select>
+          </div>
+        </div>
+        <div class="row">
           <div style="margin-bottom:  1em" class="form-group col-xs-12 mb-2">
             <label for="valor">Grupo</label>
             <a onclick="adicionar_tag()">

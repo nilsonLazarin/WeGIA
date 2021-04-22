@@ -154,10 +154,19 @@
             <input type="number" class="form-control" id="valor_periodo" name="valor_periodo" value="<?php echo($valor_periodo); ?>">
           </div>
         </div>
-
+        <div class="row">
+        <div class="form-group col-xs-12">
+            <label for="valor">Tipo de contribuição</label>
+            <select class="form-control" name="tipo_contribuicao" id="tipo_contribuicao">
+                    <option value="1">Boleto</option>
+                    <option value="2">Cartão de crédito</option>
+                    <option value="3">Outros</option>
+          </select>
+          </div>
+        </div>
         <div class="row">
           <div style="margin-bottom:  1em" class="form-group col-xs-12 mb-2">
-            <label for="valor">Tag</label>
+            <label for="valor">Grupo</label>
             <a onclick="adicionar_tag()">
 							<i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i>
 						</a>
