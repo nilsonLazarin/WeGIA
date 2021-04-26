@@ -561,7 +561,10 @@ $docfuncional = json_encode($docfuncional);
           .append($("<tr>")
             .append($("<td>").text(item.nome_docfuncional))
             .append($("<td>").text(item.data))
-            .append($("<td>").append($("<a href='./funcionario/documento_download.php?id_doc="+item.id_fundocs+"' title='Visualizar'><button><i class='far fa-eye'></i></button></a>")))
+            .append($("<td>")
+              .append($("<a href='./funcionario/documento_download.php?id_doc="+item.id_fundocs+"' title='Visualizar'><button><i class='fas fa-download'></i></button></a>"))
+              .append($("<a href='./funcionario/documento_excluir.php?id_doc="+item.id_fundocs+"&id_funcionario=<?= $_GET["id_funcionario"]?>' title='Excluir'><button><i class='fas fa-trash-alt'></i></button></a>"))
+            )
           )
       });
     });

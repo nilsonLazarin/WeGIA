@@ -93,5 +93,14 @@ class DocumentoFuncionario {
 
     // Metodos
 
+    function delete(){
+        try {
+            $pdo = Conexao::connect();
+            $query = $pdo->query("DELETE FROM funcionario_docs WHERE id_fundocs = ".$this->getid_fundocs()." ;");
+            $query = $query->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            $this->setException("Houve um erro ao remover o documento do banco de dados: $e");
+        }
+    }
 
 }
