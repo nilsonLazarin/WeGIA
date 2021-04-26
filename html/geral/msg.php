@@ -226,16 +226,6 @@
 			$flag = $_SESSION[$flagName] ?? "sucesso";
 			$msg = $_SESSION[$msgName];
 			$log = $_SESSION['session_msg_log'] ?? $_SESSION['log'] ?? null;
-
-			if (isset($_SESSION['log'])){
-				unset($_SESSION['log']);
-			}
-			if (isset($_SESSION[$msgName])){
-				unset($_SESSION[$msgName]);
-			}
-			if (isset($_SESSION[$flagName])){
-				unset($_SESSION[$flagName]);
-			}
 			
 			switch ($flag){
 				default:
@@ -255,6 +245,16 @@
 				case "danger":
 					displayError($msg, $log);
 				break;
+			}
+
+			if (isset($_SESSION['session_msg_log'])){
+				unset($_SESSION['session_msg_log']);
+			}
+			if (isset($_SESSION[$msgName])){
+				unset($_SESSION[$msgName]);
+			}
+			if (isset($_SESSION[$flagName])){
+				unset($_SESSION[$flagName]);
 			}
 		}
 	}
