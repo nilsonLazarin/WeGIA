@@ -162,3 +162,10 @@ INSERT INTO `funcionario_dependente_parentesco` (`id_parentesco`, `descricao`) V
 (7, 'Neto(a)'),
 (8, 'Pais'),
 (9, 'Outra relação de dependência');
+
+INSERT INTO `funcionario_docdependentes` (id_docdependentes,nome_docdependente) VALUES 
+(1, 'Certidão de Casamento'),
+(2, 'Certidão de Nascimento'),
+(3, 'Carteira do SUS'),
+(4, 'Carteira de Vacinação'),
+(5, 'Comprovante de Matrícula Escolar');
