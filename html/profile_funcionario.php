@@ -1784,17 +1784,19 @@ $docfuncional = json_encode($docfuncional);
                               <div class="modal-body" style="padding: 15px 40px">
                                 <div class="form-group" style="display: grid;">
                                   <label class="my-1 mr-2" for="tipoDocumento">Tipo de Documento</label><br>
-                                  <select name="id_docfuncional" class="custom-select my-1 mr-sm-2" id="tipoDocumento" required>
-                                    <option selected disabled>Selecionar...</option>
-                                    <?php
-                                      foreach ($pdo->query("SELECT * FROM funcionario_docfuncional;")->fetchAll(PDO::FETCH_ASSOC) as $item){
-                                        echo("
-                                        <option value='".$item["id_docfuncional"]."' >".$item["nome_docfuncional"]."</option>
-                                        ");
-                                      }
-                                    ?>
-                                  </select>
-                                  <a onclick="adicionarDocFuncional()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
+                                  <div style="display: flex;">
+                                    <select name="id_docfuncional" class="custom-select my-1 mr-sm-2" id="tipoDocumento" required>
+                                      <option selected disabled>Selecionar...</option>
+                                      <?php
+                                        foreach ($pdo->query("SELECT * FROM funcionario_docfuncional;")->fetchAll(PDO::FETCH_ASSOC) as $item){
+                                          echo("
+                                          <option value='".$item["id_docfuncional"]."' >".$item["nome_docfuncional"]."</option>
+                                          ");
+                                        }
+                                      ?>
+                                    </select>
+                                    <a onclick="adicionarDocFuncional()" style="margin: 0 20px;"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
+                                  </div>
                                 </div>
                                 <div class="form-group">
                                   <label for="arquivoDocumento">Arquivo do Documento</label>
