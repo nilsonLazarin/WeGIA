@@ -1794,6 +1794,7 @@ $docfuncional = json_encode($docfuncional);
                                       }
                                     ?>
                                   </select>
+                                  <a onclick="adicionarDocFuncional()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
                                 </div>
                                 <div class="form-group">
                                   <label for="arquivoDocumento">Arquivo do Documento</label>
@@ -1871,6 +1872,51 @@ $docfuncional = json_encode($docfuncional);
       if (apoio == 0) {
         alert("Editado com sucesso!");
       }
+    }
+
+    function gerarDocFuncional() {
+      url = './funcionario/documento_listar.php';
+      $.ajax({
+        data: '',
+        type: "POST",
+        url: url,
+        async: true,
+        success: function(response) {
+          var situacoes = response;
+          $('#tipoDocumento').empty();
+          $('#tipoDocumento').append('<option selected disabled>Selecionar...</option>');
+          $.each(situacoes, function(i, item) {
+            $('#tipoDocumento').append('<option value="' + item.id_docfuncional + '">' + item.nome_docfuncional + '</option>');
+          });
+        },
+        dataType: 'json'
+      });
+    }
+
+    function adicionarDocFuncional() {
+      url = './funcionario/documento_adicionar.php';
+      var nome_docfuncional = window.prompt("Cadastre um novo tipo de Documento:");
+      console.log(nome_docfuncional);
+      if (!nome_docfuncional) {
+        return
+      }
+      nome_docfuncional = nome_docfuncional.trim();
+      if (nome_docfuncional == '') {
+        return
+      }
+
+      data = 'nome_docfuncional=' + nome_docfuncional;
+
+      console.log(data);
+      $.ajax({
+        type: "POST",
+        url: url,
+        data: data,
+        success: function(response) {
+          gerarDocFuncional();
+        },
+        dataType: 'text'
+      })
     }
   </script>
 </body>
