@@ -29,7 +29,7 @@
     if(!isset($tag) or ($tag == null) or ($tag == "none")){
         $tag = "null";
     }
-
+    var_dump($_REQUEST);
     // Lidando com aspas simples e duplas
     $socio_nome = addslashes($socio_nome);
     $cidade = addslashes($cidade);
@@ -39,20 +39,51 @@
     $complemento = addslashes($complemento);
 
     // si = sem informação
+    echo("INSERT INTO `pessoa`(`cpf`, `nome`, `telefone`, `data_nascimento`, `cep`, `estado`, `cidade`, `bairro`, `logradouro`, `numero_endereco`, `complemento`) VALUES ('$cpf_cnpj', '$socio_nome',  '$telefone', $data_nasc, '$cep', '$estado', '$cidade', '$bairro', '$rua', '$numero', '$complemento' )");
     if($resultado = mysqli_query($conexao, "INSERT INTO `pessoa`(`cpf`, `nome`, `telefone`, `data_nascimento`, `cep`, `estado`, `cidade`, `bairro`, `logradouro`, `numero_endereco`, `complemento`) VALUES ('$cpf_cnpj', '$socio_nome',  '$telefone', $data_nasc, '$cep', '$estado', '$cidade', '$bairro', '$rua', '$numero', '$complemento' )")){
         $id_pessoa = mysqli_insert_id($conexao);
         switch($pessoa){
             case "juridica": 
             if($contribuinte == "mensal"){
-                $id_sociotipo = 3;
+                if($tipo_contribuicao == 2){
+                    $id_sociotipo = 23;
+                }else if($tipo_contribuicao == 3){
+                    $id_sociotipo = 43;
+                }else{
+                    $id_sociotipo = 3;
+                }
             }else if($contribuinte == "casual"){
-                $id_sociotipo = 1;
+                if($tipo_contribuicao == 2){
+                    $id_sociotipo = 21;
+                }else if($tipo_contribuicao == 3){
+                    $id_sociotipo = 41;
+                }else{
+                    $id_sociotipo = 1;
+                }
             }else if($contribuinte == "bimestral"){
-                $id_sociotipo = 7;
+                if($tipo_contribuicao == 2){
+                    $id_sociotipo = 25;
+                }else if($tipo_contribuicao == 3){
+                    $id_sociotipo = 45;
+                }else{
+                    $id_sociotipo = 7;
+                }
             }else if($contribuinte == "trimestral"){
-                $id_sociotipo = 9;
+                if($tipo_contribuicao == 2){
+                    $id_sociotipo = 27;
+                }else if($tipo_contribuicao == 3){
+                    $id_sociotipo = 47;
+                }else{
+                    $id_sociotipo = 9;
+                }
             }else if($contribuinte == "semestral"){
-                $id_sociotipo = 11;
+                if($tipo_contribuicao == 2){
+                    $id_sociotipo = 29;
+                }else if($tipo_contribuicao == 3){
+                    $id_sociotipo = 49;
+                }else{
+                    $id_sociotipo = 11;
+                }
             }
             
             if($contribuinte == null || $contribuinte == "si" || $contribuinte == ""){
@@ -61,15 +92,45 @@
 
             case "fisica": 
             if($contribuinte == "mensal"){
-                $id_sociotipo = 2;
+                if($tipo_contribuicao == 2){
+                    $id_sociotipo = 22;
+                }else if($tipo_contribuicao == 3){
+                    $id_sociotipo = 42;
+                }else{
+                    $id_sociotipo = 2;
+                }
             }else if($contribuinte == "casual"){
-                $id_sociotipo = 0;
+                if($tipo_contribuicao == 2){
+                    $id_sociotipo = 20;
+                }else if($tipo_contribuicao == 3){
+                    $id_sociotipo = 40;
+                }else{
+                    $id_sociotipo = 0;
+                }
             }else if($contribuinte == "bimestral"){
-                $id_sociotipo = 6;
+                if($tipo_contribuicao == 2){
+                    $id_sociotipo = 24;
+                }else if($tipo_contribuicao == 3){
+                    $id_sociotipo = 44;
+                }else{
+                    $id_sociotipo = 6;
+                }
             }else if($contribuinte == "trimestral"){
-                $id_sociotipo = 8;
+                if($tipo_contribuicao == 2){
+                    $id_sociotipo = 26;
+                }else if($tipo_contribuicao == 3){
+                    $id_sociotipo = 46;
+                }else{
+                    $id_sociotipo = 8;
+                }
             }else if($contribuinte == "semestral"){
-                $id_sociotipo = 10;
+                if($tipo_contribuicao == 2){
+                    $id_sociotipo = 28;
+                }else if($tipo_contribuicao == 3){
+                    $id_sociotipo = 48;
+                }else{
+                    $id_sociotipo = 10;
+                }
             }
             
             
@@ -77,7 +138,7 @@
                 $id_sociotipo = 4;
             }  break;
         }
-
+        echo("INSERT INTO `socio`(`id_pessoa`, `id_sociostatus`, `id_sociotipo`, `email`, `valor_periodo`, `data_referencia`, `id_sociotag`) VALUES ($id_pessoa, $status, $id_sociotipo, '$email', $valor_periodo, $data_referencia, $tag)");
         $resultado = mysqli_query($conexao, "INSERT INTO `socio`(`id_pessoa`, `id_sociostatus`, `id_sociotipo`, `email`, `valor_periodo`, `data_referencia`, `id_sociotag`) VALUES ($id_pessoa, $status, $id_sociotipo, '$email', $valor_periodo, $data_referencia, $tag)");
         if(mysqli_affected_rows($conexao)) $cadastrado = true;
 
