@@ -439,8 +439,20 @@ CONSTRAINT `funcionariodocs_ibfk_2`
 CREATE TABLE IF NOT EXISTS `wegia`.`funcionario_dependente_parentesco` (
   `id_parentesco` INT NOT NULL AUTO_INCREMENT,
   `descricao` VARCHAR(100) NOT NULL,
-  PRIMARY KEY (`id_parentesco`))
+  PRIMARY KEY (`id_parentesco`),
+  UNIQUE INDEX `id_parentesco_UNIQUE` (`id_parentesco` ASC),
+  UNIQUE INDEX `descricao_UNIQUE` (`descricao` ASC))
 ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `wegia`.`funcionario_docdependentes` (
+  `id_docdependentes` INT NOT NULL AUTO_INCREMENT,
+  `nome_docdependente` VARCHAR(50) NOT NULL,
+  `descricao_docdependente` VARCHAR(256) NULL,
+  PRIMARY KEY (`id_docdependentes`),
+  UNIQUE INDEX `id_docdependentes_UNIQUE` (`id_docdependentes` ASC),
+  UNIQUE INDEX `nome_docdependente_UNIQUE` (`nome_docdependente` ASC))
+ENGINE = InnoDB;
+
 
 -- -----------------------------------------------------
 -- Table `wegia`.`funcionario_dependentes`
@@ -450,9 +462,6 @@ CREATE TABLE IF NOT EXISTS `wegia`.`funcionario_dependentes` (
   `id_funcionario` INT(11) NOT NULL,
   `id_pessoa` INT(11) NOT NULL,
   `id_parentesco` INT NOT NULL,
-  `extensao_arquivo` VARCHAR(45) NULL,
-  `nome_arquivo` VARCHAR(256) NULL,
-  `documento` LONGBLOB NULL,
   PRIMARY KEY (`id_dependente`),
   INDEX `fk_funcionario_dependente_funcionario1_idx` (`id_funcionario` ASC),
   INDEX `fk_funcionario_dependente_pessoa1_idx` (`id_pessoa` ASC),
@@ -473,6 +482,31 @@ CREATE TABLE IF NOT EXISTS `wegia`.`funcionario_dependentes` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `wegia`.`funcionario_dependentes_docs` (
+  `id_doc` INT NOT NULL AUTO_INCREMENT,
+  `id_dependente` INT NOT NULL,
+  `id_docdependentes` INT NOT NULL,
+  `data` TIMESTAMP NOT NULL,
+  `extensao_arquivo` VARCHAR(50) NOT NULL,
+  `nome_arquivo` VARCHAR(256) NOT NULL,
+  `arquivo` LONGBLOB NOT NULL,
+  PRIMARY KEY (`id_doc`),
+  UNIQUE INDEX `id_doc_UNIQUE` (`id_doc` ASC),
+  INDEX `fk_funcionario_dependente_documentos_funcionario_dependente_idx` (`id_dependente` ASC),
+  INDEX `fk_funcionario_dependente_docs_funcionario_docdependentes1_idx` (`id_docdependentes` ASC),
+  CONSTRAINT `fk_funcionario_dependente_documentos_funcionario_dependentes1`
+    FOREIGN KEY (`id_dependente`)
+    REFERENCES `wegia`.`funcionario_dependentes` (`id_dependente`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_funcionario_dependente_docs_funcionario_docdependentes1`
+    FOREIGN KEY (`id_docdependentes`)
+    REFERENCES `wegia`.`funcionario_docdependentes` (`id_docdependentes`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
 
 -- -----------------------------------------------------
 -- Table `wegia`.`ientrada`
