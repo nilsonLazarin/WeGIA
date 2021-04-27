@@ -29,7 +29,7 @@
     if(!isset($tag) or ($tag == null) or ($tag == "none")){
         $tag = "null";
     }
-    var_dump($_REQUEST);
+    var_dump($_POST);
     // Lidando com aspas simples e duplas
     $socio_nome = addslashes($socio_nome);
     $cidade = addslashes($cidade);
