@@ -47,32 +47,8 @@ if (file_exists($config_path)) {
   require_once($config_path);
 }
 
-$conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-$id_pessoa = $_SESSION['id_pessoa'];
-$resultado = mysqli_query($conexao, "SELECT * FROM funcionario WHERE id_pessoa=$id_pessoa");
-if (!is_null($resultado)) {
-  $id_cargo = mysqli_fetch_array($resultado);
-  if (!is_null($id_cargo)) {
-    $id_cargo = $id_cargo['id_cargo'];
-  }
-  $resultado = mysqli_query($conexao, "SELECT * FROM permissao WHERE id_cargo=$id_cargo and id_recurso=11");
-  if (!is_bool($resultado) and mysqli_num_rows($resultado)) {
-    $permissao = mysqli_fetch_array($resultado);
-    if ($permissao['id_acao'] < 7) {
-      $msg = "Você não tem as permissões necessárias para essa página.";
-      header("Location: ./home.php?msg_c=$msg");
-    }
-    $permissao = $permissao['id_acao'];
-  } else {
-    $permissao = 1;
-    $msg = "Você não tem as permissões necessárias para essa página.";
-    header("Location: ./home.php?msg_c=$msg");
-  }
-} else {
-  $permissao = 1;
-  $msg = "Você não tem as permissões necessárias para essa página.";
-  header("Location: ./home.php?msg_c=$msg");
-}
+require_once "./permissao/permissao.php";
+permissao($_SESSION['id_pessoa'], 11, 7);
 
 $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 $situacao = $mysqli->query("SELECT * FROM situacao");
@@ -99,6 +75,16 @@ require_once "./geral/msg.php";
 $docfuncional = $pdo->query("SELECT * FROM funcionario_docs f JOIN funcionario_docfuncional docf ON f.id_docfuncional = docf.id_docfuncional WHERE id_funcionario = ".$_GET['id_funcionario']);
 $docfuncional = $docfuncional->fetchAll(PDO::FETCH_ASSOC);
 $docfuncional = json_encode($docfuncional);
+
+$dependente = $pdo->query("SELECT 
+p.nome AS nome, p.cpf AS cpf, par.descricao AS parentesco
+FROM funcionario_dependentes fdep
+LEFT JOIN funcionario f ON f.id_funcionario = fdep.id_funcionario
+LEFT JOIN pessoa p ON p.id_pessoa = fdep.id_pessoa
+LEFT JOIN funcionario_dependente_parentesco par ON par.id_parentesco = fdep.id_parentesco
+WHERE fdep.id_funcionario = ".$_GET['id_funcionario']);
+$dependente = $dependente->fetchAll(PDO::FETCH_ASSOC);
+$dependente = json_encode($dependente);
 
 ?>
 <!doctype html>
@@ -576,7 +562,7 @@ $docfuncional = json_encode($docfuncional);
             .append($("<td>").text(item.nome_docfuncional))
             .append($("<td>").text(item.data))
             .append($("<td style='display: flex; justify-content: space-evenly;'>")
-              .append($("<a href='./funcionario/documento_download.php?id_doc="+item.id_fundocs+"' title='Visualizar'><button><i class='fas fa-download'></i></button></a>"))
+              .append($("<a href='./funcionario/documento_download.php?id_doc="+item.id_fundocs+"' title='Visualizar ou Baixar'><button><i class='fas fa-download'></i></button></a>"))
               .append($("<a href='./funcionario/documento_excluir.php?id_doc="+item.id_fundocs+"&id_funcionario=<?= $_GET["id_funcionario"]?>' title='Excluir'><button><i class='fas fa-trash-alt'></i></button></a>"))
             )
           )
@@ -585,6 +571,30 @@ $docfuncional = json_encode($docfuncional);
 
     $(function () {
 			$('#datatable-docfuncional').DataTable( {
+				"order": [[ 0, "asc" ]]
+			} );
+		});
+
+    $(function(){
+      var dependente = <?= $dependente?>;
+
+      console.log(dependente);
+      $.each(dependente,function(i, dependente) {
+        $("#dep-tab")
+          .append($("<tr>")
+            .append($("<td>").text(dependente.nome))
+            .append($("<td>").text(dependente.cpf))
+            .append($("<td>").text(dependente.parentesco))
+            // .append($("<td style='display: flex; justify-content: space-evenly;'>")
+            //   .append($("<a href='./funcionario/documento_download.php?id_doc="+item.id_fundocs+"' title='Visualizar ou Baixar'><button><i class='fas fa-download'></i></button></a>"))
+            //   .append($("<a href='./funcionario/documento_excluir.php?id_doc="+item.id_fundocs+"&id_funcionario=<?= $_GET["id_funcionario"]?>' title='Excluir'><button><i class='fas fa-trash-alt'></i></button></a>"))
+            // )
+          )
+      });
+    });
+
+    $(function () {
+			$('#datatable-dependente').DataTable( {
 				"order": [[ 0, "asc" ]]
 			} );
 		});
@@ -1076,6 +1086,9 @@ $docfuncional = json_encode($docfuncional);
                 </li>
                 <li>
                   <a href="#documentos" data-toggle="tab">Documentação</a>
+                </li>
+                <li>
+                  <a href="#dependentes" data-toggle="tab">Dependentes</a>
                 </li>
               </ul>
               <div class="tab-content">
@@ -1836,6 +1849,30 @@ $docfuncional = json_encode($docfuncional);
                       </div>
 
 
+                    </div>
+                </div>
+
+                <div id="dependentes" class="tab-pane">
+                  <section class="panel">
+                    <header class="panel-heading">
+                      <div class="panel-actions">
+                        <a href="#" class="fa fa-caret-down"></a>
+                      </div>
+                      <h2 class="panel-title">Dependentes</h2>
+                    </header>
+                    <div class="panel-body">
+                      <table class="table table-bordered table-striped mb-none" id="datatable-dependente">
+                        <thead>
+                          <tr>
+                            <th>Nome</th>
+                            <th>CPF</th>
+                            <th>Parentesco</th>
+                          </tr>
+                        </thead>
+                        <tbody id="dep-tab">
+
+                        </tbody>
+                      </table>
                     </div>
                 </div>
 
