@@ -409,7 +409,8 @@ $(document).ready(function(){
                     "data_nasc": data_nasc,
                     "cep":cep,
                     "data_referencia": data_referencia,
-                    "valor_periodo": valor_periodo
+                    "valor_periodo": valor_periodo,
+                    "tipo_contribuicao": tipo_contribuicao
                 }).done(function(resultadoCadastro){
                     var resultado = JSON.parse(resultadoCadastro);
                     if(resultado){

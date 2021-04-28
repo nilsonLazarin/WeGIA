@@ -168,4 +168,5 @@ INSERT INTO `funcionario_docdependentes` (id_docdependentes,nome_docdependente) 
 (2, 'Certidão de Nascimento'),
 (3, 'Carteira do SUS'),
 (4, 'Carteira de Vacinação'),
-(5, 'Comprovante de Matrícula Escolar');
+(5, 'Comprovante de Matrícula Escolar'),
+(6, 'CPF');
