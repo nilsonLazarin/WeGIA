@@ -438,26 +438,40 @@ $docfuncional = json_encode($docfuncional);
         $("#cargo").val(item.id_cargo).prop('disabled', true);
 
         //CARGA HORÁRIA
-        $("#escala").text("Escala: " + (item.escala_descricao || "Sem informação"));
-        $("#tipo").text("Tipo: " + (item.tipo_descricao || "Sem informação"));
+
+
+        // $("#escala").text("Escala: " + (item.escala_descricao || "Sem informação"));
+        // $("#tipo").text("Tipo: " + (item.tipo_descricao || "Sem informação"));
         $("#dias_trabalhados").text("Dias trabalhados: " + (item.dias_trabalhados || "Sem informação"));
         if (item.dias_trabalhados == "Plantão") {
           $("#dias_trabalhados").text("Dias trabalhados: " + (item.dias_trabalhados || "Sem informação") + " 12/36");
         }
         $("#dias_folga").text("Dias de folga: " + (item.folga || "Sem informação"));
-        $("#entrada1").text("Primeira entrada: " + (item.entrada1 || "Sem informação"));
-        $("#saida1").text("Primeira Saída: " + (item.saida1 || "Sem informação"));
-        $("#entrada2").text("Segunda entrada: " + (item.entrada2 || "Sem informação"));
-        $("#saida2").text("Segunda saída: " + (item.saida2 || "Sem informação"));
+        // $("#entrada1").text("Primeira entrada: " + (item.entrada1 || "Sem informação"));
+        // $("#saida1").text("Primeira Saída: " + (item.saida1 || "Sem informação"));
+        // $("#entrada2").text("Segunda entrada: " + (item.entrada2 || "Sem informação"));
+        // $("#saida2").text("Segunda saída: " + (item.saida2 || "Sem informação"));
         $("#total").text("Carga horária diária: " + (item.total || "Sem informação"));
         $("#carga_horaria_mensal").text("Carga horária mensal: " + (item.carga_horaria || "Sem informação"));
 
-        $("#escala_input").val(item.escala);
-        $("#tipoCargaHoraria_input").val(item.tipo);
-        $("#entrada1_input").val(item.entrada1);
-        $("#saida1_input").val(item.saida1);
-        $("#entrada2_input").val(item.entrada2);
-        $("#saida2_input").val(item.saida2);
+        if (item.escala){
+          $("#escala_input").val(item.escala);
+        }
+        if (item.tipo){
+          $("#tipoCargaHoraria_input").val(item.tipo);
+        }
+        if (item.entrada1){
+          $("#entrada1_input").val(item.entrada1);
+        }
+        if (item.saida1){
+          $("#saida1_input").val(item.saida1);
+        }
+        if (item.entrada2){
+          $("#entrada2_input").val(item.entrada2);
+        }
+        if (item.saida2){
+          $("#saida2_input").val(item.saida2);
+        }
 
         var dia_trabalhado = (item.dias_trabalhados ? item.dias_trabalhados.split(",") : []);
         var dia_folga = (item.folga ? item.folga.split(",") : []);
@@ -1058,10 +1072,7 @@ $docfuncional = json_encode($docfuncional);
                   <a href="#epi" data-toggle="tab">Epi</a>
                 </li>
                 <li>
-                  <a href="#carga_horaria" data-toggle="tab">Carga Horária</a>
-                </li>
-                <li>
-                  <a href="#editar_cargaHoraria" data-toggle="tab">Editar carga</a>
+                  <a href="#editar_cargaHoraria" data-toggle="tab">Carga Horária</a>
                 </li>
                 <li>
                   <a href="#documentos" data-toggle="tab">Documentação</a>
@@ -1362,6 +1373,11 @@ $docfuncional = json_encode($docfuncional);
                   </div>
                 </div>
 
+                <!-- 
+                  Aba de benefícios do funcionário
+
+                -->
+
                 <div id="beneficio" class="tab-pane">
                   <section class="panel">
                     <header class="panel-heading">
@@ -1470,6 +1486,11 @@ $docfuncional = json_encode($docfuncional);
                     </div>
                 </div>
 
+                <!-- 
+                  Aba epi do funcionario
+
+                -->
+
                 <div id="epi" class="tab-pane">
                   <section class="panel">
                     <header class="panel-heading">
@@ -1563,177 +1584,176 @@ $docfuncional = json_encode($docfuncional);
                   </section>
                 </div>
 
-                <div id="carga_horaria" class="tab-pane">
-                  <section class="panel">
-                    <div class="panel-body" style="display: block;">
-                      <ul class="nav nav-children" id="info">
-                        <li id="cap">Carga horária:</li></br>
-                        <li id="escala">Escala:</li></br>
-                        <li id="tipo">Tipo:</li></br>
-                        <li id="dias_trabalhados">Dias trabalhados:</li></br>
-                        <li id="dias_folga">Dias de folga:</li></br>
-                        <li id="entrada1">Primeira entrada:</li></br>
-                        <li id="saida1">Primeira saída</li></br>
-                        <li id="entrada2">Segunda entrada:</li></br>
-                        <li id="saida2">Segunda saída:</li></br>
-                        <li id="total">Carga horária diária:</li></br>
-                        <li id="carga_horaria_mensal">Carga horária mensal:</li>
-                      </ul>
-                    </div>
-                  </section>
-                </div>
+                <!-- 
+                  Aba de carga horária do funcionário
+
+                -->
 
                 <div id="editar_cargaHoraria" class="tab-pane">
                   <section class="panel">
-                    <form class="form-horizontal" method="post" action="../controle/control.php">
-                      <h4 class="mb-xlg doch4">Carga Horária</h4>
-
-                      <div class="form-group">
-                        <label class="col-md-3 control-label">Escala</label>
-                        <div class="col-md-6">
-                          <select class="form-control input-lg mb-md" name="escala" id="escala_input">
-                            <option selected disabled value="">Selecionar</option>
-                            <?php
-                            $pdo = Conexao::connect();
-                            $escala = $pdo->query("SELECT * FROM escala_quadro_horario;")->fetchAll(PDO::FETCH_ASSOC);
-                            foreach ($escala as $key => $value) {
-                              echo ("<option value=" . $value["id_escala"] . ">" . $value["descricao"] . "</option>");
-                            }
-                            ?>
-                          </select>
-                        </div>
-                        <a href="./quadro_horario/adicionar_escala.php"><i class="fas fa-plus w3-xlarge"></i></a>
-                      </div>
-                      <div class="form-group">
-                        <label class="col-md-3 control-label">Tipo</label>
-                        <div class="col-md-6">
-                          <select class="form-control input-lg mb-md" name="tipoCargaHoraria" id="tipoCargaHoraria_input">
-                            <option selected disabled value="">Selecionar</option>
-                            <?php
-                            $pdo = Conexao::connect();
-                            $tipo = $pdo->query("SELECT * FROM tipo_quadro_horario;")->fetchAll(PDO::FETCH_ASSOC);
-                            foreach ($tipo as $key => $value) {
-                              echo ("<option value=" . $value["id_tipo"] . ">" . $value["descricao"] . "</option>");
-                            }
-                            ?>
-                          </select>
-                        </div>
-                        <a href="./quadro_horario/adicionar_tipo_quadro_horario.php"><i class="fas fa-plus w3-xlarge"></i></a>
-                      </div>
-                      <div class="form-group">
-                        <label class="col-md-3 control-label">Primeira entrada</label>
-                        <div class="col-md-3">
-                          <input type="time" placeholder="07:25" class="form-control" name="entrada1" id="entrada1_input">
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="col-md-3 control-label">Primeira saída</label>
-                        <div class="col-md-3">
-                          <input type="time" placeholder="07:25" class="form-control" name="saida1" id="saida1_input">
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="col-md-3 control-label">Segunda entrada</label>
-                        <div class="col-md-3">
-                          <input type="time" placeholder="07:25" class="form-control" name="entrada2" id="entrada2_input">
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="col-md-3 control-label">Segunda saída</label>
-                        <div class="col-md-3">
-                          <input type="time" placeholder="07:25" class="form-control" name="saida2" id="saida2_input">
-                        </div>
-                      </div>
-                      <div class="text-center">
-                        <h3 class="col-md-12">Dias Trabalhados</h3>
-                        <div class="btn-group ">
-                          <label class="btn btn-primary ">
-                            <input type="checkbox" id="diaTrabalhado_Seg" name="trabSeg" value="Seg">Seg
-                            <span class="fa fa-check"></span>
-                          </label>
-                          <label class="btn btn-primary">
-                            <input type="checkbox" id="diaTrabalhado_Ter" name="trabTer" value="Ter"> Ter
-                            <span class="fa fa-check"></span>
-                          </label>
-                          <label class="btn btn-primary">
-                            <input type="checkbox" id="diaTrabalhado_Qua" name="trabQua" value="Qua"> Qua
-                            <span class="fa fa-check"></span>
-                          </label>
-                          <label class="btn btn-primary">
-                            <input type="checkbox" id="diaTrabalhado_Qui" name="trabQui" value="Qui"> Qui
-                            <span class="fa fa-check"></span>
-                          </label>
-                          <label class="btn btn-primary">
-                            <input type="checkbox" id="diaTrabalhado_Sex" name="trabSex" value="Sex"> Sex
-                            <span class="fa fa-check"></span>
-                          </label>
-                          <label class="btn btn-primary">
-                            <input type="checkbox" id="diaTrabalhado_Sab" name="trabSab" value="Sab"> Sab
-                            <span class="fa fa-check"></span>
-                          </label>
-                          <label class="btn btn-primary">
-                            <input type="checkbox" id="diaTrabalhado_Dom" name="trabDom" value="Dom"> Dom
-                            <span class="fa fa-check"></span>
-                          </label>
-                          <label class="btn btn-primary">
-                            <input type="checkbox" id="diaTrabalhado_Plantão" name="plantao" value="Plantão"> Plantão 12/36
-                            <span class="fa fa-check"></span>
-                          </label>
-                        </div>
+                    <header class="panel-heading">
+                      <div class="panel-actions">
+                        <a href="#" class="fa fa-caret-down"></a>
                       </div>
 
-                      <div class="text-center">
-                        <h3 class="col-md-12">Dias de Folga</h3>
-                        <div class="btn-group ">
-                          <label class="btn btn-primary ">
-                            <input type="checkbox" id="diaFolga_Seg" name="folgaSeg" value="Seg">Seg
-                            <span class="fa fa-check"></span>
-                          </label>
-                          <label class="btn btn-primary">
-                            <input type="checkbox" id="diaFolga_Ter" name="folgaTer" value="Ter"> Ter
-                            <span class="fa fa-check"></span>
-                          </label>
-                          <label class="btn btn-primary">
-                            <input type="checkbox" id="diaFolga_Qua" name="folgaQua" value="Qua"> Qua
-                            <span class="fa fa-check"></span>
-                          </label>
-                          <label class="btn btn-primary">
-                            <input type="checkbox" id="diaFolga_Qui" name="folgaQui" value="Qui"> Qui
-                            <span class="fa fa-check"></span>
-                          </label>
-                          <label class="btn btn-primary">
-                            <input type="checkbox" id="diaFolga_Sex" name="folgaSex" value="Sex"> Sex
-                            <span class="fa fa-check"></span>
-                          </label>
-                          <label class="btn btn-primary">
-                            <input type="checkbox" id="diaFolga_Sab" name="folgaSab" value="Sab"> Sab
-                            <span class="fa fa-check"></span>
-                          </label>
-                          <label class="btn btn-primary">
-                            <input type="checkbox" id="diaFolga_Dom" name="folgaDom" value="Dom"> Dom
-                            <span class="fa fa-check"></span>
-                          </label>
-                          <label class="btn btn-primary">
-                            <input type="checkbox" id="diaTrabalhado" name="folgaAlternado" value="Alternado"> Alternado
-                            <span class="fa fa-check"></span>
-                          </label>
+                      <h2 class="panel-title">Carga Horária</h2>
+                    </header>
+                    <div class="panel-body">
+                      <form class="form-horizontal" method="post" action="../controle/control.php">
+                        <div class="form-group">
+                          <label class="col-md-3 control-label">Escala</label>
+                          <div class="col-md-6">
+                            <select class="form-control input-lg mb-md" name="escala" id="escala_input">
+                              <option id="escala_default" selected disabled value="">Selecionar</option>
+                              <?php
+                              $pdo = Conexao::connect();
+                              $escala = $pdo->query("SELECT * FROM escala_quadro_horario;")->fetchAll(PDO::FETCH_ASSOC);
+                              foreach ($escala as $key => $value) {
+                                echo ("<option id='escala_".$value["id_escala"]."' value=" . $value["id_escala"] . ">" . $value["descricao"] . "</option>");
+                              }
+                              ?>
+                            </select>
+                          </div>
+                          <a href="./quadro_horario/adicionar_escala.php"><i class="fas fa-plus w3-xlarge"></i></a>
                         </div>
-                      </div>
-                      <hr class="dotted short">
-                      <div class="panel-footer">
-                        <div class="row">
-                          <div class="col-md-9 col-md-offset-3">
-
-                            <input type="hidden" name="nomeClasse" value="FuncionarioControle">
-                            <input type="hidden" name="metodo" value="alterarCargaHoraria">
-                            <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
-                            <input id="enviarCarga" type="submit" class="btn btn-primary" value="Alterar carga">
-
-                            <input type="reset" class="btn btn-default">
+                        <div class="form-group">
+                          <label class="col-md-3 control-label">Tipo</label>
+                          <div class="col-md-6">
+                            <select class="form-control input-lg mb-md" name="tipoCargaHoraria" id="tipoCargaHoraria_input">
+                              <option selected disabled value="">Selecionar</option>
+                              <?php
+                              $pdo = Conexao::connect();
+                              $tipo = $pdo->query("SELECT * FROM tipo_quadro_horario;")->fetchAll(PDO::FETCH_ASSOC);
+                              foreach ($tipo as $key => $value) {
+                                echo ("<option value=" . $value["id_tipo"] . ">" . $value["descricao"] . "</option>");
+                              }
+                              ?>
+                            </select>
+                          </div>
+                          <a href="./quadro_horario/adicionar_tipo_quadro_horario.php"><i class="fas fa-plus w3-xlarge"></i></a>
+                        </div>
+                        <div class="form-group">
+                          <label class="col-md-3 control-label">Primeira entrada</label>
+                          <div class="col-md-3">
+                            <input type="time" placeholder="07:25" class="form-control" name="entrada1" id="entrada1_input">
                           </div>
                         </div>
-                      </div>
-                    </form>
+                        <div class="form-group">
+                          <label class="col-md-3 control-label">Primeira saída</label>
+                          <div class="col-md-3">
+                            <input type="time" placeholder="07:25" class="form-control" name="saida1" id="saida1_input">
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label class="col-md-3 control-label">Segunda entrada</label>
+                          <div class="col-md-3">
+                            <input type="time" placeholder="07:25" class="form-control" name="entrada2" id="entrada2_input">
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label class="col-md-3 control-label">Segunda saída</label>
+                          <div class="col-md-3">
+                            <input type="time" placeholder="07:25" class="form-control" name="saida2" id="saida2_input">
+                          </div>
+                        </div>
+                        <div class="text-center">
+                          <h3 class="col-md-12">Dias Trabalhados</h3>
+                          <div class="btn-group ">
+                            <label class="btn btn-primary ">
+                              <input type="checkbox" id="diaTrabalhado_Seg" name="trabSeg" value="Seg">Seg
+                              <span class="fa fa-check"></span>
+                            </label>
+                            <label class="btn btn-primary">
+                              <input type="checkbox" id="diaTrabalhado_Ter" name="trabTer" value="Ter"> Ter
+                              <span class="fa fa-check"></span>
+                            </label>
+                            <label class="btn btn-primary">
+                              <input type="checkbox" id="diaTrabalhado_Qua" name="trabQua" value="Qua"> Qua
+                              <span class="fa fa-check"></span>
+                            </label>
+                            <label class="btn btn-primary">
+                              <input type="checkbox" id="diaTrabalhado_Qui" name="trabQui" value="Qui"> Qui
+                              <span class="fa fa-check"></span>
+                            </label>
+                            <label class="btn btn-primary">
+                              <input type="checkbox" id="diaTrabalhado_Sex" name="trabSex" value="Sex"> Sex
+                              <span class="fa fa-check"></span>
+                            </label>
+                            <label class="btn btn-primary">
+                              <input type="checkbox" id="diaTrabalhado_Sab" name="trabSab" value="Sab"> Sab
+                              <span class="fa fa-check"></span>
+                            </label>
+                            <label class="btn btn-primary">
+                              <input type="checkbox" id="diaTrabalhado_Dom" name="trabDom" value="Dom"> Dom
+                              <span class="fa fa-check"></span>
+                            </label>
+                            <label class="btn btn-primary">
+                              <input type="checkbox" id="diaTrabalhado_Plantão" name="plantao" value="Plantão"> Plantão 12/36
+                              <span class="fa fa-check"></span>
+                            </label>
+                          </div>
+                        </div>
+
+                        <div class="text-center">
+                          <h3 class="col-md-12">Dias de Folga</h3>
+                          <div class="btn-group ">
+                            <label class="btn btn-primary ">
+                              <input type="checkbox" id="diaFolga_Seg" name="folgaSeg" value="Seg">Seg
+                              <span class="fa fa-check"></span>
+                            </label>
+                            <label class="btn btn-primary">
+                              <input type="checkbox" id="diaFolga_Ter" name="folgaTer" value="Ter"> Ter
+                              <span class="fa fa-check"></span>
+                            </label>
+                            <label class="btn btn-primary">
+                              <input type="checkbox" id="diaFolga_Qua" name="folgaQua" value="Qua"> Qua
+                              <span class="fa fa-check"></span>
+                            </label>
+                            <label class="btn btn-primary">
+                              <input type="checkbox" id="diaFolga_Qui" name="folgaQui" value="Qui"> Qui
+                              <span class="fa fa-check"></span>
+                            </label>
+                            <label class="btn btn-primary">
+                              <input type="checkbox" id="diaFolga_Sex" name="folgaSex" value="Sex"> Sex
+                              <span class="fa fa-check"></span>
+                            </label>
+                            <label class="btn btn-primary">
+                              <input type="checkbox" id="diaFolga_Sab" name="folgaSab" value="Sab"> Sab
+                              <span class="fa fa-check"></span>
+                            </label>
+                            <label class="btn btn-primary">
+                              <input type="checkbox" id="diaFolga_Dom" name="folgaDom" value="Dom"> Dom
+                              <span class="fa fa-check"></span>
+                            </label>
+                            <label class="btn btn-primary">
+                              <input type="checkbox" id="diaTrabalhado" name="folgaAlternado" value="Alternado"> Alternado
+                              <span class="fa fa-check"></span>
+                            </label>
+                          </div>
+                        </div>
+                        <div class="">
+                          <h3 class="text-center col-md-12">Carga Horária</h3>
+                          <ul class="nav nav-children" id="info">
+                            <li id="total">Carga horária diária:</li></br>
+                            <li id="carga_horaria_mensal">Carga horária mensal:</li>
+                          </ul>
+                        </div>
+                        <hr class="dotted short">
+                        <div class="panel-footer">
+                          <div class="row">
+                            <div class="col-md-9 col-md-offset-3">
+
+                              <input type="hidden" name="nomeClasse" value="FuncionarioControle">
+                              <input type="hidden" name="metodo" value="alterarCargaHoraria">
+                              <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
+                              <input id="enviarCarga" type="submit" class="btn btn-primary" value="Alterar carga">
+
+                              <input type="reset" class="btn btn-default">
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
                   </section>
                 </div>
 
