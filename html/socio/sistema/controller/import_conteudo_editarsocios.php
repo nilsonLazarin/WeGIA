@@ -51,7 +51,9 @@
         $cpf_cnpj = $registro['cpf'];
         $logradouro = $registro['logradouro'];
         $numero = $registro['numero_endereco'];
-        $tag = $registro['id_sociotag'];
+        if($registro['id_sociotag'] == null || $registro['id_sociotag'] == ""){
+            $tag = "";
+        }else $tag = $registro['id_sociotag'];
         $complemento = $registro['complemento'];
         $cep = $registro['cep'];
         $socio_tipo = $registro['id_sociotipo'];
@@ -251,6 +253,17 @@
         var sociotipo = <?php echo($socio_tipo); ?>;
         var status = <?php echo($status); ?>;
         var tag = <?php echo($tag); ?>;
+
+        if(sociotipo >= 0  && sociotipo <= 13){
+          $("#tipo_contribuicao").val("1");
+          console.log("boleto");
+        }else if(sociotipo >= 10 && sociotipo <= 31){
+          $("#tipo_contribuicao").val("2");
+          console.log("cartão");
+        }else{
+          $("#tipo_contribuicao").val("3");
+          console.log("outro");
+        }
 
         $("#tags").val(tag);
 

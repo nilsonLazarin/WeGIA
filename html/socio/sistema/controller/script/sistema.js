@@ -455,6 +455,7 @@ $(document).ready(function(){
         var cep = $("#cep").val();
         var data_referencia = $("#data_referencia").val();
         var valor_periodo = $("#valor_periodo").val();
+        var tipo_contribuicao = $("#tipo_contribuicao").val();
         // Requisição POST - AJAX
         if(valida_cpf_cnpj(cpf_cnpj)){
             $.post("./processa_edicao_socio.php",{
@@ -476,7 +477,8 @@ $(document).ready(function(){
                 "data_nasc": data_nasc,
                 "cep":cep,
                 "data_referencia": data_referencia,
-                "valor_periodo": valor_periodo
+                "valor_periodo": valor_periodo,
+                "tipo_contribuicao": tipo_contribuicao
             }).done(function(resultadoCadastro){
                 var resultado = JSON.parse(resultadoCadastro);
                 if(resultado){
@@ -512,7 +514,8 @@ $(document).ready(function(){
                     "data_nasc": data_nasc,
                     "cep":cep,
                     "data_referencia": data_referencia,
-                    "valor_periodo": valor_periodo
+                    "valor_periodo": valor_periodo,
+                    "tipo_contribuicao": tipo_contribuicao
                 }).done(function(resultadoCadastro){
                     var resultado = JSON.parse(resultadoCadastro);
                     if(resultado){
