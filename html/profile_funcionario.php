@@ -77,7 +77,7 @@ $docfuncional = $docfuncional->fetchAll(PDO::FETCH_ASSOC);
 $docfuncional = json_encode($docfuncional);
 
 $dependente = $pdo->query("SELECT 
-p.nome AS nome, p.cpf AS cpf, par.descricao AS parentesco
+fdep.id_dependente AS id_dependente, p.nome AS nome, p.cpf AS cpf, par.descricao AS parentesco
 FROM funcionario_dependentes fdep
 LEFT JOIN funcionario f ON f.id_funcionario = fdep.id_funcionario
 LEFT JOIN pessoa p ON p.id_pessoa = fdep.id_pessoa
@@ -184,6 +184,10 @@ $dependente = json_encode($dependente);
 
     .form-control {
       padding: 0 12px;
+    }
+
+    .btn i {
+      color: white;
     }
   </style>
   <!-- jquery functions -->
@@ -570,8 +574,8 @@ $dependente = json_encode($dependente);
             .append($("<td>").text(item.nome_docfuncional))
             .append($("<td>").text(item.data))
             .append($("<td style='display: flex; justify-content: space-evenly;'>")
-              .append($("<a href='./funcionario/documento_download.php?id_doc="+item.id_fundocs+"' title='Visualizar ou Baixar'><button><i class='fas fa-download'></i></button></a>"))
-              .append($("<a href='./funcionario/documento_excluir.php?id_doc="+item.id_fundocs+"&id_funcionario=<?= $_GET["id_funcionario"]?>' title='Excluir'><button><i class='fas fa-trash-alt'></i></button></a>"))
+              .append($("<a href='./funcionario/documento_download.php?id_doc="+item.id_fundocs+"' title='Visualizar ou Baixar'><button class='btn btn-primary'><i class='fas fa-download'></i></button></a>"))
+              .append($("<a href='./funcionario/documento_excluir.php?id_doc="+item.id_fundocs+"&id_funcionario=<?= $_GET["id_funcionario"]?>' title='Excluir'><button class='btn btn-danger'><i class='fas fa-trash-alt'></i></button></a>"))
             )
           )
       });
@@ -581,12 +585,11 @@ $dependente = json_encode($dependente);
 			$('#datatable-docfuncional').DataTable( {
 				"order": [[ 0, "asc" ]]
 			} );
-		});
-
-    $(function(){
-      var dependente = <?= $dependente?>;
-
+    });
+    
+    function listarDependentes(dependente){
       console.log(dependente);
+      $("#dep-tab").empty();
       $.each(dependente,function(i, dependente) {
         dependente.cpf = [dependente.cpf.slice(0, 3), ".", dependente.cpf.slice(3, 6), ".", dependente.cpf.slice(6, 9), "-", dependente.cpf.slice(9, 11)].join("")
         $("#dep-tab")
@@ -594,12 +597,16 @@ $dependente = json_encode($dependente);
             .append($("<td>").text(dependente.nome))
             .append($("<td>").text(dependente.cpf))
             .append($("<td>").text(dependente.parentesco))
-            // .append($("<td style='display: flex; justify-content: space-evenly;'>")
-            //   .append($("<a href='./funcionario/documento_download.php?id_doc="+item.id_fundocs+"' title='Visualizar ou Baixar'><button><i class='fas fa-download'></i></button></a>"))
-            //   .append($("<a href='./funcionario/documento_excluir.php?id_doc="+item.id_fundocs+"&id_funcionario=<?= $_GET["id_funcionario"]?>' title='Excluir'><button><i class='fas fa-trash-alt'></i></button></a>"))
-            // )
+            .append($("<td style='display: flex; justify-content: space-evenly;'>")
+              .append($("<a href='#' title='Editar'><button class='btn btn-primary'><i class='fas fa-user-edit'></i></button></a>"))
+              .append($("<button class='btn btn-danger' onclick='removerDependente("+dependente.id_dependente+")'><i class='fas fa-trash-alt'></i></button>"))
+            )
           )
       });
+    }
+
+    $(function(){
+      listarDependentes(<?= $dependente?>);
     });
 
     $(function () {
@@ -1876,6 +1883,7 @@ $dependente = json_encode($dependente);
                             <th>Nome</th>
                             <th>CPF</th>
                             <th>Parentesco</th>
+                            <th>Ação</th>
                           </tr>
                         </thead>
                         <tbody id="dep-tab">
@@ -2017,6 +2025,9 @@ $dependente = json_encode($dependente);
   <!-- Theme Custom -->
   <script src="../assets/javascripts/theme.custom.js"></script>
 
+  <!-- Metodo Post -->
+  <script src="./geral/post.js"></script>
+
   <!-- Theme Initialization Files -->
   <script src="../assets/javascripts/theme.init.js"></script>
 
@@ -2107,6 +2118,7 @@ $dependente = json_encode($dependente);
         async: true,
         success: function(response) {
           var parentesco = response;
+          console.log(parentesco);
           $('#parentesco').empty();
           $('#parentesco').append('<option selected disabled>Selecionar...</option>');
           $.each(parentesco, function(i, item) {
@@ -2120,7 +2132,6 @@ $dependente = json_encode($dependente);
     function adicionarParentesco() {
       url = './funcionario/dependente_parentesco_adicionar.php';
       var descricao = window.prompt("Cadastre um novo tipo de Parentesco:");
-      console.log(descricao);
       if (!descricao) {
         return
       }
@@ -2128,10 +2139,8 @@ $dependente = json_encode($dependente);
       if (descricao == '') {
         return
       }
-
       data = 'descricao=' + descricao;
 
-      console.log(data);
       $.ajax({
         type: "POST",
         url: url,
@@ -2140,7 +2149,13 @@ $dependente = json_encode($dependente);
           gerarParentesco();
         },
         dataType: 'text'
-      })
+    })
+    }
+
+    function removerDependente(id_dep){
+      let url = "./funcionario/dependente_remover.php";
+      let data = "id_funcionario=<?= $_GET['id_funcionario'];?>&id_dependente="+id_dep;
+      post(url, data, listarDependentes);
     }
   </script>
 </body>
