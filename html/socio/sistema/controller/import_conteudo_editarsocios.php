@@ -41,7 +41,7 @@
             <input type="hidden" id="id_socio" name="id_socio" value="<?php echo($_GET['socio']); ?>">
             <?php
         $id_socio = $_GET['socio'];
-        $resultado = mysqli_query($conexao, "SELECT * FROM socio AS s LEFT JOIN pessoa AS p ON s.id_pessoa = p.id_pessoa WHERE id_socio = $id_socio");
+        $resultado = mysqli_query($conexao, "SELECT * FROM socio AS s LEFT JOIN pessoa AS p ON s.id_pessoa = p.id_pessoa LEFT JOIN socio_tipo st ON st.id_sociotipo = s.id_sociotipo WHERE id_socio = $id_socio");
         $registro = mysqli_fetch_array($resultado);
         $nome_socio = $registro['nome'];
         $email = $registro['email'];
@@ -57,9 +57,11 @@
         $complemento = $registro['complemento'];
         $cep = $registro['cep'];
         $socio_tipo = $registro['id_sociotipo'];
+        $socio_tipo_str = $registro['tipo'];
         $bairro = $registro['bairro'];
         $cidade = $registro['cidade'];
         $estado = $registro['estado'];
+
         $data_referencia = $registro['data_referencia'];
         $valor_periodo = $registro['valor_periodo'];
     ?>
@@ -72,7 +74,7 @@
           <label for="pessoa">Pessoa</label>
           <select class="form-control" name="pessoa" id="pessoa">
           <?php
-                if(strlen($cpf_cnpj) == 14){
+                if(strpos($socio_tipo_str, "Física") !== false){
                   $pessoa = "fisica";
                 }else $pessoa = "juridica";
                 if($pessoa == "fisica"){
@@ -249,21 +251,9 @@
 	</section>
 </body>
 <script>
-    $(document).ready(function(){
         var sociotipo = <?php echo($socio_tipo); ?>;
         var status = <?php echo($status); ?>;
         var tag = <?php echo($tag); ?>;
-
-        if(sociotipo >= 0  && sociotipo <= 13){
-          $("#tipo_contribuicao").val("1");
-          console.log("boleto");
-        }else if(sociotipo >= 10 && sociotipo <= 31){
-          $("#tipo_contribuicao").val("2");
-          console.log("cartão");
-        }else{
-          $("#tipo_contribuicao").val("3");
-          console.log("outro");
-        }
 
         $("#tags").val(tag);
 
@@ -273,24 +263,34 @@
         }
 
         switch(sociotipo){
-          case 0: case 1: 
+          case 0: case 1: case 20: case 21: case 40: case 41: 
               $("#contribuinte").val("casual");
               break;
-          case 2: case 3:
+          case 2: case 3: case 22: case 23: case 42: case 43:
               $("#contribuinte").val("mensal");
               break;
-          case 6: case 7:
+          case 6: case 7: case 24: case 25: case 44: case 45:
               $("#contribuinte").val("bimestral");
               break;
-          case 8: case 9:
+          case 8: case 9: case 26: case 27: case 46: case 47:
               $("#contribuinte").val("trimestral");
               break;
-          case 10: case 11:
+          case 10: case 11: case 28: case 29: case 48: case 49:
               $("#contribuinte").val("semestral");
               break;
           default:
               $("#contribuinte").val("si");
               break;
         }
-    });
+
+        if(sociotipo >= 0  && sociotipo <= 13){
+          
+          console.log("boleto");
+        }else if(sociotipo >= 10 && sociotipo <= 31){
+          $("#tipo_contribuicao").val("2");
+          console.log("cartão");
+        }else{
+          $("#tipo_contribuicao").val("3");
+          console.log("outro");
+        }
 </script>

@@ -48,15 +48,45 @@
         switch($pessoa){
             case "juridica": 
             if($contribuinte == "mensal"){
-                $id_sociotipo = 3;
+                if($tipo_contribuicao == 2){
+                    $id_sociotipo = 23;
+                }else if($tipo_contribuicao == 3){
+                    $id_sociotipo = 43;
+                }else{
+                    $id_sociotipo = 3;
+                }
             }else if($contribuinte == "casual"){
-                $id_sociotipo = 1;
+                if($tipo_contribuicao == 2){
+                    $id_sociotipo = 21;
+                }else if($tipo_contribuicao == 3){
+                    $id_sociotipo = 41;
+                }else{
+                    $id_sociotipo = 1;
+                }
             }else if($contribuinte == "bimestral"){
-                $id_sociotipo = 7;
+                if($tipo_contribuicao == 2){
+                    $id_sociotipo = 25;
+                }else if($tipo_contribuicao == 3){
+                    $id_sociotipo = 45;
+                }else{
+                    $id_sociotipo = 7;
+                }
             }else if($contribuinte == "trimestral"){
-                $id_sociotipo = 9;
+                if($tipo_contribuicao == 2){
+                    $id_sociotipo = 27;
+                }else if($tipo_contribuicao == 3){
+                    $id_sociotipo = 47;
+                }else{
+                    $id_sociotipo = 9;
+                }
             }else if($contribuinte == "semestral"){
-                $id_sociotipo = 11;
+                if($tipo_contribuicao == 2){
+                    $id_sociotipo = 29;
+                }else if($tipo_contribuicao == 3){
+                    $id_sociotipo = 49;
+                }else{
+                    $id_sociotipo = 11;
+                }
             }
             
             if($contribuinte == null || $contribuinte == "si" || $contribuinte == ""){
@@ -65,22 +95,52 @@
 
             case "fisica": 
             if($contribuinte == "mensal"){
-                $id_sociotipo = 2;
+                if($tipo_contribuicao == 2){
+                    $id_sociotipo = 22;
+                }else if($tipo_contribuicao == 3){
+                    $id_sociotipo = 42;
+                }else{
+                    $id_sociotipo = 2;
+                }
             }else if($contribuinte == "casual"){
-                $id_sociotipo = 0;
+                if($tipo_contribuicao == 2){
+                    $id_sociotipo = 20;
+                }else if($tipo_contribuicao == 3){
+                    $id_sociotipo = 40;
+                }else{
+                    $id_sociotipo = 0;
+                }
             }else if($contribuinte == "bimestral"){
-                $id_sociotipo = 6;
+                if($tipo_contribuicao == 2){
+                    $id_sociotipo = 24;
+                }else if($tipo_contribuicao == 3){
+                    $id_sociotipo = 44;
+                }else{
+                    $id_sociotipo = 6;
+                }
             }else if($contribuinte == "trimestral"){
-                $id_sociotipo = 8;
+                if($tipo_contribuicao == 2){
+                    $id_sociotipo = 26;
+                }else if($tipo_contribuicao == 3){
+                    $id_sociotipo = 46;
+                }else{
+                    $id_sociotipo = 8;
+                }
             }else if($contribuinte == "semestral"){
-                $id_sociotipo = 10;
+                if($tipo_contribuicao == 2){
+                    $id_sociotipo = 28;
+                }else if($tipo_contribuicao == 3){
+                    $id_sociotipo = 48;
+                }else{
+                    $id_sociotipo = 10;
+                }
             }
             
             
             if($contribuinte == null || $contribuinte == "si" || $contribuinte == ""){
                 $id_sociotipo = 4;
             }  break;
-        }
+    }
         if($resultado = mysqli_query($conexao, "UPDATE `socio` SET `id_sociostatus`= '$status', `id_sociotipo` = $id_sociotipo, `email` = '$email', `data_referencia` = $data_referencia, `valor_periodo` = $valor_periodo, `id_sociotag` = $tag WHERE id_socio = $id_socio")){
             $cadastrado = true;
         }
