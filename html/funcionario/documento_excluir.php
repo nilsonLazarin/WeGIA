@@ -23,3 +23,5 @@ if (!$arquivo->getException()){
     echo $arquivo->getException();
 }
 
+die();
+

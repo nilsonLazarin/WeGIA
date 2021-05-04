@@ -15,3 +15,5 @@ $parentesco = $pdo->query("SELECT * FROM funcionario_dependente_parentesco ORDER
 $parentesco = $parentesco->fetchAll(PDO::FETCH_ASSOC);
 $parentesco = json_encode($parentesco);
 echo $parentesco;
+
+die();

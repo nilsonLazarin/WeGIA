@@ -35,3 +35,5 @@ if (!$arquivo->getException()){
 }else{
     echo $arquivo->getException();
 }
+
+die();
