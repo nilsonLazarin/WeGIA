@@ -41,7 +41,7 @@
             <input type="hidden" id="id_socio" name="id_socio" value="<?php echo($_GET['socio']); ?>">
             <?php
         $id_socio = $_GET['socio'];
-        $resultado = mysqli_query($conexao, "SELECT * FROM socio AS s LEFT JOIN pessoa AS p ON s.id_pessoa = p.id_pessoa WHERE id_socio = $id_socio");
+        $resultado = mysqli_query($conexao, "SELECT * FROM socio AS s LEFT JOIN pessoa AS p ON s.id_pessoa = p.id_pessoa LEFT JOIN socio_tipo st ON st.id_sociotipo = s.id_sociotipo WHERE id_socio = $id_socio");
         $registro = mysqli_fetch_array($resultado);
         $nome_socio = $registro['nome'];
         $email = $registro['email'];
@@ -57,9 +57,11 @@
         $complemento = $registro['complemento'];
         $cep = $registro['cep'];
         $socio_tipo = $registro['id_sociotipo'];
+        $socio_tipo_str = $registro['tipo'];
         $bairro = $registro['bairro'];
         $cidade = $registro['cidade'];
         $estado = $registro['estado'];
+
         $data_referencia = $registro['data_referencia'];
         $valor_periodo = $registro['valor_periodo'];
     ?>
@@ -72,7 +74,7 @@
           <label for="pessoa">Pessoa</label>
           <select class="form-control" name="pessoa" id="pessoa">
           <?php
-                if(strlen($cpf_cnpj) == 14){
+                if(strpos($socio_tipo_str, "Física") !== false){
                   $pessoa = "fisica";
                 }else $pessoa = "juridica";
                 if($pessoa == "fisica"){
