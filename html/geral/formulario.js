@@ -28,7 +28,9 @@ function getFormPostParams(idForm){
         if ((input.prop('type') == 'radio' && !input.prop('checked')) || !nome){
             false;
         }else{
-            if (input.prop('required') && value == )
+            if (input.prop('required') && (!value || value == 'null')){
+                return false;
+            }
             string += (first ? "" : "&")+nome+"="+ value || "";
             first = false;
         }

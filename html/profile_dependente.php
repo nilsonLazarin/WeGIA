@@ -139,6 +139,7 @@ $dependente = json_encode($dependente);
         var formState = [];
 
         function formInfoPessoal(dep){
+            console.log(dep);
             $("#nomeForm").val(dep.nome);
             $("#sobrenomeForm").val(dep.sobrenome);
             $("#telefone").val(dep.telefone);
@@ -151,7 +152,24 @@ $dependente = json_encode($dependente);
             }
             if (dep.tipo_sanguineo){
                 let select = $("#sanque");
-                select.filter('[value='+dep.tipo_sanguineo+']').prop('selected', true);
+                $("#sanque_"+dep.tipo_sanguineo.replace("+", "p").replace("-", "n").toLowerCase()).prop('selected', true);
+            }
+        }
+
+        function formEndereco(dep){
+            $("#cep").val(dep.cep);
+            $("#uf").val(dep.estado);
+            $("#cidade").val(dep.cidade);
+            $("#bairro").val(dep.bairro);
+            $("#rua").val(dep.logradouro);
+            $("#complemento").val(dep.complemento);
+            $("#ibge").val(dep.ibge);
+            if (dep.numero_endereco == 'Não possui' || dep.numero_endereco == null) {
+                $("#numResidencial").prop('checked', true).prop('disabled', true);
+                $("#numero_residencia").prop('disabled', true);
+            } else {
+                $("#numero_residencia").val(dep.numero_endereco).prop('disabled', true);
+                $("#numResidencial").prop('disabled', true);
             }
         }
 
@@ -167,8 +185,21 @@ $dependente = json_encode($dependente);
 
         function submitForm(idForm){
             var data = getFormPostParams(idForm);
-            var url = ""
-            console.log(data);
+            var url;
+            switch (idForm) {
+                case "infoPessoal":
+                    url = "./pessoa/editar_info_pessoal.php";
+                    break;
+                case "formEndereco":
+                    url = "./pessoa/editar_endereco.php";
+                    break;
+                default:
+                    break;
+            }
+            console.log("id_pessoa="+dependente.id_pessoa+"&"+data);
+            post(url, "id_pessoa="+dependente.id_pessoa+"&"+data, function(response){
+                console.log(response)
+            });
         }
 
         var id_dependente = <?= $_GET['id_dependente'] ?? null;?>;
@@ -178,7 +209,9 @@ $dependente = json_encode($dependente);
             $(".menuu").load("menu.php");
             if (id_dependente){
                 formInfoPessoal(dependente);
+                formEndereco(dependente);
                 disableForm("infoPessoal");
+                disableForm("formEndereco");
             }
         });
     </script>
@@ -312,27 +345,27 @@ $dependente = json_encode($dependente);
                                             <div class="col-md-6">
                                                 <select class="form-control input-lg mb-md" name="sangue" id="sangue">
                                                     <option selected disabled value="">Selecionar</option>
-                                                    <option value="A+">A+</option>
-                                                    <option value="A-">A-</option>
-                                                    <option value="B+">B+</option>
-                                                    <option value="B-">B-</option>
-                                                    <option value="O+">O+</option>
-                                                    <option value="O-">O-</option>
-                                                    <option value="AB+">AB+</option>
-                                                    <option value="AB-">AB-</option>
+                                                    <option id="sanque_ap" value="A+">A+</option>
+                                                    <option id="sanque_an"  value="A-">A-</option>
+                                                    <option id="sanque_bp"  value="B+">B+</option>
+                                                    <option id="sanque_bn"  value="B-">B-</option>
+                                                    <option id="sanque_op"  value="O+">O+</option>
+                                                    <option id="sanque_on"  value="O-">O-</option>
+                                                    <option id="sanque_abp"  value="AB+">AB+</option>
+                                                    <option id="sanque_abn"  value="AB-">AB-</option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="form-group center">
-                                            <button type="button" class="btn btn-primary" id="botaoEditarIP" onclick="switchForm('infoPessoal')">Editar</button>
-                                            <input type="submit" class="btn btn-primary" disabled="true" value="Salvar" id="botaoSalvarIP" onclick="submitForm('infoPessoal')">
+                                            <button type="button" class="btn btn-primary" id="botaoEditar_infoPessoal" onclick="switchForm('infoPessoal')">Editar</button>
+                                            <input type="submit" class="btn btn-primary" disabled="true" value="Salvar" id="botaoSalvar_infoPessoal" onclick="submitForm('infoPessoal')">
                                         </div>
 
                                     </fieldset>
 
                                     <h4>Endereço</h4><br>
 
-                                    <fieldset>
+                                    <fieldset id="formEndereco">
                                         <input type="hidden" name="nomeClasse" value="FuncionarioControle">
                                         <input type="hidden" name="metodo" value="alterarEndereco">
                                         <div class="form-group">
@@ -388,6 +421,11 @@ $dependente = json_encode($dependente);
                                                 <input type="text" size="8" name="ibge" class="form-control" id="ibge">
                                             </div>
                                         </div>
+                                        <div class="form-group center">
+                                            <button type="button" class="btn btn-primary" id="botaoEditar_formEndereco" onclick="switchForm('formEndereco')">Editar</button>
+                                            <input type="submit" class="btn btn-primary" disabled="true" value="Salvar" id="botaoSalvar_formEndereco" onclick="submitForm('formEndereco')">
+                                        </div>
+
                                     </fieldset>
 
                                     <h4>Documentações</h4>
@@ -412,6 +450,51 @@ $dependente = json_encode($dependente);
     </section>
     </div>
     </section>
+
+    <script>
+        function pesquisacep(valor) {
+        //Nova variável "cep" somente com dígitos.
+        var cep = valor.replace(/\D/g, '');
+
+        //Verifica se campo cep possui valor informado.
+        if (cep != "") {
+
+            //Expressão regular para validar o CEP.
+            var validacep = /^[0-9]{8}$/;
+
+            //Valida o formato do CEP.
+            if (validacep.test(cep)) {
+
+            //Preenche os campos com "..." enquanto consulta webservice.
+            document.getElementById('rua').value = "...";
+            document.getElementById('bairro').value = "...";
+            document.getElementById('cidade').value = "...";
+            document.getElementById('uf').value = "...";
+            document.getElementById('ibge').value = "...";
+
+            //Cria um elemento javascript.
+            var script = document.createElement('script');
+
+            //Sincroniza com o callback.
+            script.src = 'https://viacep.com.br/ws/' + cep + '/json/?callback=meu_callback';
+
+            //Insere script no documento e carrega o conteúdo.
+            document.body.appendChild(script);
+
+            } //end if.
+            else {
+            //cep é inválido.
+            limpa_formulário_cep();
+            alert("Formato de CEP inválido.");
+            }
+        } //end if.
+        else {
+            //cep sem valor, limpa formulário.
+            limpa_formulário_cep();
+        }
+
+        };
+    </script>
 
     <!-- Vendor -->
     <script src="../assets/vendor/select2/select2.js"></script>

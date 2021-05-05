@@ -598,7 +598,7 @@ $dependente = json_encode($dependente);
             .append($("<td>").text(dependente.cpf))
             .append($("<td>").text(dependente.parentesco))
             .append($("<td style='display: flex; justify-content: space-evenly;'>")
-              .append($("<a href='#' title='Editar'><button class='btn btn-primary'><i class='fas fa-user-edit'></i></button></a>"))
+              .append($("<a href='./profile_dependente.php?id_dependente="+dependente.id_dependente+"' title='Editar'><button class='btn btn-primary'><i class='fas fa-user-edit'></i></button></a>"))
               .append($("<button class='btn btn-danger' onclick='removerDependente("+dependente.id_dependente+")'><i class='fas fa-trash-alt'></i></button>"))
             )
           )
