@@ -548,7 +548,6 @@ $(document).ready(function(){
         var forma_doacao = $("#forma_doacao").val();
         var data_doacao = $("#data_doacao").val();
         // Requisição POST - AJAX
-        if(valida_cpf_cnpj(cpf_cnpj)){
             $.post("./cadastro_cobranca_m.php",{
                 "socio_nome": socio_nome,
                 "socio_id": socio_id,
@@ -572,10 +571,6 @@ $(document).ready(function(){
                     modalSimples("Status", "Erro ao cadastrar cobranca, verifique os dados e tente novamente.", "erro");
                 }
             });
-        }else{
-            modalSimples("Status", "O CPF/CNPJ informado é inválido!", "erro");
-        }
-        
     });
 
     // Validação de CEP e API de CEP
