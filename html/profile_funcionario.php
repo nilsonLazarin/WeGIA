@@ -1866,6 +1866,7 @@ $dependente = json_encode($dependente);
 
 
                     </div>
+                  </section>
                 </div>
 
                 <div id="dependentes" class="tab-pane">

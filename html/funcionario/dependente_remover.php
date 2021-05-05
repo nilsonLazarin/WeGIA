@@ -25,3 +25,5 @@ LEFT JOIN funcionario_dependente_parentesco par ON par.id_parentesco = fdep.id_p
 WHERE fdep.id_funcionario = ".$_POST['id_funcionario']);
 $response = $response->fetchAll(PDO::FETCH_ASSOC);
 echo json_encode($response);
+
+die();

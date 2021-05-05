@@ -13,3 +13,5 @@ $pdo = Conexao::connect();
 $descricao = $_POST["descricao"];
 
 $pdo->query("INSERT INTO funcionario_dependente_parentesco (descricao) VALUES ('$descricao')");
+
+die();

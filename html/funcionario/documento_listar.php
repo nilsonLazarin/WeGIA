@@ -17,4 +17,6 @@ $docfuncional = $docfuncional->fetchAll(PDO::FETCH_ASSOC);
 $docfuncional = json_encode($docfuncional);
 echo $docfuncional;
 
+die();
+
 ?>
