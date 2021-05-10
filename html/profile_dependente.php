@@ -134,86 +134,368 @@ $dependente = json_encode($dependente);
     <script src="./geral/formulario.js"></script>
 
     <script>
+        var dependente = <?= $dependente; ?>;
+        var url = "./funcionario/dependente_listar_um.php",
+            data = "id_dependente=<?= $_GET["id_dependente"] ?>";
+        var formState = [],
+            form = {
+                set: function(id, dep) {
+                    if (id) {
+                        if (this[id]) {
+                            this[id](dep);
+                        } else {
+                            console.warn("Id de formulário inválido: " + id);
+                        }
+                    } else {
+                        this.formInfoPessoal(dep);
+                        this.formEndereco(dep);
+                        this.formDocumentacao(dep);
+                    }
+                },
+                formInfoPessoal: function(dep) {
+                    $("#nomeForm").val(dep.nome);
+                    $("#sobrenomeForm").val(dep.sobrenome);
+                    $("#telefone").val(dep.telefone);
+                    $("#nascimento").val(dep.nascimento)
+                    $("#pai").val(dep.nome_pai);
+                    $("#mae").val(dep.nome_mae);
+                    if (dep.sexo) {
+                        let radio = $("input:radio[name=gender]");
+                        radio.filter('[value=' + dep.sexo + ']').prop('checked', true);
+                    }
+                    if (dep.tipo_sanguineo) {
+                        let select = $("#sanque");
+                        $("#sanque_" + dep.tipo_sanguineo.replace("+", "p").replace("-", "n").toLowerCase()).prop('selected', true);
+                    }
+                },
+                formEndereco: function(dep) {
+                    $("#cep").val(dep.cep);
+                    $("#uf").val(dep.estado);
+                    $("#cidade").val(dep.cidade);
+                    $("#bairro").val(dep.bairro);
+                    $("#rua").val(dep.logradouro);
+                    $("#complemento").val(dep.complemento);
+                    $("#ibge").val(dep.ibge);
+                    if (dep.numero_endereco == 'Não possui' || dep.numero_endereco == null) {
+                        $("#numResidencial").prop('checked', true).prop('disabled', true);
+                        $("#numero_residencia").prop('disabled', true);
+                    } else {
+                        $("#numero_residencia").val(dep.numero_endereco).prop('disabled', true);
+                        $("#numResidencial").prop('disabled', true);
+                    }
+                },
+                formDocumentacao: function(dep) {
+                    $("#rg").val(dep.registro_geral).prop('disabled', true);
+                    $("#orgao_emissor").val(dep.orgao_emissor).prop('disabled', true);
+                    $("#data_expedicao").val(dep.data_expedicao).prop('disabled', true);
+                    // $("#cpf").val(dep.cpf.substr(0, 3) + "." + dep.cpf.substr(3, 3) + "." + dep.cpf.substr(6, 3) + "-" + dep.cpf.substr(9, 2)).prop('disabled', true);
+                    $("#cpf").val(dep.cpf);
+                }
+                // ,
+                // formOutros: function(dep) {
+                //     $("#pis").val(dep.pis).prop('disabled', true);
+                //     $("#ctps").val(dep.ctps).prop('disabled', true);
+                //     $("#uf_ctps").val(dep.uf_ctps).prop('disabled', true);
+                //     $("#zona_eleitoral").val(dep.zona).prop('disabled', true);
+                //     $("#titulo_eleitor").val(dep.numero_titulo).prop('disabled', true);
+                //     $("#secao_titulo_eleitor").val(dep.secao).prop('disabled', true);
+                //     $("#certificado_reservista_numero").val(dep.certificado_reservista_numero).prop('disabled', true);
+                //     $("#certificado_reservista_serie").val(dep.certificado_reservista_serie).prop('disabled', true);
+                // }
+            };
 
-        var dependente = <?= $dependente;?>;
-        var formState = [];
 
-        function formInfoPessoal(dep){
-            console.log(dep);
-            $("#nomeForm").val(dep.nome);
-            $("#sobrenomeForm").val(dep.sobrenome);
-            $("#telefone").val(dep.telefone);
-            $("#nascimento").val(dep.nascimento)
-            $("#pai").val(dep.nome_pai);
-            $("#mae").val(dep.nome_mae);
-            if (dep.sexo) {
-                let radio = $("input:radio[name=gender]");
-                radio.filter('[value='+dep.sexo+']').prop('checked', true);
-            }
-            if (dep.tipo_sanguineo){
-                let select = $("#sanque");
-                $("#sanque_"+dep.tipo_sanguineo.replace("+", "p").replace("-", "n").toLowerCase()).prop('selected', true);
-            }
-        }
 
-        function formEndereco(dep){
-            $("#cep").val(dep.cep);
-            $("#uf").val(dep.estado);
-            $("#cidade").val(dep.cidade);
-            $("#bairro").val(dep.bairro);
-            $("#rua").val(dep.logradouro);
-            $("#complemento").val(dep.complemento);
-            $("#ibge").val(dep.ibge);
-            if (dep.numero_endereco == 'Não possui' || dep.numero_endereco == null) {
-                $("#numResidencial").prop('checked', true).prop('disabled', true);
-                $("#numero_residencia").prop('disabled', true);
+
+
+
+
+
+
+
+
+        function switchButton(idForm) {
+            if (!formState[idForm]) {
+                $("#botaoEditar_" + idForm).text("Editar").prop("class", "btn btn-primary");
             } else {
-                $("#numero_residencia").val(dep.numero_endereco).prop('disabled', true);
-                $("#numResidencial").prop('disabled', true);
+                $("#botaoEditar_" + idForm).text("Cancelar").prop("class", "btn btn-danger");
             }
         }
 
-        function switchForm(idForm){
-            if (formState[idForm]){
+        function switchForm(idForm, setState = null) {
+            if (setState !== null) {
+                formState[idForm] = !setState;
+            }
+            if (formState[idForm]) {
                 formState[idForm] = false;
                 disableForm(idForm);
-            }else{
+                form.set(idForm, dependente);
+            } else {
                 formState[idForm] = true;
                 enableForm(idForm);
             }
+            switchButton(idForm);
         }
 
-        function submitForm(idForm){
+        function getInfoDependente(id = null) {
+            if (!id) {
+                post(url, data, function(response) {
+                    form.set(id, response);
+                    disableForm("formInfoPessoal");
+                    disableForm("formEndereco");
+                    disableForm("formDocumentacao");
+                    disableForm("formOutros");
+
+                    $.each(formState, function(i, item) {
+                        formState[i] = false;
+                        switchButton(i);
+                    })
+                })
+            } else {
+                post(url, data, function(response) {
+                    form.set(id, response);
+                    disableForm(id);
+                    formState[id] = false;
+                    switchButton(id);
+                })
+            }
+        }
+
+        function submitForm(idForm) {
             var data = getFormPostParams(idForm);
             var url;
             switch (idForm) {
-                case "infoPessoal":
+                case "formInfoPessoal":
                     url = "./pessoa/editar_info_pessoal.php";
                     break;
                 case "formEndereco":
                     url = "./pessoa/editar_endereco.php";
                     break;
+                case "formDocumentacao":
+                    url = "./pessoa/editar_documentacao.php";
+                    break;
                 default:
+                    console.warn("Não existe nenhuma URL registrada para o formulário com o seguinte id: " + idForm);
+                    return false;
                     break;
             }
-            console.log("id_pessoa="+dependente.id_pessoa+"&"+data);
-            post(url, "id_pessoa="+dependente.id_pessoa+"&"+data, function(response){
-                console.log(response)
-            });
+            if (!data) {
+                window.alert("Preencha todos os campos obrigatórios antes de prosseguir!");
+                return false;
+            }
+            post(url, "id_pessoa=" + dependente.id_pessoa + "&" + data);
+            getInfoDependente(idForm);
         }
 
-        var id_dependente = <?= $_GET['id_dependente'] ?? null;?>;
+        var id_dependente = <?= $_GET['id_dependente'] ?? null; ?>;
 
         $(function() {
             $("#header").load("header.php");
             $(".menuu").load("menu.php");
-            if (id_dependente){
-                formInfoPessoal(dependente);
-                formEndereco(dependente);
-                disableForm("infoPessoal");
-                disableForm("formEndereco");
+            if (id_dependente) {
+                getInfoDependente();
             }
+
+            post("./funcionario/dependente_documento.php", "id_dependente=" + dependente.id_dependente, function(response) {
+                listarDocDependente(response)
+
+                $('#datatable-documentos').DataTable({
+                    "order": [
+                        [0, "asc"]
+                    ]
+                });
+            });
+
         });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        function validarCPF(strCPF) {
+
+            if (!testaCPF(strCPF)) {
+                $('#cpfInvalido').show();
+                $("#botaoSalvar_formDocumentacao").prop('disabled', true);
+            } else {
+                $('#cpfInvalido').hide();
+                $("#botaoSalvar_formDocumentacao").prop('disabled', false);
+            }
+
+        }
+
+        function testaCPF(strCPF) { //strCPF é o cpf que será validado. Ele deve vir em formato string e sem nenhum tipo de pontuação.
+            var strCPF = strCPF.replace(/[^\d]+/g, ''); // Limpa a string do CPF removendo espaços em branco e caracteres especiais. 
+            // PODE SER QUE NÃO ESTEJA LIMPANDO COMPLETAMENTE. FAVOR FAZER O TESTE!!!!
+            var Soma;
+            var Resto;
+            Soma = 0;
+            if (strCPF == "00000000000") return false;
+
+            for (i = 1; i <= 9; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (11 - i);
+            Resto = (Soma * 10) % 11;
+
+            if ((Resto == 10) || (Resto == 11)) Resto = 0;
+            if (Resto != parseInt(strCPF.substring(9, 10))) return false;
+
+            Soma = 0;
+            for (i = 1; i <= 10; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (12 - i);
+            Resto = (Soma * 10) % 11;
+
+            if ((Resto == 10) || (Resto == 11)) Resto = 0;
+            if (Resto != parseInt(strCPF.substring(10, 11))) return false;
+            return true;
+        }
+
+        function gerarSituacao() {
+            url = '../dao/exibir_situacao.php';
+            $.ajax({
+                data: '',
+                type: "POST",
+                url: url,
+                async: true,
+                success: function(response) {
+                    var situacoes = response;
+                    $('#situacao').empty();
+                    $('#situacao').append('<option selected disabled>Selecionar</option>');
+                    $.each(situacoes, function(i, item) {
+                        $('#situacao').append('<option value="' + item.id_situacao + '">' + item.situacoes + '</option>');
+                    });
+                },
+                dataType: 'json'
+            });
+        }
+
+        function adicionar_situacao() {
+            url = '../dao/adicionar_situacao.php';
+            var situacao = window.prompt("Cadastre uma Nova Situação:");
+            if (!situacao) {
+                return
+            }
+            situacao = situacao.trim();
+            if (situacao == '') {
+                return
+            }
+
+            data = 'situacao=' + situacao;
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                success: function(response) {
+                    gerarSituacao();
+                },
+                dataType: 'text'
+            })
+        }
+
+        function gerarCargo() {
+            url = '../dao/exibir_cargo.php';
+            $.ajax({
+                data: '',
+                type: "POST",
+                url: url,
+                success: function(response) {
+                    var cargo = response;
+                    $('#cargo').empty();
+                    $('#cargo').append('<option selected disabled>Selecionar</option>');
+                    $.each(cargo, function(i, item) {
+                        $('#cargo').append('<option value="' + item.id_cargo + '">' + item.cargo + '</option>');
+                    });
+                },
+                dataType: 'json'
+            });
+        }
+
+        function adicionar_cargo() {
+            url = '../dao/adicionar_cargo.php';
+            var cargo = window.prompt("Cadastre um Novo Cargo:");
+            if (!cargo) {
+                return
+            }
+            situacao = cargo.trim();
+            if (cargo == '') {
+                return
+            }
+
+            data = 'cargo=' + cargo;
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                success: function(response) {
+                    gerarCargo();
+                },
+                dataType: 'text'
+            })
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+        function listarDocDependente(doc) {
+            $("#doc-tab").empty();
+            $.each(doc, function(i, item) {
+                $("#doc-tab")
+                    .append($("<tr>")
+                        .append($("<td>").text(item.descricao))
+                        .append($("<td>").text(item.data))
+                        .append($("<td style='display: flex; justify-content: space-evenly;'>")
+                            .append($("<a href='./funcionario/dependente_docdependente.php?id_doc=" + item.id_doc + "&action=download' title='Visualizar ou Baixar'><button class='btn btn-primary'><i class='fas fa-download'></i></button></a>"))
+                            .append($("<a href='#' onclick='excluir_docdependente(" + item.id_doc + ")' title='Excluir'><button class='btn btn-danger'><i class='fas fa-trash-alt'></i></button></a>"))
+                        )
+                    )
+            });
+        }
+
+        function excluir_docdependente(id_doc) {
+            post('./funcionario/dependente_docdependente.php', "action=excluir&id_doc=" + id_doc + "&id_dependente=" + dependente.id_dependente, listarDocDependente);
+        }
+
+        function gerarDocFuncional(response) {
+            var documento = response;
+            $('#tipoDocumento').empty();
+            $('#tipoDocumento').append('<option selected disabled>Selecionar...</option>');
+            $.each(documento, function(i, item) {
+                $('#tipoDocumento').append('<option value="' + item.id_docdependente + '">' + item.nome_docdependente + '</option>');
+            });
+        }
+
+        function adicionarDocDependente() {
+            url = './funcionario/dependente_docdependente.php';
+            var nome_docdependente = window.prompt("Cadastre um novo tipo de Documento:");
+            if (!nome_docdependente) {
+                return
+            }
+            nome_docdependente = nome_docdependente.trim();
+            if (nome_docdependente == '') {
+                return
+            }
+            data = "action=adicionar&nome=" + nome_docdependente;
+            console.log(url + "?" + data);
+            post(url, data, gerarDocFuncional);
+        }
     </script>
 
 
@@ -296,7 +578,7 @@ $dependente = json_encode($dependente);
                                 <div id="overview" class="tab-pane active" role="tabpanel">
                                     <h4>Informações Pessoais</h4><br>
 
-                                    <fieldset id="infoPessoal">
+                                    <fieldset id="formInfoPessoal">
                                         <div class="form-group">
                                             <label class="col-md-3 control-label" for="nomeForm">Nome</label>
                                             <div class="col-md-8">
@@ -319,7 +601,7 @@ $dependente = json_encode($dependente);
                                         <div class="form-group">
                                             <label class="col-md-3 control-label" for="telefone">Telefone</label>
                                             <div class="col-md-8">
-                                                <input type="text" class="form-control" maxlength="14" minlength="14" name="telefone" id="telefone" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeyup="mascara('(##)#####-####',this,event)">
+                                                <input type="text" class="form-control" maxlength="14" minlength="14" name="telefone" id="telefone" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeydown="mascara('(##)#####-####',this,event)">
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -342,36 +624,35 @@ $dependente = json_encode($dependente);
                                         </div>
                                         <div class="form-group">
                                             <label class="col-md-3 control-label" for="sangue">Tipo sanguíneo</label>
-                                            <div class="col-md-6">
+                                            <div class="col-md-2">
                                                 <select class="form-control input-lg mb-md" name="sangue" id="sangue">
                                                     <option selected disabled value="">Selecionar</option>
                                                     <option id="sanque_ap" value="A+">A+</option>
-                                                    <option id="sanque_an"  value="A-">A-</option>
-                                                    <option id="sanque_bp"  value="B+">B+</option>
-                                                    <option id="sanque_bn"  value="B-">B-</option>
-                                                    <option id="sanque_op"  value="O+">O+</option>
-                                                    <option id="sanque_on"  value="O-">O-</option>
-                                                    <option id="sanque_abp"  value="AB+">AB+</option>
-                                                    <option id="sanque_abn"  value="AB-">AB-</option>
+                                                    <option id="sanque_an" value="A-">A-</option>
+                                                    <option id="sanque_bp" value="B+">B+</option>
+                                                    <option id="sanque_bn" value="B-">B-</option>
+                                                    <option id="sanque_op" value="O+">O+</option>
+                                                    <option id="sanque_on" value="O-">O-</option>
+                                                    <option id="sanque_abp" value="AB+">AB+</option>
+                                                    <option id="sanque_abn" value="AB-">AB-</option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="form-group center">
-                                            <button type="button" class="btn btn-primary" id="botaoEditar_infoPessoal" onclick="switchForm('infoPessoal')">Editar</button>
-                                            <input type="submit" class="btn btn-primary" disabled="true" value="Salvar" id="botaoSalvar_infoPessoal" onclick="submitForm('infoPessoal')">
+                                            <button type="button" class="btn btn-primary" id="botaoEditar_formInfoPessoal" onclick="switchForm('formInfoPessoal')">Editar</button>
+                                            <input type="submit" class="btn btn-primary" disabled="true" value="Salvar" id="botaoSalvar_formInfoPessoal" onclick="submitForm('formInfoPessoal')">
                                         </div>
 
                                     </fieldset>
+                                    <hr>
 
                                     <h4>Endereço</h4><br>
 
                                     <fieldset id="formEndereco">
-                                        <input type="hidden" name="nomeClasse" value="FuncionarioControle">
-                                        <input type="hidden" name="metodo" value="alterarEndereco">
                                         <div class="form-group">
                                             <label class="col-md-3 control-label" for="cep">CEP</label>
                                             <div class="col-md-8">
-                                                <input type="text" name="cep" value="" size="10" onblur="pesquisacep(this.value);" class="form-control" id="cep" maxlength="9" placeholder="Ex: 22222-222" onkeypress="return Onlynumbers(event)" onkeyup="mascara('#####-###',this,event)">
+                                                <input type="text" name="cep" value="" size="10" onblur="pesquisacep(this.value);" class="form-control" id="cep" maxlength="9" placeholder="Ex: 22222-222" onkeydown="return Onlynumbers(event)" onkeyup="mascara('#####-###',this,event)">
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -427,9 +708,132 @@ $dependente = json_encode($dependente);
                                         </div>
 
                                     </fieldset>
+                                    <hr>
 
                                     <h4>Documentações</h4>
+                                    <fieldset id="formDocumentacao">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="profileCompany">Número do RG</label>
+                                            <div class="col-md-8">
+                                                <input type="text" class="form-control" name="rg" id="rg" onkeypress="return Onlynumbers(event)" placeholder="Ex: 22.222.222-2" onkeydown="mascara('##.###.###-#',this,event)">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="profileCompany">Órgão Emissor</label>
+                                            <div class="col-md-8">
+                                                <input type="text" class="form-control" name="orgao_emissor" id="orgao_emissor" onkeypress="return Onlychars(event)">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="profileCompany">Data de expedição</label>
+                                            <div class="col-md-8">
+                                                <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" name="data_expedicao" id="data_expedicao" max=<?php echo date('Y-m-d'); ?>>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="profileCompany">Número do CPF</label>
+                                            <div class="col-md-8">
+                                                <input type="text" class="form-control" id="cpf" name="cpf" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeydown="mascara('###.###.###-##',this,event)" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="profileCompany"></label>
+                                            <div class="col-md-6">
+                                                <p id="cpfInvalido" style="display: none; color: #b30000">CPF INVÁLIDO!</p>
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <div class="form-group center">
+                                            <button type="button" class="btn btn-primary" id="botaoEditar_formDocumentacao" onclick="switchForm('formDocumentacao')">Editar</button>
+                                            <input type="submit" class="btn btn-primary" disabled="true" value="Salvar" id="botaoSalvar_formDocumentacao" onclick="submitForm('formDocumentacao')">
+                                        </div>
+                                    </fieldset>
+                                    <!-- <hr>
                                     <h4>Outros</h4>
+                                    <fieldset id="formOutros">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">PIS</label>
+                                            <div class="col-md-6">
+                                                <input type="text" id="pis" name="pis" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">CTPS</label>
+                                            <div class="col-md-6">
+                                                <input type="text" id="ctps" name="ctps" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="uf">Estado CTPS</label>
+                                            <div class="col-md-6">
+                                                <input type="text" name="uf_ctps" size="60" class="form-control" id="uf_ctps">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">Título de eleitor</label>
+                                            <div class="col-md-6">
+                                                <input type="text" name="titulo_eleitor" id="titulo_eleitor" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">Zona eleitoral</label>
+                                            <div class="col-md-6">
+                                                <input type="text" name="zona_eleitoral" id="zona_eleitoral" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">Seção do título de eleitor</label>
+                                            <div class="col-md-6">
+                                                <input type="text" name="secao_titulo_eleitor" id="secao_titulo_eleitor" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="form-group" id="reservista1" style="display: none">
+                                            <label class="col-md-3 control-label">Número do certificado reservista</label>
+                                            <div class="col-md-6">
+                                                <input type="text" id="certificado_reservista_numero" name="certificado_reservista_numero" class="form-control num_reservista">
+                                            </div>
+                                        </div>
+                                        <div class="form-group" id="reservista2" style="display: none">
+                                            <label class="col-md-3 control-label">Série do certificado reservista</label>
+                                            <div class="col-md-6">
+                                                <input type="text" id="certificado_reservista_serie" name="certificado_reservista_serie" class="form-control serie_reservista">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="inputSuccess">Situação</label>
+                                            <a onclick="adicionar_situacao()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
+                                            <div class="col-md-6">
+                                                <select class="form-control input-lg mb-md" name="situacao" id="situacao">
+                                                    <option selected disabled>Selecionar</option>
+                                                    <?php
+                                                    while ($row = $situacao->fetch_array(MYSQLI_NUM)) {
+                                                        echo "<option value=" . $row[0] . ">" . $row[1] . "</option>";
+                                                    }                            ?>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="inputSuccess">Cargo</label>
+                                            <a onclick="adicionar_cargo()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
+                                            <div class="col-md-6">
+                                                <select class="form-control input-lg mb-md" name="cargo" id="cargo">
+                                                    <option selected disabled>Selecionar</option>
+                                                    <?php
+                                                    while ($row = $cargo->fetch_array(MYSQLI_NUM)) {
+                                                        echo "<option value=" . $row[0] . ">" . $row[1] . "</option>";
+                                                    }                            ?>
+                                                </select>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form-group center">
+                                            <button type="button" class="btn btn-primary" id="botaoEditar_formOutros" onclick="switchForm('formOutros')">Editar</button>
+                                            <input type="submit" class="btn btn-primary" disabled="true" value="Salvar" id="botaoSalvar_formOutros" onclick="submitForm('formOutros')">
+                                        </div>
+                                    </fieldset> -->
                                 </div>
 
 
@@ -440,6 +844,71 @@ $dependente = json_encode($dependente);
 
                                 <div id="documentos" class="tab-pane" role="tabpanel">
                                     <h4>Documentos</h4>
+                                    <fieldset>
+                                        <div class="panel-body">
+                                            <table class="table table-bordered table-striped mb-none" id="datatable-documentos">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Documento</th>
+                                                        <th>Data</th>
+                                                        <th>Ação</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="doc-tab">
+
+                                                </tbody>
+                                            </table>
+                                            <br>
+                                            <!-- Button trigger modal -->
+                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#docFormModal">
+                                                Adicionar Documento
+                                            </button>
+
+                                            <div class="modal fade" id="docFormModal" tabindex="-1" role="dialog" aria-labelledby="docFormModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header" style="display: flex;justify-content: space-between;">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Adicionar Documento</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <form action='./funcionario/docdependente_upload.php' method='post' enctype='multipart/form-data' id='funcionarioDocForm'>
+                                                            <div class="modal-body" style="padding: 15px 40px">
+                                                                <div class="form-group" style="display: grid;">
+                                                                    <label class="my-1 mr-2" for="id_docdependente">Tipo de Documento</label><br>
+                                                                    <div style="display: flex;">
+                                                                        <select name="id_docdependente" class="custom-select my-1 mr-sm-2" id="tipoDocumento" required>
+                                                                            <option selected disabled>Selecionar...</option>
+                                                                            <?php
+                                                                            foreach ($pdo->query("SELECT * FROM funcionario_docdependentes ORDER BY nome_docdependente ASC;")->fetchAll(PDO::FETCH_ASSOC) as $item) {
+                                                                                echo ("
+                                                                                <option value='" . $item["id_docdependentes"] . "' >" . $item["nome_docdependente"] . "</option>
+                                                                                ");
+                                                                            }
+                                                                            ?>
+                                                                        </select>
+                                                                        <a onclick="adicionarDocDependente()" style="margin: 0 20px;"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="arquivoDocumento">Arquivo do Documento</label>
+                                                                    <input name="arquivo" type="file" class="form-control-file" id="arquivoDocumento" accept="png;jpeg;jpg;pdf;docx;doc;odp" required>
+                                                                </div>
+
+                                                                <input type="number" name="id_dependente" value="<?= $_GET['id_dependente']; ?>" style='display: none;'>
+
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                                                <input type="submit" value="Enviar" class="btn btn-primary">
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
                                 </div>
                             </div>
                         </div>
@@ -453,45 +922,45 @@ $dependente = json_encode($dependente);
 
     <script>
         function pesquisacep(valor) {
-        //Nova variável "cep" somente com dígitos.
-        var cep = valor.replace(/\D/g, '');
+            //Nova variável "cep" somente com dígitos.
+            var cep = valor.replace(/\D/g, '');
 
-        //Verifica se campo cep possui valor informado.
-        if (cep != "") {
+            //Verifica se campo cep possui valor informado.
+            if (cep != "") {
 
-            //Expressão regular para validar o CEP.
-            var validacep = /^[0-9]{8}$/;
+                //Expressão regular para validar o CEP.
+                var validacep = /^[0-9]{8}$/;
 
-            //Valida o formato do CEP.
-            if (validacep.test(cep)) {
+                //Valida o formato do CEP.
+                if (validacep.test(cep)) {
 
-            //Preenche os campos com "..." enquanto consulta webservice.
-            document.getElementById('rua').value = "...";
-            document.getElementById('bairro').value = "...";
-            document.getElementById('cidade').value = "...";
-            document.getElementById('uf').value = "...";
-            document.getElementById('ibge').value = "...";
+                    //Preenche os campos com "..." enquanto consulta webservice.
+                    document.getElementById('rua').value = "...";
+                    document.getElementById('bairro').value = "...";
+                    document.getElementById('cidade').value = "...";
+                    document.getElementById('uf').value = "...";
+                    document.getElementById('ibge').value = "...";
 
-            //Cria um elemento javascript.
-            var script = document.createElement('script');
+                    //Cria um elemento javascript.
+                    var script = document.createElement('script');
 
-            //Sincroniza com o callback.
-            script.src = 'https://viacep.com.br/ws/' + cep + '/json/?callback=meu_callback';
+                    //Sincroniza com o callback.
+                    script.src = 'https://viacep.com.br/ws/' + cep + '/json/?callback=meu_callback';
 
-            //Insere script no documento e carrega o conteúdo.
-            document.body.appendChild(script);
+                    //Insere script no documento e carrega o conteúdo.
+                    document.body.appendChild(script);
 
+                } //end if.
+                else {
+                    //cep é inválido.
+                    limpa_formulário_cep();
+                    alert("Formato de CEP inválido.");
+                }
             } //end if.
             else {
-            //cep é inválido.
-            limpa_formulário_cep();
-            alert("Formato de CEP inválido.");
+                //cep sem valor, limpa formulário.
+                limpa_formulário_cep();
             }
-        } //end if.
-        else {
-            //cep sem valor, limpa formulário.
-            limpa_formulário_cep();
-        }
 
         };
     </script>

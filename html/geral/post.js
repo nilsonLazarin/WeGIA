@@ -1,4 +1,4 @@
-function post(url, args, callBack = function(){return true}){
+function post(url, args = null, callBack = function(){return true}){
     $.ajax({
         type: "POST",
         url: url,

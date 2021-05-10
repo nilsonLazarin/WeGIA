@@ -12,16 +12,8 @@ permissao($_SESSION['id_pessoa'], 1, 3);
 require_once "../../dao/Conexao.php";
 $pdo = Conexao::connect();
 
-extract($_REQUEST);
+extract($_POST);
 
-$nome = ($nome ? "'$nome'" : "NULL");
-$sobrenome = ($sobrenome ? "'$sobrenome'" : "NULL");
-$telefone = ($telefone ? "'$telefone'" : "NULL");
-$nome_pai = ($nome_pai ? "'$nome_pai'" : "NULL");
-$nome_mae = ($nome_mae ? "'$nome_mae'" : "NULL");
-$gender = ($gender ? "'$gender'" : "NULL");
-$sanque = ($sanque ? "'$sanque'" : "NULL");
-$nascimento = ($nascimento ? "'$nascimento'" : "NULL");
 $cep = ($cep ? "'$cep'" : "NULL");
 $uf = ($uf ? "'$uf'" : "NULL");
 $cicade = ($cicade ? "'$cicade'" : "NULL");
