@@ -462,11 +462,15 @@ $dependente = json_encode($dependente);
                         .append($("<td>").text(item.descricao))
                         .append($("<td>").text(item.data))
                         .append($("<td style='display: flex; justify-content: space-evenly;'>")
-                            .append($("<a href='./funcionario/dependente_docdependente.php?id_doc=" + item.id_doc + "&action=download' title='Visualizar ou Baixar'><button class='btn btn-primary'><i class='fas fa-download'></i></button></a>"))
+                            .append($("<a href='#' onclick='downloadDocDependente()' title='Visualizar ou Baixar'><button class='btn btn-primary'><i class='fas fa-download'></i></button></a>"))
                             .append($("<a href='#' onclick='excluir_docdependente(" + item.id_doc + ")' title='Excluir'><button class='btn btn-danger'><i class='fas fa-trash-alt'></i></button></a>"))
                         )
                     )
             });
+        }
+        
+        function downloadDocDependente(id_doc){
+            post('./funcionario/dependente_docdependente.php', "action=download&id_doc=" + id_doc);
         }
 
         function excluir_docdependente(id_doc) {

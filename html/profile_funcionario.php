@@ -72,7 +72,7 @@ $doc_funcionario = new DocumentoFuncionario($_GET["id_funcionario"]);
 
 require_once "./geral/msg.php";
 
-$docfuncional = $pdo->query("SELECT * FROM funcionario_docs f JOIN funcionario_docfuncional docf ON f.id_docfuncional = docf.id_docfuncional WHERE id_funcionario = ".$_GET['id_funcionario']);
+$docfuncional = $pdo->query("SELECT * FROM funcionario_docs f JOIN funcionario_docfuncional docf ON f.id_docfuncional = docf.id_docfuncional WHERE id_funcionario = " . $_GET['id_funcionario']);
 $docfuncional = $docfuncional->fetchAll(PDO::FETCH_ASSOC);
 $docfuncional = json_encode($docfuncional);
 
@@ -82,7 +82,7 @@ FROM funcionario_dependentes fdep
 LEFT JOIN funcionario f ON f.id_funcionario = fdep.id_funcionario
 LEFT JOIN pessoa p ON p.id_pessoa = fdep.id_pessoa
 LEFT JOIN funcionario_dependente_parentesco par ON par.id_parentesco = fdep.id_parentesco
-WHERE fdep.id_funcionario = ".$_GET['id_funcionario']);
+WHERE fdep.id_funcionario = " . $_GET['id_funcionario']);
 $dependente = $dependente->fetchAll(PDO::FETCH_ASSOC);
 $dependente = json_encode($dependente);
 
@@ -453,22 +453,22 @@ $dependente = json_encode($dependente);
         $("#total").text("Carga horária diária: " + (item.total || "Sem informação"));
         $("#carga_horaria_mensal").text("Carga horária mensal: " + (item.carga_horaria || "Sem informação"));
 
-        if (item.escala){
+        if (item.escala) {
           $("#escala_input").val(item.escala);
         }
-        if (item.tipo){
+        if (item.tipo) {
           $("#tipoCargaHoraria_input").val(item.tipo);
         }
-        if (item.entrada1){
+        if (item.entrada1) {
           $("#entrada1_input").val(item.entrada1);
         }
-        if (item.saida1){
+        if (item.saida1) {
           $("#saida1_input").val(item.saida1);
         }
-        if (item.entrada2){
+        if (item.entrada2) {
           $("#entrada2_input").val(item.entrada2);
         }
-        if (item.saida2){
+        if (item.saida2) {
           $("#saida2_input").val(item.saida2);
         }
 
@@ -566,32 +566,34 @@ $dependente = json_encode($dependente);
       })
     });
 
-    $(function(){
-      var docfuncional = <?= $docfuncional?>;
+    $(function() {
+      var docfuncional = <?= $docfuncional ?>;
 
-      $.each(docfuncional,function(i, item) {
+      $.each(docfuncional, function(i, item) {
         $("#doc-tab")
           .append($("<tr>")
             .append($("<td>").text(item.nome_docfuncional))
             .append($("<td>").text(item.data))
             .append($("<td style='display: flex; justify-content: space-evenly;'>")
-              .append($("<a href='./funcionario/documento_download.php?id_doc="+item.id_fundocs+"' title='Visualizar ou Baixar'><button class='btn btn-primary'><i class='fas fa-download'></i></button></a>"))
-              .append($("<a href='./funcionario/documento_excluir.php?id_doc="+item.id_fundocs+"&id_funcionario=<?= $_GET["id_funcionario"]?>' title='Excluir'><button class='btn btn-danger'><i class='fas fa-trash-alt'></i></button></a>"))
+              .append($("<a href='./funcionario/documento_download.php?id_doc=" + item.id_fundocs + "' title='Visualizar ou Baixar'><button class='btn btn-primary'><i class='fas fa-download'></i></button></a>"))
+              .append($("<a href='./funcionario/documento_excluir.php?id_doc=" + item.id_fundocs + "&id_funcionario=<?= $_GET["id_funcionario"] ?>' title='Excluir'><button class='btn btn-danger'><i class='fas fa-trash-alt'></i></button></a>"))
             )
           )
       });
     });
 
-    $(function () {
-			$('#datatable-docfuncional').DataTable( {
-				"order": [[ 0, "asc" ]]
-			} );
+    $(function() {
+      $('#datatable-docfuncional').DataTable({
+        "order": [
+          [0, "asc"]
+        ]
+      });
     });
-    
-    function listarDependentes(dependente){
+
+    function listarDependentes(dependente) {
       console.log(dependente);
       $("#dep-tab").empty();
-      $.each(dependente,function(i, dependente) {
+      $.each(dependente, function(i, dependente) {
         // dependente.cpf = [dependente.cpf.slice(0, 3), ".", dependente.cpf.slice(3, 6), ".", dependente.cpf.slice(6, 9), "-", dependente.cpf.slice(9, 11)].join("")
         $("#dep-tab")
           .append($("<tr>")
@@ -599,24 +601,24 @@ $dependente = json_encode($dependente);
             .append($("<td>").text(dependente.cpf))
             .append($("<td>").text(dependente.parentesco))
             .append($("<td style='display: flex; justify-content: space-evenly;'>")
-              .append($("<a href='./profile_dependente.php?id_dependente="+dependente.id_dependente+"' title='Editar'><button class='btn btn-primary'><i class='fas fa-user-edit'></i></button></a>"))
-              .append($("<button class='btn btn-danger' onclick='removerDependente("+dependente.id_dependente+")'><i class='fas fa-trash-alt'></i></button>"))
+              .append($("<a href='./profile_dependente.php?id_dependente=" + dependente.id_dependente + "' title='Editar'><button class='btn btn-primary'><i class='fas fa-user-edit'></i></button></a>"))
+              .append($("<button class='btn btn-danger' onclick='removerDependente(" + dependente.id_dependente + ")'><i class='fas fa-trash-alt'></i></button>"))
             )
           )
       });
     }
 
-    $(function(){
-      listarDependentes(<?= $dependente?>);
+    $(function() {
+      listarDependentes(<?= $dependente ?>);
     });
 
-    $(function () {
-			$('#datatable-dependente').DataTable( {
-				"order": [[ 0, "asc" ]]
-			} );
-		});
-
-
+    $(function() {
+      $('#datatable-dependente').DataTable({
+        "order": [
+          [0, "asc"]
+        ]
+      });
+    });
   </script>
   <script type="text/javascript">
     function numero_residencial() {
@@ -998,7 +1000,7 @@ $dependente = json_encode($dependente);
         <!-- start: page -->
 
         <!-- Mensagem -->
-        <?php getMsgSession("msg","tipo");?>
+        <?php getMsgSession("msg", "tipo"); ?>
 
 
         <div class="row">
@@ -1639,7 +1641,7 @@ $dependente = json_encode($dependente);
                               $pdo = Conexao::connect();
                               $escala = $pdo->query("SELECT * FROM escala_quadro_horario;")->fetchAll(PDO::FETCH_ASSOC);
                               foreach ($escala as $key => $value) {
-                                echo ("<option id='escala_".$value["id_escala"]."' value=" . $value["id_escala"] . ">" . $value["descricao"] . "</option>");
+                                echo ("<option id='escala_" . $value["id_escala"] . "' value=" . $value["id_escala"] . ">" . $value["descricao"] . "</option>");
                               }
                               ?>
                             </select>
@@ -1769,6 +1771,11 @@ $dependente = json_encode($dependente);
                           </ul>
                         </div>
                         <hr class="dotted short">
+                        <div class="form-group center">
+                          <button type="button" class="btn btn-primary" id="botaoEditar_formInfoPessoal" onclick="switchForm('formInfoPessoal')">Editar</button>
+                          <input id="enviarCarga" type="submit" class="btn btn-primary" value="Alterar carga">
+                          <input type="reset" class="btn btn-default">
+                        </div>
                         <div class="panel-footer">
                           <div class="row">
                             <div class="col-md-9 col-md-offset-3">
@@ -1830,7 +1837,7 @@ $dependente = json_encode($dependente);
                                 <span aria-hidden="true">&times;</span>
                               </button>
                             </div>
-                            <form action='./funcionario/documento_upload.php' method='post' enctype='multipart/form-data' id='funcionarioDocForm'> 
+                            <form action='./funcionario/documento_upload.php' method='post' enctype='multipart/form-data' id='funcionarioDocForm'>
                               <div class="modal-body" style="padding: 15px 40px">
                                 <div class="form-group" style="display: grid;">
                                   <label class="my-1 mr-2" for="tipoDocumento">Tipo de Documento</label><br>
@@ -1838,11 +1845,11 @@ $dependente = json_encode($dependente);
                                     <select name="id_docfuncional" class="custom-select my-1 mr-sm-2" id="tipoDocumento" required>
                                       <option selected disabled>Selecionar...</option>
                                       <?php
-                                        foreach ($pdo->query("SELECT * FROM funcionario_docfuncional ORDER BY nome_docfuncional ASC;")->fetchAll(PDO::FETCH_ASSOC) as $item){
-                                          echo("
-                                          <option value='".$item["id_docfuncional"]."' >".$item["nome_docfuncional"]."</option>
+                                      foreach ($pdo->query("SELECT * FROM funcionario_docfuncional ORDER BY nome_docfuncional ASC;")->fetchAll(PDO::FETCH_ASSOC) as $item) {
+                                        echo ("
+                                          <option value='" . $item["id_docfuncional"] . "' >" . $item["nome_docfuncional"] . "</option>
                                           ");
-                                        }
+                                      }
                                       ?>
                                     </select>
                                     <a onclick="adicionarDocFuncional()" style="margin: 0 20px;"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
@@ -1853,7 +1860,7 @@ $dependente = json_encode($dependente);
                                   <input name="arquivo" type="file" class="form-control-file" id="arquivoDocumento" accept="png;jpeg;jpg;pdf;docx;doc;odp" required>
                                 </div>
 
-                                <input type="number" name="id_funcionario" value="<?= $_GET['id_funcionario'];?>" style='display: none;'>
+                                <input type="number" name="id_funcionario" value="<?= $_GET['id_funcionario']; ?>" style='display: none;'>
 
                               </div>
                               <div class="modal-footer">
@@ -1909,7 +1916,7 @@ $dependente = json_encode($dependente);
                               <span aria-hidden="true">&times;</span>
                             </button>
                           </div>
-                          <form action='./funcionario/dependente_cadastrar.php' method='post' id='funcionarioDepForm'> 
+                          <form action='./funcionario/dependente_cadastrar.php' method='post' id='funcionarioDepForm'>
                             <div class="modal-body" style="padding: 15px 40px">
                               <div class="form-group" style="display: grid;">
                                 <h4 class="mb-xlg">Informações Pessoais</h4>
@@ -1960,19 +1967,19 @@ $dependente = json_encode($dependente);
                                   </div>
                                 </div>
                                 <div class="form-group">
-                                <label class="col-md-3 control-label" for="parentesco">Parentesco<sup class="obrig">*</sup></label>
+                                  <label class="col-md-3 control-label" for="parentesco">Parentesco<sup class="obrig">*</sup></label>
                                   <div class="col-md-6" style="display: flex;">
-                                      <select name="id_parentesco" id="parentesco">
-                                        <option selected disabled>Selecionar...</option>
-                                        <?php
-                                          foreach ($pdo->query("SELECT * FROM funcionario_dependente_parentesco ORDER BY descricao ASC;")->fetchAll(PDO::FETCH_ASSOC) as $item){
-                                            echo("
-                                            <option value='".$item["id_parentesco"]."' >".$item["descricao"]."</option>
+                                    <select name="id_parentesco" id="parentesco">
+                                      <option selected disabled>Selecionar...</option>
+                                      <?php
+                                      foreach ($pdo->query("SELECT * FROM funcionario_dependente_parentesco ORDER BY descricao ASC;")->fetchAll(PDO::FETCH_ASSOC) as $item) {
+                                        echo ("
+                                            <option value='" . $item["id_parentesco"] . "' >" . $item["descricao"] . "</option>
                                             ");
-                                          }
-                                        ?>
-                                      </select>
-                                      <a onclick="adicionarParentesco()" style="margin: 0 20px;"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
+                                      }
+                                      ?>
+                                    </select>
+                                    <a onclick="adicionarParentesco()" style="margin: 0 20px;"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
                                   </div>
                                 </div>
                                 <div class="form-group">
@@ -1993,7 +2000,7 @@ $dependente = json_encode($dependente);
                                     <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" id="profileCompany" name="data_expedicao" id="data_expedicao" max=<?php echo date('Y-m-d'); ?>>
                                   </div>
                                 </div>
-                                <input type="hidden" name="id_funcionario" value="<?= $_GET['id_funcionario'];?>" readonly>
+                                <input type="hidden" name="id_funcionario" value="<?= $_GET['id_funcionario']; ?>" readonly>
                                 <div class="modal-footer">
                                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                                   <input type="submit" value="Enviar" class="btn btn-primary">
@@ -2152,13 +2159,42 @@ $dependente = json_encode($dependente);
           gerarParentesco();
         },
         dataType: 'text'
-    })
+      })
     }
 
-    function removerDependente(id_dep){
+    function removerDependente(id_dep) {
       let url = "./funcionario/dependente_remover.php";
-      let data = "id_funcionario=<?= $_GET['id_funcionario'];?>&id_dependente="+id_dep;
+      let data = "id_funcionario=<?= $_GET['id_funcionario']; ?>&id_dependente=" + id_dep;
       post(url, data, listarDependentes);
+    }
+  </script>
+
+  <!-- JavaScript Custom -->
+  <script src="./geral/post.js"></script>
+  <script src="./geral/formulario.js"></script>
+
+  <script>
+    function switchButton(idForm) {
+      if (!formState[idForm]) {
+        $("#botaoEditar_" + idForm).text("Editar").prop("class", "btn btn-primary");
+      } else {
+        $("#botaoEditar_" + idForm).text("Cancelar").prop("class", "btn btn-danger");
+      }
+    }
+
+    function switchForm(idForm, setState = null) {
+      if (setState !== null) {
+        formState[idForm] = !setState;
+      }
+      if (formState[idForm]) {
+        formState[idForm] = false;
+        disableForm(idForm);
+        form.set(idForm, dependente);
+      } else {
+        formState[idForm] = true;
+        enableForm(idForm);
+      }
+      switchButton(idForm);
     }
   </script>
 </body>
