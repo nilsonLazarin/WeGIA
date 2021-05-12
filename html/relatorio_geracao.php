@@ -4,6 +4,8 @@
 		header ("Location: ../index.php");
 	}
 
+	define("DEBUG", false);
+
 	$config_path = "config.php";
 	if(file_exists($config_path)){
 		require_once($config_path);
@@ -62,7 +64,8 @@
 			'inicio' => $_POST['data_inicio'] != '' ? $_POST['data_inicio'] : null, 
 			'fim' => $_POST['data_fim'] != '' ? $_POST['data_fim'] : null
 		],
-		$_POST['almoxarifado'] != '' ? $_POST['almoxarifado'] : null
+		$_POST['almoxarifado'] != '' ? $_POST['almoxarifado'] : null,
+		$_POST['mostrarZerados'] == "on" ?? false
 	];
 
 	$item = new Item(
@@ -74,7 +77,8 @@
 			'inicio' => $_POST['data_inicio'], 
 			'fim' => $_POST['data_fim']
 		],
-		$_POST['almoxarifado']
+		$_POST['almoxarifado'],
+		$_POST['mostrarZerados'] == "on" ?? false
 	);
 
 	function quickQuery($query, $column){
@@ -213,6 +217,14 @@
 								<?php
 								if (isset($post[0])){
 
+									if (DEBUG){
+										echo "<pre>";
+										var_dump("GET", $_GET);
+										var_dump("POST", $_POST, $post);
+										var_dump("INSTANCIAS", $item, $item->hasValue());
+										echo "</pre>";
+									}
+
 									echo("<h3>Relatório de ".$post[0]."</h3>");
 
 									if ($post[0] == 'entrada'){
@@ -270,6 +282,12 @@
 										echo("<ul>Almoxarifado: ".$almoxarifado."</ul>");
 									}else{
 										echo("<ul>Almoxarifado: Todos</ul>");
+									}
+
+									if ($post[6]){
+										echo("<ul>Mostrando produtos fora de estoque</ul>");
+									}else {
+										echo("<ul>Ocultando produtos fora de estoque</ul>");
 									}
 								}
 								?>

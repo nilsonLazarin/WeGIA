@@ -8,6 +8,7 @@ function isEstoque(is_estoque){
     document.getElementById('per').style.display = Display;
     document.getElementById('tipo-entrada').style.display = Display;
     document.getElementById('tipo-saida').style.display = Display;
+    document.getElementById('panel-mostrarZerados').style.display = Hide;
 }
 
 function isEntrada(is_entrada){
