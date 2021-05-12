@@ -1771,23 +1771,13 @@ $dependente = json_encode($dependente);
                           </ul>
                         </div>
                         <hr class="dotted short">
+                        <input type="hidden" name="nomeClasse" value="FuncionarioControle">
+                        <input type="hidden" name="metodo" value="alterarCargaHoraria">
+                        <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
                         <div class="form-group center">
-                          <button type="button" class="btn btn-primary" id="botaoEditar_formInfoPessoal" onclick="switchForm('formInfoPessoal')">Editar</button>
+                          <button type="button" class="btn btn-primary" id="botaoEditar_editar_cargaHoraria" onclick="switchForm('editar_cargaHoraria')">Editar</button>
                           <input id="enviarCarga" type="submit" class="btn btn-primary" value="Alterar carga">
                           <input type="reset" class="btn btn-default">
-                        </div>
-                        <div class="panel-footer">
-                          <div class="row">
-                            <div class="col-md-9 col-md-offset-3">
-
-                              <input type="hidden" name="nomeClasse" value="FuncionarioControle">
-                              <input type="hidden" name="metodo" value="alterarCargaHoraria">
-                              <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
-                              <input id="enviarCarga" type="submit" class="btn btn-primary" value="Alterar carga">
-
-                              <input type="reset" class="btn btn-default">
-                            </div>
-                          </div>
                         </div>
                       </form>
                     </div>
@@ -2174,6 +2164,7 @@ $dependente = json_encode($dependente);
   <script src="./geral/formulario.js"></script>
 
   <script>
+    var formState = [];
     function switchButton(idForm) {
       if (!formState[idForm]) {
         $("#botaoEditar_" + idForm).text("Editar").prop("class", "btn btn-primary");
@@ -2189,13 +2180,14 @@ $dependente = json_encode($dependente);
       if (formState[idForm]) {
         formState[idForm] = false;
         disableForm(idForm);
-        form.set(idForm, dependente);
       } else {
         formState[idForm] = true;
         enableForm(idForm);
       }
       switchButton(idForm);
     }
+
+    switchForm("editar_cargaHoraria", false)
   </script>
 </body>
 
