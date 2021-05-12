@@ -56,7 +56,7 @@
 				<div class="row">
         <div class="box box-info box-solid box-geracaounica">
             <div class="box-header">
-              <h3 class="box-title"><i class="far fa-list-alt"></i> Geração de relatório (EM DESENVOLVIMENTO)</h3>
+              <h3 class="box-title"><i class="far fa-list-alt"></i> Geração de relatório</h3>
             </div>
             <div class="box-body">
             <form class="form-horizontal" id="form_relatorio" method="post">
