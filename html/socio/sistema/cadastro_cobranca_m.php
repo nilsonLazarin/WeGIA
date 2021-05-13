@@ -20,7 +20,7 @@
     // Lidando com aspas simples e duplas
     $socio_nome = addslashes($socio_nome);
     $local_recepcao = addslashes($local_recepcao);
-    $codigo = random_int(-99999999999, -1);
+    $codigo = rand() * -1;
     
     if(mysqli_query($conexao, "INSERT INTO `cobrancas`(`codigo`, `descricao`, `data_pagamento`, `valor`, `valor_pago`, `status`, `linha_digitavel`, `link_cobranca`, `link_boleto`, `id_socio`) VALUES ($codigo, 'PAGO EM $local_recepcao, $forma_doacao, RECEBIDO POR $receptor', $data_doacao, $valor, $valor, 'PAGO', 'PAGO EM $local_recepcao, $forma_doacao, RECEBIDO POR $receptor', '#', '#', $socio_id)")){
         if(mysqli_affected_rows($conexao)){
