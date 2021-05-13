@@ -393,7 +393,7 @@
 													<td class='v-center'><div>$car_name</div></td>
 													<td>");
 													foreach ($car_tab as $key => $valor){
-														$car_file = ($valor["arquivo"] ? $valor["arquivo"] : "");
+														$car_file = gzuncompress($valor["arquivo"] ? $valor["arquivo"] : "");
 														echo("<img src='data:image;base64,$car_file' class='my-sm' width='100%'>");
 													}
 													echo("</td>

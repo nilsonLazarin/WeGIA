@@ -34,7 +34,7 @@ function display_carrossel($campo){
     $files = $car->getCar();
     if ($files){
         foreach ($files as $key => $val){
-            echo('<div class="item ' . ($key == 0 ? 'active' : '') . '"><img src="data:image/'.$val["tipo"].';base64,' . $val["arquivo"] . '" ></div>');
+            echo('<div class="item ' . ($key == 0 ? 'active' : '') . '"><img src="data:image/'.$val["tipo"].';base64,' . gzuncompress($val["arquivo"]) . '" ></div>');
         }
     }else{
         echo("Não há imagens no Banco de dados para este Campo!");

@@ -74,6 +74,9 @@ require_once "./geral/msg.php";
 
 $docfuncional = $pdo->query("SELECT * FROM funcionario_docs f JOIN funcionario_docfuncional docf ON f.id_docfuncional = docf.id_docfuncional WHERE id_funcionario = " . $_GET['id_funcionario']);
 $docfuncional = $docfuncional->fetchAll(PDO::FETCH_ASSOC);
+foreach ($docfuncional as $key => $value) {
+  $docfuncional[$key]["arquivo"] = gzuncompress($value["arquivo"]);
+}
 $docfuncional = json_encode($docfuncional);
 
 $dependente = $pdo->query("SELECT 

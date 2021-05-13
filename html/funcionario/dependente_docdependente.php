@@ -30,7 +30,7 @@ define("TYPEOF_EXTENSION", [
 ]);
 
 if ($action == "download" || $g_action == "download"){
-    $sql = "SELECT extensao_arquivo, nome_arquivo, arquivo FROM funcionario_dependentes_docs WHERE id_doc=$g_id_doc;";
+    $sql = "SELECT extensao_arquivo, nome_arquivo, UNCOMPRESS(arquivo) AS arquivo FROM funcionario_dependentes_docs WHERE id_doc=$g_id_doc;";
     try {
         $docdependente = $pdo->query($sql);
         $docdependente = $docdependente->fetch(PDO::FETCH_ASSOC);
@@ -38,7 +38,7 @@ if ($action == "download" || $g_action == "download"){
         header("Content-Disposition: attachment; filename=".$docdependente["nome_arquivo"]);
         ob_clean();
         flush();
-        echo $docdependente["arquivo"];
+        echo base64_decode($docdependente["arquivo"]);
     } catch (PDOException $th) {
         echo "[{'exception': ['$th'], 'action': ['post': '$action', 'get': '$g_action'], 'id_doc': ['post': '$id_doc', 'get': '$g_id_doc']}]";
     }

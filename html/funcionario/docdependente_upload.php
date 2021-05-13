@@ -21,7 +21,7 @@ if ($_POST){
     try {
         $pdo = Conexao::connect();
         $prep = $pdo->prepare("INSERT INTO funcionario_dependentes_docs (id_dependente, id_docdependentes, extensao_arquivo, nome_arquivo, arquivo) 
-        VALUES ( :idf , :idd , :ext , :n , :a )");
+        VALUES ( :idf , :idd , :ext , :n , COMPRESS(:a) )");
 
         $prep->bindValue(":idf", $id_dependente);
         $prep->bindValue(":idd", $id_docdependente);

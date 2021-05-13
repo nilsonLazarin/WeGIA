@@ -21,8 +21,6 @@ if ($_POST){
 
     try {
         $pdo = Conexao::connect();
-        var_dump("INSERT INTO funcionario_docs (id_funcionario, id_docfuncional, extensao_arquivo, nome_arquivo, arquivo) 
-        VALUES ( $id_funcionario , $id_docfuncional , $extensao_arquivo , $nome_arquivo , $arquivo )");
         $prep = $pdo->prepare("INSERT INTO funcionario_docs (id_funcionario, id_docfuncional, extensao_arquivo, nome_arquivo, arquivo) 
         VALUES ( :idf , :idd , :ext , :n , :a )");
 
@@ -30,7 +28,7 @@ if ($_POST){
         $prep->bindValue(":idd", $id_docfuncional);
         $prep->bindValue(":ext", $extensao_arquivo);
         $prep->bindValue(":n", $nome_arquivo);
-        $prep->bindValue(":a", $arquivo_b64);
+        $prep->bindValue(":a", gzcompress($arquivo_b64));
 
         $prep->execute();
         
