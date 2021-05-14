@@ -1,5 +1,5 @@
 <?php
-		session_start();
+	session_start();
 	if(!isset($_SESSION['usuario'])){
 		header ("Location: ../index.php");
 	}
@@ -129,21 +129,21 @@
 		<?php unset($_SESSION['estoque']); ?>
 
 		$.each(estoque,function(i,item){
-			if (item.qtd > 0){
-				$("#tabela")
-					.append($("<tr class='item "+item.descricao_almoxarifado+" "+item.categoria+"'>")
-						.append($("<td>")
-							.text(item.codigo))
-						.append($("<td>")
-							.text(item.descricao))
-						.append($("<td>")
-							.text(item.categoria))
-						.append($("<td class='align-right'>")
-							.text(item.qtd))
-						.append($('<td />')
-							.text(item.descricao_almoxarifado)));
-			}
+			$("#tabela")
+				.append($("<tr class='item "+item.descricao_almoxarifado+" "+item.categoria+" "+(item.qtd <= 0 ? 'itemSemEstoque' : '')+"'>")
+					.append($("<td>")
+						.text(item.codigo))
+					.append($("<td>")
+						.text(item.descricao))
+					.append($("<td>")
+						.text(item.categoria))
+					.append($("<td class='align-right'>")
+						.text(item.qtd))
+					.append($('<td />')
+						.text(item.descricao_almoxarifado || "Nenhum")));
 		});
+		$('#mostrarZerado').prop('checked', false);
+		$('.itemSemEstoque').hide();
 	});
 	$(function () {
         $("#header").load("header.php");
@@ -158,6 +158,7 @@
 		// Retira a paginação para que todos os registros sejam exibidos
 		let categ = $('#categ').val();
 		let almox = $('#almox').val();
+		let mZero = $('#mostrarZerado').prop('checked') ? "Mostrando produtos fora de estoque" : "Mostrando apenas produtos em estoque";
 		$('#datatable-default').DataTable().destroy();
 		$('#datatable-default').DataTable({
 			"order":[[1, 'asc']],
@@ -172,7 +173,7 @@
 		$('#home-icon').empty();
 		$('#selecao').empty();
 		$('#home-icon').append($('<span />').text("<?php display_campo("Titulo","str");?>"));
-		$('#selecao').html("<h2>Estoque</h2>Almoxarifado: "+almox+"</br>Categoria: "+categ+"</br>");
+		$('#selecao').html("<h2>Estoque</h2>Almoxarifado: "+almox+"</br>Categoria: "+categ+"</br>"+mZero+"</br>");
 		filterItem();
 		$('.datatables-header').children(0).hide()
 		$('#print-btn')
@@ -196,11 +197,12 @@
 		$('#home-icon').append(homeIcon);
 		$('#selecao').append(Selecao);
 		filterItem();
-		$('.datatables-header').child().show()
+		$('.datatables-header').children(0).show()
 	};
 	var filtro = {
 		almoxarifado: "todos",
-		categoria: "todas"
+		categoria: "todas",
+		verZeros: false
 	}
 
 	function filterItem (){
@@ -219,6 +221,15 @@
 	function selectCategoria(value){
 		filtro.categoria = value;
 		filterItem();
+	}
+
+	function setMostrarZeros(){
+		filtro.verZeros = $('#mostrarZerado').prop('checked');
+		if (filtro.verZeros){
+			$('.itemSemEstoque').show();
+		}else{
+			$('.itemSemEstoque').hide();
+		}
 	}
 	</script>
 	
@@ -286,6 +297,7 @@
 										');
 									}
 									?>
+									<option value="nenhum">Nenhum</option>
 							</select>
 								<span>Categoria: </span>
 								<select class="select-table-filter form-control mb-md" data-table="order-table" oninput="selectCategoria(this.value)" id="categ">
@@ -301,6 +313,10 @@
 									}
 									?>
 							</select>
+							<div>
+								<label for="mostrarZerado">Exibir produtos fora de estoque: </label>
+								<input type="checkbox" name="mostrarZerado" id="mostrarZerado" oninput="setMostrarZeros()">
+							</div>
 						</div>
 						<div class="select" >
 	  					</div>
