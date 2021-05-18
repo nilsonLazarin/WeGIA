@@ -579,11 +579,26 @@ $dependente = json_encode($dependente);
             .append($("<td>").text(item.data))
             .append($("<td style='display: flex; justify-content: space-evenly;'>")
               .append($("<a href='./funcionario/documento_download.php?id_doc=" + item.id_fundocs + "' title='Visualizar ou Baixar'><button class='btn btn-primary'><i class='fas fa-download'></i></button></a>"))
-              .append($("<a href='./funcionario/documento_excluir.php?id_doc=" + item.id_fundocs + "&id_funcionario=<?= $_GET["id_funcionario"] ?>' title='Excluir'><button class='btn btn-danger'><i class='fas fa-trash-alt'></i></button></a>"))
+              .append($("<a onclick='removerFuncionarioDocs("+item.id_fundocs+")' href='#' title='Excluir'><button class='btn btn-danger'><i class='fas fa-trash-alt'></i></button></a>"))
             )
           )
       });
     });
+
+    function listarFunDocs(docfuncional){
+      $("#doc-tab").empty();
+      $.each(docfuncional, function(i, item) {
+        $("#doc-tab")
+          .append($("<tr>")
+            .append($("<td>").text(item.nome_docfuncional))
+            .append($("<td>").text(item.data))
+            .append($("<td style='display: flex; justify-content: space-evenly;'>")
+              .append($("<a href='./funcionario/documento_download.php?id_doc=" + item.id_fundocs + "' title='Visualizar ou Baixar'><button class='btn btn-primary'><i class='fas fa-download'></i></button></a>"))
+              .append($("<a onclick='removerFuncionarioDocs("+item.id_fundocs+")' href='#' title='Excluir'><button class='btn btn-danger'><i class='fas fa-trash-alt'></i></button></a>"))
+            )
+          )
+      });
+    }
 
     $(function() {
       $('#datatable-docfuncional').DataTable({
@@ -594,7 +609,6 @@ $dependente = json_encode($dependente);
     });
 
     function listarDependentes(dependente) {
-      console.log(dependente);
       $("#dep-tab").empty();
       $.each(dependente, function(i, dependente) {
         // dependente.cpf = [dependente.cpf.slice(0, 3), ".", dependente.cpf.slice(3, 6), ".", dependente.cpf.slice(6, 9), "-", dependente.cpf.slice(9, 11)].join("")
@@ -2089,7 +2103,6 @@ $dependente = json_encode($dependente);
     function adicionarDocFuncional() {
       url = './funcionario/documento_adicionar.php';
       var nome_docfuncional = window.prompt("Cadastre um novo tipo de Documento:");
-      console.log(nome_docfuncional);
       if (!nome_docfuncional) {
         return
       }
@@ -2100,7 +2113,6 @@ $dependente = json_encode($dependente);
 
       data = 'nome_docfuncional=' + nome_docfuncional;
 
-      console.log(data);
       $.ajax({
         type: "POST",
         url: url,
@@ -2121,7 +2133,6 @@ $dependente = json_encode($dependente);
         async: true,
         success: function(response) {
           var parentesco = response;
-          console.log(parentesco);
           $('#parentesco').empty();
           $('#parentesco').append('<option selected disabled>Selecionar...</option>');
           $.each(parentesco, function(i, item) {
@@ -2159,6 +2170,15 @@ $dependente = json_encode($dependente);
       let url = "./funcionario/dependente_remover.php";
       let data = "id_funcionario=<?= $_GET['id_funcionario']; ?>&id_dependente=" + id_dep;
       post(url, data, listarDependentes);
+    }
+
+    function removerFuncionarioDocs(id_doc) {
+      if (!window.confirm("Tem certeza que deseja remover esse documento?")){
+        return false;
+      }
+      let url = "./funcionario/documento_excluir.php?id_doc="+id_doc+"&id_funcionario=<?= $_GET["id_funcionario"] ?>";
+      let data = "";
+      post(url, data, listarFunDocs);
     }
   </script>
 
