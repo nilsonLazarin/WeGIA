@@ -134,7 +134,6 @@ $JSON_dependente = json_encode($dependente);
 
     <script>
         var dependente = <?= $JSON_dependente; ?>;
-        console.log(dependente);
         var url = "./funcionario/dependente_listar_um.php",
             data = "id_dependente=<?= $_GET["id_dependente"] ?>";
         var formState = [],
@@ -162,10 +161,6 @@ $JSON_dependente = json_encode($dependente);
                     if (dep.sexo) {
                         let radio = $("input:radio[name=gender]");
                         radio.filter('[value=' + dep.sexo + ']').prop('checked', true);
-                    }
-                    if (dep.tipo_sanguineo) {
-                        let select = $("#sanque");
-                        $("#sanque_" + dep.tipo_sanguineo.replace("+", "p").replace("-", "n").toLowerCase()).prop('selected', true);
                     }
                 },
                 formEndereco: function(dep) {
@@ -244,7 +239,6 @@ $JSON_dependente = json_encode($dependente);
                     disableForm("formInfoPessoal");
                     disableForm("formEndereco");
                     disableForm("formDocumentacao");
-                    disableForm("formOutros");
 
                     $.each(formState, function(i, item) {
                         formState[i] = false;
@@ -493,7 +487,6 @@ $JSON_dependente = json_encode($dependente);
                 return
             }
             data = "action=adicionar&nome=" + nome_docdependente;
-            console.log(url + "?" + data);
             post(url, data, gerarDocFuncional);
         }
     </script>
@@ -621,22 +614,6 @@ $JSON_dependente = json_encode($dependente);
                                             <label class="col-md-3 control-label" for="mae">Nome da mãe</label>
                                             <div class="col-md-8">
                                                 <input type="text" class="form-control" name="nome_mae" id="mae" onkeypress="return Onlychars(event)">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label" for="sangue">Tipo sanguíneo</label>
-                                            <div class="col-md-2">
-                                                <select class="form-control input-lg mb-md" name="sangue" id="sangue">
-                                                    <option selected disabled value="">Selecionar</option>
-                                                    <option id="sanque_ap" value="A+">A+</option>
-                                                    <option id="sanque_an" value="A-">A-</option>
-                                                    <option id="sanque_bp" value="B+">B+</option>
-                                                    <option id="sanque_bn" value="B-">B-</option>
-                                                    <option id="sanque_op" value="O+">O+</option>
-                                                    <option id="sanque_on" value="O-">O-</option>
-                                                    <option id="sanque_abp" value="AB+">AB+</option>
-                                                    <option id="sanque_abn" value="AB-">AB-</option>
-                                                </select>
                                             </div>
                                         </div>
                                         <div class="form-group center">
