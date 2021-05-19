@@ -294,6 +294,13 @@
 								</div>
                             </div>
 
+							<div class="form-group" id="panel-mostrarZerados">
+								<label for="mostrarZerados" class="col-md-3 control-label">Mostrar produtos sem movimentação</label>
+								<div class="col-md-8">
+									<input id="mostrarZerados" type="checkbox" name="mostrarZerados" style="margin: 10px 0;">
+								</div>
+							</div>
+
                             <div class="form-group">
                                 <div class="center-content">
                                     <input type="submit" value="Gerar" class="btn btn-primary" style="width: fit-content;">

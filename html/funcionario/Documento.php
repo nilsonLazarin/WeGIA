@@ -19,7 +19,7 @@ class DocumentoFuncionario {
             $pdo = Conexao::connect();
             $query = $pdo->query("SELECT extensao_arquivo, nome_arquivo, arquivo FROM funcionario_docs WHERE id_fundocs = $id ;");
             $query = $query->fetch(PDO::FETCH_ASSOC);
-            $this->setDocumento(base64_decode($query["arquivo"]));
+            $this->setDocumento(base64_decode(gzuncompress($query["arquivo"])));
             $this->setExtensao($query["extensao_arquivo"]);
             $this->setNome($query["nome_arquivo"]);
         } catch (PDOException $e) {

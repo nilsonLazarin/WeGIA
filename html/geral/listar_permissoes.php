@@ -156,7 +156,7 @@ require_once ROOT."/html/personalizacao_display.php";
 							<div class="panel-actions">
 								<a href="#" class="fa fa-caret-down"></a>
 							</div>
-							<h2 class="panel-title">Permissões (Em desenvolvimento)</h2>
+							<h2 class="panel-title">Permissões</h2>
 						</header>
 						<div class="panel-body">
 						<?php

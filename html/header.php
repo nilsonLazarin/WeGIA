@@ -1,20 +1,24 @@
 <?php
 
 $config_path = "config.php";
+$path = "";
 if(file_exists($config_path)){
-require_once($config_path);
+
+	require_once($config_path);
+
 }else{
-while(true){
-$config_path = "../" . $config_path;
-if(file_exists($config_path)) break;
-}
-require_once($config_path);
+	while(true){
+		$path .= "../";
+		$config_path = "../" . $config_path;
+		if(file_exists($config_path)) break;
+	}
+	require_once($config_path);
 
-session_start();
-require_once "../dao/Conexao.php";
+	session_start();
+	require_once $path."dao/Conexao.php";
 
-// Adiciona a Função display_campo($nome_campo, $tipo_campo)
-require_once ROOT."/html/personalizacao_display.php";
+	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
+	require_once ROOT."/html/personalizacao_display.php";
 }
 
 	$conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);

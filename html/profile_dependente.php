@@ -46,9 +46,6 @@ require_once ROOT . "/controle/InternoControle.php";
 $cpf1 = new InternoControle;
 $cpf1->listarCPF();
 
-require_once "./funcionario/Documento.php";
-$doc_funcionario = new DocumentoFuncionario($_GET["id_funcionario"]);
-
 require_once "./geral/msg.php";
 
 $dependente = $pdo->query("SELECT *, par.descricao AS parentesco
@@ -56,8 +53,10 @@ FROM funcionario_dependentes fdep
 LEFT JOIN pessoa p ON p.id_pessoa = fdep.id_pessoa
 LEFT JOIN funcionario_dependente_parentesco par ON par.id_parentesco = fdep.id_parentesco
 WHERE fdep.id_dependente = " . $_GET['id_dependente'] ?? null);
-$dependente = $dependente->fetchAll(PDO::FETCH_ASSOC)[0];
-$dependente = json_encode($dependente);
+$dependente = $dependente->fetch(PDO::FETCH_ASSOC);
+$dependente["nome_funcionario"] = ($pdo->query("SELECT p.nome FROM funcionario f LEFT JOIN pessoa p ON f.id_pessoa = p.id_pessoa WHERE f.id_funcionario = ".$dependente["id_funcionario"].";")->fetch(PDO::FETCH_ASSOC))["nome"];
+$dependente["sobrenome_funcionario"] = ($pdo->query("SELECT p.sobrenome FROM funcionario f LEFT JOIN pessoa p ON f.id_pessoa = p.id_pessoa WHERE f.id_funcionario = ".$dependente["id_funcionario"].";")->fetch(PDO::FETCH_ASSOC))["sobrenome"];
+$JSON_dependente = json_encode($dependente);
 
 ?>
 <!doctype html>
@@ -66,7 +65,7 @@ $dependente = json_encode($dependente);
 <head>
     <!-- Basic -->
     <meta charset="UTF-8">
-    <title>Perfil dependente</title>
+    <title>Perfil de Dependente</title>
     <meta name="keywords" content="HTML5 Admin Template" />
     <meta name="description" content="Porto Admin - Responsive HTML5 Template">
     <meta name="author" content="okler.net">
@@ -134,7 +133,8 @@ $dependente = json_encode($dependente);
     <script src="./geral/formulario.js"></script>
 
     <script>
-        var dependente = <?= $dependente; ?>;
+        var dependente = <?= $JSON_dependente; ?>;
+        console.log(dependente);
         var url = "./funcionario/dependente_listar_um.php",
             data = "id_dependente=<?= $_GET["id_dependente"] ?>";
         var formState = [],
@@ -462,7 +462,7 @@ $dependente = json_encode($dependente);
                         .append($("<td>").text(item.descricao))
                         .append($("<td>").text(item.data))
                         .append($("<td style='display: flex; justify-content: space-evenly;'>")
-                            .append($("<a href='./funcionario/dependente_docdependente.php?id_doc=" + item.id_doc + "&action=download' title='Visualizar ou Baixar'><button class='btn btn-primary'><i class='fas fa-download'></i></button></a>"))
+                            .append($("<a href='./funcionario/dependente_docdependente.php?action=download&id_doc="+item.id_doc+"' title='Visualizar ou Baixar'><button class='btn btn-primary'><i class='fas fa-download'></i></button></a>"))
                             .append($("<a href='#' onclick='excluir_docdependente(" + item.id_doc + ")' title='Excluir'><button class='btn btn-danger'><i class='fas fa-trash-alt'></i></button></a>"))
                         )
                     )
@@ -536,7 +536,7 @@ $dependente = json_encode($dependente);
             <!-- end: sidebar -->
             <section role="main" class="content-body">
                 <header class="page-header">
-                    <h2>Perfil</h2>
+                    <h2>Dependente</h2>
                     <div class="right-wrapper pull-right">
                         <ol class="breadcrumbs">
                             <li>
@@ -545,7 +545,7 @@ $dependente = json_encode($dependente);
                                 </a>
                             </li>
                             <li><span>Páginas</span></li>
-                            <li><span>Perfil</span></li>
+                            <li><span>Dependente</span></li>
                         </ol>
                         <a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
                     </div>
@@ -558,6 +558,7 @@ $dependente = json_encode($dependente);
 
                 <div class="panel">
                     <div class="panel-body">
+                        <h3>Dependente de: <?= $dependente["nome_funcionario"] . " " . $dependente["sobrenome_funcionario"];?></h3>
                         <div class="tabs">
 
                             <ul class="nav nav-tabs tabs-primary">

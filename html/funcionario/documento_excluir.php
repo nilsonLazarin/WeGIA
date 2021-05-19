@@ -16,9 +16,13 @@ extract($_GET);
 
 $arquivo = new DocumentoFuncionario($id_doc);
 if (!$arquivo->getException()){
-
     $arquivo->delete();
-    header("Location: ../profile_funcionario.php?id_funcionario=$id_funcionario");
+    $sql = "SELECT f.id_fundocs, f.`data`, docf.nome_docfuncional FROM funcionario_docs f JOIN funcionario_docfuncional docf ON f.id_docfuncional = docf.id_docfuncional WHERE id_funcionario = " . $_GET['id_funcionario'] . ";";
+    $pdo = Conexao::connect();
+    $docfuncional = $pdo->query($sql);
+    $docfuncional = $docfuncional->fetchAll(PDO::FETCH_ASSOC);
+    $docfuncional = json_encode($docfuncional);
+    echo $docfuncional;
 }else{
     echo $arquivo->getException();
 }

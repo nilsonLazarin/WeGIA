@@ -13,17 +13,22 @@ require_once "../../dao/Conexao.php";
 
 $id_dependente = $_POST["id_dependente"];
 
-$pdo = Conexao::connect();
-$pdo->query("DELETE FROM funcionario_dependentes WHERE id_dependente = $id_dependente;");
-
-$response = $pdo->query("SELECT 
-fdep.id_dependente AS id_dependente, p.nome AS nome, p.cpf AS cpf, par.descricao AS parentesco
-FROM funcionario_dependentes fdep
-LEFT JOIN funcionario f ON f.id_funcionario = fdep.id_funcionario
-LEFT JOIN pessoa p ON p.id_pessoa = fdep.id_pessoa
-LEFT JOIN funcionario_dependente_parentesco par ON par.id_parentesco = fdep.id_parentesco
-WHERE fdep.id_funcionario = ".$_POST['id_funcionario']);
-$response = $response->fetchAll(PDO::FETCH_ASSOC);
-echo json_encode($response);
+try {
+    $pdo = Conexao::connect();
+    // $pdo->query("DELETE FROM funcionario_dependentes_docs WHERE id_dependente = $id_dependente;");
+    $pdo->query("DELETE FROM funcionario_dependentes WHERE id_dependente = $id_dependente;");
+    
+    $response = $pdo->query("SELECT 
+    fdep.id_dependente AS id_dependente, p.nome AS nome, p.cpf AS cpf, par.descricao AS parentesco
+    FROM funcionario_dependentes fdep
+    LEFT JOIN funcionario f ON f.id_funcionario = fdep.id_funcionario
+    LEFT JOIN pessoa p ON p.id_pessoa = fdep.id_pessoa
+    LEFT JOIN funcionario_dependente_parentesco par ON par.id_parentesco = fdep.id_parentesco
+    WHERE fdep.id_funcionario = ".$_POST['id_funcionario']);
+    $response = $response->fetchAll(PDO::FETCH_ASSOC);
+    echo json_encode($response);
+} catch (PDOException $th) {
+    echo json_encode($th);
+}
 
 die();

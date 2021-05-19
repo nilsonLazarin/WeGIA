@@ -43,7 +43,7 @@
         // Somente imagens, .jpg;.jpeg;.gif;.png
         if ( strstr ( '.jpg;.jpeg;.gif;.png;.bin', $extensao ) ) {
 
-            $img = base64_encode(file_get_contents(addslashes($arquivo_tmp)));
+            $img = gzcompress(base64_encode(file_get_contents(addslashes($arquivo_tmp))));
             $nome = addslashes($nome);
 
             $cmd = $pdo->prepare("select nome from imagem where nome=:n");

@@ -13,10 +13,10 @@ permissao($_SESSION['id_pessoa'], 11, 7);
 require_once "../../dao/Conexao.php";
 $pdo = Conexao::connect();
 extract($_POST);
+$id_doc = $_POST["id_doc"] ?? null;
 $action = $_POST["action"] ?? null;
-$$descricao = $_POST["descricao"] ?? null;
-
-$sql = "SELECT extensao_arquivo, nome_arquivo, arquivo FROM funcionario_dependentes_docs WHERE id_doc=$id_doc;";
+$g_id_doc = $_GET["id_doc"] ?? null;
+$g_action = $_GET["action"] ?? null;
 
 
 define("TYPEOF_EXTENSION", [
@@ -29,7 +29,8 @@ define("TYPEOF_EXTENSION", [
     'odp' => 'application/odp',
 ]);
 
-if ($action == "download"){
+if ($action == "download" || $g_action == "download"){
+    $sql = "SELECT extensao_arquivo, nome_arquivo, UNCOMPRESS(arquivo) AS arquivo FROM funcionario_dependentes_docs WHERE id_doc=$g_id_doc;";
     try {
         $docdependente = $pdo->query($sql);
         $docdependente = $docdependente->fetch(PDO::FETCH_ASSOC);
@@ -37,11 +38,11 @@ if ($action == "download"){
         header("Content-Disposition: attachment; filename=".$docdependente["nome_arquivo"]);
         ob_clean();
         flush();
-        echo $docdependente["arquivo"];
+        echo base64_decode($docdependente["arquivo"]);
     } catch (PDOException $th) {
-        echo "[{'exception': '$th'}]";
+        echo "[{'exception': ['$th'], 'action': ['post': '$action', 'get': '$g_action'], 'id_doc': ['post': '$id_doc', 'get': '$g_id_doc']}]";
     }
-}else if ($action == "excluir"){
+}else if ($action == "excluir" || $g_action == "excluir"){
     $sql = [
         "DELETE FROM funcionario_dependentes_docs WHERE id_doc=$id_doc;",
         "SELECT doc.nome_docdependente AS descricao, ddoc.data, ddoc.id_doc FROM funcionario_dependentes_docs ddoc LEFT JOIN funcionario_docdependentes doc ON doc.id_docdependentes = ddoc.id_docdependentes WHERE ddoc.id_dependente=$id_dependente;"
@@ -53,9 +54,9 @@ if ($action == "download"){
         $docdependente = json_encode($docdependente);
         echo $docdependente;
     } catch (PDOException $th) {
-        echo "[{'exception': '$th'}]";
+        echo "[{'exception': ['$th'], 'action': ['post': '$action', 'get': '$g_action'], 'id_doc': ['post': '$id_doc', 'get': '$g_id_doc']}]";
     }
-}else if ($action = "adicionar"){
+}else if ($action = "adicionar" || $g_action == "adicionar"){
     $sql = [
         "INSERT INTO funcionario_docdependentes (nome_docdependente) VALUES (:n);",
         "SELECT * FROM funcionario_docdependentes;"
@@ -69,7 +70,7 @@ if ($action == "download"){
         $docdependente = json_encode($docdependente);
         echo $docdependente;
     } catch (PDOException $th) {
-        echo "[{'exception': '$th'}]";
+        echo "[{'exception': ['$th'], 'action': ['post': '$action', 'get': '$g_action'], 'id_doc': ['post': '$id_doc', 'get': '$g_id_doc']}]";
     }
 }
 

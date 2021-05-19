@@ -11,11 +11,12 @@ class Item {
     private $periodo; // Array('inicio' => data de inicio, 'fim' => data de fim)
     private $almoxarifado;
     private $query;
+    private $mostrarZerado;
     private $DDL_cmd;
 
     // Constructor
 
-    public function __construct($relat, $o_d, $t, $resp, $p, $a){
+    public function __construct($relat, $o_d, $t, $resp, $p, $a, $z=false){
         $this
             ->setRelatorio($relat)
             ->setOrigem($o_d)
@@ -24,18 +25,20 @@ class Item {
             ->setResponsavel($resp)
             ->setPeriodo($p)
             ->setAlmoxarifado($a)
+            ->setMostrarZerado($z)
         ;
     }
 
     // Metodos
 
-    private function hasValue(){
+    public function hasValue(){
         return ($this->getOrigem()
         || $this->getTipo()
         || $this->getResponsavel()
         || $this->getPeriodo()['inicio']
         || $this->getPeriodo()['fim']
         || $this->getAlmoxarifado()
+        || $this->getMostrarZerado()
     );
     }
 
@@ -164,35 +167,50 @@ class Item {
 
     private function estoque(){
         if ($this->hasValue()){
-            $params = "WHERE qtd > 0 AND oculto=false ";
-            $cont = 2;
+            $params = "WHERE oculto=false ";
+            $cont = 1;
             if ($this->getAlmoxarifado()){
                 $params = $this->param($params, $cont).' id_almoxarifado = '.$this->getAlmoxarifado().' ';
                 $cont++;
             }
-            $this->setDDL_cmd("
-            CREATE TEMPORARY TABLE IF NOT EXISTS tabela1 
-            SELECT produto.id_produto, sum(qtd) as somatorio, produto.descricao, (sum(qtd) * ientrada.valor_unitario) as Total, 
-            concat(ientrada.id_produto,valor_unitario) as kungfu 
-            FROM ientrada, produto 
-            WHERE ientrada.id_produto=produto.id_produto 
-            GROUP by kungfu 
-            ORDER by produto.descricao;
-            
-            CREATE TEMPORARY TABLE IF NOT EXISTS tabela2 
-            SELECT id_produto, (sum(Total)/sum(somatorio)) AS PrecoMedio 
-            FROM tabela1 
-            GROUP by tabela1.descricao;
+            $showZero = !!$this->getMostrarZerado();
+            $table1 = [
+                "CREATE TEMPORARY TABLE IF NOT EXISTS tabela_produto_entrada 
+                SELECT produto.id_produto, produto.preco, sum(qtd) as somatorio, produto.descricao, (sum(qtd) * ientrada.valor_unitario) as Total, 
+                concat(ientrada.id_produto,valor_unitario) as kungfu 
+                FROM ientrada, produto 
+                WHERE ientrada.id_produto=produto.id_produto 
+                GROUP by kungfu 
+                ORDER by produto.descricao;
+                
+                ",
+                "CREATE TEMPORARY TABLE IF NOT EXISTS tabela_produto_entrada 
+                SELECT produto.id_produto, produto.preco, IFNULL(sum(qtd), 0) as somatorio, produto.descricao, (sum(qtd) * ientrada.valor_unitario) as Total, 
+                concat(produto.id_produto,IFNULL(ientrada.valor_unitario, 0)) as kungfu 
+                FROM produto 
+                LEFT JOIN ientrada ON ientrada.id_produto=produto.id_produto 
+                GROUP by kungfu 
+                ORDER by produto.descricao;
+                
+                "
+            ];
+            $this->setDDL_cmd( $table1[(int)$showZero] .
+            "CREATE TEMPORARY TABLE IF NOT EXISTS tabelaPrecoMedio 
+            SELECT id_produto, IFNULL(sum(Total)/sum(somatorio) , preco) AS PrecoMedio 
+            FROM tabela_produto_entrada 
+            GROUP by tabela_produto_entrada.descricao; 
             
             CREATE TEMPORARY TABLE IF NOT EXISTS estoque_com_preco_atualizado 
-            SELECT estoque.id_produto, id_categoria_produto, id_unidade, codigo, qtd, descricao, PrecoMedio, (qtd*PrecoMedio) as Total, almoxarifado.id_almoxarifado, produto.oculto
-            FROM tabela2,estoque,produto,almoxarifado
-            WHERE produto.id_produto=estoque.id_produto AND estoque.id_produto=tabela2.id_produto AND estoque.id_almoxarifado=almoxarifado.id_almoxarifado;
+            SELECT p.id_produto, p.id_categoria_produto, p.id_unidade, p.codigo, IFNULL(e.qtd, 0) as qtd, p.descricao, pm.PrecoMedio, IFNULL(e.qtd * pm.PrecoMedio, 0) as Total, a.id_almoxarifado, p.oculto 
+            FROM tabelaPrecoMedio pm
+            LEFT JOIN produto p ON pm.id_produto = p.id_produto 
+            LEFT JOIN estoque e ON e.id_produto = p.id_produto 
+            LEFT JOIN almoxarifado a ON a.id_almoxarifado = e.id_almoxarifado
+            WHERE p.id_produto = pm.id_produto; 
             ");
-            $this->setQuery("
-            SELECT qtd AS qtd_total, descricao, Total AS valor_total, PrecoMedio FROM estoque_com_preco_atualizado 
-            ".$params."
-            ORDER BY descricao
+            $this->setQuery(
+            "SELECT e.qtd AS qtd_total, e.descricao, e.Total AS valor_total, e.PrecoMedio FROM estoque_com_preco_atualizado e ".$params."
+            ORDER BY e.descricao
             ;
             ");
         }else{
@@ -392,6 +410,18 @@ class Item {
     public function setDDL_cmd($DDL_cmd)
     {
         $this->DDL_cmd = $DDL_cmd;
+
+        return $this;
+    }
+
+    public function getMostrarZerado()
+    {
+        return $this->mostrarZerado;
+    }
+
+    public function setMostrarZerado($mostrarZerado)
+    {
+        $this->mostrarZerado = $mostrarZerado;
 
         return $this;
     }

@@ -23,11 +23,15 @@ function getPermissao ($id_cargo, $id_recurso){
 }
 
 function isAlmoxarife($id_pessoa, $id_almoxarifado){
-    $id_funcionario = getFuncionario($id_pessoa);
-    $pdo = Conexao::connect();
-    $res = $pdo->query("SELECT * FROM almoxarife WHERE id_funcionario = $id_funcionario AND id_almoxarifado = $id_almoxarifado;");
-    $almoxarifados = $res->fetch(PDO::FETCH_ASSOC);
-    return !!$almoxarifados;
+    if ($id_almoxarifado){
+        $id_funcionario = getFuncionario($id_pessoa);
+        $pdo = Conexao::connect();
+        $res = $pdo->query("SELECT * FROM almoxarife WHERE id_funcionario = $id_funcionario AND id_almoxarifado = $id_almoxarifado;");
+        $almoxarifados = $res->fetch(PDO::FETCH_ASSOC);
+        return !!$almoxarifados;
+    }else{
+        return true;
+    }
 }
 
 function permissaoUsuario ($id_pessoa, $id_recurso){

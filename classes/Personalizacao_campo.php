@@ -19,7 +19,7 @@ class Campo {
             ->setId($id)
             ->setTipo($t)
             ->setNome($n)
-            ->setConteudo(nl2br($c))
+            ->setConteudo($c)
         ;
     }
 
@@ -83,7 +83,7 @@ class Campo {
         echo('
         <tr onclick="post(' . "'personalizacao_selecao.php', {tipo: 'img', id: $id}" . ')">
             <td class="v-center"><div>' . $this->getNome() . '</div></td>
-            <td><img id="img-1" src="data:image;base64,' . $this->getConteudo() . '" width="100%"></td>
+            <td><img id="img-1" src="data:image;base64,' . gzuncompress($this->getConteudo()) . '" width="100%"></td>
         </tr>');
     }
 
@@ -113,7 +113,7 @@ class Campo {
             <td class="v-center"><div><button title="Selecionar" class="btn btn-light" type="button"><i class="far fa-square"></i></button></div></td>
             <td class="v-center"><div>' . $this->getNome() . '</div></td>
             <td>
-                <img id="img-' . $this->getId() . '" src="data:image;base64,' . $this->getConteudo() . '" width="100%">
+                <img id="img-' . $this->getId() . '" src="data:image;base64,' . gzuncompress($this->getConteudo()) . '" width="100%">
             </td>
         </tr>');
     }
@@ -129,7 +129,7 @@ class Campo {
         <tr onclick="post('.$args.')">
             <td class="v-center"><div>' . $this->getNome() . '</div></td>
             <td>
-                <img id="img-' . $id . '" src="data:image;base64,' . $this->getConteudo() . '" width="100%">
+                <img id="img-' . $id . '" src="data:image;base64,' . gzuncompress($this->getConteudo()) . '" width="100%">
             </td>
         </tr>');
     }
@@ -140,7 +140,7 @@ class Campo {
         echo('
         <tr id="'.$id.'" onclick="addToSelection(this)">
             <td class="v-center"><div>' . $this->getNome() . '</div></td>
-            <td><img id="img-1" src="data:image;base64,' . $this->getConteudo() . '" width="100%"></td>
+            <td><img id="img-1" src="data:image;base64,' . gzuncompress($this->getConteudo()) . '" width="100%"></td>
         </tr>');
     }
 

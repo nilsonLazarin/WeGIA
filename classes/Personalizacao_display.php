@@ -60,7 +60,7 @@ class Display_campo{
 
     public function setConteudo($conteudo)
     {
-        $this->conteudo = nl2br($conteudo);
+        $this->conteudo = $conteudo;
 
         return $this;
     }
@@ -83,13 +83,13 @@ class Display_campo{
             $this->setConteudo($result[0]['paragrafo']);
             echo('
             <div><h1>' . $this->getCampo() . '</h1></div>
-            <p>' . $this->getConteudo() . '</p>
+            <p>' . nl2br($this->getConteudo()) . '</p>
             ');
         }else{
             $this->setConteudo(NO_DATA);
             echo('
             <div><h1>' . $this->getCampo() . '</h1></div>
-            <p>' . $this->getConteudo() . '</p>
+            <p>' . nl2br($this->getConteudo()) . '</p>
             ');
         }
     }
@@ -98,10 +98,10 @@ class Display_campo{
         $result = $this->getQuery("select * from selecao_paragrafo where nome_campo='" . $this->getCampo() . "';");
         if (count($result) == 1){
             $this->setConteudo($result[0]['paragrafo']);
-            echo($this->getConteudo());
+            echo(nl2br($this->getConteudo()));
         }else{
             $this->setConteudo(NO_DATA);
-            echo($this->getConteudo());
+            echo(nl2br($this->getConteudo()));
         }
     }
 
@@ -115,7 +115,7 @@ class Display_campo{
         inner join imagem i on ic.id_imagem = i.id_imagem
         where c.nome_campo='$nome_campo';");
         if (count($result) == 1){
-            $this->setConteudo($result[0]['arquivo']);
+            $this->setConteudo(gzuncompress($result[0]['arquivo']));
             echo('data:image;base64,'.$this->getConteudo());
         }else{
             $this->setConteudo(NO_DATA);
@@ -133,7 +133,7 @@ class Display_campo{
         inner join imagem i on ic.id_imagem = i.id_imagem
         where c.nome_campo='$nome_campo';");
         if (count($result) == 1){
-            $this->setConteudo($result[0]['arquivo']);
+            $this->setConteudo(gzuncompress($result[0]['arquivo']));
             echo('data:image;base64,'.$this->getConteudo());
         }else{
             $this->setConteudo(NO_DATA);
