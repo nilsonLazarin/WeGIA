@@ -2159,10 +2159,23 @@ $dependente = json_encode($dependente);
       })
     }
 
+    function verificaSucesso(response){
+      console.log(response);
+      if (response.errorInfo){
+        if (response.errorInfo[1] == 1451){
+          window.alert("O dependente possui documentos cadastrados em seu nome. Retire-os do bando de dados antes de remover o dependente.");
+        }else{
+          window.alert("Houve um erro ao retirar o dependente. Verifique se todos os documentos referentes a ele foram removidos antes de prosseguir.");
+        }
+        return false;
+      }
+      listarDependentes(response);
+    }
+
     function removerDependente(id_dep) {
       let url = "./funcionario/dependente_remover.php";
       let data = "id_funcionario=<?= $_GET['id_funcionario']; ?>&id_dependente=" + id_dep;
-      post(url, data, listarDependentes);
+      post(url, data, verificaSucesso);
     }
 
     function removerFuncionarioDocs(id_doc) {
