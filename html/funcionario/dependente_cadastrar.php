@@ -13,7 +13,7 @@ $pdo = Conexao::connect();
 
 // Pessoa
 
-$cpf = str_replace(["-", "."], "", $_POST['cpf']);
+$cpf = $_POST['cpf'];
 $nome = $_POST['nome'];
 $sobrenome = $_POST['sobrenome'];
 $sexo = $_POST['sexo'];
@@ -48,7 +48,7 @@ try {
 $id_parentesco = $_POST['id_parentesco'];
 $id_funcionario = $_POST['id_funcionario'];
 try {
-    $id_pessoa = $pdo->query("SELECT id_pessoa FROM pessoa WHERE cpf = $cpf;")->fetch(PDO::FETCH_ASSOC)["id_pessoa"];
+    $id_pessoa = $pdo->query("SELECT id_pessoa FROM pessoa WHERE cpf = '$cpf';")->fetch(PDO::FETCH_ASSOC)["id_pessoa"];
 } catch (PDOException $th) {
     echo "Houve um erro ao obter o id da pessoa do banco de dados: $th";
     die();
