@@ -12,7 +12,7 @@
         $imagem = $result['imagem'];
         $tipo = $result['tipo'];
 
-        echo "<img id='logo_img' width='100px' src=data:image/".$tipo.";base64,".$imagem.">";
+        echo "<img id='logo_img' width='100px' src=data:image/".$tipo.";base64,".gzuncompress($imagem).">";
 
     } 
 
