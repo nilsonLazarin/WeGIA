@@ -155,7 +155,7 @@ $JSON_dependente = json_encode($dependente);
                     $("#nomeForm").val(dep.nome);
                     $("#sobrenomeForm").val(dep.sobrenome);
                     $("#telefone").val(dep.telefone);
-                    $("#nascimento").val(dep.nascimento)
+                    $("#nascimento").val(dep.data_nascimento);
                     $("#pai").val(dep.nome_pai);
                     $("#mae").val(dep.nome_mae);
                     if (dep.sexo) {
@@ -601,7 +601,7 @@ $JSON_dependente = json_encode($dependente);
                                         <div class="form-group">
                                             <label class="col-md-3 control-label" for="nascimento">Nascimento</label>
                                             <div class="col-md-8">
-                                                <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" id="nascimento" max=<?php echo date('Y-m-d'); ?>>
+                                                <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" id="nascimento" max="<?php echo date('Y-m-d'); ?>">
                                             </div>
                                         </div>
                                         <div class="form-group">
