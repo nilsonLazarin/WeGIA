@@ -224,12 +224,31 @@
 	}
 
 	function setMostrarZeros(){
+		let pageLen = $('#datatable-default').DataTable().page.len();
+		$('#datatable-default').DataTable().destroy();
+		$('#datatable-default').DataTable({
+			"order":[[1, 'asc']],
+			aLengthMenu: [
+				[-1],
+				["Mostrar Todos"]
+			],
+    		iDisplayLength: -1
+		});
 		filtro.verZeros = $('#mostrarZerado').prop('checked');
 		if (filtro.verZeros){
 			$('.itemSemEstoque').show();
 		}else{
 			$('.itemSemEstoque').hide();
 		}
+		$('#datatable-default').DataTable().destroy();
+		$('#datatable-default').DataTable({
+			"order":[[1, 'asc']],
+			aLengthMenu: [
+				[10, 25, 50, 100, -1],
+				[10, 25, 50, 100, "Tudo"]
+			],
+    		iDisplayLength: pageLen
+		});
 	}
 	</script>
 	
