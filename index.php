@@ -1,9 +1,12 @@
 <?php
 	date_default_timezone_set("America/Sao_Paulo");
+	require_once "./html/seguranca/sessionStart.php";
 	session_start();
 	if(isset($_SESSION['usuario'])){
 		header ("Location: ./html/home.php");
 	}
+	setcookie("PHPSESSID","", 0, "/");
+	session_destroy();
 	
 	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
 	require_once "html/personalizacao_display.php";

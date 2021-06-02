@@ -4,6 +4,7 @@
 
 	require_once '../dao/Conexao.php';
 	require_once '../Functions/funcoes.php';
+	require_once './seguranca/sessionStart.php';
 
 	if($_SERVER['REQUEST_METHOD']=="POST"){
 			session_start();
