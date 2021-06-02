@@ -10,7 +10,6 @@ if(file_exists($config_path)){
         if(file_exists($config_path)) break;
         if($loopLimit < 0) { 
             // Caso config.php não seja encontrado
-            echo("Test");
             header("Location: instalador/index.php");
             break;
         }

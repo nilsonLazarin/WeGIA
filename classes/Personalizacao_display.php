@@ -175,7 +175,7 @@ class Display_campo{
                 return $this->getCar();
             break;
             default:
-                $this->dislpay_err();
+                $this->display_err();
         }
     }
 }
