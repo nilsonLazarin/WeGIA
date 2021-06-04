@@ -1,84 +1,96 @@
+<?php
+$config_path = "config.php";
+if(file_exists($config_path)){
+    require_once($config_path);
+}else{
+    while(true){
+        $config_path = "../" . $config_path;
+        if(file_exists($config_path)) break;
+    }
+    require_once($config_path);
+}
+?>
 <!doctype html>
 <html class="fixed">
 <head>
-	<!-- Basic -->
-	<meta charset="UTF-8">
+    <!-- Basic -->
+    <meta charset="UTF-8">
 
-	<title>1. Introdução</title>
+    <title>3. Recursos</title>
 
-	<!-- Mobile Metas -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
-	<!-- Web Fonts  -->
-	<link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">
+    <!-- Web Fonts  -->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">
 
-	<!-- Vendor CSS -->
-	<link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css" />
-	<link rel="stylesheet" href="../assets/vendor/font-awesome/css/font-awesome.css" />
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
-	<link rel="stylesheet" href="../assets/vendor/magnific-popup/magnific-popup.css" />
-	<link rel="stylesheet" href="../assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
-	
-	<!-- Theme CSS -->
-	<link rel="stylesheet" href="../assets/stylesheets/theme.css" />
-	
-	<!-- Skin CSS -->
-	<link rel="stylesheet" href="../assets/stylesheets/skins/default.css" />
-	
-	<!-- Theme Custom CSS -->
-	<link rel="stylesheet" href="../assets/stylesheets/theme-custom.css">
-	
-	<!-- Head Libs -->
-	<script src="../assets/vendor/modernizr/modernizr.js"></script>
+    <!-- Vendor CSS -->
+    <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" href="../assets/vendor/font-awesome/css/font-awesome.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    <link rel="stylesheet" href="../assets/vendor/magnific-popup/magnific-popup.css" />
+    <link rel="stylesheet" href="../assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
+    
+    <!-- Theme CSS -->
+    <link rel="stylesheet" href="../assets/stylesheets/theme.css" />
+    
+    <!-- Skin CSS -->
+    <link rel="stylesheet" href="../assets/stylesheets/skins/default.css" />
+    
+    <!-- Theme Custom CSS -->
+    <link rel="stylesheet" href="../assets/stylesheets/theme-custom.css">
+    
+    <!-- Head Libs -->
+    <script src="../assets/vendor/modernizr/modernizr.js"></script>
 
-	<!-- Atualizacao CSS -->
-	<link rel="stylesheet" href="../css/atualizacao.css" />
-	
+    <!-- Atualizacao CSS -->
+    <link rel="stylesheet" href="../css/atualizacao.css" />
+
     <!-- Manual CSS -->
     <link rel="stylesheet" href="../css/manual.css">
     
-	<!-- Vendor -->
-	<script src="../assets/vendor/jquery/jquery.min.js"></script>
-	<script src="../assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
-	<script src="../assets/vendor/bootstrap/js/bootstrap.js"></script>
-	<script src="../assets/vendor/nanoscroller/nanoscroller.js"></script>
-	<script src="../assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-	<script src="../assets/vendor/magnific-popup/magnific-popup.js"></script>
-	<script src="../assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
-		
-	<!-- Specific Page Vendor -->
-	<script src="../assets/vendor/jquery-autosize/jquery.autosize.js"></script>
-		
-	<!-- Theme Base, Components and Settings -->
-	<script src="../assets/javascripts/theme.js"></script>
-		
-	<!-- Theme Custom -->
-	<script src="../assets/javascripts/theme.custom.js"></script>
-		
-	<!-- Theme Initialization Files -->
-	<script src="../assets/javascripts/theme.init.js"></script>
+    <!-- Vendor -->
+    <script src="../assets/vendor/jquery/jquery.min.js"></script>
+    <script src="../assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
+    <script src="../assets/vendor/bootstrap/js/bootstrap.js"></script>
+    <script src="../assets/vendor/nanoscroller/nanoscroller.js"></script>
+    <script src="../assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <script src="../assets/vendor/magnific-popup/magnific-popup.js"></script>
+    <script src="../assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
+        
+    <!-- Specific Page Vendor -->
+    <script src="../assets/vendor/jquery-autosize/jquery.autosize.js"></script>
+        
+    <!-- Theme Base, Components and Settings -->
+    <script src="../assets/javascripts/theme.js"></script>
+        
+    <!-- Theme Custom -->
+    <script src="../assets/javascripts/theme.custom.js"></script>
+        
+    <!-- Theme Initialization Files -->
+    <script src="../assets/javascripts/theme.init.js"></script>
 
-	<!-- javascript functions --> <script
-	src="../Functions/onlyNumbers.js"></script> <script
-	src="../Functions/onlyChars.js"></script> <script
-	src="../Functions/mascara.js"></script>
+    <!-- javascript functions --> <script
+    src="../Functions/onlyNumbers.js"></script> <script
+    src="../Functions/onlyChars.js"></script> <script
+    src="../Functions/mascara.js"></script>
 
-	<!-- jquery functions -->
-	<script>
-   		document.write('<a href="' + document.referrer + '"></a>');
-	</script>
+    <!-- jquery functions -->
+    <script>
+        document.write('<a href="' + document.referrer + '"></a>');
+    </script>
     
     <!-- javascript tab management script -->
 
 
 </head>
 <body>
-	<section class="body">
-		<div id="header"></div>
-	        <!-- end: header -->
-		<div class="inner-wrapper" style="padding-top: 50px;">
-			<!-- start: sidebar -->
-			<aside id="sidebar-left" class="sidebar-left menuu">
+    <section class="body">
+        <div id="header"></div>
+            <!-- end: header -->
+        <div class="inner-wrapper" style="padding-top: 50px;">
+            <!-- start: sidebar -->
+            <aside id="sidebar-left" class="sidebar-left menuu">
 
 
 
@@ -133,7 +145,7 @@
                                         </li>
                                         <li>
                                             <a href="./recursos.php">
-                                                3. Recursos
+                                                3. Módulos
                                             </a>
                                         </li>
                                         <li>
@@ -148,16 +160,29 @@
                                         </li>
                                     </ul>
                                 </li>
-                                <li id="1" class="nav-parent nav-active">
+                                <li id="3" class="nav-parent nav-active">
                                     <a>
-                                        <span>1. Introdução</span>
+                                        <span>3. Módulos</span>
                                     </a>
                                     <ul class="nav nav-children">
-                                        <li id="10">
-                                            <a href="#_introducao">
-                                                1.0. Introdução
+                                        <li>
+                                            <a href="#_recursos">
+                                                3.0 Recursos
                                             </a>
                                         </li>
+
+                                        <li class="sub1">
+                                            <a href="#_rh">
+                                                3.1. Recursos Humanos
+                                            </a>
+                                        </li>
+                                        <li class="sub2">
+                                            <a href="#_cadastro_funcionario">
+                                                3.1.1. Cadastro de Funcionários
+                                            </a>
+                                        </li>
+        
+                                       
                                     </ul>
                                 </li>
                             </ul>
@@ -193,40 +218,42 @@
 
 
             </aside>
-			<!-- end: sidebar -->
-			<section role="main" class="content-body">
-				<header class="page-header">
-					<h2>Capítulo 1: Introdução</h2>
-					<div class="right-wrapper pull-right">
-						<ol class="breadcrumbs">
-							<li><span>Capítulo 1: Introdução</span></li>
-						</ol>
-						<a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
-					</div>
-				</header>
+            <!-- end: sidebar -->
+            <section role="main" class="content-body">
+                <header class="page-header">
+                    <h2>Capítulo 3: Módulos</h2>
+                    <div class="right-wrapper pull-right">
+                        <ol class="breadcrumbs">
+                            <li><span>Capítulo 3: Módulos</span></li>
+                        </ol>
+                        <a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
+                    </div>
+                </header>
                 <!--start: page-->
 
                 <!-- estrutura básica:
-                            <dir id="_">
-                                <h3></h3><hr>
-                                <p></p>
-                            </dir>
+                    <dir id="_">
+                        <h3></h3><hr>
+                        <p></p>
+                    </dir>
                 -->
 
-                <section id="_introducao">
-                    <h3>1. Introdução</h3><hr>
-                    <p>O Web Gerenciador para Instituições Assistenciais (WeGIA) é uma ferramenta direcionada para o gerenciamento de instituições assistenciais, com o intuito de melhorar a gestão e controle dessas entidades. Desse modo, essa ferramenta possibilita o controle e execução de seus recursos, como: 1) Pessoas, para cadastro de funcionários e atendidos; 2) Material e Patrimônio, para administração do almoxarifado e doações; 3) Memorando, para troca de mensagens institucionais entre os setores, diminuindo o fluxo de papel; 4) Contribuição, para captação de recursos, através de doações, via cartão de crédito ou boleto bancário. Com isso, esse software foi pensado para servidores locais de empresas que atendem os grupos vulneráveis da sociedade, como os asilos, orfanatos, casas de recuperação e entre outros.</p>
-                    <iframe width="560" height="315" src="https://www.youtube.com/embed/mhEGLNgz_wc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    <div class="justify-content-between">
-                        <a href="./" type="button" class="btn btn-secondary">
+                <section id="_recursos">
+                        <dir id="_rh">
+                        <h3>3.1. Recursos Humanos</h3><hr>
+                        <p>O módulo de Recursos Humanos, referido como <strong><i class="far fa-address-book"></i> Pessoas</strong> no menu, serve para controle e acesso a informações de funcionários e internos.</p>
+                        <div class="justify-content-between">
+                        <a href="./recursos.php" type="button" class="btn btn-secondary">
                             <i class="fas fa-arrow-left"></i>
-                            Manual
+                            3.1 Recursos
                         </a>
-                        <a href="./instalacao.php" type="button" class="btn btn-secondary" style="float: right;">
-                            2. Instalação
+                        <a href="./cadastro_funcionarios.php" type="button" class="btn btn-secondary" style="float: right;">
+                            3.1.1  Cadastro de Funcionários
                             <i class="fas fa-arrow-right"></i>
                         </a>
                     </div>
+                        </dir>
+                           
                 </section>
 
                 <!-- estrutura básica:
@@ -237,9 +264,9 @@
                 -->
 
                 <!-- end: page -->
-			</section>
-		</div>
-	</section>
+            </section>
+        </div>
+    </section>
 </body>
 <script>
     function setLoader(btn) {
@@ -250,6 +277,6 @@
             btn.appendChild(loader);
         }
         window.location.href = btn.firstElementChild.href;
-	}
+    }
 </script>
 </html>

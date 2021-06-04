@@ -145,7 +145,7 @@ if(file_exists($config_path)){
                                         </li>
                                         <li>
                                             <a href="./recursos.php">
-                                                3. Recursos
+                                                3. Módulos
                                             </a>
                                         </li>
                                         <li>
@@ -162,7 +162,7 @@ if(file_exists($config_path)){
                                 </li>
                                 <li id="3" class="nav-parent nav-active">
                                     <a>
-                                        <span>3. Recursos</span>
+                                        <span>3. Módulos</span>
                                     </a>
                                     <ul class="nav nav-children">
                                         <li>
@@ -172,12 +172,12 @@ if(file_exists($config_path)){
                                         </li>
 
                                         <li class="sub1">
-                                            <a href="#_rh">
+                                            <a href="rh.php">
                                                 3.1. Recursos Humanos
                                             </a>
                                         </li>
                                         <li class="sub2">
-                                            <a href="#_cadastro_funcionario">
+                                            <a href="cadastro_funcionarios.php">
                                                 3.1.1. Cadastro de Funcionários
                                             </a>
                                         </li>
@@ -289,10 +289,10 @@ if(file_exists($config_path)){
             <!-- end: sidebar -->
             <section role="main" class="content-body">
                 <header class="page-header">
-                    <h2>Capítulo 3: Recursos</h2>
+                    <h2>Capítulo 3: Módulos</h2>
                     <div class="right-wrapper pull-right">
                         <ol class="breadcrumbs">
-                            <li><span>Capítulo 3: Recursos</span></li>
+                            <li><span>Capítulo 3: Módulos</span></li>
                         </ol>
                         <a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
                     </div>
@@ -307,37 +307,9 @@ if(file_exists($config_path)){
                 -->
 
                 <section id="_recursos">
-                    <h3>3. Recursos</h3><hr>
-                    <p>O WeGIA oferece diversas ferramentas para gerenciamento de instituições assistenciais, e esse capítulo serve para explicá-los.</p>
-                    <dir id="_rh">
-                        <h3>3.1. Recursos Humanos</h3><hr>
-                        <p>O módulo de Recursos Humanos, referido como <strong><i class="far fa-address-book"></i> Pessoas</strong> no menu, serve para controle e acesso a informações de funcionários e internos.</p>
-                        <dir id="_cadastro_funcionario">
-                            <h3>3.1.1. Cadastro de Funcionários</h3><hr>
-                            <p>Cadastra uma pessoa como funcionário no sistema. O formulário apresentado exigirá as seguintes informações para realizar o cadastro:</p>
-                            <br>
-                            <h5>Informações Pessoais</h5>
-                            <ul>
-                                <p>1. Nome</p>
-                                <p>2. Sobrenome</p>
-                                <p>3. Sexo</p>
-                                <p>4. Telefone de contato</p>
-                                <p>5. Data de Nascimento</p>
-                            </ul>
-                            <h5>Documentação</h5>
-                            <ul>
-                                <p>1. Número do RG</p>
-                                <p>2. Orgão Emissor</p>
-                                <p>3. Data de Expedição</p>
-                                <p>4. CPF</p>
-                                <p>5. Data de Admissão</p>
-                                <p>6. Situação: Por padrão, possui as situações Ativo e Inativo, mas outras podem ser adicionadas</p>
-                                <p>7. Cargo: Determina quais serão os níveis de acesso do funcionário</p>
-                            </ul>
-                            <br>
-                            <p>Após o preenchimento dos campos, pressione Salvar para cadastrar ou Redefinir para descartar as informações inseridas no formulário e recomeçar.</p>
-                            <p>Para cadastrar um funcionário no sistema basta acessar <strong><i class="far fa-address-book"></i> Pessoas </strong><i class="fas fa-chevron-right"></i> <a href="<?= WWW?>/html/cadastro_funcionario.php">Cadastrar Funcionário</a></p>
-                        </dir>
+                    <h3>3. Módulos</h3><hr>
+                    <p>O WeGIA oferece diversas ferramentas para gerenciamento de instituições assistenciais, e esse capítulo serve para explicá-los.</p>    
+                        
                         <dir id="_info_funcionario">
                             <h3>3.1.2. Informações de Funcionários</h3><hr>
                             <p>Exibe as informações de cada funcionário e possibilita alteração de seus dados. Uma tabela mostrará o Nome, CPF e Cargo, e a coluna Ação oferece a possibilidade de editar os dados.</p>
