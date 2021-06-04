@@ -216,7 +216,7 @@
                 <section id="_introducao">
                     <h3>1. Introdução</h3><hr>
                     <p>O Web Gerenciador para Instituições Assistenciais (WeGIA) é uma ferramenta direcionada para o gerenciamento de instituições assistenciais, com o intuito de melhorar a gestão e controle dessas entidades. Desse modo, essa ferramenta possibilita o controle e execução de seus recursos, como: 1) Pessoas, para cadastro de funcionários e atendidos; 2) Material e Patrimônio, para administração do almoxarifado e doações; 3) Memorando, para troca de mensagens institucionais entre os setores, diminuindo o fluxo de papel; 4) Contribuição, para captação de recursos, através de doações, via cartão de crédito ou boleto bancário. Com isso, esse software foi pensado para servidores locais de empresas que atendem os grupos vulneráveis da sociedade, como os asilos, orfanatos, casas de recuperação e entre outros.</p>
-                    <iframe src="https:youtu.be/mhEGLNgz_wc"></iframe>
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/mhEGLNgz_wc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     <div class="justify-content-between">
                         <a href="./" type="button" class="btn btn-secondary">
                             <i class="fas fa-arrow-left"></i>
