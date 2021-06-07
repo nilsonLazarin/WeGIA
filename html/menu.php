@@ -36,10 +36,34 @@ session_start();
 							<i class="far fa-address-book"></i>
 							<span>Pessoas</span>
 						</a>
+						
 						<ul class="nav nav-children">
+							<li>
+
+								<a>
+								<i class="far fa-address-book"></i>
+								<span>RH</span>
+								</a>
+
+							</li>
+
 							<li>
 								<a href="<?= WWW ?>html/cadastro_funcionario.php">
 									 Cadastrar Funcionário
+								</a>
+
+							</li>
+							<li>
+								<a href="<?= WWW ?>controle/control.php?metodo=listarTodos&nomeClasse=FuncionarioControle&nextPage=<?= WWW ?>html/informacao_funcionario.php">
+									 Informações Funcionários
+								</a>
+							</li>
+							<li>
+
+								<a>
+								<i class="far fa-address-book"></i>
+								<span>Atendidos</span>
+
 								</a>
 							</li>
 							<li>
@@ -47,11 +71,7 @@ session_start();
 									 Cadastrar Atendido
 								</a>
 							</li>
-							<li>
-								<a href="<?= WWW ?>controle/control.php?metodo=listarTodos&nomeClasse=FuncionarioControle&nextPage=<?= WWW ?>html/informacao_funcionario.php">
-									 Informações Funcionários
-								</a>
-							</li>
+
 							<li>
 								<a href="<?= WWW ?>controle/control.php?metodo=listarTodos&nomeClasse=InternoControle&nextPage=<?= WWW ?>html/informacao_interno.php">
 									 Informações Atendido
