@@ -311,8 +311,17 @@
 							<div class="col-lg-2 col-md-8 i">
 								<i  class="fa fa-envelope"></i>
 								<h4>Caixa de Entrada</h4>
+
+
 							</div>
 						</a>
+						<a href="../html/memorando/novo_memorandoo.php">	
+							<div class="col-lg-2 col-md-8 i">
+								<i  class="fa fa-edit"></i>
+								<h4>Novo Memorando</h4>
+							</div>
+						</a>
+
 
 						<a href="../html/memorando/listar_memorandos_antigos.php">	
 							<div class="col-lg-2 col-md-8 i">
