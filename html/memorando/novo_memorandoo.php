@@ -58,7 +58,7 @@ require_once ROOT."/html/personalizacao_display.php";
     <!-- Basic -->
     <meta charset="UTF-8">
 
-    <title>Caixa de entrada</title>
+    <title>Criar Memorando</title>
         
     <!-- Mobile Metas -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -205,16 +205,14 @@ require_once ROOT."/html/personalizacao_display.php";
             <!-- end: sidebar -->
             <section role="main" class="content-body">
                 <header class="page-header">
-                    <h2>Caixa de entrada</h2>
+                    <h2>Novo Memorando</h2>
                     <div class="right-wrapper pull-right">
                         <ol class="breadcrumbs">
                             <li>
                                 <a href="<?php echo WWW;?>html/home.php">
                                     <i class="fa fa-home"></i>
                                 </a>
-                            </li>
-                            <li><span>Caixa de Entrada</span></li>
-                        </ol>
+                            
                         <a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
                     </div>
                 </header>
@@ -227,29 +225,19 @@ require_once ROOT."/html/personalizacao_display.php";
                             }
                             }
                         ?>
-                        
-                        <div id="myModal">
-                    <header class="panel-heading">
-                        <h2 class="panel-title">Caixa de entrada</h2>
-                    </header>
-                    <div class="panel-body">
-                        <button style="margin-bottom: 0px !important;" class="mb-xs mt-xs mr-xs btn btn-default" id="btnPrint">Imprimir</button>
-                        <br><br>
-                            
-                        <table class="table table-bordered table-striped mb-none" id="datatable-default">
-                            <thead>
-                                <tr>
-                                    <th>Código</th>
-                                    <th>Título</th>
-                                    <th>Data</th>
-                                    <th>Opções</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tabela">
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                        <header class="panel-heading">
+                            <h2 class="panel-title">Criar memorando</h2>
+                        </header>
+                        <div class="panel-body">
+                            <form action="<?php echo WWW;?>controle/control.php" method="post">
+                                <input type="text" id="assunto" name="assunto" required placeholder="Assunto" class="form-control">
+                                <input type="hidden" name="nomeClasse" value="MemorandoControle">
+                                <input type="hidden" name="metodo" value="incluir">
+                                <input type='hidden' value='memorando' name='modulo'>
+                                <input type='submit' value='Criar memorando' name='enviar' id='enviar' class='mb-xs mt-xs mr-xs btn btn-default'>
+                            </form>
+                       
+                    
                 <div class="printable"></div>
                 </section>
             </section>

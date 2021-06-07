@@ -122,8 +122,16 @@ session_start();
 							<li id="31">
 								<a href="<?= WWW ?>html/memorando/listar_memorandos_ativos.php">
 									 Caixa de Entrada
+									 
 								</a>
 							</li>
+
+							<li id="31">
+								<a href="<?= WWW ?>html/memorando/novo_memorandoo.php">
+									 Criar Memorando
+								</a>
+							</li>
+
 							<li id="32">
 								<a href="<?= WWW ?>html/memorando/listar_memorandos_antigos.php">
 									 Memorandos despachados
