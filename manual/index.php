@@ -67,6 +67,15 @@
 	<script>
    		document.write('<a href="' + document.referrer + '"></a>');
 	</script>
+    <script>
+    function goBack() {
+    window.history.back()
+    }
+    </script>
+
+<button onclick="goBack()">Go Back</button>
+
+
     
     <!-- javascript tab management script -->
 
@@ -102,8 +111,9 @@
                                         <span>Início</span>
                                     </a>
                                 </li> -->
-                                <li>
-                                    <a href="../">
+    
+                                <li id="0" class="nav-parent nav-active">
+                                    <a button type="button" onclick="goBack()">
                                         <i class="fas fa-arrow-left" aria-hidden="true"></i>
                                         <span>Voltar</span>
                                     </a>
