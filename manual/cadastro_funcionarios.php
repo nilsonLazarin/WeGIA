@@ -333,7 +333,7 @@ if(file_exists($config_path)){
                             <p>Após o preenchimento dos campos, pressione Salvar para cadastrar ou Redefinir para descartar as informações inseridas no formulário e recomeçar.</p>
                             <p>Para cadastrar um funcionário no sistema basta acessar <strong><i class="far fa-address-book"></i> Pessoas </strong><i class="fas fa-chevron-right"></i> <a href="<?= WWW?>/html/cadastro_funcionario.php">Cadastrar Funcionário</a></p>
 
-                            <iframe src="cadastrar_funcionario.mp4"></iframe>">
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/Ms0TuXPcpJo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
                             <div class="justify-content-between">
                         <a href="./rh.php" type="button" class="btn btn-secondary">
