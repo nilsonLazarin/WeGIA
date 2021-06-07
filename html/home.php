@@ -137,6 +137,12 @@
 							<h4>Pessoas</h4>
 						</div>
 					</a>
+					<a href="">
+						<div class="col-lg-2 col-md-8 i" data-toggle="collapse" href="#rh" >
+							<i  class="far fa-address-book"></i>
+							<h4>RH</h4>
+						</div>
+					</a>
 					<a href="#">
 						<div class="col-lg-2 col-md-8 i" data-toggle="collapse" href="#material">
 							<i  class="fa fa-cubes"></i>
@@ -208,6 +214,13 @@
 							<div class="col-lg-2 col-md-8 i" >
 								<i  class="far fa-address-book"></i>
 								<h4>Cadastrar Funcionário</h4>
+							</div>
+						</a>
+
+						<a href="../html/cadastro_interno.php">
+							<div class="col-lg-2 col-lg-offset-1 col-md-8 i" >
+								<i class="far fa-address-book"></i>
+								<h4>Cadastrar Atendido</h4>
 							</div>
 						</a>
 
