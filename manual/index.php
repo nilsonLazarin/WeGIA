@@ -212,7 +212,7 @@
                             <a href="./introducao.php" class="list-group-item list-group-item-action">1. Introdução</a>
                             <a href="./instalacao.php" class="list-group-item list-group-item-action">2. Instalação</a>
                             <a href="./recursos.php" class="list-group-item list-group-item-action">3. 
-                            Módulos</a>adas
+                            Módulos</a>
                             <a href="./seguranca.php" class="list-group-item list-group-item-action">4. Segurança</a>
                             <a href="./atualizacao.php" class="list-group-item list-group-item-action">5. Atualização</a>
                         </div>
