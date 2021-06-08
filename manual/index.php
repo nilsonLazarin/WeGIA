@@ -73,9 +73,6 @@
     }
     </script>
 
-<button onclick="goBack()">Go Back</button>
-
-
     
     <!-- javascript tab management script -->
 

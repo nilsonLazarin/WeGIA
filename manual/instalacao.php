@@ -79,6 +79,12 @@ if(file_exists($config_path)){
 	<script>
    		document.write('<a href="' + document.referrer + '"></a>');
 	</script>
+
+    <script>
+    function goBack() {
+    window.history.back()
+    }
+    </script>
     
     <!-- javascript tab management script -->
 
@@ -121,8 +127,8 @@ if(file_exists($config_path)){
                                         <span>Manual</span>
                                     </a>
                                 </li>
-                                <li>
-                                    <a href="../">
+                                <li id="0" class="nav-parent nav-active">
+                                    <a button type="button" onclick="goBack()">
                                         <i class="fas fa-arrow-left" aria-hidden="true"></i>
                                         <span>Voltar</span>
                                     </a>
