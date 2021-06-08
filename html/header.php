@@ -46,7 +46,7 @@ if(file_exists($config_path)){
 				<figure class="profile-picture">
 					<?php
 						if(isset($_SESSION['id_pessoa']) and !empty($_SESSION['id_pessoa'])){
-							$foto = gzuncompress($pessoa['imagem']);
+							$foto = $pessoa['imagem'];
 							if($foto != null and $foto != "")
 								$foto = 'data:image;base64,'.$foto;
 							else $foto = WWW."img/semfoto.png";
