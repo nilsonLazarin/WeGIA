@@ -59,7 +59,7 @@ $issetMemorando->issetMemorando($_GET['id_memorando']);
 require_once ROOT."/html/personalizacao_display.php";
 ?>
 
-<!DOCTYPE html>
+// <!DOCTYPE html>
 
 <html class="fixed">
 <head>
@@ -90,7 +90,7 @@ require_once ROOT."/html/personalizacao_display.php";
     <link rel="stylesheet" href="<?php echo WWW;?>assets/stylesheets/skins/default.css" />
 
     <!-- Theme Custom CSS -->
-    <link rel="stylesheet" href="<?php echo WWW;?>assets/stylesheets/theme-custom.css">
+    <link rel="stylesheet" href="<?php echo WWW;?>assets/stylesheets/theme-custom.css"> 
 
     <!-- Head Libs -->
     <script src="<?php echo WWW;?>assets/vendor/modernizr/modernizr.js"></script>
