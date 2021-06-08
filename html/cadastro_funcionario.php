@@ -303,7 +303,7 @@ $listaCPF2->listarCpf();
                     </div>
                     <a href="./quadro_horario/adicionar_tipo_quadro_horario.php"><i class="fas fa-plus w3-xlarge"></i></a>
                   </div>
-                  <div class="form-group" id="reservista1" style="display: none">
+                  <!-- <div class="form-group" id="reservista1" style="display: none">
                     <label class="col-md-3 control-label">Número do certificado reservista</label>
                     <div class="col-md-6">
                       <input type="text" name="certificado_reservista_numero" class="form-control num_reservista">
@@ -314,7 +314,7 @@ $listaCPF2->listarCpf();
                     <div class="col-md-6">
                       <input type="text" name="certificado_reservista_serie" class="form-control serie_reservista">
                     </div>
-                  </div>
+                  </div> -->
 
                   <div class="panel-footer">
                     <div class="row">
