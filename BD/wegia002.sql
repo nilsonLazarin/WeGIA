@@ -170,3 +170,23 @@ INSERT INTO `funcionario_docdependentes` (id_docdependentes,nome_docdependente) 
 (4, 'Carteira de Vacinação'),
 (5, 'Comprovante de Matrícula Escolar'),
 (6, 'CPF');
+
+INSERT INTO `atendido_docs_atendidos` (`idatendido_docs_atendidos`, `descricao`) VALUES 
+(1, 'Carteira de Identidade'),
+(2, 'CPF'),
+(3, 'Carteira do SUS'),
+(4, 'Certidão de Nascimento');
+
+INSERT INTO `atendido_parentesco` (`idatendido_parentesco`, `parentesco`) VALUES 
+(1, 'Pais'),
+(2, 'Filho(a)'),
+(3, 'Irmão(ã)'),
+(4, 'Neto(a)'),
+(5, 'Responsável');
+
+INSERT INTO `atendido_ocorrencia_tipos` (`idatendido_ocorrencia_tipos`, `descricao`) VALUES
+(1, 'Acolhimento'),
+(2, 'Falecimento'); 
+
+INSERT INTO `atendido_tipo` (`idatendido_tipo`, `descricao`) VALUES (1, 'Interno');
+INSERT INTO `atentido_status` (`idatentido_status`, `status`) VALUES (1, 'Ativo');
