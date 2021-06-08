@@ -1046,13 +1046,11 @@ $dependente = json_encode($dependente);
                   //$resultado = mysqli_query($conexao, "SELECT `imagem`, `nome` FROM `pessoa` WHERE id_pessoa=$id_pessoa");
                   $resultado = mysqli_query($conexao, "SELECT pessoa.imagem, pessoa.nome FROM pessoa, funcionario  WHERE pessoa.id_pessoa=funcionario.id_pessoa and funcionario.id_funcionario=$donoimagem");
                   $pessoa = mysqli_fetch_array($resultado);
-                  if (isset($_SESSION['id_pessoa']) and !empty($_SESSION['id_pessoa'])) {
-                    $foto = $pessoa['imagem'];
-                    if ($foto != null and $foto != "")
-                      $foto = 'data:image;base64,' . $foto;
-                    else $foto = WWW . "img/semfoto.png";
-                  }
-                  echo "<img src='$foto' id='imagem' class='rounded img-responsive' alt='John Doe'>";
+                  $foto = $pessoa['imagem'];
+                  if ($foto != null and $foto != "")
+                    $foto = 'data:image;base64,' . $foto;
+                  else $foto = WWW . "img/semfoto.png";
+                  echo "<img src='$foto' id='imagem' class='rounded img-responsive' alt='John Doe' style='width: -moz-available;'>";
 
                   ?>
                   <i class="fas fa-camera-retro btn btn-info btn-lg" data-toggle="modal" data-target="#myModal"></i>
@@ -1065,23 +1063,23 @@ $dependente = json_encode($dependente);
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                             <h4 class="modal-title">Adicionar uma Foto</h4>
                           </div>
-                          <div class="modal-body">
-                            <form class="form-horizontal" method="POST" action="../controle/control.php" enctype="multipart/form-data">
-                              <input type="hidden" name="nomeClasse" value="FuncionarioControle">
-                              <input type="hidden" name="metodo" value="alterarImagem">
-                              <div class="form-group">
-                                <label class="col-md-4 control-label" for="imgperfil">Carregue nova imagem de perfil:</label>
-                                <div class="col-md-8">
-                                  <input type="file" name="imgperfil" size="60" id="imgform" class="form-control">
+                          <form class="form-horizontal" method="POST" action="../controle/control.php" enctype="multipart/form-data">
+                            <div class="modal-body">
+                                <input type="hidden" name="nomeClasse" value="FuncionarioControle">
+                                <input type="hidden" name="metodo" value="alterarImagem">
+                                <div class="form-group">
+                                  <label class="col-md-4 control-label" for="imgperfil">Carregue nova imagem de perfil:</label>
+                                  <div class="col-md-8">
+                                    <input type="file" name="imgperfil" size="60" id="imgform" class="form-control">
+                                  </div>
                                 </div>
-                              </div>
-                          </div>
-                          <div class="modal-footer">
-                            <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
-                            <input type="submit" id="formsubmit" value="Alterar imagem">
-                          </div>
+                            </div>
+                            <div class="modal-footer">
+                              <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
+                              <input type="submit" id="formsubmit" value="Alterar imagem">
+                            </div>
+                          </form>
                         </div>
-                        </form>
                       </div>
                     </div>
                   </div>

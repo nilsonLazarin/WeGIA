@@ -195,24 +195,20 @@ class FuncionarioDAO
         }
     }
 
-    public function alterarImagem($funcionario)
+    public function alterarImagem($id_funcionario, $imagem)
     {
+        $imagem = base64_encode($imagem);
         try {
-            $sql = 'update pessoa as p inner join funcionario as f on p.id_pessoa=f.id_pessoa set imagem=:imagem where id_funcionario=:id_funcionario';
-            
-           $sql = str_replace("'", "\'", $sql);
             $pdo = Conexao::connect();
-            $stmt = $pdo->prepare($sql);
+            $id_pessoa = (($pdo->query("SELECT id_pessoa FROM funcionario WHERE id_funcionario=$id_funcionario"))->fetch(PDO::FETCH_ASSOC))["id_pessoa"];
             
+            $sql = "UPDATE pessoa SET imagem = :imagem WHERE id_pessoa = :id_pessoa;";
             $stmt = $pdo->prepare($sql);
-            $imagem=$funcionario->getImagem();
-            $id_funcionario=$funcionario->getId_funcionario();
-
-            $stmt->bindParam(':imagem',$imagem);
-            $stmt->bindParam(':id_funcionario',$id_funcionario);
+            $stmt->bindValue(':id_pessoa', $id_pessoa);
+            $stmt->bindValue(':imagem',$imagem);
             $stmt->execute();
         } catch (PDOException $e) {
-            echo 'Error: <b>  na tabela pessoas = ' . $sql . '</b> <br /><br />' . $e->getMessage();
+            echo 'Error: <b>  na tabela pessoa = ' . $sql . '</b> <br /><br />' . $e->getMessage();
         }
     }
 

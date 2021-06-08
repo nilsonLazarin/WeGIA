@@ -348,11 +348,10 @@ class FuncionarioControle
         }
 
         session_start();
-        if((!isset($_SESSION['imagem'])) || (empty($_SESSION['imagem']))){
+        if((!isset($_FILES["imgperfil"])) || (empty($_FILES["imgperfil"]))){
             $imgperfil = '';
         }else{
-            $imgperfil = base64_encode($_SESSION['imagem']);
-            unset($_SESSION['imagem']);
+            $imgperfil = base64_encode(file_get_contents($_FILES["imgperfil"]["tmp_name"]));
         }
         $cpf=str_replace(".", '', $cpf);
         $cpf=str_replace("-", "", $cpf);
@@ -811,13 +810,10 @@ class FuncionarioControle
     public function alterarImagem()
     {
         extract($_REQUEST);
-        $image = file_get_contents ($_FILES['imgperfil']['tmp_name']);
-        $perfil = base64_encode($image);
-        $funcionario = new Funcionario('','','','','','','','','','','','','',$perfil,'','','','','','','','');
-        $funcionario->setId_funcionario($id_funcionario);
-        $funcionarioDAO=new FuncionarioDAO();
+        $img = file_get_contents($_FILES['imgperfil']['tmp_name']);
+        $funcionarioDAO = new FuncionarioDAO();
         try {
-            $funcionarioDAO->alterarImagem($funcionario);
+            $funcionarioDAO->alterarImagem($id_funcionario, $img);
             header("Location: ../html/profile_funcionario.php?id_funcionario=".$id_funcionario);
         } catch (PDOException $e) {
             echo $e->getMessage();

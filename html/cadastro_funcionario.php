@@ -121,19 +121,7 @@ $listaCPF2->listarCpf();
           <section class="panel">
             <div class="panel-body">
               <div class="thumb-info mb-md">
-                <?php
-                if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                  if (isset($_FILES['imgperfil'])) {
-                    $image = file_get_contents($_FILES['imgperfil']['tmp_name']);
-                    $_SESSION['imagem'] = $image;
-                    echo '<img src="data:image/gif;base64,' . base64_encode($image) . '" class="rounded img-responsive" alt="John Doe">';
-                  }
-                } else {
-                ?>
-                  <img src="../img/semfoto.png" class="rounded img-responsive" alt="John Doe">
-                <?php
-                }
-                ?>
+                <img src="../img/semfoto.png" class="rounded img-responsive" alt="John Doe" id="img-selection" style="width: -moz-available;">
                 <i class="fas fa-camera-retro btn btn-info btn-lg" data-toggle="modal" data-target="#myModal"></i>
                 <div class="container">
                   <div class="modal fade" id="myModal" role="dialog">
@@ -145,19 +133,20 @@ $listaCPF2->listarCpf();
                           <h4 class="modal-title">Adicionar uma Foto</h4>
                         </div>
                         <div class="modal-body">
-                          <form action="#" method="POST" enctype="multipart/form-data">
+                          <form action="#" method="POST">
                             <div class="form-group">
                               <label class="col-md-4 control-label" for="imgperfil">Carregue uma imagem de perfil:</label>
                               <div class="col-md-8">
-                                <input type="file" name="imgperfil" size="60" id="imgform" class="form-control">
+                                <input type="file" name="imgperfil" size="60" id="imgform" class="form-control" onchange="readURL(this);">
                               </div>
                             </div>
+                          </form>
                         </div>
                         <div class="modal-footer">
-                          <input type="submit" id="formsubmit" value="Ok">
+                          <!-- <input type="submit" id="formsubmit" value="Ok"> -->
+                          <button type="button" data-dismiss="modal">Ok</button>
                         </div>
                       </div>
-                      </form>
                     </div>
                   </div>
                 </div>
@@ -182,7 +171,7 @@ $listaCPF2->listarCpf();
             </ul>
             <div class="tab-content">
               <div id="overview" class="tab-pane active">
-                <form class="form-horizontal" method="GET" action="../controle/control.php">
+                <form class="form-horizontal" method="GET" action="../controle/control.php" id="form-cadastro" enctype="multipart/form-data">
                   <h4 class="mb-xlg">Informações Pessoais</h4>
                   <h5 class="obrig">Campos Obrigatórios(*)</h5>
                   <div class="form-group">
@@ -364,6 +353,27 @@ $listaCPF2->listarCpf();
     }
   </style>
   <script type="text/javascript">
+
+    // Exibe a imagem selecionada no input file:
+    function readURL(input) {
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+          $('#img-selection')
+            .attr('src', e.target.result);
+        };
+
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+
+    $('#form-cadastro').submit(function() {
+        let imgForm = document.getElementById("imgform");
+        document.getElementById("form-cadastro").append(imgForm);
+        return true;
+    });
+
     function funcao1() {
       var send = $("#enviar");
       var cpfs = <?php echo $_SESSION['cpf_funcionario']; ?>;
