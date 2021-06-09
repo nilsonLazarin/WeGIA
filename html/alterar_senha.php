@@ -166,6 +166,7 @@
 									</fieldset>
 									<input type="hidden" name="nomeClasse" value="FuncionarioControle">
                               		<input type="hidden" name="metodo" value="alterarSenha">
+                              		<input type="hidden" name="redir" value="logout.php">
                               		<input type="hidden" name="id_pessoa" value=<?php echo $_SESSION['id_pessoa'] ?> >
 									<input type="submit" name="alterar" value="Alterar"  class="btn btn-primary">
 									</form>
