@@ -89,6 +89,15 @@ $listaCPF2->listarCpf();
 
   <!-- Theme Custom CSS -->
   <link rel="stylesheet" href="../assets/stylesheets/theme-custom.css">
+
+  <style>
+
+    .form-control {
+      padding: 0 12px;
+    }
+    
+  </style>
+
 </head>
 
 <body>
