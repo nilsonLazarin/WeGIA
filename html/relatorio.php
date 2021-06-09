@@ -254,7 +254,7 @@
 									  <option value="">Todas as Opções</option>
 									  <?php
 											$pdo = Conexao::connect();
-											$res = $pdo->query("select * from pessoa;");
+											$res = $pdo->query("SELECT * FROM pessoa p JOIN funcionario f ON f.id_pessoa = p.id_pessoa;");
 											$resp = $res->fetchAll(PDO::FETCH_ASSOC);
 											foreach ($resp as $value){
 												echo('
