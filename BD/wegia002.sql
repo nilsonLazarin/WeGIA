@@ -190,3 +190,18 @@ INSERT INTO `atendido_ocorrencia_tipos` (`idatendido_ocorrencia_tipos`, `descric
 
 INSERT INTO `atendido_tipo` (`idatendido_tipo`, `descricao`) VALUES (1, 'Interno');
 INSERT INTO `atentido_status` (`idatentido_status`, `status`) VALUES (1, 'Ativo');
+
+INSERT INTO `funcionario_remuneracao_tipo` (`idfuncionario_remuneracao_tipo`, `descricao`) VALUES
+(1, 'Vencimento Básico'),
+(2, 'Vale-alimentação'),
+(3, 'Salário Família'),
+(4, 'Adicional Noturno'),
+(5, 'Insalubridade'),
+(6, 'Periculosidade'),
+(7, 'Vale transporte');
+
+INSERT INTO `funcionario_listainfo` (`idfuncionario_listainfo`, `descricao`) VALUES
+(1, 'Escolaridade'),
+(2, 'Naturalidade'),
+(3, 'Estado Civil'),
+(4, 'Carteira do SUS');

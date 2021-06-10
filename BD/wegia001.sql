@@ -1339,6 +1339,77 @@ CREATE TABLE IF NOT EXISTS `wegia`.`atendido_ocorrencia_doc` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+-- -----------------------------------------------------
+-- Table `wegia`.`funcionario_remuneracao_tipo`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `wegia`.`funcionario_remuneracao_tipo` (
+  `idfuncionario_remuneracao_tipo` INT NOT NULL AUTO_INCREMENT,
+  `descricao` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`idfuncionario_remuneracao_tipo`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `wegia`.`funcionario_remuneracao`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `wegia`.`funcionario_remuneracao` (
+  `idfuncionario_remuneracao` INT NOT NULL AUTO_INCREMENT,
+  `funcionario_id_funcionario` INT(11) NOT NULL,
+  `funcionario_remuneracao_tipo_idfuncionario_remuneracao_tipo` INT NOT NULL,
+  `valor` DECIMAL(10,2) NOT NULL,
+  `inicio` DATE NULL,
+  `fim` DATE NULL,
+  `status` TINYINT NOT NULL,
+  PRIMARY KEY (`idfuncionario_remuneracao`),
+  INDEX `fk_funcionario_remuneracao_funcionario1_idx` (`funcionario_id_funcionario` ASC),
+  INDEX `fk_funcionario_remuneracao_funcionario_remuneracao_tipo1_idx` (`funcionario_remuneracao_tipo_idfuncionario_remuneracao_tipo` ASC),
+  CONSTRAINT `fk_funcionario_remuneracao_funcionario1`
+    FOREIGN KEY (`funcionario_id_funcionario`)
+    REFERENCES `wegia`.`funcionario` (`id_funcionario`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_funcionario_remuneracao_funcionario_remuneracao_tipo1`
+    FOREIGN KEY (`funcionario_remuneracao_tipo_idfuncionario_remuneracao_tipo`)
+    REFERENCES `wegia`.`funcionario_remuneracao_tipo` (`idfuncionario_remuneracao_tipo`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `wegia`.`funcionario_listainfo`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `wegia`.`funcionario_listainfo` (
+  `idfuncionario_listainfo` INT NOT NULL AUTO_INCREMENT,
+  `descricao` VARCHAR(255) NULL,
+  PRIMARY KEY (`idfuncionario_listainfo`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `wegia`.`funcionario_outrasinfo`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `wegia`.`funcionario_outrasinfo` (
+  `idfunncionario_outrasinfo` INT NOT NULL AUTO_INCREMENT,
+  `funcionario_id_funcionario` INT(11) NOT NULL,
+  `funcionario_listainfo_idfuncionario_listainfo` INT NOT NULL,
+  `dado` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`idfunncionario_outrasinfo`),
+  INDEX `fk_funncionario_outrasinfo_funcionario1_idx` (`funcionario_id_funcionario` ASC),
+  INDEX `fk_funcionario_outrasinfo_funcionario_listainfo1_idx` (`funcionario_listainfo_idfuncionario_listainfo` ASC),
+  CONSTRAINT `fk_funncionario_outrasinfo_funcionario1`
+    FOREIGN KEY (`funcionario_id_funcionario`)
+    REFERENCES `wegia`.`funcionario` (`id_funcionario`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_funcionario_outrasinfo_funcionario_listainfo1`
+    FOREIGN KEY (`funcionario_listainfo_idfuncionario_listainfo`)
+    REFERENCES `wegia`.`funcionario_listainfo` (`idfuncionario_listainfo`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
 
 USE `wegia` ;
 
