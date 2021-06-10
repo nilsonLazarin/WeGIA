@@ -560,6 +560,9 @@ $JSON_dependente = json_encode($dependente);
                                 <li>
                                     <a href="#documentos" data-toggle="tab">Documentos</a>
                                 </li>
+                                <li>
+                                    <a href="#endereco" data-toggle="tab">Endereço</a>
+                                </li>
                             </ul>
 
                             <div class="tab-content">
@@ -579,7 +582,7 @@ $JSON_dependente = json_encode($dependente);
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-md-3 control-label" for="sobrenomeForm">Sobreome</label>
+                                            <label class="col-md-3 control-label" for="sobrenomeForm">Sobrenome</label>
                                             <div class="col-md-8">
                                                 <input type="text" class="form-control" name="sobrenome" id="sobrenomeForm" onkeypress="return Onlychars(event)">
                                             </div>
@@ -618,70 +621,6 @@ $JSON_dependente = json_encode($dependente);
                                         <div class="form-group center">
                                             <button type="button" class="btn btn-primary" id="botaoEditar_formInfoPessoal" onclick="switchForm('formInfoPessoal')">Editar</button>
                                             <input type="submit" class="btn btn-primary" disabled="true" value="Salvar" id="botaoSalvar_formInfoPessoal" onclick="submitForm('formInfoPessoal')">
-                                        </div>
-
-                                    </fieldset>
-                                    <hr>
-
-                                    <h4>Endereço</h4><br>
-
-                                    <fieldset id="formEndereco">
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label" for="cep">CEP</label>
-                                            <div class="col-md-8">
-                                                <input type="text" name="cep" value="" size="10" onblur="pesquisacep(this.value);" class="form-control" id="cep" maxlength="9" placeholder="Ex: 22222-222" onkeydown="return Onlynumbers(event)" onkeyup="mascara('#####-###',this,event)">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label" for="uf">Estado</label>
-                                            <div class="col-md-8">
-                                                <input type="text" name="uf" size="60" class="form-control" id="uf">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label" for="cidade">Cidade</label>
-                                            <div class="col-md-8">
-                                                <input type="text" size="40" class="form-control" name="cidade" id="cidade">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label" for="bairro">Bairro</label>
-                                            <div class="col-md-8">
-                                                <input type="text" name="bairro" size="40" class="form-control" id="bairro">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label" for="rua">Logradouro</label>
-                                            <div class="col-md-8">
-                                                <input type="text" name="rua" size="2" class="form-control" id="rua">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label" for="profileCompany">Número residencial</label>
-                                            <div class="col-md-4">
-                                                <input type="number" min="0" oninput="this.value = Math.abs(this.value)" class="form-control" name="numero_residencia" id="numero_residencia">
-                                            </div>
-                                            <div class="col-md-3">
-                                                <label>Não possuo número
-                                                    <input type="checkbox" id="numResidencial" name="naoPossuiNumeroResidencial" style="margin-left: 4px" onclick="return numero_residencial()">
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label" for="profileCompany">Complemento</label>
-                                            <div class="col-md-8">
-                                                <input type="text" class="form-control" name="complemento" id="complemento" id="profileCompany">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label" for="ibge">IBGE</label>
-                                            <div class="col-md-8">
-                                                <input type="text" size="8" name="ibge" class="form-control" id="ibge">
-                                            </div>
-                                        </div>
-                                        <div class="form-group center">
-                                            <button type="button" class="btn btn-primary" id="botaoEditar_formEndereco" onclick="switchForm('formEndereco')">Editar</button>
-                                            <input type="submit" class="btn btn-primary" disabled="true" value="Salvar" id="botaoSalvar_formEndereco" onclick="submitForm('formEndereco')">
                                         </div>
 
                                     </fieldset>
@@ -732,6 +671,7 @@ $JSON_dependente = json_encode($dependente);
                                             <i class="fas fa-arrow-left" aria-hidden="true"></i>
                                             <span>Voltar</span>
                                             </a>
+                                            
 
                                         </div>
                                     </fieldset>
@@ -824,6 +764,7 @@ $JSON_dependente = json_encode($dependente);
                                 </div>
 
 
+
                                 <!-- 
                                     Aba de documentos do dependente
 
@@ -897,6 +838,73 @@ $JSON_dependente = json_encode($dependente);
                                         </div>
                                     </fieldset>
                                 </div>
+                                                         
+                                <!-- Aba de endereço do dependente -->
+
+                                <div id="endereco" class="tab-pane" role="tabpanel">
+                                    <h4>Endereço</h4>
+                                    <fieldset id="formEndereco">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="cep">CEP</label>
+                                            <div class="col-md-8">
+                                                <input type="text" name="cep" value="" size="10" onblur="pesquisacep(this.value);" class="form-control" id="cep" maxlength="9" placeholder="Ex: 22222-222" onkeydown="return Onlynumbers(event)" onkeyup="mascara('#####-###',this,event)">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="uf">Estado</label>
+                                            <div class="col-md-8">
+                                                <input type="text" name="uf" size="60" class="form-control" id="uf">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="cidade">Cidade</label>
+                                            <div class="col-md-8">
+                                                <input type="text" size="40" class="form-control" name="cidade" id="cidade">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="bairro">Bairro</label>
+                                            <div class="col-md-8">
+                                                <input type="text" name="bairro" size="40" class="form-control" id="bairro">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="rua">Logradouro</label>
+                                            <div class="col-md-8">
+                                                <input type="text" name="rua" size="2" class="form-control" id="rua">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="profileCompany">Número residencial</label>
+                                            <div class="col-md-4">
+                                                <input type="number" min="0" oninput="this.value = Math.abs(this.value)" class="form-control" name="numero_residencia" id="numero_residencia">
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Não possuo número
+                                                    <input type="checkbox" id="numResidencial" name="naoPossuiNumeroResidencial" style="margin-left: 4px" onclick="return numero_residencial()">
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="profileCompany">Complemento</label>
+                                            <div class="col-md-8">
+                                                <input type="text" class="form-control" name="complemento" id="complemento" id="profileCompany">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="ibge">IBGE</label>
+                                            <div class="col-md-8">
+                                                <input type="text" size="8" name="ibge" class="form-control" id="ibge">
+                                            </div>
+                                        </div>
+                                        <div class="form-group center">
+                                            <button type="button" class="btn btn-primary" id="botaoEditar_formEndereco" onclick="switchForm('formEndereco')">Editar</button>
+                                            <input type="submit" class="btn btn-primary" disabled="true" value="Salvar" id="botaoSalvar_formEndereco" onclick="submitForm('formEndereco')">
+                                        </div>
+
+                                    </fieldset>
+                                </div>
+
                             </div>
                         </div>
                     </div>

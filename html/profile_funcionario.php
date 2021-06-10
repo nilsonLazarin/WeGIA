@@ -1099,19 +1099,25 @@ $dependente = json_encode($dependente);
             <div class="tabs">
               <ul class="nav nav-tabs tabs-primary">
                 <li class="active">
-                  <a href="#overview" data-toggle="tab">Visão Geral</a>
+                  <a href="#overview" data-toggle="tab">Informações Pessoais</a>
                 </li>
                 <li>
-                  <a href="#beneficio" data-toggle="tab">Benefício</a>
+                  <a href="#endereco" data-toggle="tab">Endereço</a>
+                </li>
+                <li>
+                  <a href="#documentos" data-toggle="tab">Documentação</a>
+                </li>
+                <li>
+                  <a href="#outros" data-toggle="tab">Outros</a>
                 </li>
                 <li>
                   <a href="#epi" data-toggle="tab">Epi</a>
                 </li>
                 <li>
-                  <a href="#editar_cargaHoraria" data-toggle="tab">Carga Horária</a>
+                  <a href="#beneficio" data-toggle="tab">Benefício</a>
                 </li>
                 <li>
-                  <a href="#documentos" data-toggle="tab">Documentação</a>
+                  <a href="#editar_cargaHoraria" data-toggle="tab">Carga Horária</a>
                 </li>
                 <li>
                   <a href="#dependentes" data-toggle="tab">Dependentes</a>
@@ -1131,7 +1137,7 @@ $dependente = json_encode($dependente);
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="col-md-3 control-label" for="profileFirstName">Sobreome</label>
+                        <label class="col-md-3 control-label" for="profileFirstName">Sobrenome</label>
                         <div class="col-md-8">
                           <input type="text" class="form-control" name="sobrenome" id="sobrenomeForm" onkeypress="return Onlychars(event)">
                         </div>
@@ -1189,204 +1195,7 @@ $dependente = json_encode($dependente);
                   </form>
 
                   <br />
-                  <hr class="dotted short">
-                  <h4 class="mb-xlg">Endereço</h4>
-                  <form class="form-horizontal" method="post" action="../controle/control.php">
-                    <input type="hidden" name="nomeClasse" value="FuncionarioControle">
-                    <input type="hidden" name="metodo" value="alterarEndereco">
-                    <div class="form-group">
-                      <label class="col-md-3 control-label" for="cep">CEP</label>
-                      <div class="col-md-8">
-                        <input type="text" name="cep" value="" size="10" onblur="pesquisacep(this.value);" class="form-control" id="cep" maxlength="9" placeholder="Ex: 22222-222" onkeypress="return Onlynumbers(event)" onkeyup="mascara('#####-###',this,event)">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-md-3 control-label" for="uf">Estado</label>
-                      <div class="col-md-8">
-                        <input type="text" name="uf" size="60" class="form-control" id="uf">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-md-3 control-label" for="cidade">Cidade</label>
-                      <div class="col-md-8">
-                        <input type="text" size="40" class="form-control" name="cidade" id="cidade">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-md-3 control-label" for="bairro">Bairro</label>
-                      <div class="col-md-8">
-                        <input type="text" name="bairro" size="40" class="form-control" id="bairro">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-md-3 control-label" for="rua">Logradouro</label>
-                      <div class="col-md-8">
-                        <input type="text" name="rua" size="2" class="form-control" id="rua">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-md-3 control-label" for="profileCompany">Número residencial</label>
-                      <div class="col-md-4">
-                        <input type="number" min="0" oninput="this.value = Math.abs(this.value)" class="form-control" name="numero_residencia" id="numero_residencia">
-                      </div>
-                      <div class="col-md-3">
-                        <label>Não possuo número
-                          <input type="checkbox" id="numResidencial" name="naoPossuiNumeroResidencial" style="margin-left: 4px" onclick="return numero_residencial()">
-                        </label>
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-md-3 control-label" for="profileCompany">Complemento</label>
-                      <div class="col-md-8">
-                        <input type="text" class="form-control" name="complemento" id="complemento" id="profileCompany">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-md-3 control-label" for="ibge">IBGE</label>
-                      <div class="col-md-8">
-                        <input type="text" size="8" name="ibge" class="form-control" id="ibge">
-                      </div>
-                    </div>
-                    <br />
-                    <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
-                    <button type="button" class="btn btn-primary" id="botaoEditarEndereco" onclick="return editar_endereco()">Editar</button>
-                    <input type="submit" class="btn btn-primary" disabled="true" value="Salvar" id="botaoSalvarEndereco" disabled="true">
-                  </form>
-
-                  <!--Documentação-->
-                  <hr class="dotted short">
-                  <form class="form-horizontal" method="post" action="../controle/control.php">
-                    <input type="hidden" name="nomeClasse" value="FuncionarioControle">
-                    <input type="hidden" name="metodo" value="alterarDocumentacao">
-                    <h4 class="mb-xlg doch4">Documentação</h4>
-                    <div class="form-group">
-                      <label class="col-md-3 control-label" for="profileCompany">Número do RG</label>
-                      <div class="col-md-6">
-                        <input type="text" class="form-control" name="rg" id="rg" onkeypress="return Onlynumbers(event)" placeholder="Ex: 22.222.222-2" onkeyup="mascara('##.###.###-#',this,event)">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-md-3 control-label" for="profileCompany">Órgão Emissor</label>
-                      <div class="col-md-6">
-                        <input type="text" class="form-control" name="orgao_emissor" id="orgao_emissor" onkeypress="return Onlychars(event)">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-md-3 control-label" for="profileCompany">Data de expedição</label>
-                      <div class="col-md-6">
-                        <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" name="data_expedicao" id="data_expedicao" max=<?php echo date('Y-m-d'); ?>>
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-md-3 control-label" for="profileCompany">Número do CPF</label>
-                      <div class="col-md-6">
-                        <input type="text" class="form-control" id="cpf" name="cpf" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##',this,event)">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-md-3 control-label" for="profileCompany"></label>
-                      <div class="col-md-6">
-                        <p id="cpfInvalido" style="display: none; color: #b30000">CPF INVÁLIDO!</p>
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-md-3 control-label" for="profileCompany">Data de Admissão</label>
-                      <div class="col-md-8">
-                        <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data_admissao" id="data_admissao" max=<?php echo date('Y-m-d'); ?>>
-                      </div>
-                    </div>
-                    <br />
-                    <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
-                    <button type="button" class="btn btn-primary" id="botaoEditarDocumentacao" onclick="return editar_documentacao()">Editar</button>
-                    <input id="botaoSalvarDocumentacao" type="submit" class="btn btn-primary" disabled="true" value="Salvar" onclick="funcao3()">
-                  </form>
-                  <!--Outros-->
-                  <hr class="dotted short">
-                  <form class="form-horizontal" method="POST" action="../controle/control.php">
-                    <input type="hidden" name="nomeClasse" value="FuncionarioControle">
-                    <input type="hidden" name="metodo" value="alterarOutros">
-                    <h4 class="mb-xlg doch4">Outros</h4>
-                    <div class="form-group">
-                      <label class="col-md-3 control-label">PIS</label>
-                      <div class="col-md-6">
-                        <input type="text" id="pis" name="pis" class="form-control">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-md-3 control-label">CTPS</label>
-                      <div class="col-md-6">
-                        <input type="text" id="ctps" name="ctps" class="form-control">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-md-3 control-label" for="uf">Estado CTPS</label>
-                      <div class="col-md-6">
-                        <input type="text" name="uf_ctps" size="60" class="form-control" id="uf_ctps">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-md-3 control-label">Título de eleitor</label>
-                      <div class="col-md-6">
-                        <input type="text" name="titulo_eleitor" id="titulo_eleitor" class="form-control">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-md-3 control-label">Zona eleitoral</label>
-                      <div class="col-md-6">
-                        <input type="text" name="zona_eleitoral" id="zona_eleitoral" class="form-control">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-md-3 control-label">Seção do título de eleitor</label>
-                      <div class="col-md-6">
-                        <input type="text" name="secao_titulo_eleitor" id="secao_titulo_eleitor" class="form-control">
-                      </div>
-                    </div>
-                    <div class="form-group" id="reservista1" style="display: none">
-                      <label class="col-md-3 control-label">Número do certificado reservista</label>
-                      <div class="col-md-6">
-                        <input type="text" id="certificado_reservista_numero" name="certificado_reservista_numero" class="form-control num_reservista">
-                      </div>
-                    </div>
-                    <div class="form-group" id="reservista2" style="display: none">
-                      <label class="col-md-3 control-label">Série do certificado reservista</label>
-                      <div class="col-md-6">
-                        <input type="text" id="certificado_reservista_serie" name="certificado_reservista_serie" class="form-control serie_reservista">
-                      </div>
-                    </div>
-
-                    <div class="form-group">
-                      <label class="col-md-3 control-label" for="inputSuccess">Situação</label>
-                      <a onclick="adicionar_situacao()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
-                      <div class="col-md-6">
-                        <select class="form-control input-lg mb-md" name="situacao" id="situacao">
-                          <option selected disabled>Selecionar</option>
-                          <?php
-                          while ($row = $situacao->fetch_array(MYSQLI_NUM)) {
-                            echo "<option value=" . $row[0] . ">" . $row[1] . "</option>";
-                          }                            ?>
-                        </select>
-                      </div>
-                    </div>
-
-                    <div class="form-group">
-                      <label class="col-md-3 control-label" for="inputSuccess">Cargo</label>
-                      <a onclick="adicionar_cargo()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
-                      <div class="col-md-6">
-                        <select class="form-control input-lg mb-md" name="cargo" id="cargo">
-                          <option selected disabled>Selecionar</option>
-                          <?php
-                          while ($row = $cargo->fetch_array(MYSQLI_NUM)) {
-                            echo "<option value=" . $row[0] . ">" . $row[1] . "</option>";
-                          }                            ?>
-                        </select>
-                      </div>
-                    </div>
-
-                    <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
-                    <button type="button" class="btn btn-primary" id="botaoEditarOutros" onclick="return editar_outros()">Editar</button>
-                    <input type="submit" class="btn btn-primary" disabled="true" value="Salvar" id="botaoSalvarOutros" disabled="true">
-                  </form>
+             
                   <div class="panel-footer">
                     <div class="row">
                       <div class="col-md-9 col-md-offset-3">
@@ -1399,7 +1208,7 @@ $dependente = json_encode($dependente);
                       <!-- Modal content-->
                       <div class="modal-content">
                         <div class="modal-header">
-                          <button type="button" class="close" data-dismiss="modal">×</button>
+                          <button type="button" class="close" aba-dismiss="modal">×</button>
                           <h3>Excluir um Funcionário</h3>
                         </div>
                         <div class="modal-body">
@@ -1410,7 +1219,8 @@ $dependente = json_encode($dependente);
                       </div>
                     </div>
                   </div>
-                </div>
+                </div>  
+                
 
                 <!-- 
                   Aba de benefícios do funcionário
@@ -1623,6 +1433,104 @@ $dependente = json_encode($dependente);
                   </section>
                 </div>
 
+                <!--Outros-->
+                  <div id="outros" class="tab-pane">
+                  <section class="panel">
+                    <header class="panel-heading">
+                      <div class="panel-actions">
+                        <a href="#" class="fa fa-caret-down"></a>
+                      </div>
+                  <hr class="dotted short">
+                  <form class="form-horizontal" method="POST" action="../controle/control.php">
+                    <input type="hidden" name="nomeClasse" value="FuncionarioControle">
+                    <input type="hidden" name="metodo" value="alterarOutros">
+                    <h4 class="mb-xlg doch4">Outros</h4>
+                    <div class="form-group">
+                      <label class="col-md-3 control-label">PIS</label>
+                      <div class="col-md-6">
+                        <input type="text" id="pis" name="pis" class="form-control">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-md-3 control-label">CTPS</label>
+                      <div class="col-md-6">
+                        <input type="text" id="ctps" name="ctps" class="form-control">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-md-3 control-label" for="uf">Estado CTPS</label>
+                      <div class="col-md-6">
+                        <input type="text" name="uf_ctps" size="60" class="form-control" id="uf_ctps">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-md-3 control-label">Título de eleitor</label>
+                      <div class="col-md-6">
+                        <input type="text" name="titulo_eleitor" id="titulo_eleitor" class="form-control">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-md-3 control-label">Zona eleitoral</label>
+                      <div class="col-md-6">
+                        <input type="text" name="zona_eleitoral" id="zona_eleitoral" class="form-control">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-md-3 control-label">Seção do título de eleitor</label>
+                      <div class="col-md-6">
+                        <input type="text" name="secao_titulo_eleitor" id="secao_titulo_eleitor" class="form-control">
+                      </div>
+                    </div>
+                    <div class="form-group" id="reservista1" style="display: none">
+                      <label class="col-md-3 control-label">Número do certificado reservista</label>
+                      <div class="col-md-6">
+                        <input type="text" id="certificado_reservista_numero" name="certificado_reservista_numero" class="form-control num_reservista">
+                      </div>
+                    </div>
+                    <div class="form-group" id="reservista2" style="display: none">
+                      <label class="col-md-3 control-label">Série do certificado reservista</label>
+                      <div class="col-md-6">
+                        <input type="text" id="certificado_reservista_serie" name="certificado_reservista_serie" class="form-control serie_reservista">
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="col-md-3 control-label" for="inputSuccess">Situação</label>
+                      <a onclick="adicionar_situacao()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
+                      <div class="col-md-6">
+                        <select class="form-control input-lg mb-md" name="situacao" id="situacao">
+                          <option selected disabled>Selecionar</option>
+                          <?php
+                          while ($row = $situacao->fetch_array(MYSQLI_NUM)) {
+                            echo "<option value=" . $row[0] . ">" . $row[1] . "</option>";
+                          }                            ?>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="col-md-3 control-label" for="inputSuccess">Cargo</label>
+                      <a onclick="adicionar_cargo()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
+                      <div class="col-md-6">
+                        <select class="form-control input-lg mb-md" name="cargo" id="cargo">
+                          <option selected disabled>Selecionar</option>
+                          <?php
+                          while ($row = $cargo->fetch_array(MYSQLI_NUM)) {
+                            echo "<option value=" . $row[0] . ">" . $row[1] . "</option>";
+                          }                            ?>
+                        </select>
+                      </div>
+                    </div>
+
+                    <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
+                    <button type="button" class="btn btn-primary" id="botaoEditarOutros" onclick="return editar_outros()">Editar</button>
+                    <input type="submit" class="btn btn-primary" disabled="true" value="Salvar" id="botaoSalvarOutros" disabled="true">
+                  </form>
+                </header>
+                </section>
+              </div>
+
+
                 <!-- 
                   Aba de carga horária do funcionário
 
@@ -1804,6 +1712,52 @@ $dependente = json_encode($dependente);
                       </div>
 
                       <h2 class="panel-title">Documentos</h2>
+                      <!--Documentação-->
+                  <hr class="dotted short">
+                  <form class="form-horizontal" method="post" action="../controle/control.php">
+                    <input type="hidden" name="nomeClasse" value="FuncionarioControle">
+                    <input type="hidden" name="metodo" value="alterarDocumentacao">
+                    <div class="form-group">
+                      <label class="col-md-3 control-label" for="profileCompany">Número do RG</label>
+                      <div class="col-md-6">
+                        <input type="text" class="form-control" name="rg" id="rg" onkeypress="return Onlynumbers(event)" placeholder="Ex: 22.222.222-2" onkeyup="mascara('##.###.###-#',this,event)">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-md-3 control-label" for="profileCompany">Órgão Emissor</label>
+                      <div class="col-md-6">
+                        <input type="text" class="form-control" name="orgao_emissor" id="orgao_emissor" onkeypress="return Onlychars(event)">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-md-3 control-label" for="profileCompany">Data de expedição</label>
+                      <div class="col-md-6">
+                        <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" name="data_expedicao" id="data_expedicao" max=<?php echo date('Y-m-d'); ?>>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-md-3 control-label" for="profileCompany">Número do CPF</label>
+                      <div class="col-md-6">
+                        <input type="text" class="form-control" id="cpf" name="cpf" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##',this,event)">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-md-3 control-label" for="profileCompany"></label>
+                      <div class="col-md-6">
+                        <p id="cpfInvalido" style="display: none; color: #b30000">CPF INVÁLIDO!</p>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-md-3 control-label" for="profileCompany">Data de Admissão</label>
+                      <div class="col-md-8">
+                        <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data_admissao" id="data_admissao" max=<?php echo date('Y-m-d'); ?>>
+                      </div>
+                    </div>
+                    <br />
+                    <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
+                    <button type="button" class="btn btn-primary" id="botaoEditarDocumentacao" onclick="return editar_documentacao()">Editar</button>
+                    <input id="botaoSalvarDocumentacao" type="submit" class="btn btn-primary" disabled="true" value="Salvar" onclick="funcao3()">
+                  </form>
                     </header>
                     <div class="panel-body">
                       <table class="table table-bordered table-striped mb-none" id="datatable-docfuncional">
@@ -1874,6 +1828,8 @@ $dependente = json_encode($dependente);
                   </section>
                 </div>
 
+
+                <!-- Aba dependentes -->
                 <div id="dependentes" class="tab-pane">
                   <section class="panel">
                     <header class="panel-heading">
@@ -2011,10 +1967,79 @@ $dependente = json_encode($dependente);
                   </section>
                 </div>
 
+                <!-- Aba endereço -->
+
+                 <div id="endereco" class="tab-pane" role="tabpanel">
+                                  <h4>Endereço</h4>
+                                    <fieldset id="formEndereco">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="cep">CEP</label>
+                                            <div class="col-md-8">
+                                                <input type="text" name="cep" value="" size="10" onblur="pesquisacep(this.value);" class="form-control" id="cep" maxlength="9" placeholder="Ex: 22222-222" onkeydown="return Onlynumbers(event)" onkeyup="mascara('#####-###',this,event)">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="uf">Estado</label>
+                                            <div class="col-md-8">
+                                                <input type="text" name="uf" size="60" class="form-control" id="uf">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="cidade">Cidade</label>
+                                            <div class="col-md-8">
+                                                <input type="text" size="40" class="form-control" name="cidade" id="cidade">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="bairro">Bairro</label>
+                                            <div class="col-md-8">
+                                                <input type="text" name="bairro" size="40" class="form-control" id="bairro">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="rua">Logradouro</label>
+                                            <div class="col-md-8">
+                                                <input type="text" name="rua" size="2" class="form-control" id="rua">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="profileCompany">Número residencial</label>
+                                            <div class="col-md-4">
+                                                <input type="number" min="0" oninput="this.value = Math.abs(this.value)" class="form-control" name="numero_residencia" id="numero_residencia">
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Não possuo número
+                                                    <input type="checkbox" id="numResidencial" name="naoPossuiNumeroResidencial" style="margin-left: 4px" onclick="return numero_residencial()">
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="profileCompany">Complemento</label>
+                                            <div class="col-md-8">
+                                                <input type="text" class="form-control" name="complemento" id="complemento" id="profileCompany">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="ibge">IBGE</label>
+                                            <div class="col-md-8">
+                                                <input type="text" size="8" name="ibge" class="form-control" id="ibge">
+                                            </div>
+                                        </div>
+                                        <div class="form-group center">
+                                            <button type="button" class="btn btn-primary" id="botaoEditar_formEndereco" onclick="switchForm('formEndereco')">Editar</button>
+                                            <input type="submit" class="btn btn-primary" disabled="true" value="Salvar" id="botaoSalvar_formEndereco" onclick="submitForm('formEndereco')">
+                                        </div>
+
+                                    </fieldset>
+                                </div>
+
+
               </div>
             </div>
           </div>
         </div>
+        
+
         <!-- end: page -->
       </section>
     </div>
