@@ -723,6 +723,16 @@ $JSON_dependente = json_encode($dependente);
                                         <div class="form-group center">
                                             <button type="button" class="btn btn-primary" id="botaoEditar_formDocumentacao" onclick="switchForm('formDocumentacao')">Editar</button>
                                             <input type="submit" class="btn btn-primary" disabled="true" value="Salvar" id="botaoSalvar_formDocumentacao" onclick="submitForm('formDocumentacao')">
+                                            <script>
+                                            function goBack() {
+                                            window.history.back()
+                                            }
+                                            </script>
+                                            <a button type="button" onclick="goBack()">
+                                            <i class="fas fa-arrow-left" aria-hidden="true"></i>
+                                            <span>Voltar</span>
+                                            </a>
+
                                         </div>
                                     </fieldset>
                                     <!-- <hr>
