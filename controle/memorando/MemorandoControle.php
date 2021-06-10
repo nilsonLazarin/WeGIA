@@ -63,7 +63,7 @@ class MemorandoControle
             $lastId = $memorandoDAO->incluir($memorando);
             $msg = "success";
             $sccs = "Memorando criado com sucesso";
-            header("Location: ".WWW."html/memorando/insere_despacho.php?id_memorando=$lastId&msg=".$msg."&sccs=".$sccs);
+            header("Location: ".WWW."html/memorando/novo_memorandoo.php?id_memorando=$lastId&msg=".$msg."&sccs=".$sccs);
 
         } 
         catch (PDOException $e){
@@ -81,7 +81,7 @@ class MemorandoControle
     	if((!isset($assunto)) || (empty($assunto)))
     	{
     		$msg = "Assunto do memorando não informado. Por favor, informe um assunto!";
-            //header('Location: ../html/listar_memorandos_ativos.html');
+            //header('Location: ../html/memorando/novo_memorandoo.php');
     	}
     	$pessoa = new UsuarioDAO();
     	$id_pessoa = $pessoa->obterUsuario($cpf_usuario);
@@ -105,7 +105,7 @@ class MemorandoControle
         try 
         {
             $memorandoDAO->alterarIdStatusMemorando($memorando);
-            header("Location: ".WWW."html/memorando/listar_memorandos_ativos.php");
+            header("Location: ".WWW."html/memorando/novo_memorando.php");
         } 
         catch (PDOException $e) 
         {

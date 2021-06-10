@@ -362,8 +362,12 @@ require_once ROOT."/html/personalizacao_display.php";
 				<div id="myModal">
 					<header class="panel-heading">
 						<h2 class="panel-title">
-							<img src="<?php display_campo("Logo","file");?>" height="40" class="print-logo" style="margin-right: 30px;" />
-							Despacho
+							<center> 
+							<img src="<?php display_campo("Logo","file");?>" height="40" class="print-logo" style="margin-right: 700px;" /><p>
+							WeGIA 
+							<p> Web Gerenciador Institucional
+						</center>
+
 						</h2>
 					</header>
 					<div class="panel-body" id="listaDeDespachos">
@@ -396,7 +400,7 @@ require_once ROOT."/html/personalizacao_display.php";
 					<?php
 						if($_SESSION['id_status_memorando'][0]!=6)
 						{ 
-							if($_SESSION['ultimo_despacho'][0]['id_destinatarioo']==$_SESSION['id_pessoa'])
+							if($_SESSION['ultimo_despacho'][0]['id_destinatario']==$_SESSION['id_pessoa'])
 							{
 					?>
 								<header class="panel-heading">

@@ -16,6 +16,9 @@ if(!isset($_SESSION['usuario'])){
 }
 
 require_once ROOT."/controle/memorando/MemorandoControle.php";
+require_once ROOT."/controle/FuncionarioControle.php";
+$funcionarios = new FuncionarioControle;
+$funcionarios->listarTodos2();
 
 $memorando = new MemorandoControle;
 $memorando->listarTodos();
@@ -46,14 +49,19 @@ $memorando->listarTodos();
     $msg = "Você não tem as permissões necessárias para essa página.";
     header("Location: ".WWW."html/home.php?msg_c=$msg");
   } 
+  require_once ROOT."/controle/FuncionarioControle.php";
+require_once ROOT."/controle/memorando/MemorandoControle.php";
+
+
 
 // Adiciona a Função display_campo($nome_campo, $tipo_campo)
 require_once ROOT."/html/personalizacao_display.php";
 ?>
 
+
 <!DOCTYPE html>
 
-<html class="fixed">
+<html class="">
 <head>
     <!-- Basic -->
     <meta charset="UTF-8">
@@ -166,7 +174,25 @@ require_once ROOT."/html/personalizacao_display.php";
         $("#header").load("<?php echo WWW;?>html/header.php");
         $(".menuu").load("<?php echo WWW;?>html/menu.php");
     });
+
     </script>
+ <script>
+        $(function(){
+            var funcionario=<?php echo $_SESSION['funcionarios2']?>;
+            $.each(funcionario,function(i,item){
+                $("#destinatario")
+                    .append($("<option id="+item.id_pessoa+" value="+item.id_pessoa+" name="+item.id_pessoa+">"+item.nome+" "+item.sobrenome+"</option>"));
+            });
+            $("#header").load("<?php echo WWW;?>html/header.php");
+            $(".menuu").load("<?php echo WWW;?>html/menu.php");
+
+            var id_memorando = <?php echo $_GET['id_memorando']?>;
+            $("#id_memorando").val(id_memorando);
+
+            CKEDITOR.replace('despacho');
+        });
+    </script>
+   
     
     <style type="text/css">
         .select{
@@ -192,8 +218,43 @@ require_once ROOT."/html/personalizacao_display.php";
                 display: none;
             }
         }
+        .select{
+            position: absolute;
+            width: 235px;
+        }
+        .select-table-filter{
+            width: 140px;
+            float: left;
+        }
+        .panel-body{
+            margin-bottom: 15px;
+        }
+        img{
+            margin-left:10px;
+        }
+        #div_texto
+        {
+            width: 100%;
+        }
+        #cke_despacho
+        {
+            height: 500px;
+        }
+        .cke_inner
+        {
+            height: 500px;
+        }
+        #cke_1_contents
+        {
+            height: 455px !important;
+        }
+        .col-md-3 {
+            width: 10%;
+        }
     </style>
 </head>
+
+
 <body>
     <section class="body">
         <!-- start: header -->
@@ -212,25 +273,30 @@ require_once ROOT."/html/personalizacao_display.php";
                                 <a href="<?php echo WWW;?>html/home.php">
                                     <i class="fa fa-home"></i>
                                 </a>
-                            
+                            </li>
+                            <li><span></span></li>
+                        </ol>
                         <a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
                     </div>
                 </header>
                 <!-- start: page -->
                 <section class="panel" >
-                        <?php 
-                        if (isset($_GET['msg'])){ if ($_GET['msg'] == 'success')
-                            { 
-                                echo('<div class="alert alert-success"><i class="fas fa-check mr-md"></i><a href="#" class="close" onclick="closeMsg()" data-dismiss="alert" aria-label="close">&times;</a>'.$_GET["sccd"]."</div>");
-                            }
-                            }
-                        ?>
+                     <?php
+                if (isset($_GET['msg']))
+                { 
+                    if ($_GET['msg'] == 'success')
+                    {
+                     echo('<div class="alert alert-success"><i class="fas fa-check mr-md"></i><a href="#" class="close" onclick="closeMsg()" data-dismiss="alert" aria-label="close">&times;</a>'.$_GET["sccs"]."</div>");
+                    }
+                }
+                ?>
+                      
                         <header class="panel-heading">
                             <h2 class="panel-title">Criar memorando</h2>
                         </header>
                         <div class="panel-body">
                             <form action="<?php echo WWW;?>controle/control.php" method="post">
-                                <input type="text" id="assunto" name="assunto" required placeholder="Assunto" class="form-control">
+                                <input type="text" id="assunto" name="assunto" required placeholder="Título do Novo Memorando" class="form-control">
                                 <input type="hidden" name="nomeClasse" value="MemorandoControle">
                                 <input type="hidden" name="metodo" value="incluir">
                                 <input type='hidden' value='memorando' name='modulo'>
@@ -240,6 +306,78 @@ require_once ROOT."/html/personalizacao_display.php";
                     
                 <div class="printable"></div>
                 </section>
+
+               
+
+                <section class="panel" >
+                <?php
+                if(in_array($_GET['id_memorando'], $_SESSION['memorandoIdInativo']) || $_SESSION['isset_memorando']==1)
+                {
+                ?>
+                <script>
+                    $(".panel").html("<p>Desculpe, você não tem acesso à essa página</p>");
+                </script>
+                <?php
+                }
+                else
+                {
+                ?>
+                    <header class="panel-heading">
+                        <h2 class="panel-title">Despachar memorando</h2>
+                    </header>
+                    <div class="panel-body">
+
+                        <?php
+                        echo "<form action='".WWW."controle/control.php' method='post' enctype='multipart/form-data'>";
+                        ?>
+                            <div class="form-group">
+                                <label for=destinatario id=etiqueta_destinatario class='col-md-3 control-label'>Destino </label>
+                                <div class='col-md-6'>
+                                    <select name="destinatario" id=destinatario required class='form-control mb-md'></select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for=arquivo id=etiqueta_arquivo class='col-md-3 control-label'>Arquivo </label>
+                                <div class='col-md-6'>
+                                    <input type="file" name="anexo[]" id="anexo" multiple>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                    <label for=texto id=etiqueta_despacho class='col-md-3 control-label'>Despacho </label>
+                                    <div class='col-md-6' id='div_texto' style="height: 110px;">
+                                        <textarea cols='30' rows='5' id='despacho' name='texto' required class='form-control'></textarea>
+                                    </div>
+                            </div>
+                            <div class='row'>
+                                <div class='col-md-9 col-md-offset-8'>
+                                    <input type='hidden' value='DespachoControle' name='nomeClasse' class='mb-xs mt-xs mr-xs btn btn-default'>
+                                </div>
+                                <div class='col-md-9 col-md-offset-8'>
+                                    <input type='hidden' value='incluir' name='metodo' class='mb-xs mt-xs mr-xs btn btn-default'>
+                                </div>
+                                <div class='col-md-9 col-md-offset-8'>
+                                    <input type='hidden' name='id_memorando' id='id_memorando' class='mb-xs mt-xs mr-xs btn btn-default'>
+                                </div>
+                                <div class='col-md-9 col-md-offset-8'>
+                                    <input type='hidden' name='modulo' value="memorando" class='mb-xs mt-xs mr-xs btn btn-default'>
+                                </div>
+                                <div class='col-md-9 col-md-offset-8'>
+                                    <input type='submit' value='Enviar' name='enviar' id='enviar' class='mb-xs mt-xs mr-xs btn btn-primary'>
+                                </div>
+                            </div>
+                        </form>
+                    </div> 
+                    <?php
+
+                }
+                ?> 
+
+                    </div>
+                </section>
+            </section>
+        </div>
+    </section>
+    
             </section>
         </div>
     </section>
@@ -263,6 +401,7 @@ require_once ROOT."/html/personalizacao_display.php";
         <script src="<?php echo WWW;?>assets/javascripts/tables/examples.datatables.default.js"></script>
         <script src="<?php echo WWW;?>assets/javascripts/tables/examples.datatables.row.with.details.js"></script>
         <script src="<?php echo WWW;?>assets/javascripts/tables/examples.datatables.tabletools.js"></script>
+       
         <script type="text/javascript">
             $(function(){
                 $("#btnPrint").click(function () {
