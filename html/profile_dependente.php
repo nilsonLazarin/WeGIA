@@ -489,6 +489,11 @@ $JSON_dependente = json_encode($dependente);
             post(url, data, gerarDocFuncional);
         }
     </script>
+    <script>
+    function goBack() {
+    window.history.back()
+    }
+    </script>
 
 
     <style type="text/css">
@@ -525,6 +530,12 @@ $JSON_dependente = json_encode($dependente);
         <div class="inner-wrapper">
             <!-- start: sidebar -->
             <aside id="sidebar-left" class="sidebar-left menuu"></aside>
+
+
+
+
+
+
             <!-- end: sidebar -->
             <section role="main" class="content-body">
                 <header class="page-header">
@@ -558,7 +569,10 @@ $JSON_dependente = json_encode($dependente);
                                     <a href="#overview" data-toggle="tab">Visão Geral</a>
                                 </li>
                                 <li>
-                                    <a href="#documentos" data-toggle="tab">Documentos</a>
+                                    <a href="#documentacao" data-toggle="tab">Documentação</a>
+                                </li>
+                                <li>
+                                    <a href="#documentos" data-toggle="tab">Arquivos</a>
                                 </li>
                                 <li>
                                     <a href="#endereco" data-toggle="tab">Endereço</a>
@@ -626,55 +640,8 @@ $JSON_dependente = json_encode($dependente);
                                     </fieldset>
                                     <hr>
 
-                                    <h4>Documentações</h4>
-                                    <fieldset id="formDocumentacao">
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label" for="profileCompany">Número do RG</label>
-                                            <div class="col-md-8">
-                                                <input type="text" class="form-control" name="rg" id="rg" onkeypress="return Onlynumbers(event)" placeholder="Ex: 22.222.222-2" onkeydown="mascara('##.###.###-#',this,event)">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label" for="profileCompany">Órgão Emissor</label>
-                                            <div class="col-md-8">
-                                                <input type="text" class="form-control" name="orgao_emissor" id="orgao_emissor" onkeypress="return Onlychars(event)">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label" for="profileCompany">Data de expedição</label>
-                                            <div class="col-md-8">
-                                                <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" name="data_expedicao" id="data_expedicao" max=<?php echo date('Y-m-d'); ?>>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label" for="profileCompany">Número do CPF</label>
-                                            <div class="col-md-8">
-                                                <input type="text" class="form-control" id="cpf" name="cpf" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeydown="mascara('###.###.###-##',this,event)" required>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label" for="profileCompany"></label>
-                                            <div class="col-md-6">
-                                                <p id="cpfInvalido" style="display: none; color: #b30000">CPF INVÁLIDO!</p>
-                                            </div>
-                                        </div>
-                                        <br />
-                                        <div class="form-group center">
-                                            <button type="button" class="btn btn-primary" id="botaoEditar_formDocumentacao" onclick="switchForm('formDocumentacao')">Editar</button>
-                                            <input type="submit" class="btn btn-primary" disabled="true" value="Salvar" id="botaoSalvar_formDocumentacao" onclick="submitForm('formDocumentacao')">
-                                            <script>
-                                            function goBack() {
-                                            window.history.back()
-                                            }
-                                            </script>
-                                            <a button type="button" onclick="goBack()">
-                                            <i class="fas fa-arrow-left" aria-hidden="true"></i>
-                                            <span>Voltar</span>
-                                            </a>
-                                            
 
-                                        </div>
-                                    </fieldset>
+                                    
                                     <!-- <hr>
                                     <h4>Outros</h4>
                                     <fieldset id="formOutros">
@@ -765,10 +732,7 @@ $JSON_dependente = json_encode($dependente);
 
 
 
-                                <!-- 
-                                    Aba de documentos do dependente
-
-                                -->
+                                <!-- Aba de arquivos do dependente -->
 
                                 <div id="documentos" class="tab-pane" role="tabpanel">
                                     <h4>Documentos</h4>
@@ -838,6 +802,51 @@ $JSON_dependente = json_encode($dependente);
                                         </div>
                                     </fieldset>
                                 </div>
+
+                                <!-- Aba de documentação do dependente -->
+
+                                <div id="documentacao" class="tab-pane" role="tabpanel">
+                                <h4>Documentação</h4>
+                                    <fieldset id="formDocumentacao">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="profileCompany">Número do RG</label>
+                                            <div class="col-md-8">
+                                                <input type="text" class="form-control" name="rg" id="rg" onkeypress="return Onlynumbers(event)" placeholder="Ex: 22.222.222-2" onkeydown="mascara('##.###.###-#',this,event)">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="profileCompany">Órgão Emissor</label>
+                                            <div class="col-md-8">
+                                                <input type="text" class="form-control" name="orgao_emissor" id="orgao_emissor" onkeypress="return Onlychars(event)">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="profileCompany">Data de expedição</label>
+                                            <div class="col-md-8">
+                                                <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" name="data_expedicao" id="data_expedicao" max=<?php echo date('Y-m-d'); ?>>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="profileCompany">Número do CPF</label>
+                                            <div class="col-md-8">
+                                                <input type="text" class="form-control" id="cpf" name="cpf" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeydown="mascara('###.###.###-##',this,event)" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="profileCompany"></label>
+                                            <div class="col-md-6">
+                                                <p id="cpfInvalido" style="display: none; color: #b30000">CPF INVÁLIDO!</p>
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <div class="form-group center">
+                                            <button type="button" class="btn btn-primary" id="botaoEditar_formDocumentacao" onclick="switchForm('formDocumentacao')">Editar</button>
+                                            <input type="submit" class="btn btn-primary" disabled="true" value="Salvar" id="botaoSalvar_formDocumentacao" onclick="submitForm('formDocumentacao')">
+                                            
+
+                                        </div>
+                                    </fieldset>
+                                </div>
                                                          
                                 <!-- Aba de endereço do dependente -->
 
@@ -904,12 +913,20 @@ $JSON_dependente = json_encode($dependente);
 
                                     </fieldset>
                                 </div>
-
+                                
+                                 <div class="justify-content-between" style="height: 30px;">
+                             <a type="buton" onclick="goBack()" class="btn btn-secondary" style="float: right;">
+                                Voltar
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                            
+                        </div>
                             </div>
                         </div>
                     </div>
                 </div>
         </div>
+
         <!-- end: page -->
     </section>
     </div>
