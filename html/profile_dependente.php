@@ -572,7 +572,7 @@ $JSON_dependente = json_encode($dependente);
                                     <a href="#documentacao" data-toggle="tab">Documentação</a>
                                 </li>
                                 <li>
-                                    <a href="#documentos" data-toggle="tab">Arquivo</a>
+                                    <a href="#arquivo" data-toggle="tab">Arquivo</a>
                                 </li>
                                 <li>
                                     <a href="#endereco" data-toggle="tab">Endereço</a>
@@ -734,8 +734,8 @@ $JSON_dependente = json_encode($dependente);
 
                                 <!-- Aba de arquivos do dependente -->
 
-                                <div id="documentos" class="tab-pane" role="tabpanel">
-                                    <h4>Documentos</h4>
+                                <div id="arquivo" class="tab-pane" role="tabpanel">
+                                    <h4>Arquivo</h4>
                                     <fieldset>
                                         <div class="panel-body">
                                             <table class="table table-bordered table-striped mb-none" id="datatable-documentos">
@@ -753,7 +753,7 @@ $JSON_dependente = json_encode($dependente);
                                             <br>
                                             <!-- Button trigger modal -->
                                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#docFormModal">
-                                                Adicionar Documento
+                                                Adicionar arquivo
                                             </button>
 
                                             <div class="modal fade" id="docFormModal" tabindex="-1" role="dialog" aria-labelledby="docFormModalLabel" aria-hidden="true">
