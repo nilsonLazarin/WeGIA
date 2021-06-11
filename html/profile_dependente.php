@@ -572,7 +572,7 @@ $JSON_dependente = json_encode($dependente);
                                     <a href="#documentacao" data-toggle="tab">Documentação</a>
                                 </li>
                                 <li>
-                                    <a href="#documentos" data-toggle="tab">Arquivos</a>
+                                    <a href="#documentos" data-toggle="tab">Arquivo</a>
                                 </li>
                                 <li>
                                     <a href="#endereco" data-toggle="tab">Endereço</a>
