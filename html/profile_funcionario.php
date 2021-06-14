@@ -336,6 +336,22 @@ $dependente = json_encode($dependente);
 
     }
 
+    function editar_remuneracao() {
+      enableForm("formRemuneracao");
+      $("#botaoEditarRemuneracao").text("Cancelar").prop("class", "btn btn-danger");
+      $("#botaoEditarRemuneracao").attr('onclick', "cancelar_remuneracao()");
+      $("#botaoSalvarRemuneracao").attr('disabled', false);
+      $("#btn_adicionar_tipo_remuneracao").attr('onclick', 'adicionarTipoRemuneracao()');
+    }
+
+    function cancelar_remuneracao() {
+      disableForm("formRemuneracao");
+      $("#botaoEditarRemuneracao").text("Editar").prop("class", "btn btn-primary");
+      $("#botaoEditarRemuneracao").attr('onclick', "editar_remuneracao()");
+      $("#botaoSalvarRemuneracao").attr('disabled', true);
+      $("#btn_adicionar_tipo_remuneracao").attr('onclick', 'return false;');
+    }
+
     function clicar_epi(id) {
       window.location.href = "../html/editar_epi.php?id_funcionario=" + id;
     }
@@ -358,6 +374,8 @@ $dependente = json_encode($dependente);
     }
 
     $(function() {
+
+      cancelar_remuneracao();
 
       var funcionario = <?= $func ?>;
       $.each(funcionario, function(i, item) {
@@ -1114,7 +1132,7 @@ $dependente = json_encode($dependente);
                   <a href="#epi" data-toggle="tab">Epi</a>
                 </li>
                 <li>
-                  <a href="#beneficio" data-toggle="tab">Benefício</a>
+                  <a href="#beneficio" data-toggle="tab">Remuneração</a>
                 </li>
                 <li>
                   <a href="#editar_cargaHoraria" data-toggle="tab">Carga Horária</a>
@@ -1234,8 +1252,55 @@ $dependente = json_encode($dependente);
                         <a href="#" class="fa fa-caret-down"></a>
                       </div>
 
-                      <h2 class="panel-title">Benefícios</h2>
+                      <h2 class="panel-title">Remuneração</h2>
                     </header>
+                    <!-- <input type="hidden" name="nomeClasse" value="FuncionarioControle">
+                    <input type="hidden" name="metodo" value="alterarInfPessoal"> -->
+                    <h4 class="mb-xlg">Remuneração</h4>
+                    <fieldset id="formRemuneracao">
+                      <div class="form-group">
+                        <label class="col-md-3 control-label" for="tipo_remuneracao">Tipo</label>
+                        <div class="col-md-6" style="display: flex;">
+                          <select class="form-control input-lg mb-md" name="id_tipo" id="tipo_remuneracao" required>
+                            <option selected disabled>Selecionar</option>
+                            <?php
+                              $tipos = ($pdo->query("SELECT idfuncionario_remuneracao_tipo as id, descricao FROM funcionario_remuneracao_tipo;"))->fetchAll(PDO::FETCH_ASSOC);
+                              foreach ($tipos as $key => $tipo) {
+                                echo "<option value='" . $tipo["id"] . "'>" . $tipo["descricao"] . "</option>";
+                              }
+                            ?>
+                          </select>
+                          <a onclick="adicionarTipoRemuneracao()" style="margin: 0 20px;" id="btn_adicionar_tipo_remuneracao"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-md-3 control-label" for="valor_remuneracao">Valor</label>
+                        <div class="col-md-8">
+                          <input type="number" class="form-control" name="valor" id="valor_remuneracao" onkeypress="return Onlynumbers(event)" required>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-md-3 control-label" for="inicio_remuneracao">Data Inicio</label>
+                        <div class="col-md-8">
+                          <input type="date" name="inicio" id="inicio_remuneracao" class="form-control">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-md-3 control-label" for="fim_remuneracao">Data Fim</label>
+                        <div class="col-md-8">
+                          <input type="date" name="fim" id="fim_remuneracao" class="form-control">
+                        </div>
+                      </div>
+                      <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
+                      <input type="hidden" name="action" value="remuneracao_adicionar">
+                      <button type="button" class="btn btn-primary" id="botaoEditarRemuneracao" onclick="return editar_remuneracao()">Editar</button>
+                      <button class="btn btn-primary" id="botaoSalvarRemuneracao" onclick="submitForm('formRemuneracao', console.log)">Salvar</button>
+                    </fieldset>
+
+                    <hr>
+
+                    <h4>Benefícios</h4>
+
                     <div class="panel-body">
                       <table class="table table-bordered table-striped mb-none" id="datatable-default">
                         <thead>
@@ -1253,14 +1318,8 @@ $dependente = json_encode($dependente);
                         </tbody>
 
                       </table>
+                      <button id="excluir" type="button" class="btn btn-success" data-toggle="modal" data-target="#adicionar">Adicionar</button>
                     </div><br>
-                    <div class="panel-footer">
-                      <div class="row">
-                        <div class="col-md-9 col-md-offset-3">
-                          <button id="excluir" type="button" class="btn btn-success" data-toggle="modal" data-target="#adicionar">Adicionar</button>
-                        </div>
-                      </div>
-                    </div>
                     <div class="modal fade" id="adicionar" role="dialog">
                       <div class="modal-dialog">
                         <!-- Modal content-->
@@ -1712,54 +1771,56 @@ $dependente = json_encode($dependente);
                       </div>
 
                       <h2 class="panel-title">Documentos</h2>
-                      <!--Documentação-->
-                  <hr class="dotted short">
-                  <form class="form-horizontal" method="post" action="../controle/control.php">
-                    <input type="hidden" name="nomeClasse" value="FuncionarioControle">
-                    <input type="hidden" name="metodo" value="alterarDocumentacao">
-                    <div class="form-group">
-                      <label class="col-md-3 control-label" for="profileCompany">Número do RG</label>
-                      <div class="col-md-6">
-                        <input type="text" class="form-control" name="rg" id="rg" onkeypress="return Onlynumbers(event)" placeholder="Ex: 22.222.222-2" onkeyup="mascara('##.###.###-#',this,event)">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-md-3 control-label" for="profileCompany">Órgão Emissor</label>
-                      <div class="col-md-6">
-                        <input type="text" class="form-control" name="orgao_emissor" id="orgao_emissor" onkeypress="return Onlychars(event)">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-md-3 control-label" for="profileCompany">Data de expedição</label>
-                      <div class="col-md-6">
-                        <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" name="data_expedicao" id="data_expedicao" max=<?php echo date('Y-m-d'); ?>>
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-md-3 control-label" for="profileCompany">Número do CPF</label>
-                      <div class="col-md-6">
-                        <input type="text" class="form-control" id="cpf" name="cpf" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##',this,event)">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-md-3 control-label" for="profileCompany"></label>
-                      <div class="col-md-6">
-                        <p id="cpfInvalido" style="display: none; color: #b30000">CPF INVÁLIDO!</p>
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-md-3 control-label" for="profileCompany">Data de Admissão</label>
-                      <div class="col-md-8">
-                        <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data_admissao" id="data_admissao" max=<?php echo date('Y-m-d'); ?>>
-                      </div>
-                    </div>
-                    <br />
-                    <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
-                    <button type="button" class="btn btn-primary" id="botaoEditarDocumentacao" onclick="return editar_documentacao()">Editar</button>
-                    <input id="botaoSalvarDocumentacao" type="submit" class="btn btn-primary" disabled="true" value="Salvar" onclick="funcao3()">
-                  </form>
                     </header>
-                    <div class="panel-body">
+                  <div class="panel-body">
+                    <!--Documentação-->
+                    <hr class="dotted short">
+                    <form class="form-horizontal" method="post" action="../controle/control.php">
+                      <input type="hidden" name="nomeClasse" value="FuncionarioControle">
+                      <input type="hidden" name="metodo" value="alterarDocumentacao">
+                      <div class="form-group">
+                        <label class="col-md-3 control-label" for="profileCompany">Número do RG</label>
+                        <div class="col-md-6">
+                          <input type="text" class="form-control" name="rg" id="rg" onkeypress="return Onlynumbers(event)" placeholder="Ex: 22.222.222-2" onkeyup="mascara('##.###.###-#',this,event)">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-md-3 control-label" for="profileCompany">Órgão Emissor</label>
+                        <div class="col-md-6">
+                          <input type="text" class="form-control" name="orgao_emissor" id="orgao_emissor" onkeypress="return Onlychars(event)">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-md-3 control-label" for="profileCompany">Data de expedição</label>
+                        <div class="col-md-6">
+                          <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" name="data_expedicao" id="data_expedicao" max=<?php echo date('Y-m-d'); ?>>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-md-3 control-label" for="profileCompany">Número do CPF</label>
+                        <div class="col-md-6">
+                          <input type="text" class="form-control" id="cpf" name="cpf" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##',this,event)">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-md-3 control-label" for="profileCompany"></label>
+                        <div class="col-md-6">
+                          <p id="cpfInvalido" style="display: none; color: #b30000">CPF INVÁLIDO!</p>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-md-3 control-label" for="profileCompany">Data de Admissão</label>
+                        <div class="col-md-8">
+                          <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data_admissao" id="data_admissao" max=<?php echo date('Y-m-d'); ?>>
+                        </div>
+                      </div>
+                      <br />
+                      <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
+                      <button type="button" class="btn btn-primary" id="botaoEditarDocumentacao" onclick="return editar_documentacao()">Editar</button>
+                      <input id="botaoSalvarDocumentacao" type="submit" class="btn btn-primary" disabled="true" value="Salvar" onclick="funcao3()">
+                    </form>
+                    <hr>
+                    <h4>Adicionar Documento</h4>
                       <table class="table table-bordered table-striped mb-none" id="datatable-docfuncional">
                         <thead>
                           <tr>
@@ -2069,6 +2130,55 @@ $dependente = json_encode($dependente);
   <script src="../assets/javascripts/tables/examples.datatables.row.with.details.js"></script>
   <script src="../assets/javascripts/tables/examples.datatables.tabletools.js"></script>
   <script>
+    function submitForm(idForm, callback = function(){return true;}) {
+      var data = getFormPostParams(idForm);
+      console.log(data);
+      var url;
+      switch (idForm) {
+          case "formRemuneracao":
+              url = "./funcionario/remuneracao.php";
+              break;
+          default:
+              console.warn("Não existe nenhuma URL registrada para o formulário com o seguinte id: " + idForm);
+              return false;
+              break;
+      }
+      if (!data) {
+          window.alert("Preencha todos os campos obrigatórios antes de prosseguir!");
+          return false;
+      }
+      post(url, data, callback);
+    }
+
+    function adicionarTipoRemuneracao() {
+        url = './funcionario/remuneracao.php';
+        var descricao = window.prompt("Cadastre um novo tipo de Remuneração:");
+        if (!descricao) {
+            return
+        }
+        descricao = descricao.trim();
+        if (descricao == '') {
+            return
+        }
+        data = "action=tipo_adicionar&descricao=" + descricao;
+        console.log(url + "?" + data);
+        post(url, data, gerarTipoRemuneracao);
+    }
+
+    function gerarTipoRemuneracao(response) {
+        var documento = response;
+        if (response["aviso"] || response["errorInfo"]){
+          return false;
+        }
+        $('#tipo_remuneracao').empty();
+        $('#tipo_remuneracao').append('<option selected disabled>Selecionar</option>');
+        $.each(documento, function(i, item) {
+            $('#tipo_remuneracao').append('<option value="' + item.id + '">' + item.descricao + '</option>');
+        });
+    }
+
+
+
     function funcao3() {
       var idfunc = <?php echo $_GET['id_funcionario']; ?>;
       var cpfs = <?php echo $_SESSION['cpf_funcionario']; ?>;

@@ -39,18 +39,25 @@ function getFormPostParams(idForm){
     $("#"+idForm+" :input").each(function(){
         var input = $(this);
         var nome = input.attr('name');
-        var value = input.val().replace(/\+|%|&|\$|#|@|\?/gi, function(matched){
-            return mapObj[matched];
-        });
+        console.log(nome, input.val())
         if ((input.prop('type') == 'radio' && !input.prop('checked')) || !nome){
+            console.log("1");
             false;
         }else{
+            var value = input.val();
+            url_format = value.replace(/\+|%|&|\$|#|@|\?/gi, function(matched){
+                return mapObj[matched];
+            });
             if (input.prop('required') && (!value || value == 'null')){
+                console.log(value, "2");
                 string = false;
                 return false;
             }
-            string += ((first ? "" : "&")+nome+"="+ value || "");
-            first = false;
+            if (value){
+                console.log("3");
+                string += ((first ? "" : "&")+nome+"="+ url_format || "");
+                first = false;
+            }
         }
     });
     return string;
