@@ -184,7 +184,8 @@ $JSON_dependente = json_encode($dependente);
                     $("#data_expedicao").val(dep.data_expedicao).prop('disabled', true);
                     // $("#cpf").val(dep.cpf.substr(0, 3) + "." + dep.cpf.substr(3, 3) + "." + dep.cpf.substr(6, 3) + "-" + dep.cpf.substr(9, 2)).prop('disabled', true);
                     $("#cpf").val(dep.cpf);
-                }
+                },
+
                 // ,
                 // formOutros: function(dep) {
                 //     $("#pis").val(dep.pis).prop('disabled', true);
@@ -302,6 +303,7 @@ $JSON_dependente = json_encode($dependente);
         });
 
 
+    </script>
 
 
 
@@ -315,41 +317,114 @@ $JSON_dependente = json_encode($dependente);
 
 
 
+     <script type="text/javascript">
+    function numero_residencial() {
+      if ($("#numResidencial").prop('checked')) {
+        $("#numero_residencia").val('');
+        document.getElementById("numero_residencia").disabled = true;
 
-        function validarCPF(strCPF) {
+      } else {
+        document.getElementById("numero_residencia").disabled = false;
+      }
+    }
 
-            if (!testaCPF(strCPF)) {
-                $('#cpfInvalido').show();
-                $("#botaoSalvar_formDocumentacao").prop('disabled', true);
-            } else {
-                $('#cpfInvalido').hide();
-                $("#botaoSalvar_formDocumentacao").prop('disabled', false);
-            }
 
+
+    function meu_callback(conteudo) {
+      if (!("erro" in conteudo)) {
+        //Atualiza os campos com os valores.
+        document.getElementById('rua').value = (conteudo.logradouro);
+        document.getElementById('bairro').value = (conteudo.bairro);
+        document.getElementById('cidade').value = (conteudo.localidade);
+        document.getElementById('uf').value = (conteudo.uf);
+        document.getElementById('ibge').value = (conteudo.ibge);
+      } //end if.
+      else {
+        //CEP não Encontrado.
+        limpa_formulário_cep();
+        alert("CEP não encontrado.");
+      }
+    }
+
+    function pesquisacep(valor) {
+      //Nova variável "cep" somente com dígitos.
+      var cep = valor.replace(/\D/g, '');
+
+      //Verifica se campo cep possui valor informado.
+      if (cep != "") {
+
+        //Expressão regular para validar o CEP.
+        var validacep = /^[0-9]{8}$/;
+
+        //Valida o formato do CEP.
+        if (validacep.test(cep)) {
+
+          //Preenche os campos com "..." enquanto consulta webservice.
+          document.getElementById('rua').value = "...";
+          document.getElementById('bairro').value = "...";
+          document.getElementById('cidade').value = "...";
+          document.getElementById('uf').value = "...";
+          document.getElementById('ibge').value = "...";
+
+          //Cria um elemento javascript.
+          var script = document.createElement('script');
+
+          //Sincroniza com o callback.
+          script.src = 'https://viacep.com.br/ws/' + cep + '/json/?callback=meu_callback';
+
+          //Insere script no documento e carrega o conteúdo.
+          document.body.appendChild(script);
+
+        } //end if.
+        else {
+          //cep é inválido.
+          limpa_formulário_cep();
+          alert("Formato de CEP inválido.");
         }
+      } //end if.
+      else {
+        //cep sem valor, limpa formulário.
+        limpa_formulário_cep();
+      }
 
-        function testaCPF(strCPF) { //strCPF é o cpf que será validado. Ele deve vir em formato string e sem nenhum tipo de pontuação.
-            var strCPF = strCPF.replace(/[^\d]+/g, ''); // Limpa a string do CPF removendo espaços em branco e caracteres especiais. 
-            // PODE SER QUE NÃO ESTEJA LIMPANDO COMPLETAMENTE. FAVOR FAZER O TESTE!!!!
-            var Soma;
-            var Resto;
-            Soma = 0;
-            if (strCPF == "00000000000") return false;
+    };
 
-            for (i = 1; i <= 9; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (11 - i);
-            Resto = (Soma * 10) % 11;
+    function testaCPF(strCPF) { //strCPF é o cpf que será validado. Ele deve vir em formato string e sem nenhum tipo de pontuação.
+      var strCPF = strCPF.replace(/[^\d]+/g, ''); // Limpa a string do CPF removendo espaços em branco e caracteres especiais. 
+      // PODE SER QUE NÃO ESTEJA LIMPANDO COMPLETAMENTE. FAVOR FAZER O TESTE!!!!
+      var Soma;
+      var Resto;
+      Soma = 0;
+      if (strCPF == "00000000000") return false;
 
-            if ((Resto == 10) || (Resto == 11)) Resto = 0;
-            if (Resto != parseInt(strCPF.substring(9, 10))) return false;
+      for (i = 1; i <= 9; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (11 - i);
+      Resto = (Soma * 10) % 11;
 
-            Soma = 0;
-            for (i = 1; i <= 10; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (12 - i);
-            Resto = (Soma * 10) % 11;
+      if ((Resto == 10) || (Resto == 11)) Resto = 0;
+      if (Resto != parseInt(strCPF.substring(9, 10))) return false;
 
-            if ((Resto == 10) || (Resto == 11)) Resto = 0;
-            if (Resto != parseInt(strCPF.substring(10, 11))) return false;
-            return true;
-        }
+      Soma = 0;
+      for (i = 1; i <= 10; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (12 - i);
+      Resto = (Soma * 10) % 11;
+
+      if ((Resto == 10) || (Resto == 11)) Resto = 0;
+      if (Resto != parseInt(strCPF.substring(10, 11))) return false;
+      return true;
+    }
+
+    function validarCPF(strCPF) {
+
+      if (!testaCPF(strCPF)) {
+        $('#cpfInvalido').show();
+        document.getElementById("enviarEditar").disabled = true;
+
+      } else {
+        $('#cpfInvalido').hide();
+
+        document.getElementById("enviarEditar").disabled = false;
+      }
+
+    }
 
         function gerarSituacao() {
             url = '../dao/exibir_situacao.php';
@@ -489,6 +564,11 @@ $JSON_dependente = json_encode($dependente);
             post(url, data, gerarDocFuncional);
         }
     </script>
+    <script>
+    function goBack() {
+    window.history.back()
+    }
+    </script>
 
 
     <style type="text/css">
@@ -525,6 +605,12 @@ $JSON_dependente = json_encode($dependente);
         <div class="inner-wrapper">
             <!-- start: sidebar -->
             <aside id="sidebar-left" class="sidebar-left menuu"></aside>
+
+
+
+
+
+
             <!-- end: sidebar -->
             <section role="main" class="content-body">
                 <header class="page-header">
@@ -558,7 +644,10 @@ $JSON_dependente = json_encode($dependente);
                                     <a href="#overview" data-toggle="tab">Visão Geral</a>
                                 </li>
                                 <li>
-                                    <a href="#documentos" data-toggle="tab">Documentos</a>
+                                    <a href="#documentacao" data-toggle="tab">Documentação</a>
+                                </li>
+                                <li>
+                                    <a href="#arquivo" data-toggle="tab">Arquivo</a>
                                 </li>
                                 <li>
                                     <a href="#endereco" data-toggle="tab">Endereço</a>
@@ -626,55 +715,8 @@ $JSON_dependente = json_encode($dependente);
                                     </fieldset>
                                     <hr>
 
-                                    <h4>Documentações</h4>
-                                    <fieldset id="formDocumentacao">
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label" for="profileCompany">Número do RG</label>
-                                            <div class="col-md-8">
-                                                <input type="text" class="form-control" name="rg" id="rg" onkeypress="return Onlynumbers(event)" placeholder="Ex: 22.222.222-2" onkeydown="mascara('##.###.###-#',this,event)">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label" for="profileCompany">Órgão Emissor</label>
-                                            <div class="col-md-8">
-                                                <input type="text" class="form-control" name="orgao_emissor" id="orgao_emissor" onkeypress="return Onlychars(event)">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label" for="profileCompany">Data de expedição</label>
-                                            <div class="col-md-8">
-                                                <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" name="data_expedicao" id="data_expedicao" max=<?php echo date('Y-m-d'); ?>>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label" for="profileCompany">Número do CPF</label>
-                                            <div class="col-md-8">
-                                                <input type="text" class="form-control" id="cpf" name="cpf" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeydown="mascara('###.###.###-##',this,event)" required>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label" for="profileCompany"></label>
-                                            <div class="col-md-6">
-                                                <p id="cpfInvalido" style="display: none; color: #b30000">CPF INVÁLIDO!</p>
-                                            </div>
-                                        </div>
-                                        <br />
-                                        <div class="form-group center">
-                                            <button type="button" class="btn btn-primary" id="botaoEditar_formDocumentacao" onclick="switchForm('formDocumentacao')">Editar</button>
-                                            <input type="submit" class="btn btn-primary" disabled="true" value="Salvar" id="botaoSalvar_formDocumentacao" onclick="submitForm('formDocumentacao')">
-                                            <script>
-                                            function goBack() {
-                                            window.history.back()
-                                            }
-                                            </script>
-                                            <a button type="button" onclick="goBack()">
-                                            <i class="fas fa-arrow-left" aria-hidden="true"></i>
-                                            <span>Voltar</span>
-                                            </a>
-                                            
 
-                                        </div>
-                                    </fieldset>
+                                    
                                     <!-- <hr>
                                     <h4>Outros</h4>
                                     <fieldset id="formOutros">
@@ -765,13 +807,10 @@ $JSON_dependente = json_encode($dependente);
 
 
 
-                                <!-- 
-                                    Aba de documentos do dependente
+                                <!-- Aba de arquivos do dependente -->
 
-                                -->
-
-                                <div id="documentos" class="tab-pane" role="tabpanel">
-                                    <h4>Documentos</h4>
+                                <div id="arquivo" class="tab-pane" role="tabpanel">
+                                    <h4>Arquivo</h4>
                                     <fieldset>
                                         <div class="panel-body">
                                             <table class="table table-bordered table-striped mb-none" id="datatable-documentos">
@@ -789,7 +828,7 @@ $JSON_dependente = json_encode($dependente);
                                             <br>
                                             <!-- Button trigger modal -->
                                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#docFormModal">
-                                                Adicionar Documento
+                                                Adicionar arquivo
                                             </button>
 
                                             <div class="modal fade" id="docFormModal" tabindex="-1" role="dialog" aria-labelledby="docFormModalLabel" aria-hidden="true">
@@ -835,6 +874,51 @@ $JSON_dependente = json_encode($dependente);
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+
+                                <!-- Aba de documentação do dependente -->
+
+                                <div id="documentacao" class="tab-pane" role="tabpanel">
+                                <h4>Documentação</h4>
+                                    <fieldset id="formDocumentacao">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="profileCompany">Número do RG</label>
+                                            <div class="col-md-8">
+                                                <input type="text" class="form-control" name="rg" id="rg" onkeypress="return Onlynumbers(event)" placeholder="Ex: 22.222.222-2" onkeydown="mascara('##.###.###-#',this,event)">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="profileCompany">Órgão Emissor</label>
+                                            <div class="col-md-8">
+                                                <input type="text" class="form-control" name="orgao_emissor" id="orgao_emissor" onkeypress="return Onlychars(event)">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="profileCompany">Data de expedição</label>
+                                            <div class="col-md-8">
+                                                <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" name="data_expedicao" id="data_expedicao" max=<?php echo date('Y-m-d'); ?>>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="profileCompany">Número do CPF</label>
+                                            <div class="col-md-8">
+                                                <input type="text" class="form-control" id="cpf" name="cpf" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeydown="mascara('###.###.###-##',this,event)" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="profileCompany"></label>
+                                            <div class="col-md-6">
+                                                <p id="cpfInvalido" style="display: none; color: #b30000">CPF INVÁLIDO!</p>
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <div class="form-group center">
+                                            <button type="button" class="btn btn-primary" id="botaoEditar_formDocumentacao" onclick="switchForm('formDocumentacao')">Editar</button>
+                                            <input type="submit" class="btn btn-primary" disabled="true" value="Salvar" id="botaoSalvar_formDocumentacao" onclick="submitForm('formDocumentacao')">
+                                            
+
                                         </div>
                                     </fieldset>
                                 </div>
@@ -904,12 +988,20 @@ $JSON_dependente = json_encode($dependente);
 
                                     </fieldset>
                                 </div>
-
+                                
+                                 <div class="justify-content-between" style="height: 30px;">
+                             <a type="buton" onclick="goBack()" class="btn btn-secondary" style="float: right;">
+                                Voltar
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                            
+                        </div>
                             </div>
                         </div>
                     </div>
                 </div>
         </div>
+
         <!-- end: page -->
     </section>
     </div>
