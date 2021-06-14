@@ -400,7 +400,7 @@ require_once ROOT."/html/personalizacao_display.php";
 					<?php
 						if($_SESSION['id_status_memorando'][0]!=6)
 						{ 
-							if($_SESSION['ultimo_despacho'][0]['id_destinatario']==$_SESSION['id_pessoa'])
+							if($_SESSION['ultimo_despacho'][0]['id_destinatarioo']==$_SESSION['id_pessoa'])
 							{
 					?>
 								<header class="panel-heading">
