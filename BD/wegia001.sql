@@ -1359,7 +1359,6 @@ CREATE TABLE IF NOT EXISTS `wegia`.`funcionario_remuneracao` (
   `valor` DECIMAL(10,2) NOT NULL,
   `inicio` DATE NULL,
   `fim` DATE NULL,
-  `status` TINYINT NOT NULL,
   PRIMARY KEY (`idfuncionario_remuneracao`),
   INDEX `fk_funcionario_remuneracao_funcionario1_idx` (`funcionario_id_funcionario` ASC),
   INDEX `fk_funcionario_remuneracao_funcionario_remuneracao_tipo1_idx` (`funcionario_remuneracao_tipo_idfuncionario_remuneracao_tipo` ASC),
