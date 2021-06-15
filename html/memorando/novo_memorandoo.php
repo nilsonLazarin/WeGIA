@@ -190,8 +190,12 @@ require_once ROOT."/html/personalizacao_display.php";
             $("#id_memorando").val(id_memorando);
 
             CKEDITOR.replace('despacho');
-        });
+        }); 
+
     </script>
+    
+
+  
    
     
     <style type="text/css">
@@ -251,6 +255,14 @@ require_once ROOT."/html/personalizacao_display.php";
         .col-md-3 {
             width: 10%;
         }
+        #area1{
+            display: block;
+
+        }
+        #area2{
+            display: none;
+        }
+      
     </style>
 </head>
 
@@ -274,49 +286,73 @@ require_once ROOT."/html/personalizacao_display.php";
                                     <i class="fa fa-home"></i>
                                 </a>
                             </li>
-                            <li><span></span></li>
+                            <li><span>Novo Memorando</span></li>
                         </ol>
                         <a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
                     </div>
                 </header>
+                
                 <!-- start: page -->
+
                 <section class="panel" >
-                     <?php
-                if (isset($_GET['msg']))
-                { 
-                    if ($_GET['msg'] == 'success')
-                    {
-                     echo('<div class="alert alert-success"><i class="fas fa-check mr-md"></i><a href="#" class="close" onclick="closeMsg()" data-dismiss="alert" aria-label="close">&times;</a>'.$_GET["sccs"]."</div>");
-                    }
-                }
-                ?>
-                      
+                      <div id= "area1">
                         <header class="panel-heading">
                             <h2 class="panel-title">Criar memorando</h2>
                         </header>
                         <div class="panel-body">
+
                             <form action="<?php echo WWW;?>controle/control.php" method="post">
                                 <input type="text" id="assunto" name="assunto" required placeholder="Título do Novo Memorando" class="form-control">
                                 <input type="hidden" name="nomeClasse" value="MemorandoControle">
                                 <input type="hidden" name="metodo" value="incluir">
                                 <input type='hidden' value='memorando' name='modulo'>
-                                <input type='submit' value='Criar memorando' name='enviar' id='enviar' class='mb-xs mt-xs mr-xs btn btn-default'>
-                            </form>
-                       
-                    
-                <div class="printable"></div>
-                </section>
+                                <input type='submit' value='Criar memorando'   name='enviar' id='enviar' class='mb-xs mt-xs mr-xs btn btn-default'>
 
-               
+                    </form>
 
-                <section class="panel" >
+</div>
+                        <div class="printable"></div>
+        </section>
+          
+
+            <div id="area2">
+                
+<style type="text/css">
+    
+</style>
+         <?php
+                if (isset($_GET['msg']))
+                { 
+                    if ($_GET['msg'] == 'success')
+                    {
+                     echo('<div class="alert alert-success"><i class="fas fa-check mr-md"></i><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>'.$_GET["sccs"]."</div>");
+                    }                                                             
+                     }
+                ?>
+        <script type="text/javascript">
+                                var botao = document.getElementById("enviar");
+                                var area1 = document.getElementById("area1");
+                                var area2 = document.getElementById("area2");
+                                botao.onclick = function () {
+                                  area1.style.display = "none";
+                                    area2.style.display = "block";
+                                    
+                                    }
+                            
+                                   
+                    </script>
+                
+
+                <section class="panel">
                 <?php
                 if(in_array($_GET['id_memorando'], $_SESSION['memorandoIdInativo']) || $_SESSION['isset_memorando']==1)
                 {
                 ?>
                 <script>
                     $(".panel").html("<p>Desculpe, você não tem acesso à essa página</p>");
+
                 </script>
+
                 <?php
                 }
                 else
@@ -333,7 +369,7 @@ require_once ROOT."/html/personalizacao_display.php";
                             <div class="form-group">
                                 <label for=destinatario id=etiqueta_destinatario class='col-md-3 control-label'>Destino </label>
                                 <div class='col-md-6'>
-                                    <select name="destinatario" id=destinatario required class='form-control mb-md'></select>
+                                    <select name="destinatario" id="destinatario" required class='form-control mb-md'></select>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -367,20 +403,17 @@ require_once ROOT."/html/personalizacao_display.php";
                             </div>
                         </form>
                     </div> 
-                    <?php
-
+                <?php
                 }
                 ?> 
-
-                    </div>
+             </div>
                 </section>
             </section>
         </div>
     </section>
-    
-            </section>
-        </div>
-    </section>
+
+
+            
     
     <!-- end: page -->
     <!-- Vendor -->
@@ -415,7 +448,7 @@ require_once ROOT."/html/personalizacao_display.php";
                     var impressao = 1;
                     $("#myModal").hide();
                 }); 
-            });
+
         </script>
     </body>
 </html>

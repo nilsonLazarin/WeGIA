@@ -80,7 +80,7 @@ class DespachoControle
     		}
     		$msg = "success";
 			$sccd = "Despacho enviado com sucesso";
-			header("Location: ".WWW."html/memorando/novo_memorandoo.php?msg=".$msg."&sccd=".$sccd);
+			header("Location: ".WWW."html/memorando/listar_memorandos_ativos.php?msg=".$msg."&sccd=".$sccd);
 		}
 		catch(PDOException $e)
 		{
