@@ -189,13 +189,20 @@ require_once ROOT."/html/personalizacao_display.php";
 					</div>
 				</header>
 				<!-- start: page -->
-				<section class="panel" >
-					<div id="myModal">
+				<div id="myModal">
 					<header class="panel-heading">
-						<h2 class="panel-title">Memorandos despachados</h2>
+						<h2 class="panel-title">
+							<center> 
+							<img src="<?php display_campo("Logo","file");?>" height="40" class="print-logo" style="margin-right: 700px;" /><p>
+							WeGIA 
+							<p> Web Gerenciador Institucional
+						</center>
+
+						</h2>
 					</header>
-					<div class="panel-body" >
-	  					<button style="margin-bottom: 0px !important;" class="mb-xs mt-xs mr-xs btn btn-default" id="btnPrint">Imprimir</button>
+					<div class="panel-body">
+						<button style="margin-bottom: 0px !important;" class="not-printable mb-xs mt-xs mr-xs btn btn-default" id="btnPrint">Imprimir</button>
+						<br>
 	  					<br><br>
 		  					
 						<table class="table table-bordered table-striped mb-none" id="datatable-default">
