@@ -16,16 +16,18 @@ extract($_POST);
 
 $cep = ($cep ? "'$cep'" : "NULL");
 $uf = ($uf ? "'$uf'" : "NULL");
-$cicade = ($cicade ? "'$cicade'" : "NULL");
+$cidade = ($cidade ? "'$cidade'" : "NULL");
 $bairro = ($bairro ? "'$bairro'" : "NULL");
 $rua = ($rua ? "'$rua'" : "NULL");
 $complemento = ($complemento ? "'$complemento'" : "NULL");
 $ibge = ($ibge ? "'$ibge'" : "NULL");
-$numResidencial = ($numResidencial ? "'$numResidencial'" : "'Não possui'");
+$numero_residencia = ($numero_residencia ? "'$numero_residencia'" : "'Não possui'");
 
-$sql = "UPDATE pessoa SET cep=$cep, estado=$uf, cidade=$cicade, bairro=$bairro, logradouro=$rua, complemento=$complemento, ibge=$ibge, numero_endereco=$numResidencial WHERE id_pessoa=$id_pessoa;";
+$sql = "UPDATE pessoa SET cep=$cep, estado=$uf, cidade=$cidade, bairro=$bairro, logradouro=$rua, complemento=$complemento, ibge=$ibge, numero_endereco=$numero_residencia WHERE id_pessoa=$id_pessoa;";
 
 $pdo->query($sql);
 
 $_GET['sql'] = $sql;
 echo(json_encode($_GET));
+
+?>

@@ -249,6 +249,8 @@ $dependente = json_encode($dependente);
 
     }
 
+    
+
     function cancelar_endereco() {
       $("#cep").prop('disabled', true);
       $("#uf").prop('disabled', true);
@@ -266,6 +268,8 @@ $dependente = json_encode($dependente);
       $("#botaoEditarEndereco").attr('onclick', "return editar_endereco()");
 
     }
+
+
 
     function editar_documentacao() {
 
@@ -335,6 +339,7 @@ $dependente = json_encode($dependente);
       $("#botaoEditarOutros").attr('onclick', "return editar_outros()");
 
     }
+    
 
     function clicar_epi(id) {
       window.location.href = "../html/editar_epi.php?id_funcionario=" + id;
