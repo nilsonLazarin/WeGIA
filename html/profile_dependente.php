@@ -174,10 +174,10 @@ $JSON_dependente = json_encode($dependente);
                     if (dep.numero_endereco == 'Não possui' || dep.numero_endereco == null) {
                         $("#numResidencial").prop('checked', true).prop('disabled', true);
                         $("#numero_residencia").prop('disabled', true);
-                    }/* else {
+                    } else {
                         $("#numero_residencia").val(dep.numero_endereco).prop('disabled', true);
                         $("#numResidencial").prop('disabled', true);
-                    }*/
+                    }
                 },
                 formDocumentacao: function(dep) {
                     $("#rg").val(dep.registro_geral).prop('disabled', true);
@@ -325,10 +325,10 @@ $JSON_dependente = json_encode($dependente);
         $("#numero_residencia").val('');
         document.getElementById("numero_residencia").disabled = true; 
 
-      } /* else {
+      }  else {
         document.getElementById("numero_residencia").disabled = false;
       }
-    } */  
+    }   
 
 
 
