@@ -247,8 +247,7 @@ $dependente = json_encode($dependente);
       $("#botaoEditarEndereco").removeAttr('onclick');
       $("#botaoEditarEndereco").attr('onclick', "return cancelar_endereco()");
 
-    }
-
+    }  
     
 
     function cancelar_endereco() {
@@ -267,7 +266,7 @@ $dependente = json_encode($dependente);
       $("#botaoEditarEndereco").removeAttr('onclick');
       $("#botaoEditarEndereco").attr('onclick', "return editar_endereco()");
 
-    }
+    } 
 
 
 
@@ -652,6 +651,10 @@ $dependente = json_encode($dependente);
       });
     });
   </script>
+
+ 
+
+
   <script type="text/javascript">
     function numero_residencial() {
       if ($("#numResidencial").prop('checked')) {
@@ -1002,6 +1005,9 @@ $dependente = json_encode($dependente);
     function funcao2() {
       alert("Cadastrado com sucesso o EPI!");
     }
+
+
+
   </script>
 </head>
 
@@ -2033,14 +2039,27 @@ $dependente = json_encode($dependente);
                   </section>
                 </div>
 
-                <!-- Aba endereço -->
+               <!-- Aba endereço -->
 
-                 <div id="endereco" class="tab-pane" role="tabpanel">
-                                  <h4>Endereço</h4>
-                                    <fieldset id="formEndereco">
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label" for="cep">CEP</label>
-                                            <div class="col-md-8">
+
+                <div id="endereco" class="tab-pane">
+                  <section class="panel">
+                    <header class="panel-heading">
+                      <div class="panel-actions">
+                        <a href="#" class="fa fa-caret-down"></a>
+                      </div>
+
+                      <h2 class="panel-title">Endereço</h2>
+                    </header>
+                  <div class="panel-body">
+                    <!--Endereço-->
+                    <hr class="dotted short">
+                    <form class="form-horizontal" method="post" action="../controle/control.php">
+                      <input type="hidden" name="nomeClasse" value="FuncionarioControle">
+                      <input type="hidden" name="metodo" value="alterarEndereco">
+                      <div class="form-group">
+                        <label class="col-md-3 control-label" for="cep">CEP</label>
+                                    <div class="col-md-8">
                                                 <input type="text" name="cep" value="" size="10" onblur="pesquisacep(this.value);" class="form-control" id="cep" maxlength="9" placeholder="Ex: 22222-222" onkeydown="return Onlynumbers(event)" onkeyup="mascara('#####-###',this,event)">
                                             </div>
                                         </div>
@@ -2092,17 +2111,17 @@ $dependente = json_encode($dependente);
                                             </div>
                                         </div>
                                         <div class="form-group center">
-                                            <button type="button" class="btn btn-primary" id="botaoEditar_formEndereco" onclick="switchForm('formEndereco')">Editar</button>
-                                            <input type="submit" class="btn btn-primary" disabled="true" value="Salvar" id="botaoSalvar_formEndereco" onclick="submitForm('formEndereco')">
-                                        </div>
-
-                                    </fieldset>
-                                </div>
-
-
+                                            <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
+                      <button type="button" class="btn btn-primary" id="botaoEditarEndereco" onclick="return editar_endereco()">Editar</button>
+                      <input id="botaoSalvarEndereco" type="submit" class="btn btn-primary" disabled="true" value="Salvar" onclick="funcao3()">
+                    </form>
+                  </div>
               </div>
             </div>
-          </div>
+
+
+            </div>
+          </section>
         </div>
         
 
