@@ -341,21 +341,21 @@ $dependente = json_encode($dependente);
     }
     
 
-    function editar_remuneracao() {
-      enableForm("formRemuneracao");
-      $("#botaoEditarRemuneracao").text("Cancelar").prop("class", "btn btn-danger");
-      $("#botaoEditarRemuneracao").attr('onclick', "cancelar_remuneracao()");
-      $("#botaoSalvarRemuneracao").attr('disabled', false);
-      $("#btn_adicionar_tipo_remuneracao").attr('onclick', 'adicionarTipoRemuneracao()');
-    }
+    // function editar_remuneracao() {
+    //   enableForm("formRemuneracao");
+    //   $("#botaoEditarRemuneracao").text("Cancelar").prop("class", "btn btn-danger");
+    //   $("#botaoEditarRemuneracao").attr('onclick', "cancelar_remuneracao()");
+    //   $("#botaoSalvarRemuneracao").attr('disabled', false);
+    //   $("#btn_adicionar_tipo_remuneracao").attr('onclick', 'adicionarTipoRemuneracao()');
+    // }
 
-    function cancelar_remuneracao() {
-      disableForm("formRemuneracao");
-      $("#botaoEditarRemuneracao").text("Editar").prop("class", "btn btn-primary");
-      $("#botaoEditarRemuneracao").attr('onclick', "editar_remuneracao()");
-      $("#botaoSalvarRemuneracao").attr('disabled', true);
-      $("#btn_adicionar_tipo_remuneracao").attr('onclick', 'return false;');
-    }
+    // function cancelar_remuneracao() {
+    //   disableForm("formRemuneracao");
+    //   $("#botaoEditarRemuneracao").text("Editar").prop("class", "btn btn-primary");
+    //   $("#botaoEditarRemuneracao").attr('onclick', "editar_remuneracao()");
+    //   $("#botaoSalvarRemuneracao").attr('disabled', true);
+    //   $("#btn_adicionar_tipo_remuneracao").attr('onclick', 'return false;');
+    // }
 
     function clicar_epi(id) {
       window.location.href = "../html/editar_epi.php?id_funcionario=" + id;
@@ -380,7 +380,7 @@ $dependente = json_encode($dependente);
 
     $(function() {
 
-      cancelar_remuneracao();
+      // cancelar_remuneracao();
 
       var funcionario = <?= $func ?>;
       $.each(funcionario, function(i, item) {
@@ -1246,7 +1246,7 @@ $dependente = json_encode($dependente);
                 
 
                 <!-- 
-                  Aba de benefícios do funcionário
+                  Aba de remuneração do funcionário
 
                 -->
 
@@ -1261,64 +1261,20 @@ $dependente = json_encode($dependente);
                     </header>
                     <!-- <input type="hidden" name="nomeClasse" value="FuncionarioControle">
                     <input type="hidden" name="metodo" value="alterarInfPessoal"> -->
-                    <h4 class="mb-xlg">Remuneração</h4>
-                    <fieldset id="formRemuneracao">
-                      <div class="form-group">
-                        <label class="col-md-3 control-label" for="tipo_remuneracao">Tipo</label>
-                        <div class="col-md-6" style="display: flex;">
-                          <select class="form-control input-lg mb-md" name="id_tipo" id="tipo_remuneracao" required>
-                            <option selected disabled>Selecionar</option>
-                            <?php
-                              $tipos = ($pdo->query("SELECT idfuncionario_remuneracao_tipo as id, descricao FROM funcionario_remuneracao_tipo;"))->fetchAll(PDO::FETCH_ASSOC);
-                              foreach ($tipos as $key => $tipo) {
-                                echo "<option value='" . $tipo["id"] . "'>" . $tipo["descricao"] . "</option>";
-                              }
-                            ?>
-                          </select>
-                          <a onclick="adicionarTipoRemuneracao()" style="margin: 0 20px;" id="btn_adicionar_tipo_remuneracao"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="col-md-3 control-label" for="valor_remuneracao">Valor</label>
-                        <div class="col-md-8">
-                          <input type="number" class="form-control" name="valor" id="valor_remuneracao" onkeypress="return Onlynumbers(event)" required>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="col-md-3 control-label" for="inicio_remuneracao">Data Inicio</label>
-                        <div class="col-md-8">
-                          <input type="date" name="inicio" id="inicio_remuneracao" class="form-control">
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="col-md-3 control-label" for="fim_remuneracao">Data Fim</label>
-                        <div class="col-md-8">
-                          <input type="date" name="fim" id="fim_remuneracao" class="form-control">
-                        </div>
-                      </div>
-                      <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
-                      <input type="hidden" name="action" value="remuneracao_adicionar">
-                      <button type="button" class="btn btn-primary" id="botaoEditarRemuneracao" onclick="return editar_remuneracao()">Editar</button>
-                      <button class="btn btn-primary" id="botaoSalvarRemuneracao" onclick="submitForm('formRemuneracao', console.log)">Salvar</button>
-                    </fieldset>
-
-                    <hr>
-
-                    <h4>Benefícios</h4>
 
                     <div class="panel-body">
+                      <h4 class="mb-xlg">Remuneração</h4>
                       <table class="table table-bordered table-striped mb-none" id="datatable-default">
                         <thead>
                           <tr>
-                            <th>Benefício</th>
-                            <th>Benefício Status</th>
+                            <th>Remuneração</th>
                             <th>Data Início</th>
                             <th>Data Fim</th>
                             <th>Valor</th>
                             <th>Ação</th>
                           </tr>
                         </thead>
-                        <tbody id="tabela">
+                        <tbody id="tabela_remuneracao">
 
                         </tbody>
 
@@ -1330,69 +1286,48 @@ $dependente = json_encode($dependente);
                         <!-- Modal content-->
                         <div class="modal-content">
                           <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">×</button>
+                            <button type="button" class="close" data-dismiss="modal" id="closeRemuneracaoModal">×</button>
                             <h3>Adicionar Benefício</h3>
                           </div>
                           <div class="modal-body">
-                            <form class="form-horizontal" method="POST" action="../controle/control.php">
-                              <h4 class="mb-xlg">Benefícios</h4>
-                              <div id="beneficio" class="tab-pane">
-                                <div class="form-group">
-                                  <label class="col-md-3 control-label" for="inputSuccess">Benefícios</label>
-                                  <a onclick="adicionar_beneficios()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
-                                  <div class="col-md-6">
-                                    <select class="form-control input-lg mb-md" name="ibeneficios" id="ibeneficios">
-                                      <option selected disabled>Selecionar</option>
-                                      <?php
-                                      while ($row = $beneficios->fetch_array(MYSQLI_NUM)) {
-                                        echo "<option value=" . $row[0] . ">" . $row[1] . "</option>";
-                                      } ?>
-                                    </select>
-                                  </div>
-                                </div>
-
-                                <div class="form-group">
-                                  <label class="col-md-3 control-label" for="inputSuccess">Benefícios Status</label>
-                                  <div class="col-md-6">
-                                    <select class="form-control input-lg mb-md" name="beneficios_status" id="beneficios_status">
-                                      <option selected disabled>Selecionar</option>
-                                      <option value="Ativo">Ativo</option>
-                                      <option value="Inativo">Inativo</option>
-                                    </select>
-                                  </div>
-                                </div>
-                                <div class="form-group">
-                                  <label class="col-md-3 control-label" for="profileCompany">Data Início</label>
-                                  <div class="col-md-8">
-                                    <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data_inicio" id="inicio" max=<?php echo date('Y-m-d'); ?>>
-                                  </div>
-                                </div>
-                                <div class="form-group">
-                                  <label class="col-md-3 control-label" for="profileCompany">Data Fim</label>
-                                  <div class="col-md-8">
-                                    <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data_fim" id="data_fim">
-                                  </div>
-                                </div>
-                                <div class="form-group">
-                                  <label class="col-md-3 control-label" for="profileCompany">Valor</label>
-                                  <div class="col-md-8">
-                                    <input type="text" name="valor" class="dinheiro form-control" id="profileCompany" id="valor" maxlength="13" placeholder="Ex: 22.00" onkeypress="return Onlynumbers(event)">
-                                  </div>
-                                </div>
+                          <fieldset id="formRemuneracao">
+                            <div class="form-group">
+                              <label class="col-md-3 control-label" for="tipo_remuneracao">Tipo</label>
+                              <div class="col-md-6" style="display: flex;">
+                                <select class="form-control input-lg mb-md" name="id_tipo" id="tipo_remuneracao" required>
+                                  <option selected disabled>Selecionar</option>
+                                  <?php
+                                    $tipos = ($pdo->query("SELECT idfuncionario_remuneracao_tipo as id, descricao FROM funcionario_remuneracao_tipo;"))->fetchAll(PDO::FETCH_ASSOC);
+                                    foreach ($tipos as $key => $tipo) {
+                                      echo "<option value='" . $tipo["id"] . "'>" . $tipo["descricao"] . "</option>";
+                                    }
+                                  ?>
+                                </select>
+                                <a onclick="adicionarTipoRemuneracao()" style="margin: 0 20px;" id="btn_adicionar_tipo_remuneracao"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
                               </div>
-                              <br>
-                              <div class="panel-footer">
-                                <div class="row">
-                                  <div class="col-md-9 col-md-offset-3">
-                                    <input type="hidden" name="person" value=<?php echo $_GET['id_funcionario']; ?>>
-                                    <input type="hidden" name="nomeClasse" value="FuncionarioControle">
-                                    <input type="hidden" name="metodo" value="incluirBeneficio">
-                                    <input id="enviar" type="submit" class="btn btn-primary" value="Salvar" onclick="funcao1()">
-                                    <button button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                                  </div>
-                                </div>
+                            </div>
+                            <div class="form-group">
+                              <label class="col-md-3 control-label" for="valor_remuneracao">Valor</label>
+                              <div class="col-md-8">
+                                <input type="number" class="form-control" name="valor" id="valor_remuneracao" onkeypress="return Onlynumbers(event)" required>
                               </div>
-                            </form>
+                            </div>
+                            <div class="form-group">
+                              <label class="col-md-3 control-label" for="inicio_remuneracao">Data Inicio</label>
+                              <div class="col-md-8">
+                                <input type="date" name="inicio" id="inicio_remuneracao" class="form-control">
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label class="col-md-3 control-label" for="fim_remuneracao">Data Fim</label>
+                              <div class="col-md-8">
+                                <input type="date" name="fim" id="fim_remuneracao" class="form-control">
+                              </div>
+                            </div>
+                            <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
+                            <input type="hidden" name="action" value="remuneracao_adicionar">
+                            <button class="btn btn-primary" id="botaoSalvarRemuneracao" onclick="adicionarRemuneracao('formRemuneracao', console.log)">Salvar</button>
+                          </fieldset>
                           </div>
                         </div>
                       </div>
@@ -2137,7 +2072,6 @@ $dependente = json_encode($dependente);
   <script>
     function submitForm(idForm, callback = function(){return true;}) {
       var data = getFormPostParams(idForm);
-      console.log(data);
       var url;
       switch (idForm) {
           case "formRemuneracao":
@@ -2153,6 +2087,30 @@ $dependente = json_encode($dependente);
           return false;
       }
       post(url, data, callback);
+      console.log(idForm + " => " + data + " | ", callback);
+      return true;
+    }
+
+    function listar_remuneracao(lista){
+      $("#tabela_remuneracao").empty();
+      $.each(lista, function(i, item) {
+        $("#tabela_remuneracao")
+          .append($("<tr>")
+            .append($("<td>").text(item.descricao))
+            .append($("<td>").text(item.inicio))
+            .append($("<td>").text(item.fim))
+            .append($("<td>").text(item.valor))
+            .append($("<td style='display: flex; justify-content: space-evenly;'>")
+              .append($("<button onclick='removerRemuneracao("+item.id_remuneracao+")' title='Excluir' class='btn btn-danger'><i class='fas fa-trash-alt'></i></button>"))
+            )
+          )
+      });
+    }
+
+    function adicionarRemuneracao() {
+      if (submitForm('formRemuneracao', listar_remuneracao)){
+        document.getElementById("closeRemuneracaoModal").click();
+      }
     }
 
     function adicionarTipoRemuneracao() {
@@ -2170,6 +2128,12 @@ $dependente = json_encode($dependente);
         post(url, data, gerarTipoRemuneracao);
     }
 
+    function removerRemuneracao(id){
+      var url = "./funcionario/remuneracao.php";
+      var data = "action=remover&id_remuneracao=" + id + "&id_funcionario=<?= $_GET['id_funcionario']?>";
+      post(url, data, listar_remuneracao);
+    }
+
     function gerarTipoRemuneracao(response) {
         var documento = response;
         if (response["aviso"] || response["errorInfo"]){
@@ -2181,6 +2145,10 @@ $dependente = json_encode($dependente);
             $('#tipo_remuneracao').append('<option value="' + item.id + '">' + item.descricao + '</option>');
         });
     }
+
+    $(function() {
+      post("./funcionario/remuneracao.php", "action=listar&id_funcionario=<?= $_GET['id_funcionario']?>", listar_remuneracao);
+    })
 
 
 
