@@ -205,3 +205,16 @@ INSERT INTO `funcionario_listainfo` (`idfuncionario_listainfo`, `descricao`) VAL
 (2, 'Naturalidade'),
 (3, 'Estado Civil'),
 (4, 'Carteira do SUS');
+
+INSERT INTO `epi` (`descricao_epi`) VALUES 
+('Uniforme completo'),
+('Calça'),
+('Calçado'),
+('Capacete'),
+('Capuz ou balaclava'),
+('Luvas'),
+('Macacão'),
+('Óculos de proteção'),
+('Protetor Facial'),
+('Protetor Auditivo'),
+('Respirador purificador');
