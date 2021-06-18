@@ -1293,7 +1293,7 @@ $dependente = json_encode($dependente);
                         <div class="modal-content">
                           <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" id="closeRemuneracaoModal">×</button>
-                            <h3>Adicionar Benefício</h3>
+                            <h3>Adicionar Remuneração</h3>
                           </div>
                           <div class="modal-body">
                           <fieldset id="formRemuneracao">
@@ -1439,101 +1439,226 @@ $dependente = json_encode($dependente);
                 </div>
 
                 <!--Outros-->
-                  <div id="outros" class="tab-pane">
+                <div id="outros" class="tab-pane">
                   <section class="panel">
                     <header class="panel-heading">
                       <div class="panel-actions">
                         <a href="#" class="fa fa-caret-down"></a>
                       </div>
-                  <hr class="dotted short">
-                  <form class="form-horizontal" method="POST" action="../controle/control.php">
-                    <input type="hidden" name="nomeClasse" value="FuncionarioControle">
-                    <input type="hidden" name="metodo" value="alterarOutros">
-                    <h4 class="mb-xlg doch4">Outros</h4>
-                    <div class="form-group">
-                      <label class="col-md-3 control-label">PIS</label>
-                      <div class="col-md-6">
-                        <input type="text" id="pis" name="pis" class="form-control">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-md-3 control-label">CTPS</label>
-                      <div class="col-md-6">
-                        <input type="text" id="ctps" name="ctps" class="form-control">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-md-3 control-label" for="uf">Estado CTPS</label>
-                      <div class="col-md-6">
-                        <input type="text" name="uf_ctps" size="60" class="form-control" id="uf_ctps">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-md-3 control-label">Título de eleitor</label>
-                      <div class="col-md-6">
-                        <input type="text" name="titulo_eleitor" id="titulo_eleitor" class="form-control">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-md-3 control-label">Zona eleitoral</label>
-                      <div class="col-md-6">
-                        <input type="text" name="zona_eleitoral" id="zona_eleitoral" class="form-control">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-md-3 control-label">Seção do título de eleitor</label>
-                      <div class="col-md-6">
-                        <input type="text" name="secao_titulo_eleitor" id="secao_titulo_eleitor" class="form-control">
-                      </div>
-                    </div>
-                    <div class="form-group" id="reservista1" style="display: none">
-                      <label class="col-md-3 control-label">Número do certificado reservista</label>
-                      <div class="col-md-6">
-                        <input type="text" id="certificado_reservista_numero" name="certificado_reservista_numero" class="form-control num_reservista">
-                      </div>
-                    </div>
-                    <div class="form-group" id="reservista2" style="display: none">
-                      <label class="col-md-3 control-label">Série do certificado reservista</label>
-                      <div class="col-md-6">
-                        <input type="text" id="certificado_reservista_serie" name="certificado_reservista_serie" class="form-control serie_reservista">
-                      </div>
-                    </div>
+                      <h2 class="panel-title">Outros</h2>
+                    </header>
+                    <div class="panel-body">
+                      <form class="form-horizontal" method="POST" action="../controle/control.php">
+                        <input type="hidden" name="nomeClasse" value="FuncionarioControle">
+                        <input type="hidden" name="metodo" value="alterarOutros">
+                        <div class="form-group">
+                          <label class="col-md-3 control-label">PIS</label>
+                          <div class="col-md-6">
+                            <input type="text" id="pis" name="pis" class="form-control">
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label class="col-md-3 control-label">CTPS</label>
+                          <div class="col-md-6">
+                            <input type="text" id="ctps" name="ctps" class="form-control">
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label class="col-md-3 control-label" for="uf">Estado CTPS</label>
+                          <div class="col-md-6">
+                            <input type="text" name="uf_ctps" size="60" class="form-control" id="uf_ctps">
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label class="col-md-3 control-label">Título de eleitor</label>
+                          <div class="col-md-6">
+                            <input type="text" name="titulo_eleitor" id="titulo_eleitor" class="form-control">
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label class="col-md-3 control-label">Zona eleitoral</label>
+                          <div class="col-md-6">
+                            <input type="text" name="zona_eleitoral" id="zona_eleitoral" class="form-control">
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label class="col-md-3 control-label">Seção do título de eleitor</label>
+                          <div class="col-md-6">
+                            <input type="text" name="secao_titulo_eleitor" id="secao_titulo_eleitor" class="form-control">
+                          </div>
+                        </div>
+                        <div class="form-group" id="reservista1" style="display: none">
+                          <label class="col-md-3 control-label">Número do certificado reservista</label>
+                          <div class="col-md-6">
+                            <input type="text" id="certificado_reservista_numero" name="certificado_reservista_numero" class="form-control num_reservista">
+                          </div>
+                        </div>
+                        <div class="form-group" id="reservista2" style="display: none">
+                          <label class="col-md-3 control-label">Série do certificado reservista</label>
+                          <div class="col-md-6">
+                            <input type="text" id="certificado_reservista_serie" name="certificado_reservista_serie" class="form-control serie_reservista">
+                          </div>
+                        </div>
 
-                    <div class="form-group">
-                      <label class="col-md-3 control-label" for="inputSuccess">Situação</label>
-                      <a onclick="adicionar_situacao()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
-                      <div class="col-md-6">
-                        <select class="form-control input-lg mb-md" name="situacao" id="situacao">
-                          <option selected disabled>Selecionar</option>
-                          <?php
-                          while ($row = $situacao->fetch_array(MYSQLI_NUM)) {
-                            echo "<option value=" . $row[0] . ">" . $row[1] . "</option>";
-                          }                            ?>
-                        </select>
+                        <div class="form-group">
+                          <label class="col-md-3 control-label" for="inputSuccess">Situação</label>
+                          <a onclick="adicionar_situacao()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
+                          <div class="col-md-6">
+                            <select class="form-control input-lg mb-md" name="situacao" id="situacao">
+                              <option selected disabled>Selecionar</option>
+                              <?php
+                              while ($row = $situacao->fetch_array(MYSQLI_NUM)) {
+                                echo "<option value=" . $row[0] . ">" . $row[1] . "</option>";
+                              }                            ?>
+                            </select>
+                          </div>
+                        </div>
+
+                        <div class="form-group">
+                          <label class="col-md-3 control-label" for="inputSuccess">Cargo</label>
+                          <a onclick="adicionar_cargo()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
+                          <div class="col-md-6">
+                            <select class="form-control input-lg mb-md" name="cargo" id="cargo">
+                              <option selected disabled>Selecionar</option>
+                              <?php
+                              while ($row = $cargo->fetch_array(MYSQLI_NUM)) {
+                                echo "<option value=" . $row[0] . ">" . $row[1] . "</option>";
+                              }                            ?>
+                            </select>
+                          </div>
+                        </div>
+
+                        <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
+                        <button type="button" class="btn btn-primary" id="botaoEditarOutros" onclick="return editar_outros()">Editar</button>
+                        <input type="submit" class="btn btn-primary" disabled="true" value="Salvar" id="botaoSalvarOutros" disabled="true">
+                      </form>
+
+                      <h4>Informações Adicionais</h4>
+                      <table class="table table-bordered table-striped mb-none" id="datatable-addInfo">
+                        <thead>
+                          <tr>
+                            <th>Descrição</th>
+                            <th>Dados</th>
+                            <th>Ação</th>
+                          </tr>
+                        </thead>
+                        <tbody id="addInfo-tab">
+
+                        </tbody>
+                      </table>
+                      <br>
+                      <!-- Button trigger modal -->
+                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addInfoModal">
+                        Adicionar Informação
+                      </button>
+
+                      <div class="modal fade" id="addInfoModal" tabindex="-1" role="dialog" aria-labelledby="addInfoModal" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header" style="display: block ruby;">
+                              <h5 class="modal-title" id="addInfoModalLabel">Adicionar informação adicional</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close_addInfoModal">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                              <form id="formInfoAdicional">
+                                <div class="form-group">
+                                  <label for="descricao_addInfo" class="col-form-label">Descrição</label>
+                                  <div style="display: block ruby;">
+                                    <select name="id_descricao" id="descricao_addInfo" class="form-control" style="width: 300px;" required>
+                                      <option selected disabled>Selecionar</option>
+                                      <?php
+                                        $descricao = $pdo->query("SELECT * FROM funcionario_listainfo;")->fetchAll(PDO::FETCH_ASSOC);
+                                        foreach ($descricao as $key => $value) {
+                                          echo ("<option value=".$value["idfuncionario_listainfo"].">" . $value["descricao"] . "</option>");
+                                        }
+                                      ?>
+                                    </select>
+                                    <a onclick="adicionar_addInfoDescricao()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw; margin-left: 10px;"></i></a>
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <label for="dados_addInfo" class="col-form-label">Dados</label>
+                                  <textarea class="form-control" id="dados_addInfo" style="padding: 6px 12px; height: 120px;" name="dados" maxlength="255" required></textarea>
+                                </div>
+                                <input type="text" name="action" value="adicionar" hidden>
+                                <input type="text" name="id_funcionario" value="<?= $_GET['id_funcionario'];?>" hidden>
+                              </form>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                              <button type="button" class="btn btn-primary" onclick="adicionarAddInfo()">Enviar</button>
+
+                              <script>
+                                $(function() {
+                                  $('#datatable-addInfo').DataTable({
+                                    "order": [
+                                      [0, "asc"]
+                                    ]
+                                  });
+                                  post("./funcionario/informacao_adicional.php", "action=listar&id_funcionario<?= $_GET['id_funcionario']?>", listarInfoAdicional)
+                                });
+
+                                function adicionar_addInfoDescricao(){
+                                  url = './funcionario/informacao_adicional.php';
+                                  var situacao = window.prompt("Cadastrar nova descrição:");
+                                  if (!situacao) {
+                                    return
+                                  }
+                                  situacao = situacao.trim();
+                                  if (situacao == '') {
+                                    return
+                                  }
+                                  post(url, "action=adicionar_descricao&descricao="+situacao, listarInfoDescricao);
+                                }
+
+                                function listarInfoDescricao(lista){
+                                  if (lista["aviso"] || lista["errorInfo"]){
+                                    return false;
+                                  }
+                                  $('#descricao_addInfo').empty();
+                                  $('#descricao_addInfo').append('<option selected disabled>Selecionar</option>');
+                                  $.each(lista, function(i, item) {
+                                      $('#descricao_addInfo').append('<option value="' + item.idfuncionario_listainfo + '">' + item.descricao + '</option>');
+                                  });
+                                }
+
+                                function adicionarAddInfo(){
+                                  if (submitForm("formInfoAdicional", listarInfoAdicional)){
+                                    $("#close_addInfoModal").click();
+                                  }
+                                }
+
+                                function removerDescricao(id_descricao){
+                                  let url = "./funcionario/informacao_adicional.php";
+                                  let data = "action=remover&id_descricao="+id_descricao;
+                                  post(url, data, listarInfoAdicional);
+                                }
+
+                                function listarInfoAdicional(lista){
+                                  console.log(lista);
+                                  $("#addInfo-tab").empty();
+                                  $.each(lista, function(i, item) {
+                                    $("#addInfo-tab")
+                                      .append($("<tr>")
+                                        .append($("<td>").text(item.descricao))
+                                        .append($("<td>").text(item.dado))
+                                        .append($("<td style='display: flex; justify-content: space-evenly;'>")
+                                          .append($("<button onclick='removerDescricao("+item.idfunncionario_outrasinfo+")' title='Excluir' class='btn btn-danger'><i class='fas fa-trash-alt'></i></button>"))
+                                        )
+                                      )
+                                  });
+                                }
+                              </script>
+
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
-
-                    <div class="form-group">
-                      <label class="col-md-3 control-label" for="inputSuccess">Cargo</label>
-                      <a onclick="adicionar_cargo()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
-                      <div class="col-md-6">
-                        <select class="form-control input-lg mb-md" name="cargo" id="cargo">
-                          <option selected disabled>Selecionar</option>
-                          <?php
-                          while ($row = $cargo->fetch_array(MYSQLI_NUM)) {
-                            echo "<option value=" . $row[0] . ">" . $row[1] . "</option>";
-                          }                            ?>
-                        </select>
-                      </div>
-                    </div>
-
-                    <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
-                    <button type="button" class="btn btn-primary" id="botaoEditarOutros" onclick="return editar_outros()">Editar</button>
-                    <input type="submit" class="btn btn-primary" disabled="true" value="Salvar" id="botaoSalvarOutros" disabled="true">
-                  </form>
-                </header>
-                </section>
-              </div>
+                  </section>
+                </div>
 
 
                 <!-- 
@@ -2095,6 +2220,9 @@ $dependente = json_encode($dependente);
       switch (idForm) {
           case "formRemuneracao":
               url = "./funcionario/remuneracao.php";
+              break;
+          case "formInfoAdicional":
+              url = "./funcionario/informacao_adicional.php";
               break;
           default:
               console.warn("Não existe nenhuma URL registrada para o formulário com o seguinte id: " + idForm);
