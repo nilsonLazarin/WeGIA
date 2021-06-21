@@ -403,41 +403,7 @@ require_once ROOT."/html/personalizacao_display.php";
 							if($_SESSION['ultimo_despacho'][0]['id_destinatarioo']==$_SESSION['id_pessoa'])
 							{
 					?>
-								<header class="panel-heading">
-									<h2 class="panel-title">Despachar memorando</h2>
-								</header>
-								<div class="panel-body">
-								<?php
-									echo "<form action='".WWW."controle/control.php' method='post' enctype='multipart/form-data'>";
-									?>
-										<div class='form-group'>
-											<label for=destinatario id=etiqueta_destinatario class='col-md-3 control-label'>Destino </label>
-											<div class='col-md-6'>
-												<select id=destinatario name=destinatario required class=' form-control mb-md'></select>
-											</div>
-										</div>
-										<div class='form-group'>
-											<label for=anexo id=etiqueta_anexo class='col-md-3 control-label'>Arquivo </label>
-											<div class='col-md-6'>
-												<input type='file' name='anexo[]' id='anexo' multiple>
-											</div>
-										</div>
-										<div class='form-group'>
-											<label for=texto id=etiqueta_despacho class='col-md-3 control-label'>Despacho </label>
-											<div class='col-md-6' id='div_texto' style="height: 500px;">
-												<textarea cols='30' rows='5' id='despacho' name='texto' required class='form-control'></textarea>
-											</div>
-										</div>
-										<div class='row'>
-											<div class='col-md-9 col-md-offset-7'>
-												<input type="hidden" name="nomeClasse" value="DespachoControle">
-												<input type="hidden" name="metodo" value="incluir">
-												<input type="hidden" name="modulo" value="memorando">
-												<input type="hidden" name="id_memorando" id="id_memorando">
-												<input type='submit' value='Enviar' name='enviar' id='enviar' class='btn btn-primary'>
-											</div>
-										</div>
-									</form>
+							
 								</div>
 								<?php
 								}

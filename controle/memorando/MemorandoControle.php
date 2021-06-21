@@ -14,6 +14,8 @@ if(file_exists($config_path)){
 require_once ROOT."/dao/memorando/MemorandoDAO.php";
 require_once ROOT."/classes/memorando/Memorando.php";
 require_once ROOT."/dao/memorando/UsuarioDAO.php";
+ 
+
 
 class MemorandoControle
 {
@@ -58,15 +60,21 @@ class MemorandoControle
         $memorando = $this->verificarMemorando();
         $memorandoDAO = new MemorandoDAO();
         
+
+        //$pdo = new PDO('mysql:host=localhost; dbassunto;', 'root', '');
+
+        //$stmt = $pdo->prepare('INSERT INTO')
+        
         try
         {
             $lastId = $memorandoDAO->incluir($memorando);
             $msg = "success";
             $sccs = "Memorando criado com sucesso";
-            header("Location: ".WWW."html/memorando/novo_memorandoo.php?id_memorando=$lastId&msg=".$msg."&sccs=".$sccs);
+            header("Location: ".WWW."html/memorando/insere_despacho.php?id_memorando=$lastId&msg=".$msg."&sccs=".$sccs);
 
         } 
-        catch (PDOException $e){
+        catch (PDOException $e)
+        {
             $msg= "Não foi possível criar o memorando"."<br>".$e->getMessage();
             echo $msg;
         }
@@ -105,7 +113,7 @@ class MemorandoControle
         try 
         {
             $memorandoDAO->alterarIdStatusMemorando($memorando);
-            header("Location: ".WWW."html/memorando/novo_memorando.php");
+           //header("Location: ".WWW."html/memorando/DespachoControle.php");
         } 
         catch (PDOException $e) 
         {

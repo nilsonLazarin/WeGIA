@@ -59,14 +59,14 @@ $issetMemorando->issetMemorando($_GET['id_memorando']);
 require_once ROOT."/html/personalizacao_display.php";
 ?>
 
-// <!DOCTYPE html>
+ <!DOCTYPE html>
 
 <html class="fixed">
 <head>
     <!-- Basic -->
     <meta charset="UTF-8">
 
-    <title>Caixa de entrada</title>
+    <title>Novo Memorando</title>
         
     <!-- Mobile Metas -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -192,7 +192,7 @@ require_once ROOT."/html/personalizacao_display.php";
             <!-- end: sidebar -->
             <section role="main" class="content-body">
                 <header class="page-header">
-                    <h2>Caixa de entrada</h2>
+                    <h2>Novo Memorando</h2>
                     <div class="right-wrapper pull-right">
                         <ol class="breadcrumbs">
                             <li>
@@ -200,7 +200,7 @@ require_once ROOT."/html/personalizacao_display.php";
                                     <i class="fa fa-home"></i>
                                 </a>
                             </li>
-                            <li><span>Caixa de Entrada</span></li>
+                            <li><span>Novo Memorando</span></li>
                         </ol>
                         <a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
                     </div>

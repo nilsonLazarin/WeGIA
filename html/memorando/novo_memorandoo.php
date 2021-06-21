@@ -17,11 +17,16 @@ if(!isset($_SESSION['usuario'])){
 
 require_once ROOT."/controle/memorando/MemorandoControle.php";
 require_once ROOT."/controle/FuncionarioControle.php";
+
 $funcionarios = new FuncionarioControle;
 $funcionarios->listarTodos2();
 
 $memorando = new MemorandoControle;
 $memorando->listarTodos();
+
+$memorando = $_POST['dados'];
+
+
 
   $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
   $id_pessoa = $_SESSION['id_pessoa'];
@@ -189,7 +194,7 @@ require_once ROOT."/html/personalizacao_display.php";
             var id_memorando = <?php echo $_GET['id_memorando']?>;
             $("#id_memorando").val(id_memorando);
 
-            CKEDITOR.replace('despacho');
+            
         }); 
 
     </script>
@@ -255,14 +260,14 @@ require_once ROOT."/html/personalizacao_display.php";
         .col-md-3 {
             width: 10%;
         }
-        #area1{
+       #area1{
             display: block;
 
         }
         #area2{
             display: none;
-        }
-      
+    } 
+          
     </style>
 </head>
 
@@ -293,54 +298,58 @@ require_once ROOT."/html/personalizacao_display.php";
                 </header>
                 
                 <!-- start: page -->
+ 
 
-                <section class="panel" >
-                      <div id= "area1">
+  <section class="panel" >
+             <div id= "area1">
                         <header class="panel-heading">
                             <h2 class="panel-title">Criar memorando</h2>
                         </header>
                         <div class="panel-body">
 
-                            <form action="<?php echo WWW;?>controle/control.php" method="post">
+                            <form action="<?php echo WWW;?>controle/control.php" method="post" id="form1">
                                 <input type="text" id="assunto" name="assunto" required placeholder="Título do Novo Memorando" class="form-control">
-                                <input type="hidden" name="nomeClasse" value="MemorandoControle">
-                                <input type="hidden" name="metodo" value="incluir">
-                                <input type='hidden' value='memorando' name='modulo'>
-                                <input type='submit' value='Criar memorando'   name='enviar' id='enviar' class='mb-xs mt-xs mr-xs btn btn-default'>
+                                <input type="hidden" name="nomeClasse" value="MemorandoControle" id="memorandocontrole">
+                                <input type="hidden" id="incluir" name="metodo" value="incluir">
+                                <input type='hidden' id="modulo" value='memorando' name='modulo'>
+                                <input type='submit'  form= "form1" value='Criar memorando'   name='enviar' id='enviar' class='mb-xs mt-xs mr-xs btn btn-default'>
 
                     </form>
 
+
 </div>
+<script>
+
+</script>
+
                         <div class="printable"></div>
         </section>
           
 
             <div id="area2">
                 
-<style type="text/css">
-    
-</style>
+                 <script>
+
+                 /* var botao = document.getElementById("enviar");
+                          var area1 = document.getElementById("area1");
+                            var area2 = document.getElementById("area2");
+                              botao.onclick = function () 
+                    {
+                               area1.style.display = "none";
+                               area2.style.display = "block";
+                   } */ 
+    </script>
+
          <?php
+       
                 if (isset($_GET['msg']))
                 { 
                     if ($_GET['msg'] == 'success')
                     {
                      echo('<div class="alert alert-success"><i class="fas fa-check mr-md"></i><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>'.$_GET["sccs"]."</div>");
-                    }                                                             
+                    }                              
                      }
                 ?>
-        <script type="text/javascript">
-                                var botao = document.getElementById("enviar");
-                                var area1 = document.getElementById("area1");
-                                var area2 = document.getElementById("area2");
-                                botao.onclick = function () {
-                                  area1.style.display = "none";
-                                    area2.style.display = "block";
-                                    
-                                    }
-                            
-                                   
-                    </script>
                 
 
                 <section class="panel">
@@ -348,8 +357,8 @@ require_once ROOT."/html/personalizacao_display.php";
                 if(in_array($_GET['id_memorando'], $_SESSION['memorandoIdInativo']) || $_SESSION['isset_memorando']==1)
                 {
                 ?>
-                <script>
-                    $(".panel").html("<p>Desculpe, você não tem acesso à essa página</p>");
+                <script> 
+                    $(".panel").html("<p>Desculpe, você não tem acesso à essa página</p>"); 
 
                 </script>
 
@@ -412,8 +421,8 @@ require_once ROOT."/html/personalizacao_display.php";
         </div>
     </section>
 
-
-            
+<script // src= http://localhost/html/memorando/jquery-3.6.1.min.js></script>
+<script // src="http://localhost/html/memorando/memorando.s"></script>            
     
     <!-- end: page -->
     <!-- Vendor -->
@@ -435,20 +444,23 @@ require_once ROOT."/html/personalizacao_display.php";
         <script src="<?php echo WWW;?>assets/javascripts/tables/examples.datatables.row.with.details.js"></script>
         <script src="<?php echo WWW;?>assets/javascripts/tables/examples.datatables.tabletools.js"></script>
        
-        <script type="text/javascript">
-            $(function(){
-                $("#btnPrint").click(function () {
-                    //get the modal box content and load it into the printable div
-                    if((typeof(impressao) == "undefined") || impressao!=1)
-                    {
-                      $("#myModal a").removeAttr("href");
-                        $(".printable").html($("#myModal").html());
-                    }
-                    $(".printable").printThis();
-                    var impressao = 1;
-                    $("#myModal").hide();
-                }); 
+        // <script type="text/javascript">
+           // $(function(){
+             //   $("#btnPrint").click(function() {
+               //     //get the modal box content and load it into the printable div
+                 //   if((typeof(impressao) == "undefined") || impressao!=1)
+                   // {
+                     // $("#myModal a").removeAttr("href");
+                       // $(".printable").html($("#myModal").html());
+                    // }
+                    // $(".printable").printThis();
+                    //var impressao = 1;
+                    // $("#myModal").hide();
+               // });
+                //  }); 
+            
 
         </script>
     </body>
+
 </html>
