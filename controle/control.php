@@ -16,4 +16,5 @@ extract($_REQUEST);
 	$objeto = new $nomeClasse();
 	$objeto->$metodo();
 	}
+	die()
 ?>
