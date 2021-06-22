@@ -181,28 +181,7 @@ require_once ROOT."/html/personalizacao_display.php";
     });
 
     </script>
- <script>
-        $(function(){
-            var funcionario=<?php echo $_SESSION['funcionarios2']?>;
-            $.each(funcionario,function(i,item){
-                $("#destinatario")
-                    .append($("<option id="+item.id_pessoa+" value="+item.id_pessoa+" name="+item.id_pessoa+">"+item.nome+" "+item.sobrenome+"</option>"));
-            });
-            $("#header").load("<?php echo WWW;?>html/header.php");
-            $(".menuu").load("<?php echo WWW;?>html/menu.php");
-
-            var id_memorando = <?php echo $_GET['id_memorando']?>;
-            $("#id_memorando").val(id_memorando);
-
-            
-        }); 
-
-    </script>
-    
-
-  
-   
-    
+ 
     <style type="text/css">
         .select{
             position: absolute;
@@ -300,10 +279,10 @@ require_once ROOT."/html/personalizacao_display.php";
                 <!-- start: page -->
  
 
-  <section class="panel" >
-             <div id= "area1">
+                        <section class="panel" >
+                        <div id= "area1">
                         <header class="panel-heading">
-                            <h2 class="panel-title">Criar memorando</h2>
+                         <h2 class="panel-title">Criar memorando</h2>
                         </header>
                         <div class="panel-body">
 
@@ -317,28 +296,16 @@ require_once ROOT."/html/personalizacao_display.php";
                     </form>
 
 
-</div>
-<script>
+                </div>
 
-</script>
 
-                        <div class="printable"></div>
+    <div class="printable"></div>
         </section>
           
 
             <div id="area2">
                 
-                 <script>
-
-                 /* var botao = document.getElementById("enviar");
-                          var area1 = document.getElementById("area1");
-                            var area2 = document.getElementById("area2");
-                              botao.onclick = function () 
-                    {
-                               area1.style.display = "none";
-                               area2.style.display = "block";
-                   } */ 
-    </script>
+                 
 
          <?php
        
@@ -421,8 +388,7 @@ require_once ROOT."/html/personalizacao_display.php";
         </div>
     </section>
 
-<script // src= http://localhost/html/memorando/jquery-3.6.1.min.js></script>
-<script // src="http://localhost/html/memorando/memorando.s"></script>            
+            
     
     <!-- end: page -->
     <!-- Vendor -->
@@ -444,23 +410,7 @@ require_once ROOT."/html/personalizacao_display.php";
         <script src="<?php echo WWW;?>assets/javascripts/tables/examples.datatables.row.with.details.js"></script>
         <script src="<?php echo WWW;?>assets/javascripts/tables/examples.datatables.tabletools.js"></script>
        
-        // <script type="text/javascript">
-           // $(function(){
-             //   $("#btnPrint").click(function() {
-               //     //get the modal box content and load it into the printable div
-                 //   if((typeof(impressao) == "undefined") || impressao!=1)
-                   // {
-                     // $("#myModal a").removeAttr("href");
-                       // $(".printable").html($("#myModal").html());
-                    // }
-                    // $(".printable").printThis();
-                    //var impressao = 1;
-                    // $("#myModal").hide();
-               // });
-                //  }); 
-            
-
-        </script>
+       
     </body>
 
 </html>
