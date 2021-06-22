@@ -276,7 +276,6 @@ $dependente = json_encode($dependente);
       $("#orgao_emissor").prop('disabled', false);
       $("#data_expedicao").prop('disabled', false);
       $("#cpf").prop('disabled', false);
-      $("#data_admissao").prop('disabled', false);
 
       $("#botaoEditarDocumentacao").html('Cancelar');
       $("#botaoSalvarDocumentacao").prop('disabled', false);
@@ -291,7 +290,6 @@ $dependente = json_encode($dependente);
       $("#orgao_emissor").prop('disabled', true);
       $("#data_expedicao").prop('disabled', true);
       $("#cpf").prop('disabled', true);
-      $("#data_admissao").prop('disabled', true);
 
       $("#botaoEditarDocumentacao").html('Editar');
       $("#botaoSalvarDocumentacao").prop('disabled', true);
@@ -309,8 +307,10 @@ $dependente = json_encode($dependente);
       $("#secao_titulo_eleitor").prop('disabled', false);
       $("#certificado_reservista_numero").prop('disabled', false);
       $("#certificado_reservista_serie").prop('disabled', false);
+      $("#data_admissao").prop('disabled', false);
       $("#situacao").prop('disabled', false);
       $("#cargo").prop('disabled', false);
+      
 
       $("#botaoEditarOutros").html('Cancelar');
       $("#botaoSalvarOutros").prop('disabled', false);
@@ -329,6 +329,7 @@ $dependente = json_encode($dependente);
       $("#secao_titulo_eleitor").prop('disabled', true);
       $("#certificado_reservista_numero").prop('disabled', true);
       $("#certificado_reservista_serie").prop('disabled', true);
+      $("#data_admissao").prop('disabled', true);
       $("#situacao").prop('disabled', true);
       $("#cargo").prop('disabled', true);
 
@@ -439,7 +440,7 @@ $dependente = json_encode($dependente);
         $("#orgao_emissor").val(item.orgao_emissor).prop('disabled', true);
         $("#data_expedicao").val(alterardate(item.data_expedicao)).prop('disabled', true);
         $("#cpf").val(cpf).prop('disabled', true);
-        $("#data_admissao").val(alterardate(item.data_admissao)).prop('disabled', true);
+        
 
         //Outros
         $("#pis").val(item.pis).prop('disabled', true);
@@ -450,8 +451,10 @@ $dependente = json_encode($dependente);
         $("#secao_titulo_eleitor").val(item.secao).prop('disabled', true);
         $("#certificado_reservista_numero").val(item.certificado_reservista_numero).prop('disabled', true);
         $("#certificado_reservista_serie").val(item.certificado_reservista_serie).prop('disabled', true);
+        $("#data_admissao").val(alterardate(item.data_admissao)).prop('disabled', true);
         $("#situacao").val(item.id_situacao).prop('disabled', true);
         $("#cargo").val(item.id_cargo).prop('disabled', true);
+        
 
         //CARGA HORÁRIA
 
@@ -1003,7 +1006,7 @@ $dependente = json_encode($dependente);
     }
 
     function funcao2(id) {
-      
+
       window.location.href = "../html/profile_funcionario.php?id_funcionario="+<?php echo $_GET['id_funcionario']; ?>;
       alert("Cadastrado com sucesso o EPI!");
 
@@ -1454,6 +1457,7 @@ $dependente = json_encode($dependente);
                       <form class="form-horizontal" method="POST" action="../controle/control.php">
                         <input type="hidden" name="nomeClasse" value="FuncionarioControle">
                         <input type="hidden" name="metodo" value="alterarOutros">
+
                         <div class="form-group">
                           <label class="col-md-3 control-label">PIS</label>
                           <div class="col-md-6">
@@ -1502,6 +1506,12 @@ $dependente = json_encode($dependente);
                             <input type="text" id="certificado_reservista_serie" name="certificado_reservista_serie" class="form-control serie_reservista">
                           </div>
                         </div>
+                        <div class="form-group">
+                        <label class="col-md-3 control-label" for="profileCompany">Data de Admissão</label>
+                        <div class="col-md-6">
+                          <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data_admissao" id="data_admissao" max=<?php echo date('Y-m-d'); ?>>
+                        </div>
+                      </div>
 
                         <div class="form-group">
                           <label class="col-md-3 control-label" for="inputSuccess">Situação</label>
@@ -1882,12 +1892,7 @@ $dependente = json_encode($dependente);
                           <p id="cpfInvalido" style="display: none; color: #b30000">CPF INVÁLIDO!</p>
                         </div>
                       </div>
-                      <div class="form-group">
-                        <label class="col-md-3 control-label" for="profileCompany">Data de Admissão</label>
-                        <div class="col-md-8">
-                          <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data_admissao" id="data_admissao" max=<?php echo date('Y-m-d'); ?>>
-                        </div>
-                      </div>
+                      
                       <br />
                       <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
                       <button type="button" class="btn btn-primary" id="botaoEditarDocumentacao" onclick="return editar_documentacao()">Editar</button>
