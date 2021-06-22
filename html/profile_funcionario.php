@@ -1002,8 +1002,11 @@ $dependente = json_encode($dependente);
       alert("Cadastrado com sucesso o Benefício!");
     }
 
-    function funcao2() {
+    function funcao2(id) {
+      
+      window.location.href = "../html/profile_funcionario.php?id_funcionario="+<?php echo $_GET['id_funcionario']; ?>;
       alert("Cadastrado com sucesso o EPI!");
+
     }
 
 
