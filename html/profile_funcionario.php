@@ -1143,6 +1143,9 @@ $dependente = json_encode($dependente);
                   <a href="#documentos" data-toggle="tab">Documentação</a>
                 </li>
                 <li>
+                  <a href="#arquivo" data-toggle="tab">Arquivos</a>
+                </li>
+                <li>
                   <a href="#outros" data-toggle="tab">Outros</a>
                 </li>
                 <li>
@@ -1847,7 +1850,7 @@ $dependente = json_encode($dependente);
 
                 -->
 
-                <div id="documentos" class="tab-pane">
+               <div id="documentos" class="tab-pane">
                   <section class="panel">
                     <header class="panel-heading">
                       <div class="panel-actions">
@@ -1863,6 +1866,7 @@ $dependente = json_encode($dependente);
                       <input type="hidden" name="nomeClasse" value="FuncionarioControle">
                       <input type="hidden" name="metodo" value="alterarDocumentacao">
                       <div class="form-group">
+                  
                         <label class="col-md-3 control-label" for="profileCompany">Número do RG</label>
                         <div class="col-md-6">
                           <input type="text" class="form-control" name="rg" id="rg" onkeypress="return Onlynumbers(event)" placeholder="Ex: 22.222.222-2" onkeyup="mascara('##.###.###-#',this,event)">
@@ -1893,13 +1897,28 @@ $dependente = json_encode($dependente);
                         </div>
                       </div>
                       
-                      <br />
                       <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
                       <button type="button" class="btn btn-primary" id="botaoEditarDocumentacao" onclick="return editar_documentacao()">Editar</button>
                       <input id="botaoSalvarDocumentacao" type="submit" class="btn btn-primary" disabled="true" value="Salvar" onclick="funcao3()">
                     </form>
-                    <hr>
-                    <h4>Adicionar Documento</h4>
+                  </div>
+                  </section>
+                  </div>
+                            
+                
+                  
+
+                <!-- Aba de arquivos -->
+
+
+                <div id="arquivo" class="tab-pane">
+                  <section class="panel">
+                    <header class="panel-heading">
+                      <div class="panel-actions">
+                        <a href="#" class="fa fa-caret-down"></a>
+                      </div>           
+                  
+                    <h4>Adicionar Arquivo</h4></header>
                       <table class="table table-bordered table-striped mb-none" id="datatable-docfuncional">
                         <thead>
                           <tr>
@@ -1959,14 +1978,12 @@ $dependente = json_encode($dependente);
                                 <input type="submit" value="Enviar" class="btn btn-primary">
                               </div>
                             </form>
+                            </div>
                           </div>
                         </div>
-                      </div>
+                    </section>
+                  </div>
 
-
-                    </div>
-                  </section>
-                </div>
 
 
                 <!-- Aba dependentes -->
