@@ -472,6 +472,19 @@ $dependente = json_encode($dependente);
         // $("#saida2").text("Segunda saída: " + (item.saida2 || "Sem informação"));
         $("#total").text("Carga horária diária: " + (item.total || "Sem informação"));
         $("#carga_horaria_mensal").text("Carga horária mensal: " + (item.carga_horaria || "Sem informação"));
+        $("#carga_horaria_mensal").text("Carga horária mensal: " + (item.carga_horaria || "Sem informação"));
+
+        
+
+       
+
+
+        
+
+        
+
+        
+       
 
         if (item.escala) {
           $("#escala_input").val(item.escala);
@@ -1827,8 +1840,14 @@ $dependente = json_encode($dependente);
                         <div class="">
                           <h3 class="text-center col-md-12">Carga Horária</h3>
                           <ul class="nav nav-children" id="info">
-                            <li id="total">Carga horária diária:</li></br>
+                            <li id="total">Carga horária diária:</br></li>
+                    
+                           <input type="text" id="item.carga_horaria">
+                           
+
                             <li id="carga_horaria_mensal">Carga horária mensal:</li>
+                           
+                            <input type="text" value=<?php $_GET['carga_horaria'] ?>>
                           </ul>
                         </div>
                         <hr class="dotted short">
@@ -1916,13 +1935,14 @@ $dependente = json_encode($dependente);
                     <header class="panel-heading">
                       <div class="panel-actions">
                         <a href="#" class="fa fa-caret-down"></a>
-                      </div>           
-                  
-                    <h4>Adicionar Arquivo</h4></header>
+                      </div>
+                      <h2 class="panel-title">Arquivos</h2>
+                    </header>
+                    <div class="panel-body">
                       <table class="table table-bordered table-striped mb-none" id="datatable-docfuncional">
                         <thead>
                           <tr>
-                            <th>Documento</th>
+                            <th>Arquivo</th>
                             <th>Data</th>
                             <th>Ação</th>
                           </tr>
@@ -1934,7 +1954,7 @@ $dependente = json_encode($dependente);
                       <br>
                       <!-- Button trigger modal -->
                       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#docFormModal">
-                        Adicionar Documento
+                        Adicionar
                       </button>
 
                       <!-- Modal Form Documentos -->
@@ -1942,7 +1962,7 @@ $dependente = json_encode($dependente);
                         <div class="modal-dialog" role="document">
                           <div class="modal-content">
                             <div class="modal-header" style="display: flex;justify-content: space-between;">
-                              <h5 class="modal-title" id="exampleModalLabel">Adicionar Documento</h5>
+                              <h5 class="modal-title" id="exampleModalLabel">Adicionar Arquivo</h5>
                               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                               </button>
@@ -1950,7 +1970,7 @@ $dependente = json_encode($dependente);
                             <form action='./funcionario/documento_upload.php' method='post' enctype='multipart/form-data' id='funcionarioDocForm'>
                               <div class="modal-body" style="padding: 15px 40px">
                                 <div class="form-group" style="display: grid;">
-                                  <label class="my-1 mr-2" for="tipoDocumento">Tipo de Documento</label><br>
+                                  <label class="my-1 mr-2" for="tipoDocumento">Tipo de Arquivo</label><br>
                                   <div style="display: flex;">
                                     <select name="id_docfuncional" class="custom-select my-1 mr-sm-2" id="tipoDocumento" required>
                                       <option selected disabled>Selecionar...</option>
@@ -1966,7 +1986,7 @@ $dependente = json_encode($dependente);
                                   </div>
                                 </div>
                                 <div class="form-group">
-                                  <label for="arquivoDocumento">Arquivo do Documento</label>
+                                  <label for="arquivoDocumento">Arquivo</label>
                                   <input name="arquivo" type="file" class="form-control-file" id="arquivoDocumento" accept="png;jpeg;jpg;pdf;docx;doc;odp" required>
                                 </div>
 
