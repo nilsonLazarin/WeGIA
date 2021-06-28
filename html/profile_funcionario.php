@@ -474,8 +474,6 @@ $dependente = json_encode($dependente);
         $("#carga_horaria_mensal").text("Carga horária mensal: " + (item.carga_horaria || "Sem informação"));
         $("#carga_horaria_mensal").text("Carga horária mensal: " + (item.carga_horaria || "Sem informação"));
 
-        
-
        
 
 
@@ -561,8 +559,12 @@ $dependente = json_encode($dependente);
                 '<button style="background-color: rgb(190,0,0); border-color: rgb(165,0,0); border-radius: 10%; color: white; " onclick="excluir_beneficio(' + item.id_beneficiados + ')" onclick="" class="glyphicon glyphicon-trash"></button>'))
 
           );
+
+                      
       })
     });
+
+
     //});
     /*
     $("#beneficios").val(item.id_beneficios).prop('disabled', true);
@@ -1306,7 +1308,10 @@ $dependente = json_encode($dependente);
 
                         </tbody>
 
+
                       </table>
+                       <h5>Soma:<div class="total"></div></h5>
+                      
                       <button id="excluir" type="button" class="btn btn-success" data-toggle="modal" data-target="#adicionar">Adicionar</button>
                     </div><br>
                     <div class="modal fade" id="adicionar" role="dialog">
@@ -1361,6 +1366,8 @@ $dependente = json_encode($dependente);
                       </div>
                     </div>
                 </div>
+
+
 
                 <!-- 
                   Aba epi do funcionario
@@ -1841,8 +1848,9 @@ $dependente = json_encode($dependente);
                           <h3 class="text-center col-md-12">Carga Horária</h3>
                           <ul class="nav nav-children" id="info">
                             <li id="total">Carga horária diária:</br></li>
+                            <input type="text" id="total" value="">
+                        
                     
-                           <input type="text" id="item.carga_horaria">
                            
 
                             <li id="carga_horaria_mensal">Carga horária mensal:</li>
@@ -2291,11 +2299,20 @@ $dependente = json_encode($dependente);
             .append($("<td>").text(item.descricao))
             .append($("<td>").text(item.inicio))
             .append($("<td>").text(item.fim))
-            .append($("<td>").text(item.valor))
+            .append($("<td class='tabela'>").text(item.valor))
             .append($("<td style='display: flex; justify-content: space-evenly;'>")
               .append($("<button onclick='removerRemuneracao("+item.id_remuneracao+")' title='Excluir' class='btn btn-danger'><i class='fas fa-trash-alt'></i></button>"))
             )
           )
+          $(function(){
+                        var total = 0;
+                        $('.tabela').each(function(){
+                        total += parseInt(jQuery(this).text());
+                        });
+      
+                        $('.total').html(total);
+
+                          });
       });
     }
 
