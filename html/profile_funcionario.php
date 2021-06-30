@@ -276,7 +276,6 @@ $dependente = json_encode($dependente);
       $("#orgao_emissor").prop('disabled', false);
       $("#data_expedicao").prop('disabled', false);
       $("#cpf").prop('disabled', false);
-      $("#data_admissao").prop('disabled', false);
 
       $("#botaoEditarDocumentacao").html('Cancelar');
       $("#botaoSalvarDocumentacao").prop('disabled', false);
@@ -291,7 +290,6 @@ $dependente = json_encode($dependente);
       $("#orgao_emissor").prop('disabled', true);
       $("#data_expedicao").prop('disabled', true);
       $("#cpf").prop('disabled', true);
-      $("#data_admissao").prop('disabled', true);
 
       $("#botaoEditarDocumentacao").html('Editar');
       $("#botaoSalvarDocumentacao").prop('disabled', true);
@@ -309,8 +307,10 @@ $dependente = json_encode($dependente);
       $("#secao_titulo_eleitor").prop('disabled', false);
       $("#certificado_reservista_numero").prop('disabled', false);
       $("#certificado_reservista_serie").prop('disabled', false);
+      $("#data_admissao").prop('disabled', false);
       $("#situacao").prop('disabled', false);
       $("#cargo").prop('disabled', false);
+      
 
       $("#botaoEditarOutros").html('Cancelar');
       $("#botaoSalvarOutros").prop('disabled', false);
@@ -329,6 +329,7 @@ $dependente = json_encode($dependente);
       $("#secao_titulo_eleitor").prop('disabled', true);
       $("#certificado_reservista_numero").prop('disabled', true);
       $("#certificado_reservista_serie").prop('disabled', true);
+      $("#data_admissao").prop('disabled', true);
       $("#situacao").prop('disabled', true);
       $("#cargo").prop('disabled', true);
 
@@ -439,7 +440,7 @@ $dependente = json_encode($dependente);
         $("#orgao_emissor").val(item.orgao_emissor).prop('disabled', true);
         $("#data_expedicao").val(alterardate(item.data_expedicao)).prop('disabled', true);
         $("#cpf").val(cpf).prop('disabled', true);
-        $("#data_admissao").val(alterardate(item.data_admissao)).prop('disabled', true);
+        
 
         //Outros
         $("#pis").val(item.pis).prop('disabled', true);
@@ -450,8 +451,10 @@ $dependente = json_encode($dependente);
         $("#secao_titulo_eleitor").val(item.secao).prop('disabled', true);
         $("#certificado_reservista_numero").val(item.certificado_reservista_numero).prop('disabled', true);
         $("#certificado_reservista_serie").val(item.certificado_reservista_serie).prop('disabled', true);
+        $("#data_admissao").val(alterardate(item.data_admissao)).prop('disabled', true);
         $("#situacao").val(item.id_situacao).prop('disabled', true);
         $("#cargo").val(item.id_cargo).prop('disabled', true);
+        
 
         //CARGA HORÁRIA
 
@@ -469,6 +472,17 @@ $dependente = json_encode($dependente);
         // $("#saida2").text("Segunda saída: " + (item.saida2 || "Sem informação"));
         $("#total").text("Carga horária diária: " + (item.total || "Sem informação"));
         $("#carga_horaria_mensal").text("Carga horária mensal: " + (item.carga_horaria || "Sem informação"));
+        $("#carga_horaria_mensal").text("Carga horária mensal: " + (item.carga_horaria || "Sem informação"));
+
+       
+
+
+        
+
+        
+
+        
+       
 
         if (item.escala) {
           $("#escala_input").val(item.escala);
@@ -545,8 +559,12 @@ $dependente = json_encode($dependente);
                 '<button style="background-color: rgb(190,0,0); border-color: rgb(165,0,0); border-radius: 10%; color: white; " onclick="excluir_beneficio(' + item.id_beneficiados + ')" onclick="" class="glyphicon glyphicon-trash"></button>'))
 
           );
+
+                      
       })
     });
+
+
     //});
     /*
     $("#beneficios").val(item.id_beneficios).prop('disabled', true);
@@ -1003,7 +1021,7 @@ $dependente = json_encode($dependente);
     }
 
     function funcao2(id) {
-      
+
       window.location.href = "../html/profile_funcionario.php?id_funcionario="+<?php echo $_GET['id_funcionario']; ?>;
       alert("Cadastrado com sucesso o EPI!");
 
@@ -1138,6 +1156,9 @@ $dependente = json_encode($dependente);
                 </li>
                 <li>
                   <a href="#documentos" data-toggle="tab">Documentação</a>
+                </li>
+                <li>
+                  <a href="#arquivo" data-toggle="tab">Arquivos</a>
                 </li>
                 <li>
                   <a href="#outros" data-toggle="tab">Outros</a>
@@ -1287,7 +1308,10 @@ $dependente = json_encode($dependente);
 
                         </tbody>
 
+
                       </table>
+                       <h5>Soma:<div class="total"></div></h5>
+                      
                       <button id="excluir" type="button" class="btn btn-success" data-toggle="modal" data-target="#adicionar">Adicionar</button>
                     </div><br>
                     <div class="modal fade" id="adicionar" role="dialog">
@@ -1342,6 +1366,8 @@ $dependente = json_encode($dependente);
                       </div>
                     </div>
                 </div>
+
+
 
                 <!-- 
                   Aba epi do funcionario
@@ -1454,6 +1480,7 @@ $dependente = json_encode($dependente);
                       <form class="form-horizontal" method="POST" action="../controle/control.php">
                         <input type="hidden" name="nomeClasse" value="FuncionarioControle">
                         <input type="hidden" name="metodo" value="alterarOutros">
+
                         <div class="form-group">
                           <label class="col-md-3 control-label">PIS</label>
                           <div class="col-md-6">
@@ -1502,6 +1529,12 @@ $dependente = json_encode($dependente);
                             <input type="text" id="certificado_reservista_serie" name="certificado_reservista_serie" class="form-control serie_reservista">
                           </div>
                         </div>
+                        <div class="form-group">
+                        <label class="col-md-3 control-label" for="profileCompany">Data de Admissão</label>
+                        <div class="col-md-6">
+                          <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data_admissao" id="data_admissao" max=<?php echo date('Y-m-d'); ?>>
+                        </div>
+                      </div>
 
                         <div class="form-group">
                           <label class="col-md-3 control-label" for="inputSuccess">Situação</label>
@@ -1814,8 +1847,15 @@ $dependente = json_encode($dependente);
                         <div class="">
                           <h3 class="text-center col-md-12">Carga Horária</h3>
                           <ul class="nav nav-children" id="info">
-                            <li id="total">Carga horária diária:</li></br>
+                            <li id="total">Carga horária diária:</br></li>
+                            <input type="text" id="total" value="">
+                        
+                    
+                           
+
                             <li id="carga_horaria_mensal">Carga horária mensal:</li>
+                           
+                            <input type="text" value=<?php $_GET['carga_horaria'] ?>>
                           </ul>
                         </div>
                         <hr class="dotted short">
@@ -1837,7 +1877,7 @@ $dependente = json_encode($dependente);
 
                 -->
 
-                <div id="documentos" class="tab-pane">
+               <div id="documentos" class="tab-pane">
                   <section class="panel">
                     <header class="panel-heading">
                       <div class="panel-actions">
@@ -1853,6 +1893,7 @@ $dependente = json_encode($dependente);
                       <input type="hidden" name="nomeClasse" value="FuncionarioControle">
                       <input type="hidden" name="metodo" value="alterarDocumentacao">
                       <div class="form-group">
+                  
                         <label class="col-md-3 control-label" for="profileCompany">Número do RG</label>
                         <div class="col-md-6">
                           <input type="text" class="form-control" name="rg" id="rg" onkeypress="return Onlynumbers(event)" placeholder="Ex: 22.222.222-2" onkeyup="mascara('##.###.###-#',this,event)">
@@ -1882,23 +1923,34 @@ $dependente = json_encode($dependente);
                           <p id="cpfInvalido" style="display: none; color: #b30000">CPF INVÁLIDO!</p>
                         </div>
                       </div>
-                      <div class="form-group">
-                        <label class="col-md-3 control-label" for="profileCompany">Data de Admissão</label>
-                        <div class="col-md-8">
-                          <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data_admissao" id="data_admissao" max=<?php echo date('Y-m-d'); ?>>
-                        </div>
-                      </div>
-                      <br />
+                      
                       <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
                       <button type="button" class="btn btn-primary" id="botaoEditarDocumentacao" onclick="return editar_documentacao()">Editar</button>
                       <input id="botaoSalvarDocumentacao" type="submit" class="btn btn-primary" disabled="true" value="Salvar" onclick="funcao3()">
                     </form>
-                    <hr>
-                    <h4>Adicionar Documento</h4>
+                  </div>
+                  </section>
+                  </div>
+                            
+                
+                  
+
+                <!-- Aba de arquivos -->
+
+
+                <div id="arquivo" class="tab-pane">
+                  <section class="panel">
+                    <header class="panel-heading">
+                      <div class="panel-actions">
+                        <a href="#" class="fa fa-caret-down"></a>
+                      </div>
+                      <h2 class="panel-title">Arquivos</h2>
+                    </header>
+                    <div class="panel-body">
                       <table class="table table-bordered table-striped mb-none" id="datatable-docfuncional">
                         <thead>
                           <tr>
-                            <th>Documento</th>
+                            <th>Arquivo</th>
                             <th>Data</th>
                             <th>Ação</th>
                           </tr>
@@ -1910,7 +1962,7 @@ $dependente = json_encode($dependente);
                       <br>
                       <!-- Button trigger modal -->
                       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#docFormModal">
-                        Adicionar Documento
+                        Adicionar
                       </button>
 
                       <!-- Modal Form Documentos -->
@@ -1918,7 +1970,7 @@ $dependente = json_encode($dependente);
                         <div class="modal-dialog" role="document">
                           <div class="modal-content">
                             <div class="modal-header" style="display: flex;justify-content: space-between;">
-                              <h5 class="modal-title" id="exampleModalLabel">Adicionar Documento</h5>
+                              <h5 class="modal-title" id="exampleModalLabel">Adicionar Arquivo</h5>
                               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                               </button>
@@ -1926,7 +1978,7 @@ $dependente = json_encode($dependente);
                             <form action='./funcionario/documento_upload.php' method='post' enctype='multipart/form-data' id='funcionarioDocForm'>
                               <div class="modal-body" style="padding: 15px 40px">
                                 <div class="form-group" style="display: grid;">
-                                  <label class="my-1 mr-2" for="tipoDocumento">Tipo de Documento</label><br>
+                                  <label class="my-1 mr-2" for="tipoDocumento">Tipo de Arquivo</label><br>
                                   <div style="display: flex;">
                                     <select name="id_docfuncional" class="custom-select my-1 mr-sm-2" id="tipoDocumento" required>
                                       <option selected disabled>Selecionar...</option>
@@ -1942,7 +1994,7 @@ $dependente = json_encode($dependente);
                                   </div>
                                 </div>
                                 <div class="form-group">
-                                  <label for="arquivoDocumento">Arquivo do Documento</label>
+                                  <label for="arquivoDocumento">Arquivo</label>
                                   <input name="arquivo" type="file" class="form-control-file" id="arquivoDocumento" accept="png;jpeg;jpg;pdf;docx;doc;odp" required>
                                 </div>
 
@@ -1954,14 +2006,12 @@ $dependente = json_encode($dependente);
                                 <input type="submit" value="Enviar" class="btn btn-primary">
                               </div>
                             </form>
+                            </div>
                           </div>
                         </div>
-                      </div>
+                    </section>
+                  </div>
 
-
-                    </div>
-                  </section>
-                </div>
 
 
                 <!-- Aba dependentes -->
@@ -2249,11 +2299,20 @@ $dependente = json_encode($dependente);
             .append($("<td>").text(item.descricao))
             .append($("<td>").text(item.inicio))
             .append($("<td>").text(item.fim))
-            .append($("<td>").text(item.valor))
+            .append($("<td class='tabela'>").text(item.valor))
             .append($("<td style='display: flex; justify-content: space-evenly;'>")
               .append($("<button onclick='removerRemuneracao("+item.id_remuneracao+")' title='Excluir' class='btn btn-danger'><i class='fas fa-trash-alt'></i></button>"))
             )
           )
+          $(function(){
+                        var total = 0;
+                        $('.tabela').each(function(){
+                        total += parseInt(jQuery(this).text());
+                        });
+      
+                        $('.total').html(total);
+
+                          });
       });
     }
 

@@ -20,5 +20,9 @@ extract($_REQUEST);
 	$objeto = new $nomeClasse();
 	$objeto->$metodo();
 	}
+<<<<<<< HEAD
 
+=======
+	die()
+>>>>>>> 52e0f4c0a2e8318b4c137bf994afbe97d1c7d3a2
 ?>

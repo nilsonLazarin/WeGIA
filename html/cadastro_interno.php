@@ -16,30 +16,8 @@
 	}
 	$conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 	$id_pessoa = $_SESSION['id_pessoa'];
-	$resultado = mysqli_query($conexao, "SELECT * FROM funcionario WHERE id_pessoa=$id_pessoa");
-	if(!is_null($resultado)){
-		$id_cargo = mysqli_fetch_array($resultado);
-		if(!is_null($id_cargo)){
-			$id_cargo = $id_cargo['id_cargo'];
-		}
-		$resultado = mysqli_query($conexao, "SELECT * FROM permissao WHERE id_cargo=$id_cargo and id_recurso=12");
-		if(!is_bool($resultado) and mysqli_num_rows($resultado)){
-			$permissao = mysqli_fetch_array($resultado);
-			if($permissao['id_acao'] < 3){
-				$msg = "Você não tem as permissões necessárias para essa página.";
-				header("Location: ./home.php?msg_c=$msg");
-			}
-			$permissao = $permissao['id_acao'];
-		}else{
-        	$permissao = 1;
-			$msg = "Você não tem as permissões necessárias para essa página.";
-			header("Location: ./home.php?msg_c=$msg");
-		}	
-	}else{
-		$permissao = 1;
-		$msg = "Você não tem as permissões necessárias para essa página.";
-		header("Location: ./home.php?msg_c=$msg");
-	}	
+	$resultado = mysqli_query($conexao, "SELECT * FROM interno WHERE id_pessoa=$id_pessoa");
+
 	
 	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
 	require_once "personalizacao_display.php";
@@ -155,20 +133,20 @@
     		}
 		}
 
-	    function registro_geral(){
-    		if($("#registro").prop("checked"))
-    		{
-	    		document.getElementById("rg").readOnly=true;
-    			document.getElementById("orgao").readOnly=true;
-				document.getElementById("profileCompany").readOnly=true;
-				document.getElementById("imgRg").style.display="none";
-    		}else{
-    			document.getElementById("rg").readOnly=false;
-	    		document.getElementById("orgao").readOnly=false;
-				document.getElementById("profileCompany").readOnly=false;
-				document.getElementById("imgRg").style.display="block";
+		function desabilitar_rg(){
+
+    		if($("#nao_rg").prop("checked")){
+	    		document.getElementById("rg").readOnly = true;
+    			document.getElementById("enviar").disabled = false;
+    			document.getElementById("imgRg").style.display="none";
+ 		   	}else{
+    			document.getElementById("rg").readOnly = false;
+    			document.getElementById("enviar").disabled = true;
+    			document.getElementById("imgRg").style.display="block";
     		}
-    	}
+		}
+
+	   
 
     	$(function () {
 	        $("#header").load("header.php");
@@ -268,29 +246,29 @@
 							<ul class="nav nav-tabs tabs-primary">
 								<li class="active">
 									<a href="#overview" data-toggle="tab">Cadastro de Atendido</a>
+							  
 								</li>
-								<li>
-									<a href="#documentacao" data-toggle="tab">Documentação</a>
-								</li>
+								
 							</ul>
 							<div class="tab-content">
 								<div id="overview" class="tab-pane active">
+									 <form class="form-horizontal" method="GET" action="../controle/control.php" id="form-cadastro" enctype="multipart/form-data">
 									<h4 class="mb-xlg">Informações Pessoais</h4>
-									<form id="formulario" action="../controle/control.php" enctype="multipart/form-data" method="POST">
+									<h5 class="obrig">Campos Obrigatórios(*)</h5>
 										<div class="form-group">
-											<label class="col-md-3 control-label">Nome</label>
+											<label class="col-md-3 control-label" for="profileFirstName">Nome<sup class="obrig">*</sup></label>
 											<div class="col-md-8">
-												<input type="text" class="form-control" name="nome" id="nome" id="profileFirstName" onkeypress="return Onlychars(event)" >
+												<input type="text" class="form-control" name="nome" id="nome" id="profileFirstName" onkeypress="return Onlychars(event)"required>
 											</div>
 										</div>
 										<div class="form-group">
-											<label class="col-md-3 control-label">Sobrenome</label>
+											<label class="col-md-3 control-label">Sobrenome<sup class="obrig">*</sup></label>
 											<div class="col-md-8">
-												<input type="text" class="form-control" name="sobrenome" id="sobrenome" onkeypress="return Onlychars(event)" >
+												<input type="text" class="form-control" name="sobrenome" id="sobrenome" onkeypress="return Onlychars(event)"required>
 											</div>
 										</div>
 										<div class="form-group">
-											<label class="col-md-3 control-label">Sexo</label>
+											<label class="col-md-3 control-label" for="profileLastName">Sexo<sup class="obrig">*</sup></label>
 											<div class="col-md-8">
 												<input type="radio" name="sexo" id="radio1" value="m" style="margin-top: 10px margin-left: 15px;" required><i class="fa fa-male" style="font-size: 20px;" required></i>
 													<input type="radio" name="sexo" id="radio2"  value="f" style="margin-top: 10px; margin-left: 15px;"><i class="fa fa-female" style="font-size: 20px;"></i> 
@@ -305,41 +283,44 @@
 										<div class="form-group">
 											<label class="col-md-3 control-label" for="profileCompany">Telefone contato 1</label>
 											<div class="col-md-8">
-												<input type="text" class="form-control" maxlength="14" minlength="14" name="telefone1" id="telefone1" id="profileCompany" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeyup="mascara('(##)#####-####',this,event)" required>
+												<input type="text" class="form-control" maxlength="14" minlength="14" name="telefone1" id="telefone1" id="profileCompany" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeyup="mascara('(##)#####-####',this,event)" >
 											</div>
 										</div>
 										<div class="form-group">
 											<label class="col-md-3 control-label" for="profileCompany">Telefone contato 2</label>
 											<div class="col-md-8">
-												<input type="text" class="form-control" maxlength="14" minlength="14" name="telefone2" id="telefone2" id="profileCompany" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeyup="mascara('(##)#####-####',this,event)" required>
+												<input type="text" class="form-control" maxlength="14" minlength="14" name="telefone2" id="telefone2" id="profileCompany" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeyup="mascara('(##)#####-####',this,event)" >
 											</div>
 										</div>
 										<div class="form-group">
 											<label class="col-md-3 control-label" for="profileCompany">Telefone contato 3</label>
 											<div class="col-md-8">
-												<input type="text" class="form-control" maxlength="14" minlength="14" name="telefone3" id="telefone3" id="profileCompany" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeyup="mascara('(##)#####-####',this,event)" required>
+												<input type="text" class="form-control" maxlength="14" minlength="14" name="telefone2" id="telefone3" id="profileCompany" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeyup="mascara('(##)#####-####',this,event)" >
 											</div>
 										</div>
+										
 										<div class="form-group">
-											<label class="col-md-3 control-label" for="profileCompany">Nascimento</label>
+											 <label class="col-md-3 control-label" for="profileCompany">Nascimento<sup class="obrig">*</sup></label>
 											<div class="col-md-8">
-												<input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" id="nascimento"  max=<?php echo date('Y-m-d'); ?> required>
-											</div>
+												<input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" id="nascimento" max=<?php echo date('Y-m-d');?> required> 
+										    </div>
 										</div>
 										<div class="form-group">
-											<label class="col-md-3 control-label" for="profileName">Nome do Pai</label>
+											<label class="col-md-3 control-label" for="profileCompany">Nome do Pai</label>
 											<div class="col-md-8">
-												<input type="text" name="pai" class="form-control"  onkeypress="return Onlychars(event)" id="pai" >
+												<input type="text" class="form-control" name="pai" id="nomepai" id="profileCompany"  onkeypress="return Onlychars(event)" >
+												
 											</div>
 										</div>
 										<div class="form-group">
-											<label class="col-md-3 control-label" for="profileFirstName">Nome da Mãe</label>
+											<label class="col-md-3 control-label" for="profileCompany">Nome do Mãe</label>
 											<div class="col-md-8">
-												<input type="text" name="nomeMae" class="form-control" id="mae" id="profileFirstName" onkeypress="return Onlychars(event)" >
+												<input type="text" class="form-control" name="mae" id="nomemae" id="profileCompany"  onkeypress="return Onlychars(event)" >
+												
 											</div>
 										</div>
 										<div class="form-group">
-											<label class="col-md-3 control-label" for="inputSuccess">Tipo Sanguíneo</label>
+											<label class="col-md-3 control-label" for="profileCompany">Tipo Sanguíneo</label>
 											<div class="col-md-6">
 												<select name="sangue" id="sangue" class="form-control input-lg mb-md">
 													<option selected disabled value="blank">Selecionar</option>
@@ -354,20 +335,22 @@
 												</select>
 											</div>	
 										</div><br/>
-									</div>
-									<div id="documentacao" class="tab-pane">
-										<h4 class="mb-xlg doch4">Documentação</h4>
+									
+									
 
 										<div class="form-group">
-											<label class="col-md-3 control-label" for="profileCompany">Número do RG</label>
-											<div class="col-md-4">
-												<input type="text" class="form-control" name="rg" id="rg" onkeypress="return Onlynumbers(event)" placeholder="Ex: 22.222.222-2" required>
-											</div>
+                                                 <label class="col-md-3 control-label" for="profileCompany">Número do RG<sup class="obrig">*</sup></label>
+                                              <div class="col-md-6">
+                                               <input type="text" class="form-control" name="rg" id="rg" onkeypress="return Onlynumbers(event)" placeholder="Ex: 22.222.222-2" maxlength="12" onkeyup="mascara('##.###.###-#',this,event)" required>
+                    					</div>
+                  							
 											<div class="col-md-3"> 
-												<label>Não possui RG
-												<input type="checkbox" id="registro" name="naoPossuiRegistroGeral"  style="margin-left: 4px" onclick="return registro_geral()"></label>
-											</div>
+												<label> 
+												<input type="checkbox" id="nao_rg" name="naoPossuiRegistroGeral"   onclick="return desabilitar_rg()"> Não possui RG
+													</label>    
+												
 										</div>
+									</div>
 										<div class="form-group">
 											<label class="col-md-3 control-label" for="profileCompany">Órgão Emissor</label>
 											<div class="col-md-6">
@@ -378,18 +361,18 @@
 										<div class="form-group">
 											<label class="col-md-3 control-label" for="profileCompany">Data de Expedição</label>
 											<div class="col-md-6">
-													<input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" id="profileCompany" name="dataExpedicao" id="data_expedicao"  max=<?php echo date('Y-m-d'); ?> required>
+													<input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" id="profileCompany" name="dataExpedicao" id="data_expedicao"  max=<?php echo date('Y-m-d'); ?>>
 											</div>
 										</div>
 											
 										<div class="form-group">
-											<label class="col-md-3 control-label" for="profileCompany">Número do CPF</label>
+											 <label class="col-md-3 control-label" for="cpf">Número do CPF<sup class="obrig">*</sup></label>
 											<div class="col-md-4">
 												<input type="text" class="form-control" id="cpf" name="numeroCPF" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##',this,event)" required>
 											</div>
 											<div class="col-md-3"> 
-												<label>Não possui CPF
-												<input type="checkbox" id="nao_cpf" name="naoPossuiCpf"  style="margin-left: 4px" onclick="return desabilitar_cpf()">
+												<label>
+												<input type="checkbox" id="nao_cpf" name="naoPossuiCpf" onclick="return desabilitar_cpf()"> Não possui CPF
 													</label>
 											</div>													
 										</div>
@@ -553,22 +536,23 @@
 												</section>
 											</div>
 										</section>
-									</div>
+									
+										 <div class="panel-footer">
+						                    <div class="row">
+						                      <div class="col-md-9 col-md-offset-3">
+						                        <input type="hidden" name="nomeClasse" value="InternoControle">
+						                        <input type="hidden" name="metodo" value="incluir">
+						                        <input id="enviar" type="submit" class="btn btn-primary" disabled="true" value="Enviar" onclick="validarInterno()">
+						                      </div>
+						                    </div>
+						                  </div>				
 									</form>
-									<div class="panel-footer">
-										<div class="row">
-											<div class="col-md-9 col-md-offset-3">
-												<button id="enviar" class="btn btn-primary"  type="submit" disabled="true">Enviar</button>  
-											</div>
-										</div>
-									</div>										
-								</div>
+							    </div>
 							</div>
 						</div>
 					</div>
-						
 				</div>
-					<!-- end: page -->
+				               <!-- end: page -->
 			</section>
 		</div>
 
@@ -581,6 +565,7 @@
 		</aside>
 	</section>
 	<!-- Vendor -->
+	
 	  <script src="../assets/vendor/jquery/jquery.js"></script>
 	  <script src="../assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
 	  <script src="../assets/vendor/bootstrap/js/bootstrap.js"></script>
@@ -596,5 +581,76 @@
 	  <script src="../assets/javascripts/theme.custom.js"></script>
 	  <!-- Theme Initialization Files -->
 	  <script src="../assets/javascripts/theme.init.js"></script>
+	  <style type="text/css">
+	  .obrig {
+      color: rgb(255, 0, 0);
+    }
+  </style>
+  <script type="text/javascript">
+    // Exibe a imagem selecionada no input file:
+    function readURL(input) {
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+          $('#img-selection')
+            .attr('src', e.target.result);
+        };
+
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+
+    $('#form-cadastro').submit(function() {
+        let imgForm = document.getElementById("imgform");
+        document.getElementById("form-cadastro").append(imgForm);
+        return true;
+    });
+
+    function funcao1() {
+      var send = $("#enviar");
+      var cpfs = [{"cpf":"admin","id":"1"},{"cpf":"12487216166","id":"2"}];
+      var cpf_funcionario = $("#cpf").val();
+      var cpf_funcionario_correto = cpf_funcionario.replace(".", "");
+      var cpf_funcionario_correto1 = cpf_funcionario_correto.replace(".", "");
+      var cpf_funcionario_correto2 = cpf_funcionario_correto1.replace(".", "");
+      var cpf_funcionario_correto3 = cpf_funcionario_correto2.replace("-", "");
+      var apoio = 0;
+      var cpfs1 = [{"cpf":"06512358716"},{"cpf":""},{"cpf":"01027049702"},{"cpf":"18136521719"},{"cpf":"57703212539"},{"cpf":"48913397480"},{"cpf":"19861411364"},{"cpf":"26377548508"},{"cpf":"Luiza1ni"},{"cpf":"Luiza2ni"},{"cpf":"63422141154"},{"cpf":"21130377008"},{"cpf":"luiza3ni"},{"cpf":"jiwdfhni"},{"cpf":"Joaoni"},{"cpf":"luiza4ni"},{"cpf":"luiza5ni"},{"cpf":"luiza6ni"},{"cpf":"teste1ni"},{"cpf":"luiza7ni"},{"cpf":"luiza8ni"},{"cpf":"luiza9ni"}];
+      $.each(cpfs, function(i, item) {
+        if (item.cpf == cpf_funcionario_correto3) {
+          alert("Cadastro não realizado! O CPF informado já está cadastrado no sistema");
+          apoio = 1;
+          send.attr('disabled', 'disabled');
+        }
+      });
+      $.each(cpfs1, function(i, item) {
+        if (item.cpf == cpf_funcionario_correto3) {
+          alert("Cadastro não realizado! O CPF informado já está cadastrado no sistema");
+          apoio = 1;
+         $("#formulario").submit();
+        }
+      });
+      if (apoio == 0) {
+        alert("Cadastrado com sucesso!");
+      }
+    }
+
+    function validarInterno(){
+      var btn = $("#enviar");
+      var cpf_cadastrado = ([{"cpf":"admin","id":"1"},{"cpf":"12487216166","id":"2"}]).concat([{"cpf":"06512358716"},{"cpf":""},{"cpf":"01027049702"},{"cpf":"18136521719"},{"cpf":"57703212539"},{"cpf":"48913397480"},{"cpf":"19861411364"},{"cpf":"26377548508"},{"cpf":"Luiza1ni"},{"cpf":"Luiza2ni"},{"cpf":"63422141154"},{"cpf":"21130377008"},{"cpf":"luiza3ni"},{"cpf":"jiwdfhni"},{"cpf":"Joaoni"},{"cpf":"luiza4ni"},{"cpf":"luiza5ni"},{"cpf":"luiza6ni"},{"cpf":"teste1ni"},{"cpf":"luiza7ni"},{"cpf":"luiza8ni"},{"cpf":"luiza9ni"}]);
+      var cpf = (($("#cpf").val()).replaceAll(".", "")).replaceAll("-", "");
+      console.log(this);
+      $.each(cpf_cadastrado, function(i, item) {
+        if (item.cpf == cpf) {
+          alert("Cadastro não realizado! O CPF informado já está cadastrado no sistema");
+          btn.attr('disabled', 'disabled');
+          return false;
+        }
+      });
+      
+      
+    
+</script>
 </body>
 </html>

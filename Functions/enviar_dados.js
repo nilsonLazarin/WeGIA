@@ -280,7 +280,7 @@
 					}
 
 					else if($("#sangue").val() == null){
-						alert("Selecione o tipo sanguíneo");
+						//alert("Selecione o tipo sanguíneo");
 						$("#sangue").focus();
 						var certo=0;
 						console.log(certo);
