@@ -59,6 +59,7 @@ require_once ROOT."/controle/memorando/AnexoControle.php";
 
 $id_memorando=$_GET['id_memorando'];
 
+
 $despachos = new DespachoControle;
 $despachos->listarTodos();
 
@@ -182,29 +183,29 @@ require_once ROOT."/html/personalizacao_display.php";
 			}
 		}
 		?>
-		$.each(despacho,function(i,item){
-			$("#listaDeDespachos")
-				.append($("<table class='table table-bordered table-striped mb-none' id='"+item.id+"'>")
-					.append($("<tr>")
-						.append($("<th>")
-							.text("Remetente"))
-						.append($("<td>")
-							.text(item.remetente))
-						.append($("<th>")
-							.text("Destinatario"))
-						.append($("<td>")
-							.text(item.destinatario)))
-					.append($("<tr>")
-						.append($("<th colspan=2>")
-							.text("Despacho"))
-						.append($("<th>")
-							.text("Data"))
-						.append($("<td>")
-							.text(item.data.substr(8,2)+"/"+item.data.substr(5,2)+"/"+item.data.substr(0,4)+" "+item.data.substr(10))))
-					.append($("<tr>")
-						.append($("<td colspan=4 id=texto"+item.id+">")
-							.html(item.texto))));
-		});
+		// $.each(despacho,function(i,item){
+		//	$("#listaDeDespachos")
+		//		.append($("<table class='table table-bordered table-striped mb-none' id='"+item.id+"'>")
+		//			.append($("<tr>")
+		//				.append($("<th>")
+		//					.text("Remetente"))
+		//				.append($("<td>")
+		//					.text(item.remetente))
+		//				.append($("<th>")
+		//					.text("Destinatario"))
+		//				.append($("<td>")
+		//					.text(item.destinatario)))
+		//			.append($("<tr>")
+		//				.append($("<th colspan=2>")
+		//					.text("Despacho"))
+		//				.append($("<th>")
+		//					.text("Data"))
+		//				.append($("<td>")
+		//					.text(item.data.substr(8,2)+"/"+item.data.substr(5,2)+"/"+item.data.substr(0,4)+" "+item.data.substr(10))))
+		//			.append($("<tr>")
+		//				.append($("<td colspan=4 id=texto"+item.id+">")
+		//					.html(item.texto))));
+		//});
 		$.each(despachoAnexo,function(i, item){
 			$("#"+item.id_despacho)
 				.append($("<tr>")
@@ -318,6 +319,9 @@ require_once ROOT."/html/personalizacao_display.php";
         		display: none;
     		}
 		}
+		#endereco{
+			
+		}
 
 	</style>
 </head>
@@ -360,41 +364,122 @@ require_once ROOT."/html/personalizacao_display.php";
 				{
 				?>
 				<div id="myModal">
-					<header class="panel-heading">
+					<header>
 						<h2 class="panel-title">
 							<center> 
-							<img src="<?php display_campo("Logo","file");?>" height="40" class="print-logo" style="margin-right: 700px;" /><p>
+								<h3 align="center">
+						<p> <img src="<?php display_campo("Logo","file");?>" height="40"align="center" class="print-logo" style="margin-right: 700px;"></p> </h3>
 							WeGIA 
-							<p> Web Gerenciador Institucional
+							<p> Web Gerenciador Institucional</p>
 						</center>
 
 						</h2>
 					</header>
+	
+						
 					<div class="panel-body" id="listaDeDespachos">
 						<button style="margin-bottom: 0px !important;" class="not-printable mb-xs mt-xs mr-xs btn btn-default" id="btnPrint">Imprimir</button>
 						<br>
+						
 						<div class="just-printable">
+
 							<?php
 								$pdo = Conexao::connect();
 								$memorandosDespachados->listarTodosId($id_memorando);
 								$memorando = $_SESSION['memorandoId'][0];
 								extract($memorando);
 								$status = $pdo->query("SELECT status_atual FROM status_memorando WHERE id_status_memorando=$id_status_memorando;")->fetch(PDO::FETCH_ASSOC)["status_atual"];
-								$pessoa_memorando = $pdo->query("SELECT nome, sobrenome FROM pessoa WHERE id_pessoa=$id_pessoa;")->fetch(PDO::FETCH_ASSOC);
-								$pessoa_memorando = $pessoa_memorando["nome"] . ($pessoa_memorando["sobrenome"] ? (" " . $pessoa_memorando["sobrenome"]) : "");
-								$data_expedicao = $pdo->query("SELECT `data` FROM memorando WHERE id_memorando=$id_memorando")->fetch(PDO::FETCH_ASSOC)["data"];
-								echo("
+
+
+					$despacho = $pdo->query("SELECT texto FROM despacho WHERE id_despacho=$id_memorando;")->fetch(PDO::FETCH_ASSOC) ["texto"];
+
+					$endereco = $pdo->query("SELECT nome FROM endereco_instituicao;")->fetch(PDO::FETCH_ASSOC) ["nome"];
+
+					$bairro = $pdo->query("SELECT bairro FROM endereco_instituicao;")->fetch(PDO::FETCH_ASSOC) ["bairro"];
+
+					$estado = $pdo->query("SELECT estado FROM endereco_instituicao;")->fetch(PDO::FETCH_ASSOC) ["estado"];
+
+					$cidade = $pdo->query("SELECT cidade FROM endereco_instituicao;")->fetch(PDO::FETCH_ASSOC) ["cidade"];
+
+					
+
+					$pessoa1 = $pdo->query("SELECT id_destinatario FROM despacho WHERE id_remetente=$id_pessoa;")->fetch(PDO::FETCH_ASSOC) ["id_destinatario"];
+
+					
+
+					$pessoa_destino = $pdo->query("SELECT nome, sobrenome FROM pessoa WHERE id_pessoa=$pessoa1;")->fetch(PDO::FETCH_ASSOC);
 								
-								<p>Título: $titulo</p>
-								<p>Pessoa: $pessoa_memorando</p>
-								<p>Data de Expedição: $data_expedicao</p>
-								<p>Status: $status</p>
+					$pessoa_destino = $pessoa_destino["nome"] . ($pessoa_destino["sobrenome"] ? (" " . $pessoa_destino["sobrenome"]) : "");
+
+					$pessoa_memorando = $pdo->query("SELECT nome, sobrenome FROM pessoa WHERE id_pessoa=$id_pessoa;")->fetch(PDO::FETCH_ASSOC);
+								
+					$pessoa_memorando = $pessoa_memorando["nome"] . ($pessoa_memorando["sobrenome"] ? (" " . $pessoa_memorando["sobrenome"]) : "");
+
+					$anexo1= $pdo->query("SELECT nome FROM anexo WHERE id_despacho=$id_memorando;")->fetch(PDO::FETCH_ASSOC) ["nome"];
+
+					$anexo2 = $pdo->query("SELECT extensao FROM anexo WHERE id_despacho=$id_memorando;")->fetch(PDO::FETCH_ASSOC) ["extensao"];
+
+					
+								
+					$data_expedicao = $pdo->query("SELECT `data` FROM memorando WHERE id_memorando=$id_memorando")->fetch(PDO::FETCH_ASSOC)["data"];
+
+							echo("
+
+								<p>MEMORANDO NR: $id_memorando</p>
+								<p>Assunto: $titulo</p>
+								<p> 
+								</p>
 								
 								");
 								?>
-						</div>
+								<div class="panel-heading"> </div>
+
+				 
+					<p align="right">
+								
+										<?php
+										
+										echo(" $cidade - $endereco -  $data_expedicao 
+											");
+									
+										?>
+										
+									</p>
+									
+								
+								
+						<?php
+						
+								
+							echo ("
+								<p> Ao Sr(a): $pessoa_destino</p>
+								<p> $despacho </p>
+
+								");
+							?>
+					<p align="center">
+
+								<?php
+								echo("
+		                               $pessoa_memorando
+									")
+									?>
+							</p>
+
+					<p>
+						<?php
+						echo(" <p> Anexos: </p>
+							<p> $anexo1.$anexo2</p>
+							
+
+							");
+						?>
+					</p>
+						<div class="panel-heading"> </div>
+						
 						<br>
 					</div>
+				</div>
 				</div>
 					<div class="printable"></div>							
 					<?php
