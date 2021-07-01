@@ -460,7 +460,7 @@ $dependente = json_encode($dependente);
 
 
         // $("#escala").text("Escala: " + (item.escala_descricao || "Sem informação"));
-        // $("#tipo").text("Tipo: " + (item.tipo_descricao || "Sem informação"));
+        $("#tipo").text("Tipo: " + (item.tipo_descricao || "Sem informação"));
         $("#dias_trabalhados").text("Dias trabalhados: " + (item.dias_trabalhados || "Sem informação"));
         if (item.dias_trabalhados == "Plantão") {
           $("#dias_trabalhados").text("Dias trabalhados: " + (item.dias_trabalhados || "Sem informação") + " 12/36");
@@ -474,15 +474,7 @@ $dependente = json_encode($dependente);
         $("#carga_horaria_mensal").text("Carga horária mensal: " + (item.carga_horaria || "Sem informação"));
         $("#carga_horaria_mensal").text("Carga horária mensal: " + (item.carga_horaria || "Sem informação"));
 
-       
-
-
-        
-
-        
-
-        
-       
+    
 
         if (item.escala) {
           $("#escala_input").val(item.escala);
@@ -1310,7 +1302,8 @@ $dependente = json_encode($dependente);
 
 
                       </table>
-                       <h5>Soma:<div class="total"></div></h5>
+                       <h5>Soma:</h5><div class="total"></div>
+
                       
                       <button id="excluir" type="button" class="btn btn-success" data-toggle="modal" data-target="#adicionar">Adicionar</button>
                     </div><br>
@@ -1727,23 +1720,22 @@ $dependente = json_encode($dependente);
                               ?>
                             </select>
                           </div>
-                          <a href="./quadro_horario/adicionar_escala.php"><i class="fas fa-plus w3-xlarge"></i></a>
+                          
                         </div>
+
                         <div class="form-group">
                           <label class="col-md-3 control-label">Tipo</label>
                           <div class="col-md-6">
-                            <select class="form-control input-lg mb-md" name="tipoCargaHoraria" id="tipoCargaHoraria_input">
-                              <option selected disabled value="">Selecionar</option>
-                              <?php
-                              $pdo = Conexao::connect();
-                              $tipo = $pdo->query("SELECT * FROM tipo_quadro_horario;")->fetchAll(PDO::FETCH_ASSOC);
-                              foreach ($tipo as $key => $value) {
-                                echo ("<option value=" . $value["id_tipo"] . ">" . $value["descricao"] . "</option>");
-                              }
-                              ?>
-                            </select>
+                           
+                          <select class="form-control input-lg mb-md" name="tipoCargaHoraria" id="tipoCargaHoraria_input">
+                          <option selected disabled value="">Selecionar</option>
+                          <option value="1"> Segunda à Sexta, folga Sábado e Domingo</option>
+                          <option value="2"> Dias Alternados</option>
+                        </select>
+  
+                            
                           </div>
-                          <a href="./quadro_horario/adicionar_tipo_quadro_horario.php"><i class="fas fa-plus w3-xlarge"></i></a>
+                      
                         </div>
                         <div class="form-group">
                           <label class="col-md-3 control-label">Primeira entrada</label>
@@ -1769,6 +1761,19 @@ $dependente = json_encode($dependente);
                             <input type="time" placeholder="07:25" class="form-control" name="saida2" id="saida2_input">
                           </div>
                         </div>
+                        
+
+                        <?php
+                        if($_POST['tipoCargaHoraria']==2){
+
+
+                        
+                        
+
+                       ?>
+                       
+
+                       
                         <div class="text-center">
                           <h3 class="col-md-12">Dias Trabalhados</h3>
                           <div class="btn-group ">
@@ -1779,7 +1784,7 @@ $dependente = json_encode($dependente);
                             <label class="btn btn-primary">
                               <input type="checkbox" id="diaTrabalhado_Ter" name="trabTer" value="Ter"> Ter
                               <span class="fa fa-check"></span>
-                            </label>
+                            </label>;
                             <label class="btn btn-primary">
                               <input type="checkbox" id="diaTrabalhado_Qua" name="trabQua" value="Qua"> Qua
                               <span class="fa fa-check"></span>
@@ -1806,7 +1811,11 @@ $dependente = json_encode($dependente);
                             </label>
                           </div>
                         </div>
-
+                        <?php
+                      }
+                      else{}
+                     
+                        ?>
                         <div class="text-center">
                           <h3 class="col-md-12">Dias de Folga</h3>
                           <div class="btn-group ">
@@ -1847,15 +1856,13 @@ $dependente = json_encode($dependente);
                         <div class="">
                           <h3 class="text-center col-md-12">Carga Horária</h3>
                           <ul class="nav nav-children" id="info">
-                            <li id="total">Carga horária diária:</br></li>
-                            <input type="text" id="total" value="">
-                        
+                            <li id="total"> Carga horária diária:</br></li>
+                            
                     
                            
-
-                            <li id="carga_horaria_mensal">Carga horária mensal:</li>
+                          <li id="carga_horaria_mensal">Carga horária mensal:</li>
                            
-                            <input type="text" value=<?php $_GET['carga_horaria'] ?>>
+                           
                           </ul>
                         </div>
                         <hr class="dotted short">
