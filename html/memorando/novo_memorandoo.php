@@ -66,7 +66,7 @@ require_once ROOT."/html/personalizacao_display.php";
 
 <!DOCTYPE html>
 
-<html class="">
+<html class="fixed">
 <head>
     <!-- Basic -->
     <meta charset="UTF-8">
@@ -251,30 +251,30 @@ require_once ROOT."/html/personalizacao_display.php";
 </head>
 
 
-<body>
-    <section class="body">
-        <!-- start: header -->
-        <div id="header"></div>
-        <!-- end: header -->
-        <div class="inner-wrapper">
-            <!-- start: sidebar -->
-            <aside id="sidebar-left" class="sidebar-left menuu"></aside>
-            <!-- end: sidebar -->
-            <section role="main" class="content-body">
-                <header class="page-header">
-                    <h2>Novo Memorando</h2>
-                    <div class="right-wrapper pull-right">
-                        <ol class="breadcrumbs">
-                            <li>
-                                <a href="<?php echo WWW;?>html/home.php">
-                                    <i class="fa fa-home"></i>
-                                </a>
-                            </li>
-                            <li><span>Novo Memorando</span></li>
-                        </ol>
-                        <a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
-                    </div>
-                </header>
+    <body>
+        <section class="body">
+            <!-- start: header -->
+            <div id="header"></div>
+            <!-- end: header -->
+            <div class="inner-wrapper">
+                <!-- start: sidebar -->
+                <aside id="sidebar-left" class="sidebar-left menuu"></aside>
+                <!-- end: sidebar -->
+                <section role="main" class="content-body">
+                    <header class="page-header">
+                        <h2>Novo Memorando</h2>
+                        <div class="right-wrapper pull-right">
+                            <ol class="breadcrumbs">
+                                <li>
+                                    <a href="<?php echo WWW;?>html/home.php">
+                                        <i class="fa fa-home"></i>
+                                    </a>
+                                </li>
+                                <li><span>Novo Memorando</span></li>
+                            </ol>
+                            <a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
+                        </div>
+                    </header>
                 
                 <!-- start: page -->
  

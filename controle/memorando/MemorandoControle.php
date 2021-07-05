@@ -61,9 +61,6 @@ class MemorandoControle
         $memorandoDAO = new MemorandoDAO();
         
 
-        //$pdo = new PDO('mysql:host=localhost; dbassunto;', 'root', '');
-
-        //$stmt = $pdo->prepare('INSERT INTO')
         
         try
         {
