@@ -79,7 +79,7 @@ foreach ($docfuncional as $key => $value) {
 }
 $docfuncional = json_encode($docfuncional);
 
-$dependente = $pdo->query("SELECT 
+$dependente = $pdo->query("SELECT
 fdep.id_dependente AS id_dependente, p.nome AS nome, p.cpf AS cpf, par.descricao AS parentesco
 FROM funcionario_dependentes fdep
 LEFT JOIN funcionario f ON f.id_funcionario = fdep.id_funcionario
@@ -184,6 +184,7 @@ $dependente = json_encode($dependente);
     .btn i {
       color: white;
     }
+
   </style>
   <!-- jquery functions -->
   <script>
@@ -248,7 +249,7 @@ $dependente = json_encode($dependente);
       $("#botaoEditarEndereco").attr('onclick', "return cancelar_endereco()");
 
     }  
-    
+   
 
     function cancelar_endereco() {
       $("#cep").prop('disabled', true);
@@ -266,7 +267,7 @@ $dependente = json_encode($dependente);
       $("#botaoEditarEndereco").removeAttr('onclick');
       $("#botaoEditarEndereco").attr('onclick', "return editar_endereco()");
 
-    } 
+    }
 
 
 
@@ -310,7 +311,7 @@ $dependente = json_encode($dependente);
       $("#data_admissao").prop('disabled', false);
       $("#situacao").prop('disabled', false);
       $("#cargo").prop('disabled', false);
-      
+     
 
       $("#botaoEditarOutros").html('Cancelar');
       $("#botaoSalvarOutros").prop('disabled', false);
@@ -339,7 +340,7 @@ $dependente = json_encode($dependente);
       $("#botaoEditarOutros").attr('onclick', "return editar_outros()");
 
     }
-    
+   
 
     // function editar_remuneracao() {
     //   enableForm("formRemuneracao");
@@ -440,7 +441,7 @@ $dependente = json_encode($dependente);
         $("#orgao_emissor").val(item.orgao_emissor).prop('disabled', true);
         $("#data_expedicao").val(alterardate(item.data_expedicao)).prop('disabled', true);
         $("#cpf").val(cpf).prop('disabled', true);
-        
+       
 
         //Outros
         $("#pis").val(item.pis).prop('disabled', true);
@@ -454,7 +455,7 @@ $dependente = json_encode($dependente);
         $("#data_admissao").val(alterardate(item.data_admissao)).prop('disabled', true);
         $("#situacao").val(item.id_situacao).prop('disabled', true);
         $("#cargo").val(item.id_cargo).prop('disabled', true);
-        
+       
 
         //CARGA HORÁRIA
 
@@ -474,7 +475,7 @@ $dependente = json_encode($dependente);
         $("#carga_horaria_mensal").text("Carga horária mensal: " + (item.carga_horaria || "Sem informação"));
         $("#carga_horaria_mensal").text("Carga horária mensal: " + (item.carga_horaria || "Sem informação"));
 
-    
+   
 
         if (item.escala) {
           $("#escala_input").val(item.escala);
@@ -511,9 +512,9 @@ $dependente = json_encode($dependente);
                   $("#radioTransporteNaoPossui").prop('checked',false).prop('disabled', true);
                   $("#esconder_exibir").show();
                   $("#num_transporte").val(item.vale_transporte).prop('disabled', true);
-                  
+                 
                 }else {
-                  
+                 
                   $("#radioTransportePossui").prop('checked',false).prop('disabled', true);
                   $("#radioTransporteNaoPossui").prop('checked',true).prop('disabled', true);
 
@@ -552,7 +553,7 @@ $dependente = json_encode($dependente);
 
           );
 
-                      
+                     
       })
     });
 
@@ -678,16 +679,16 @@ $dependente = json_encode($dependente);
 
 
     /*function exibir_vale_transporte() {
-    
+   
        $("#esconder_exibir").show();
-    
+   
     }
-    
+   
     function esconder_vale_transporte() {
        
        document.getElementById('num_transporte').value=("");
        $("#esconder_exibir").hide();
-    
+   
     }*/
 
     function exibir_reservista() {
@@ -771,7 +772,7 @@ $dependente = json_encode($dependente);
     };
 
     function testaCPF(strCPF) { //strCPF é o cpf que será validado. Ele deve vir em formato string e sem nenhum tipo de pontuação.
-      var strCPF = strCPF.replace(/[^\d]+/g, ''); // Limpa a string do CPF removendo espaços em branco e caracteres especiais. 
+      var strCPF = strCPF.replace(/[^\d]+/g, ''); // Limpa a string do CPF removendo espaços em branco e caracteres especiais.
       // PODE SER QUE NÃO ESTEJA LIMPANDO COMPLETAMENTE. FAVOR FAZER O TESTE!!!!
       var Soma;
       var Resto;
@@ -1018,6 +1019,7 @@ $dependente = json_encode($dependente);
       alert("Cadastrado com sucesso o EPI!");
 
     }
+   
 
 
 
@@ -1073,7 +1075,7 @@ $dependente = json_encode($dependente);
                                     }else{
                                       echo '<img src="../img/semfoto.png" class="rounded img-responsive" alt="John Doe">';
                                     }
-                                   } 
+                                   }
                                  }
                                  else
                                  {
@@ -1265,9 +1267,9 @@ $dependente = json_encode($dependente);
                     </div>
                   </div>
                 </div>  
-                
+               
 
-                <!-- 
+                <!--
                   Aba de remuneração do funcionário
 
                 -->
@@ -1304,7 +1306,7 @@ $dependente = json_encode($dependente);
                       </table>
                        <h5>Soma:</h5><div class="total"></div>
 
-                      
+                     
                       <button id="excluir" type="button" class="btn btn-success" data-toggle="modal" data-target="#adicionar">Adicionar</button>
                     </div><br>
                     <div class="modal fade" id="adicionar" role="dialog">
@@ -1362,7 +1364,7 @@ $dependente = json_encode($dependente);
 
 
 
-                <!-- 
+                <!--
                   Aba epi do funcionario
 
                 -->
@@ -1690,7 +1692,7 @@ $dependente = json_encode($dependente);
                 </div>
 
 
-                <!-- 
+                <!--
                   Aba de carga horária do funcionário
 
                 -->
@@ -1720,7 +1722,7 @@ $dependente = json_encode($dependente);
                               ?>
                             </select>
                           </div>
-                          
+                         
                         </div>
 
                         <div class="form-group">
@@ -1732,10 +1734,41 @@ $dependente = json_encode($dependente);
                           <option value="1"> Segunda à Sexta, folga Sábado e Domingo</option>
                           <option value="2"> Dias Alternados</option>
                         </select>
-  
-                            
+                       
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+
+      $(document).ready(function(){
+
+        $("#tipoCargaHoraria_input").on('change',function(){
+
+          var selectValor = $(this).val();
+          if(selectValor==1){
+            $("#diaTrabalhado").hide();
+        }
+        else
+          if(selectValor==2){
+            $("#diaTrabalhado").show();
+          }
+       
+        });
+
+      });
+    /*function mostraAlerta(elemento)
+    {
+        var teste = (elemento.value);
+        if(teste==1){
+          $('#pai').children('div').hide();
+       
+      }
+    }*/
+</script>
+ 
+                           
                           </div>
-                      
+                     
                         </div>
                         <div class="form-group">
                           <label class="col-md-3 control-label">Primeira entrada</label>
@@ -1761,22 +1794,13 @@ $dependente = json_encode($dependente);
                             <input type="time" placeholder="07:25" class="form-control" name="saida2" id="saida2_input">
                           </div>
                         </div>
-                        
-
-                        <?php
-                        if($_POST['tipoCargaHoraria']==2){
-
-
-                        
-                        
-
-                       ?>
-                       
+                     
 
                        
+                        <div id="diaTrabalhado">
                         <div class="text-center">
                           <h3 class="col-md-12">Dias Trabalhados</h3>
-                          <div class="btn-group ">
+                          <div class="btn-group">
                             <label class="btn btn-primary ">
                               <input type="checkbox" id="diaTrabalhado_Seg" name="trabSeg" value="Seg">Seg
                               <span class="fa fa-check"></span>
@@ -1811,11 +1835,8 @@ $dependente = json_encode($dependente);
                             </label>
                           </div>
                         </div>
-                        <?php
-                      }
-                      else{}
-                     
-                        ?>
+                        </div>
+
                         <div class="text-center">
                           <h3 class="col-md-12">Dias de Folga</h3>
                           <div class="btn-group ">
@@ -1857,8 +1878,8 @@ $dependente = json_encode($dependente);
                           <h3 class="text-center col-md-12">Carga Horária</h3>
                           <ul class="nav nav-children" id="info">
                             <li id="total"> Carga horária diária:</br></li>
-                            
-                    
+                           
+                   
                            
                           <li id="carga_horaria_mensal">Carga horária mensal:</li>
                            
@@ -1879,8 +1900,8 @@ $dependente = json_encode($dependente);
                   </section>
                 </div>
 
-                <!-- 
-                  Aba de documentos do funcionário 
+                <!--
+                  Aba de documentos do funcionário
 
                 -->
 
@@ -1900,7 +1921,7 @@ $dependente = json_encode($dependente);
                       <input type="hidden" name="nomeClasse" value="FuncionarioControle">
                       <input type="hidden" name="metodo" value="alterarDocumentacao">
                       <div class="form-group">
-                  
+                 
                         <label class="col-md-3 control-label" for="profileCompany">Número do RG</label>
                         <div class="col-md-6">
                           <input type="text" class="form-control" name="rg" id="rg" onkeypress="return Onlynumbers(event)" placeholder="Ex: 22.222.222-2" onkeyup="mascara('##.###.###-#',this,event)">
@@ -1930,7 +1951,7 @@ $dependente = json_encode($dependente);
                           <p id="cpfInvalido" style="display: none; color: #b30000">CPF INVÁLIDO!</p>
                         </div>
                       </div>
-                      
+                     
                       <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
                       <button type="button" class="btn btn-primary" id="botaoEditarDocumentacao" onclick="return editar_documentacao()">Editar</button>
                       <input id="botaoSalvarDocumentacao" type="submit" class="btn btn-primary" disabled="true" value="Salvar" onclick="funcao3()">
@@ -1938,9 +1959,9 @@ $dependente = json_encode($dependente);
                   </div>
                   </section>
                   </div>
-                            
-                
-                  
+                           
+               
+                 
 
                 <!-- Aba de arquivos -->
 
@@ -2243,7 +2264,7 @@ $dependente = json_encode($dependente);
             </div>
           </section>
         </div>
-        
+       
 
         <!-- end: page -->
       </section>
@@ -2316,7 +2337,7 @@ $dependente = json_encode($dependente);
                         $('.tabela').each(function(){
                         total += parseInt(jQuery(this).text());
                         });
-      
+     
                         $('.total').html(total);
 
                           });
