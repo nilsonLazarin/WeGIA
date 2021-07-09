@@ -40,6 +40,7 @@
        $msg = "Você não tem as permissões necessárias para essa página.";
        header("Location: ./home.php?msg_c=$msg");
       }	
+      
 	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
 	require_once "personalizacao_display.php";
   require_once ROOT."/controle/FuncionarioControle.php";
@@ -252,6 +253,244 @@
             $(".menuu").load("menu.php");
          });
       </script>
+      <script type="text/javascript">
+
+      function editar_informacoes_pessoais() {
+         $("#nomeForm").prop('disabled', false);
+         $("#sobrenomeForm").prop('disabled', false);
+         $("#radioM").prop('disabled', false);
+         $("#radioF").prop('disabled', false);
+         $("#telefone1form").prop('disabled', false);
+         $("#telefone2form").prop('disabled', false);
+         $("#telefone2form").prop('disabled', false);
+         $("#nascimento").prop('disabled', false);
+         $("#pai").prop('disabled', false);
+         $("#mae").prop('disabled', false);
+         $("#sangue").prop('disabled', false);
+
+         $("#botaoEditarIP").html('Cancelar');
+         $("#botaoSalvarIP").prop('disabled', false);
+         $("#botaoEditarIP").removeAttr('onclick');
+         $("#botaoEditarIP").attr('onclick', "return cancelar_informacoes_pessoais()");
+
+    }
+
+      $(function () {
+         $("#header").load("header.php");
+         $(".menuu").load("menu.php");
+
+          $("#cep").prop('disabled', true);
+          $("#uf").prop('disabled', true);
+          $("#cidade").prop('disabled', true);
+          $("#bairro").prop('disabled', true);
+          $("#rua").prop('disabled', true);
+          $("#numero_residencia").prop('disabled', true);
+          $("#complemento").prop('disabled', true);
+          $("#ibge").prop('disabled', true);
+         var endereco = <?php echo $_SESSION['endereco'];?> ;
+         if(endereco=="")
+         {
+            $("#metodo").val("incluirEndereco");
+         }
+         else
+         {
+            $("#metodo").val("alterarEndereco");
+         }
+         $.each(endereco,function(i,item){   
+            console.log(endereco);
+              $("#nome").val(item.nome).prop('disabled', true);
+              $("#cep").val(item.cep).prop('disabled', true);
+              $("#uf").val(item.estado).prop('disabled', true);
+              $("#cidade").val(item.cidade).prop('disabled', true);
+              $("#bairro").val(item.bairro).prop('disabled', true);
+              $("#rua").val(item.logradouro).prop('disabled', true);
+              $("#numero_residencia").val(item.numero_endereco).prop('disabled', true);
+              $("#complemento").val(item.complemento).prop('disabled', true);
+              $("#ibge").val(item.ibge).prop('disabled', true);
+              if (item.numero_endereco=='Sem número' || item.numero_endereco==null ) {
+                $("#numResidencial").prop('checked',true);
+              }
+              });
+       });  
+       function editar_endereco(){
+         
+            $("#nome").prop('disabled', false);
+            $("#cep").prop('disabled', false);
+            $("#uf").prop('disabled', false);
+            $("#cidade").prop('disabled', false);
+            $("#bairro").prop('disabled', false);
+            $("#rua").prop('disabled', false);
+            $("#complemento").prop('disabled', false);
+            $("#ibge").prop('disabled', false);         
+            $("#numResidencial").prop('disabled', false);
+            $("#numero_residencia").prop('disabled', false)
+            $("#botaoEditarEndereco").html('Cancelar');
+            $("#botaoSalvarEndereco").prop('disabled', false);
+            $("#botaoEditarEndereco").removeAttr('onclick');
+            $("#botaoEditarEndereco").attr('onclick', "return cancelar_endereco()");
+        }
+        function numero_residencial()
+        {
+         if($("#numResidencial").prop('checked'))
+         {
+            document.getElementById("numero_residencia").readOnly=true;
+         }
+         else
+         {
+            document.getElementById("numero_residencia").readOnly=false;
+         }
+        }
+        function cancelar_endereco(){
+            $("#cep").prop('disabled', true);
+            $("#uf").prop('disabled', true);
+            $("#cidade").prop('disabled', true);
+            $("#bairro").prop('disabled', true);
+            $("#rua").prop('disabled', true);
+            $("#complemento").prop('disabled', true);
+            $("#ibge").prop('disabled', true);
+            $("#numResidencial").prop('disabled', true);
+            $("#numero_residencia").prop('disabled', true);
+         
+            $("#botaoEditarEndereco").html('Editar');
+            $("#botaoSalvarEndereco").prop('disabled', true);
+            $("#botaoEditarEndereco").removeAttr('onclick');
+            $("#botaoEditarEndereco").attr('onclick', "return editar_endereco()");
+         
+          }
+        function limpa_formulário_cep() {
+            //Limpa valores do formulário de cep.
+            document.getElementById('rua').value=("");
+            document.getElementById('bairro').value=("");
+            document.getElementById('cidade').value=("");
+            document.getElementById('uf').value=("");
+            document.getElementById('ibge').value=("");
+          }
+
+        function meu_callback(conteudo) {
+            if (!("erro" in conteudo)) {
+                //Atualiza os campos com os valores.
+                document.getElementById('rua').value=(conteudo.logradouro);
+                document.getElementById('bairro').value=(conteudo.bairro);
+                document.getElementById('cidade').value=(conteudo.localidade);
+                document.getElementById('uf').value=(conteudo.uf);
+                document.getElementById('ibge').value=(conteudo.ibge);
+            }
+            else {
+                //CEP não Encontrado.
+                limpa_formulário_cep();
+                alert("CEP não encontrado.");
+            }
+          }
+
+        function pesquisacep(valor) {
+            //Nova variável "cep" somente com dígitos.
+            var cep = valor.replace(/\D/g, '');
+       
+            //Verifica se campo cep possui valor informado.
+            if (cep != "") {
+       
+              //Expressão regular para validar o CEP.
+              var validacep = /^[0-9]{8}$/;
+     
+              //Valida o formato do CEP.
+              if(validacep.test(cep)) {
+     
+                //Preenche os campos com "..." enquanto consulta webservice.
+                document.getElementById('rua').value="...";
+                document.getElementById('bairro').value="...";
+                document.getElementById('cidade').value="...";
+                document.getElementById('uf').value="...";
+                document.getElementById('ibge').value="...";
+   
+                //Cria um elemento javascript.
+                var script = document.createElement('script');
+   
+                //Sincroniza com o callback.
+                script.src = 'https://viacep.com.br/ws/'+ cep + '/json/?callback=meu_callback';
+   
+                //Insere script no documento e carrega o conteúdo.
+                document.body.appendChild(script);
+     
+              } //end if.
+              else {
+                  //cep é inválido.
+                  limpa_formulário_cep();
+                  alert("Formato de CEP inválido.");
+              }
+            } //end if.
+            else {
+                //cep sem valor, limpa formulário.
+                limpa_formulário_cep();
+            }
+         
+          };
+          function gerarDocFuncional() {
+      url = './funcionario/documento_listar.php';
+      $.ajax({
+        data: '',
+        type: "POST",
+        url: url,
+        async: true,
+        success: function(response) {
+          var documento = response;
+          $('#tipoDocumento').empty();
+          $('#tipoDocumento').append('<option selected disabled>Selecionar...</option>');
+          $.each(documento, function(i, item) {
+            $('#tipoDocumento').append('<option value="' + item.id_docfuncional + '">' + item.nome_docfuncional + '</option>');
+          });
+        },
+        dataType: 'json'
+      });
+    }
+
+    function adicionarDocFuncional() {
+      url = './funcionario/documento_adicionar.php';
+      var nome_docfuncional = window.prompt("Cadastre um novo tipo de Documento:");
+      if (!nome_docfuncional) {
+        return
+      }
+      nome_docfuncional = nome_docfuncional.trim();
+      if (nome_docfuncional == '') {
+        return
+      }
+
+      data = 'nome_docfuncional=' + nome_docfuncional;
+
+      $.ajax({
+        type: "POST",
+        url: url,
+        data: data,
+        success: function(response) {
+          gerarDocFuncional();
+        },
+        dataType: 'text'
+      })
+    }
+               function listarFunDocs(docfuncional){
+               $("#doc-tab").empty();
+               $.each(docfuncional, function(i, item) {
+                 $("#doc-tab")
+                   .append($("<tr>")
+                     .append($("<td>").text(item.nome_docfuncional))
+                     .append($("<td>").text(item.data))
+                     .append($("<td style='display: flex; justify-content: space-evenly;'>")
+                       .append($("<a href='./funcionario/documento_download.php?id_doc=" + item.id_fundocs + "' title='Visualizar ou Baixar'><button class='btn btn-primary'><i class='fas fa-download'></i></button></a>"))
+                       .append($("<a onclick='removerFuncionarioDocs("+item.id_fundocs+")' href='#' title='Excluir'><button class='btn btn-danger'><i class='fas fa-trash-alt'></i></button></a>"))
+                     )
+                   )
+               });
+             }
+
+             $(function() {
+               $('#datatable-docfuncional').DataTable({
+                 "order": [
+                   [0, "asc"]
+                 ]
+               });
+             });
+
+    </script>
+    
    </head>
    <body>
       <section class="body">
@@ -359,70 +598,11 @@
                   <a href="#overview" data-toggle="tab">Visão Geral</a>
                </li>
                <li>
-                  <a href="#edit" data-toggle="tab">Editar Dados</a>
-               </li>
-               <li>
-                  <a href="#docs" data-toggle="tab">Documentos</a>
+                  <a href="#arquivo" data-toggle="tab">Documentação</a>
                </li>
             </ul>
             <div class="tab-content">
             <div id="overview" class="tab-pane active">
-               <div>
-                  <section class="panel">
-                     <header class="panel-heading">
-                        <div class="panel-actions">
-                           <a href="#" class="fa fa-caret-down"></a>
-                        </div>
-                        <h2 class="panel-title">Visão Geral</h2>
-                     </header>
-                     <div class="panel-body" style="display: block;">
-                        <ul class="nav nav-children" id="info">
-                           <li id="cap">Dados Pessoais:</li>
-                           <li id="nome">Nome:</li>
-                           <li id="sexo">Sexo:</li>
-                           <li id="pai">Nome do pai:</li>
-                           <li id="mae">Nome do mãe:</li>
-                           <li id="contato_urgente">Nome do contato urgente:</li>
-                           <li id="telefone1">Telefone1:</li>
-                           <li id="telefone2">Telefone2:</li>
-                           <li id="telefone3">Telefone3:</li>
-                           <li id="sangue">Tipo Sanguineo</li>
-                           <li id="nascimento">Data de Nascimento:</li>
-                           <li id="cep">CEP:</li>
-                           <li id="cidade">Cidade:</li>
-                           <li id="bairro">Bairro:</li>
-                           <li id="logradouro">Logradouro:</li>
-                           <li id="numero">Número:</li>
-                           <li id="complemento">Complemento:</li>
-                           <br/>
-                           <li id="cap">RG</li>
-                           <li id="rg">Número:</li>
-                           <li id="data_expedicao">Data de Expedição do RG:</li>
-                           <li id="orgao"></li>
-                           <br/>
-                           <li id="cap">CPF</li>
-                           <li id="cpf">Número:</li>
-                           <br/>
-                           <li id="cap">Beneficios</li>
-                           <li id="inss">INSS:</li>
-                           <li id="loas">LOAS:</li>
-                           <li id="funrural">FUNRURAL:</li>
-                           <li id="certidao">Certidão de nascimento:</li>
-                           <li id="casamento">Certidão de casamento:</li>
-                           <li id="curatela">CTPS:</li>
-                           <li id="saf">SAF:</li>
-                           <li id="sus">SUS:</li>
-                           <li id="bpc">BPC:</li>
-                           <li id="ctps">CTPS:</li>
-                           <li id="titulo">Titulo de eleitor:</li>
-                           <li id="observacao">Observações:</li>
-                           <br/>
-                        </ul>
-                     </div>
-                  </section>
-               </div>
-            </div>
-            <div id="edit" class="tab-pane">
                <h4 class="mb-xlg">Informações Pessoais</h4>
                <form id="formulario" action="../controle/control.php" enctype="multipart/form-data" method="POST">
                   <fieldset>
@@ -458,13 +638,13 @@
                         </div>
                      </div>
                      <div class="form-group">
-                        <label class="col-md-3 control-label">Telefone contato 2</label>
+                        <label class="col-md-3 control-label" for="telefone2">Telefone contato 2</label>
                         <div class="col-md-8">
                            <input type="text" class="form-control" maxlength="14" minlength="14" name="telefone2" id="telefone2form" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeyup="mascara('(##)#####-####',this,event)" required>
                         </div>
                      </div>
                      <div class="form-group">
-                        <label class="col-md-3 control-label">Telefone contato 3</label>
+                        <label class="col-md-3 control-label" for="telefone3">Telefone contato 3</label>
                         <div class="col-md-8">
                            <input type="text" class="form-control" maxlength="14" minlength="14" name="telefone3" id="telefone3form" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeyup="mascara('(##)#####-####',this,event)" required>
                         </div>
@@ -472,7 +652,7 @@
                      <div class="form-group">
                         <label class="col-md-3 control-label">Nascimento</label>
                         <div class="col-md-8">
-                           <input type="date" max=<?php echo date('Y-m-d'); ?> maxlength="10" class="form-control" name="nascimento" id="nascimentoform" required>
+                            <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" id="nascimentoform" max=<?php echo date('Y-m-d'); ?>>
                         </div>
                      </div>
                      <div class="form-group">
@@ -521,13 +701,13 @@
                      <div class="form-group">
                         <label class="col-md-3 control-label" for="dataExpedicao">Data de Expedição</label>
                         <div class="col-md-6">
-                           <input type="date" max=<?php echo date('Y-m-d'); ?> class="form-control" maxlength="10" name="dataExpedicao" id="expedicaoform" >
+                            <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" name="dataExpedicao" id="expedicaoform" max=<?php echo date('Y-m-d'); ?>>
                         </div>
                      </div>
                      <div class="form-group">
                         <label class="col-md-3 control-label">Número do CPF</label>
                         <div class="col-md-6">
-                           <input type="text" class="form-control" id="cpfform" id="cpfform" name="numeroCPF" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)"" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##',this,event)">
+                             <input type="text" class="form-control" id="cpfform" name="numeroCPF" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##',this,event)">
                         </div>
                      </div>
                      <div class="form-group">
@@ -536,145 +716,77 @@
                            <p id="cpfInvalido" style="display: none; color: #b30000">CPF INVÁLIDO!</p>
                         </div>
                      </div>
-                     <hr class="dotted short">
-                     <div class="form-group">
-                        <label class="col-md-3 control-label">Benefícios</label>
-                        <div class="col-md-8 " >
-												<div class="">
-													<label>
-														<input type="checkbox" name="certidao" value="Possui" id="certidao-checkbox" >Certidão de Nascimento			
-													</label><br>
-													<label>
-														<input type="checkbox" name="certidaoCasamento" value="Possui" id="certidaoCasamento-checkbox" >Certidão de Casamento			
-													</label><br>
-													<label>
-														<input type="checkbox" name="curatela" value="Possui" id="curatela-checkbox" >Curatela
-													</label><br>
-													<label>
-														<input type="checkbox" name="inss" value="Possui" id="inss-checkbox" >INSS
-													</label><br>
-													
-													<label>
-														<input type="checkbox" name="loas" value="Possui" id="loas-checkbox" >LOAS
-													</label><br>
-													
-													<label>
-														<input type="checkbox" name="funrural" value="Possui" id="funrural-checkbox" >FUNRURAL
-													</label><br>														
-													<label>
-														<input type="checkbox" name="tituloEleitor" value="Possui" id="tituloEleitor-checkbox" >Título de Eleitor
-														<input type="hidden" name="nomeClasse" value="InternoControle">
-														<input type="hidden" name="metodo" value="alterar">
-													</label><br>
-													
-													<label>
-														<input type="checkbox" name="ctps" value="Possui" id="ctps-checkbox" >CTPS
-													</label><br>
-													
-													<label>
-														<input type="checkbox" name="saf" value="Possui" id="saf-checkbox" >SAF
-													</label><br>
-													
-													<label>
-														<input type="checkbox" name="sus" value="Possui" id="sus-checkbox" >SUS
-													</label><br>
-
-													<label>
-														<input type="checkbox" name="bpc" value="Possui" id="bpc-checkbox" >BPC
-													</label><br>
-												</div>
-											</div>
-                        <br>
-                        <hr class="dotted short">
-                        <h4 class="mb-xlg doch4" id="label-imagens" style="display: none;">Imagens</h4>
-                        <div class="form-group" id="imgRg" style="display: none;">
-                           <label class="col-md-4 control-label" id="label-rg" for="imgRg" >RG:</label>
-                           <div class="col-md-8">
-                              <input type="file" name="imgRg" size="60"  class="form-control" >
+                  <section class="panel">
+                    <header class="panel-heading">
+                      <div class="panel-actions">
+                        <a href="#" class="fa fa-caret-down"></a>
+                      </div>
+                      <h2 class="panel-title">Endereço</h2>
+                    </header>
+                  <div class="panel-body">
+                    <!--Endereço-->
+                    <hr class="dotted short">
+                    <form id="endereco" class="form-horizontal" method="post" action="../controle/control.php">
+                      <input type="hidden" name="nomeClasse" value="EnderecoControle">
+                      <input type="hidden" name="metodo" value="alterarEndereco">
+                      <div class="form-group">
+                        <label class="col-md-3 control-label" for="cep">CEP</label>
+                                    <div class="col-md-8">
+                                                <input type="text" name="cep" value="" size="10" onblur="pesquisacep(this.value);" class="form-control" id="cep" maxlength="9" placeholder="Ex: 22222-222" onkeydown="return Onlynumbers(event)" onkeyup="mascara('#####-###',this,event)">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="uf">Estado</label>
+                                            <div class="col-md-8">
+                                                <input type="text" name="uf" size="60" class="form-control" id="uf">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="cidade">Cidade</label>
+                                            <div class="col-md-8">
+                                                <input type="text" size="40" class="form-control" name="cidade" id="cidade">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="bairro">Bairro</label>
+                                            <div class="col-md-8">
+                                                <input type="text" name="bairro" size="40" class="form-control" id="bairro">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="rua">Logradouro</label>
+                                            <div class="col-md-8">
+                                                <input type="text" name="rua" size="2" class="form-control" id="rua">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="profileCompany">Número residencial</label>
+                                            <div class="col-md-4">
+                                                <input type="number" min="0" oninput="this.value = Math.abs(this.value)" class="form-control" name="numero_residencia" id="numero_residencia">
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Não possuo número
+                                                    <input type="checkbox" id="numResidencial" name="naoPossuiNumeroResidencial" style="margin-left: 4px" onclick="return numero_residencial()">
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="profileCompany">Complemento</label>
+                                            <div class="col-md-8">
+                                                <input type="text" class="form-control" name="complemento" id="complemento" id="profileCompany">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="ibge">IBGE</label>
+                                            <div class="col-md-8">
+                                                <input type="text" size="8" name="ibge" class="form-control" id="ibge">
+                                    
+                              </div>
                            </div>
-                        </div>
-                        <div class="form-group" id="imgCpf"  style="display: none;">
-                           <label class="col-md-4 control-label" for="imgCpf" id="label-cpf">CPF:</label>
-                           <div class="col-md-8">
-                              <input type="file" name="imgCpf" size="60" class="form-control">
-                           </div>
-                        </div>
-                        <div class="form-group" id="imgCertidaoNascimento" style="display: none;">
-                           <label class="col-md-4 control-label" for="imgCertidaoNascimento" id="label-certidao">Certidão de Nascimento:</label>
-                           <div class="col-md-8">
-                              <input type="file" name="imgCertidaoNascimento" size="60"  class="form-control">
-                           </div>
-                        </div>
-                        <div class="form-group" id="imgCuratela" style="display: none;">
-                           <label class="col-md-4 control-label" id="label-curatela" for="imgCuratela">Curatela:</label>
-                           <div class="col-md-8">
-                              <input type="file" name="imgCuratela" size="60"  class="form-control">
-                           </div>
-                        </div>
-                        <div class="form-group" id="imgInss" style="display: none;">
-                           <label class="col-md-4 control-label"  for="imgInss" id="label-inss">INSS:</label>
-                           <div class="col-md-8">
-                              <input type="file" name="imgInss" size="60"  class="form-control">
-                           </div>
-                        </div>
-                        <div class="form-group" id="imgLoas" style="display: none;">
-                           <label class="col-md-4 control-label" id="label-loas"  for="imgLoas">LOAS:</label>
-                           <div class="col-md-8">
-                              <input type="file" name="imgLoas" size="60" class="form-control">
-                           </div>
-                        </div>
-                        <div class="form-group" id="imgFunrural" style="display: none;">
-                           <label class="col-md-4 control-label" id="label-funrural" for="imgFunrural">FUNRURAL:</label>
-                           <div class="col-md-8">
-                              <input type="file" name="imgFunrural" size="60" class="form-control">
-                           </div>
-                        </div>
-                        <div class="form-group" id="imgTituloEleitor" style="display: none;">
-                           <label class="col-md-4 control-label" id="label-titulo" for="imgTituloEleitor">Título de Eleitor:</label>
-                           <div class="col-md-8">
-                              <input type="file" name="imgTituloEleitor" size="60" class="form-control">
-                           </div>
-                        </div>
-                        <div class="form-group" id="imgCtps" style="display: none;">
-                           <label class="col-md-4 control-label" id="label-ctps" for="imgCtps">CTPS:</label>
-                           <div class="col-md-8">
-                              <input type="file" name="imgCtps" size="60" class="form-control">
-                           </div>
-                        </div>
-                        <div class="form-group" id="imgSaf" style="display: none;">
-                           <label class="col-md-4 control-label" id="label-saf" for="imgSaf">SAF:</label>
-                           <div class="col-md-8">
-                              <input type="file" name="imgSaf" size="60" class="form-control">
-                           </div>
-                        </div>
-                        <div class="form-group" id="imgSus" style="display: none;">
-                           <label class="col-md-4 control-label" id="label-sus" for="imgSus">SUS:</label>
-                           <div class="col-md-8">
-                              <input type="file" name="imgSus" size="60" class="form-control">
-                           </div>
-                        </div>
-                        <div class="form-group" id="imgBpc"  style="display: none;">
-                           <label class="col-md-4 control-label" for="imgBpc">BPC:</label>
-                           <div class="col-md-8">
-                              <input type="file" name="imgBpc" size="60"class="form-control">
-                           </div>
-                        </div>
+                        
                      </div>
-                     <br/>
-                     <section class="panel">
-                        <header class="panel-heading">
-                           <div class="panel-actions">
-                              <a href="#" class="fa fa-caret-down"></a>
-                           </div>
-                           <h2 class="panel-title">Informações do Interno</h2>
-                        </header>
-                        <div class="panel-body" style="display: block;">
-                           <section class="simple-compose-box mb-xlg ">
-                              <textarea id="observacaoform" name="observacao" data-plugin-textarea-autosize placeholder="Observações" rows="1" style="height: 10vw"></textarea>
-                           </section>
-                        </div>
-                     </section>
-                  </fieldset>
+           
+                           
                   <div class="panel-footer">
                      <div class="row">
                         <div class="col-md-9 col-md-offset-3">
@@ -701,8 +813,198 @@
                </div>
                </div>
             </div>
-            <div id="docs" class="tab-pane">
-            </div>
+
+            <!-- Aba de Documentação -->
+
+            <div id="arquivo" class="tab-pane">
+                  <section class="panel">
+                    <header class="panel-heading">
+                      <div class="panel-actions">
+                        <a href="#" class="fa fa-caret-down"></a>
+                      </div>
+                      <h2 class="panel-title">Arquivos</h2>
+                    </header>
+                    <div class="panel-body">
+                      <table class="table table-bordered table-striped mb-none" id="datatable-docfuncional">
+                        <thead>
+                          <tr>
+                            <th>Arquivo</th>
+                            <th>Data</th>
+                            <th>Ação</th>
+                          </tr>
+                        </thead>
+                        <tbody id="doc-tab">
+
+                        </tbody>
+                      </table>
+                      <br>
+                      <!-- Button trigger modal -->
+                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#docFormModal">
+                        Adicionar
+                      </button>
+
+                      <!-- Modal Form Documentos -->
+                      <div class="modal fade" id="docFormModal" tabindex="-1" role="dialog" aria-labelledby="docFormModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header" style="display: flex;justify-content: space-between;">
+                              <h5 class="modal-title" id="exampleModalLabel">Adicionar Arquivo</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <form action='./funcionario/documento_upload.php' method='post' enctype='multipart/form-data' id='funcionarioDocForm'>
+                              <div class="modal-body" style="padding: 15px 40px">
+                                <div class="form-group" style="display: grid;">
+                                  <label class="my-1 mr-2" for="tipoDocumento">Tipo de Arquivo</label><br>
+                                  <div style="display: flex;">
+                                    <select name="id_docfuncional" class="custom-select my-1 mr-sm-2" id="tipoDocumento" required>
+                                      <option selected disabled>Selecionar...</option>
+                                      <option value="Certidão de Nascimento">Certidão de Nascimento</option>
+                                       <option value="Certidão de Casamento">Certidão de Casamento</option>
+                                       <option value="Curatela">Curatela</option>
+                                       <option value="INSS">INSS</option>
+                                       <option value="LOAS">LOAS</option>
+                                       <option value="FUNRURAL">FUNRURAL</option>
+                                       <option value="Título de Eleitor">Título de Eleitor</option>
+                                       <option value="CTPS">CTPS</option>
+                                       <option value="SAF">SAF</option>
+                                       <option value="SUS">SUS</option>
+                                       <option value="BPC">BPC</option> 
+                                       <option value="CPF">CPF</option>
+                                       <option value="Registro Geral">RG</option>
+                                      
+                                    
+                                    </select>
+                                   <!-- <a onclick="adicionarDocFuncional()" style="margin: 0 20px;"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a> -->
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <label for="arquivoDocumento">Arquivo</label>
+                                  <input name="arquivo" type="file" class="form-control-file" id="id_documento" accept="png;jpeg;jpg;pdf;docx;doc;odp" required>
+                                </div>
+
+                                <input type="number" name="id_interno" value="<?= $_GET['id']; ?>" style='display: none;'>
+
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                <input type="submit" value="Enviar" class="btn btn-primary">
+                              </div>
+                            </form>
+                            </div>
+                          </div>
+                        </div>
+                    </section>
+                  </div>
+
+
+
+
+
+           <!-- <div id="docs" class="tab-pane">
+                  <section class="panel">
+                    <header class="panel-heading">
+                      <div class="panel-actions">
+                        <a href="#" class="fa fa-caret-down"></a>
+                      </div>
+                      <h2 class="panel-title">Arquivos</h2>
+                    </header>
+                    <div class="panel-body">
+                      <table class="table table-bordered table-striped mb-none" id="datatable-docfuncional">
+                        <thead>
+                          <tr>
+                            <th>Arquivo</th>
+                            <th>Data</th>
+                            <th>Ação</th>
+                          </tr>
+                        </thead>
+                        <tbody id="doc-tab">
+
+                        </tbody>
+                      </table>
+                      <br> -->
+                      <!-- Button trigger modal -->
+                     <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#docFormModal">
+                        Adicionar
+                      </button> -->
+
+                      <!-- Modal Form Documentos -->
+                     <!-- <div class="modal fade" id="docFormModal" tabindex="-1" role="dialog" aria-labelledby="docFormModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header" style="display: flex;justify-content: space-between;">
+                              <h5 class="modal-title" id="exampleModalLabel">Adicionar Arquivo</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                          <form action='./funcionario/documento_upload.php' method='post' enctype='multipart/form-data' id='funcionarioDocForm'>
+                           <select name="descricao" id="teste">
+                              <option value="Certidão de Nascimento">Certidão de Nascimento</option>
+                              <option value="Certidão de Casamento">Certidão de Casamento</option>
+                              <option value="Curatela">Curatela</option>
+                              <option value="INSS">INSS</option>
+                              <option value="LOAS">LOAS</option>
+                              <option value="FUNRURAL">FUNRURAL</option>
+                              <option value="Título de Eleitor">Título de Eleitor</option>
+                              <option value="CTPS">CTPS</option>
+                              <option value="SAF">SAF</option>
+                              <option value="SUS">SUS</option>
+                              <option value="BPC">BPC</option> 
+                              <option value="CPF">CPF</option>
+                              <option value="Registro Geral">RG</option>
+                           </select><br/>
+            
+                              <p> Selecione a nova imagem</p>
+                              <div class="col-md-12">
+                                 <input type="file" name="doc" size="60"  class="form-control" > 
+                              </div><br/>
+                              <input type="hidden" name="id_documento" id="id_documento">
+                              <input type="hidden" name="id" value="<?php echo $_GET['id']; ?>">
+                              <input type="hidden" name="nomeClasse" value="DocumentoControle">
+                              <input type="hidden" name="metodo" value="alterar">
+                              <input type="submit" value="Confirmar" class="btn btn-success">
+                              <button button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                           </form>
+                           </div>
+                           </div>
+                           </div>
+                           </div>
+
+                                      
+                                    </select>
+                                    <a onclick="adicionarDocFuncional()" style="margin: 0 20px;"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <label for="arquivoDocumento">Arquivo</label>
+                                  <input name="arquivo" type="file" class="form-control-file" id="arquivoDocumento" accept="png;jpeg;jpg;pdf;docx;doc;odp" required>
+                                </div>
+
+                                <input type="number" name="id_funcionario" value="<?= $_GET['id_funcionario']; ?>" style='display: none;'>
+
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                <input type="submit" value="Enviar" class="btn btn-primary">
+                              </div>
+                            </form>
+                            </div>
+                          </div>
+                        </div>
+                    </section>
+                  </div> -->
+
+                 
+                   
+
+
+                 
+                                      
+                       
+
+
             <!-- end: page -->
          </section>
          <aside id="sidebar-right" class="sidebar-right">
