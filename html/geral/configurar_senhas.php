@@ -126,11 +126,11 @@ require_once ROOT."/html/personalizacao_display.php";
 		 	console.log(verificacao);
 
 		 	if (verificacao=='1') {
-		 		$('#erro').text('Confirmação de senha não coincide com nova senha');
+		 		alert("Confirmação de senha não coincide com nova senha");
 		 	}else if (verificacao=='2') {
-		 		$('#erro').text('Senha antiga está errada');
+		 		alert("Senha antiga está errada");
 		 	}else if (verificacao=='3') {
-		 		$('#erro').text('Senha alterada com sucesso!');
+		 		alert("Senha alterada com sucesso!");
 				
 		 	}
 
