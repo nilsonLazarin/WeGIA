@@ -183,29 +183,29 @@ require_once ROOT."/html/personalizacao_display.php";
 			}
 		}
 		?>
-		// $.each(despacho,function(i,item){
-		//	$("#listaDeDespachos")
-		//		.append($("<table class='table table-bordered table-striped mb-none' id='"+item.id+"'>")
-		//			.append($("<tr>")
-		//				.append($("<th>")
-		//					.text("Remetente"))
-		//				.append($("<td>")
-		//					.text(item.remetente))
-		//				.append($("<th>")
-		//					.text("Destinatario"))
-		//				.append($("<td>")
-		//					.text(item.destinatario)))
-		//			.append($("<tr>")
-		//				.append($("<th colspan=2>")
-		//					.text("Despacho"))
-		//				.append($("<th>")
-		//					.text("Data"))
-		//				.append($("<td>")
-		//					.text(item.data.substr(8,2)+"/"+item.data.substr(5,2)+"/"+item.data.substr(0,4)+" "+item.data.substr(10))))
-		//			.append($("<tr>")
-		//				.append($("<td colspan=4 id=texto"+item.id+">")
-		//					.html(item.texto))));
-		//});
+		 $.each(despacho,function(i,item){
+			$("#listaDeDespachos")
+				.append($("<table class='table table-bordered table-striped mb-none' id='"+item.id+"'>")
+					.append($("<tr>")
+						.append($("<th>")
+							.text("Remetente"))
+						.append($("<td>")
+						.text(item.remetente))
+						.append($("<th>")
+						.text("Destinatario"))
+					.append($("<td>")
+							.text(item.destinatario)))
+					.append($("<tr>")
+					.append($("<th colspan=2>")
+						.text("Despacho"))
+					.append($("<th>")
+							.text("Data"))
+			.append($("<td>")
+							.text(item.data.substr(8,2)+"/"+item.data.substr(5,2)+"/"+item.data.substr(0,4)+" "+item.data.substr(10))))
+				.append($("<tr>")
+					.append($("<td colspan=4 id=texto"+item.id+">")
+						.html(item.texto))));
+		});
 		$.each(despachoAnexo,function(i, item){
 			$("#"+item.id_despacho)
 				.append($("<tr>")
@@ -235,6 +235,23 @@ require_once ROOT."/html/personalizacao_display.php";
 
     });
 	</script>
+	 <script>
+        $(function(){
+            var funcionario=<?php echo $_SESSION['funcionarios2']?>;
+            $.each(funcionario,function(i,item){
+                $("#destinatario")
+                   // .append($("<option id="+item.id_pessoa+" value="+item.id_pessoa+" name="+item.id_pessoa+">"+item.nome+" "+item.sobrenome+"</option>"));
+            });
+            $("#header").load("<?php echo WWW;?>html/header.php");
+            $(".menuu").load("<?php echo WWW;?>html/menu.php");
+
+            var id_memorando = <?php echo $_GET['id_memorando']?>;
+            $("#id_memorando").val(id_memorando);
+
+            CKEDITOR.replace('despacho');
+        });
+    </script>
+
 
 	<style type="text/css">
 
@@ -319,9 +336,6 @@ require_once ROOT."/html/personalizacao_display.php";
         		display: none;
     		}
 		}
-		#endereco{
-			
-		}
 
 	</style>
 </head>
@@ -367,8 +381,8 @@ require_once ROOT."/html/personalizacao_display.php";
 					<header>
 						<h2 class="panel-title">
 							<center> 
-								<h3 align="center">
-						<p> <img src="<?php display_campo("Logo","file");?>" height="40"align="center" class="print-logo" style="margin-right: 700px;"></p> </h3>
+								
+						<p> <img src="<?php display_campo("Logo","file");?>" height="40" class="print-logo" style="margin-right: 700px;"></p>
 							WeGIA 
 							<p> Web Gerenciador Institucional</p>
 						</center>
@@ -377,9 +391,10 @@ require_once ROOT."/html/personalizacao_display.php";
 					</header>
 	
 						
-					<div class="panel-body" id="listaDeDespachos">
+						<div class="panel-body" id="">
 						<button style="margin-bottom: 0px !important;" class="not-printable mb-xs mt-xs mr-xs btn btn-default" id="btnPrint">Imprimir</button>
 						<br>
+
 						
 						<div class="just-printable">
 
@@ -415,6 +430,8 @@ require_once ROOT."/html/personalizacao_display.php";
 								
 					$pessoa_memorando = $pessoa_memorando["nome"] . ($pessoa_memorando["sobrenome"] ? (" " . $pessoa_memorando["sobrenome"]) : "");
 
+					
+
 					$anexo1= $pdo->query("SELECT nome FROM anexo WHERE id_despacho=$id_memorando;")->fetch(PDO::FETCH_ASSOC) ["nome"];
 
 					$anexo2 = $pdo->query("SELECT extensao FROM anexo WHERE id_despacho=$id_memorando;")->fetch(PDO::FETCH_ASSOC) ["extensao"];
@@ -439,7 +456,7 @@ require_once ROOT."/html/personalizacao_display.php";
 								
 										<?php
 										
-										echo(" $cidade - $endereco -  $data_expedicao 
+										echo(" $cidade - $estado,  $data_expedicao 
 											");
 									
 										?>
@@ -478,9 +495,70 @@ require_once ROOT."/html/personalizacao_display.php";
 						<div class="panel-heading"> </div>
 						
 						<br>
+						
+
 					</div>
+					
 				</div>
+				
+				
 				</div>
+				<header class="panel-heading">
+					<h2 class="panel-title">Conteúdo do despacho:</h2>
+				</header>	
+			<div class="panel-body" id="listaDeDespachos"></div> 
+
+
+
+
+				<header class="panel-heading">
+                        <h3 class="panel-title">Reenviar despacho</h3>
+                    </header>
+                    <div class="panel-body">
+
+                        <?php
+                        echo "<form action='".WWW."controle/control.php' method='post' enctype='multipart/form-data'>";
+                        ?>
+                            <div class="form-group">
+                                <label for=destinatario id=etiqueta_destinatario class='col-md-3 control-label'>Destino </label>
+                                <div class='col-md-6'>
+                                    <select name="destinatario" id="destinatario" required class='form-control mb-md'></select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for=arquivo id=etiqueta_arquivo class='col-md-3 control-label'>Arquivo </label>
+                                <div class='col-md-6'>
+                                    <input type="file" name="anexo[]" id="anexo" multiple>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                    <label for=texto id=etiqueta_despacho class='col-md-3 control-label'>Despacho </label>
+                                    <div class='col-md-6' id='div_texto' style="height: 500px;">
+                                        <textarea cols='30' rows='5' id='despacho' name='texto' required class='form-control'></textarea>
+                                    </div>
+                            </div>
+                            <div class='row'>
+                                <div class='col-md-9 col-md-offset-8'>
+                                    <input type='hidden' value='DespachoControle' name='nomeClasse' class='mb-xs mt-xs mr-xs btn btn-default'>
+                                </div>
+                                <div class='col-md-9 col-md-offset-8'>
+                                    <input type='hidden' value='incluir' name='metodo' class='mb-xs mt-xs mr-xs btn btn-default'>
+                                </div>
+                                <div class='col-md-9 col-md-offset-8'>
+                                    <input type='hidden' name='id_memorando' id='id_memorando' class='mb-xs mt-xs mr-xs btn btn-default'>
+                                </div>
+                                <div class='col-md-9 col-md-offset-8'>
+                                    <input type='hidden' name='modulo' value="memorando" class='mb-xs mt-xs mr-xs btn btn-default'>
+                                </div>
+                                <div class='col-md-9 col-md-offset-8'>
+                                    <input type='submit' value='Enviar' name='enviar' id='enviar' class='mb-xs mt-xs mr-xs btn btn-primary'>
+                                </div>
+                            </div>
+                        </form>
+                    </div> 
+                 
+				
+
 					<div class="printable"></div>							
 					<?php
 						if($_SESSION['id_status_memorando'][0]!=6)
@@ -502,6 +580,9 @@ require_once ROOT."/html/personalizacao_display.php";
 			</section>
 		</div>
 	</section>
+
+
+
 	
 	<!-- end: page -->
 	<!-- Vendor -->
