@@ -244,19 +244,20 @@ require_once ROOT."/html/personalizacao_display.php";
 		<script src="<?php echo WWW;?>assets/javascripts/tables/examples.datatables.default.js"></script>
 		<script src="<?php echo WWW;?>assets/javascripts/tables/examples.datatables.row.with.details.js"></script>
 		<script src="<?php echo WWW;?>assets/javascripts/tables/examples.datatables.tabletools.js"></script>
-		<script>
-			$(function(){
-				$("#btnPrint").click(function () {
-                    $("#myModal a").removeAttr("href");
+		 <script type="text/javascript">
+            $(function(){
+                $("#btnPrint").click(function () {
                     //get the modal box content and load it into the printable div
                     if((typeof(impressao) == "undefined") || impressao!=1)
                     {
+                      $("#myModal a").removeAttr("href");
                         $(".printable").html($("#myModal").html());
                     }
                     $(".printable").printThis();
                     var impressao = 1;
-    			}); 
-			});
-		</script>
+                    $("#myModal").hide();
+                }); 
+            });
+        </script>
 	</body>
 </html>
