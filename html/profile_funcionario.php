@@ -109,6 +109,7 @@ $dependente = json_encode($dependente);
   <!-- Vendor CSS -->
   <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css" />
   <link rel="stylesheet" href="../assets/vendor/font-awesome/css/font-awesome.css" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
   <link rel="stylesheet" href="../assets/vendor/magnific-popup/magnific-popup.css" />
   <link rel="stylesheet" href="../assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
   <link rel="icon" href="<?php display_campo("Logo", 'file'); ?>" type="image/x-icon" id="logo-icon">
@@ -184,7 +185,6 @@ $dependente = json_encode($dependente);
     .btn i {
       color: white;
     }
-
   </style>
   <!-- jquery functions -->
   <script>
@@ -248,8 +248,7 @@ $dependente = json_encode($dependente);
       $("#botaoEditarEndereco").removeAttr('onclick');
       $("#botaoEditarEndereco").attr('onclick', "return cancelar_endereco()");
 
-    }  
-   
+    }
 
     function cancelar_endereco() {
       $("#cep").prop('disabled', true);
@@ -269,14 +268,13 @@ $dependente = json_encode($dependente);
 
     }
 
-
-
     function editar_documentacao() {
 
       $("#rg").prop('disabled', false);
       $("#orgao_emissor").prop('disabled', false);
       $("#data_expedicao").prop('disabled', false);
       $("#cpf").prop('disabled', false);
+      $("#data_admissao").prop('disabled', false);
 
       $("#botaoEditarDocumentacao").html('Cancelar');
       $("#botaoSalvarDocumentacao").prop('disabled', false);
@@ -291,6 +289,7 @@ $dependente = json_encode($dependente);
       $("#orgao_emissor").prop('disabled', true);
       $("#data_expedicao").prop('disabled', true);
       $("#cpf").prop('disabled', true);
+      $("#data_admissao").prop('disabled', true);
 
       $("#botaoEditarDocumentacao").html('Editar');
       $("#botaoSalvarDocumentacao").prop('disabled', true);
@@ -308,10 +307,8 @@ $dependente = json_encode($dependente);
       $("#secao_titulo_eleitor").prop('disabled', false);
       $("#certificado_reservista_numero").prop('disabled', false);
       $("#certificado_reservista_serie").prop('disabled', false);
-      $("#data_admissao").prop('disabled', false);
       $("#situacao").prop('disabled', false);
       $("#cargo").prop('disabled', false);
-     
 
       $("#botaoEditarOutros").html('Cancelar');
       $("#botaoSalvarOutros").prop('disabled', false);
@@ -330,7 +327,6 @@ $dependente = json_encode($dependente);
       $("#secao_titulo_eleitor").prop('disabled', true);
       $("#certificado_reservista_numero").prop('disabled', true);
       $("#certificado_reservista_serie").prop('disabled', true);
-      $("#data_admissao").prop('disabled', true);
       $("#situacao").prop('disabled', true);
       $("#cargo").prop('disabled', true);
 
@@ -340,23 +336,6 @@ $dependente = json_encode($dependente);
       $("#botaoEditarOutros").attr('onclick', "return editar_outros()");
 
     }
-   
-
-    // function editar_remuneracao() {
-    //   enableForm("formRemuneracao");
-    //   $("#botaoEditarRemuneracao").text("Cancelar").prop("class", "btn btn-danger");
-    //   $("#botaoEditarRemuneracao").attr('onclick', "cancelar_remuneracao()");
-    //   $("#botaoSalvarRemuneracao").attr('disabled', false);
-    //   $("#btn_adicionar_tipo_remuneracao").attr('onclick', 'adicionarTipoRemuneracao()');
-    // }
-
-    // function cancelar_remuneracao() {
-    //   disableForm("formRemuneracao");
-    //   $("#botaoEditarRemuneracao").text("Editar").prop("class", "btn btn-primary");
-    //   $("#botaoEditarRemuneracao").attr('onclick', "editar_remuneracao()");
-    //   $("#botaoSalvarRemuneracao").attr('disabled', true);
-    //   $("#btn_adicionar_tipo_remuneracao").attr('onclick', 'return false;');
-    // }
 
     function clicar_epi(id) {
       window.location.href = "../html/editar_epi.php?id_funcionario=" + id;
@@ -380,8 +359,6 @@ $dependente = json_encode($dependente);
     }
 
     $(function() {
-
-      // cancelar_remuneracao();
 
       var funcionario = <?= $func ?>;
       $.each(funcionario, function(i, item) {
@@ -441,7 +418,7 @@ $dependente = json_encode($dependente);
         $("#orgao_emissor").val(item.orgao_emissor).prop('disabled', true);
         $("#data_expedicao").val(alterardate(item.data_expedicao)).prop('disabled', true);
         $("#cpf").val(cpf).prop('disabled', true);
-       
+        $("#data_admissao").val(alterardate(item.data_admissao)).prop('disabled', true);
 
         //Outros
         $("#pis").val(item.pis).prop('disabled', true);
@@ -452,16 +429,14 @@ $dependente = json_encode($dependente);
         $("#secao_titulo_eleitor").val(item.secao).prop('disabled', true);
         $("#certificado_reservista_numero").val(item.certificado_reservista_numero).prop('disabled', true);
         $("#certificado_reservista_serie").val(item.certificado_reservista_serie).prop('disabled', true);
-        $("#data_admissao").val(alterardate(item.data_admissao)).prop('disabled', true);
         $("#situacao").val(item.id_situacao).prop('disabled', true);
         $("#cargo").val(item.id_cargo).prop('disabled', true);
-       
 
         //CARGA HORÁRIA
 
 
         // $("#escala").text("Escala: " + (item.escala_descricao || "Sem informação"));
-        $("#tipo").text("Tipo: " + (item.tipo_descricao || "Sem informação"));
+        // $("#tipo").text("Tipo: " + (item.tipo_descricao || "Sem informação"));
         $("#dias_trabalhados").text("Dias trabalhados: " + (item.dias_trabalhados || "Sem informação"));
         if (item.dias_trabalhados == "Plantão") {
           $("#dias_trabalhados").text("Dias trabalhados: " + (item.dias_trabalhados || "Sem informação") + " 12/36");
@@ -473,9 +448,6 @@ $dependente = json_encode($dependente);
         // $("#saida2").text("Segunda saída: " + (item.saida2 || "Sem informação"));
         $("#total").text("Carga horária diária: " + (item.total || "Sem informação"));
         $("#carga_horaria_mensal").text("Carga horária mensal: " + (item.carga_horaria || "Sem informação"));
-        $("#carga_horaria_mensal").text("Carga horária mensal: " + (item.carga_horaria || "Sem informação"));
-
-   
 
         if (item.escala) {
           $("#escala_input").val(item.escala);
@@ -552,12 +524,8 @@ $dependente = json_encode($dependente);
                 '<button style="background-color: rgb(190,0,0); border-color: rgb(165,0,0); border-radius: 10%; color: white; " onclick="excluir_beneficio(' + item.id_beneficiados + ')" onclick="" class="glyphicon glyphicon-trash"></button>'))
 
           );
-
-                     
       })
     });
-
-
     //});
     /*
     $("#beneficios").val(item.id_beneficios).prop('disabled', true);
@@ -593,6 +561,8 @@ $dependente = json_encode($dependente);
         */
       })
     });
+
+        
 
     $(function() {
       var docfuncional = <?= $docfuncional ?>;
@@ -662,10 +632,6 @@ $dependente = json_encode($dependente);
       });
     });
   </script>
-
- 
-
-
   <script type="text/javascript">
     function numero_residencial() {
       if ($("#numResidencial").prop('checked')) {
@@ -967,7 +933,7 @@ $dependente = json_encode($dependente);
       })
     }
 
-    function gerarEpi() {
+     function gerarEpi() {
       url = '../dao/exibir_epi.php';
       $.ajax({
         data: '',
@@ -986,7 +952,7 @@ $dependente = json_encode($dependente);
       });
     }
 
-    function adicionar_epi() {
+     function adicionar_epi() {
       url = '../dao/adicionar_epi.php';
       var descricao_epi = window.prompt("Cadastre uma Nova Epi:");
       if (!descricao_epi) {
@@ -1013,16 +979,13 @@ $dependente = json_encode($dependente);
       alert("Cadastrado com sucesso o Benefício!");
     }
 
-    function funcao2(id) {
-
-      window.location.href = "../html/profile_funcionario.php?id_funcionario="+<?php echo $_GET['id_funcionario']; ?>;
+    function funcao2() {
       alert("Cadastrado com sucesso o EPI!");
+      window.open('../html/profile_funcionario.php?id_funcionario=<?php echo $_GET['id_funcionario'];
+        ?>');
+
 
     }
-   
-
-
-
   </script>
 </head>
 
@@ -1364,7 +1327,7 @@ $dependente = json_encode($dependente);
 
 
 
-                <!--
+               <!--
                   Aba epi do funcionario
 
                 -->
@@ -1461,7 +1424,6 @@ $dependente = json_encode($dependente);
                     </div>
                   </section>
                 </div>
-
                 <!--Outros-->
                 <div id="outros" class="tab-pane">
                   <section class="panel">
@@ -1692,7 +1654,7 @@ $dependente = json_encode($dependente);
                 </div>
 
 
-                <!--
+               <!--
                   Aba de carga horária do funcionário
 
                 -->
@@ -1899,7 +1861,6 @@ $dependente = json_encode($dependente);
                     </div>
                   </section>
                 </div>
-
                 <!--
                   Aba de documentos do funcionário
 
