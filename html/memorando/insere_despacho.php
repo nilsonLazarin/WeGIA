@@ -247,12 +247,12 @@ require_once ROOT."/html/personalizacao_display.php";
                             <div class="form-group">
                                 <label for=arquivo id=etiqueta_arquivo class='col-md-3 control-label'>Arquivo </label>
                                 <div class='col-md-6'>
-                                    <input type="file" name="anexo[]" id="anexo" multiple>
+                                    <input type="file" multiple name="anexo[]" id="anexo" >
                                 </div>
                             </div>
                             <div class="form-group">
                                     <label for=texto id=etiqueta_despacho class='col-md-3 control-label'>Despacho </label>
-                                    <div class='col-md-6' id='div_texto' style="height: 500px;">
+                                    <div class='col-md-6' id='div_texto' style="height: 499px;">
                                         <textarea cols='30' rows='5' id='despacho' name='texto' required class='form-control'></textarea>
                                     </div>
                             </div>
