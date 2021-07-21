@@ -56,8 +56,8 @@ $listaCPF2 = new InternoControle;
 $listaCPF2->listarCpf();
 
 
-	// Inclui display de Campos
-	require_once "./personalizacao_display.php";
+// Inclui display de Campos
+require_once "./personalizacao_display.php";
 
 ?>
 <!DOCTYPE html>
@@ -79,7 +79,7 @@ $listaCPF2->listarCpf();
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
   <link rel="stylesheet" href="../assets/vendor/magnific-popup/magnific-popup.css" />
   <link rel="stylesheet" href="../assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
-	<link rel="icon" href="<?php display_campo("Logo",'file');?>" type="image/x-icon">
+<link rel="icon" href="<?php display_campo("Logo",'file');?>" type="image/x-icon">
 
   <!-- Theme CSS -->
   <link rel="stylesheet" href="../assets/stylesheets/theme.css" />
@@ -89,15 +89,6 @@ $listaCPF2->listarCpf();
 
   <!-- Theme Custom CSS -->
   <link rel="stylesheet" href="../assets/stylesheets/theme-custom.css">
-
-  <style>
-
-    .form-control {
-      padding: 0 12px;
-    }
-    
-  </style>
-
 </head>
 
 <body>
@@ -130,7 +121,19 @@ $listaCPF2->listarCpf();
           <section class="panel">
             <div class="panel-body">
               <div class="thumb-info mb-md">
-                <img src="../img/semfoto.png" class="rounded img-responsive" alt="John Doe" id="img-selection" style="width: -moz-available;">
+                <?php
+                if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                  if (isset($_FILES['imgperfil'])) {
+                    $image = file_get_contents($_FILES['imgperfil']['tmp_name']);
+                    $_SESSION['imagem'] = $image;
+                    echo '<img src="data:image/gif;base64,' . base64_encode($image) . '" class="rounded img-responsive" alt="John Doe">';
+                  }
+                } else {
+                ?>
+                  <img src="../img/semfoto.png" class="rounded img-responsive" alt="John Doe">
+                <?php
+                }
+                ?>
                 <i class="fas fa-camera-retro btn btn-info btn-lg" data-toggle="modal" data-target="#myModal"></i>
                 <div class="container">
                   <div class="modal fade" id="myModal" role="dialog">
@@ -142,20 +145,19 @@ $listaCPF2->listarCpf();
                           <h4 class="modal-title">Adicionar uma Foto</h4>
                         </div>
                         <div class="modal-body">
-                          <form action="#" method="POST">
+                          <form action="#" method="POST" enctype="multipart/form-data">
                             <div class="form-group">
                               <label class="col-md-4 control-label" for="imgperfil">Carregue uma imagem de perfil:</label>
                               <div class="col-md-8">
-                                <input type="file" name="imgperfil" size="60" id="imgform" class="form-control" onchange="readURL(this);">
+                                <input type="file" name="imgperfil" size="60" id="imgform" class="form-control">
                               </div>
                             </div>
-                          </form>
                         </div>
                         <div class="modal-footer">
-                          <!-- <input type="submit" id="formsubmit" value="Ok"> -->
-                          <button type="button" data-dismiss="modal">Ok</button>
+                          <input type="submit" id="formsubmit" value="Ok">
                         </div>
                       </div>
+                      </form>
                     </div>
                   </div>
                 </div>
@@ -180,7 +182,7 @@ $listaCPF2->listarCpf();
             </ul>
             <div class="tab-content">
               <div id="overview" class="tab-pane active">
-                <form class="form-horizontal" method="GET" action="../controle/control.php" id="form-cadastro" enctype="multipart/form-data">
+                <form class="form-horizontal" method="GET" action="../controle/control.php">
                   <h4 class="mb-xlg">Informações Pessoais</h4>
                   <h5 class="obrig">Campos Obrigatórios(*)</h5>
                   <div class="form-group">
@@ -312,7 +314,7 @@ $listaCPF2->listarCpf();
                     </div>
                     <a href="./quadro_horario/adicionar_tipo_quadro_horario.php"><i class="fas fa-plus w3-xlarge"></i></a>
                   </div>
-                  <!-- <div class="form-group" id="reservista1" style="display: none">
+                  <div class="form-group" id="reservista1" style="display: none">
                     <label class="col-md-3 control-label">Número do certificado reservista</label>
                     <div class="col-md-6">
                       <input type="text" name="certificado_reservista_numero" class="form-control num_reservista">
@@ -323,7 +325,7 @@ $listaCPF2->listarCpf();
                     <div class="col-md-6">
                       <input type="text" name="certificado_reservista_serie" class="form-control serie_reservista">
                     </div>
-                  </div> -->
+                  </div>
 
                   <div class="panel-footer">
                     <div class="row">
@@ -362,27 +364,6 @@ $listaCPF2->listarCpf();
     }
   </style>
   <script type="text/javascript">
-
-    // Exibe a imagem selecionada no input file:
-    function readURL(input) {
-      if (input.files && input.files[0]) {
-        var reader = new FileReader();
-
-        reader.onload = function (e) {
-          $('#img-selection')
-            .attr('src', e.target.result);
-        };
-
-        reader.readAsDataURL(input.files[0]);
-      }
-    }
-
-    $('#form-cadastro').submit(function() {
-        let imgForm = document.getElementById("imgform");
-        document.getElementById("form-cadastro").append(imgForm);
-        return true;
-    });
-
     function funcao1() {
       var send = $("#enviar");
       var cpfs = <?php echo $_SESSION['cpf_funcionario']; ?>;
@@ -696,3 +677,4 @@ $listaCPF2->listarCpf();
 </body>
 
 </html>
+  

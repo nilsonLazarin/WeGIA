@@ -330,13 +330,14 @@ class FuncionarioControle
         if((!isset($certificado_reservista_serie)) || (empty($certificado_reservista_serie))){
             $certificado_reservista_serie='';
         }
-
         session_start();
-        if((!isset($_FILES["imgperfil"])) || (empty($_FILES["imgperfil"]))){
+        if((!isset($_SESSION['imagem'])) || (empty($_SESSION['imagem']))){
             $imgperfil = '';
         }else{
-            $imgperfil = base64_encode(file_get_contents($_FILES["imgperfil"]["tmp_name"]));
+            $imgperfil = base64_encode($_SESSION['imagem']);
+            unset($_SESSION['imagem']);
         }
+       
         $cpf=str_replace(".", '', $cpf);
         $cpf=str_replace("-", "", $cpf);
         $senha=$this->geraChave($cpf);
