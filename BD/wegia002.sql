@@ -189,7 +189,7 @@ INSERT INTO `atendido_ocorrencia_tipos` (`idatendido_ocorrencia_tipos`, `descric
 (2, 'Falecimento'); 
 
 INSERT INTO `atendido_tipo` (`idatendido_tipo`, `descricao`) VALUES (1, 'Interno');
-INSERT INTO `atentido_status` (`idatentido_status`, `status`) VALUES (1, 'Ativo');
+INSERT INTO `atendido_status` (`idatendido_status`, `status`) VALUES (1, 'Ativo');
 
 INSERT INTO `funcionario_remuneracao_tipo` (`idfuncionario_remuneracao_tipo`, `descricao`) VALUES
 (1, 'Vencimento Básico'),
