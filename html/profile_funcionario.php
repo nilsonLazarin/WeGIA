@@ -447,7 +447,16 @@ $dependente = json_encode($dependente);
         // $("#entrada2").text("Segunda entrada: " + (item.entrada2 || "Sem informação"));
         // $("#saida2").text("Segunda saída: " + (item.saida2 || "Sem informação"));
         $("#total").text("Carga horária diária: " + (item.total || "Sem informação"));
+        var novoValor1 = item.total;
+        var campo1 = document.getElementById("campo1");
+
+        campo1.value = novoValor1;
+
         $("#carga_horaria_mensal").text("Carga horária mensal: " + (item.carga_horaria || "Sem informação"));
+        var novoValor = item.carga_horaria;
+        var campo = document.getElementById("campo");
+
+        campo.value = novoValor;
 
         if (item.escala) {
           $("#escala_input").val(item.escala);
@@ -981,9 +990,6 @@ $dependente = json_encode($dependente);
 
     function funcao2() {
       alert("Cadastrado com sucesso o EPI!");
-      window.open('../html/profile_funcionario.php?id_funcionario=<?php echo $_GET['id_funcionario'];
-        ?>');
-
 
     }
   </script>
@@ -1426,6 +1432,7 @@ $dependente = json_encode($dependente);
                     </div>
                   </section>
                 </div>
+
                 <!--Outros-->
                 <div id="outros" class="tab-pane">
                   <section class="panel">
@@ -1698,37 +1705,28 @@ $dependente = json_encode($dependente);
                           <option value="1"> Segunda à Sexta, folga Sábado e Domingo</option>
                           <option value="2"> Dias Alternados</option>
                         </select>
-                       
 
+                          <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+                          <script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
+                            $(document).ready(function(){
 
-      $(document).ready(function(){
+                              $("#tipoCargaHoraria_input").on('change',function(){
 
-        $("#tipoCargaHoraria_input").on('change',function(){
+                                var selectValor = $(this).val();
+                                if(selectValor==1){
+                                  $("#diaTrabalhado").hide();
+                              }
+                              else
+                                if(selectValor==2){
+                                  $("#diaTrabalhado").show();
+                                }
+                             
+                              });
 
-          var selectValor = $(this).val();
-          if(selectValor==1){
-            $("#diaTrabalhado").hide();
-        }
-        else
-          if(selectValor==2){
-            $("#diaTrabalhado").show();
-          }
-       
-        });
-
-      });
-    /*function mostraAlerta(elemento)
-    {
-        var teste = (elemento.value);
-        if(teste==1){
-          $('#pai').children('div').hide();
-       
-      }
-    }*/
-</script>
+                            });
+                          
+                      </script>
  
                            
                           </div>
@@ -1842,11 +1840,15 @@ $dependente = json_encode($dependente);
                           <h3 class="text-center col-md-12">Carga Horária</h3>
                           <ul class="nav nav-children" id="info">
                             <li id="total"> Carga horária diária:</br></li>
+                            <input id="campo1" value="" size="4">
+
                            
                    
                            
                           <li id="carga_horaria_mensal">Carga horária mensal:</li>
-                           
+                          
+                          <input id="campo" value="" size="4">
+                       
                            
                           </ul>
                         </div>
