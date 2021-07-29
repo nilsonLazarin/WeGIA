@@ -447,16 +447,16 @@ $dependente = json_encode($dependente);
         // $("#entrada2").text("Segunda entrada: " + (item.entrada2 || "Sem informação"));
         // $("#saida2").text("Segunda saída: " + (item.saida2 || "Sem informação"));
         $("#total").text("Carga horária diária: " + (item.total || "Sem informação"));
-        var novoValor1 = item.total;
-        var campo1 = document.getElementById("campo1");
+       // var novoValor1 = item.total;
+        //var campo1 = document.getElementById("campo1");
 
-        campo1.value = novoValor1;
+        //campo1.value = novoValor1;
 
         $("#carga_horaria_mensal").text("Carga horária mensal: " + (item.carga_horaria || "Sem informação"));
-        var novoValor = item.carga_horaria;
-        var campo = document.getElementById("campo");
+        //var novoValor = item.carga_horaria;
+        //var campo = document.getElementById("campo");
 
-        campo.value = novoValor;
+        //campo.value = novoValor;
 
         if (item.escala) {
           $("#escala_input").val(item.escala);
@@ -1128,9 +1128,9 @@ $dependente = json_encode($dependente);
                 <li>
                   <a href="#outros" data-toggle="tab">Outros</a>
                 </li>
-                <li>
+                <!--<li>
                   <a href="#epi" data-toggle="tab">Epi</a>
-                </li>
+                </li> -->
                 <li>
                   <a href="#beneficio" data-toggle="tab">Remuneração</a>
                 </li>
@@ -1258,7 +1258,7 @@ $dependente = json_encode($dependente);
                     <input type="hidden" name="metodo" value="alterarInfPessoal"> -->
 
                     <div class="panel-body">
-                      <h4 class="mb-xlg">Remuneração</h4>
+                      <h5 class="mb-xlg">Remuneração: R$ <b class="total"></b></h5>
                       <table class="table table-bordered table-striped mb-none" id="datatable-default">
                         <thead>
                           <tr>
@@ -1275,9 +1275,9 @@ $dependente = json_encode($dependente);
 
 
                       </table>
-                       <h5>Soma:</h5><div class="total"></div>
+                      
 
-                     
+  
                       <button id="excluir" type="button" class="btn btn-success" data-toggle="modal" data-target="#adicionar">Adicionar</button>
                     </div><br>
                     <div class="modal fade" id="adicionar" role="dialog">
@@ -1770,7 +1770,7 @@ $dependente = json_encode($dependente);
                             <label class="btn btn-primary">
                               <input type="checkbox" id="diaTrabalhado_Ter" name="trabTer" value="Ter"> Ter
                               <span class="fa fa-check"></span>
-                            </label>;
+                            </label>
                             <label class="btn btn-primary">
                               <input type="checkbox" id="diaTrabalhado_Qua" name="trabQua" value="Qua"> Qua
                               <span class="fa fa-check"></span>
@@ -1840,16 +1840,15 @@ $dependente = json_encode($dependente);
                           <h3 class="text-center col-md-12">Carga Horária</h3>
                           <ul class="nav nav-children" id="info">
                             <li id="total"> Carga horária diária:</br></li>
-                            <input id="campo1" value="" size="4">
+                           <!-- <input id="campo1" value="" size="4"> -->
 
                            
                    
                            
                           <li id="carga_horaria_mensal">Carga horária mensal:</li>
                           
-                          <input id="campo" value="" size="4">
-                       
-                           
+                        <!-- <input type="text" id="campo"  size="4"> -->
+                        
                           </ul>
                         </div>
                         <hr class="dotted short">
