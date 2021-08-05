@@ -327,14 +327,34 @@ if(file_exists($config_path)){
                             <p>
                                 Na aba <strong>"Visão Geral"</strong> é possível editar as informações pessoais do funcionário.
                                 <p>
-                                    Existem algumas seções nessa aba, são elas: <strong>Informações Pessoais, Endereço, Documentação e Outros. </strong>
-                                    Para fazer a edição de algum dado da página, basta verificar em qual seção ele se encontra e clicar no botão "Editar" da seção. Em seguida será possível alterar os dados, depois de alterados basta clicar no botão "Salvar".
+                                    Para fazer a edição de algum dado da página, basta verificar em qual seção ele se encontra e clicar no botão "Editar" da seção. Em seguida será possível alterar os dados, depois de alterados basta clicar no botão "Salvar"
+                                    Existem algumas seções nessa aba, são elas: 
                                 </p>
+                                <br>
+                                <p><strong>Informações Pessoais</strong></p> 
+                                <iframe width="560" height="315" src="https://youtu.be/Uqv_jbZqFuA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                             </p>
+                            <br>
+                            <p><strong>Endereço</strong></p>
+                            <iframe width="560" height="315" src="https://youtu.be/vrH0VtOzL9Y" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            <br>
+                            <br>
+                            <p><strong>Incluir Arquivos</strong></p>
+                            <iframe width="560" height="315" src="https://youtu.be/eRpzbRlCoLE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            <br>
+                            <br>
+                            <p><strong>Incluir Dependentes</strong></p>
+                            <iframe width="560" height="315" src="https://youtu.be/-RALJuM6H5U" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            <br>
+                            <br>
+                            <p><strong>Alterar Foto</strong></p>
+                            <iframe width="560" height="315" src="https://youtu.be/-RALJuM6H5U" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
                             <hr>
-                            <p>Na aba <strong>"Benefícios"</strong> é possível adicionar e editar benefícios.</p>
+                            <p>Na aba <strong>"Remuneração"</strong> é possível adicionar e editar a remuneração.</p>
                             <p>
-                                Para adicionar um benefício basta clicar no botão "Adicionar" no fim da página. Ao clicar nesse botão é aberta uma caixa para adicionar o benefício.
+                                Para adicionar a remuneração, basta clicar no botão "Adicionar" no fim da página. Ao clicar nesse botão é aberta uma caixa para adicionar o benefício.
                                 <p>
                                     Para adicionar um benefício é necessário selecionar o benefício e o seu status e preencher a data de início, data de fim e o valor do benefício. Caso o benefício desejado não se encontre na listagem basta clicar no símbolo <i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i> ao seu lado e na nova caixa que será aberta escrever o nome do benefício e clicar em OK para salvá-lo.
                                 </p>
@@ -347,7 +367,8 @@ if(file_exists($config_path)){
                                 Para <strong>excluir</strong> um benefício basta clicar no botão vermelho ao lado dos dados do benefício, o benefício será excluído automaticamente.
                             </p>
                             </p>
-                            <img src="<?php echo WWW;?>img/beneficio.PNG" class="img-fluid">
+                            <!--<img src="<?php echo WWW;?>img/beneficio.PNG" class="img-fluid">-->
+                            <iframe width="560" height="315" src="https://youtu.be/yvGgd2MtduY" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                             <hr>
                             <p>Na aba <strong>"EPI"</strong> é possível adicionar e editar EPI's.</p>
                             <p>
