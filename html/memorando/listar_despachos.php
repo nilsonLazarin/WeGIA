@@ -285,8 +285,8 @@ require_once ROOT."/html/personalizacao_display.php";
 		}
 
 		input[type="file"] {
-			margin-bottom: 10px;
-			margin-top: 15px;
+			margin-bottom: 11px;
+			margin-top: 16px;
 		}
 
 		.col-md-3 {
@@ -315,7 +315,7 @@ require_once ROOT."/html/personalizacao_display.php";
 
         #cke_1_contents
         {
-        	height: 455px !important;
+        	height: 450px !important;
         }
 
         .table.mb-none
@@ -382,7 +382,7 @@ require_once ROOT."/html/personalizacao_display.php";
 						<h2 class="panel-title">
 							<center> 
 								
-						<p> <img src="<?php display_campo("Logo","file");?>" height="40" class="print-logo" style="margin-right: 700px;"></p>
+						<p> <img src="<?php display_campo("Logo","file");?>" height="40" class="print-logo" style="margin-right: 701px;"></p>
 							WeGIA 
 							<p> Web Gerenciador Institucional</p>
 						</center>
@@ -393,6 +393,7 @@ require_once ROOT."/html/personalizacao_display.php";
 						
 						<div class="panel-body" id="">
 						<button style="margin-bottom: 0px !important;" class="not-printable mb-xs mt-xs mr-xs btn btn-default" id="btnPrint">Imprimir</button>
+						
 						<br>
 
 						
@@ -533,7 +534,7 @@ require_once ROOT."/html/personalizacao_display.php";
                             </div>
                             <div class="form-group">
                                     <label for=texto id=etiqueta_despacho class='col-md-3 control-label'>Despacho </label>
-                                    <div class='col-md-6' id='div_texto' style="height: 500px;">
+                                    <div class='col-md-6' id='div_texto' style="height: 501px;">
                                         <textarea cols='30' rows='5' id='despacho' name='texto' required class='form-control'></textarea>
                                     </div>
                             </div>
