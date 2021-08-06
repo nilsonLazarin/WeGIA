@@ -332,23 +332,32 @@ if(file_exists($config_path)){
                                 </p>
                                 <br>
                                 <p><strong>Informações Pessoais</strong></p> 
-                                <iframe width="560" height="315" src="https://youtu.be/Uqv_jbZqFuA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                <iframe width="560" height="315" src="https://www.youtube.com/embed/Uqv_jbZqFuA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                             </p>
                             <br>
                             <p><strong>Endereço</strong></p>
-                            <iframe width="560" height="315" src="https://youtu.be/vrH0VtOzL9Y" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/vrH0VtOzL9Y" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                             <br>
                             <br>
                             <p><strong>Incluir Arquivos</strong></p>
-                            <iframe width="560" height="315" src="https://youtu.be/eRpzbRlCoLE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                            <br>
-                            <br>
-                            <p><strong>Incluir Dependentes</strong></p>
-                            <iframe width="560" height="315" src="https://youtu.be/-RALJuM6H5U" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/eRpzbRlCoLE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                             <br>
                             <br>
                             <p><strong>Alterar Foto</strong></p>
-                            <iframe width="560" height="315" src="https://youtu.be/-RALJuM6H5U" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/TjxcsZmk7FQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            <br>
+                            <br>
+                             <p><strong>Outras Informações</strong></p>
+                                <iframe width="560" height="315" src="https://www.youtube.com/embed/5fFax72v0O8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                <br>
+                                <br>
+                                <p><strong>Carga Horária</strong></p>
+                           <iframe width="560" height="315" src="https://www.youtube.com/embed/TOJwD3fyz1c" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            <br>
+                            <br>
+                                <p><strong>Incluir Dependentes</strong></p>
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/-RALJuM6H5U" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 
 
                             <hr>
@@ -368,7 +377,7 @@ if(file_exists($config_path)){
                             </p>
                             </p>
                             <!--<img src="<?php echo WWW;?>img/beneficio.PNG" class="img-fluid">-->
-                            <iframe width="560" height="315" src="https://youtu.be/yvGgd2MtduY" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/yvGgd2MtduY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                             <hr>
                             <p>Na aba <strong>"EPI"</strong> é possível adicionar e editar EPI's.</p>
                             <p>
