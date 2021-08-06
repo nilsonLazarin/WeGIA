@@ -1603,27 +1603,20 @@ END$$
 DELIMITER ;
 
 -- -----------------------------------------------------
--- procedure cadinterno
+-- procedure atendido
 -- -----------------------------------------------------
 
 DELIMITER $$
 USE `wegia`$$
-CREATE PROCEDURE `cadinterno`(IN `nome` VARCHAR(100), IN `sobrenome` VARCHAR(100), IN `cpf` VARCHAR(40), IN `senha` VARCHAR(70), IN `sexo` CHAR(1), IN `telefone` VARCHAR(25), IN `data_nascimento` DATE, IN `imagem` LONGTEXT, IN `cep` VARCHAR(20), IN `estado` VARCHAR(5), IN `cidade` VARCHAR(40), IN `bairro` VARCHAR(40), IN `logradouro` VARCHAR(40), IN `numero_endereco` VARCHAR(11), IN `complemento` VARCHAR(50), IN `ibge` VARCHAR(20), IN `registro_geral` VARCHAR(20), IN `orgao_emissor` VARCHAR(20), IN `data_expedicao` DATE, IN `nome_pai` VARCHAR(100), IN `nome_mae` VARCHAR(100), IN `tipo_sanguineo` VARCHAR(5), IN `nome_contato_urgente` VARCHAR(60), IN `telefone_contato_urgente_1` VARCHAR(33), IN `telefone_contato_urgente_2` VARCHAR(33), IN `telefone_contato_urgente_3` VARCHAR(33), IN `observacao` VARCHAR(240), IN `certidao_nascimento` VARCHAR(60), IN `curatela` VARCHAR(60), IN `inss` VARCHAR(60), IN `loas` VARCHAR(60), IN `bpc` VARCHAR(60), IN `funrural` VARCHAR(60), IN `saf` VARCHAR(60), IN `sus` VARCHAR(60), IN `certidao_casamento` VARCHAR(123), IN `ctps` VARCHAR(123), IN `titulo` VARCHAR(123))
+CREATE PROCEDURE `cadatendido`(IN `strNome` VARCHAR(100), IN `strSobrenome` VARCHAR(100), IN `strCpf` VARCHAR(40), IN `strSexo` CHAR(1), IN `strTelefone` VARCHAR(25), IN `dateNascimento` DATE, IN `intStatus` INT, IN `intTipo` INT)
 begin
-
 declare idP int;
-
-insert into pessoa(nome,sobrenome,cpf,senha,sexo,telefone,data_nascimento,imagem,cep,estado,cidade, bairro, logradouro, numero_endereco,
-complemento,ibge,registro_geral,orgao_emissor,data_expedicao, nome_pai, nome_mae, tipo_sanguineo)
-values(nome, sobrenome, cpf, senha, sexo, telefone,data_nascimento,imagem,cep,estado,cidade,bairro,logradouro,numero_endereco,complemento,ibge,registro_geral,orgao_emissor,data_expedicao,nome_pai,nome_mae,tipo_sanguineo);
+INSERT INTO pessoa (cpf,nome,sobrenome,sexo,telefone,data_nascimento) VALUES (strCpf,strNome,strSobrenome,strSexo,strTelefone,dateNascimento);
 select max(id_pessoa) into idP FROM pessoa;
-
-insert into interno(id_pessoa,nome_contato_urgente,telefone_contato_urgente_1,telefone_contato_urgente_2,telefone_contato_urgente_3,observacao,certidao_nascimento,curatela,inss,loas,bpc,funrural,saf,sus,certidao_casamento,ctps,titulo) 
-values(idP,nome_contato_urgente,telefone_contato_urgente_1,telefone_contato_urgente_2,telefone_contato_urgente_3,observacao,certidao_nascimento,curatela,inss,loas,bpc,funrural,saf,sus,certidao_casamento,ctps,titulo);
-SELECT MAX(id_pessoa) from pessoa;
+INSERT INTO atendido (pessoa_id_pessoa, atendido_tipo_idatendido_tipo, atentido_status_idatentido_status) VALUES (idP,intTipo,intStatus); 
 end$$
-
 DELIMITER ;
+
 
 -- -----------------------------------------------------
 -- procedure cadsaida
