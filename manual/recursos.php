@@ -343,6 +343,10 @@ if(file_exists($config_path)){
                             <iframe width="560" height="315" src="https://www.youtube.com/embed/eRpzbRlCoLE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                             <br>
                             <br>
+                            <p><strong>Documentacao</strong></p>
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/E-Wv7-uYgI0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            <br>
+                            <br>
                             <p><strong>Alterar Foto</strong></p>
                             <iframe width="560" height="315" src="https://www.youtube.com/embed/TjxcsZmk7FQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                             <br>
