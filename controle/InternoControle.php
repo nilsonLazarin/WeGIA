@@ -386,7 +386,7 @@ class InternoControle
                 }
             $_SESSION['msg']="Interno cadastrado com sucesso";
             $_SESSION['proxima']="Cadastrar outro interno";
-            $_SESSION['link']="../html/cadastro_interno.php";
+            $_SESSION['link']="../html/cadastro_atendido.php";
             header("Location: ../html/sucesso.php");
         } catch (PDOException $e){
             $msg= "Não foi possível registrar o interno <form> <input type='button' value='Voltar' onClick='history.go(-1)'> </form>"."<br>".$e->getMessage();

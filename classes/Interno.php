@@ -1,6 +1,7 @@
 <?php
 require_once 'Pessoa.php';
 
+
 class Interno extends Pessoa
 {
 
@@ -213,5 +214,6 @@ class Interno extends Pessoa
     {
         $this->titulo = $titulo;
     }
+    
 }
 

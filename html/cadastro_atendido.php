@@ -16,7 +16,7 @@
 	}
 	$conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 	$id_pessoa = $_SESSION['id_pessoa'];
-	$resultado = mysqli_query($conexao, "SELECT * FROM interno WHERE id_pessoa=$id_pessoa");
+	$resultado = mysqli_query($conexao, "SELECT * FROM pessoa WHERE id_pessoa=$id_pessoa");
 
 	
 	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
@@ -152,6 +152,65 @@
 	        $("#header").load("header.php");
 	        $(".menuu").load("menu.php");
 	      });
+    	function meu_callback(conteudo) {
+        if (!("erro" in conteudo)) {
+            //Atualiza os campos com os valores.
+            document.getElementById('rua').value=(conteudo.logradouro);
+            document.getElementById('bairro').value=(conteudo.bairro);
+            document.getElementById('cidade').value=(conteudo.localidade);
+            document.getElementById('uf').value=(conteudo.uf);
+            document.getElementById('ibge').value=(conteudo.ibge);
+        } //end if.
+        else {
+            //CEP não Encontrado.
+            limpa_formulário_cep();
+            alert("CEP não encontrado.");
+        }
+    }
+        
+    function pesquisacep(valor) {
+
+        //Nova variável "cep" somente com dígitos.
+        var cep = valor.replace(/\D/g, '');
+
+        //Verifica se campo cep possui valor informado.
+        if (cep != "") {
+
+            //Expressão regular para validar o CEP.
+            var validacep = /^[0-9]{8}$/;
+
+            //Valida o formato do CEP.
+            if(validacep.test(cep)) {
+
+                //Preenche os campos com "..." enquanto consulta webservice.
+                document.getElementById('rua').value="...";
+                document.getElementById('bairro').value="...";
+                document.getElementById('cidade').value="...";
+                document.getElementById('uf').value="...";
+                document.getElementById('ibge').value="...";
+
+                //Cria um elemento javascript.
+                var script = document.createElement('script');
+
+                //Sincroniza com o callback.
+                script.src = 'https://viacep.com.br/ws/'+ cep + '/json/?callback=meu_callback';
+
+                //Insere script no documento e carrega o conteúdo.
+                document.body.appendChild(script);
+
+            } //end if.
+            else {
+                //cep é inválido.
+                limpa_formulário_cep();
+                alert("Formato de CEP inválido.");
+            }
+        } //end if.
+        else {
+            //cep sem valor, limpa formulário.
+            limpa_formulário_cep();
+        }
+    };
+
 	</script>
 </head>
 <body>
@@ -174,8 +233,8 @@
 									<i class="fa fa-home"></i>
 								</a>
 							</li>
-							<li><span>Cadastros</span></li>
-							<li><span>Interno</span></li>
+							<li><span>Cadastro</span></li>
+							<li><span>Atendido</span></li>
 						</ol>
 						<a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
 					</div>
@@ -274,28 +333,11 @@
 													<input type="radio" name="sexo" id="radio2"  value="f" style="margin-top: 10px; margin-left: 15px;"><i class="fa fa-female" style="font-size: 20px;"></i> 
 											</div>
 										</div>
-										<div class="form-group">
-											<label class="col-md-3 control-label" >Nome Contato</label>
-											<div class="col-md-8">
-												<input type="text" class="form-control" name="nomeContato" id="nomeContato" id="profileFirstName" onkeypress="return Onlychars(event)">
-											</div>
 										</div>
 										<div class="form-group">
-											<label class="col-md-3 control-label" for="profileCompany">Telefone contato 1</label>
+											<label class="col-md-3 control-label" for="profileCompany">Telefone</label>
 											<div class="col-md-8">
-												<input type="text" class="form-control" maxlength="14" minlength="14" name="telefone1" id="telefone1" id="profileCompany" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeyup="mascara('(##)#####-####',this,event)" >
-											</div>
-										</div>
-										<div class="form-group">
-											<label class="col-md-3 control-label" for="profileCompany">Telefone contato 2</label>
-											<div class="col-md-8">
-												<input type="text" class="form-control" maxlength="14" minlength="14" name="telefone2" id="telefone2" id="profileCompany" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeyup="mascara('(##)#####-####',this,event)" >
-											</div>
-										</div>
-										<div class="form-group">
-											<label class="col-md-3 control-label" for="profileCompany">Telefone contato 3</label>
-											<div class="col-md-8">
-												<input type="text" class="form-control" maxlength="14" minlength="14" name="telefone2" id="telefone3" id="profileCompany" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeyup="mascara('(##)#####-####',this,event)" >
+												<input type="text" class="form-control" maxlength="14" minlength="14" name="telefone" id="telefone" id="profileCompany" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeyup="mascara('(##)#####-####',this,event)" >
 											</div>
 										</div>
 										
@@ -305,66 +347,9 @@
 												<input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" id="nascimento" max=<?php echo date('Y-m-d');?> required> 
 										    </div>
 										</div>
-										<div class="form-group">
-											<label class="col-md-3 control-label" for="profileCompany">Nome do Pai</label>
-											<div class="col-md-8">
-												<input type="text" class="form-control" name="pai" id="nomepai" id="profileCompany"  onkeypress="return Onlychars(event)" >
-												
-											</div>
-										</div>
-										<div class="form-group">
-											<label class="col-md-3 control-label" for="profileCompany">Nome do Mãe</label>
-											<div class="col-md-8">
-												<input type="text" class="form-control" name="mae" id="nomemae" id="profileCompany"  onkeypress="return Onlychars(event)" >
-												
-											</div>
-										</div>
-										<div class="form-group">
-											<label class="col-md-3 control-label" for="profileCompany">Tipo Sanguíneo</label>
-											<div class="col-md-6">
-												<select name="sangue" id="sangue" class="form-control input-lg mb-md">
-													<option selected disabled value="blank">Selecionar</option>
-													<option value="A+">A+</option>
-													<option value="A-">A-</option>
-													<option value="B+">B+</option>
-													<option value="B-">B-</option>
-													<option value="O+">O+</option>
-													<option value="O-">O-</option>
-													<option value="AB+">AB+</option>
-													<option value="AB-">AB-</option>
-												</select>
-											</div>	
-										</div><br/>
+										
 									
-									
-
-										<div class="form-group">
-                                                 <label class="col-md-3 control-label" for="profileCompany">Número do RG<sup class="obrig">*</sup></label>
-                                              <div class="col-md-6">
-                                               <input type="text" class="form-control" name="rg" id="rg" onkeypress="return Onlynumbers(event)" placeholder="Ex: 22.222.222-2" maxlength="12" onkeyup="mascara('##.###.###-#',this,event)" required>
-                    					</div>
-                  							
-											<div class="col-md-3"> 
-												<label> 
-												<input type="checkbox" id="nao_rg" name="naoPossuiRegistroGeral"   onclick="return desabilitar_rg()"> Não possui RG
-													</label>    
-												
-										</div>
-									</div>
-										<div class="form-group">
-											<label class="col-md-3 control-label" for="profileCompany">Órgão Emissor</label>
-											<div class="col-md-6">
-												<input type="text" name="orgaoEmissor" class="form-control" id="orgao" onkeypress="return Onlychars(event)">
-											</div>
-										</div>
-											
-										<div class="form-group">
-											<label class="col-md-3 control-label" for="profileCompany">Data de Expedição</label>
-											<div class="col-md-6">
-													<input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" id="profileCompany" name="dataExpedicao" id="data_expedicao"  max=<?php echo date('Y-m-d'); ?>>
-											</div>
-										</div>
-											
+										 <h4 class="mb-xlg doch4">Documentação</h4>
 										<div class="form-group">
 											 <label class="col-md-3 control-label" for="cpf">Número do CPF<sup class="obrig">*</sup></label>
 											<div class="col-md-4">
@@ -383,159 +368,6 @@
 												<p id="cpfInvalido" style="display: none; color: #b30000">CPF INVÁLIDO!</p>
 											</div>														
 										</div>
-											
-										<hr class="dotted short">
-										<div class="form-group">
-											<label class="col-md-3 control-label">Benefícios</label>
-	
-											<div class="col-md-8 " >
-												<div class="">
-													<label>
-														<input type="checkbox" name="certidao" value="Possui" id="certidao-checkbox" >Certidão de Nascimento			
-													</label><br>
-													<label>
-														<input type="checkbox" name="certidaoCasamento" value="Possui" id="certidaoCasamento-checkbox" >Certidão de Casamento			
-													</label><br>
-													<label>
-														<input type="checkbox" name="curatela" value="Possui" id="curatela-checkbox" >Curatela
-													</label><br>
-													<label>
-														<input type="checkbox" name="inss" value="Possui" id="inss-checkbox" >INSS
-													</label><br>
-													
-													<label>
-														<input type="checkbox" name="loas" value="Possui" id="loas-checkbox" >LOAS
-													</label><br>
-													
-													<label>
-														<input type="checkbox" name="funrural" value="Possui" id="funrural-checkbox" >FUNRURAL
-													</label><br>														
-													<label>
-														<input type="checkbox" name="tituloEleitor" value="Possui" id="tituloEleitor-checkbox" >Título de Eleitor
-														<input type="hidden" name="nomeClasse" value="InternoControle">
-														<input type="hidden" name="metodo" value="incluir">
-													</label><br>
-													
-													<label>
-														<input type="checkbox" name="ctps" value="Possui" id="ctps-checkbox" >CTPS
-													</label><br>
-													
-													<label>
-														<input type="checkbox" name="saf" value="Possui" id="saf-checkbox" >SAF
-													</label><br>
-													
-													<label>
-														<input type="checkbox" name="sus" value="Possui" id="sus-checkbox" >SUS
-													</label><br>
-
-													<label>
-														<input type="checkbox" name="bpc" value="Possui" id="bpc-checkbox" >BPC
-													</label><br>
-												</div>
-											</div><br>
-											<hr class="dotted short">
-											<h4 class="mb-xlg doch4" id="label-imagens" style="display: none;">Imagens</h4> 
-											<div class="form-group" id="imgRg" style="display: block;">
-												<label class="col-md-4 control-label" id="label-rg" for="imgRg" >RG:</label>
-												<div class="col-md-8">
-													<input type="file" name="imgRg" size="60"  class="form-control" >
-												</div>
-											</div>
-											<div class="form-group" id="imgCpf"  style="display: block;">
-												<label class="col-md-4 control-label" for="imgCpf" id="label-cpf">CPF:</label>
-												<div class="col-md-8">
-													<input type="file" name="imgCpf" size="60" class="form-control">
-												</div>
-											</div>
-											<div class="form-group" id="imgCertidaoNascimento" style="display: none;">
-												<label class="col-md-4 control-label" for="imgCertidaoNascimento" id="label-certidao">Certidão de Nascimento:</label>
-												<div class="col-md-8">
-													<input type="file" name="imgCertidaoNascimento" size="60"  class="form-control">
-												</div>
-											</div>
-											<div class="form-group" id="imgCertidaoCasamento"  style="display: none;">
-												<label class="col-md-4 control-label" for="imgCertidaoCasamento" id="label-CertidaoCasamento">Certidao de Casamento:</label>
-												<div class="col-md-8">
-													<input type="file" name="imgCertidaoCasamento" size="60" class="form-control">
-												</div>
-											</div>
-											<div class="form-group" id="imgCuratela" style="display: none;">
-												<label class="col-md-4 control-label" id="label-curatela" for="imgCuratela">Curatela:</label>
-												<div class="col-md-8">
-													<input type="file" name="imgCuratela" size="60"  class="form-control">
-												</div>
-											</div>
-											<div class="form-group" id="imgInss" style="display: none;">
-												<label class="col-md-4 control-label"  for="imgInss" id="label-inss">INSS:</label>
-												<div class="col-md-8">
-													<input type="file" name="imgInss" size="60"  class="form-control">
-												</div>
-											</div>
-											<div class="form-group" id="imgLoas" style="display: none;">
-												<label class="col-md-4 control-label" id="label-loas"  for="imgLoas">LOAS:</label>
-												<div class="col-md-8">
-													<input type="file" name="imgLoas" size="60" class="form-control">
-												</div>
-											</div>
-											<div class="form-group" id="imgFunrural" style="display: none;">
-												<label class="col-md-4 control-label" id="label-funrural" for="imgFunrural">FUNRURAL:</label>
-												<div class="col-md-8">
-													<input type="file" name="imgFunrural" size="60" class="form-control">
-												</div>
-											</div>
-											<div class="form-group" id="imgTituloEleitor" style="display: none;">
-												<label class="col-md-4 control-label" id="label-titulo" for="imgTituloEleitor">Título de Eleitor:</label>
-												<div class="col-md-8">
-													<input type="file" name="imgTituloEleitor" size="60" class="form-control">
-												</div>
-											</div>
-											<div class="form-group" id="imgCtps" style="display: none;">
-												<label class="col-md-4 control-label" id="label-ctps" for="imgCtps">CTPS:</label>
-												<div class="col-md-8">
-													<input type="file" name="imgCtps" size="60" class="form-control">
-												</div>
-											</div>
-											<div class="form-group" id="imgSaf" style="display: none;">
-												<label class="col-md-4 control-label" id="label-saf" for="imgSaf">SAF:</label>
-												<div class="col-md-8">
-													<input type="file" name="imgSaf" size="60" class="form-control">
-												</div>
-											</div>
-											<div class="form-group" id="imgSus" style="display: none;">
-												<label class="col-md-4 control-label" id="label-sus" for="imgSus">SUS:</label>
-												<div class="col-md-8">
-													<input type="file" name="imgSus" size="60" class="form-control">
-												</div>
-											</div>
-											<div class="form-group" id="imgBpc"  style="display: none;">
-												<label class="col-md-4 control-label" for="imgBpc">BPC:</label>
-												<div class="col-md-8">
-													<input type="file" name="imgBpc" size="60"class="form-control">
-												</div>
-											</div>
-											<div class="form-group" id="imgBpc"  style="display: none;">
-												<label class="col-md-4 control-label" for="imgRg">BPC:</label>
-												<div class="col-md-8">
-													<input type="file" name="imgBpc" size="60"class="form-control">
-												</div>
-											</div>
-										</div><br/>
-
-										<section class="panel">
-											<header class="panel-heading">
-												<div class="panel-actions">
-													<a href="#" class="fa fa-caret-down"></a>
-												</div>
-
-												<h2 class="panel-title">Informações do Interno</h2>
-											</header>
-											<div class="panel-body" style="display: block;">
-												<section class="simple-compose-box mb-xlg ">
-
-														<textarea name="observacao" data-plugin-textarea-autosize placeholder="Observações" rows="1" style="height: 10vw"></textarea>
-												</section>
-											</div>
-										</section>
 									
 										 <div class="panel-footer">
 						                    <div class="row">
@@ -638,6 +470,7 @@
 
     function validarInterno(){
       var btn = $("#enviar");
+      
       var cpf_cadastrado = ([{"cpf":"admin","id":"1"},{"cpf":"12487216166","id":"2"}]).concat([{"cpf":"06512358716"},{"cpf":""},{"cpf":"01027049702"},{"cpf":"18136521719"},{"cpf":"57703212539"},{"cpf":"48913397480"},{"cpf":"19861411364"},{"cpf":"26377548508"},{"cpf":"Luiza1ni"},{"cpf":"Luiza2ni"},{"cpf":"63422141154"},{"cpf":"21130377008"},{"cpf":"luiza3ni"},{"cpf":"jiwdfhni"},{"cpf":"Joaoni"},{"cpf":"luiza4ni"},{"cpf":"luiza5ni"},{"cpf":"luiza6ni"},{"cpf":"teste1ni"},{"cpf":"luiza7ni"},{"cpf":"luiza8ni"},{"cpf":"luiza9ni"}]);
       var cpf = (($("#cpf").val()).replaceAll(".", "")).replaceAll("-", "");
       console.log(this);

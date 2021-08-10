@@ -67,7 +67,7 @@ session_start();
 								</a>
 							</li>
 							<li>
-								<a href="<?= WWW ?>html/cadastro_interno.php">
+								<a href="<?= WWW ?>html/cadastro_atendido.php">
 									 Cadastrar Atendido
 								</a>
 							</li>
