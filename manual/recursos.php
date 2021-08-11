@@ -406,7 +406,83 @@ if(file_exists($config_path)){
                     </dir>
                     <dir id="_material_patrimonio">
                         <h3>3.2. Material e Patrimônio</h3><hr>
-                        <p></p>
+                        <p>O modulo Material e Patrimônio tem como objetivo ter controle absoluto dos produtos e <strong>almoxarifados</strong> existentes. Dentro dele, poderá ter acesso a <strong>relatórios</strong> completos não só sobre a <strong>entrada</strong> e <strong>saída</strong>, mas também do material presente em estoque.</p>
+                      <dir>
+                          <h3>3.2.1. Entrada e Saída </h3>
+
+                          <hr>
+                          
+                        <dir>
+                            <h3>Criação da Origem e Destino</h3>
+                            <hr>
+                            <p>Para criar uma origem ou destino, o funcionário responsável deve já estar na página de <strong><a href="/html/cadastro_entrada.php" style="text-decoration: none">ENTRADA</a> ou <a href="/html/cadastro_saida.php" style="text-descoration: none">SAÍDA</a></strong> e então no campo de <strong>Origem/Destino</strong> clicar no sinal de "+", localizado ao lado do campo de escrever. Logo em seguida, o funcionário será redirecionado para preencher os campos do cadastro da origem do produto. Feito isso, essa <strong>Origem/Destino</strong>, ficará disponivel para seleção e identificação na página de <strong>Entrada/Saída</strong>.
+                            <br><br>
+                            <img src="<?php echo WWW;?>img/origem.png" class="img-fluid">
+                        </dir>
+                        <dir>
+                            <h3>Criação do Almoxarifado</h3>
+                            <hr>
+                            <p>Criar um Almoxarifado é ainda mais fácil. Para isso, basta clicar no modulo de <strong>Material e Patrimônio</strong>, em seguida <strong>Adicionar Almoxarifado</strong>. Feito isso, escolha o nome que quiser para ele e clique em enviar. Pronto! Seu almoxarifado foi adicionado e já pode ser consultado. O mesmo pode ser feito, clicando no sinal de "+" pela própria página <strong>Entrada/Saída</strong> no campo de Almoxarifado.
+                        </dir>
+                        <dir>
+                            <h3>Criação Tipos</h3>
+                            <hr>
+                            <p>Nesse setor, é necessário que o funcionário informe o tipo de entrada ou saída. Como por exemplo, doações, projetos internos ou externos, parcerias. Como nos exemplos acima, basta clicar no sinal de " + " que irá ser redirecionado para criar o nome do tipo de entrada. Então, depois disso o "Tipo" criado estará disponível para seleção.</p>
+                        </dir>
+                        <dir>
+                            <h3>Enviar</h3>
+                            <hr>
+                            <p>Por fim, selecionamos o produto que será dado entrada/saída, inserindo o nome/código de barras (É possível usar Leitor de Código de barras). Em seguida, selecionamos a quantidade que será designada a entrada/saída e então é preciso clicar em <strong>Incluir</strong>. Feito isso, poderá ser adicionado novos produtos nessa entrada/saída, ou então, caso seja encerrado, clicamos em <strong>enviar</strong>.    
+                        </dir>
+                      </dir>
+                      <br>
+                      <dir>
+                           <h3>3.2.2. Estoque </h3>
+                           <hr>
+                           <dir>
+                             <p>Aqui podemos visualizar todos os produtos que foram computados como entrada dentro do sistema e ainda não saíram, ou seja, estão presentes no <strong>estoque</strong>. Caso haja mais de um almoxarifado cadastrado no sistema, o funcionário poderá selecionar qual deseja consultar além da categoria. Feito isso, todos os produtos presentes irão aparecer numa lista, ou caso queira ver os que não possuem número no estoque, basta selecionar a caixinha <strong>"exibir produtos fora de estoque"</strong> e então deve aparecer produtos cadastrados que não possuem exemplares presentes no momento.</p>    
+                             <img src="<?php echo WWW;?>img/estoque.png" class="img-fluid">
+                           </dir>
+                      </dir>
+                      <dir>
+                      <br>
+                           <h3>3.3.3. Almoxarifados</h3>
+                           <hr>                           
+                           <p>Em almoxarifados podemos ter acesso aos almoxarifados criados/existentes e também aos funcionários responsáveis pelo setor. Além disso, poderá excluir o almoxarifado, caso seja necessário.</p>
+                           
+                      </dir>
+                      <dir>
+                            <br>
+                            <h3>3.3.4. Produtos</h3>
+                            <hr>
+                            <p>Para que possamos dar entrada, saída ou até mesmo visualizar a quantidade de produto restante no estoque, precisamos antes cadastra-los. Para isso, no modulo de <strong>Material e Patrimonio</strong> selecione a opção <strong>Produtos</strong>. Funcionário poderá preencher todas as áreas designadas ao cadastro do produto como nome, categoria, unidade(Jeito que é medido - Litro, metro, pacote, Quilo), o código que ficará salvo para que funcione como identificação/atalho do produto e o valor. </p>
+                             <img src="<?php echo WWW;?>img/produto.png" class="img-fluid">
+                      </dir>
+                      <dir>
+                            <br>
+                            <h3>3.3.5. Relatório </h3>
+                            <hr>
+                            <p>Existe três tipos de relatórios, um para listar a entrada que ficará responsável por detalhar todas as entradas por todos os funcionários responsáveis. Um para a saída, na qual, poderá ver todos os produtos que por algum motivo tiveram saída do estoque. E por fim, um para o estoque que permite poder ver todos os itens presentes e suas informações. </p>
+                            <p><strong>1.</strong> Além disso, o sistema de relatório conta com alguns parâmetros, que por sí só vai permitir uma analise de relatório completa e objetiva. Nela, no caso de <strong>ENTRADA</strong> ou <strong>SAÍDA</strong>, pode ser escolhida a forma de origem/destino, o tipo de entrada/saída, o <strong>Responsável</strong> por tal feito, a data e também de qual almoxarifado.</p>
+                            <img src="<?php echo WWW;?>img/entrada.png" class="img-fluid">
+                            <br>
+                            <p><strong>2.</strong> Já o sistema de relatório para estoque, é mais simples, precisando apenas selecionar o <strong>Almoxarifado</strong> que deseja verificar a situação.</p>
+                            <img src="<?php echo WWW;?>img/relEstoque.png" class="img-fluid">
+                      </dir>
+                      <dir>
+                            <br>
+                            <h3>3.3.6. Informações Entrada</h3>
+                            <hr>
+                            <p>Nessa sessão, o funcionário poderá ver ainda mais detalhes sobre os produtos que foram dados como entrada. Entre eles o valor total, a data e também as horas. Além disso, também é possível visutalizar o responsável pela entrada.</p>
+                            <img src="<?php echo WWW;?>img/infoEntrada.png" class="img-fluid">
+                      </dir>
+                      <dir>
+                            <br>
+                            <h3>3.3.7. Informações Saída</h3>
+                            <hr>
+                            <p>Assim como nas <strong>Informações de Entrada</strong>, aqui é possível ver todos os dados em relação a saída efetuada de um ou mais produtos</p>
+                            <img src="<?php echo WWW;?>img/infoSaida.png" class="img-fluid">
+                      </dir>         
                     </dir>
                     <dir id="_memorando">
                         <h3>3.3. Memorando</h3><hr>
