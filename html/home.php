@@ -226,6 +226,8 @@
 							</div>
 						</a>
 
+					
+
 
 						<a href="../controle/control.php?metodo=listarTodos&nomeClasse=InternoControle&nextPage=../html/informacao_interno.php">
 							<div class="col-lg-2 col-md-8 i">
