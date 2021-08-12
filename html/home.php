@@ -226,8 +226,10 @@
 							</div>
 						</a>
 
+					
 
-						<a href="../controle/control.php?metodo=listarTodos&nomeClasse=InternoControle&nextPage=../html/informacao_interno.php">
+
+						<a href="../controle/control.php?metodo=listarTodos&nomeClasse=InternoControle&nextPage=./html/informacao_interno.php">
 							<div class="col-lg-2 col-md-8 i">
 								<form id="listarInterno" method="POST" action="../controle/control.php">
 									<i  class="far fa-address-card" id="listarInterno"></i>

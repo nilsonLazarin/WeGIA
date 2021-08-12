@@ -40,7 +40,6 @@
        $msg = "Você não tem as permissões necessárias para essa página.";
        header("Location: ./home.php?msg_c=$msg");
       }	
-      
 	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
 	require_once "personalizacao_display.php";
   require_once ROOT."/controle/FuncionarioControle.php";
@@ -70,7 +69,7 @@
    <head>
       <!-- Basic -->
       <meta charset="UTF-8">
-      <title>Perfil interno</title>
+      <title>Perfil Atendido</title>
       <!-- Mobile Metas -->
       <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
       <!-- Web Fonts  -->
@@ -231,7 +230,7 @@
          		}
                if(item.imgdoc==null)
                {
-                  $('#docs').append($("<strong >").append($("<p >").text("Não foi possível encontrar nenhuma imagem referente a esse interno!")));
+                  $('#docs').append($("<strong >").append($("<p >").text("Não foi possível encontrar nenhuma imagem referente a esse Atendido!")));
                }
                else{
                   b64 = item.imgdoc;
@@ -251,246 +250,39 @@
          $(function () {
             $("#header").load("header.php");
             $(".menuu").load("menu.php");
+
+
+            function editar_documentacao() {
+
+            $("#rg").prop('disabled', false);
+            $("#orgao_emissor").prop('disabled', false);
+            $("#data_expedicao").prop('disabled', false);
+            $("#cpf").prop('disabled', false);
+            $("#data_admissao").prop('disabled', false);
+
+            $("#botaoEditarDocumentacao").html('Cancelar');
+            $("#botaoSalvarDocumentacao").prop('disabled', false);
+            $("#botaoEditarDocumentacao").removeAttr('onclick');
+            $("#botaoEditarDocumentacao").attr('onclick', "return cancelar_documentacao()");
+
+            }
+
+            function cancelar_documentacao() {
+
+            $("#rg").prop('disabled', true);
+            $("#orgao_emissor").prop('disabled', true);
+            $("#data_expedicao").prop('disabled', true);
+            $("#cpf").prop('disabled', true);
+            $("#data_admissao").prop('disabled', true);
+
+            $("#botaoEditarDocumentacao").html('Editar');
+            $("#botaoSalvarDocumentacao").prop('disabled', true);
+            $("#botaoEditarDocumentacao").removeAttr('onclick');
+            $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
+
+}
          });
       </script>
-      <script type="text/javascript">
-
-      function editar_informacoes_pessoais() {
-         $("#nomeForm").prop('disabled', false);
-         $("#sobrenomeForm").prop('disabled', false);
-         $("#radioM").prop('disabled', false);
-         $("#radioF").prop('disabled', false);
-         $("#telefone1form").prop('disabled', false);
-         $("#telefone2form").prop('disabled', false);
-         $("#telefone2form").prop('disabled', false);
-         $("#nascimento").prop('disabled', false);
-         $("#pai").prop('disabled', false);
-         $("#mae").prop('disabled', false);
-         $("#sangue").prop('disabled', false);
-
-         $("#botaoEditarIP").html('Cancelar');
-         $("#botaoSalvarIP").prop('disabled', false);
-         $("#botaoEditarIP").removeAttr('onclick');
-         $("#botaoEditarIP").attr('onclick', "return cancelar_informacoes_pessoais()");
-
-    }
-
-      $(function () {
-         $("#header").load("header.php");
-         $(".menuu").load("menu.php");
-
-          $("#cep").prop('disabled', true);
-          $("#uf").prop('disabled', true);
-          $("#cidade").prop('disabled', true);
-          $("#bairro").prop('disabled', true);
-          $("#rua").prop('disabled', true);
-          $("#numero_residencia").prop('disabled', true);
-          $("#complemento").prop('disabled', true);
-          $("#ibge").prop('disabled', true);
-         var endereco = <?php echo $_SESSION['endereco'];?> ;
-         if(endereco=="")
-         {
-            $("#metodo").val("incluirEndereco");
-         }
-         else
-         {
-            $("#metodo").val("alterarEndereco");
-         }
-         $.each(endereco,function(i,item){   
-            console.log(endereco);
-              $("#nome").val(item.nome).prop('disabled', true);
-              $("#cep").val(item.cep).prop('disabled', true);
-              $("#uf").val(item.estado).prop('disabled', true);
-              $("#cidade").val(item.cidade).prop('disabled', true);
-              $("#bairro").val(item.bairro).prop('disabled', true);
-              $("#rua").val(item.logradouro).prop('disabled', true);
-              $("#numero_residencia").val(item.numero_endereco).prop('disabled', true);
-              $("#complemento").val(item.complemento).prop('disabled', true);
-              $("#ibge").val(item.ibge).prop('disabled', true);
-              if (item.numero_endereco=='Sem número' || item.numero_endereco==null ) {
-                $("#numResidencial").prop('checked',true);
-              }
-              });
-       });  
-       function editar_endereco(){
-         
-            $("#nome").prop('disabled', false);
-            $("#cep").prop('disabled', false);
-            $("#uf").prop('disabled', false);
-            $("#cidade").prop('disabled', false);
-            $("#bairro").prop('disabled', false);
-            $("#rua").prop('disabled', false);
-            $("#complemento").prop('disabled', false);
-            $("#ibge").prop('disabled', false);         
-            $("#numResidencial").prop('disabled', false);
-            $("#numero_residencia").prop('disabled', false)
-            $("#botaoEditarEndereco").html('Cancelar');
-            $("#botaoSalvarEndereco").prop('disabled', false);
-            $("#botaoEditarEndereco").removeAttr('onclick');
-            $("#botaoEditarEndereco").attr('onclick', "return cancelar_endereco()");
-        }
-        function numero_residencial()
-        {
-         if($("#numResidencial").prop('checked'))
-         {
-            document.getElementById("numero_residencia").readOnly=true;
-         }
-         else
-         {
-            document.getElementById("numero_residencia").readOnly=false;
-         }
-        }
-        function cancelar_endereco(){
-            $("#cep").prop('disabled', true);
-            $("#uf").prop('disabled', true);
-            $("#cidade").prop('disabled', true);
-            $("#bairro").prop('disabled', true);
-            $("#rua").prop('disabled', true);
-            $("#complemento").prop('disabled', true);
-            $("#ibge").prop('disabled', true);
-            $("#numResidencial").prop('disabled', true);
-            $("#numero_residencia").prop('disabled', true);
-         
-            $("#botaoEditarEndereco").html('Editar');
-            $("#botaoSalvarEndereco").prop('disabled', true);
-            $("#botaoEditarEndereco").removeAttr('onclick');
-            $("#botaoEditarEndereco").attr('onclick', "return editar_endereco()");
-         
-          }
-        function limpa_formulário_cep() {
-            //Limpa valores do formulário de cep.
-            document.getElementById('rua').value=("");
-            document.getElementById('bairro').value=("");
-            document.getElementById('cidade').value=("");
-            document.getElementById('uf').value=("");
-            document.getElementById('ibge').value=("");
-          }
-
-        function meu_callback(conteudo) {
-            if (!("erro" in conteudo)) {
-                //Atualiza os campos com os valores.
-                document.getElementById('rua').value=(conteudo.logradouro);
-                document.getElementById('bairro').value=(conteudo.bairro);
-                document.getElementById('cidade').value=(conteudo.localidade);
-                document.getElementById('uf').value=(conteudo.uf);
-                document.getElementById('ibge').value=(conteudo.ibge);
-            }
-            else {
-                //CEP não Encontrado.
-                limpa_formulário_cep();
-                alert("CEP não encontrado.");
-            }
-          }
-
-        function pesquisacep(valor) {
-            //Nova variável "cep" somente com dígitos.
-            var cep = valor.replace(/\D/g, '');
-       
-            //Verifica se campo cep possui valor informado.
-            if (cep != "") {
-       
-              //Expressão regular para validar o CEP.
-              var validacep = /^[0-9]{8}$/;
-     
-              //Valida o formato do CEP.
-              if(validacep.test(cep)) {
-     
-                //Preenche os campos com "..." enquanto consulta webservice.
-                document.getElementById('rua').value="...";
-                document.getElementById('bairro').value="...";
-                document.getElementById('cidade').value="...";
-                document.getElementById('uf').value="...";
-                document.getElementById('ibge').value="...";
-   
-                //Cria um elemento javascript.
-                var script = document.createElement('script');
-   
-                //Sincroniza com o callback.
-                script.src = 'https://viacep.com.br/ws/'+ cep + '/json/?callback=meu_callback';
-   
-                //Insere script no documento e carrega o conteúdo.
-                document.body.appendChild(script);
-     
-              } //end if.
-              else {
-                  //cep é inválido.
-                  limpa_formulário_cep();
-                  alert("Formato de CEP inválido.");
-              }
-            } //end if.
-            else {
-                //cep sem valor, limpa formulário.
-                limpa_formulário_cep();
-            }
-         
-          };
-          function gerarDocFuncional() {
-      url = './funcionario/documento_listar.php';
-      $.ajax({
-        data: '',
-        type: "POST",
-        url: url,
-        async: true,
-        success: function(response) {
-          var documento = response;
-          $('#tipoDocumento').empty();
-          $('#tipoDocumento').append('<option selected disabled>Selecionar...</option>');
-          $.each(documento, function(i, item) {
-            $('#tipoDocumento').append('<option value="' + item.id_docfuncional + '">' + item.nome_docfuncional + '</option>');
-          });
-        },
-        dataType: 'json'
-      });
-    }
-
-    function adicionarDocFuncional() {
-      url = './funcionario/documento_adicionar.php';
-      var nome_docfuncional = window.prompt("Cadastre um novo tipo de Documento:");
-      if (!nome_docfuncional) {
-        return
-      }
-      nome_docfuncional = nome_docfuncional.trim();
-      if (nome_docfuncional == '') {
-        return
-      }
-
-      data = 'nome_docfuncional=' + nome_docfuncional;
-
-      $.ajax({
-        type: "POST",
-        url: url,
-        data: data,
-        success: function(response) {
-          gerarDocFuncional();
-        },
-        dataType: 'text'
-      })
-    }
-               function listarFunDocs(docfuncional){
-               $("#doc-tab").empty();
-               $.each(docfuncional, function(i, item) {
-                 $("#doc-tab")
-                   .append($("<tr>")
-                     .append($("<td>").text(item.nome_docfuncional))
-                     .append($("<td>").text(item.data))
-                     .append($("<td style='display: flex; justify-content: space-evenly;'>")
-                       .append($("<a href='./funcionario/documento_download.php?id_doc=" + item.id_fundocs + "' title='Visualizar ou Baixar'><button class='btn btn-primary'><i class='fas fa-download'></i></button></a>"))
-                       .append($("<a onclick='removerFuncionarioDocs("+item.id_fundocs+")' href='#' title='Excluir'><button class='btn btn-danger'><i class='fas fa-trash-alt'></i></button></a>"))
-                     )
-                   )
-               });
-             }
-
-             $(function() {
-               $('#datatable-docfuncional').DataTable({
-                 "order": [
-                   [0, "asc"]
-                 ]
-               });
-             });
-
-    </script>
-    
    </head>
    <body>
       <section class="body">
@@ -505,7 +297,7 @@
                <h2>Perfil</h2>
                <div class="right-wrapper pull-right">
                   <ol class="breadcrumbs">
-                     <li>
+                     <li>ffffffffffffffffffffffffffffffffffffffffffffffffffffffff
                         <a href="index.html">
                         <i class="fa fa-home"></i>
                         </a>
@@ -595,37 +387,38 @@
             <div class="tabs">
             <ul class="nav nav-tabs tabs-primary">
                <li class="active">
-                  <a href="#overview" data-toggle="tab">Visão Geral</a>
+                  <a href="#overview" data-toggle="tab">Informações</a>
                </li>
+               
                <li>
-                  <a href="#endereco" data-toggle="tab">Endereço</a>
-                </li>
-               <li>
-                  <a href="#arquivo" data-toggle="tab">Documentação</a>
+                  <a href="#docs" data-toggle="tab">Documentos</a>
                </li>
             </ul>
             <div class="tab-content">
-            <div id="overview" class="tab-pane active">
-               <h4 class="mb-xlg">Informações Pessoais</h4>
-               <form id="formulario" action="../controle/control.php" enctype="multipart/form-data" method="POST">
-                  <fieldset>
-                     <div class="form-group">
-                        <label class="col-md-3 control-label">Nome</label>
+                <div id="overview" class="tab-pane active">
+                <form id="formulario" action="../controle/control.php" enctype="multipart/form-data" method="POST">
+                    <input type="hidden" name="nomeClasse" value="FuncionarioControle">
+                    <input type="hidden" name="metodo" value="alterarInfPessoal">
+                    <h4 class="mb-xlg">Informações Pessoais</h4>
+                    <fieldset>
+                      <div class="form-group">
+                        <label class="col-md-3 control-label" for="profileFirstName">Nome</label>
                         <div class="col-md-8">
-                           <input type="text" class="form-control" name="nome" id="nomeform" id="profileFirstName" onkeypress="return Onlychars(event)" >
+                        <input type="text" class="form-control" name="nome" id="nomeform" id="profileFirstName" onkeypress="return Onlychars(event)" >
                         </div>
-                     </div>
-                     <div class="form-group">
-                        <label class="col-md-3 control-label">Sobrenome</label>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-md-3 control-label" for="profileFirstName">Sobrenome</label>
                         <div class="col-md-8">
-                           <input type="text" class="form-control" name="sobrenome" id="sobrenomeform" id="profileLastName" onkeypress="return Onlychars(event)" >
+                        <input type="text" class="form-control" name="sobrenome" id="sobrenomeform" id="profileLastName" onkeypress="return Onlychars(event)" >
                         </div>
-                     </div>
-                     <div class="form-group">
+                      </div>
+                      <div class="form-group">
                         <label class="col-md-3 control-label">Sexo</label>
                         <div class="col-md-8">
-                           <input type="radio" name="sexo" id="radio1" value="m" style="margin-top: 10px margin-left: 15px;" required><i class="fa fa-male" style="font-size: 20px;" required></i>
-                           <input type="radio" name="sexo" id="radio2"  value="f" style="margin-top: 10px; margin-left: 15px;"><i class="fa fa-female" style="font-size: 20px;"></i> 
+                           <input type="radio" name="sexo" id="radio1" value="m" style="margin-top: 10px margin-left: 15px;" required><i class="fa fa-male" style="font-size: 20px;" required>Masculino</i>
+                           <br>
+                           <input type="radio" name="sexo" id="radio2"  value="f" style="margin-top: 10px; margin-left: 15px;"><i class="fa fa-female" style="font-size: 20px;">Feminino</i> 
                         </div>
                      </div>
                      <div class="form-group">
@@ -637,25 +430,18 @@
                      <div class="form-group">
                         <label class="col-md-3 control-label" for="telefone1">Telefone contato 1</label>
                         <div class="col-md-8">
-                           <input type="text" class="form-control" maxlength="14" minlength="14" name="telefone1" id="telefone1form" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeyup="mascara('(##)#####-####',this,event)" required>
-                        </div>
+                        <input type="text" class="form-control" maxlength="14" minlength="14" name="telefone1" id="telefone1" id="profileCompany" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeyup="mascara('(##)#####-####',this,event)" >                        </div>
                      </div>
                      <div class="form-group">
-                        <label class="col-md-3 control-label" for="telefone2">Telefone contato 2</label>
+                        <label class="col-md-3 control-label">Telefone contato 2</label>
                         <div class="col-md-8">
-                           <input type="text" class="form-control" maxlength="14" minlength="14" name="telefone2" id="telefone2form" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeyup="mascara('(##)#####-####',this,event)" required>
-                        </div>
+                        <input type="text" class="form-control" maxlength="14" minlength="14" name="telefone2" id="telefone2" id="profileCompany" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeyup="mascara('(##)#####-####',this,event)" >                        </div>
                      </div>
-                     <div class="form-group">
-                        <label class="col-md-3 control-label" for="telefone3">Telefone contato 3</label>
-                        <div class="col-md-8">
-                           <input type="text" class="form-control" maxlength="14" minlength="14" name="telefone3" id="telefone3form" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeyup="mascara('(##)#####-####',this,event)" required>
-                        </div>
-                     </div>
+                     
                      <div class="form-group">
                         <label class="col-md-3 control-label">Nascimento</label>
                         <div class="col-md-8">
-                            <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" id="nascimentoform" max=<?php echo date('Y-m-d'); ?>>
+                           <input type="date" max=<?php echo date('Y-m-d'); ?> maxlength="10" class="form-control" name="nascimento" id="nascimentoform" required>
                         </div>
                      </div>
                      <div class="form-group">
@@ -686,42 +472,40 @@
                            </select>
                         </div>
                      </div>
+                     
+                  <!--<input type="hidden" name="id_funcionario" value=1>
+                      <button type="button" class="btn btn-primary" id="botaoEditarIP" onclick="return editar_informacoes_pessoais()">Editar</button>
+                      <input type="submit" class="btn btn-primary" disabled="true" value="Salvar" id="botaoSalvarIP">
+                  -->
                      <br/>
-                     <hr class="dotted short">
-                     <h4 class="mb-xlg doch4">Documentação</h4>
-                     <div class="form-group">
-                        <label class="col-md-3 control-label">Número do RG</label>
-                        <div class="col-md-6">
-                           <input type="text" class="form-control" name="rg" id="rgform" onkeypress="return Onlynumbers(event)" placeholder="Ex: 22.222.222-2" >
+                     
+                     <br/>
+                     <section class="panel">
+                        <header class="panel-heading">
+                           <div class="panel-actions">
+                              <a href="#" class="fa fa-caret-down"></a>
+                           </div>
+                           <h2 class="panel-title">Informações do Atendido</h2>
+                        </header>
+                        <div class="panel-body" style="display: block;">
+                           <section class="simple-compose-box mb-xlg ">
+                              <textarea id="observacaoform" name="observacao" data-plugin-textarea-autosize placeholder="Observações" rows="1" style="height: 10vw"></textarea>
+                           </section>
+                        </div>
+                     </section>
+                  </fieldset>
+                  <div class="panel-footer">.
+                     <div class="row">.
+                        <div class="col-md-9 col-md-offset-3">.
+                           <input type="submit" class="btn btn-primary" value="Alterar" onclick="funcao1()"></button>
                         </div>
                      </div>
-                     <div class="form-group">
-                        <label class="col-md-3 control-label" >Órgão Emissor</label>
-                        <div class="col-md-6">
-                           <input type="text" name="orgaoEmissor" class="form-control" id="orgaoform" onkeypress="return Onlychars(event)">
-                        </div>
-                     </div>
-                     <div class="form-group">
-                        <label class="col-md-3 control-label" for="dataExpedicao">Data de Expedição</label>
-                        <div class="col-md-6">
-                            <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" name="dataExpedicao" id="expedicaoform" max=<?php echo date('Y-m-d'); ?>>
-                        </div>
-                     </div>
-                     <div class="form-group">
-                        <label class="col-md-3 control-label">Número do CPF</label>
-                        <div class="col-md-6">
-                             <input type="text" class="form-control" id="cpfform" name="numeroCPF" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##',this,event)">
-                        </div>
-                     </div>
-                     <div class="form-group">
-                        <label class="col-md-3 control-label"></label>
-                        <div class="col-md-6">
-                           <p id="cpfInvalido" style="display: none; color: #b30000">CPF INVÁLIDO!</p>
-                        </div>
-                     </div>
-               <div id="endereco" class="tab-pane">       
-                  <section class="panel">
-                    <header class="panel-heading">
+                  </div> 
+                      
+                  </form>
+            <div id="endereco" class="tab-pane">  
+               <section class="panel">            
+                  <header class="panel-heading">
                       <div class="panel-actions">
                         <a href="#" class="fa fa-caret-down"></a>
                       </div>
@@ -784,56 +568,105 @@
                                             <label class="col-md-3 control-label" for="ibge">IBGE</label>
                                             <div class="col-md-8">
                                                 <input type="text" size="8" name="ibge" class="form-control" id="ibge">
-                              </form>
+                                    
                               </div>
                            </div>
                         
                      </div>
                   </section>
-               </div>
-                           
+               </div>                    
+             
                   <div class="panel-footer">
-                     <div class="row">
-                        <div class="col-md-9 col-md-offset-3">
-                           <input type="submit" class="btn btn-primary" value="Alterar" onclick="funcao1()"></button>
-               </form>
-               <button id="excluir" type="button" class="btn btn-danger" data-toggle="modal" data-target="#exclusao">Excluir</button>
-               <div class="modal fade" id="exclusao" role="dialog">
-               <div class="modal-dialog">
-               <!-- Modal content-->
-               <div class="modal-content">
-               <div class="modal-header">
-	               <button type="button" class="close" data-dismiss="modal">×</button>
-	               <h3>Excluir um Interno</h3>
+                    <div class="row">
+                      <div class="col-md-9 col-md-offset-3">
+                      <button id="excluir" type="button" class="btn btn-danger" data-toggle="modal" data-target="#exclusao">Excluir</button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal fade" id="exclusao" role="dialog">
+                    <div class="modal-dialog">
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal">×</button>
+	               <h3>Excluir um Atendido</h3>
                </div>
-               <div class="modal-body">
-               		<p> Tem certeza que deseja excluir esse interno? Essa ação não poderá ser desfeita e todas as informações referentes a esse interno serão perdidas!</p>
+               <div class="modal-body">.
+               		<p> Tem certeza que deseja excluir esse Atendido? Essa ação não poderá ser desfeita e todas as informações referentes a esse atendido serão perdidas!</p>
                		<a href="../controle/control.php?metodo=excluir&nomeClasse=InternoControle&id=<?php echo $_GET['id']; ?>"><button button type="button" class="btn btn-success">Confirmar</button></a>
                		<button button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-               </div>
-               </div>
-               </div>
-               </div>
-               </div>
-               </div>
-               </div>
-            </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>  
+             
+            <div id="docs" class="tab-pane">
+             <!-- 
+                  Aba de documentos do funcionário 
 
-            <!-- Aba de Documentação -->
+                -->
 
-            <div id="arquivo" class="tab-pane">
+                
                   <section class="panel">
                     <header class="panel-heading">
                       <div class="panel-actions">
                         <a href="#" class="fa fa-caret-down"></a>
                       </div>
-                      <h2 class="panel-title">Arquivos</h2>
+
+                      <h2 class="panel-title">Documentos</h2>
+                      <!--Documentação-->
+                  <hr class="dotted short">
+                  <form class="form-horizontal" method="post" action="../controle/control.php">
+                    <input type="hidden" name="nomeClasse" value="FuncionarioControle">
+                    <input type="hidden" name="metodo" value="alterarDocumentacao">
+                    <div class="form-group">
+                      <label class="col-md-3 control-label" for="profileCompany">Número do RG</label>
+                      <div class="col-md-6">
+                        <input type="text" class="form-control" name="rg" id="rg" onkeypress="return Onlynumbers(event)" placeholder="Ex: 22.222.222-2" onkeyup="mascara('##.###.###-#',this,event)">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-md-3 control-label" for="profileCompany">Órgão Emissor</label>
+                      <div class="col-md-6">
+                        <input type="text" class="form-control" name="orgao_emissor" id="orgao_emissor" onkeypress="return Onlychars(event)">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-md-3 control-label" for="profileCompany">Data de expedição</label>
+                      <div class="col-md-6">
+                        <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" name="data_expedicao" id="data_expedicao" max=2021-06-11>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-md-3 control-label" for="profileCompany">Número do CPF</label>
+                      <div class="col-md-6">
+                        <input type="text" class="form-control" id="cpf" name="cpf" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##',this,event)">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-md-3 control-label" for="profileCompany"></label>
+                      <div class="col-md-6">
+                        <p id="cpfInvalido" style="display: none; color: #b30000">CPF INVÁLIDO!</p>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-md-3 control-label" for="profileCompany">Data de Admissão</label>
+                      <div class="col-md-8">
+                        <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data_admissao" id="data_admissao" max=2021-06-11>
+                      </div>
+                    </div>
+                    <br />
+                    <input type="hidden" name="id_funcionario" value=1>
+                    <button type="button" class="btn btn-primary" id="botaoEditarDocumentacao" onclick="return editar_documentacao()">Editar</button>
+                    <input id="botaoSalvarDocumentacao" type="submit" class="btn btn-primary" disabled="true" value="Salvar" onclick="funcao3()">
+                  </form>
                     </header>
                     <div class="panel-body">
                       <table class="table table-bordered table-striped mb-none" id="datatable-docfuncional">
                         <thead>
                           <tr>
-                            <th>Arquivo</th>
+                            <th>Documento</th>
                             <th>Data</th>
                             <th>Ação</th>
                           </tr>
@@ -845,7 +678,7 @@
                       <br>
                       <!-- Button trigger modal -->
                       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#docFormModal">
-                        Adicionar
+                        Adicionar Documento
                       </button>
 
                       <!-- Modal Form Documentos -->
@@ -853,7 +686,7 @@
                         <div class="modal-dialog" role="document">
                           <div class="modal-content">
                             <div class="modal-header" style="display: flex;justify-content: space-between;">
-                              <h5 class="modal-title" id="exampleModalLabel">Adicionar Arquivo</h5>
+                              <h5 class="modal-title" id="exampleModalLabel">Adicionar Documento</h5>
                               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                               </button>
@@ -861,155 +694,65 @@
                             <form action='./funcionario/documento_upload.php' method='post' enctype='multipart/form-data' id='funcionarioDocForm'>
                               <div class="modal-body" style="padding: 15px 40px">
                                 <div class="form-group" style="display: grid;">
-                                  <label class="my-1 mr-2" for="tipoDocumento">Tipo de Arquivo</label><br>
+                                  <label class="my-1 mr-2" for="tipoDocumento">Tipo de Documento</label><br>
                                   <div style="display: flex;">
                                     <select name="id_docfuncional" class="custom-select my-1 mr-sm-2" id="tipoDocumento" required>
                                       <option selected disabled>Selecionar...</option>
-                                      <option value="Certidão de Nascimento">Certidão de Nascimento</option>
-                                       <option value="Certidão de Casamento">Certidão de Casamento</option>
-                                       <option value="Curatela">Curatela</option>
-                                       <option value="INSS">INSS</option>
-                                       <option value="LOAS">LOAS</option>
-                                       <option value="FUNRURAL">FUNRURAL</option>
-                                       <option value="Título de Eleitor">Título de Eleitor</option>
-                                       <option value="CTPS">CTPS</option>
-                                       <option value="SAF">SAF</option>
-                                       <option value="SUS">SUS</option>
-                                       <option value="BPC">BPC</option> 
-                                       <option value="CPF">CPF</option>
-                                       <option value="Registro Geral">RG</option>
                                       
-                                    
-                                    </select>
-                                   <!-- <a onclick="adicionarDocFuncional()" style="margin: 0 20px;"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a> -->
-                                  </div>
-                                </div>
-                                <div class="form-group">
-                                  <label for="arquivoDocumento">Arquivo</label>
-                                  <input name="arquivo" type="file" class="form-control-file" id="id_documento" accept="png;jpeg;jpg;pdf;docx;doc;odp" required>
-                                </div>
-
-                                <input type="number" name="id_interno" value="<?= $_GET['id']; ?>" style='display: none;'>
-
-                              </div>
-                              <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                <input type="submit" value="Enviar" class="btn btn-primary">
-                              </div>
-                            </form>
-                            </div>
-                          </div>
-                        </div>
-                    </section>
-                  </div>
-
-
-
-
-
-           <!-- <div id="docs" class="tab-pane">
-                  <section class="panel">
-                    <header class="panel-heading">
-                      <div class="panel-actions">
-                        <a href="#" class="fa fa-caret-down"></a>
-                      </div>
-                      <h2 class="panel-title">Arquivos</h2>
-                    </header>
-                    <div class="panel-body">
-                      <table class="table table-bordered table-striped mb-none" id="datatable-docfuncional">
-                        <thead>
-                          <tr>
-                            <th>Arquivo</th>
-                            <th>Data</th>
-                            <th>Ação</th>
-                          </tr>
-                        </thead>
-                        <tbody id="doc-tab">
-
-                        </tbody>
-                      </table>
-                      <br> -->
-                      <!-- Button trigger modal -->
-                     <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#docFormModal">
-                        Adicionar
-                      </button> -->
-
-                      <!-- Modal Form Documentos -->
-                     <!-- <div class="modal fade" id="docFormModal" tabindex="-1" role="dialog" aria-labelledby="docFormModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                          <div class="modal-content">
-                            <div class="modal-header" style="display: flex;justify-content: space-between;">
-                              <h5 class="modal-title" id="exampleModalLabel">Adicionar Arquivo</h5>
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                              </button>
-                            </div>
-                          <form action='./funcionario/documento_upload.php' method='post' enctype='multipart/form-data' id='funcionarioDocForm'>
-                           <select name="descricao" id="teste">
-                              <option value="Certidão de Nascimento">Certidão de Nascimento</option>
-                              <option value="Certidão de Casamento">Certidão de Casamento</option>
-                              <option value="Curatela">Curatela</option>
-                              <option value="INSS">INSS</option>
-                              <option value="LOAS">LOAS</option>
-                              <option value="FUNRURAL">FUNRURAL</option>
-                              <option value="Título de Eleitor">Título de Eleitor</option>
-                              <option value="CTPS">CTPS</option>
-                              <option value="SAF">SAF</option>
-                              <option value="SUS">SUS</option>
-                              <option value="BPC">BPC</option> 
-                              <option value="CPF">CPF</option>
-                              <option value="Registro Geral">RG</option>
-                           </select><br/>
-            
-                              <p> Selecione a nova imagem</p>
-                              <div class="col-md-12">
-                                 <input type="file" name="doc" size="60"  class="form-control" > 
-                              </div><br/>
-                              <input type="hidden" name="id_documento" id="id_documento">
-                              <input type="hidden" name="id" value="<?php echo $_GET['id']; ?>">
-                              <input type="hidden" name="nomeClasse" value="DocumentoControle">
-                              <input type="hidden" name="metodo" value="alterar">
-                              <input type="submit" value="Confirmar" class="btn btn-success">
-                              <button button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                           </form>
-                           </div>
-                           </div>
-                           </div>
-                           </div>
-
-                                      
-                                    </select>
+                                          <option value='1' >Carteira de Identidade</option>
+                                          
+                                          <option value='12' >Curatela</option>
+                                          
+                                          <option value='9' >Carteira do SUS</option>
+                                          
+                                          <option value='11' >Certidão de Casamento</option>
+                                       
+                                          
+                                          <option value='10' >Certidão de Nascimento</option>
+                                          
+                                          <option value='8' >FUNRURAL</option>
+                                          
+                                          <option value='7' >LOAS</option>
+                                          
+                                          <option value='6' >SAF</option>
+                                          
+                                          <option value='2' >CPF</option>
+                                          
+                                          <option value='3' >CTPS</option>
+                                          
+                                          <option value='13' >INSS</option>
+                                          
+                                          <option value='4' >BCP</option>
+                                       
+                                          <option value='5' >Título de Eleitor</option>
+                                                                              </select>
                                     <a onclick="adicionarDocFuncional()" style="margin: 0 20px;"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
                                   </div>
                                 </div>
                                 <div class="form-group">
-                                  <label for="arquivoDocumento">Arquivo</label>
+                                  <label for="arquivoDocumento">Arquivo do Documento</label>
                                   <input name="arquivo" type="file" class="form-control-file" id="arquivoDocumento" accept="png;jpeg;jpg;pdf;docx;doc;odp" required>
                                 </div>
 
-                                <input type="number" name="id_funcionario" value="<?= $_GET['id_funcionario']; ?>" style='display: none;'>
+                                <input type="number" name="id_funcionario" value="1" style='display: none;'>
 
                               </div>
                               <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                                 <input type="submit" value="Enviar" class="btn btn-primary">
+
+                                
                               </div>
                             </form>
-                            </div>
                           </div>
                         </div>
-                    </section>
-                  </div> -->
+                      </div>
+                     </div>
 
-                 
-                   
-
-
-                 
-                                      
-                       
-
-
+                    </div>
+                  </section>
+               
+            </div>
             <!-- end: page -->
          </section>
          <aside id="sidebar-right" class="sidebar-right">
@@ -1021,6 +764,7 @@
                   <div class="sidebar-right-wrapper">
                      <div class="sidebar-widget widget-calendar">
                         <h6>Upcoming Tasks</h6>
+
                         <div data-plugin-datepicker data-plugin-skin="dark" ></div>
                         <ul>
                            <li>
@@ -1117,7 +861,7 @@
          </div>
          </div>
          </div>
-         <iv class="modal fade" id="editimg" role="dialog">
+         <div class="modal fade" id="editimg" role="dialog">
          <div class="modal-dialog">
          <!-- Modal content-->
          <div class="modal-content">
