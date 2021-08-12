@@ -17,6 +17,10 @@
 	$conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 	$id_pessoa = $_SESSION['id_pessoa'];
 	$resultado = mysqli_query($conexao, "SELECT * FROM pessoa WHERE id_pessoa=$id_pessoa");
+	$id_status = mysqli_fetch_array($resultado);
+  if (!is_null($id_status)) {
+    $id_status = $id_status['id_status'];
+  }
 
 	
 	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
@@ -152,65 +156,8 @@
 	        $("#header").load("header.php");
 	        $(".menuu").load("menu.php");
 	      });
-    	function meu_callback(conteudo) {
-        if (!("erro" in conteudo)) {
-            //Atualiza os campos com os valores.
-            document.getElementById('rua').value=(conteudo.logradouro);
-            document.getElementById('bairro').value=(conteudo.bairro);
-            document.getElementById('cidade').value=(conteudo.localidade);
-            document.getElementById('uf').value=(conteudo.uf);
-            document.getElementById('ibge').value=(conteudo.ibge);
-        } //end if.
-        else {
-            //CEP não Encontrado.
-            limpa_formulário_cep();
-            alert("CEP não encontrado.");
-        }
-    }
         
-    function pesquisacep(valor) {
-
-        //Nova variável "cep" somente com dígitos.
-        var cep = valor.replace(/\D/g, '');
-
-        //Verifica se campo cep possui valor informado.
-        if (cep != "") {
-
-            //Expressão regular para validar o CEP.
-            var validacep = /^[0-9]{8}$/;
-
-            //Valida o formato do CEP.
-            if(validacep.test(cep)) {
-
-                //Preenche os campos com "..." enquanto consulta webservice.
-                document.getElementById('rua').value="...";
-                document.getElementById('bairro').value="...";
-                document.getElementById('cidade').value="...";
-                document.getElementById('uf').value="...";
-                document.getElementById('ibge').value="...";
-
-                //Cria um elemento javascript.
-                var script = document.createElement('script');
-
-                //Sincroniza com o callback.
-                script.src = 'https://viacep.com.br/ws/'+ cep + '/json/?callback=meu_callback';
-
-                //Insere script no documento e carrega o conteúdo.
-                document.body.appendChild(script);
-
-            } //end if.
-            else {
-                //cep é inválido.
-                limpa_formulário_cep();
-                alert("Formato de CEP inválido.");
-            }
-        } //end if.
-        else {
-            //cep sem valor, limpa formulário.
-            limpa_formulário_cep();
-        }
-    };
-
+ 
 	</script>
 </head>
 <body>
@@ -347,7 +294,19 @@
 												<input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" id="nascimento" max=<?php echo date('Y-m-d');?> required> 
 										    </div>
 										</div>
-										
+										<div class="form-group">
+                  					    <label class="col-md-3 control-label" for="inputSuccess">Situação<sup class="obrig">*</sup></label>
+					                    <div class="col-md-6">
+					                      <select class="form-control input-lg mb-md" name="status" id="status" required>
+					                        <option selected disabled>Selecionar</option>
+					                        <?php
+					                        while ($row = $id_status->fetch_array(MYSQLI_NUM)) {
+					                          echo "<option value=" . $row[0] . ">" . $row[1] . "</option>" ; 
+					                        }
+					                        ?>               
+					                      </select>
+                     					</div>
+                              </div>
 									
 										 <h4 class="mb-xlg doch4">Documentação</h4>
 										<div class="form-group">
