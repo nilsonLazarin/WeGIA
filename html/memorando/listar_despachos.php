@@ -285,8 +285,8 @@ require_once ROOT."/html/personalizacao_display.php";
 		}
 
 		input[type="file"] {
-			margin-bottom: 11px;
-			margin-top: 16px;
+			margin-bottom: 10px;
+			margin-top: 15px;
 		}
 
 		.col-md-3 {
@@ -393,7 +393,7 @@ require_once ROOT."/html/personalizacao_display.php";
 						
 						<div class="panel-body" id="">
 						<button style="margin-bottom: 0px !important;" class="not-printable mb-xs mt-xs mr-xs btn btn-default" id="btnPrint">Imprimir</button>
-						
+
 						<br>
 
 						
@@ -422,7 +422,6 @@ require_once ROOT."/html/personalizacao_display.php";
 					$pessoa1 = $pdo->query("SELECT id_destinatario FROM despacho WHERE id_remetente=$id_pessoa;")->fetch(PDO::FETCH_ASSOC) ["id_destinatario"];
 
 					
-
 					$pessoa_destino = $pdo->query("SELECT nome, sobrenome FROM pessoa WHERE id_pessoa=$pessoa1;")->fetch(PDO::FETCH_ASSOC);
 								
 					$pessoa_destino = $pessoa_destino["nome"] . ($pessoa_destino["sobrenome"] ? (" " . $pessoa_destino["sobrenome"]) : "");
@@ -431,11 +430,32 @@ require_once ROOT."/html/personalizacao_display.php";
 								
 					$pessoa_memorando = $pessoa_memorando["nome"] . ($pessoa_memorando["sobrenome"] ? (" " . $pessoa_memorando["sobrenome"]) : "");
 
+
+
+					//$sth = $pdo->query("SELECT nome, extensao FROM anexo WHERE id_despacho=$id_memorando");
+					//$sth->bindParam(':nome', $arquivo, PDO::PARAM_STR);
+					//$sth->execute();
+					//$resultados = $sth->fetchAll(PDO::FETCH_ASSOC);
+					//foreach($resultados as $valor):
+						//echo $valor."<br>";
+					//endforeach;
+
+					///$anex = $pdo->query("SELECT id_memorando FROM memorando;")->fetch(PDO::FETCH_ASSOC) ["id_memorando"];
+
+
+				
+					$anexo = $pdo->query("SELECT nome, extensao FROM anexo WHERE id_despacho=$id_memorando;")->fetch(PDO::FETCH_ASSOC);
+
+					$anexo = $anexo["nome"] . ($anexo["extensao"] ? ("." . $anexo["extensao"]) : "");
 					
+					// $resultado= explode("-", $anexo);
+					// echo "<pre>";
+					 ///print_r ($resultado);
+					 //echo "</pre>";
+					 //foreach($resultado as $valor):
+						//echo $valor."<br>";
+					// endforeach;
 
-					$anexo1= $pdo->query("SELECT nome FROM anexo WHERE id_despacho=$id_memorando;")->fetch(PDO::FETCH_ASSOC) ["nome"];
-
-					$anexo2 = $pdo->query("SELECT extensao FROM anexo WHERE id_despacho=$id_memorando;")->fetch(PDO::FETCH_ASSOC) ["extensao"];
 
 					
 								
@@ -487,7 +507,7 @@ require_once ROOT."/html/personalizacao_display.php";
 					<p>
 						<?php
 						echo(" <p> Anexos: </p>
-							<p> $anexo1.$anexo2</p>
+							<p> $anexo</p>
 							
 
 							");
@@ -513,7 +533,7 @@ require_once ROOT."/html/personalizacao_display.php";
 
 
 				<header class="panel-heading">
-                        <h3 class="panel-title">Reenviar despacho</h3>
+                        <h3 class="panel-title">Encaminhar despacho</h3>
                     </header>
                     <div class="panel-body">
 
