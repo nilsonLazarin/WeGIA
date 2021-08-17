@@ -67,13 +67,13 @@ session_start();
 								</a>
 							</li>
 							<li>
-								<a href="<?= WWW ?>html/cadastro_atendido.php">
+								<a href="<?= WWW ?>html/atendido/Cadastro_Atendido.php">
 									 Cadastrar Atendido
 								</a>
 							</li>
 
 							<li>
-								<a href="<?= WWW ?>controle/control.php?metodo=listarTodos&nomeClasse=InternoControle&nextPage=<?= WWW ?>../html/informacao_interno.php">
+							<a href="<?= WWW ?>controle/control.php?metodo=listarTodos&nomeClasse=InternoControle&nextPage=<?= WWW ?>html/atendido/Informacao_Atendido.php">
 									 Informações Atendido
 								</a>
 							</li>
@@ -244,10 +244,10 @@ session_start();
 		<input type="hidden" name="nextPage" value="<?= WWW ?>html/informacao_funcionario.php">
 	</form>
 	
-	<form id="listarInterno" method="POST" action="<?= WWW ?>controle/control.php">
-		<input type="hidden" name="nomeClasse" value="InternoControle">
+	<form id="listarAtendido" method="POST" action="<?= WWW ?>controle/control.php">
+		<input type="hidden" name="nomeClasse" value="AtendidoControle">
 		<input type="hidden" name="metodo" value="listartodos">
-		<input type="hidden" name="nextPage" value="<?= WWW ?>html/informacao_interno.php">
+		<input type="hidden" name="nextPage" value="<?= WWW ?>html/Informacao_Atendido.php">
 	</form>
 		
 	<!-- Theme Base, Components and Settings -->

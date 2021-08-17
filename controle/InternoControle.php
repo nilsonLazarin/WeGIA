@@ -30,19 +30,19 @@ class InternoControle
         session_start();
         if((!isset($nome)) || (empty($nome))){
             $msg = "Nome do interno não informado. Por favor, informe um nome!";
-            header('Location: ../html/cadastro_atendido.php?msg='.$msg);
+            header('Location: ../html/atendido/Cadastro_Atendido.php?msg='.$msg);
         }
         if((!isset($sobrenome)) || (empty($sobrenome))){
             $msg = "Sobrenome do interno não informado. Por favor, informe um sobrenome!";
-            header('Location: ../html/cadastro_atendido.php?msg='.$msg);
+            header('Location: ../html/atendido/Cadastro_Atendido.php?msg='.$msg);
         }
         if((!isset($sexo)) || (empty($sexo))){
             $msg .= "Sexo do interno não informado. Por favor, informe um sexo!";
-            header('Location: ../html/cadastro_atendido.php?msg='.$msg);
+            header('Location: ../html/atendido/Cadastro_Atendido.php?msg='.$msg);
         }
         if((!isset($nascimento)) || (empty($nascimento))){
             $msg .= "Data de nascimento do interno não informado. Por favor, informe uma data de nascimento!";
-            header('Location: ../html/cadastro_atendido.php?msg='.$msg);
+            header('Location: ../html/atendido/Cadastro_Atendido.php?msg='.$msg);
         }
         if(isset($naoPossuiCpf))
         {
@@ -66,7 +66,7 @@ class InternoControle
         }
         elseif((!isset($numeroCPF)) || (empty($numeroCPF))){
             $msg .= "CPF do interno não informado. Por favor, informe um CPF!";
-            header('Location: ../html/cadastro_atendido.php?msg='.$msg);
+            header('Location: ../html/atendido/Cadastro_atendido.php?msg='.$msg);
         }
             $telefone='';
             $senha='null';
@@ -140,7 +140,7 @@ class InternoControle
             $idPessoa=$intDAO->incluir($interno);
             $_SESSION['msg']="Interno cadastrado com sucesso";
             $_SESSION['proxima']="Cadastrar outro interno";
-            $_SESSION['link']="../html/cadastro_atendido.php";
+            $_SESSION['link']="../html/atendido/Cadastro_Atendido.php";
             header("Location: ../html/sucesso.php");
         } catch (PDOException $e){
             $msg= "Não foi possível registrar o interno <form> <input type='button' value='Voltar' onClick='history.go(-1)'> </form>"."<br>".$e->getMessage();
@@ -155,7 +155,7 @@ class InternoControle
         $internoDAO=new InternoDAO();
         try {
             $internoDAO->alterar($interno);
-            header("Location: ../html/profile_interno.php?id=".$idInterno);
+            header("Location: ../html/Profile_Atendido.php?id=".$idInterno);
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -168,7 +168,7 @@ class InternoControle
         $internoDAO=new InternoDAO();
         try {
             $internoDAO->excluir($id);
-            header("Location:../controle/control.php?metodo=listarTodos&nomeClasse=InternoControle&nextPage=../html/informacao_interno.php");
+            header("Location:../controle/control.php?metodo=listarTodos&nomeClasse=InternoControle&nextPage=../html/Informacao_interno.php");
         } catch (Exception $e) {
             echo $e->getMessage();
         }

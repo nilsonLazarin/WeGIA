@@ -6,7 +6,7 @@
 	}
 	if(!isset($_SESSION['internos']))
 	{
-		header('Location: ../controle/control.php?metodo=listartodos&nomeClasse=InternoControle&nextPage=../html/informacao_atendido.php');
+		header('Location: ../controle/control.php?metodo=listartodos&nomeClasse=AtendidoControle&nextPage=../html/atendido/Informacao_Atendido.php');
 	}
 	$config_path = "config.php";
 	if(file_exists($config_path)){
@@ -16,6 +16,7 @@
 			$config_path = "../" . $config_path;
 			if(file_exists($config_path)) break;
 		}
+		
 		require_once($config_path);
 	}
 	$conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
@@ -91,7 +92,7 @@
 	<!-- jquery functions -->
 	<script>
 		function clicar(id_interno) {
-			window.location.href = "../html/profile_atendido.php?id="+id_interno;
+			window.location.href = "../html/Profile_Atendido.php?id="+id_interno;
 		}
 		$(function() {
 

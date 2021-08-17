@@ -219,7 +219,7 @@
 							</div>
 						</a>
 
-						<a href="../html/cadastro_atendido.php">
+						<a href="../html/atendido/Cadastro_Atendido.php">
 							<div class="col-lg-2 col-lg-offset-1 col-md-8 i" >
 								<i class="far fa-address-book"></i>
 								<h4>Cadastrar Atendido</h4>
@@ -229,10 +229,10 @@
 					
 
 
-						<a href="../controle/control.php?metodo=listarTodos&nomeClasse=InternoControle&nextPage=../html/informacao_interno.php">
+						<a href="../controle/control.php?metodo=listarTodos&nomeClasse=InternoControle&nextPage=../html/atendido/Informacao_Atendido.php">
 							<div class="col-lg-2 col-md-8 i">
-								<form id="listarInterno" method="POST" action="../controle/control.php">
-									<i  class="far fa-address-card" id="listarInterno"></i>
+								<form id="listarAtendido" method="POST" action="../controle/control.php">
+									<i  class="far fa-address-card" id="listarAtendido"></i>
 									<h4>Informação Atendidos</h4>
 								</form>
 							</div>
