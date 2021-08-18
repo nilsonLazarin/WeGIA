@@ -28,7 +28,7 @@
                 $documento=new Documento(1,$imagem,$extensao,$descricao);
 				$documento->setIdDocumento($id_documento);
 				$docuDAO->alterar($documento);
-				header('Location: ../controle/control.php?metodo=listarUm&nomeClasse=InternoControle&nextPage=../html/profile_interno.php?id='.$id.'&id='.$id);
+				header('Location: ../controle/control.php?metodo=listarUm&nomeClasse=AtendidoControle&nextPage=../html/Profile_Atendido.php?id='.$id.'&id='.$id);
 			} catch (PDOException $e) {
 				echo $e->getMessage();
 			}
@@ -39,7 +39,7 @@
 	        $docuDAO=new DocumentoDAO();
 	        try {
 	            $docuDAO->excluir($id_documento);
-	            header('Location: ../controle/control.php?metodo=listarUm&nomeClasse=InternoControle&nextPage=../html/profile_interno.php?id='.$id.'&id='.$id);
+	            header('Location: ../controle/control.php?metodo=listarUm&nomeClasse=AtendidoControle&nextPage=../html/Profile_Atendido.php?id='.$id.'&id='.$id);
 	        } catch (Exception $e) {
 	            echo $e->getMessage();
 	        }

@@ -229,7 +229,7 @@
 					
 
 
-						<a href="../controle/control.php?metodo=listarTodos&nomeClasse=InternoControle&nextPage=../html/atendido/Informacao_Atendido.php">
+						<a href="../controle/control.php?metodo=listarTodos&nomeClasse=AtendidoControle&nextPage=../html/atendido/Informacao_Atendido.php">
 							<div class="col-lg-2 col-md-8 i">
 								<form id="listarAtendido" method="POST" action="../controle/control.php">
 									<i  class="far fa-address-card" id="listarAtendido"></i>

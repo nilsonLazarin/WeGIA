@@ -73,7 +73,7 @@ session_start();
 							</li>
 
 							<li>
-							<a href="<?= WWW ?>controle/control.php?metodo=listarTodos&nomeClasse=InternoControle&nextPage=<?= WWW ?>html/atendido/Informacao_Atendido.php">
+							<a href="<?= WWW ?>controle/control.php?metodo=listarTodos&nomeClasse=AtendidoControle&nextPage=<?= WWW ?>html/atendido/Informacao_Atendido.php">
 									 Informações Atendido
 								</a>
 							</li>

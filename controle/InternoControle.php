@@ -168,7 +168,7 @@ class InternoControle
         $internoDAO=new InternoDAO();
         try {
             $internoDAO->excluir($id);
-            header("Location:../controle/control.php?metodo=listarTodos&nomeClasse=InternoControle&nextPage=../html/Informacao_interno.php");
+            header("Location:../controle/control.php?metodo=listarTodos&nomeClasse=InternoControle&nextPage=../html/Informacao_Atendido.php");
         } catch (Exception $e) {
             echo $e->getMessage();
         }
