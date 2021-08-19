@@ -224,3 +224,5 @@ INSERT INTO categoria_produto (descricao_categoria) VALUES ('Alimento'),('Higien
 INSERT INTO origem (nome_origem) VALUES ('Doador não identificado');
 
 INSERT INTO tipo_entrada (descricao) VALUES ('Doação'), ('Compra'), ('Troca'); 
+
+INSERT INTO tipo_saida (descricao) VALUES ('Consumo'), ('Troca'), ('Vencido');
