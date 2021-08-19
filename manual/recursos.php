@@ -538,7 +538,7 @@ if(file_exists($config_path)){
                             <iframe width="560" height="315" src="https://www.youtube.com/embed/h3bR7-yUKuw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                             <br>
                             <p><strong>Relatório Estoque</strong></p>
-                            <iframe width="560" height="315" src="https://www.youtube.com/embed/jQJJWra1fbU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/gBKhplptaA0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                             <br>
                             <p><strong>Relatório Saída</strong></p>
                             <iframe width="560" height="315" src="https://www.youtube.com/embed/CzyitkjBqtA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
