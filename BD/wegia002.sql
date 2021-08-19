@@ -218,3 +218,5 @@ INSERT INTO `epi` (`descricao_epi`) VALUES
 ('Protetor Facial'),
 ('Protetor Auditivo'),
 ('Respirador purificador');
+
+INSERT INTO categoria_produto (descricao_categoria) VALUES ('Alimento'),('Higiene'),('Limpeza'),('Medicamento'),('Papelaria');
