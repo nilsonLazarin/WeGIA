@@ -452,11 +452,22 @@ if(file_exists($config_path)){
                             <p>Para criar uma origem ou destino, o funcionário responsável deve já estar na página de <strong><a href="/html/cadastro_entrada.php" style="text-decoration: none">ENTRADA</a> ou <a href="/html/cadastro_saida.php" style="text-descoration: none">SAÍDA</a></strong> e então no campo de <strong>Origem/Destino</strong> clicar no sinal de "+", localizado ao lado do campo de escrever. Logo em seguida, o funcionário será redirecionado para preencher os campos do cadastro da origem do produto. Feito isso, essa <strong>Origem/Destino</strong>, ficará disponivel para seleção e identificação na página de <strong>Entrada/Saída</strong>.
                             <br><br>
                             <img src="<?php echo WWW;?>img/origem.png" class="img-fluid">
+                            <br>
+                            <p><strong>Origem</strong></p>
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/ufrvDiauT1k" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            <br>
+                            <p><strong>Destino</strong></p>
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/YMmTL7PFwv8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            <br>
+                            
                         </dir>
                         <dir>
                             <h3>Criação do Almoxarifado</h3>
                             <hr>
                             <p>Criar um Almoxarifado é ainda mais fácil. Para isso, basta clicar no modulo de <strong>Material e Patrimônio</strong>, em seguida <strong>Adicionar Almoxarifado</strong>. Feito isso, escolha o nome que quiser para ele e clique em enviar. Pronto! Seu almoxarifado foi adicionado e já pode ser consultado. O mesmo pode ser feito, clicando no sinal de "+" pela própria página <strong>Entrada/Saída</strong> no campo de Almoxarifado.
+                            <br>
+                            <p><strong>Criar Almoxarifado</strong></p>
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/xRP1Jnt3PZc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                         </dir>
                         <dir>
                             <h3>Criação Tipos</h3>
@@ -467,15 +478,28 @@ if(file_exists($config_path)){
                             <h3>Enviar</h3>
                             <hr>
                             <p>Por fim, selecionamos o produto que será dado entrada/saída, inserindo o nome/código de barras (É possível usar Leitor de Código de barras). Em seguida, selecionamos a quantidade que será designada a entrada/saída e então é preciso clicar em <strong>Incluir</strong>. Feito isso, poderá ser adicionado novos produtos nessa entrada/saída, ou então, caso seja encerrado, clicamos em <strong>enviar</strong>.    
+                            <br>
+                            <p><strong>Registrar Produtos No Estoque</strong></p>
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/swNVNb9vEXA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            <br>
+                            <p><strong>Registrar Saída do Estoque</strong></p>
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/jQJJWra1fbU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            <br>
                         </dir>
+                        
                       </dir>
                       <br>
                       <dir>
                            <h3>3.2.2. Estoque </h3>
                            <hr>
                            <dir>
-                             <p>Aqui podemos visualizar todos os produtos que foram computados como entrada dentro do sistema e ainda não saíram, ou seja, estão presentes no <strong>estoque</strong>. Caso haja mais de um almoxarifado cadastrado no sistema, o funcionário poderá selecionar qual deseja consultar além da categoria. Feito isso, todos os produtos presentes irão aparecer numa lista, ou caso queira ver os que não possuem número no estoque, basta selecionar a caixinha <strong>"exibir produtos fora de estoque"</strong> e então deve aparecer produtos cadastrados que não possuem exemplares presentes no momento.</p>    
-                             <img src="<?php echo WWW;?>img/estoque.png" class="img-fluid">
+                           <p><strong>Consultar Estoque</strong></p>
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/3RYKn3woLtQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            <br>
+                            <p>Aqui podemos visualizar todos os produtos que foram computados como entrada dentro do sistema e ainda não saíram, ou seja, estão presentes no <strong>estoque</strong>. Caso haja mais de um almoxarifado cadastrado no sistema, o funcionário poderá selecionar qual deseja consultar além da categoria. Feito isso, todos os produtos presentes irão aparecer numa lista, ou caso queira ver os que não possuem número no estoque, basta selecionar a caixinha <strong>"exibir produtos fora de estoque"</strong> e então deve aparecer produtos cadastrados que não possuem exemplares presentes no momento.</p>    
+                            <img src="<?php echo WWW;?>img/estoque.png" class="img-fluid">
+                            <br>
+                            
                            </dir>
                       </dir>
                       <dir>
@@ -483,14 +507,21 @@ if(file_exists($config_path)){
                            <h3>3.3.3. Almoxarifados</h3>
                            <hr>                           
                            <p>Em almoxarifados podemos ter acesso aos almoxarifados criados/existentes e também aos funcionários responsáveis pelo setor. Além disso, poderá excluir o almoxarifado, caso seja necessário.</p>
-                           
+                           <br>
+                           <p><strong>Designar Almoxarife</strong></p>
+                           <iframe width="560" height="315" src="https://www.youtube.com/embed/7_xVsFTnwaw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                           <br>
                       </dir>
                       <dir>
                             <br>
                             <h3>3.3.4. Produtos</h3>
                             <hr>
+                            <p><strong>Cadastrar Produtos</strong></p>
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/GmIE8JhgfKY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            <br>
                             <p>Para que possamos dar entrada, saída ou até mesmo visualizar a quantidade de produto restante no estoque, precisamos antes cadastra-los. Para isso, no modulo de <strong>Material e Patrimonio</strong> selecione a opção <strong>Produtos</strong>. Funcionário poderá preencher todas as áreas designadas ao cadastro do produto como nome, categoria, unidade(Jeito que é medido - Litro, metro, pacote, Quilo), o código que ficará salvo para que funcione como identificação/atalho do produto e o valor. </p>
-                             <img src="<?php echo WWW;?>img/produto.png" class="img-fluid">
+                            <img src="<?php echo WWW;?>img/produto.png" class="img-fluid">
+                            
                       </dir>
                       <dir>
                             <br>
@@ -502,6 +533,16 @@ if(file_exists($config_path)){
                             <br>
                             <p><strong>2.</strong> Já o sistema de relatório para estoque, é mais simples, precisando apenas selecionar o <strong>Almoxarifado</strong> que deseja verificar a situação.</p>
                             <img src="<?php echo WWW;?>img/relEstoque.png" class="img-fluid">
+                            <br>
+                            <p><strong>Relatório Entrada</strong></p>
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/h3bR7-yUKuw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            <br>
+                            <p><strong>Relatório Estoque</strong></p>
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/jQJJWra1fbU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            <br>
+                            <p><strong>Relatório Saída</strong></p>
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/CzyitkjBqtA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            <br>
                       </dir>
                       <dir>
                             <br>
