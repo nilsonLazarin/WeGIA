@@ -220,3 +220,5 @@ INSERT INTO `epi` (`descricao_epi`) VALUES
 ('Respirador purificador');
 
 INSERT INTO categoria_produto (descricao_categoria) VALUES ('Alimento'),('Higiene'),('Limpeza'),('Medicamento'),('Papelaria');
+
+INSERT INTO origem (nome_origem) VALUES ('Doador não identificado');
