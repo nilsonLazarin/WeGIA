@@ -222,3 +222,5 @@ INSERT INTO `epi` (`descricao_epi`) VALUES
 INSERT INTO categoria_produto (descricao_categoria) VALUES ('Alimento'),('Higiene'),('Limpeza'),('Medicamento'),('Papelaria');
 
 INSERT INTO origem (nome_origem) VALUES ('Doador não identificado');
+
+INSERT INTO tipo_entrada (descricao) VALUES ('Doação'), ('Compra'), ('Troca'); 
