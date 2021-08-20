@@ -195,7 +195,7 @@ require_once ROOT."/html/personalizacao_display.php";
 
         img
         {
-          margin-left:10px;
+          margin-left:11px;
         }
         /* print styles*/
         @media print {

@@ -264,7 +264,7 @@ require_once ROOT."/html/personalizacao_display.php";
 			width: 235px;
 		}
 		.select-table-filter{
-			width: 140px;
+			width: 141px;
 			float: left;
 		}
 
@@ -434,9 +434,9 @@ require_once ROOT."/html/personalizacao_display.php";
 					$strArquivo = $pdo->query("SELECT nome FROM anexo WHERE id_despacho=$id_memorando;")->fetchAll(PDO::FETCH_ASSOC);
 				
 					$anexo = $pdo->query("SELECT COUNT(*) FROM anexo WHERE id_despacho=$id_memorando;")->fetchAll(PDO::FETCH_ASSOC);
-					var_dump($anexo);
-					echo "<br />";
-					var_dump($strArquivo);
+					//var_dump($anexo);
+					//echo "<br />";
+					//var_dump($strArquivo);
 
 				
 								
