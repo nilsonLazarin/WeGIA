@@ -107,7 +107,7 @@
 
 					<div class="right-wrapper pull-right">
 						<ol class="breadcrumbs">
-							<li><a href="home.php"> <i class="fa fa-home"></i>
+							<li><a href="../index.php"> <i class="fa fa-home"></i>
 							</a></li>
 							<li><span>Informações Atendidos</span></li>
 						</ol>

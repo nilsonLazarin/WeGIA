@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html class="fixed">
    <head>
@@ -33,6 +32,7 @@
       <!-- Head Libs -->
       <script src="../../assets/vendor/modernizr/modernizr.js"></script>
       <script src="../../Functions/lista.js"></script>
+
       <!-- JavaScript Functions -->
 	   <script src="../../Functions/enviar_dados.js"></script>
       <script>
@@ -72,6 +72,7 @@
          			$("#nome").text("Nome: "+item.nome+' '+item.sobrenome);
          			$("#nomeform").val(item.nome);
                   $("#sobrenomeform").val(item.sobrenome);
+
          			if(item.imagem!=""){
                      $("#imagem").attr("src","data:image/gif;base64,"+item.imagem);
                   }else{
@@ -186,6 +187,7 @@
          });
       </script>
       <script type="text/javascript">
+
       function editar_informacoes_pessoais() {
          $("#nomeForm").prop('disabled', false);
          $("#sobrenomeForm").prop('disabled', false);
@@ -198,14 +200,18 @@
          $("#pai").prop('disabled', false);
          $("#mae").prop('disabled', false);
          $("#sangue").prop('disabled', false);
+
          $("#botaoEditarIP").html('Cancelar');
          $("#botaoSalvarIP").prop('disabled', false);
          $("#botaoEditarIP").removeAttr('onclick');
          $("#botaoEditarIP").attr('onclick', "return cancelar_informacoes_pessoais()");
+
     }
+
       $(function () {
          $("#header").load("header.php");
          $(".menuu").load("menu.php");
+
           $("#cep").prop('disabled', true);
           $("#uf").prop('disabled', true);
           $("#cidade").prop('disabled', true);
@@ -292,6 +298,7 @@
             document.getElementById('uf').value=("");
             document.getElementById('ibge').value=("");
           }
+
         function meu_callback(conteudo) {
             if (!("erro" in conteudo)) {
                 //Atualiza os campos com os valores.
@@ -307,6 +314,7 @@
                 alert("CEP não encontrado.");
             }
           }
+
         function pesquisacep(valor) {
             //Nova variável "cep" somente com dígitos.
             var cep = valor.replace(/\D/g, '');
@@ -367,8 +375,9 @@
         dataType: 'json'
       });
     }
+
     function adicionarDocFuncional() {
-      url = '././funcionario/documento_adicionar.php';
+      url = './funcionario/documento_adicionar.php';
       var nome_docfuncional = window.prompt("Cadastre um novo tipo de Documento:");
       if (!nome_docfuncional) {
         return
@@ -377,7 +386,9 @@
       if (nome_docfuncional == '') {
         return
       }
+
       data = 'nome_docfuncional=' + nome_docfuncional;
+
       $.ajax({
         type: "POST",
         url: url,
@@ -402,6 +413,7 @@
                    )
                });
              }
+
              $(function() {
                $('#datatable-docfuncional').DataTable({
                  "order": [
@@ -409,6 +421,7 @@
                  ]
                });
              });
+
     </script>
     
    </head>
@@ -426,7 +439,7 @@
                <div class="right-wrapper pull-right">
                   <ol class="breadcrumbs">
                      <li>
-                        <a href="../index.php">
+                        <a href="index.html">
                         <i class="fa fa-home"></i>
                         </a>
                      </li>
@@ -445,6 +458,9 @@
                                                       <div class="thumb-info mb-md">
                                                             <img id="imagem" alt="John Doe">
                                                             <i class="fas fa-camera-retro btn btn-info btn-lg" data-toggle="modal" data-target="#myModal"></i>
+                                                         </div>
+                                                      </div>
+
                               <div class="container">
                                  <div class="modal fade" id="myModal" role="dialog">
                                     <div class="modal-dialog">
@@ -455,7 +471,8 @@
                                              <h4 class="modal-title">Adicionar uma Foto</h4>
                                           </div>
                                           <div class="modal-body">
-                                             <form class="form-horizontal" method="POST" action="../../controle/control.php" enctype="multipart/form-data">
+                                             <form 
+                                             class="form-horizontal" method="POST" action="../../controle/control.php" enctype="multipart/form-data">
                                                 <input type="hidden" name="nomeClasse" value="InternoControle">
                                                 <input type="hidden" name="metodo" value="alterarImagem">
                                                 <div class="form-group">
@@ -464,17 +481,14 @@
                                                       <input type="file" name="imgperfil" size="60" id="imgform" class="form-control">
                                                    </div>
                                                 </div>
+
+                                                </div>
                                           </div>
                                           <div class="modal-footer">
                                           <input type="hidden" name="id_interno" value= >
                                           <input type="submit" id="formsubmit" value="Alterar imagem">
                                           </div>
-                                       </div>
                                        </form>
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
                            <div class="widget-toggle-expand mb-md">
                               <div class="widget-header">
                                  <div class="widget-content-expanded">
@@ -484,6 +498,8 @@
                               </div>
                            </div>
                         </div>
+                     </div>
+                  </div>
                </section>
             </div>
             <div class="col-md-8 col-lg-6">
@@ -495,8 +511,8 @@
                <li>
                   <a href="#endereco" data-toggle="tab">Endereço</a>
                 </li>
-                <li>
-                  <a href="#docs" data-toggle="tab">Documentos</a>
+               <li>
+                  <a href="#documentos" data-toggle="tab">Documentação</a>
                </li>
                <li>
                   <a href="#arquivo" data-toggle="tab">Arquivos</a>
@@ -506,7 +522,7 @@
             <div id="overview" class="tab-pane active">
                <h4 class="mb-xlg">Informações Pessoais</h4>
                <form id="formulario" action="../../controle/control.php" enctype="multipart/form-data" method="POST">
-               
+                  <fieldset>
                      <div class="form-group">
                         <label class="col-md-3 control-label">Nome</label>
                         <div class="col-md-8">
@@ -526,13 +542,28 @@
                            <input type="radio" name="sexo" id="radio2"  value="f" style="margin-top: 10px; margin-left: 15px;"><i class="fa fa-female" style="font-size: 20px;"></i> 
                         </div>
                      </div>
-                   
-                    
-                    
                      <div class="form-group">
-                        <label class="col-md-3 control-label" for="profileCompany">Telefone</label>
+                        <label class="col-md-3 control-label" >Nome Contato</label>
                         <div class="col-md-8">
-                          <input type="text" class="form-control" maxlength="14" minlength="14" name="telefone" id="telefone" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeyup="mascara('(##)#####-####',this,event)">
+                           <input type="text" class="form-control" name="nomeContato" id="nomeContatoform" id="profileFirstName" onkeypress="return Onlychars(event)">
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label class="col-md-3 control-label" for="telefone1">Telefone contato 1</label>
+                        <div class="col-md-8">
+                           <input type="text" class="form-control" maxlength="14" minlength="14" name="telefone1" id="telefone1form" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeyup="mascara('(##)#####-####',this,event)" required>
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label class="col-md-3 control-label" for="telefone2">Telefone contato 2</label>
+                        <div class="col-md-8">
+                           <input type="text" class="form-control" maxlength="14" minlength="14" name="telefone2" id="telefone2form" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeyup="mascara('(##)#####-####',this,event)" required>
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label class="col-md-3 control-label" for="telefone3">Telefone contato 3</label>
+                        <div class="col-md-8">
+                           <input type="text" class="form-control" maxlength="14" minlength="14" name="telefone3" id="telefone3form" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeyup="mascara('(##)#####-####',this,event)" required>
                         </div>
                      </div>
                      <div class="form-group">
@@ -567,57 +598,94 @@
                               <option value="AB+">AB+</option>
                               <option value="AB-">AB-</option>
                            </select>
+                        </fieldset>
                         </div>
-                    </div>
-                         
-                           
-                  <div class="panel-footer">
-                     <div class="row">
-                        <div class="col-md-9 col-md-offset-3">
-                           <input type="submit" class="btn btn-primary" value="Alterar" onclick="funcao1()"></button>
-               </form>
-               <button id="excluir" type="button" class="btn btn-danger" data-toggle="modal" data-target="#exclusao">Excluir</button>
-               <div class="modal fade" id="exclusao" role="dialog">
-               <div class="modal-dialog">
-               <!-- Modal content-->
-               <div class="modal-content">
-               <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal">×</button>
-                  <h3>Excluir um Atendido</h3>
-               </div>
-               <div class="modal-body">
-                     <p> Tem certeza que deseja excluir esse interno? Essa ação não poderá ser desfeita e todas as informações referentes a esse interno serão perdidas!</p>
-                     <a href="../../controle/control.php?metodo=excluir&nomeClasse=InternoControle&id="><button button type="button" class="btn btn-success">Confirmar</button></a>
-                     <button button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-               </div>
-               </div>
-               </div>
-               </div>
-               </div>
-               </div>
-               </div>
-            </div>
+                     </div>
 
 
-                     <br/>
+                        
+                  
+                  
+                     
+                      <!--
+                  Aba de documentos do funcionário
 
-<!-- Aba  de  Endereço -->
+                -->
 
-
-                
-
-<div id="endereco" class="tab-pane">
+               <div id="documentos" class="tab-pane">
                   <section class="panel">
                     <header class="panel-heading">
                       <div class="panel-actions">
                         <a href="#" class="fa fa-caret-down"></a>
                       </div>
 
+                      <h2 class="panel-title">Documentos</h2>
+                    </header>
+                  <div class="panel-body">
+                    <!--Documentação-->
+                    <hr class="dotted short">
+                    <form class="form-horizontal" method="post" action="../controle/control.php">
+                      <input type="hidden" name="nomeClasse" value="FuncionarioControle">
+                      <input type="hidden" name="metodo" value="alterarDocumentacao">
+                      <div class="form-group">
+                 
+                        <label class="col-md-3 control-label" for="profileCompany">Número do RG</label>
+                        <div class="col-md-6">
+                          <input type="text" class="form-control" name="rg" id="rg" onkeypress="return Onlynumbers(event)" placeholder="Ex: 22.222.222-2" onkeyup="mascara('##.###.###-#',this,event)">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-md-3 control-label" for="profileCompany">Órgão Emissor</label>
+                        <div class="col-md-6">
+                          <input type="text" class="form-control" name="orgao_emissor" id="orgao_emissor" onkeypress="return Onlychars(event)">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-md-3 control-label" for="profileCompany">Data de expedição</label>
+                        <div class="col-md-6">
+                          <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" name="data_expedicao" id="data_expedicao" max=<?php echo date('Y-m-d'); ?>>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-md-3 control-label" for="profileCompany">Número do CPF</label>
+                        <div class="col-md-6">
+                          <input type="text" class="form-control" id="cpf" name="cpf" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##',this,event)">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-md-3 control-label" for="profileCompany"></label>
+                        <div class="col-md-6">
+                          <p id="cpfInvalido" style="display: none; color: #b30000">CPF INVÁLIDO!</p>
+                        </div>
+                      </div>
+                     
+                      <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
+                      <button type="button" class="btn btn-primary" id="botaoEditarDocumentacao" onclick="return editar_documentacao()">Editar</button>
+                      <input id="botaoSalvarDocumentacao" type="submit" class="btn btn-primary" disabled="true" value="Salvar" onclick="funcao3()">
+                    </form>
+                  </div>
+                  </section>
+               </div>
+
+
+                           
+               
+                 
+
+
+                   <!--ABA de Endereço-->
+
+              <div id="endereco" class="tab-pane">       
+                  <section class="panel">
+                    <header class="panel-heading">
+                      <div class="panel-actions">
+                        <a href="#" class="fa fa-caret-down"></a>
+                      </div>
                       <h2 class="panel-title">Endereço</h2>
                     </header>
                   <div class="panel-body">
-                    <!--Endereço-->
-                   <hr class="dotted short">
+                   
+                    <hr class="dotted short">
                     <form id="endereco" class="form-horizontal" method="post" action="../../controle/control.php">
                       <input type="hidden" name="nomeClasse" value="EnderecoControle">
                       <input type="hidden" name="metodo" value="alterarEndereco">
@@ -672,89 +740,40 @@
                                             <label class="col-md-3 control-label" for="ibge">IBGE</label>
                                             <div class="col-md-8">
                                                 <input type="text" size="8" name="ibge" class="form-control" id="ibge">
-                                            </div>
-                                        </div>
-                                        <div class="form-group center">
-                                            <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
-                      <button type="button" class="btn btn-primary" id="botaoEditarEndereco" onclick="return editar_endereco()">Editar</button>
-                      <input id="botaoSalvarEndereco" type="submit" class="btn btn-primary" disabled="true" value="Salvar" onclick="funcao3()">
-                    </form>
-                  </div>
-                  
+                              </form>
+                              </div>
+                           </div>
+                        
+                     </div>
                   </section>
-         </div>
-
-
-
-            <div id="docs" class="tab-pane">
-
-                  <!-- Aba de documentos -->
-
+               </div>
+              
+                  <div class="panel-footer">
+                     <div class="row">
+                        <div class="col-md-9 col-md-offset-3">
+                           <input type="submit" class="btn btn-primary" value="Alterar" onclick="funcao1()"></button>
+               </form>
+               <button id="excluir" type="button" class="btn btn-danger" data-toggle="modal" data-target="#exclusao">Excluir</button>
+               <div class="modal fade" id="exclusao" role="dialog">
+               <div class="modal-dialog">
+               <!-- Modal content-->
+               <div class="modal-content">
+               <div class="modal-header">
+	               <button type="button" class="close" data-dismiss="modal">×</button>
+	               <h3>Excluir um atendido</h3>
+               </div>
+               <div class="modal-body">
+               		<p> Tem certeza que deseja excluir esse atendido? Essa ação não poderá ser desfeita e todas as informações referentes a esse atendido serão perdidas!</p>
+               		<a href="../../controle/control.php?metodo=excluir&nomeClasse=AtendidoControle&id="><button button type="button" class="btn btn-success">Confirmar</button></a>
+               		<button button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+               </div>
+               </div>
+               </div>
+               </div>
                
-                 <section class="panel">
-                   <header class="panel-heading">
-                     <div class="panel-actions">
-                       <a href="#" class="fa fa-caret-down"></a>
-                     </div>
 
-                     <h2 class="panel-title">Documentos</h2>
-                     <!--Documentação-->
-                 <hr class="dotted short">
-                 <form class="form-horizontal" method="post" action="../controle/control.php">
-                   <input type="hidden" name="nomeClasse" value="FuncionarioControle">
-                   <input type="hidden" name="metodo" value="alterarDocumentacao">
-                   <div class="form-group">
-                     <label class="col-md-3 control-label" for="profileCompany">Número do RG</label>
-                     <div class="col-md-6">
-                       <input type="text" class="form-control" name="rg" id="rg" onkeypress="return Onlynumbers(event)" placeholder="Ex: 22.222.222-2" onkeyup="mascara('##.###.###-#',this,event)">
-                     </div>
-                   </div>
-                   <div class="form-group">
-                     <label class="col-md-3 control-label" for="profileCompany">Órgão Emissor</label>
-                     <div class="col-md-6">
-                       <input type="text" class="form-control" name="orgao_emissor" id="orgao_emissor" onkeypress="return Onlychars(event)">
-                     </div>
-                   </div>
-                   <div class="form-group">
-                     <label class="col-md-3 control-label" for="profileCompany">Data de expedição</label>
-                     <div class="col-md-6">
-                       <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" name="data_expedicao" id="data_expedicao" max=2021-06-11>
-                     </div>
-                   </div>
-                   <div class="form-group">
-                     <label class="col-md-3 control-label" for="profileCompany">Número do CPF</label>
-                     <div class="col-md-6">
-                       <input type="text" class="form-control" id="cpf" name="cpf" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##',this,event)">
-                     </div>
-                   </div>
-                   <div class="form-group">
-                     <label class="col-md-3 control-label" for="profileCompany"></label>
-                     <div class="col-md-6">
-                       <p id="cpfInvalido" style="display: none; color: #b30000">CPF INVÁLIDO!</p>
-                     </div>
-                   </div>
-                   <div class="form-group">
-                     <label class="col-md-3 control-label" for="profileCompany">Data de Admissão</label>
-                     <div class="col-md-8">
-                       <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data_admissao" id="data_admissao" max=2021-06-11>
-                     </div>
-                   </div>
-                   <br />
-                   <input type="hidden" name="id_funcionario" value=1>
-                   <button type="button" class="btn btn-primary" id="botaoEditarDocumentacao" onclick="return editar_documentacao()">Editar</button>
-                   <input id="botaoSalvarDocumentacao" type="submit" class="btn btn-primary" disabled="true" value="Salvar" onclick="funcao3()">
-                 </form>
-                   </header>
-                   
-                 </section>
+            <!-- Aba de Arquivos -->
 
-       </div>
-
-       
-
-
-
-            <!-- Aba de arquivo -->
             <div id="arquivo" class="tab-pane">
                   <section class="panel">
                     <header class="panel-heading">
@@ -773,6 +792,7 @@
                           </tr>
                         </thead>
                         <tbody id="doc-tab">
+
                         </tbody>
                       </table>
                       <br>
@@ -780,6 +800,7 @@
                       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#docFormModal">
                         Adicionar
                       </button>
+
                       <!-- Modal Form Documentos -->
                       <div class="modal fade" id="docFormModal" tabindex="-1" role="dialog" aria-labelledby="docFormModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
@@ -820,7 +841,110 @@
                                   <label for="arquivoDocumento">Arquivo</label>
                                   <input name="arquivo" type="file" class="form-control-file" id="id_documento" accept="png;jpeg;jpg;pdf;docx;doc;odp" required>
                                 </div>
+
                                 <input type="number" name="id_interno" value="" style='display: none;'>
+
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                <input type="submit" value="Enviar" class="btn btn-primary">
+                              </div>
+                            </form>
+                            </div>
+                          </div>
+                        </div>
+                     </div>
+
+
+                    </section>
+                  
+
+
+
+
+
+           <!-- <div id="docs" class="tab-pane">
+                  <section class="panel">
+                    <header class="panel-heading">
+                      <div class="panel-actions">
+                        <a href="#" class="fa fa-caret-down"></a>
+                      </div>
+                      <h2 class="panel-title">Arquivos</h2>
+                    </header>
+                    <div class="panel-body">
+                      <table class="table table-bordered table-striped mb-none" id="datatable-docfuncional">
+                        <thead>
+                          <tr>
+                            <th>Arquivo</th>
+                            <th>Data</th>
+                            <th>Ação</th>
+                          </tr>
+                        </thead>
+                        <tbody id="doc-tab">
+
+                        </tbody>
+                      </table>
+                      <br> -->
+                      <!-- Button trigger modal -->
+                     <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#docFormModal">
+                        Adicionar
+                      </button> -->
+
+                      <!-- Modal Form Documentos -->
+                     <!-- <div class="modal fade" id="docFormModal" tabindex="-1" role="dialog" aria-labelledby="docFormModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header" style="display: flex;justify-content: space-between;">
+                              <h5 class="modal-title" id="exampleModalLabel">Adicionar Arquivo</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                          <form action='./funcionario/documento_upload.php' method='post' enctype='multipart/form-data' id='funcionarioDocForm'>
+                           <select name="descricao" id="teste">
+                              <option value="Certidão de Nascimento">Certidão de Nascimento</option>
+                              <option value="Certidão de Casamento">Certidão de Casamento</option>
+                              <option value="Curatela">Curatela</option>
+                              <option value="INSS">INSS</option>
+                              <option value="LOAS">LOAS</option>
+                              <option value="FUNRURAL">FUNRURAL</option>
+                              <option value="Título de Eleitor">Título de Eleitor</option>
+                              <option value="CTPS">CTPS</option>
+                              <option value="SAF">SAF</option>
+                              <option value="SUS">SUS</option>
+                              <option value="BPC">BPC</option> 
+                              <option value="CPF">CPF</option>
+                              <option value="Registro Geral">RG</option>
+                           </select><br/>
+            
+                              <p> Selecione a nova imagem</p>
+                              <div class="col-md-12">
+                                 <input type="file" name="doc" size="60"  class="form-control" > 
+                              </div><br/>
+                              <input type="hidden" name="id_documento" id="id_documento">
+                              <input type="hidden" name="id" value="">
+                              <input type="hidden" name="nomeClasse" value="DocumentoControle">
+                              <input type="hidden" name="metodo" value="alterar">
+                              <input type="submit" value="Confirmar" class="btn btn-success">
+                              <button button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                           </form>
+                           </div>
+                           </div>
+                           </div>
+                           </div>
+
+                                      
+                                    </select>
+                                    <a onclick="adicionarDocFuncional()" style="margin: 0 20px;"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <label for="arquivoDocumento">Arquivo</label>
+                                  <input name="arquivo" type="file" class="form-control-file" id="arquivoDocumento" accept="png;jpeg;jpg;pdf;docx;doc;odp" required>
+                                </div>
+
+                                <input type="number" name="id_funcionario" value="" style='display: none;'>
+
                               </div>
                               <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
@@ -831,11 +955,17 @@
                           </div>
                         </div>
                     </section>
-                  </div>
-           
+                  </div> -->
+
+                 
+                   
+
+
                  
                                       
                        
+
+
             <!-- end: page -->
          </section>
          <aside id="sidebar-right" class="sidebar-right">
@@ -906,12 +1036,17 @@
         <script src="../../assets/vendor/jquery-datatables/media/js/jquery.dataTables.js"></script>
         <script src="../../assets/vendor/jquery-datatables/extras/TableTools/js/dataTables.tableTools.min.js"></script>
         <script src="../../assets/vendor/jquery-datatables-bs3/assets/js/datatables.js"></script>
+
         <!-- Theme Base, Components and Settings -->
         <script src="../../assets/javascripts/theme.js"></script>
+
         <!-- Theme Custom -->
         <script src="../../assets/javascripts/theme.custom.js"></script>
+
         <!-- Theme Initialization Files -->
         <script src="../../assets/javascripts/theme.init.js"></script>
+
+
         <!-- Examples -->
         <script src="../../assets/javascripts/tables/examples.datatables.default.js"></script>
         <script src="../../assets/javascripts/tables/examples.datatables.row.with.details.js"></script>
@@ -979,7 +1114,7 @@
          </div>
          </div>
          </div>
-         </div>
+
          <script>
    function funcao1(){
         var cpfs = [{"cpf":"admin","id":"1"}] ;

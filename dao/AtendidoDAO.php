@@ -17,7 +17,7 @@ class InternoDAO
     {        
        
         try {
-            $sql = 'call cadatendido(:cpf,:nome,:sobrenome,:sexo,:telefone,:data_nascimento');
+            $sql = 'call cadatendido(:cpf,:nome,:sobrenome,:sexo,:telefone,:data_nascimento)';
             $sql = str_replace("'", "\'", $sql); 
             $pdo = Conexao::connect();
             $stmt = $pdo->prepare($sql);
