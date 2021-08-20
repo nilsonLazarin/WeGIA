@@ -541,18 +541,7 @@
                             <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" id="nascimentoform" max=2021-08-17>
                         </div>
                      </div>
-                     <div class="form-group">
-                        <label class="col-md-3 control-label">Nome do Pai</label>
-                        <div class="col-md-8">
-                           <input type="text" name="pai" class="form-control"  onkeypress="return Onlychars(event)" id="paiform" >
-                        </div>
-                     </div>
-                     <div class="form-group">
-                        <label class="col-md-3 control-label">Nome da Mãe</label>
-                        <div class="col-md-8">
-                           <input type="text" name="nomeMae" class="form-control" id="maeform" id="profileFirstNameform" onkeypress="return Onlychars(event)" >
-                        </div>
-                     </div>
+                  
                      <div class="form-group">
                         <label class="col-md-3 control-label">Tipo Sanguíneo</label>
                         <div class="col-md-6">
@@ -606,7 +595,7 @@
 
                 
 
-<div id="endereco" class="tab-pane">
+   <div id="endereco" class="tab-pane">
                   <section class="panel">
                     <header class="panel-heading">
                       <div class="panel-actions">
