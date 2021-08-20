@@ -433,12 +433,12 @@ require_once ROOT."/html/personalizacao_display.php";
 
 					$strArquivo = $pdo->query("SELECT nome FROM anexo WHERE id_despacho=$id_memorando;")->fetchAll(PDO::FETCH_ASSOC);
 				
-					$anexo = $pdo->query("SELECT COUNT(*) FROM anexo WHERE id_despacho=$id_memorando;")->fetchAll(PDO::FETCH_ASSOC);
+					$anexo = $pdo->query("SELECT anexo FROM anexo WHERE id_despacho=$id_memorando;");
+
+					//$anexo = $pdo->query("SELECT (COUNT*) FROM anexo WHERE id_despacho=$id_memorando;")->fetchAll(PDO::FETCH_ASSOC);
 					//var_dump($anexo);
 					//echo "<br />";
 					//var_dump($strArquivo);
-
-				
 								
 					$data_expedicao = $pdo->query("SELECT `data` FROM memorando WHERE id_memorando=$id_memorando")->fetch(PDO::FETCH_ASSOC)["data"];
 
@@ -457,7 +457,7 @@ require_once ROOT."/html/personalizacao_display.php";
 					<p align="right">
 								
 										<?php
-										
+											
 										echo(" $cidade - $estado,  $data_expedicao 
 											");
 									
@@ -488,6 +488,7 @@ require_once ROOT."/html/personalizacao_display.php";
 					<p>
 						<?php
 						echo(" <p> Anexos: </p>
+							<p> </p>
 							<p> </p>
 							<p> </p>
 							

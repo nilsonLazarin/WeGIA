@@ -179,6 +179,7 @@ require_once ROOT."/html/personalizacao_display.php";
             width: 10%;
         }
     </style>
+
 </head>
 
 <body>
@@ -247,7 +248,7 @@ require_once ROOT."/html/personalizacao_display.php";
                             <div class="form-group">
                                 <label for=arquivo id=etiqueta_arquivo class='col-md-3 control-label'>Arquivo </label>
                                 <div class='col-md-6'>
-                                    <input type="file" multiple name="anexo[]" id="anexo" >
+                                    <input type="file" name="anexo[]" multiple id="anexo" >
                                 </div>
                             </div>
                             <div class="form-group">
