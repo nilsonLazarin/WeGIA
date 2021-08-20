@@ -431,33 +431,14 @@ require_once ROOT."/html/personalizacao_display.php";
 					$pessoa_memorando = $pessoa_memorando["nome"] . ($pessoa_memorando["sobrenome"] ? (" " . $pessoa_memorando["sobrenome"]) : "");
 
 
-
-					//$sth = $pdo->query("SELECT nome, extensao FROM anexo WHERE id_despacho=$id_memorando");
-					//$sth->bindParam(':nome', $arquivo, PDO::PARAM_STR);
-					//$sth->execute();
-					//$resultados = $sth->fetchAll(PDO::FETCH_ASSOC);
-					//foreach($resultados as $valor):
-						//echo $valor."<br>";
-					//endforeach;
-
-					///$anex = $pdo->query("SELECT id_memorando FROM memorando;")->fetch(PDO::FETCH_ASSOC) ["id_memorando"];
-
+					$strArquivo = $pdo->query("SELECT nome FROM anexo WHERE id_despacho=$id_memorando;")->fetchAll(PDO::FETCH_ASSOC);
+				
+					$anexo = $pdo->query("SELECT COUNT(*) FROM anexo WHERE id_despacho=$id_memorando;")->fetchAll(PDO::FETCH_ASSOC);
+					var_dump($anexo);
+					echo "<br />";
+					var_dump($strArquivo);
 
 				
-					$anexo = $pdo->query("SELECT nome, extensao FROM anexo WHERE id_despacho=$id_memorando;")->fetch(PDO::FETCH_ASSOC);
-
-					$anexo = $anexo["nome"] . ($anexo["extensao"] ? ("." . $anexo["extensao"]) : "");
-					
-					// $resultado= explode("-", $anexo);
-					// echo "<pre>";
-					 ///print_r ($resultado);
-					 //echo "</pre>";
-					 //foreach($resultado as $valor):
-						//echo $valor."<br>";
-					// endforeach;
-
-
-					
 								
 					$data_expedicao = $pdo->query("SELECT `data` FROM memorando WHERE id_memorando=$id_memorando")->fetch(PDO::FETCH_ASSOC)["data"];
 
@@ -507,7 +488,8 @@ require_once ROOT."/html/personalizacao_display.php";
 					<p>
 						<?php
 						echo(" <p> Anexos: </p>
-							<p> $anexo</p>
+							<p> </p>
+							<p> </p>
 							
 
 							");
@@ -529,8 +511,8 @@ require_once ROOT."/html/personalizacao_display.php";
 				</header>	
 			<div class="panel-body" id="listaDeDespachos"></div> 
 
-
-
+<?php
+$id?>
 
 				<header class="panel-heading">
                         <h3 class="panel-title">Encaminhar despacho</h3>
