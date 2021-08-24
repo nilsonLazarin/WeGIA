@@ -66,7 +66,7 @@ class AtendidoControle
         }
         elseif((!isset($numeroCPF)) || (empty($numeroCPF))){
             $msg .= "CPF do interno não informado. Por favor, informe um CPF!";
-            header('Location: ../html/atendido/Cadastro_atendido.php?msg='.$msg);
+            header('Location: ../html/atendido/Cadastro_Atendido.php?msg='.$msg);
         }
             $telefone='';
             $senha='null';
@@ -155,7 +155,7 @@ class AtendidoControle
         $internoDAO=new InternoDAO();
         try {
             $internoDAO->alterar($interno);
-            header("Location: ../html/Profile_Atendido.php?id=".$idInterno);
+            header("Location: ../html/atendido/Profile_Atendido.php?id=".$idInterno);
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -168,7 +168,7 @@ class AtendidoControle
         $internoDAO=new InternoDAO();
         try {
             $internoDAO->excluir($id);
-            header("Location:../controle/control.php?metodo=listarTodos&nomeClasse=AtendidoControle&nextPage=../html/Informacao_Atendido.php");
+            header("Location:../controle/control.php?metodo=listarTodos&nomeClasse=AtendidoControle&nextPage=../html/atendido/Informacao_Atendido.php");
         } catch (Exception $e) {
             echo $e->getMessage();
         }
