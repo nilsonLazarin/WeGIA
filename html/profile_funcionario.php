@@ -1174,6 +1174,12 @@ $dependente = json_encode($dependente);
                         </div>
                       </div>
                       <div class="form-group">
+											<label class="col-md-3 control-label" for="profileCompany">Telefone</label>
+											<div class="col-md-8">
+												<input type="text" class="form-control" maxlength="14" minlength="14" name="telefone" id="telefone" id="profileCompany" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeyup="mascara('(##)#####-####',this,event)" >
+											</div>
+										</div>
+                      <div class="form-group">
                         <label class="col-md-3 control-label" for="profileCompany">Nascimento</label>
                         <div class="col-md-8">
                           <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" id="nascimento" max=<?php echo date('Y-m-d'); ?>>
