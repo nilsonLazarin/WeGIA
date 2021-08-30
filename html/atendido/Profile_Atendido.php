@@ -99,11 +99,6 @@
          			$("#telefone1").text("Telefone contato urgente 1: "+item.telefone_contato_urgente_1);
          			$("#telefone1form").val(item.telefone_contato_urgente_1);
          
-         			$("#telefone2").text("Telefone contato urgente 2: "+item.telefone_contato_urgente_2);
-         			$("#telefone2form").val(item.telefone_contato_urgente_2);
-         
-         			$("#telefone3").text("Telefone contato urgente 3: "+item.telefone_contato_urgente_3);
-         			$("#telefone3form").val(item.telefone_contato_urgente_3);
          
          			$("#sangue").text("Sangue: "+item.tipo_sanguineo);
          			$("#sangueform").val(item.tipo_sanguineo);
@@ -192,8 +187,7 @@
          $("#radioM").prop('disabled', false);
          $("#radioF").prop('disabled', false);
          $("#telefone1form").prop('disabled', false);
-         $("#telefone2form").prop('disabled', false);
-         $("#telefone2form").prop('disabled', false);
+        
          $("#nascimento").prop('disabled', false);
          $("#pai").prop('disabled', false);
          $("#mae").prop('disabled', false);
@@ -350,7 +344,7 @@
          
           };
           function gerarDocFuncional() {
-      url = './funcionario/documento_listar.php';
+      url = '../funcionario/documento_listar.php';
       $.ajax({
         data: '',
         type: "POST",
@@ -490,33 +484,35 @@
             <div class="tabs">
             <ul class="nav nav-tabs tabs-primary">
                <li class="active">
-                  <a href="#overview" data-toggle="tab">Visão Geral</a>
+                  <a href="#overview" data-toggle="tab">Informações Pessoais</a>
                </li>
                <li>
                   <a href="#endereco" data-toggle="tab">Endereço</a>
                 </li>
                 <li>
-                  <a href="#docs" data-toggle="tab">Documentos</a>
+                  <a href="#docs" data-toggle="tab">Documentação</a>
                </li>
                <li>
                   <a href="#arquivo" data-toggle="tab">Arquivos</a>
                </li>
+         
             </ul>
             <div class="tab-content">
             <div id="overview" class="tab-pane active">
                <h4 class="mb-xlg">Informações Pessoais</h4>
                <form id="formulario" action="../../controle/control.php" enctype="multipart/form-data" method="POST">
-               
+              <!-- <input type="hidden" name="nomeClasse" value="AtendidoControle">
+                    <input type="hidden" name="metodo" value="alterarInfPessoal">-->
                      <div class="form-group">
                         <label class="col-md-3 control-label">Nome</label>
                         <div class="col-md-8">
-                           <input type="text" class="form-control" name="nome" id="nomeform" id="profileFirstName" onkeypress="return Onlychars(event)" >
+                           <input type="text" class="form-control" name="nome" id="nome" id="profileFirstName" onkeypress="return Onlychars(event)" >
                         </div>
                      </div>
                      <div class="form-group">
                         <label class="col-md-3 control-label">Sobrenome</label>
                         <div class="col-md-8">
-                           <input type="text" class="form-control" name="sobrenome" id="sobrenomeform" id="profileLastName" onkeypress="return Onlychars(event)" >
+                           <input type="text" class="form-control" name="sobrenome" id="sobrenome" id="profileLastName" onkeypress="return Onlychars(event)" >
                         </div>
                      </div>
                      <div class="form-group">
@@ -527,25 +523,26 @@
                         </div>
                      </div>
                    
-                    
-                    
+                  
                      <div class="form-group">
-                        <label class="col-md-3 control-label" for="profileCompany">Telefone</label>
-                        <div class="col-md-8">
-                          <input type="text" class="form-control" maxlength="14" minlength="14" name="telefone" id="telefone" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeyup="mascara('(##)#####-####',this,event)">
-                        </div>
-                     </div>
+											<label class="col-md-3 control-label" for="profileCompany">Telefone</label>
+											<div class="col-md-8">
+												<input type="text" class="form-control" maxlength="14" minlength="14" name="telefone" id="telefone" id="profileCompany" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeyup="mascara('(##)#####-####',this,event)" >
+											</div>
+										</div>
+
+                     
                      <div class="form-group">
                         <label class="col-md-3 control-label">Nascimento</label>
                         <div class="col-md-8">
-                            <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" id="nascimentoform" max=2021-08-17>
+                            <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" id="nascimento" max=2021-08-17>
                         </div>
                      </div>
                   
                      <div class="form-group">
                         <label class="col-md-3 control-label">Tipo Sanguíneo</label>
                         <div class="col-md-6">
-                           <select name="sangue" id="sangueform" class="form-control input-lg mb-md">
+                           <select name="sangue" id="sangue" class="form-control input-lg mb-md">
                               <option selected disabled value="blank">Selecionar</option>
                               <option value="A+">A+</option>
                               <option value="A-">A-</option>
@@ -576,7 +573,7 @@
                </div>
                <div class="modal-body">
                      <p> Tem certeza que deseja excluir esse interno? Essa ação não poderá ser desfeita e todas as informações referentes a esse interno serão perdidas!</p>
-                     <a href="../../controle/control.php?metodo=excluir&nomeClasse=InternoControle&id="><button button type="button" class="btn btn-success">Confirmar</button></a>
+                     <a href="../../controle/control.php?metodo=excluir&nomeClasse=AtendidoControle&id="><button button type="button" class="btn btn-success">Confirmar</button></a>
                      <button button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                </div>
                </div>
@@ -690,7 +687,7 @@
                      <!--Documentação-->
                  <hr class="dotted short">
                  <form class="form-horizontal" method="post" action="../controle/control.php">
-                   <input type="hidden" name="nomeClasse" value="FuncionarioControle">
+                   <input type="hidden" name="nomeClasse" value="AtendidoControle">
                    <input type="hidden" name="metodo" value="alterarDocumentacao">
                    <div class="form-group">
                      <label class="col-md-3 control-label" for="profileCompany">Número do RG</label>
@@ -823,8 +820,10 @@
                   </div>
            
                  
-                                      
-                       
+                  
+  
+                  
+                  
             <!-- end: page -->
          </section>
          <aside id="sidebar-right" class="sidebar-right">

@@ -51,7 +51,6 @@ class AnexoControle
 		extract($_REQUEST);
 		$total = count($anexo['name']);
 		$arq = $_FILES['anexo'];
-
 		for($i=0; $i<$total; $i++)
 		{
 			/*$zip = new ZipArchive();
