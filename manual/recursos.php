@@ -632,8 +632,40 @@ if(file_exists($config_path)){
                             <p>Ao clicar nesse botão, uma caixa de diálogo (modal) aparecerá na tela, nesta caixa estará presente um formulário onde deverão ser preenchidos os dados do sócio a ser cadastrado.</p>
                             <img src="<?php echo WWW;?>img/formulario_socio1.png" class="img-fluid">
                             <p>Na primeira parte do formulário deverão ser preenchidos dados pessoais do sócio (nome completo, tipo de pessoa, cpf/cnpj, e-mail, telefone, tipo de contribuinte, status do sócio e sua data de nascimento).</p>
-                            <p>Após o preenchimento desses dados você poderá continuar com o preenchimento dos dados subsequentes referentes ao endereço do associado:</p>
+                            <p>Após o completar essas informações, você poderá continuar com o preenchimento dos dados subsequentes referentes ao endereço do associado.</p>
                             
+                        </dir>
+                        <dir id="_gerar_boleto">
+                            <h3>3.4.2 Gerar boleto/carnê do sócio</h3><hr>
+                            <p>Para gerar carnês/boletos para o sócio desejado, você deve completar o cadastro dele primeiro com os seguintes dados: valor por período, data de referência e a periodicidade. Após preencher as devidas informações, o usuário (apenas administradores possuem acesso à essa página) deve digitar o nome do sócio no primeiro campo da página <a href="<?php echo WWW;?>html/socio/sistema/psocio_geracao.php">Gerar boleto/carnê</a> e clicar no botão "Próximo" para aparecer o resultado.</p>
+                           
+                            <img src="<?php echo WWW;?>img/gerar_boleto.png" class="img-fluid">
+                           
+                            <p>Ao clicar nesse botão, mostrará o nome do sócio solicitado.</p>
+                           
+                            <p>Outra opção que o usuário pode ter é gerar boletos/carnês para mais de um sócio, dando praticidade ao administrador. </p> 
+                            <img src="<?php echo WWW;?>img/geracao_automatica.png" class="img-fluid">
+                            
+                            <p>Após selecionar os nomes dos sócios, o usuário poderá gerar o boleto/carnê em massa.</p>
+                        </dir>
+                         <dir id="_cobranca_socio">
+                            <h3>3.4.3 Cobranças </h3><hr>
+                            <p>Apenas os administradores possuem acesso à página <a href="<?php echo WWW;?>html/socio/sistema/psocio_geracao.php">Cobranças</a>. O administrador pode ter o controle das datas de vencimento, status, valor, período, nome, e outras opções dos sócios.</p>
+                           
+                            <img src="<?php echo WWW;?>img/cobranca.png" class="img-fluid">
+                        </dir>
+                         <dir id="_tag_socio">
+                            <h3>3.4.4 Tag </h3><hr>
+                            <p>Apenas os administradores possuem acesso à página <a href="<?php echo WWW;?>html/socio/sistema/tags.php">Tag</a>. Nessa página, o admin pode ter o controle do id, do grupo e também tem a opção de salvar ou deletar a(s) tag(s).</p>
+                           
+                            <img src="<?php echo WWW;?>img/tag.png" class="img-fluid">
+                        </dir>
+                         <dir id="_relatorio_socio">
+                            <h3>3.4.5 Relatório dos sócios </h3><hr>
+                            <p>Apenas os administradores possuem acesso à página <a href="<?php echo WWW;?>html/socio/sistema/relatorios_socios.php">Relatórios sócios </a>. Para criar um relatório, o administrador deve preencher as informações da página e clicar no botão "Próximo".</p>
+                           
+                            <img src="<?php echo WWW;?>img/relatorio.png" class="img-fluid">
+                            <p> Após clicar nesse botão, o relatório será criado. </p>
                         </dir>
                     </dir>
                     <div class="justify-content-between">
