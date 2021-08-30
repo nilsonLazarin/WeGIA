@@ -10,6 +10,7 @@ require_once '../dao/DocumentoDAO.php';
 require_once 'DocumentoControle.php';
 include_once '../classes/Cache.php';
 
+include_once ROOT."/classes/conexao.php";
 require_once ROOT."/controle/AtendidoControle.php";
 require_once ROOT."/controle/FuncionarioControle.php";
 $listaInternos = new AtendidoControle();
