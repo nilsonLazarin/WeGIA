@@ -51,7 +51,22 @@ class AnexoControle
 		extract($_REQUEST);
 		$total = count($anexo['name']);
 		$arq = $_FILES['anexo'];
-		for($i=0; $i<$total; $i++)
+
+		$arq['name'] =  array_unique($arq['name']);
+		$arq['type'] =  array_unique($arq['type']);
+		$arq['tmp_name'] =  array_unique($arq['tmp_name']);
+		$arq['error'] =  array_unique($arq['error']);
+		$arq['size'] =  array_unique($arq['size']);
+
+		$anexo['name'] =  array_unique($anexo['name']);
+		$anexo['type'] =  array_unique($anexo['type']);
+		$anexo['tmp_name'] =  array_unique($anexo['tmp_name']);
+		$anexo['error'] =  array_unique($anexo['error']);
+		$anexo['size'] =  array_unique($anexo['size']);
+
+		$novo_total = count($arq['name']);
+
+		for($i=0; $i<$novo_total; $i++)
 		{
 			/*$zip = new ZipArchive();
 			if($zip->open('anexo_zip.zip', ZIPARCHIVE::CREATE) == TRUE)

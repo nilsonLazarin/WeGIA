@@ -238,45 +238,45 @@ require_once ROOT."/html/personalizacao_display.php";
                 //add the name and a remove button to the file-list
                 //adicione o nome e um botão de remoção à lista de arquivos
                 $(".file-list").append(
-                    '<li style="display: none;"><span class="file-list__name">' +
+                    '<li style="list-style-type: none;"><span class="file-list__name">' +
                     fileName +
-                    '</span><button class="removal-button" data-uploadid="' +
-                    uploadId +
-                    '"> X</button></li>'
+                    '</span></li>'
                 );
                 $(".file-list").find("li:last").show(800);
 
                 //removal button handler
                 //manipulador de botão de remoção
-                $(".removal-button").on("click", function (e) {
-                    e.preventDefault();
+                // $(".removal-button").on("click", function (e) {
+                //     e.preventDefault();
 
-                    //remove the corresponding hidden input
-                    //remove a entrada oculta correspondente
-                    $(
-                    '.hidden-inputs input[data-uploadid="' +
-                        $(this).data("uploadid") +
-                        '"]'
-                    ).remove();
+                //     //remove the corresponding hidden input
+                //     //remove a entrada oculta correspondente
+                //     $(
+                //     '.hidden-inputs input[data-uploadid="' +
+                //         $(this).data("uploadid") +
+                //         '"]'
+                //     ).remove();
 
-                    //remove the name from file-list that corresponds to the button clicked
-                    //remova o nome da lista de arquivos que corresponde ao botão clicado
-                    $(this)
-                    .parent()
-                    .hide("puff")
-                    .delay(10)
-                    .queue(function () {
-                        $(this).remove();
-                    });
+                //     //remove the name from file-list that corresponds to the button clicked
+                //     //remova o nome da lista de arquivos que corresponde ao botão clicado
+                //     $(this)
+                //     .parent()
+                //     .hide("puff")
+                //     .delay(10)
+                //     .queue(function () {
+                //         $(this).remove();
+                //     });
 
-                    //if the list is now empty, change the text back
-                    //se a lista estiver vazia, mude o texto de volta
-                    if ($(".file-list li").length === 0) {
-                    $(".file-uploader__message-area").text(
-                        options.MessageAreaText || settings.MessageAreaText
-                    );
-                    }
-                });
+                //     //if the list is now empty, change the text back
+                //     //se a lista estiver vazia, mude o texto de volta
+                //     if ($(".file-list li").length === 0) {
+                //     $(".file-uploader__message-area").text(
+                //         options.MessageAreaText || settings.MessageAreaText
+                //     );
+                //     }
+
+
+                // });
 
                 //so the event handler works on the new "real" one
                 //então o manipulador de eventos funciona no novo "real"
@@ -284,14 +284,15 @@ require_once ROOT."/html/personalizacao_display.php";
                     .removeClass("file-chooser__input")
                     .attr("data-uploadId", uploadId);
 
+
                 //update the message area
                 //atualize a área de mensagem
                 $(".file-uploader__message-area").text(
                     options.MessageAreaTextWithFiles ||
                     settings.MessageAreaTextWithFiles
                 );
-
                 uploadId++;
+                
                 } else {
                 //indicate that the file is not ok
                 //indica que o arquivo não está ok
@@ -310,6 +311,7 @@ require_once ROOT."/html/personalizacao_display.php";
                 }
             }
 
+            // $(".file-chooser__input").val("");
 
             });
 
@@ -458,7 +460,7 @@ require_once ROOT."/html/personalizacao_display.php";
                                 </div> -->
                                 
                                 <div class="file-chooser">
-                                    <input type="file" multiple name='anexo[]' class="file-chooser__input">
+                                    <input type="file" multiple name='anexo[]' class="file-chooser__input" id='teste'>
                                 </div><br>
                                 <div class="file-uploader__message-area">
                                     <!-- <p>Select a file to upload</p> -->
