@@ -55,6 +55,8 @@
     require_once ROOT."/html/personalizacao_display.php";
 ?>
 <!DOCTYPE html>
+<html class="fixed">
+
 <html lang="pt-br">
 <head>
   <meta charset="utf-8">
