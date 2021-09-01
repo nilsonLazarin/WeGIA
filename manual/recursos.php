@@ -257,6 +257,37 @@ if(file_exists($config_path)){
                                                 3.3.8. Erros
                                             </a>
                                         </li>
+                                         <li class="sub1">
+                                            <a href="#_modulo_socio">
+                                                3.4. Sócio
+                                            </a>
+                                        </li>
+                        
+                                        <li class="sub2">
+                                            <a href="#_cadastro_socio">
+                                                3.4.1. Cadastro Sócio
+                                            </a>
+                                        </li>
+                                        <li class="sub2">
+                                            <a href="#_gerar_boleto">
+                                                3.4.2. Gerar boleto/carnê
+                                            </a>
+                                        </li>
+                                        <li class="sub2">
+                                            <a href="#_cobranca_socio">
+                                                3.4.3. Cobranças
+                                            </a>
+                                        </li>
+                                        <li class="sub2">
+                                            <a href="#_tag_socio">
+                                                3.4.4. Tags
+                                            </a>
+                                        </li>
+                                        <li class="sub2">
+                                            <a href="#_relatorio_socio">
+                                                3.4.5. Relatório dos sócios
+                                            </a>
+                                        </li>
                                     </ul>
                                 </li>
                             </ul>
