@@ -597,6 +597,7 @@ if(file_exists($config_path)){
                             <h3>3.3.1. Criação do memorando</h3><hr>
                             <p>Para criar um memorando o funcionário deverá, munido das permissões necessárias, acessar a <a href="<?php echo WWW;?>html/memorando/listar_memorandos_ativos.php">caixa de entrada do módulo memorando</a> e preencher o campo "Assunto", da seção "Criar memorando", com o assunto do memorando e acionar o botão "Criar memorando". Em seguida o funcionário será direcionado automaticamente à página de envio de despachos (leia <a href="#_envio_despacho">3.3.2. Envio de despachos</a>).</p>
                             <img src="<?php echo WWW;?>img/criar_memorando.PNG" class="img-fluid">
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/y2N_0CsFi28" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                         </dir>
                         <dir id="_envio_despacho">
                             <h3>3.3.2. Envio de despachos</h3><hr>
@@ -616,6 +617,7 @@ if(file_exists($config_path)){
                             <p>A <a href="<?php echo WWW;?>html/memorando/listar_memorandos_ativos.php">caixa de entrada do módulo memorando</a> é o espaço destinado ao recebimento de memorandos. Sempre que um despacho for enviado para você, o memorando desse despacho estará disponível na sua caixa de entrada. Nesse espaço é possível visualizar o título do memorando, a data e a hora da sua criação e as opções fornecidas (leia <a href="#_opcoes_caixa">3.3.4. Opções da caixa de entrada</a>). Para acessar um memorando basta clicar no seu título e você será direcionada.</p>
                             <p>Nessa página também é possível criar um novo memorando (leia <a href="#_criacao_memorando">3.3.1. Criação de memorando</a>)</p>
                             <img src="<?php echo WWW;?>img/caixa_de_entrada.PNG" class="img-fluid">
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/tM5SBRRkJ-U" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                         </dir>
                         <dir id="_opcoes_caixa_de_entrada">
                             <h3>3.3.4. Opções da caixa de entrada</h3><hr>
@@ -633,6 +635,8 @@ if(file_exists($config_path)){
                             <p>A <a href="<?php echo WWW;?>html/memorando/listar_memorandos_antigos.php">lista de memorandos despachados</a> é um local para visualização dos memorandos que já foram enviados para você, inclusive os que já foram despachados para outras pessoas. Nesse espaço é possível visualizar o título do memorando, a sua origem (funcionário que o criou) e a data e a hora de criação. Para acessar um memorando despachado basta clicar no seu título e você será direcionado para a lista de despachos desse memorando.</p>
                             <p>Se o memorando estiver marcado com a opção <strong>[ARQUIVADO]</strong>, significa que ele foi arquivado pelo seu criador e por esse motivo ele não poderá ser enviado para outros funcionários.</p>
                             <img src="<?php echo WWW;?>img/memorandos_despachados.PNG" class="img-fluid">
+
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/DXhbhMowXo4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                         </dir>
                         <dir id="_lista_despachos">
                             <h3>3.3.6 Leitura de despachos</h3><hr>
