@@ -45,6 +45,17 @@ if ($action == "remover"){
     }
 }
 
+if ($action == "idInfoAdicional"){
+    $sql = "SELECT max(idfunncionario_outrasinfo) FROM funcionario_outrasinfo;";
+    try {
+        $pdo->query($sql);
+        echo json_encode($pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC));
+        listar();
+    } catch (PDOException $th) {
+        echo json_encode($th);
+    }
+}
+
 if ($action == "listar"){
     listar();
 }

@@ -1355,6 +1355,16 @@ $dependente = json_encode($dependente);
 
                       <h2 class="panel-title">Epi</h2>
                     </header>
+                      
+                    <?php
+                            
+                            // $tam = $descricao.lenght;
+                            // echo $tam;
+                            // foreach ($descricao as $key => $value) {
+                            //   echo ("<option id='desc' value=".$value["idfuncionario_listainfo"].">" . $value["descricao"] . "</option>");
+                            // }
+                          ?>
+
                     <div class="panel-body">
                       <table class="table table-bordered table-striped mb-none" id="datatable-default">
                         <thead>
@@ -1366,7 +1376,7 @@ $dependente = json_encode($dependente);
                           </tr>
                         </thead>
                         <tbody id="tabela_epi">
-
+                        
                         </tbody>
                       </table>
                     </div><br>
@@ -1551,7 +1561,41 @@ $dependente = json_encode($dependente);
                           </tr>
                         </thead>
                         <tbody id="addInfo-tab">
+                          <?php
+                            $id_funcionario = $_GET['id_funcionario'];
+                            $infoAdd = $pdo->query("SELECT * FROM funcionario_outrasinfo WHERE funcionario_id_funcionario = '$id_funcionario';")->fetchAll(PDO::FETCH_ASSOC);
+                            $tam = count($infoAdd);
+                            for($i=0;$i<$tam;$i++)
+                            {
+                                $dado = $infoAdd[$i]['dado'];
+                                $desc_id = $infoAdd[$i]
+                                ['funcionario_listainfo_idfuncionario_listainfo'];
 
+                                $idInfoAdicional = $infoAdd[$i]['idfunncionario_outrasinfo'];
+
+                                // echo $desc_id;
+                                $descricao = $pdo->query("SELECT descricao FROM funcionario_listainfo WHERE idfuncionario_listainfo = '$desc_id';")->fetchAll(PDO::FETCH_ASSOC);
+                                $nome_desc = $descricao[0]['descricao'];
+                                // var_dump($descricao);
+                                echo
+                                "
+                                  <tr id='$idInfoAdicional'>
+                                      <td>$nome_desc</td>
+                                      <td>$dado</td>
+                                      <td style='display: flex; justify-content: space-evenly;'>
+                                        <button onclick='removerDescricao($idInfoAdicional)' title='Excluir' class='btn btn-danger'><i class='fas fa-trash-alt'></i></button>
+                                      </td>
+                                  </tr>
+
+                                ";
+                                // }
+                            }
+
+                            // $ultimoId = $pdo->query("SELECT max(idfunncionario_outrasinfo) FROM funcionario_outrasinfo;")->fetchAll(PDO::FETCH_ASSOC);
+                            // var_dump($ultimoId);
+                            // $ultimoIdInserido = $pdo->query("SELECT max(idfunncionario_outrasinfo) FROM funcionario_outrasinfo where idfunncionario_outrasinfo != 153 ")->fetchAll(PDO::FETCH_ASSOC);
+                            // var_dump($ultimoIdInserido);
+                          ?>
                         </tbody>
                       </table>
                       <br>
@@ -1579,7 +1623,7 @@ $dependente = json_encode($dependente);
                                       <?php
                                         $descricao = $pdo->query("SELECT * FROM funcionario_listainfo;")->fetchAll(PDO::FETCH_ASSOC);
                                         foreach ($descricao as $key => $value) {
-                                          echo ("<option value=".$value["idfuncionario_listainfo"].">" . $value["descricao"] . "</option>");
+                                          echo ("<option id='desc' value=".$value["idfuncionario_listainfo"].">" . $value["descricao"] . "</option>");
                                         }
                                       ?>
                                     </select>
@@ -1597,7 +1641,7 @@ $dependente = json_encode($dependente);
                             <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                               <button type="button" class="btn btn-primary" onclick="adicionarAddInfo()">Enviar</button>
-
+                              
                               <script>
                                 $(function() {
                                   $('#datatable-addInfo').DataTable({
@@ -1642,21 +1686,37 @@ $dependente = json_encode($dependente);
                                   let url = "./funcionario/informacao_adicional.php";
                                   let data = "action=remover&id_descricao="+id_descricao;
                                   post(url, data, listarInfoAdicional);
+                                  $("#"+id_descricao+"").remove();
                                 }
 
                                 function listarInfoAdicional(lista){
-                                  console.log(lista);
-                                  $("#addInfo-tab").empty();
-                                  $.each(lista, function(i, item) {
-                                    $("#addInfo-tab")
-                                      .append($("<tr>")
-                                        .append($("<td>").text(item.descricao))
-                                        .append($("<td>").text(item.dado))
-                                        .append($("<td style='display: flex; justify-content: space-evenly;'>")
-                                          .append($("<button onclick='removerDescricao("+item.idfunncionario_outrasinfo+")' title='Excluir' class='btn btn-danger'><i class='fas fa-trash-alt'></i></button>"))
-                                        )
+                                  // $("#addInfo-tab").empty();
+                                  <?php 
+                                      
+                                      $vetor = [];
+                                      $descricao = $pdo->query("SELECT * FROM funcionario_listainfo ")->fetchAll(PDO::FETCH_ASSOC);
+                                      for($i=0;$i<count($descricao);$i++)
+                                      {
+                                          array_push($vetor, $descricao[$i]['descricao']);
+                                      }
+                                      $stringArrayPhp = implode("/",$vetor);
+
+                                  ?>
+                                  // fazer requisicao para recuperar id
+                                  //console.log(lista);
+
+                                  var stringArrayJs = "<?php echo $stringArrayPhp ?>";
+                                  var arrayDescricao = stringArrayJs.split("/");
+                                  //console.log(arrayDescricao);
+
+                                  $("#addInfo-tab")
+                                    .append($("<tr>")
+                                      .append($("<td>").text(arrayDescricao[lista[0]-1]))
+                                      .append($("<td>").text(lista[1]))  
+                                      .append($("<td style='display: flex; justify-content: space-evenly;'>")
+                                        .append($("<button onclick='removerDescricao(82)' title='Excluir' class='btn btn-danger'><i class='fas fa-trash-alt'></i></button>"))
                                       )
-                                  });
+                                    )
                                 }
                               </script>
 
@@ -1860,7 +1920,7 @@ $dependente = json_encode($dependente);
                         <hr class="dotted short">
                         <input type="hidden" name="nomeClasse" value="FuncionarioControle">
                         <input type="hidden" name="metodo" value="alterarCargaHoraria">
-                        <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
+                        <input type="hidden" name="id_funcionario" value="<?php echo $_GET['id_funcionario'] ?>">
                         <div class="form-group center">
                           <button type="button" class="btn btn-primary" id="botaoEditar_editar_cargaHoraria" onclick="switchForm('editar_cargaHoraria')">Editar</button>
                           <input id="enviarCarga" type="submit" class="btn btn-primary" value="Alterar carga">
@@ -1906,7 +1966,7 @@ $dependente = json_encode($dependente);
                       <div class="form-group">
                         <label class="col-md-3 control-label" for="profileCompany">Data de expedição</label>
                         <div class="col-md-6">
-                          <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" name="data_expedicao" id="data_expedicao" max=<?php echo date('Y-m-d'); ?>>
+                          <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" name="data_expedicao" id="data_expedicao" max="<?php echo date('Y-m-d'); ?>">
                         </div>
                       </div>
                       <div class="form-group">
@@ -1922,7 +1982,7 @@ $dependente = json_encode($dependente);
                         </div>
                       </div>
                      
-                      <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
+                      <input type="hidden" name="id_funcionario" value="<?php echo $_GET['id_funcionario'] ?>">
                       <button type="button" class="btn btn-primary" id="botaoEditarDocumentacao" onclick="return editar_documentacao()">Editar</button>
                       <input id="botaoSalvarDocumentacao" type="submit" class="btn btn-primary" disabled="true" value="Salvar" onclick="funcao3()">
                     </form>
@@ -2085,7 +2145,7 @@ $dependente = json_encode($dependente);
                                 <div class="form-group">
                                   <label class="col-md-3 control-label" for="profileCompany">Nascimento<sup class="obrig">*</sup></label>
                                   <div class="col-md-8">
-                                    <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" id="nascimento" max=<?php echo date('Y-m-d'); ?> required>
+                                    <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" id="nascimento" max="<?php echo date('Y-m-d'); ?> required">
                                   </div>
                                 </div>
                                 <hr class="dotted short">
@@ -2133,7 +2193,7 @@ $dependente = json_encode($dependente);
                                 <div class="form-group">
                                   <label class="col-md-3 control-label" for="profileCompany">Data de expedição</label>
                                   <div class="col-md-6">
-                                    <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" id="profileCompany" name="data_expedicao" id="data_expedicao" max=<?php echo date('Y-m-d'); ?>>
+                                    <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" id="profileCompany" name="data_expedicao" id="data_expedicao" max="<?php echo date('Y-m-d'); ?>">
                                   </div>
                                 </div>
                                 <input type="hidden" name="id_funcionario" value="<?= $_GET['id_funcionario']; ?>" readonly>
@@ -2222,7 +2282,7 @@ $dependente = json_encode($dependente);
                                             </div>
                                         </div>
                                         <div class="form-group center">
-                                            <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
+                                            <input type="hidden" name="id_funcionario" value="<?php echo $_GET['id_funcionario'] ?>">
                       <button type="button" class="btn btn-primary" id="botaoEditarEndereco" onclick="return editar_endereco()">Editar</button>
                       <input id="botaoSalvarEndereco" type="submit" class="btn btn-primary" disabled="true" value="Salvar" onclick="funcao3()">
                     </form>
@@ -2267,6 +2327,7 @@ $dependente = json_encode($dependente);
   <script>
     function submitForm(idForm, callback = function(){return true;}) {
       var data = getFormPostParams(idForm);
+      console.log(data);
       var url;
       switch (idForm) {
           case "formRemuneracao":
@@ -2284,8 +2345,11 @@ $dependente = json_encode($dependente);
           window.alert("Preencha todos os campos obrigatórios antes de prosseguir!");
           return false;
       }
-      post(url, data, callback);
+      
+      var data_nova = "id_descricao=" + data[0] + "&dados=" + data[1] + "&action=adicionar&id_funcionario=" + data[3];
+      post(url, data_nova, callback);      
       console.log(idForm + " => " + data + " | ", callback);
+      listarInfoAdicional(data);
       return true;
     }
 
