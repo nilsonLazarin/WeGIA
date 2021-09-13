@@ -834,7 +834,7 @@ $(document).ready(function(){
             }
         });
     });
-    $("#btn_add_socio").click(function(){
+    $("#btn_add_socio").on("click", function(){
         $("#adicionarSocioModal").modal("toggle");
     });
     $("#btn_importar_xlsx").click(function(){
