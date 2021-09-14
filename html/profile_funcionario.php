@@ -1691,32 +1691,41 @@ $dependente = json_encode($dependente);
 
                                 function listarInfoAdicional(lista){
                                   // $("#addInfo-tab").empty();
-                                  <?php 
-                                      
-                                      $vetor = [];
-                                      $descricao = $pdo->query("SELECT * FROM funcionario_listainfo ")->fetchAll(PDO::FETCH_ASSOC);
-                                      for($i=0;$i<count($descricao);$i++)
-                                      {
-                                          array_push($vetor, $descricao[$i]['descricao']);
-                                      }
-                                      $stringArrayPhp = implode("/",$vetor);
-
-                                  ?>
-                                  // fazer requisicao para recuperar id
-                                  //console.log(lista);
-
-                                  var stringArrayJs = "<?php echo $stringArrayPhp ?>";
-                                  var arrayDescricao = stringArrayJs.split("/");
-                                  //console.log(arrayDescricao);
-
-                                  $("#addInfo-tab")
-                                    .append($("<tr>")
-                                      .append($("<td>").text(arrayDescricao[lista[0]-1]))
-                                      .append($("<td>").text(lista[1]))  
-                                      .append($("<td style='display: flex; justify-content: space-evenly;'>")
-                                        .append($("<button onclick='removerDescricao(82)' title='Excluir' class='btn btn-danger'><i class='fas fa-trash-alt'></i></button>"))
-                                      )
-                                    )
+                                  var argsAdicional = "action=idInfoAdicional";
+                                  var argsdesc = "action=selectDescricao";
+                                  // var url = "./funcionario/informacao_adicional.php";
+                                  console.log(lista[0]);
+                                  var vetor = new Array;
+                                  $.ajax({
+                                      type: "POST",
+                                      url: "./funcionario/informacao_adicional.php",
+                                      data: argsdesc,
+                                      dataType: 'json',
+                                      success: function(resp){
+                                          console.log(resp);
+                                          $.each(resp,function(idx,obj){
+                                              vetor.push(obj.descricao);
+                                          })
+                                          console.log(vetor);
+                                          $.ajax({
+                                            type: "POST",
+                                            url: "./funcionario/informacao_adicional.php",
+                                            data: argsAdicional,
+                                            dataType: 'json',
+                                            success: function(res){
+                                                var id = res['max(idfunncionario_outrasinfo)'];
+                                                $("#addInfo-tab")
+                                                  .append($("<tr id="+ id +">")
+                                                    .append($("<td>").text(vetor[lista[0]-1]))
+                                                    .append($("<td>").text(lista[1]))  
+                                                    .append($("<td style='display: flex; justify-content: space-evenly;'>")
+                                                      .append($("<button onclick='removerDescricao("+ id +")' title='Excluir' class='btn btn-danger'><i class='fas fa-trash-alt'></i></button>"))
+                                                    )
+                                                  )
+                                            },
+                                          });
+                                      },
+                                  });
                                 }
                               </script>
 
@@ -2345,9 +2354,8 @@ $dependente = json_encode($dependente);
           window.alert("Preencha todos os campos obrigatórios antes de prosseguir!");
           return false;
       }
-      
       var data_nova = "id_descricao=" + data[0] + "&dados=" + data[1] + "&action=adicionar&id_funcionario=" + data[3];
-      post(url, data_nova, callback);      
+      post(url, data_nova, callback); 
       console.log(idForm + " => " + data + " | ", callback);
       listarInfoAdicional(data);
       return true;

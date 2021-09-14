@@ -46,11 +46,26 @@ if ($action == "remover"){
 }
 
 if ($action == "idInfoAdicional"){
-    $sql = "SELECT max(idfunncionario_outrasinfo) FROM funcionario_outrasinfo;";
+    // $sql = "SELECT * FROM  funcionario_outrasinfo;";
     try {
-        $pdo->query($sql);
-        echo json_encode($pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC));
-        listar();
+        // $pdo->query($sql);
+        $result = $pdo->query("SELECT max(idfunncionario_outrasinfo) FROM  funcionario_outrasinfo;")->fetch(PDO::FETCH_ASSOC);
+        // listar();
+        echo json_encode($result);
+    } catch (PDOException $th) {
+        echo json_encode($th);
+    }
+}
+
+if ($action == "selectDescricao"){
+    // $sql = "SELECT * FROM  funcionario_outrasinfo;";
+    try {
+        // $pdo->query($sql);
+        // $result = $pdo->query("SELECT * FROM funcionario_listainfo;")->fetch(PDO::FETCH_ASSOC);
+        // listar();
+        // echo json_encode($result);
+        echo json_encode($pdo->query("SELECT * FROM funcionario_listainfo;")->fetchAll(PDO::FETCH_ASSOC));
+
     } catch (PDOException $th) {
         echo json_encode($th);
     }
