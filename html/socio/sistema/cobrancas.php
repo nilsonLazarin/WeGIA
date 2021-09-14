@@ -6,7 +6,7 @@
     if(!isset($_SESSION['usuario'])) header("Location: ../erros/login_erro/");
     $id = $_SESSION['usuario'];
     $id_pessoa = $_SESSION['id_pessoa'];
-	$resultado = mysqli_query($conexao, "SELECT `imagem`, `nome` FROM `pessoa` WHERE id_pessoa=$id_pessoa");
+	  $resultado = mysqli_query($conexao, "SELECT `imagem`, `nome` FROM `pessoa` WHERE id_pessoa=$id_pessoa");
     $pessoa = mysqli_fetch_array($resultado);
     $nome = $pessoa['nome'];
 
@@ -122,8 +122,10 @@
     <!-- Vendor -->
     <script src="<?php echo WWW;?>assets/vendor/jquery/jquery.min.js"></script>
     <script src="<?php echo WWW;?>assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
     <script src="<?php echo WWW;?>assets/vendor/nanoscroller/nanoscroller.js"></script>
+
+    <!--Com defeito<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>-->
+    
     <script src="<?php echo WWW;?>assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
     <script src="<?php echo WWW;?>assets/vendor/magnific-popup/magnific-popup.js"></script>
     <script src="<?php echo WWW;?>assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
