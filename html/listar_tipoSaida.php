@@ -66,6 +66,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
       <!-- Vendor CSS -->
       <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css" />
+      <link rel="stylesheet" href="../assets/vendor/font-awesome/css/font-awesome.css" />
       <link rel="stylesheet" href="../assets/vendor/magnific-popup/magnific-popup.css" />
       <link rel="stylesheet" href="../assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
       <!-- Specific Page Vendor CSS -->
@@ -120,7 +121,7 @@
          });
          $(function () {
             $("#header").load("header.php");
-            $(".menuu").load("menu.html");
+            $(".menuu").load("menu.php");
           });
       </script>
    </head>

@@ -73,6 +73,7 @@
 
 	<!-- Vendor CSS -->
 	<link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css" />
+	<link rel="stylesheet" href="../assets/vendor/font-awesome/css/font-awesome.css" />
 	<link rel="stylesheet" href="../assets/vendor/magnific-popup/magnific-popup.css" />
 	<link rel="stylesheet" href="../assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
 	<link rel="icon" href="<?php display_campo("Logo",'file');?>" type="image/x-icon" id="logo-icon">
