@@ -1,9 +1,19 @@
 <?php
-require_once('../classes/Interno.php');
-require_once('Conexao.php');
-require_once('../Functions/funcoes.php');
+$config_path = "config.php";
+if(file_exists($config_path)){
+    require_once($config_path);
+}else{
+    while(true){
+        $config_path = "../" . $config_path;
+        if(file_exists($config_path)) break;
+    }
+    require_once($config_path);
+}
+require_once ROOT."/dao/Conexao.php";
+require_once ROOT."/classes/Atendido.php";
+require_once ROOT."/Functions/funcoes.php";
 
-class InternoDAO
+class AtendidoDAO
 {
     public function formatoDataDMY($data)
     {
@@ -13,58 +23,58 @@ class InternoDAO
         
         return $datad;
     }
-	public function incluir($interno)
+	public function incluir($atendido)
     {        
-       
-        try {
-            $sql = 'call cadatendido(:cpf,:nome,:sobrenome,:sexo,:telefone,:data_nascimento');
-            $sql = str_replace("'", "\'", $sql); 
+         try {
+            // $sql= " CALL cadatendido('Artur', 'coves', '056.087.869-45', 'f', '(22)99237-2613', '2021-09-10',1, 1)";
+            // $pdo = Conexao::connect();
+            // $stmt = $pdo->prepare($sql);
+            // $stmt->execute();
+            
+            $sql = "call cadatendido(:strNome,:strSobrenome,:strCpf,:strSexo,:strTelefone,:dateNascimento, :intStatus, :intTipo)";
+            //$sql = str_replace("'", "\'", $sql);
             $pdo = Conexao::connect();
             $stmt = $pdo->prepare($sql);
-            $senha=$interno->getSenha();
-            $nome=$interno->getNome();
-            $sobrenome=$interno->getSobrenome();
-            $cpf=$interno->getCpf();
-            $sexo=$interno->getSexo();
-            $telefone=$interno->getTelefone();
-            $nascimento=$interno->getDataNascimento();
-            
 
-
-            $stmt->bindParam(':senha',$senha);
-            $stmt->bindParam(':nome',$nome);
-            $stmt->bindParam(':sobrenome',$sobrenome);
-            $stmt->bindParam(':cpf',$cpf);
-            $stmt->bindParam(':sexo',$sexo);
-            $stmt->bindParam(':telefone',$telefone);
-            $stmt->bindParam(':data_nascimento',$nascimento);
             
+            $nome=$atendido->getNome();
+            $sobrenome=$atendido->getSobrenome();
+            $cpf=$atendido->getCpf();
+            $sexo=$atendido->getSexo();
+            $telefone=$atendido->getTelefone();
+            $dataNascimento=$atendido->getDataNascimento();
+            $intTipo=$atendido->getIntTipo();
+            $intStatus=$atendido->getIntStatus();
+
+            $stmt->bindParam(':strNome',$nome);
+            $stmt->bindParam(':strSobrenome',$sobrenome);
+            $stmt->bindParam(':strCpf',$cpf);
+            $stmt->bindParam(':strSexo',$sexo);
+            $stmt->bindParam(':strTelefone',$telefone);
+            $stmt->bindParam(':dateNascimento',$dataNascimento);
+            $stmt->bindParam(':intStatus',$intStatus);
+            $stmt->bindParam(':intTipo',$intTipo);
             $stmt->execute();
-            while($linha = $stmt->fetch(PDO::FETCH_ASSOC)){
-                $idPessoa=$linha['MAX(id_pessoa)'];
-            }
-            $file_name = realpath('../').'/socorro.txt';
-            $file = fopen($file_name, "w");
-            fwrite($file, "$sql"); 
-            return $idPessoa;
-
-
-        }catch (PDOExeption $e) {
-            echo 'Error: <b>  na tabela atendido = ' . $sql . '</b> <br /><br />' . $e->getMessage();
+            
+        } catch (PDOException $e) {
+            echo 'Error: <b>  na tabela pessoas = ' . $sql . '</b> <br /><br />' . $e->getMessage();
         }
+        
+        
     }
-
-    // excluir
-    public function excluir($idinterno)
+    //excluir  
+    public function excluir($idatendido)
     {
+        
         try {
+            
             $sql = 'call excluirinterno(:idi)';
             $sql = str_replace("'", "\'", $sql);
             $pdo = Conexao::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             
             $stmt = $pdo->prepare($sql);
-            
+
             $stmt->bindParam(':idi', $idinterno);
             
             $stmt->execute();
@@ -73,19 +83,17 @@ class InternoDAO
         }
     }
 
-    public function alterarImagem($interno)
+    public function alterarImagem($atendido)
     {
         try {
             $sql = 'update pessoa as p inner join interno as i on p.id_pessoa=i.id_pessoa set imagem=:imagem where id_pessoa=:id_pessoa';
-            
-           $sql = str_replace("'", "\'", $sql);
+            $sql = str_replace("'", "\'", $sql);
             $pdo = Conexao::connect();
             $stmt = $pdo->prepare($sql);
-            
-            $stmt = $pdo->prepare($sql);
-            $imagem=$interno->getImagem();
-            $id_pessoa=$interno->getIdInterno();
 
+            $stmt = $pdo->prepare($sql);
+            $imagem=$atendido->getImagem();
+            $idatendido=$atendido->getIdatendido();
             $stmt->bindParam(':imagem',$imagem);
             $stmt->bindParam(':id_pessoa',$id_pessoa);
             $stmt->execute();
@@ -95,94 +103,28 @@ class InternoDAO
     }
 
     // Editar
-    public function alterar($interno)
+    public function alterar($atendido)
     {
         try {
-            $sql = 'update pessoa as p inner join interno as i on p.id_pessoa=i.id_pessoa set p.senha=:senha,p.nome=:nome, p.sobrenome=:sobrenome,p.cpf=:cpf,p.sexo=:sexo,p.telefone=:telefone,p.data_nascimento=:data_nascimento,p.imagem=:imagem,p.cep=:cep,p.estado=:estado,p.cidade=:cidade,p.bairro=:bairro,p.logradouro=:logradouro,p.numero_endereco=:numero_endereco,p.complemento=:complemento,p.ibge=:ibge,p.registro_geral=:registro_geral,p.orgao_emissor=:orgao_emissor,p.data_expedicao=:data_expedicao,p.nome_pai=:nome_pai,p.nome_mae=:nome_mae,p.tipo_sanguineo=:tipo_sanguineo,i.nome_contato_urgente=:nome_contato_urgente,i.telefone_contato_urgente_1=:telefone_contato_urgente_1,i.telefone_contato_urgente_2=:telefone_contato_urgente_2,i.telefone_contato_urgente_3=:telefone_contato_urgente_3,i.observacao=:observacao,i.certidao_nascimento=:certidao,i.curatela=:curatela,i.inss=:inss,i.loas=:loas,i.bpc=:bpc,i.funrural=:funrural,i.saf=:saf,i.sus=:sus,i.certidao_casamento=:certidao_casamento,i.ctps=:ctps,i.titulo=:titulo where i.id_pessoa=:id_pessoa';
+            $sql = 'update pessoa as p inner join interno as i on p.id_pessoa=i.id_pessoa set p.senha=:senha,p.nome=:nome, p.sobrenome=:sobrenome,p.cpf=:cpf,p.sexo=:sexo,p.telefone=:telefone,p.strdataNascimento=:strdataNascimento,p.imagem=:imagem,p.cep=:cep,p.estado=:estado,p.cidade=:cidade,p.bairro=:bairro,p.logradouro=:logradouro,p.numero_endereco=:numero_endereco,p.complemento=:complemento,p.ibge=:ibge,p.registro_geral=:registro_geral,p.orgao_emissor=:orgao_emissor,p.data_expedicao=:data_expedicao,p.nome_pai=:nome_pai,p.nome_mae=:nome_mae,p.intTipo_sanguineo=:intTipo_sanguineo,i.nome_contato_urgente=:nome_contato_urgente,i.strTelefone_contato_urgente_1=:strTelefone_contato_urgente_1,i.strTelefone_contato_urgente_2=:strTelefone_contato_urgente_2,i.strTelefone_contato_urgente_3=:strTelefone_contato_urgente_3,i.observacao=:observacao,i.certidao_nascimento=:certidao,i.curatela=:curatela,i.inss=:inss,i.loas=:loas,i.bpc=:bpc,i.funrural=:funrural,i.saf=:saf,i.sus=:sus,i.certidao_casamento=:certidao_casamento,i.ctps=:ctps,i.titulo=:titulo where i.id_pessoa=:id_pessoa';
             
             $sql = str_replace("'", "\'", $sql);
             $pdo = Conexao::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             
-            $stmt = $pdo->prepare($sql);
-            $certidao_casamento=$interno->getCertidaoCasamento();
-            $ctps=$interno->getCtps();
-            $titulo=$interno->getTitulo();
-            $nome=$interno->getNome();
-            $sobrenome=$interno->getsobrenome();
-            $cpf=$interno->getCpf();
-            $sexo=$interno->getSexo();
-            $telefone=$interno->getTelefone();
-            $nascimento=$interno->getDataNascimento();
-            $imagem=$interno->getImagem();
-            $cep=$interno->getCep();
-            $cidade=$interno->getCidade();
-            $bairro=$interno->getBairro();
-            $logradouro=$interno->getLogradouro();
-            $numeroEndereco=$interno->getNumeroEndereco();
-            $complemento=$interno->getComplemento();
-            $rg=$interno->getRegistroGeral();
-            $orgaoEmissor=$interno->getOrgaoEmissor();
-            $nomePai=$interno->getNomePai();        
-            $nomeMae=$interno->getNomeMae();
-            $sangue=$interno->getTipoSanguineo();
-            $nomeContatoUrgente=$interno->getNomeContatoUrgente();
-            $telefone1=$interno->getTelefoneContatoUrgente1();
-            $telefone2=$interno->getTelefoneContatoUrgente2();
-            $telefone3=$interno->getTelefoneContatoUrgente3();
-            $ibge=$interno->getIbge();
-            $dataExpedicao=$interno->getDataExpedicao();
-            $certidao=$interno->getCertidaoNascimento();
-            $curatela=$interno->getCuratela();
-            $inss=$interno->getInss();
-            $loas=$interno->getLoas();
-            $bpc=$interno->getBpc();
-            $funrural=$interno->getFunrural();
-            $saf=$interno->getSaf();
-            $sus=$interno->getSus();
-            $idInterno=$interno->getIdInterno();
-            $estado=$interno->getEstado();
-            $observacao=$interno->getObservacao();
-            
-            $stmt->bindParam(':id_pessoa',$idInterno);
-            $stmt->bindParam(':senha',$senha);
-            $stmt->bindParam(':nome',$nome);
-            $stmt->bindParam(':sobrenome',$sobrenome);
-            $stmt->bindParam(':cpf',$cpf);
-            $stmt->bindParam(':sexo',$sexo);
-            $stmt->bindParam(':telefone',$telefone);
-            $stmt->bindParam(':data_nascimento',$nascimento);
-            $stmt->bindParam(':imagem',$imagem);        
-            $stmt->bindParam(':cep',$cep);
-            $stmt->bindParam(':estado',$estado);
-            $stmt->bindParam(':cidade',$cidade);
-            $stmt->bindParam(':bairro',$bairro);
-            $stmt->bindParam(':logradouro',$logradouro);
-            $stmt->bindParam(':numero_endereco',$numeroEndereco);
-            $stmt->bindParam(':complemento',$complemento);
-            $stmt->bindParam(':registro_geral',$rg);
-            $stmt->bindParam(':orgao_emissor',$orgaoEmissor);
-            $stmt->bindParam(':data_expedicao',$dataExpedicao);
-            $stmt->bindParam(':nome_pai',$nomePai);        
-            $stmt->bindParam(':nome_mae',$nomeMae);
-            $stmt->bindParam(':tipo_sanguineo',$sangue);
-            $stmt->bindParam(':nome_contato_urgente',$nomeContatoUrgente);
-            $stmt->bindParam(':telefone_contato_urgente_1',$telefone1);
-            $stmt->bindParam(':telefone_contato_urgente_2',$telefone2);
-            $stmt->bindParam(':telefone_contato_urgente_3',$telefone3);
-            $stmt->bindParam(':observacao',$observacao);
-            $stmt->bindParam(':ibge',$ibge);
-            $stmt->bindParam(':certidao',$certidao);
-            $stmt->bindParam(':curatela',$curatela);
-            $stmt->bindParam(':inss',$inss);
-            $stmt->bindParam(':loas',$loas);
-            $stmt->bindParam(':bpc',$bpc);
-            $stmt->bindParam(':funrural',$funrural);
-            $stmt->bindParam(':saf',$saf);
-            $stmt->bindParam(':sus',$sus);
-            $stmt->bindParam(':certidao_casamento',$certidao_casamento);
-            $stmt->bindParam(':ctps',$ctps);
-            $stmt->bindParam(':titulo',$titulo);
+            $nome=$atendido->getNome();
+            $sobrenome=$atendido->getSobrenome();
+            $cpf=$atendido->getCpf();
+            $sexo=$atendido->getSexo();
+            $telefone=$atendido->getTelefone();
+            $nascimento=$atendido->getDataNascimento();
+
+            $stmt->bindParam(':strNome',$nome);
+            $stmt->bindParam(':strSobrenome',$sobrenome);
+            $stmt->bindParam(':strCpf',$cpf);
+            $stmt->bindParam(':strSexo',$sexo);
+            $stmt->bindParam(':strTelefone',$telefone);
+            $stmt->bindParam(':dateNascimento',$nascimento);
             $stmt->execute();
         } catch (PDOException $e) {
             echo 'Error: <b>  na tabela pessoas = ' . $sql . '</b> <br /><br />' . $e->getMessage();
@@ -191,75 +133,75 @@ class InternoDAO
     public function listarTodos(){
 
         try{
-            $internos=array();
+            $pessoas=array();
             $pdo = Conexao::connect();
             $consulta = $pdo->query("SELECT p.nome,p.sobrenome,p.cpf,i.id_pessoa FROM pessoa p INNER JOIN pessoa i ON p.id_pessoa = i.id_pessoa");
             $produtos = Array();
             $x=0;
             while($linha = $consulta->fetch(PDO::FETCH_ASSOC)){
                 if ($linha['cpf']==="Não informado") {
-                    $internos[$x]=array('cpf'=>$linha['cpf'],'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'id'=>$linha['id_pessoa']);
+                    $pessoas[$x]=array('cpf'=>$linha['cpf'],'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'id'=>$linha['id_pessoa']);
                 }
                 else{
-                $internos[$x]=array('cpf'=>mask($linha['cpf'],'###.###.###-##'),'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'id'=>$linha['id_pessoa']);
+                $pessoas[$x]=array('cpf'=>mask($linha['cpf'],'###.###.###-##'),'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'id'=>$linha['id_pessoa']);
                 }
                 $x++;
             }
             } catch (PDOExeption $e){
                 echo 'Error:' . $e->getMessage;
             }
-            return json_encode($internos);
+            return json_encode($pessoas);
         }
 
 
     public function listarTodos2(){
 
         try{
-            $internos=array();
+            $pessoas=array();
             $pdo = Conexao::connect();
             $consulta = $pdo->query("SELECT p.nome,p.sobrenome,p.cpf,i.id_pessoa FROM pessoa p INNER JOIN pessoa i ON p.id_pessoa = i.id_pessoa");
             $produtos = Array();
             $x=0;
             while($linha = $consulta->fetch(PDO::FETCH_ASSOC)){
                 if ($linha['cpf']==="Não informado") {
-                    $internos[$x]=array('cpf'=>$linha['cpf'],'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'id'=>$linha['id_pessoa']);
+                    $pessoas[$x]=array('cpf'=>$linha['cpf'],'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'id'=>$linha['id_pessoa']);
                 }
                 else{
-                $internos[$x]=array('cpf'=>mask($linha['cpf'],'###.###.###-##'),'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'id'=>$linha['id_pessoa']);
+                $pessoas[$x]=array('cpf'=>mask($linha['cpf'],'###.###.###-##'),'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'id'=>$linha['id_pessoa']);
                 }
                 $x++;
             }
             } catch (PDOExeption $e){
                 echo 'Error:' . $e->getMessage;
             }
-            return $internos;
+            return $pessoas;
         }
 
     public function listar($id){
         try{
             echo $id;
             $pdo = Conexao::connect();
-            $sql = "SELECT p.imagem,p.nome,p.sobrenome,p.cpf, p.senha, p.sexo, p.telefone,p.data_nascimento, p.cep,p.cidade,p.bairro,p.logradouro,p.numero_endereco,p.complemento,p.ibge,p.registro_geral,p.orgao_emissor,p.data_expedicao,p.nome_pai,p.nome_mae,p.tipo_sanguineo,i.nome_contato_urgente,i.telefone_contato_urgente_1,i.telefone_contato_urgente_2,i.telefone_contato_urgente_3,i.observacao,i.certidao_nascimento,i.curatela,i.inss,i.loas,i.bpc,i.funrural,i.saf,i.sus,i.id_pessoa,i.certidao_casamento,i.ctps,i.titulo,d.imgdoc,d.descricao,d.id_documento FROM pessoa p LEFT JOIN interno i ON p.id_pessoa = i.id_pessoa left join documento d on p.id_pessoa=d.id_pessoa WHERE i.id_pessoa=:id";
+            $sql = "SELECT p.imagem,p.nome,p.sobrenome,p.cpf, p.senha, p.sexo, p.telefone,p.strdataNascimento, p.cep,p.cidade,p.bairro,p.logradouro,p.numero_endereco,p.complemento,p.ibge,p.registro_geral,p.orgao_emissor,p.data_expedicao,p.nome_pai,p.nome_mae,p.intTipo_sanguineo,i.nome_contato_urgente,i.strTelefone_contato_urgente_1,i.strTelefone_contato_urgente_2,i.strTelefone_contato_urgente_3,i.observacao,i.certidao_nascimento,i.curatela,i.inss,i.loas,i.bpc,i.funrural,i.saf,i.sus,i.id_pessoa,i.certidao_casamento,i.ctps,i.titulo,d.imgdoc,d.descricao,d.id_documento FROM pessoa p LEFT JOIN interno i ON p.id_pessoa = i.id_pessoa left join documento d on p.id_pessoa=d.id_pessoa WHERE i.id_pessoa=:id";
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':id',$id);
 
             $stmt->execute();
-            $interno=array();
+            $pessoa=array();
             while ($linha = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 if ($linha['cpf']==="Não informado") {
-                $interno[]=array('ctps'=>$linha['ctps'],'titulo'=>$linha['titulo'],'casamento'=>$linha['certidao_casamento'],'imagem'=>$linha['imagem'],'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'cpf'=>$linha['cpf'], 'senha'=>$linha['senha'], 'sexo'=>$linha['sexo'], 'telefone'=>$linha['telefone'],'data_nascimento'=>$linha['data_nascimento'], 'cep'=>$linha['cep'],'cidade'=>$linha['cidade'],'bairro'=>$linha['bairro'],'logradouro'=>$linha['logradouro'],'numero_endereco'=>$linha['numero_endereco'],'complemento'=>$linha['complemento'],'ibge'=>$linha['ibge'],'registro_geral'=>$linha['registro_geral'],'orgao_emissor'=>$linha['orgao_emissor'],'data_expedicao'=>$linha['data_expedicao'],'nome_pai'=>$linha['nome_pai'],'nome_mae'=>$linha['nome_mae'],'tipo_sanguineo'=>$linha['tipo_sanguineo'],'nome_contato_urgente'=>$linha['nome_contato_urgente'],'telefone_contato_urgente_1'=>$linha['telefone_contato_urgente_1'],'telefone_contato_urgente_2'=>$linha['telefone_contato_urgente_2'],'telefone_contato_urgente_3'=>$linha['telefone_contato_urgente_3'],'observacao'=>$linha['observacao'],'certidao'=>$linha['certidao_nascimento'],'curatela'=>$linha['curatela'],'inss'=>$linha['inss'],'loas'=>$linha['loas'],'bpc'=>$linha['bpc'],'funrural'=>$linha['funrural'],'saf'=>$linha['saf'],'sus'=>$linha['sus'],'idInterno'=>$linha['id_pessoa'],'imgdoc'=>$linha['imgdoc'],'descricao'=>$linha['descricao'],'id_documento'=>$linha['id_documento']);
+                $pessoa[]=array('ctps'=>$linha['ctps'],'titulo'=>$linha['titulo'],'casamento'=>$linha['certidao_casamento'],'imagem'=>$linha['imagem'],'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'cpf'=>$linha['cpf'], 'senha'=>$linha['senha'], 'sexo'=>$linha['sexo'], 'telefone'=>$linha['telefone'],'strdataNascimento'=>$linha['strdataNascimento'], 'cep'=>$linha['cep'],'cidade'=>$linha['cidade'],'bairro'=>$linha['bairro'],'logradouro'=>$linha['logradouro'],'numero_endereco'=>$linha['numero_endereco'],'complemento'=>$linha['complemento'],'ibge'=>$linha['ibge'],'registro_geral'=>$linha['registro_geral'],'orgao_emissor'=>$linha['orgao_emissor'],'data_expedicao'=>$linha['data_expedicao'],'nome_pai'=>$linha['nome_pai'],'nome_mae'=>$linha['nome_mae'],'intTipo_sanguineo'=>$linha['intTipo_sanguineo'],'nome_contato_urgente'=>$linha['nome_contato_urgente'],'strTelefone_contato_urgente_1'=>$linha['strTelefone_contato_urgente_1'],'strTelefone_contato_urgente_2'=>$linha['strTelefone_contato_urgente_2'],'strTelefone_contato_urgente_3'=>$linha['strTelefone_contato_urgente_3'],'observacao'=>$linha['observacao'],'certidao'=>$linha['certidao_nascimento'],'curatela'=>$linha['curatela'],'inss'=>$linha['inss'],'loas'=>$linha['loas'],'bpc'=>$linha['bpc'],'funrural'=>$linha['funrural'],'saf'=>$linha['saf'],'sus'=>$linha['sus'],'idInterno'=>$linha['id_pessoa'],'imgdoc'=>$linha['imgdoc'],'descricao'=>$linha['descricao'],'id_documento'=>$linha['id_documento']);
             }
             else{
-                $interno[]=array('ctps'=>$linha['ctps'],'titulo'=>$linha['titulo'],'casamento'=>$linha['certidao_casamento'],'imagem'=>$linha['imagem'],'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'cpf'=>mask($linha['cpf'],'###.###.###-##'), 'senha'=>$linha['senha'], 'sexo'=>$linha['sexo'], 'telefone'=>$linha['telefone'],'data_nascimento'=>$linha['data_nascimento'], 'cep'=>$linha['cep'],'cidade'=>$linha['cidade'],'bairro'=>$linha['bairro'],'logradouro'=>$linha['logradouro'],'numero_endereco'=>$linha['numero_endereco'],'complemento'=>$linha['complemento'],'ibge'=>$linha['ibge'],'registro_geral'=>$linha['registro_geral'],'orgao_emissor'=>$linha['orgao_emissor'],'data_expedicao'=>$linha['data_expedicao'],'nome_pai'=>$linha['nome_pai'],'nome_mae'=>$linha['nome_mae'],'tipo_sanguineo'=>$linha['tipo_sanguineo'],'nome_contato_urgente'=>$linha['nome_contato_urgente'],'telefone_contato_urgente_1'=>$linha['telefone_contato_urgente_1'],'telefone_contato_urgente_2'=>$linha['telefone_contato_urgente_2'],'telefone_contato_urgente_3'=>$linha['telefone_contato_urgente_3'],'observacao'=>$linha['observacao'],'certidao'=>$linha['certidao_nascimento'],'curatela'=>$linha['curatela'],'inss'=>$linha['inss'],'loas'=>$linha['loas'],'bpc'=>$linha['bpc'],'funrural'=>$linha['funrural'],'saf'=>$linha['saf'],'sus'=>$linha['sus'],'idInterno'=>$linha['id_pessoa'],'imgdoc'=>$linha['imgdoc'],'descricao'=>$linha['descricao'],'id_documento'=>$linha['id_documento']);
+                $pessoa[]=array('ctps'=>$linha['ctps'],'titulo'=>$linha['titulo'],'casamento'=>$linha['certidao_casamento'],'imagem'=>$linha['imagem'],'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'cpf'=>mask($linha['cpf'],'###.###.###-##'), 'senha'=>$linha['senha'], 'sexo'=>$linha['sexo'], 'telefone'=>$linha['telefone'],'strdataNascimento'=>$linha['strdataNascimento'], 'cep'=>$linha['cep'],'cidade'=>$linha['cidade'],'bairro'=>$linha['bairro'],'logradouro'=>$linha['logradouro'],'numero_endereco'=>$linha['numero_endereco'],'complemento'=>$linha['complemento'],'ibge'=>$linha['ibge'],'registro_geral'=>$linha['registro_geral'],'orgao_emissor'=>$linha['orgao_emissor'],'data_expedicao'=>$linha['data_expedicao'],'nome_pai'=>$linha['nome_pai'],'nome_mae'=>$linha['nome_mae'],'intTipo_sanguineo'=>$linha['intTipo_sanguineo'],'nome_contato_urgente'=>$linha['nome_contato_urgente'],'strTelefone_contato_urgente_1'=>$linha['strTelefone_contato_urgente_1'],'strTelefone_contato_urgente_2'=>$linha['strTelefone_contato_urgente_2'],'strTelefone_contato_urgente_3'=>$linha['strTelefone_contato_urgente_3'],'observacao'=>$linha['observacao'],'certidao'=>$linha['certidao_nascimento'],'curatela'=>$linha['curatela'],'inss'=>$linha['inss'],'loas'=>$linha['loas'],'bpc'=>$linha['bpc'],'funrural'=>$linha['funrural'],'saf'=>$linha['saf'],'sus'=>$linha['sus'],'idInterno'=>$linha['id_pessoa'],'imgdoc'=>$linha['imgdoc'],'descricao'=>$linha['descricao'],'id_documento'=>$linha['id_documento']);
             }
         }
         }catch (PDOExeption $e){
             echo 'Error: ' .  $e->getMessage();
         }
-        return json_encode($interno);
+        return json_encode($pessoa);
     }
 
-    public function listarCPF()
+    public function listarcpf()
     {
         try
         {

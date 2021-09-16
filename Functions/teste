@@ -1,4 +1,4 @@
-		$(function(){
+$(function(){
 				var rg = 0;
 				var cpf = 0;
 				var certidao = 0;
@@ -264,24 +264,35 @@
 						var certo=0;
 						console.log(certo);
 					}
-					else if($("#sobrenome").val() == ""){
-						alert("Por favor, insira o sobrenome");
-						$("#sobrenome").focus();
+
+					else if($("#pai").val() == ""){
+						alert("Por favor, insira o nome do pai");
+						$("#pai").focus();
 						var certo=0;
 						console.log(certo);
 					}
-					else if(verifica_sexo == 0){
-						alert("Por favor, defina um sexo");
-						$("#radio1").focus();
+
+					else if($("#mae").val() == ""){
+						alert("Por favor, insira o nome da mãe");
+						$("#mae").focus();
 						var certo=0;
 						console.log(certo);
 					}
+
+					else if($("#sangue").val() == null){
+						//alert("Selecione o tipo sanguíneo");
+						$("#sangue").focus();
+						var certo=0;
+						console.log(certo);
+					}
+
 					else if($("#nascimento").val() == ""){
 						alert("Por favor, insira uma data de nascimento");
 						$("#nascimento").focus();
 						var certo=0;
 						console.log(certo);
 					}
+
 					else if($("#rg").val() == ""){
 						if($("#registro").prop("checked")){
 							certo=1;
@@ -308,30 +319,6 @@
 						console.log(certo);
 					}
 
-
-					else if($("#pai").val() == ""){
-						alert("Por favor, insira o nome do pai");
-						$("#pai").focus();
-						var certo=0;
-						console.log(certo);
-					}
-
-					else if($("#mae").val() == ""){
-						alert("Por favor, insira o nome da mãe");
-						$("#mae").focus();
-						var certo=0;
-						console.log(certo);
-					}
-
-					else if($("#sangue").val() == null){
-						//alert("Selecione o tipo sanguíneo");
-						$("#sangue").focus();
-						var certo=0;
-						console.log(certo);
-					}
-
-					
-					
 					else if($("#cpf").val() == ""){
 						if($("#nao_cpf").prop("checked")){
 							certo=1;
@@ -344,13 +331,18 @@
 								console.log(certo);
 							}
 						}
-						
-
-
-					
-					
-					
-					
+					else if(verifica_sexo == 0){
+						alert("Por favor, defina um sexo");
+						$("#radio1").focus();
+						var certo=0;
+						console.log(certo);
+					}
+					else if($("#sobrenome").val() == ""){
+						alert("Por favor, insira o sobrenome");
+						$("#sobrenome").focus();
+						var certo=0;
+						console.log(certo);
+					}
 
 					/*else if(rg == 1 && $("#imgRg").value == null){
 						alert("Nenhum arquivo selecionado para uma Imagem de RG, favor selecionar um arquivo ou desmarcar a opção 'RG' de benefícios");
@@ -369,39 +361,3 @@
 					}
 
 					else if(funrural == 1 && $("#imgFunrural").value == null){
-						alert("Nenhum arquivo selecionado para uma imagem de Funrural, favor selecionar um arquivo ou desmarcar a opção 'Funrural' de benefícios");
-					}
-
-					else if(titulo == 1 && $("#imgTituloEleitor").value == null){
-						alert("Nenhum arquivo selecionado para uma imagem de Título de Eleitor, favor selecionar um arquivo ou desmarcar a opção 'Título de Eleitor' de benefícios");
-					}
-
-					else if(ctps == 1 && $("#imgCtps").value == null){
-						alert("Nenhum arquivo selecionado para uma imagem de CTPS, favor selecionar um arquivo ou desmarcar a opção 'CTPS' de benefícios");
-					}
-
-					else if(saf == 1 && $("#imgSaf").value == null){
-						alert("Nenhum arquivo selecionado para uma imagem de SAF, favor selecionar um arquivo ou desmarcar a opção 'SAF' de benefícios");
-					}
-
-					else if(sus == 1 && $("#imgSus").value == null){
-						alert("Nenhum arquivo selecionado para uma imagem de SUS, favor selecionar um arquivo ou desmarcar a opção 'SUS' de benefícios");
-					}
-
-					else if(bpc == 1 && $("#imgBpc").value == null){
-						alert("Nenhum arquivo selecionado para uma imagem de BPC, favor selecionar um arquivo ou desmarcar a opção 'BPC' de benefícios");
-					}
-
-					else if(certidao == 1 && $("#imgCertidaoNascimento").value == null){
-						alert("Nenhum arquivo selecionado para uma imagem de Certidão de Nascimento, favor selecionar um arquivo ou desmarcar a opção 'Certidão de Nascimento' de benefícios");
-					}
-
-					else if(curatela == 1 && $("#imgCuratela").value == null){
-						alert("Nenhum arquivo selecionado para uma imagem de Curatela, favor selecionar um arquivo ou desmarcar a opção 'Curatela' de benefícios");
-					}*/
-					console.log(certo);
-					if(certo==1){
-						$("#formulario").submit();
-					}
-				});
-});

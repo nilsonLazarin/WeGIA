@@ -134,7 +134,7 @@ class InternoControle
         
     public function incluir(){
         $interno = $this->verificar();
-        $intDAO = new InternoDAO();
+        $intDAO = new AtendidoDAO();
         $docDAO = new DocumentoDAO();
         try{
             $idPessoa=$intDAO->incluir($interno);
@@ -152,9 +152,9 @@ class InternoControle
         extract($_REQUEST);
         $interno=$this->verificar();
         $interno->setIdInterno($idInterno);
-        $internoDAO=new InternoDAO();
+        $AtendidoDAO=new AtendidoDAO();
         try {
-            $internoDAO->alterar($interno);
+            $AtendidoDAO->alterar($interno);
             header("Location: ../html/Profile_Atendido.php?id=".$idInterno);
         } catch (PDOException $e) {
             echo $e->getMessage();
@@ -165,9 +165,9 @@ class InternoControle
     public function excluir()
     {
         extract($_REQUEST);
-        $internoDAO=new InternoDAO();
+        $AtendidoDAO=new AtendidoDAO();
         try {
-            $internoDAO->excluir($id);
+            $AtendidoDAO->excluir($id);
             header("Location:../controle/control.php?metodo=listarTodos&nomeClasse=InternoControle&nextPage=../html/Informacao_Atendido.php");
         } catch (Exception $e) {
             echo $e->getMessage();

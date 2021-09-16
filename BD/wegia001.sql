@@ -1611,10 +1611,12 @@ USE `wegia`$$
 CREATE PROCEDURE `cadatendido`(IN `strNome` VARCHAR(100), IN `strSobrenome` VARCHAR(100), IN `strCpf` VARCHAR(40), IN `strSexo` CHAR(1), IN `strTelefone` VARCHAR(25), IN `dateNascimento` DATE, IN `intStatus` INT, IN `intTipo` INT)
 begin
 declare idP int;
-INSERT INTO pessoa (cpf,nome,sobrenome,sexo,telefone,data_nascimento) VALUES (strCpf,strNome,strSobrenome,strSexo,strTelefone,dateNascimento);
+INSERT INTO pessoa(cpf,nome,sobrenome,sexo,telefone,data_nascimento) VALUES (strCpf,strNome,strSobrenome,strSexo,strTelefone,dateNascimento);
 select max(id_pessoa) into idP FROM pessoa;
-INSERT INTO atendido (pessoa_id_pessoa, atendido_tipo_idatendido_tipo, atentido_status_idatentido_status) VALUES (idP,intTipo,intStatus); 
-end$$
+INSERT INTO atendido(pessoa_id_pessoa, atendido_tipo_idatendido_tipo, atentido_status_idatentido_status) VALUES (idP,intTipo,intStatus); 
+
+END$$
+
 DELIMITER ;
 
 

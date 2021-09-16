@@ -1,19 +1,25 @@
 <?php
-
-error_reporting(0);
-ini_set(“display_errors”, 0 );
-
-require_once '../classes/Interno.php';
-require_once '../dao/InternoDAO.php';
+$config_path = "config.php";
+if(file_exists($config_path)){
+    require_once($config_path);
+}else{
+    while(true){
+        $config_path = "../" . $config_path;
+        if(file_exists($config_path)) break;
+    }
+    require_once($config_path);
+}
+require_once '../classes/Atendido.php';
+require_once '../dao/AtendidoDAO.php';
 require_once '../classes/Documento.php';
 require_once '../dao/DocumentoDAO.php';
 require_once 'DocumentoControle.php';
 include_once '../classes/Cache.php';
 
+
 require_once ROOT."/controle/AtendidoControle.php";
-require_once ROOT."/controle/FuncionarioControle.php";
-$listaInternos = new AtendidoControle();
-$listaInternos->listarTodos2();
+$listaAtendidos = new AtendidoControle();
+$listaAtendidos->listarTodos2();
 
 class AtendidoControle 
 {
@@ -25,90 +31,133 @@ class AtendidoControle
         
                return $datac;
     	}
-   public function verificar(){
-        extract($_REQUEST);
-        session_start();
-        if((!isset($nome)) || (empty($nome))){
-            $msg = "Nome do interno não informado. Por favor, informe um nome!";
-            header('Location: ../html/atendido/Cadastro_Atendido.php?msg='.$msg);
-        }
-        if((!isset($sobrenome)) || (empty($sobrenome))){
-            $msg = "Sobrenome do interno não informado. Por favor, informe um sobrenome!";
-            header('Location: ../html/atendido/Cadastro_Atendido.php?msg='.$msg);
-        }
-        if((!isset($sexo)) || (empty($sexo))){
-            $msg .= "Sexo do interno não informado. Por favor, informe um sexo!";
-            header('Location: ../html/atendido/Cadastro_Atendido.php?msg='.$msg);
-        }
-        if((!isset($nascimento)) || (empty($nascimento))){
-            $msg .= "Data de nascimento do interno não informado. Por favor, informe uma data de nascimento!";
-            header('Location: ../html/atendido/Cadastro_Atendido.php?msg='.$msg);
-        }
-        if(isset($naoPossuiCpf))
-        {
-            $internos = $_SESSION['internos2'];
-            $j=0;
-            for($i=0; $i<count($internos); $i++)
-            {
-                if($nome==$internos[$i]['nome'])
-                {
-                    $j++;
-                }
+        public function verificar(){
+            extract($_REQUEST);
+            if((!isset($cpf)) || (empty($cpf))){
+                $msg .= "cpf do atendido não informado. Por favor, informe o cpf!";
+                header('Location: ../html/atendido/Cadastro_Atendido.php?msg='.$msg);
             }
-            if($j==0)
-            {
-                $numeroCPF = $nome."ni";
+            if((!isset($nome)) || (empty($nome))){
+                $msg .= "Nome do atendido não informado. Por favor, informe o nome!";
+                header('Location: ../html/atendido/Cadastro_Atendido.php?msg='.$msg); 
             }
-            else
-            {
-                $numeroCPF = $nome.$j."ni";
+            if((!isset($sobrenome)) || (empty($sobrenome))){
+                $msg .= "Sobrenome do atendido não informada. Por favor, informe o Sobrenome!";
+                header('Location: ../html/atendido/Cadastro_Atendido.php?msg='.$msg);
             }
-        }
-        elseif((!isset($numeroCPF)) || (empty($numeroCPF))){
-            $msg .= "CPF do interno não informado. Por favor, informe um CPF!";
-            header('Location: ../html/atendido/Cadastro_atendido.php?msg='.$msg);
-        }
-            $telefone='';
+            if((!isset($sexo)) || (empty($sexo))){
+                $msg .= "Sexo do atendido não informado. Por favor, informe o sexo!";
+                header('Location: ../html/atendido/Cadastro_Atendido.php?msg='.$msg);
+            }
+            if((!isset($dataNascimento)) || (empty($dataNascimento))){
+                $msg .= "Nascimento do atendido não informado. Por favor, informe a data!";
+                header('Location: ../html/atendido/Cadastro_Atendido.php?msg='.$msg);
+            }
+            if((!isset($registroGeral)) || (empty($registroGeral))){
+                $registroGeral= "";
+            }
+            if((!isset($orgaoEmissor)) || empty(($orgaoEmissor))){
+                $orgaoEmissor= "";
+            }
+            if((!isset($dataExpedicao)) || (empty($dataExpedicao))){
+                $dataExpedicao= "";
+            }
+            if((!isset($nomePai)) || (empty($nomePai))){
+                $nomePai = '';
+            }
+            if((!isset($nomeMae)) || (empty($nomeMae))){
+                $nomeMae = '';
+            }
+            if((!isset($tipoSanguineo)) || (empty($tipoSanguineo))){
+                $tipoSanguineo = '';
+            }
+            if((!isset($cep)) || empty(($cep))){
+                $cep = '';
+            }
+            if((!isset($uf)) || empty(($uf))){
+                $uf = '';
+            }
+            if((!isset($cidade)) || empty(($cidade))){
+                $cidade = '';
+            }
+            if((!isset($estado)) || empty(($estado))){
+                $estado = '';
+            }
+            if((!isset($logradouro)) || empty(($logradouro))){
+                $logradouro = '';
+            }
+            if((!isset($numeroEndereco)) || empty(($numeroEndereco))){
+                $numeroEndereco = '';
+            }
+            if((!isset($bairro)) || empty(($bairro))){
+                $bairro = '';
+            }
+            if((!isset($rua)) || empty(($rua))){
+                $rua = '';
+            }
+            if((!isset($numero_residencia)) || empty(($numero_residencia))){
+                $numero_residencia = "";
+            }
+            if((!isset($complemento)) || (empty($complemento))){
+                $complemento='';
+            }
+            if((!isset($ibge)) || (empty($ibge))){
+                $ibge='';
+            }
+            if((!isset($telefone)) || (empty($telefone))){
+                $telefone='null';
+            }
+            if((!isset($_SESSION['imagem'])) || (empty($_SESSION['imagem']))){
+                $imagem = '';
+            }else{
+                $imagem = base64_encode($_SESSION['imagem']);
+                unset($_SESSION['imagem']);
+            }
+
+            
+            // $cpf=str_replace(".", '', $cpf);
+            // $cpf=str_replace("-", "", $cpf);
+            //$nascimento=str_replace("-", "", $nascimento);
             $senha='null';
-            $numeroCPF=str_replace(".", '', $numeroCPF);
-            $numeroCPF=str_replace("-", "", $numeroCPF);
-            $interno = new Interno($numeroCPF,$nome,$sobrenome,$sexo,$nascimento,$telefone,);
-           
-            return $interno;
+            $atendido = new Atendido($cpf,$nome,$sobrenome,$sexo,$dataNascimento,$registroGeral,$orgaoEmissor,$dataExpedicao,$nomeMae,$nomePai,$tipoSanguineo,$senha,$telefone,$imagem,$cep,$estado,$cidade,$bairro,$logradouro,$numeroEndereco,$complemento,$ibge);
+            $atendido->setIntTipo($intTipo);
+            $atendido->setIntStatus($intStatus);
+            return $atendido;
         }
+        
     
     public function listarTodos(){
         extract($_REQUEST);
-        $internoDAO= new InternoDAO();
-        $internos = $internoDAO->listarTodos();
+        $AtendidoDAO= new AtendidoDAO();
+        $atendidos = $AtendidoDAO->listarTodos();
         session_start();
-        $_SESSION['internos']=$internos;
+        $_SESSION['atendidos']=$atendidos;
         header('Location: '.$nextPage);
     }
 
     public function listarTodos2(){
         extract($_REQUEST);
-        $internoDAO= new InternoDAO();
-        $internos = $internoDAO->listarTodos2();
+        $AtendidoDAO= new AtendidoDAO();
+        $atendidos = $AtendidoDAO->listarTodos2();
         if (session_status() !== PHP_SESSION_ACTIVE)
         {
             session_start();
         }
-        $_SESSION['internos2']=$internos;
+        $_SESSION['atendidos2']=$atendidos;
     }
 
     public function listarUm()
     {
         extract($_REQUEST);
         $cache = new Cache();
-        $infInterno = $cache->read($id);
-        if (!$infInterno) {
+        $infAtendido = $cache->read($id);
+        if (!$infAtendido) {
             try {
-                $internoDAO=new InternoDAO();
-                $infInterno=$internoDAO->listar($id);
+                $AtendidoDAO=new AtendidoDAO();
+                $infAtendido=$AtendidoDAO->listar($id);
                 session_start();
-                $_SESSION['interno']=$infInterno;
-                $cache->save($id, $infInterno, '15 seconds');
+                $_SESSION['atendido']=$infAtendido;
+                $cache->save($id, $infAtendido, '15 seconds');
                 header('Location:'.$nextPage);
             } catch (PDOException $e) {
                 echo $e->getMessage();
@@ -122,9 +171,9 @@ class AtendidoControle
 
     public function listarCpf(){
         extract($_REQUEST);
-        $internosDAO = new InternoDAO();
-        $internoscpf = $internosDAO->listarCPF();
-        $_SESSION['cpf_interno']=$internoscpf;
+        $atendidosDAO = new AtendidoDAO();
+        $atendidoscpf = $atendidosDAO->listarCPF();
+        $_SESSION['cpf_atendido']=$atendidoscpf;
     }
 
     public function comprimir($documParaCompressao){
@@ -133,29 +182,31 @@ class AtendidoControle
     }
         
     public function incluir(){
-        $interno = $this->verificar();
-        $intDAO = new InternoDAO();
+        $atendido = $this->verificar();
+        var_dump($atendido);
+        $intDAO = new AtendidoDAO();
         $docDAO = new DocumentoDAO();
         try{
-            $idPessoa=$intDAO->incluir($interno);
-            $_SESSION['msg']="Interno cadastrado com sucesso";
-            $_SESSION['proxima']="Cadastrar outro interno";
+            $idatendido=$intDAO->incluir($atendido);
+            $_SESSION['msg']="Atendido cadastrado com sucesso";
+            $_SESSION['proxima']="Cadastrar outro atendido";
             $_SESSION['link']="../html/atendido/Cadastro_Atendido.php";
             header("Location: ../html/sucesso.php");
+            // header("Location: ../dao/AtendidoDAO.php");
         } catch (PDOException $e){
-            $msg= "Não foi possível registrar o interno <form> <input type='button' value='Voltar' onClick='history.go(-1)'> </form>"."<br>".$e->getMessage();
+            $msg= "Não foi possível registrar o atendido <form> <input type='button' value='Voltar' onClick='history.go(-1)'> </form>"."<br>".$e->getMessage();
             echo $msg;
         }
     }
     public function alterar()
     {
         extract($_REQUEST);
-        $interno=$this->verificar();
-        $interno->setIdInterno($idInterno);
-        $internoDAO=new InternoDAO();
+        $atendido=$this->verificar();
+        $atendido->setidatendido($idatendido);
+        $AtendidoDAO=new AtendidoDAO();
         try {
-            $internoDAO->alterar($interno);
-            header("Location: ../html/Profile_Atendido.php?id=".$idInterno);
+            $AtendidoDAO->alterar($atendido);
+            header("Location: ../html/Profile_Atendido.php?id=".$idatendido);
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -165,9 +216,9 @@ class AtendidoControle
     public function excluir()
     {
         extract($_REQUEST);
-        $internoDAO=new InternoDAO();
+        $AtendidoDAO=new AtendidoDAO();
         try {
-            $internoDAO->excluir($id);
+            $AtendidoDAO->excluir($id);
             header("Location:../controle/control.php?metodo=listarTodos&nomeClasse=AtendidoControle&nextPage=../html/Informacao_Atendido.php");
         } catch (Exception $e) {
             echo $e->getMessage();

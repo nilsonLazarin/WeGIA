@@ -229,7 +229,7 @@ class FuncionarioControle
             header('Location: ../html/funcionario.html?msg='.$msg);
         }
         if((!isset($sobrenome)) || (empty($sobrenome))){
-            $msg = "Sobrenome do funcionario nÃ£o informado. Por favor, informe um sobrenome!";
+            $msg = "obrenome do funcionario nÃ£o informado. Por favor, informe um sobrenome!";
             header('Location: ../html/funcionario.html?msg='.$msg);
         }
         if((!isset($gender)) || (empty($gender))){
