@@ -1,6 +1,0 @@
-INformações Pessoais - ok + -
-Endereço - ok + -
-Documentação - ok  + -
-Arquivos - OK
-Familiares (igual o dependentes do funcionario) -  falta
-Ocorrencias -  falta
