@@ -319,7 +319,7 @@
 									<option value="nenhum">Nenhum</option>
 							</select>
 								<span>Categoria: </span>
-								<select class="select-table-filter form-control mb-md" data-table="order-table" oninput="selectCategoria(this.value)" id="categ">
+							<select class="select-table-filter form-control mb-md" data-table="order-table" oninput="selectCategoria(this.value)" id="categ">
 								<option selected value="todas">Todas</option>
 								<?php
 									$pdo = Conexao::connect();

@@ -218,3 +218,11 @@ INSERT INTO `epi` (`descricao_epi`) VALUES
 ('Protetor Facial'),
 ('Protetor Auditivo'),
 ('Respirador purificador');
+
+INSERT INTO categoria_produto (descricao_categoria) VALUES ('Alimento'),('Higiene'),('Limpeza'),('Medicamento'),('Papelaria');
+
+INSERT INTO origem (nome_origem) VALUES ('Doador não identificado');
+
+INSERT INTO tipo_entrada (descricao) VALUES ('Doação'), ('Compra'), ('Troca'); 
+
+INSERT INTO tipo_saida (descricao) VALUES ('Consumo'), ('Troca'), ('Vencido');

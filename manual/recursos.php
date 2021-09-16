@@ -257,6 +257,37 @@ if(file_exists($config_path)){
                                                 3.3.8. Erros
                                             </a>
                                         </li>
+                                         <li class="sub1">
+                                            <a href="#_modulo_socio">
+                                                3.4. Sócio
+                                            </a>
+                                        </li>
+                        
+                                        <li class="sub2">
+                                            <a href="#_cadastro_socio">
+                                                3.4.1. Cadastro Sócio
+                                            </a>
+                                        </li>
+                                        <li class="sub2">
+                                            <a href="#_gerar_boleto">
+                                                3.4.2. Gerar boleto/carnê
+                                            </a>
+                                        </li>
+                                        <li class="sub2">
+                                            <a href="#_cobranca_socio">
+                                                3.4.3. Cobranças
+                                            </a>
+                                        </li>
+                                        <li class="sub2">
+                                            <a href="#_tag_socio">
+                                                3.4.4. Tags
+                                            </a>
+                                        </li>
+                                        <li class="sub2">
+                                            <a href="#_relatorio_socio">
+                                                3.4.5. Relatório dos sócios
+                                            </a>
+                                        </li>
                                     </ul>
                                 </li>
                             </ul>
@@ -452,11 +483,22 @@ if(file_exists($config_path)){
                             <p>Para criar uma origem ou destino, o funcionário responsável deve já estar na página de <strong><a href="/html/cadastro_entrada.php" style="text-decoration: none">ENTRADA</a> ou <a href="/html/cadastro_saida.php" style="text-descoration: none">SAÍDA</a></strong> e então no campo de <strong>Origem/Destino</strong> clicar no sinal de "+", localizado ao lado do campo de escrever. Logo em seguida, o funcionário será redirecionado para preencher os campos do cadastro da origem do produto. Feito isso, essa <strong>Origem/Destino</strong>, ficará disponivel para seleção e identificação na página de <strong>Entrada/Saída</strong>.
                             <br><br>
                             <img src="<?php echo WWW;?>img/origem.png" class="img-fluid">
+                            <br>
+                            <p><strong>Origem</strong></p>
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/ufrvDiauT1k" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            <br>
+                            <p><strong>Destino</strong></p>
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/YMmTL7PFwv8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            <br>
+                            
                         </dir>
                         <dir>
                             <h3>Criação do Almoxarifado</h3>
                             <hr>
                             <p>Criar um Almoxarifado é ainda mais fácil. Para isso, basta clicar no modulo de <strong>Material e Patrimônio</strong>, em seguida <strong>Adicionar Almoxarifado</strong>. Feito isso, escolha o nome que quiser para ele e clique em enviar. Pronto! Seu almoxarifado foi adicionado e já pode ser consultado. O mesmo pode ser feito, clicando no sinal de "+" pela própria página <strong>Entrada/Saída</strong> no campo de Almoxarifado.
+                            <br>
+                            <p><strong>Criar Almoxarifado</strong></p>
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/xRP1Jnt3PZc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                         </dir>
                         <dir>
                             <h3>Criação Tipos</h3>
@@ -467,15 +509,28 @@ if(file_exists($config_path)){
                             <h3>Enviar</h3>
                             <hr>
                             <p>Por fim, selecionamos o produto que será dado entrada/saída, inserindo o nome/código de barras (É possível usar Leitor de Código de barras). Em seguida, selecionamos a quantidade que será designada a entrada/saída e então é preciso clicar em <strong>Incluir</strong>. Feito isso, poderá ser adicionado novos produtos nessa entrada/saída, ou então, caso seja encerrado, clicamos em <strong>enviar</strong>.    
+                            <br>
+                            <p><strong>Registrar Produtos No Estoque</strong></p>
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/swNVNb9vEXA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            <br>
+                            <p><strong>Registrar Saída do Estoque</strong></p>
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/jQJJWra1fbU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            <br>
                         </dir>
+                        
                       </dir>
                       <br>
                       <dir>
                            <h3>3.2.2. Estoque </h3>
                            <hr>
                            <dir>
-                             <p>Aqui podemos visualizar todos os produtos que foram computados como entrada dentro do sistema e ainda não saíram, ou seja, estão presentes no <strong>estoque</strong>. Caso haja mais de um almoxarifado cadastrado no sistema, o funcionário poderá selecionar qual deseja consultar além da categoria. Feito isso, todos os produtos presentes irão aparecer numa lista, ou caso queira ver os que não possuem número no estoque, basta selecionar a caixinha <strong>"exibir produtos fora de estoque"</strong> e então deve aparecer produtos cadastrados que não possuem exemplares presentes no momento.</p>    
-                             <img src="<?php echo WWW;?>img/estoque.png" class="img-fluid">
+                           <p><strong>Consultar Estoque</strong></p>
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/3RYKn3woLtQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            <br>
+                            <p>Aqui podemos visualizar todos os produtos que foram computados como entrada dentro do sistema e ainda não saíram, ou seja, estão presentes no <strong>estoque</strong>. Caso haja mais de um almoxarifado cadastrado no sistema, o funcionário poderá selecionar qual deseja consultar além da categoria. Feito isso, todos os produtos presentes irão aparecer numa lista, ou caso queira ver os que não possuem número no estoque, basta selecionar a caixinha <strong>"exibir produtos fora de estoque"</strong> e então deve aparecer produtos cadastrados que não possuem exemplares presentes no momento.</p>    
+                            <img src="<?php echo WWW;?>img/estoque.png" class="img-fluid">
+                            <br>
+                            
                            </dir>
                       </dir>
                       <dir>
@@ -483,14 +538,21 @@ if(file_exists($config_path)){
                            <h3>3.3.3. Almoxarifados</h3>
                            <hr>                           
                            <p>Em almoxarifados podemos ter acesso aos almoxarifados criados/existentes e também aos funcionários responsáveis pelo setor. Além disso, poderá excluir o almoxarifado, caso seja necessário.</p>
-                           
+                           <br>
+                           <p><strong>Designar Almoxarife</strong></p>
+                           <iframe width="560" height="315" src="https://www.youtube.com/embed/7_xVsFTnwaw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                           <br>
                       </dir>
                       <dir>
                             <br>
                             <h3>3.3.4. Produtos</h3>
                             <hr>
+                            <p><strong>Cadastrar Produtos</strong></p>
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/GmIE8JhgfKY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            <br>
                             <p>Para que possamos dar entrada, saída ou até mesmo visualizar a quantidade de produto restante no estoque, precisamos antes cadastra-los. Para isso, no modulo de <strong>Material e Patrimonio</strong> selecione a opção <strong>Produtos</strong>. Funcionário poderá preencher todas as áreas designadas ao cadastro do produto como nome, categoria, unidade(Jeito que é medido - Litro, metro, pacote, Quilo), o código que ficará salvo para que funcione como identificação/atalho do produto e o valor. </p>
-                             <img src="<?php echo WWW;?>img/produto.png" class="img-fluid">
+                            <img src="<?php echo WWW;?>img/produto.png" class="img-fluid">
+                            
                       </dir>
                       <dir>
                             <br>
@@ -502,6 +564,16 @@ if(file_exists($config_path)){
                             <br>
                             <p><strong>2.</strong> Já o sistema de relatório para estoque, é mais simples, precisando apenas selecionar o <strong>Almoxarifado</strong> que deseja verificar a situação.</p>
                             <img src="<?php echo WWW;?>img/relEstoque.png" class="img-fluid">
+                            <br>
+                            <p><strong>Relatório Entrada</strong></p>
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/h3bR7-yUKuw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            <br>
+                            <p><strong>Relatório Estoque</strong></p>
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/gBKhplptaA0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            <br>
+                            <p><strong>Relatório Saída</strong></p>
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/CzyitkjBqtA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            <br>
                       </dir>
                       <dir>
                             <br>
@@ -525,6 +597,7 @@ if(file_exists($config_path)){
                             <h3>3.3.1. Criação do memorando</h3><hr>
                             <p>Para criar um memorando o funcionário deverá, munido das permissões necessárias, acessar a <a href="<?php echo WWW;?>html/memorando/listar_memorandos_ativos.php">caixa de entrada do módulo memorando</a> e preencher o campo "Assunto", da seção "Criar memorando", com o assunto do memorando e acionar o botão "Criar memorando". Em seguida o funcionário será direcionado automaticamente à página de envio de despachos (leia <a href="#_envio_despacho">3.3.2. Envio de despachos</a>).</p>
                             <img src="<?php echo WWW;?>img/criar_memorando.PNG" class="img-fluid">
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/y2N_0CsFi28" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                         </dir>
                         <dir id="_envio_despacho">
                             <h3>3.3.2. Envio de despachos</h3><hr>
@@ -544,6 +617,7 @@ if(file_exists($config_path)){
                             <p>A <a href="<?php echo WWW;?>html/memorando/listar_memorandos_ativos.php">caixa de entrada do módulo memorando</a> é o espaço destinado ao recebimento de memorandos. Sempre que um despacho for enviado para você, o memorando desse despacho estará disponível na sua caixa de entrada. Nesse espaço é possível visualizar o título do memorando, a data e a hora da sua criação e as opções fornecidas (leia <a href="#_opcoes_caixa">3.3.4. Opções da caixa de entrada</a>). Para acessar um memorando basta clicar no seu título e você será direcionada.</p>
                             <p>Nessa página também é possível criar um novo memorando (leia <a href="#_criacao_memorando">3.3.1. Criação de memorando</a>)</p>
                             <img src="<?php echo WWW;?>img/caixa_de_entrada.PNG" class="img-fluid">
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/tM5SBRRkJ-U" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                         </dir>
                         <dir id="_opcoes_caixa_de_entrada">
                             <h3>3.3.4. Opções da caixa de entrada</h3><hr>
@@ -561,6 +635,8 @@ if(file_exists($config_path)){
                             <p>A <a href="<?php echo WWW;?>html/memorando/listar_memorandos_antigos.php">lista de memorandos despachados</a> é um local para visualização dos memorandos que já foram enviados para você, inclusive os que já foram despachados para outras pessoas. Nesse espaço é possível visualizar o título do memorando, a sua origem (funcionário que o criou) e a data e a hora de criação. Para acessar um memorando despachado basta clicar no seu título e você será direcionado para a lista de despachos desse memorando.</p>
                             <p>Se o memorando estiver marcado com a opção <strong>[ARQUIVADO]</strong>, significa que ele foi arquivado pelo seu criador e por esse motivo ele não poderá ser enviado para outros funcionários.</p>
                             <img src="<?php echo WWW;?>img/memorandos_despachados.PNG" class="img-fluid">
+
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/DXhbhMowXo4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                         </dir>
                         <dir id="_lista_despachos">
                             <h3>3.3.6 Leitura de despachos</h3><hr>
@@ -591,8 +667,40 @@ if(file_exists($config_path)){
                             <p>Ao clicar nesse botão, uma caixa de diálogo (modal) aparecerá na tela, nesta caixa estará presente um formulário onde deverão ser preenchidos os dados do sócio a ser cadastrado.</p>
                             <img src="<?php echo WWW;?>img/formulario_socio1.png" class="img-fluid">
                             <p>Na primeira parte do formulário deverão ser preenchidos dados pessoais do sócio (nome completo, tipo de pessoa, cpf/cnpj, e-mail, telefone, tipo de contribuinte, status do sócio e sua data de nascimento).</p>
-                            <p>Após o preenchimento desses dados você poderá continuar com o preenchimento dos dados subsequentes referentes ao endereço do associado:</p>
+                            <p>Após o completar essas informações, você poderá continuar com o preenchimento dos dados subsequentes referentes ao endereço do associado.</p>
                             
+                        </dir>
+                        <dir id="_gerar_boleto">
+                            <h3>3.4.2 Gerar boleto/carnê do sócio</h3><hr>
+                            <p>Para gerar carnês/boletos para o sócio desejado, você deve completar o cadastro dele primeiro com os seguintes dados: valor por período, data de referência e a periodicidade. Após preencher as devidas informações, o usuário (apenas administradores possuem acesso à essa página) deve digitar o nome do sócio no primeiro campo da página <a href="<?php echo WWW;?>html/socio/sistema/psocio_geracao.php">Gerar boleto/carnê</a> e clicar no botão "Próximo" para aparecer o resultado.</p>
+                           
+                            <img src="<?php echo WWW;?>img/gerar_boleto.png" class="img-fluid">
+                           
+                            <p>Ao clicar nesse botão, mostrará o nome do sócio solicitado.</p>
+                           
+                            <p>Outra opção que o usuário pode ter é gerar boletos/carnês para mais de um sócio, dando praticidade ao administrador. </p> 
+                            <img src="<?php echo WWW;?>img/geracao_automatica.png" class="img-fluid">
+                            
+                            <p>Após selecionar os nomes dos sócios, o usuário poderá gerar o boleto/carnê em massa.</p>
+                        </dir>
+                         <dir id="_cobranca_socio">
+                            <h3>3.4.3 Cobranças </h3><hr>
+                            <p>Apenas os administradores possuem acesso à página <a href="<?php echo WWW;?>html/socio/sistema/psocio_geracao.php">Cobranças</a>. O administrador pode ter o controle das datas de vencimento, status, valor, período, nome, e outras opções dos sócios.</p>
+                           
+                            <img src="<?php echo WWW;?>img/cobranca.png" class="img-fluid">
+                        </dir>
+                         <dir id="_tag_socio">
+                            <h3>3.4.4 Tag </h3><hr>
+                            <p>Apenas os administradores possuem acesso à página <a href="<?php echo WWW;?>html/socio/sistema/tags.php">Tag</a>. Nessa página, o admin pode ter o controle do id, do grupo e também tem a opção de salvar ou deletar a(s) tag(s).</p>
+                           
+                            <img src="<?php echo WWW;?>img/tag.png" class="img-fluid">
+                        </dir>
+                         <dir id="_relatorio_socio">
+                            <h3>3.4.5 Relatório dos sócios </h3><hr>
+                            <p>Apenas os administradores possuem acesso à página <a href="<?php echo WWW;?>html/socio/sistema/relatorios_socios.php">Relatórios sócios </a>. Para criar um relatório, o administrador deve preencher as informações da página e clicar no botão "Próximo".</p>
+                           
+                            <img src="<?php echo WWW;?>img/relatorio.png" class="img-fluid">
+                            <p> Após clicar nesse botão, o relatório será criado. </p>
                         </dir>
                     </dir>
                     <div class="justify-content-between">

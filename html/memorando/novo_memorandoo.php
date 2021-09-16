@@ -195,7 +195,7 @@ require_once ROOT."/html/personalizacao_display.php";
 
         img
         {
-          margin-left:10px;
+          margin-left:11px;
         }
         /* print styles*/
         @media print {
@@ -335,7 +335,7 @@ require_once ROOT."/html/personalizacao_display.php";
                 {
                 ?>
                     <header class="panel-heading">
-                        <h2 class="panel-title">Despachar memorando</h2>
+                        <h2 class="panel-title">Encaminhar memorando</h2>
                     </header>
                     <div class="panel-body">
 

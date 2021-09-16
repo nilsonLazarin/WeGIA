@@ -36,6 +36,7 @@ function getFormPostParams(idForm){
         "@": "%40",
         "?": "%3F"
     };
+    var array = new Array;
     $("#"+idForm+" :input").each(function(){
         var input = $(this);
         var nome = input.attr('name');
@@ -43,6 +44,7 @@ function getFormPostParams(idForm){
             false;
         }else{
             var value = input.val() ?? "";
+            array.push(value);
             url_format = value.replace(/\+|%|&|\$|#|@|\?/gi, function(matched){
                 return mapObj[matched];
             });
@@ -56,5 +58,8 @@ function getFormPostParams(idForm){
             }
         }
     });
-    return string;
+    // console.log(array);
+    // return string;
+    return array;
+
 }

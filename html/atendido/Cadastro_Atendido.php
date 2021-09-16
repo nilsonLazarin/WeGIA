@@ -41,7 +41,10 @@
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
 	<link rel="stylesheet" href="../../assets/vendor/magnific-popup/magnific-popup.css" />
 	<link rel="stylesheet" href="../../assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
+<<<<<<< HEAD
 	
+=======
+>>>>>>> 687aa7e82995d9563d25836ef15fa48d283231ff
 
 	<!-- Theme CSS -->
 	<link rel="stylesheet" href="../../assets/stylesheets/theme.css" />
@@ -414,7 +417,7 @@
         document.getElementById("form-cadastro").append(imgForm);
         return true;
     });
-
+    
     function funcao1() {
       var send = $("#enviar");
       var cpfs = [{"cpf":"admin","id":"1"},{"cpf":"12487216166","id":"2"}];
