@@ -16,11 +16,7 @@ require_once '../dao/DocumentoDAO.php';
 require_once 'DocumentoControle.php';
 include_once '../classes/Cache.php';
 
-<<<<<<< HEAD
-
-=======
 include_once ROOT."/classes/conexao.php";
->>>>>>> 687aa7e82995d9563d25836ef15fa48d283231ff
 require_once ROOT."/controle/AtendidoControle.php";
 $listaAtendidos = new AtendidoControle();
 $listaAtendidos->listarTodos2();
@@ -41,7 +37,6 @@ class AtendidoControle
                 $msg .= "cpf do atendido não informado. Por favor, informe o cpf!";
                 header('Location: ../html/atendido/Cadastro_Atendido.php?msg='.$msg);
             }
-<<<<<<< HEAD
             if((!isset($nome)) || (empty($nome))){
                 $msg .= "Nome do atendido não informado. Por favor, informe o nome!";
                 header('Location: ../html/atendido/Cadastro_Atendido.php?msg='.$msg); 
@@ -123,14 +118,6 @@ class AtendidoControle
             // $cpf=str_replace(".", '', $cpf);
             // $cpf=str_replace("-", "", $cpf);
             //$nascimento=str_replace("-", "", $nascimento);
-=======
-        }
-        elseif((!isset($numeroCPF)) || (empty($numeroCPF))){
-            $msg .= "CPF do interno não informado. Por favor, informe um CPF!";
-            header('Location: ../html/atendido/Cadastro_Atendido.php?msg='.$msg);
-        }
-            $telefone='';
->>>>>>> 687aa7e82995d9563d25836ef15fa48d283231ff
             $senha='null';
             $atendido = new Atendido($cpf,$nome,$sobrenome,$sexo,$dataNascimento,$registroGeral,$orgaoEmissor,$dataExpedicao,$nomeMae,$nomePai,$tipoSanguineo,$senha,$telefone,$imagem,$cep,$estado,$cidade,$bairro,$logradouro,$numeroEndereco,$complemento,$ibge);
             $atendido->setIntTipo($intTipo);
@@ -218,13 +205,8 @@ class AtendidoControle
         $atendido->setidatendido($idatendido);
         $AtendidoDAO=new AtendidoDAO();
         try {
-<<<<<<< HEAD
             $AtendidoDAO->alterar($atendido);
             header("Location: ../html/Profile_Atendido.php?id=".$idatendido);
-=======
-            $internoDAO->alterar($interno);
-            header("Location: ../html/atendido/Profile_Atendido.php?id=".$idInterno);
->>>>>>> 687aa7e82995d9563d25836ef15fa48d283231ff
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -236,13 +218,8 @@ class AtendidoControle
         extract($_REQUEST);
         $AtendidoDAO=new AtendidoDAO();
         try {
-<<<<<<< HEAD
             $AtendidoDAO->excluir($id);
             header("Location:../controle/control.php?metodo=listarTodos&nomeClasse=AtendidoControle&nextPage=../html/Informacao_Atendido.php");
-=======
-            $internoDAO->excluir($id);
-            header("Location:../controle/control.php?metodo=listarTodos&nomeClasse=AtendidoControle&nextPage=../html/atendido/Informacao_Atendido.php");
->>>>>>> 687aa7e82995d9563d25836ef15fa48d283231ff
         } catch (Exception $e) {
             echo $e->getMessage();
         }

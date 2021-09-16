@@ -24,22 +24,10 @@ class AtendidoDAO
         return $datad;
     }
 	public function incluir($atendido)
-    {        
-<<<<<<< HEAD
-         try {
-            // $sql= " CALL cadatendido('Artur', 'coves', '056.087.869-45', 'f', '(22)99237-2613', '2021-09-10',1, 1)";
-            // $pdo = Conexao::connect();
-            // $stmt = $pdo->prepare($sql);
-            // $stmt->execute();
-            
-            $sql = "call cadatendido(:strNome,:strSobrenome,:strCpf,:strSexo,:strTelefone,:dateNascimento, :intStatus, :intTipo)";
-            //$sql = str_replace("'", "\'", $sql);
-=======
-       
+    {               
         try {
-            $sql = 'call cadatendido(:cpf,:nome,:sobrenome,:sexo,:telefone,:data_nascimento)';
-            $sql = str_replace("'", "\'", $sql); 
->>>>>>> 687aa7e82995d9563d25836ef15fa48d283231ff
+            $sql = "call cadatendido(:strNome,:strSobrenome,:strCpf,:strSexo,:strTelefone,:dateNascimento, :intStatus, :intTipo)";
+            //$sql = str_replace("'", "\'", $sql); 
             $pdo = Conexao::connect();
             $stmt = $pdo->prepare($sql);
 
