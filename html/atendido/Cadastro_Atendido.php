@@ -445,7 +445,6 @@
 
     function validarInterno(){
       var btn = $("#enviar");
-      
       var cpf_cadastrado = ([{"cpf":"admin","id":"1"}]);
       var cpf = (($("#cpf").val()).replaceAll(".", "")).replaceAll("-", "");
       console.log(this);

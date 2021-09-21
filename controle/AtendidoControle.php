@@ -191,7 +191,7 @@ class AtendidoControle
             $_SESSION['msg']="Atendido cadastrado com sucesso";
             $_SESSION['proxima']="Cadastrar outro atendido";
             $_SESSION['link']="../html/atendido/Cadastro_Atendido.php";
-            header("Location: ../html/sucesso.php");
+            header("Location: ../html/atendido/Informacao_Atendido.php");
             // header("Location: ../dao/AtendidoDAO.php");
         } catch (PDOException $e){
             $msg= "Não foi possível registrar o atendido <form> <input type='button' value='Voltar' onClick='history.go(-1)'> </form>"."<br>".$e->getMessage();

@@ -128,24 +128,24 @@ class AtendidoDAO
     public function listarTodos(){
 
         try{
-            $pessoas=array();
+            $atendidos=array();
             $pdo = Conexao::connect();
-            $consulta = $pdo->query("SELECT p.nome,p.sobrenome,p.cpf,i.id_pessoa FROM pessoa p INNER JOIN pessoa i ON p.id_pessoa = i.id_pessoa");
-            $produtos = Array();
+            $consulta = $pdo->query("SELECT p.nome,p.sobrenome,p.cpf,a.pessoa_id_pessoa FROM pessoa p INNER JOIN atendido a ON p.id_pessoa = a.pessoa_id_pessoa");
+            //$produtos = Array();
             $x=0;
             while($linha = $consulta->fetch(PDO::FETCH_ASSOC)){
                 if ($linha['cpf']==="Não informado") {
-                    $pessoas[$x]=array('cpf'=>$linha['cpf'],'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'id'=>$linha['id_pessoa']);
+                    $atendidos[$x]=array('cpf'=>$linha['cpf'],'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'id'=>$linha['id_pessoa']);
                 }
                 else{
-                $pessoas[$x]=array('cpf'=>mask($linha['cpf'],'###.###.###-##'),'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'id'=>$linha['id_pessoa']);
+                $atendidos[$x]=array('cpf'=>mask($linha['cpf'],'###.###.###-##'),'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'id'=>$linha['pessoa_id_pessoa']);
                 }
                 $x++;
             }
             } catch (PDOExeption $e){
                 echo 'Error:' . $e->getMessage;
             }
-            return json_encode($pessoas);
+            return json_encode($atendidos);
         }
 
 
