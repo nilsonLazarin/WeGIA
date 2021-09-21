@@ -1,6 +1,6 @@
 <?php
-	require_once'../classes/Documento.php';
-	require_once'Conexao.php';
+	require_once ROOT.'/classes/Documento.php';
+	require_once 'Conexao.php';
 	class DocumentoDAO
 	{
 

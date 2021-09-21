@@ -314,7 +314,6 @@ $dependente = json_encode($dependente);
       $("#botaoSalvarOutros").prop('disabled', false);
       $("#botaoEditarOutros").removeAttr('onclick');
       $("#botaoEditarOutros").attr('onclick', "return cancelar_outros()");
-
     }
 
     function cancelar_outros() {
@@ -360,7 +359,7 @@ $dependente = json_encode($dependente);
 
     $(function() {
 
-      var funcionario = <?= $func ?>;
+      var funcionario = <?= $func ?>; 
       $.each(funcionario, function(i, item) {
         //Informações pessoais
         // console.log(funcionario)

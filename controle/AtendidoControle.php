@@ -9,17 +9,19 @@ if(file_exists($config_path)){
     }
     require_once($config_path);
 }
-require_once '../classes/Atendido.php';
-require_once '../dao/AtendidoDAO.php';
-require_once '../classes/Documento.php';
-require_once '../dao/DocumentoDAO.php';
-require_once 'DocumentoControle.php';
-include_once '../classes/Cache.php';
 
-include_once ROOT."/classes/conexao.php";
-require_once ROOT."/controle/AtendidoControle.php";
-$listaAtendidos = new AtendidoControle();
-$listaAtendidos->listarTodos2();
+//include_once "/dao/Conexao.php";
+require_once ROOT.'/classes/Atendido.php';
+require_once ROOT.'/dao/AtendidoDAO.php';
+require_once ROOT.'/classes/Documento.php';
+require_once ROOT.'/dao/DocumentoDAO.php';
+require_once 'DocumentoControle.php';
+include_once ROOT.'/classes/Cache.php';
+
+include_once ROOT."/dao/Conexao.php";
+//require_once ROOT."/controle/AtendidoControle.php";
+//$listaAtendidos = new AtendidoControle();
+//$listaAtendidos->listarTodos2();
 
 class AtendidoControle 
 {

@@ -6,9 +6,12 @@ error_reporting(E_ALL);
 extract($_REQUEST);
 session_start();
 
-   	
+      // if(!isset($_SESSION['atendido'])){
+      //    header ("Location: Profile_Atendido.php?idatendido=$id");
+      // }
+
    	if(!isset($_SESSION['usuario'])){
-   		header ("Location: ../../index.php");
+   		header ("Location: ../index.php");
    	}
       $config_path = "config.php";
       if(file_exists($config_path)){
@@ -20,6 +23,7 @@ session_start();
          }
          require_once($config_path);
       }
+
       $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
       $id_pessoa = $_SESSION['id_pessoa'];
       $resultado = mysqli_query($conexao, "SELECT * FROM funcionario WHERE id_pessoa=$id_pessoa");
@@ -48,7 +52,7 @@ session_start();
       }	
    
 
-   include_once '../../classes/Cache.php';    
+  include_once '../../classes/Cache.php';    
 	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
   require_once "../personalizacao_display.php";
   
@@ -64,16 +68,22 @@ session_start();
   $endereco = new EnderecoControle;
   $endereco->listarInstituicao();
    
-   $id=$_GET['id'];
+   
+   $id=$_GET['idatendido'];
    $cache = new Cache();
    $teste = $cache->read($id);
+   //$atendidos = $_SESSION['idatendido'];
+   // $atendido = new AtendidoDAO();
+   // $atendido->listar($id);
+   // var_dump($atendido);
    
    if (!isset($teste)) {
    		
-   		header('Location: ../controle/control.php?metodo=listarUm&nomeClasse=AtendidoControle&nextPage=../html/atendido/Profile_Atendido.php?idatendido='.$id.'&id='.$id);
+   		header('Location: ../../controle/control.php?metodo=listarUm&nomeClasse=AtendidoControle&nextPage=../html/atendido/Profile_Atendido.php?idatendido='.$id.'&id='.$id);
       }
    
 ?>
+
 <!doctype html>
 <html class="fixed">
    <head>
@@ -128,7 +138,8 @@ session_start();
                $("#editimg").modal('show');
             }
          $(function(){
-         	var interno=[];
+         	var interno= <?php echo $_SESSION['atendido']?>;
+            ;
             var endereco=[];
             console.log(interno);
             $.each(endereco,function(i,item){
@@ -142,11 +153,11 @@ session_start();
          	$.each(interno,function(i,item){
          		if(i=1)
          		{
-                  $("#formulario").append($("<input type='hidden' name='idInterno' value='"+item.idInterno+"'>"));
+                  $("#formulario").append($("<input type='hidden' name='idInterno' value='"+item.id+"'>"));
          			var cpf=item.cpf;
          			$("#nome").text("Nome: "+item.nome+' '+item.sobrenome);
-         			$("#nomeform").val(item.nome);
-                  $("#sobrenomeform").val(item.sobrenome);
+         			$("#nome").val(item.nome);
+                  $("#sobrenome").val(item.sobrenome);
          			if(item.imagem!=""){
                      $("#imagem").attr("src","data:image/gif;base64,"+item.imagem);
                   }else{
@@ -176,13 +187,13 @@ session_start();
          
          
          			$("#sangue").text("Sangue: "+item.tipo_sanguineo);
-         			$("#sangueform").val(item.tipo_sanguineo);
+         			$("#sangue").val(item.tipo_sanguineo);
          			
          			$("#nascimento").text("Data de nascimento: "+alterardate(item.data_nascimento));
-         			$("#nascimentoform").val(item.data_nascimento);
+         			$("#nascimento").val(item.data_nascimento);
          
          			$("#rg").text("Registro geral: "+item.registro_geral);
-         			$("#rgform").val(item.registro_geral);
+         			$("#rg").val(item.registro_geral);
                   
                   if(item.data_expedicao=="0000-00-00")
                   {
@@ -191,14 +202,14 @@ session_start();
                   else{
                      $("#data_expedicao").text("Data de expedição: "+item.data_expedicao);     
                   }
-                  $("#expedicaoform").val(item.data_expedicao);
+                  $("#expedicao").val(item.data_expedicao);
          
          			$('#orgao').text("Orgão emissor: "+item.orgao_emissor);
          			$("#orgaoform").val(item.orgao_emissor);
                   if(item.cpf.indexOf("ni")!=-1)
                   {
                      $("#cpf").text("Não informado");
-                     $("#cpfform").val("Não informado");
+                     $("#cpf").val("Não informado");
                   }
                   else
                   {

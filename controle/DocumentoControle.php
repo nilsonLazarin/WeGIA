@@ -1,6 +1,6 @@
 <?php 
-	require_once'../classes/Documento.php';
-	require_once'../dao/DocumentoDAO.php';
+	require_once ROOT.'/classes/Documento.php';
+	require_once ROOT.'/dao/DocumentoDAO.php';
 	class DocumentoControle
 	{	
 		public function comprimir($documParaCompressao)

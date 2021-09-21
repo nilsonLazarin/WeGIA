@@ -146,7 +146,7 @@
 			$.each(atendidos, function(i, item) {
 				$("#tabela")
 				.append($("<tr>")
-					.attr("onclick", "clicar('" + item.idatendido + "')")
+					.attr("onclick", "clicar('" + item.id + "')")
 					.attr("class", "teste")
 					.append($("<td>")
 						.text(item.nome+' '+item.sobrenome))
