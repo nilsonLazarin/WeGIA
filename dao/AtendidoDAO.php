@@ -216,5 +216,40 @@ class AtendidoDAO
         }
         return json_encode($cpfs);
     }
+    public function alterarInfPessoal($atendido)
+    {
+        try {
+            $sql = 'update pessoa as p inner join atendido as a on p.id_pessoa=a.pessoa_id_pessoa set nome=:nome,sobrenome=:sobrenome,sexo=:sexo,telefone=:telefone,data_nascimento=:data_nascimento,nome_pai=:nome_pai,nome_mae=:nome_mae,tipo_sanguineo=:tipo_sanguineo where idatendido=:idatendido';
+            
+            $sql = str_replace("'", "\'", $sql);
+            $pdo = Conexao::connect();
+            $stmt = $pdo->prepare($sql);
+            
+            $stmt = $pdo->prepare($sql);
+            $nome=$atendido->getNome();
+            $sobrenome=$atendido->getSobrenome();
+            $idatendido=$atendido->getIdatendido();
+            $sexo=$atendido->getSexo();
+            $telefone=$atendido->getTelefone();
+            $nascimento=$atendido->getDataNascimento();
+            $nomePai=$atendido->getNomePai();        
+            $nomeMae=$atendido->getNomeMae();
+            $sangue=$atendido->getTipoSanguineo();
+
+            $stmt->bindParam(':nome',$nome);
+            $stmt->bindParam(':sobrenome',$sobrenome);
+            $stmt->bindParam(':idatendido',$idatendido);
+            $stmt->bindParam(':sexo',$sexo);
+            $stmt->bindParam(':telefone',$telefone);
+            $stmt->bindParam(':data_nascimento',$nascimento);
+            $stmt->bindParam(':nome_pai',$nomePai);        
+            $stmt->bindParam(':nome_mae',$nomeMae);
+            $stmt->bindParam(':tipo_sanguineo',$sangue);
+            $stmt->execute();
+        } catch (PDOException $e) {
+            echo 'Error: <b>  na tabela pessoas = ' . $sql . '</b> <br /><br />' . $e->getMessage();
+        }
+    }
+
 }
 ?>

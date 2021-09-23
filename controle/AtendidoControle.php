@@ -25,7 +25,7 @@ include_once ROOT."/dao/Conexao.php";
 
 class AtendidoControle 
 {
-	public function formatoDataYMD($data)
+	    public function formatoDataYMD($data)
     	{
         	$data_arr = explode("/", $data);
         
@@ -51,7 +51,7 @@ class AtendidoControle
                 $msg .= "Sexo do atendido não informado. Por favor, informe o sexo!";
                 header('Location: ../html/atendido/Cadastro_Atendido.php?msg='.$msg);
             }
-            if((!isset($dataNascimento)) || (empty($dataNascimento))){
+            if((!isset($nascimento)) || (empty($nascimento))){
                 $msg .= "Nascimento do atendido não informado. Por favor, informe a data!";
                 header('Location: ../html/atendido/Cadastro_Atendido.php?msg='.$msg);
             }
@@ -121,7 +121,7 @@ class AtendidoControle
             // $cpf=str_replace("-", "", $cpf);
             //$nascimento=str_replace("-", "", $nascimento);
             $senha='null';
-            $atendido = new Atendido($cpf,$nome,$sobrenome,$sexo,$dataNascimento,$registroGeral,$orgaoEmissor,$dataExpedicao,$nomeMae,$nomePai,$tipoSanguineo,$senha,$telefone,$imagem,$cep,$estado,$cidade,$bairro,$logradouro,$numeroEndereco,$complemento,$ibge);
+            $atendido = new Atendido($cpf,$nome,$sobrenome,$sexo,$nascimento,$registroGeral,$orgaoEmissor,$dataExpedicao,$nomeMae,$nomePai,$tipoSanguineo,$senha,$telefone,$imagem,$cep,$estado,$cidade,$bairro,$logradouro,$numeroEndereco,$complemento,$ibge);
             $atendido->setIntTipo($intTipo);
             $atendido->setIntStatus($intStatus);
             return $atendido;
@@ -174,8 +174,9 @@ class AtendidoControle
     public function listarCpf(){
         extract($_REQUEST);
         $atendidosDAO = new AtendidoDAO();
-        $atendidoscpf = $atendidosDAO->listarCPF();
+        $atendidoscpf = $atendidosDAO->listarcpf();
         $_SESSION['cpf_atendido']=$atendidoscpf;
+        
     }
 
     public function comprimir($documParaCompressao){
@@ -185,7 +186,6 @@ class AtendidoControle
         
     public function incluir(){
         $atendido = $this->verificar();
-        var_dump($atendido);
         $intDAO = new AtendidoDAO();
         $docDAO = new DocumentoDAO();
         try{
@@ -225,5 +225,20 @@ class AtendidoControle
         } catch (Exception $e) {
             echo $e->getMessage();
         }
+    }
+    public function alterarInfPessoal()
+    {
+        extract($_REQUEST);
+        $atendido = new Atendido('',$nome,$sobrenome,$gender,$nascimento,'','','',$nome_mae,$nome_pai,$sangue,'',$telefone,'','','','','','','','','');
+        $atendido->setIdatendido($idatendido);
+        //echo $funcionario->getId_Funcionario();
+        $atendidoDAO=new AtendidoDAO();
+        try {
+            $atendidoDAO->alterarInfPessoal($atendido);
+            header("Location: ../html/atendido/Profile_Atendido.php?idatendido=".$idatendido);
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+        
     }
 }

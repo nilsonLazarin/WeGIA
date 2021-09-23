@@ -13,6 +13,7 @@ session_start();
    	if(!isset($_SESSION['usuario'])){
    		header ("Location: ../index.php");
    	}
+      
       $config_path = "config.php";
       if(file_exists($config_path)){
          require_once($config_path);
@@ -57,12 +58,12 @@ session_start();
   require_once "../personalizacao_display.php";
   
   require_once ROOT."/controle/FuncionarioControle.php";
-  $cpf = new FuncionarioControle;
-  $cpf->listarCPF();
+  $cpf1 = new FuncionarioControle;
+  $cpf1->listarCpf();
 
   require_once ROOT."/controle/AtendidoControle.php";
-  $cpf1 = new AtendidoControle;
-  $cpf1->listarCPF();
+  $cpf = new AtendidoControle;
+  $cpf->listarCpf();
 
   require_once ROOT."/controle/EnderecoControle.php";
   $endereco = new EnderecoControle;
@@ -139,7 +140,6 @@ session_start();
             }
          $(function(){
          	var interno= <?php echo $_SESSION['atendido']?>;
-            ;
             var endereco=[];
             console.log(interno);
             $.each(endereco,function(i,item){
@@ -153,7 +153,7 @@ session_start();
          	$.each(interno,function(i,item){
          		if(i=1)
          		{
-                  $("#formulario").append($("<input type='hidden' name='idInterno' value='"+item.id+"'>"));
+                  $("#formulario").append($("<input type='hidden' name='idatendido' value='"+item.id+"'>"));
          			var cpf=item.cpf;
          			$("#nome").text("Nome: "+item.nome+' '+item.sobrenome);
          			$("#nome").val(item.nome);
@@ -166,12 +166,12 @@ session_start();
          			if(item.sexo=="m")
          			{
          				$("#sexo").html("Sexo: <i class='fa fa-male'></i>  Masculino");
-         				$("#radio1").prop('checked',true);
+         				$("#radioM").prop('checked',true);
          			}
          			else if(item.sexo=="f")
          			{
          				$("#sexo").html("Sexo: <i class='fa fa-female'>  Feminino");
-         				$("#radio2").prop('checked',true);
+         				$("#radioF").prop('checked',true);
          			}
          			$("#pai").text("Nome do pai: "+item.nome_pai);
          			$("#paiform").val(item.nome_pai);
@@ -179,15 +179,12 @@ session_start();
          			$("#mae").text("Nome da mãe: "+item.nome_mae);
          			$("#maeform").val(item.nome_mae);
          
-         			$("#contato_urgente").text("Nome contato urgente: "+item.nome_contato_urgente);
-         			$("#nomeContatoform").val(item.nome_contato_urgente);
-         
-         			$("#telefone1").text("Telefone contato urgente 1: "+item.telefone_contato_urgente_1);
-         			$("#telefone1form").val(item.telefone_contato_urgente_1);
+         			$("#telefone").text("Telefone:"+item.telefone);
+         			$("#telefone").val(item.telefone);
          
          
-         			$("#sangue").text("Sangue: "+item.tipo_sanguineo);
-         			$("#sangue").val(item.tipo_sanguineo);
+         			$("#sangueSelect").text("Sangue: "+item.tipo_sanguineo);
+         			$("#sangueSelect").val(item.tipo_sanguineo);
          			
          			$("#nascimento").text("Data de nascimento: "+alterardate(item.data_nascimento));
          			$("#nascimento").val(item.data_nascimento);
@@ -213,8 +210,8 @@ session_start();
                   }
                   else
                   {
-         			$("#cpf").text(item.cpf);
-                  $("#cpfform").val(item.cpf);
+                     $("#cpf").text(item.cpf);
+                     $("#cpf").val(item.cpf);
                   }
          
          			$("#inss").text("INSS: "+item.inss);
@@ -268,21 +265,52 @@ session_start();
       </script>
       <script type="text/javascript">
       function editar_informacoes_pessoais() {
-         $("#nomeForm").prop('disabled', false);
-         $("#sobrenomeForm").prop('disabled', false);
+         $("#nome").prop('disabled', false);
+         $("#sobrenome").prop('disabled', false);
          $("#radioM").prop('disabled', false);
          $("#radioF").prop('disabled', false);
-         $("#telefone1form").prop('disabled', false);
+         $("#telefone").prop('disabled', false);
         
          $("#nascimento").prop('disabled', false);
          $("#pai").prop('disabled', false);
          $("#mae").prop('disabled', false);
          $("#sangue").prop('disabled', false);
+         $("#sangueSelect").remove();
+         $('#sangue').append('<option selected >Selecionar...</option>');
          $("#botaoEditarIP").html('Cancelar');
          $("#botaoSalvarIP").prop('disabled', false);
          $("#botaoEditarIP").removeAttr('onclick');
          $("#botaoEditarIP").attr('onclick', "return cancelar_informacoes_pessoais()");
     }
+    function editar_documentacao() {
+
+$("#rg").prop('disabled', false);
+$("#orgao_emissor").prop('disabled', false);
+$("#data_expedicao").prop('disabled', false);
+$("#cpf").prop('disabled', false);
+$("#data_admissao").prop('disabled', false);
+
+$("#botaoEditarDocumentacao").html('Cancelar');
+$("#botaoSalvarDocumentacao").prop('disabled', false);
+$("#botaoEditarDocumentacao").removeAttr('onclick');
+$("#botaoEditarDocumentacao").attr('onclick', "return cancelar_documentacao()");
+
+}
+
+function cancelar_documentacao() {
+
+$("#rg").prop('disabled', true);
+$("#orgao_emissor").prop('disabled', true);
+$("#data_expedicao").prop('disabled', true);
+$("#cpf").prop('disabled', true);
+$("#data_admissao").prop('disabled', true);
+
+$("#botaoEditarDocumentacao").html('Editar');
+$("#botaoSalvarDocumentacao").prop('disabled', true);
+$("#botaoEditarDocumentacao").removeAttr('onclick');
+$("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
+
+}
       $(function () {
          $("#header").load("header.php");
          $(".menuu").load("menu.php");
@@ -581,110 +609,97 @@ session_start();
                <li>
                   <a href="#arquivo" data-toggle="tab">Arquivos</a>
                </li>
-              
-              
-               
             </ul>
             <div class="tab-content">
           
-            <div id="overview" class="tab-pane active">
-            <section class="panel">
-                   
-               <h4 class="mb-xlg">Informações Pessoais</h4>
-            
-               <form id="formulario" action="../../controle/control.php" enctype="multipart/form-data" method="POST">
-               <input type="hidden" name="nomeClasse" value="AtendidoControle">
+
+
+            <div class="tab-content">
+                <div id="overview" class="tab-pane active">
+                  <form class="form-horizontal" method="post" action="../../controle/control.php">
+                    <input type="hidden" name="nomeClasse" value="AtendidoControle">
                     <input type="hidden" name="metodo" value="alterarInfPessoal">
+                    <h4 class="mb-xlg">Informações Pessoais</h4>
                     <fieldset>
-                     <div class="form-group">
-                        <label class="col-md-3 control-label">Nome</label>
+                      <div class="form-group">
+                        <label class="col-md-3 control-label" for="profileFirstName">Nome</label>
                         <div class="col-md-8">
-                           <input type="text" class="form-control" name="nome" id="nome" id="profileFirstName" onkeypress="return Onlychars(event)" >
+                          <input type="text" class="form-control" disabled name="nome" id="nome" onkeypress="return Onlychars(event)">
                         </div>
-                     </div>
-                     <div class="form-group">
-                        <label class="col-md-3 control-label">Sobrenome</label>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-md-3 control-label" for="profileFirstName">Sobrenome</label>
                         <div class="col-md-8">
-                           <input type="text" class="form-control" name="sobrenome" id="sobrenome" id="profileLastName" onkeypress="return Onlychars(event)" >
+                          <input type="text" class="form-control" disabled name="sobrenome" id="sobrenome" onkeypress="return Onlychars(event)">
                         </div>
-                     </div>
-                     <div class="form-group">
-                        <label class="col-md-3 control-label">Sexo</label>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-md-3 control-label" for="profileLastName">Sexo</label>
                         <div class="col-md-8">
-                           <input type="radio" name="sexo" id="radio1" value="m" style="margin-top: 10px margin-left: 15px;" required><i class="fa fa-male" style="font-size: 20px;" required></i>
-                           <input type="radio" name="sexo" id="radio2"  value="f" style="margin-top: 10px; margin-left: 15px;"><i class="fa fa-female" style="font-size: 20px;"></i> 
+                          <label><input type="radio" name="gender" id="radioM" id="M" disabled value="m" style="margin-top: 10px; margin-left: 15px;" onclick="return exibir_reservista()"> <i class="fa fa-male" style="font-size: 20px;"> </i></label>
+                          <label><input type="radio" name="gender" id="radioF" disabled id="F" value="f" style="margin-top: 10px; margin-left: 15px;" onclick="return esconder_reservista()"> <i class="fa fa-female" style="font-size: 20px;"> </i> </label>
                         </div>
-                     </div>
-                   
-                  
-                     <div class="form-group">
-											<label class="col-md-3 control-label" for="profileCompany">Telefone</label>
-											<div class="col-md-8">
-												<input type="text" class="form-control" maxlength="14" minlength="14" name="telefone" id="telefone" id="profileCompany" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeyup="mascara('(##)#####-####',this,event)" >
-											</div>
-										</div>
-
-                     
-                     <div class="form-group">
-                        <label class="col-md-3 control-label">Nascimento</label>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-md-3 control-label" for="profileCompany">Telefone</label>
                         <div class="col-md-8">
-                            <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" id="nascimento" max=2021-08-17>
+                          <input type="text" class="form-control" maxlength="14" minlength="14" name="telefone" id="telefone" disabled placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeyup="mascara('(##)#####-####',this,event)">
                         </div>
-                     </div>
-                  
-                     <div class="form-group">
-                        <label class="col-md-3 control-label">Tipo Sanguíneo</label>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-md-3 control-label" for="profileCompany">Nascimento</label>
+                        <div class="col-md-8">
+                          <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" disabled id="nascimento" max=<?php echo date('Y-m-d'); ?>>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-md-3 control-label" for="inputSuccess">Tipo sanguíneo</label>
                         <div class="col-md-6">
-                           <select name="sangue" id="sangue" class="form-control input-lg mb-md">
-                              <option selected disabled value="blank">Selecionar</option>
-                              <option value="A+">A+</option>
-                              <option value="A-">A-</option>
-                              <option value="B+">B+</option>
-                              <option value="B-">B-</option>
-                              <option value="O+">O+</option>
-                              <option value="O-">O-</option>
-                              <option value="AB+">AB+</option>
-                              <option value="AB-">AB-</option>
-                           </select>
+                          <select class="form-control input-lg mb-md" name="sangue" id="sangue" disabled>
+                            <option selected id="sangueSelect">Selecionar</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                          </select>
                         </div>
-                    </div>
-                    <input type="hidden" name="idatendido" value=<?php echo $_GET['idatendido'] ?>>
+                      </div>
+                      <input type="hidden" name="idatendido" value=<?php echo $_GET['idatendido'] ?>>
                       <button type="button" class="btn btn-primary" id="botaoEditarIP" onclick="return editar_informacoes_pessoais()">Editar</button>
-                      <input type="submit" class="btn btn-primary" disabled="true" value="Salvar" id="botaoSalvarIP"> 
-                           
+                      <input type="submit" class="btn btn-primary" disabled="true" value="Salvar" id="botaoSalvarIP">
+                  </form>
+
+                  <br />
+             
                   <div class="panel-footer">
-                     <div class="row">
-                        <div class="col-md-9 col-md-offset-3">
-                           <input type="submit" class="btn btn-primary" value="Alterar" onclick="funcao1()"></button>
-               </form>
-               <button id="excluir" type="button" class="btn btn-danger" data-toggle="modal" data-target="#exclusao">Excluir</button>
-               <div class="modal fade" id="exclusao" role="dialog">
-               <div class="modal-dialog">
-               <!-- Modal content-->
-               <div class="modal-content">
-               <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal">×</button>
-                  <h3>Excluir um Atendido</h3>
-               </div>
-               <div class="modal-body">
-                     <p> Tem certeza que deseja excluir esse interno? Essa ação não poderá ser desfeita e todas as informações referentes a esse interno serão perdidas!</p>
-                     <a href="../../controle/control.php?metodo=excluir&nomeClasse=AtendidoControle&id="><button button type="button" class="btn btn-success">Confirmar</button></a>
-                     <button button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-               </div>
-               </div>
-               </div>
-               </div>
-               </div>
-               </div>
-               </div>
-            </section>  
-            </div>
-
-
-                     <br/>
-
-                     
-
+                    <div class="row">
+                      <div class="col-md-9 col-md-offset-3">
+                        <button id="excluir" type="button" class="btn btn-danger" data-toggle="modal" data-target="#exclusao">Excluir</button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal fade" id="exclusao" role="dialog">
+                    <div class="modal-dialog">
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" aba-dismiss="modal">×</button>
+                          <h3>Excluir um Funcionário</h3>
+                        </div>
+                        <div class="modal-body">
+                          <p> Tem certeza que deseja excluir esse funcionário? Essa ação não poderá ser desfeita e todas as informações referentes a esse funcionário serão perdidas!</p>
+                          <a href="../controle/control.php?metodo=excluir&nomeClasse=AtendidisoControle&idatendido=<?php echo $_GET['idatendido']; ?>"><button button type="button" class="btn btn-success">Confirmar</button></a>
+                          <button button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>  
+               
 
 <!-- Aba  de  Endereço -->
 
@@ -795,25 +810,25 @@ session_start();
                    <div class="form-group">
                      <label class="col-md-3 control-label" for="profileCompany">Número do RG</label>
                      <div class="col-md-6">
-                       <input type="text" class="form-control" name="rg" id="rg" onkeypress="return Onlynumbers(event)" placeholder="Ex: 22.222.222-2" onkeyup="mascara('##.###.###-#',this,event)">
+                       <input type="text" class="form-control" name="rg" id="rg" disabled onkeypress="return Onlynumbers(event)" placeholder="Ex: 22.222.222-2" onkeyup="mascara('##.###.###-#',this,event)">
                      </div>
                    </div>
                    <div class="form-group">
                      <label class="col-md-3 control-label" for="profileCompany">Órgão Emissor</label>
                      <div class="col-md-6">
-                       <input type="text" class="form-control" name="orgao_emissor" id="orgao_emissor" onkeypress="return Onlychars(event)">
+                       <input type="text" class="form-control" name="orgao_emissor" disabled id="orgao_emissor" onkeypress="return Onlychars(event)">
                      </div>
                    </div>
                    <div class="form-group">
                      <label class="col-md-3 control-label" for="profileCompany">Data de expedição</label>
                      <div class="col-md-6">
-                       <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" name="data_expedicao" id="data_expedicao" max=2021-06-11>
+                       <input type="date" class="form-control" disabled maxlength="10" placeholder="dd/mm/aaaa" name="data_expedicao" id="data_expedicao" max=2021-06-11>
                      </div>
                    </div>
                    <div class="form-group">
                      <label class="col-md-3 control-label" for="profileCompany">Número do CPF</label>
                      <div class="col-md-6">
-                       <input type="text" class="form-control" id="cpf" name="cpf" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##',this,event)">
+                       <input type="text" class="form-control" id="cpf" name="cpf" disabled placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##',this,event)">
                      </div>
                    </div>
                    <div class="form-group">
@@ -822,14 +837,9 @@ session_start();
                        <p id="cpfInvalido" style="display: none; color: #b30000">CPF INVÁLIDO!</p>
                      </div>
                    </div>
-                   <div class="form-group">
-                     <label class="col-md-3 control-label" for="profileCompany">Data de Admissão</label>
-                     <div class="col-md-8">
-                       <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data_admissao" id="data_admissao" max=2021-06-11>
-                     </div>
-                   </div>
+                   
                    <br />
-                   <input type="hidden" name="id_funcionario" value=1>
+                   <input type="hidden" name="idatendido" value=1>
                    <button type="button" class="btn btn-primary" id="botaoEditarDocumentacao" onclick="return editar_documentacao()">Editar</button>
                    <input id="botaoSalvarDocumentacao" type="submit" class="btn btn-primary" disabled="true" value="Salvar" onclick="funcao3()">
                  </form>
@@ -1074,22 +1084,22 @@ session_start();
          <script>
    function funcao1(){
         var cpfs = [{"cpf":"admin","id":"1"}] ;
-        var cpf_funcionario = $("#cpf").val();
-        var cpf_funcionario_correto = cpf_funcionario.replace(".", "");
-        var cpf_funcionario_correto1 = cpf_funcionario_correto.replace(".", "");
-        var cpf_funcionario_correto2 = cpf_funcionario_correto1.replace(".", "");
-        var cpf_funcionario_correto3 = cpf_funcionario_correto2.replace("-", "");
+        var cpf_atendido = $("#cpf").val();
+        var cpf_atendido_correto = cpf_atendido.replace(".", "");
+        var cpf_atendido_correto1 = cpf_atendido_correto.replace(".", "");
+        var cpf_atendido_correto2 = cpf_atendido_correto1.replace(".", "");
+        var cpf_atendido_correto3 = cpf_atendido_correto2.replace("-", "");
         var apoio = 0;
         var cpfs1 = [] ;
         $.each(cpfs,function(i,item){
-          if(item.cpf==cpf_funcionario_correto3)
+          if(item.cpf==cpf_atendido_correto3)
           {
             alert("Alteração não realizada! O CPF informado já está cadastrado no sistema");
             apoio = 1;
           }
         });
         $.each(cpfs1,function(i,item){
-          if(item.cpf==cpf_funcionario_correto3)
+          if(item.cpf==cpf_atendido_correto3)
           { 
             alert("Cadastro não realizado! O CPF informado já está cadastrado no sistema");
             apoio = 1;
@@ -1102,4 +1112,4 @@ session_start();
       }
    </script>
     </body>
-</html>
+</html> 
