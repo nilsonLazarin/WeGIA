@@ -1668,20 +1668,20 @@ END$$
 DELIMITER ;
 
 -- -----------------------------------------------------
--- procedure excluirinterno
+-- procedure excluiratendido
 -- -----------------------------------------------------
 
 DELIMITER $$
 USE `wegia`$$
-CREATE PROCEDURE `excluirinterno`(IN `idi` INT)
+CREATE PROCEDURE `excluiratendido`(IN `ida` INT)
 BEGIN
 DECLARE idp int;
 
-select id_pessoa into idp from interno where id_interno=idi;
+select pessoa_id_pessoa into idp from atendido where idatendido=ida;
 
 delete from documento where id_pessoa=idp;
 
-delete i,p from interno as i inner join pessoa as p on p.id_pessoa=i.id_pessoa where i.id_interno=idi;
+delete a,p from atendido as a inner join pessoa as p on p.id_pessoa=a.pessoa_id_pessoa where a.idatendido=ida;
 END$$
 
 DELIMITER ;
