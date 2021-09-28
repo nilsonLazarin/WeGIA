@@ -186,6 +186,31 @@ session_start();
 					</li>
 					<li class="nav-parent nav-active">
 						<a>
+							<i class="fa fa-users" aria-hidden="true"></i>
+							<span>Saúde</span>
+						</a>
+						<ul class="nav nav-children">
+							<li id="31">
+								<a href="<?= WWW ?>html/saude/informacoes_paciente.php">
+									 Informações do paciente
+								</a>
+								<a href="<?= WWW ?>html/saude/cadastro_comorbidades.php">
+									 Cadastro de comorbidades
+								</a>
+								<a href="<?= WWW ?>html/saude/cadastro_exames.php">
+									 Cadastro de exames
+								</a>
+								<a href="<?= WWW ?>html/saude/atendimento_medico.php">
+									 Atendimento médico
+								</a>
+								<a href="<?= WWW ?>html/saude/atendimento_enfermeiro.php">
+									 Atendimento enfermeiro
+								</a>
+							</li>
+						</ul>
+					</li>
+					<li class="nav-parent nav-active">
+						<a>
 							<i class="fa fa-cog" aria-hidden="true"></i>
 							<span>Configurações</span>
 						</a>
