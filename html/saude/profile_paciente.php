@@ -10,7 +10,7 @@
 	}
 
 	if(!isset($_SESSION['atendidos']))	{
-		header('Location: ../../controle/control.php?metodo=listarTodos&nomeClasse=AtendidoControle&nextPage=../html/saude/informacoes_paciente.php');
+		header('Location: ../../controle/control.php?metodo=listarTodos&nomeClasse=AtendidoControle&nextPage=../html/saude/profile_paciente.php');
 	}
 	$config_path = "config.php";
 	if(file_exists($config_path)){
@@ -62,7 +62,7 @@
 	<!-- Basic -->
 	<meta charset="UTF-8">
 
-	<title>Informações</title>
+	<title>Informações do paciente</title>
 
 	<!-- Mobile Metas -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -161,13 +161,13 @@
 			<!-- end: sidebar -->
 			<section role="main" class="content-body">
 				<header class="page-header">
-					<h2>Informações</h2>
+					<h2>Informações do paciente</h2>
 
 					<div class="right-wrapper pull-right">
 						<ol class="breadcrumbs">
 							<li><a href="../index.php"> <i class="fa fa-home"></i>
 							</a></li>
-							<li><span>Informações Atendidos</span></li>
+							<li><span>Informações do paciente</span></li>
 						</ol>
 
 						<a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
@@ -185,7 +185,7 @@
 							<a href="#" class="fa fa-caret-down"></a>
 						</div>
 
-						<h2 class="panel-title">Atendidos</h2>
+						<h2 class="panel-title">Informações do paciente</h2>
 					</header>
 					<div class="panel-body">
 						<table class="table table-bordered table-striped mb-none"
@@ -193,7 +193,9 @@
 							<thead>
 								<tr>
 									<th>Nome</th>
-									<th>Cpf</th>
+									<th>Sexo</th>
+									<!--<th>Telefone</th>
+									<th>Nascimento</th>-->
 									<th>Ação</th>
 								</tr>
 							</thead>

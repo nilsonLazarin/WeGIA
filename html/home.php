@@ -167,7 +167,7 @@
 					</a>
 					<a href="#">
 					<div class="col-lg-2 col-md-8 i" data-toggle="collapse" href="#saude">
-							<i  class="fa fa-book"></i>
+							<i  class="fa fa-ambulance"></i>
 							<h4>Saúde</h4>
 						</div>
 					</a>
@@ -213,38 +213,18 @@
 
 				<div class="row ">
 					<div  id="saude" class="collapse">
+						<a href="../html/saude/cadastro_ficha_medica.php">
+							<div class="col-lg-2 col-md-8 i" >
+								<i  class="far fa-address-book"></i>
+								<h4>Cadastro ficha médica</h4>
+							</div>
+						</a>	
 						<a href="../html/saude/profile_paciente.php">
 							<div class="col-lg-2 col-md-8 i" >
-								<i  class="fa fa-font"></i>
+								<i  class="far fa-address-card"></i>
 								<h4>Informações do paciente</h4>
 							</div>
-						</a>
-						<a href="../html/saude/cadastro_comorbidades.php">
-							<div class="col-lg-2 col-md-8 i" >
-								<i  class="fa fa-picture-o"></i>
-								<h4>Cadastro de comorbidades</h4>
-							</div>
-						</a>
-						<a href="../html/saude/cadastro_exames.php">
-							<div class="col-lg-2 col-md-8 i" >
-								<i  class="fas fa-cog"></i>
-								<h4>Cadastro de exames</h4>
-							</div>
-						</a>
-						<a href="../html/saude/atendimento_medico.php">
-							<div class="col-lg-2 col-md-8 i" >
-								<i  class="fa fa-credit-card"></i>
-								<h4>Atendimento médico</h4>
-							</div>
-						</a>
-						<a href="../html/saude/atendimento_enfermeiro.php">
-							<div class="col-lg-2 col-md-8 i" >
-								<i  class="fa fa-key"></i>
-								<h4>Atendimento enfermeiro</h4>
-							</div>
-						</a>
-
-					
+						</a>				
 					</div>
 				</div><br>
 
