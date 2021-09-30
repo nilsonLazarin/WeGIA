@@ -122,6 +122,17 @@ session_start();
 	   <script src="../../Functions/enviar_dados.js"></script>
       <script src="../../Functions/mascara.js"></script>
       <script>
+        function exibir_reservista() {
+
+        $("#reservista1").show();
+        $("#reservista2").show();
+        }
+
+        function esconder_reservista() {
+
+        $("#reservista1").hide();
+        $("#reservista2").hide();
+        }
          function alterardate(data)
          {
          	var date=data.split("-");
