@@ -173,18 +173,13 @@ session_start();
          				$("#sexo").html("Sexo: <i class='fa fa-female'>  Feminino");
          				$("#radioF").prop('checked',true);
          			}
-         			$("#pai").text("Nome do pai: "+item.nome_pai);
-         			$("#paiform").val(item.nome_pai);
-         
-         			$("#mae").text("Nome da mãe: "+item.nome_mae);
-         			$("#maeform").val(item.nome_mae);
          
          			$("#telefone").text("Telefone:"+item.telefone);
          			$("#telefone").val(item.telefone);
          
          
-         			$("#sangueSelect").text("Sangue: "+item.tipo_sanguineo);
-         			$("#sangueSelect").val(item.tipo_sanguineo);
+         			$("#tipoSanguineoSelecionado").text(item.tipo_sanguineo);
+         			$("#tipoSanguineoSelecionado").val(item.tipo_sanguineo);
          			
          			$("#nascimento").text("Data de nascimento: "+alterardate(item.data_nascimento));
          			$("#nascimento").val(item.data_nascimento);
@@ -202,7 +197,7 @@ session_start();
                   $("#expedicao").val(item.data_expedicao);
          
          			$('#orgao').text("Orgão emissor: "+item.orgao_emissor);
-         			$("#orgaoform").val(item.orgao_emissor);
+         			$("#orgao").val(item.orgao_emissor);
                   if(item.cpf.indexOf("ni")!=-1)
                   {
                      $("#cpf").text("Não informado");
@@ -274,14 +269,33 @@ session_start();
          $("#nascimento").prop('disabled', false);
          $("#pai").prop('disabled', false);
          $("#mae").prop('disabled', false);
-         $("#sangue").prop('disabled', false);
-         $("#sangueSelect").remove();
-         $('#sangue').append('<option selected >Selecionar...</option>');
+         $("#tipoSanguineo").prop('disabled', false);
+         //$("#sangueSelect").remove();
+        // $('#tipoSanguineo').append('<option selected >Selecionar...</option>');
          $("#botaoEditarIP").html('Cancelar');
          $("#botaoSalvarIP").prop('disabled', false);
          $("#botaoEditarIP").removeAttr('onclick');
          $("#botaoEditarIP").attr('onclick', "return cancelar_informacoes_pessoais()");
     }
+    function cancelar_informacoes_pessoais() {
+
+    $("#nome").prop('disabled', true);
+    $("#sobrenome").prop('disabled', true);
+    $("#radioM").prop('disabled', true);
+    $("#radioF").prop('disabled', true);
+    $("#telefone").prop('disabled', true);
+    $("#nascimento").prop('disabled', true);
+    $("#pai").prop('disabled', true);
+    $("#mae").prop('disabled', true);
+    $("#tipoSanguineo").prop('disabled', true);
+
+    $("#botaoEditarIP").html('Editar');
+    $("#botaoSalvarIP").prop('disabled', true);
+    $("#botaoEditarIP").removeAttr('onclick');
+    $("#botaoEditarIP").attr('onclick', "return editar_informacoes_pessoais()");
+
+    }
+
     function editar_documentacao() {
 
 $("#rg").prop('disabled', false);
@@ -636,8 +650,8 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                       <div class="form-group">
                         <label class="col-md-3 control-label" for="profileLastName">Sexo</label>
                         <div class="col-md-8">
-                          <label><input type="radio" name="gender" id="radioM" id="M" disabled value="m" style="margin-top: 10px; margin-left: 15px;" onclick="return exibir_reservista()"> <i class="fa fa-male" style="font-size: 20px;"> </i></label>
-                          <label><input type="radio" name="gender" id="radioF" disabled id="F" value="f" style="margin-top: 10px; margin-left: 15px;" onclick="return esconder_reservista()"> <i class="fa fa-female" style="font-size: 20px;"> </i> </label>
+                          <label><input type="radio" name="sexo" id="radioM" id="M" disabled value="m" style="margin-top: 10px; margin-left: 15px;" onclick="return exibir_reservista()"> <i class="fa fa-male" style="font-size: 20px;"> </i></label>
+                          <label><input type="radio" name="sexo" id="radioF" disabled id="F" value="f" style="margin-top: 10px; margin-left: 15px;" onclick="return esconder_reservista()"> <i class="fa fa-female" style="font-size: 20px;"> </i> </label>
                         </div>
                       </div>
                       <div class="form-group">
@@ -655,8 +669,8 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                       <div class="form-group">
                         <label class="col-md-3 control-label" for="inputSuccess">Tipo sanguíneo</label>
                         <div class="col-md-6">
-                          <select class="form-control input-lg mb-md" name="sangue" id="sangue" disabled>
-                            <option selected id="sangueSelect">Selecionar</option>
+                          <select class="form-control input-lg mb-md" name="tipoSanguineo" id="tipoSanguineo" disabled>
+                            <option selected id="tipoSanguineoSelecionado">Selecionar</option>
                             <option value="A+">A+</option>
                             <option value="A-">A-</option>
                             <option value="B+">B+</option>
@@ -692,7 +706,7 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                         </div>
                         <div class="modal-body">
                           <p> Tem certeza que deseja excluir esse funcionário? Essa ação não poderá ser desfeita e todas as informações referentes a esse funcionário serão perdidas!</p>
-                          <a href="../controle/control.php?metodo=excluir&nomeClasse=AtendidisoControle&idatendido=<?php echo $_GET['idatendido']; ?>"><button button type="button" class="btn btn-success">Confirmar</button></a>
+                          <a href="../../controle/control.php?metodo=excluir&nomeClasse=AtendidoControle&idatendido=<?php echo $_GET['idatendido']; ?>"><button button type="button" class="btn btn-success">Confirmar</button></a>
                           <button button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                         </div>
                       </div>
@@ -803,11 +817,11 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
 
                      <h2 class="panel-title">Documentos</h2>
                      <!--Documentação-->
-                 <hr class="dotted short">
-                 <form class="form-horizontal" method="post" action="../controle/control.php">
-                   <input type="hidden" name="nomeClasse" value="AtendidoControle">
-                   <input type="hidden" name="metodo" value="alterarDocumentacao">
-                   <div class="form-group">
+                     <hr class="dotted short">
+                    <form class="form-horizontal" method="post" action="../../controle/control.php">
+                      <input type="hidden" name="nomeClasse" value="AtendidoControle">
+                      <input type="hidden" name="metodo" value="alterarDocumentacao">
+                      <div class="form-group">
                      <label class="col-md-3 control-label" for="profileCompany">Número do RG</label>
                      <div class="col-md-6">
                        <input type="text" class="form-control" name="rg" id="rg" disabled onkeypress="return Onlynumbers(event)" placeholder="Ex: 22.222.222-2" onkeyup="mascara('##.###.###-#',this,event)">

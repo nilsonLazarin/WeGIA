@@ -165,7 +165,7 @@ class FuncionarioDAO
         try {
             $sql = 'update pessoa as p inner join funcionario as f on p.id_pessoa=f.id_pessoa set nome=:nome,sobrenome=:sobrenome,sexo=:sexo,telefone=:telefone,data_nascimento=:data_nascimento,nome_pai=:nome_pai,nome_mae=:nome_mae,tipo_sanguineo=:tipo_sanguineo where id_funcionario=:id_funcionario';
             
-           $sql = str_replace("'", "\'", $sql);
+            $sql = str_replace("'", "\'", $sql);
             $pdo = Conexao::connect();
             $stmt = $pdo->prepare($sql);
             
@@ -439,5 +439,6 @@ class FuncionarioDAO
 
         return $idFuncionario;
     }
+    
 
 }
