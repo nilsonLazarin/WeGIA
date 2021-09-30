@@ -165,6 +165,13 @@
 							<h4>Configurações</h4>
 						</div>
 					</a>
+					<a href="#">
+					<div class="col-lg-2 col-md-8 i" data-toggle="collapse" href="#saude">
+							<i  class="fa fa-ambulance"></i>
+							<h4>Saúde</h4>
+						</div>
+					</a>
+
 				</div>
 				<hr class="mobile-only">
 				<div class="row ">
@@ -203,6 +210,24 @@
 					
 					</div>
 				</div><br>
+
+				<div class="row ">
+					<div  id="saude" class="collapse">
+						<a href="../html/saude/cadastro_ficha_medica.php">
+							<div class="col-lg-2 col-md-8 i" >
+								<i  class="far fa-address-book"></i>
+								<h4>Cadastro ficha médica</h4>
+							</div>
+						</a>	
+						<a href="../html/saude/profile_paciente.php">
+							<div class="col-lg-2 col-md-8 i" >
+								<i  class="far fa-address-card"></i>
+								<h4>Informações do paciente</h4>
+							</div>
+						</a>				
+					</div>
+				</div><br>
+
 				<div class="row ">
 					<div  id="pessoas" class="collapse">
 						<a href="../html/cadastro_funcionario.php">
