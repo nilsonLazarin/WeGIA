@@ -703,10 +703,7 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                 </div>  
                
 
-<!-- Aba  de  Endereço -->
-
-
-                
+<!-- Aba  de  comorbidades -->
 
    <div id="cadastro_comorbidades" class="tab-pane">
                   <section class="panel">
@@ -714,6 +711,7 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                       <div class="panel-actions">
                         <a href="#" class="fa fa-caret-down"></a>
                       </div>
+                      
 
                       <h2 class="panel-title">Cadastro de comorbidades</h2>
                     </header>
@@ -724,13 +722,23 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                       <input type="hidden" name="nomeClasse" value="EnderecoControle">
                       <input type="hidden" name="metodo" value="alterarEndereco">
                       <div class="form-group">
-                        <label class="col-md-3 control-label" for="cep">Doenças</label>
-                                    <div class="col-md-8">
-                                                <input type="text" name="cep" value="" size="10" onblur="pesquisacep(this.value);" class="form-control" id="cep" maxlength="9" placeholder="Ex: 22222-222" onkeydown="return Onlynumbers(event)" onkeyup="mascara('#####-###',this,event)">
-                                            </div>
-                                        </div>
-                                        <div class="form-group center">
-                                            <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
+                        <label class="col-md-3 control-label" for="inputSuccess">Doenças:</label>
+                        <div class="col-md-6">
+                          <select class="form-control input-lg mb-md" name="sangue" id="sangue">
+                            <option selected id="sangueSelect">Selecionar</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                          </select>
+                        </div>
+                      </div>
+                     <div class="form-group center">
+                     <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
                       <button type="button" class="btn btn-primary" id="botaoEditarEndereco" onclick="return editar_endereco()">Cadastrar</button>
                       <!--<input id="botaoSalvarEndereco" type="submit" class="btn btn-primary" disabled="true" value="Salvar" onclick="funcao3()">-->
                     </form>
@@ -741,39 +749,102 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
 
 
 
+         <!-- Aba de exames -->
             <div id="cadastro_exames" class="tab-pane">
-
-                  <!-- Aba de exames -->
-
-               
                  <section class="panel">
                    <header class="panel-heading">
                      <div class="panel-actions">
                        <a href="#" class="fa fa-caret-down"></a>
                      </div>
-
+                     
+                     
                      <h2 class="panel-title">Exames</h2>
-                     <!--Documentação-->
+                     </header>
+                     <div class="panel-body">
                  <hr class="dotted short">
                  <form class="form-horizontal" method="post" action="../controle/control.php">
                    <input type="hidden" name="nomeClasse" value="AtendidoControle">
                    <input type="hidden" name="metodo" value="alterarDocumentacao">
-                   <div class="form-group">
+                   <!--<div class="form-group">
                      <label class="col-md-3 control-label" for="profileCompany">Upload de arquivo</label>
                      <div class="col-md-6">
-                       <input type="text" class="form-control" name="rg" id="rg" disabled onkeypress="return Onlynumbers(event)" placeholder="Ex: 22.222.222-2" onkeyup="mascara('##.###.###-#',this,event)">
-                     </div>
-                   </div>
+                       <input type="text" class="form-control" name="rg" id="rg">
+                     </div>-->
+
+                     
+                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#docFormModal">
+                        Clique para adicionar os exames
+                      </button>
+                      <div class="modal fade" id="docFormModal" tabindex="-1" role="dialog" aria-labelledby="docFormModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header" style="display: flex;justify-content: space-between;">
+                              <h5 class="modal-title" id="exampleModalLabel">Adicionar Arquivo</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <form action='./funcionario/documento_upload.php' method='post' enctype='multipart/form-data' id='funcionarioDocForm'>
+                              <div class="modal-body" style="padding: 15px 40px">
+                                <div class="form-group" style="display: grid;">
+                                  <label class="my-1 mr-2" for="tipoDocumento">Tipo de Arquivo</label><br>
+                                  <div style="display: flex;">
+                                    <select name="id_docfuncional" class="custom-select my-1 mr-sm-2" id="tipoDocumento" required>
+                                      <option selected disabled>Selecionar...</option>
+                                      <option value="Certidão de Nascimento">Certidão de Nascimento</option>
+                                       <option value="Certidão de Casamento">Certidão de Casamento</option>
+                                       <option value="Curatela">Curatela</option>
+                                       <option value="INSS">INSS</option>
+                                       <option value="LOAS">LOAS</option>
+                                       <option value="FUNRURAL">FUNRURAL</option>
+                                       <option value="Título de Eleitor">Título de Eleitor</option>
+                                       <option value="CTPS">CTPS</option>
+                                       <option value="SAF">SAF</option>
+                                       <option value="SUS">SUS</option>
+                                       <option value="BPC">BPC</option> 
+                                       <option value="CPF">CPF</option>
+                                       <option value="Registro Geral">RG</option>
+                                      
+                                    
+                                    </select>
+                                   
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <label for="arquivoDocumento">Arquivo</label>
+                                  <input name="arquivo" type="file" class="form-control-file" id="id_documento" accept="png;jpeg;jpg;pdf;docx;doc;odp" required>
+                                </div>
+                                <input type="number" name="id_interno" value="" style='display: none;'>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                <input type="submit" value="Enviar" class="btn btn-primary">
+                              </div>
+                            </form>
+                            </div>
+                          </div>
+                        </div>
+                        <br />
                    <div class="form-group">
-                     <label class="col-md-3 control-label" for="profileCompany">Tipo do exame</label>
-                     <div class="col-md-6">
-                       <input type="text" class="form-control" name="orgao_emissor" disabled id="orgao_emissor" onkeypress="return Onlychars(event)">
-                     </div>
-                   </div>
+                        <label class="col-md-3 control-label" for="inputSuccess">Tipo exame:</label>
+                        <div class="col-md-6">
+                          <select class="form-control input-lg mb-md" name="sangue" id="sangue">
+                            <option selected id="sangueSelect">Selecionar</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                          </select>
+                        </div>
+                  </div>
                    <div class="form-group">
                      <label class="col-md-3 control-label" for="profileCompany">Data do exame</label>
                      <div class="col-md-6">
-                       <input type="date" class="form-control" disabled maxlength="10" placeholder="dd/mm/aaaa" name="data_expedicao" id="data_expedicao" max=2021-06-11>
+                       <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" name="data_expedicao" id="data_expedicao" max=2021-06-11>
                      </div>
                    </div>
                    <div class="form-group">
@@ -788,64 +859,189 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                    <button type="button" class="btn btn-primary" id="botaoEditarDocumentacao" onclick="return editar_documentacao()">Cadastrar</button>
                    <!--<input id="botaoSalvarDocumentacao" type="submit" class="btn btn-primary" disabled="true" value="Salvar" onclick="funcao3()">-->
                  </form>
-                   </header>
-                 </section>
-
-       </div>
-        <!-- end: page -->
          </section>
-
-           <!-- Aba de atendimento médico -->
-           <section class="panel">
-            
+         </div>
+       
+      <!-- aba de atendimento médico -->
+       <div id="atendimento_medico" class="tab-pane">
+         <section class="panel">
             <header class="panel-heading">
-                <div class="panel-actions">
-                    <a href="#atendimento_medico" class="fa fa-caret-down"></a>
-                </div>
-    
-                         <h2 class="panel-title">Atendimento médico</h2>
-                         <!--Documentação-->
-                     <hr class="dotted short">
-                     <form class="form-horizontal" method="post" action="../controle/control.php">
-                       <input type="hidden" name="nomeClasse" value="AtendidoControle">
-                       <input type="hidden" name="metodo" value="alterarDocumentacao">
-                       <div class="form-group">
-                         <label class="col-md-3 control-label" for="profileCompany">Upload de arquivo</label>
-                         <div class="col-md-6">
-                           <input type="text" class="form-control" name="rg" id="rg" disabled onkeypress="return Onlynumbers(event)" placeholder="Ex: 22.222.222-2" onkeyup="mascara('##.###.###-#',this,event)">
-                         </div>
-                       </div>
-                       <div class="form-group">
-                         <label class="col-md-3 control-label" for="profileCompany">Tipo do exame</label>
-                         <div class="col-md-6">
-                           <input type="text" class="form-control" name="orgao_emissor" disabled id="orgao_emissor" onkeypress="return Onlychars(event)">
-                         </div>
-                       </div>
-                       <div class="form-group">
-                         <label class="col-md-3 control-label" for="profileCompany">Data do exame</label>
-                         <div class="col-md-6">
-                           <input type="date" class="form-control" disabled maxlength="10" placeholder="dd/mm/aaaa" name="data_expedicao" id="data_expedicao" max=2021-06-11>
-                         </div>
-                       </div>
-                       <div class="form-group">
-                         <label class="col-md-3 control-label" for="profileCompany"></label>
-                         <div class="col-md-6">
-                           <p id="cpfInvalido" style="display: none; color: #b30000">CPF INVÁLIDO!</p>
-                         </div>
-                       </div>
-                       
-                       <br />
-                       <input type="hidden" name="idatendido" value=1>
-                       <button type="button" class="btn btn-primary" id="botaoEditarDocumentacao" onclick="return editar_documentacao()">Editar</button>
-                       <input id="botaoSalvarDocumentacao" type="submit" class="btn btn-primary" disabled="true" value="Salvar" onclick="funcao3()">
-                     </form>
-                       </header>
-                       
-                     </section>
-               
-        
-    
-           </div>
+               <div class="panel-actions">
+                  <a href="#" class="fa fa-caret-down"></a>
+               </div>
+
+               <h2 class="panel-title">Atendimento médico</h2>
+               </header>
+               <div class="panel-body">
+               <hr class="dotted short">
+               <form class="form-horizontal" method="post" action="../controle/control.php">
+                   <input type="hidden" name="nomeClasse" value="AtendidoControle">
+                   <input type="hidden" name="metodo" value="alterarDocumentacao">
+
+                   <div class="form-group">
+                     <label class="col-md-3 control-label" for="profileCompany">Data do atendimento:</label>
+                     <div class="col-md-6">
+                     <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" name="data_expedicao" id="data_expedicao" max=2021-06-11>
+                     </div>
+                   </div>
+                   <div class="form-group">
+                     <label class="col-md-3 control-label" for="profileCompany"></label>
+                     <div class="col-md-6">
+                       <p id="cpfInvalido" style="display: none; color: #b30000">CPF INVÁLIDO!</p>
+                     </div>
+                   </div>
+                   <div class="form-group">
+                     <label class="col-md-3 control-label" for="profileCompany">Médico:</label>
+                     <div class="col-md-6">
+                       <input type="text" class="form-control" name="orgao_emissor" id="orgao_emissor" onkeypress="return Onlychars(event)">
+                     </div>
+                   </div>
+                   <div class="form-group">
+                     <label class="col-md-3 control-label" for="profileCompany">Descrição:</label>
+                     <div class="col-md-6">
+                       <input type="text" class="form-control" name="orgao_emissor" id="orgao_emissor" onkeypress="return Onlychars(event)">
+                     </div>
+                   </div>
+                   <br />
+                   
+                   <h2 class="panel-title">Medicação</h2>
+                   <br />
+                   <div class="form-group">
+                        <label class="col-md-3 control-label" for="inputSuccess">Medicamento:</label>
+                        <div class="col-md-6">
+                          <select class="form-control input-lg mb-md" name="sangue" id="sangue">
+                            <option selected id="sangueSelect">Selecionar</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                      <label class="col-md-3 control-label" for="profileCompany">Dose:</label>
+                     <div class="col-md-6">
+                       <input type="text" class="form-control" name="orgao_emissor" id="orgao_emissor" onkeypress="return Onlychars(event)">
+                     </div>
+                     </div>
+                     <div class="form-group">
+                      <label class="col-md-3 control-label" for="profileCompany">Horário:</label>
+                     <div class="col-md-6">
+                       <input type="text" class="form-control" name="orgao_emissor" id="orgao_emissor" onkeypress="return Onlychars(event)">
+                     </div>
+                   </div>
+                   <div class="form-group">
+                      <label class="col-md-3 control-label" for="profileCompany">Tempo:</label>
+                     <div class="col-md-6">
+                       <input type="text" class="form-control" name="orgao_emissor" id="orgao_emissor" onkeypress="return Onlychars(event)">
+                     </div>
+                   </div>
+
+                   <br />
+                   <input type="hidden" name="idatendido" value=1>
+                   <button type="button" class="btn btn-danger" id="botaoEditarDocumentacao" onclick="return editar_documentacao()">Inserir na tabela</button>
+                   <input id="botaoSalvarDocumentacao" type="submit" class="btn btn-primary" value="Cadastrar" onclick="funcao3()">
+                 </form>
+            
+         </section>
+       </div>
+
+       <!-- aba de atendimento enfermeiro -->
+       <div id="atendimento_enfermeiro" class="tab-pane">
+         <section class="panel">
+            <header class="panel-heading">
+               <div class="panel-actions">
+                  <a href="#" class="fa fa-caret-down"></a>
+               </div>
+
+               <h2 class="panel-title">Atendimento enfermeiro</h2>
+            </header>
+            <div class="panel-body">
+               <hr class="dotted short">
+               <form class="form-horizontal" method="post" action="../controle/control.php">
+                   <input type="hidden" name="nomeClasse" value="AtendidoControle">
+                   <input type="hidden" name="metodo" value="alterarDocumentacao">
+
+                   <div class="form-group">
+                     <label class="col-md-3 control-label" for="profileCompany">Data do atendimento:</label>
+                     <div class="col-md-6">
+                     <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" name="data_expedicao" id="data_expedicao" max=2021-06-11>
+                     </div>
+                   </div>
+                   <div class="form-group">
+                     <label class="col-md-3 control-label" for="profileCompany"></label>
+                     <div class="col-md-6">
+                       <p id="cpfInvalido" style="display: none; color: #b30000">CPF INVÁLIDO!</p>
+                     </div>
+                   </div>
+                   <div class="form-group">
+                     <label class="col-md-3 control-label" for="profileCompany">Enfermeiro:</label>
+                     <div class="col-md-6">
+                       <input type="text" class="form-control" name="orgao_emissor" id="orgao_emissor" onkeypress="return Onlychars(event)">
+                     </div>
+                   </div>
+                   <div class="form-group">
+                        <label class="col-md-3 control-label" for="profileFirstName">Descrição:</label>
+                        <div class="col-md-6">
+                          <input type="text" class="form-control" disabled name="sobrenome" id="sobrenome" onkeypress="return Onlychars(event)">
+                        </div>
+                      </div>
+                   <br />
+                   
+                   <h2 class="panel-title">Aplicar medicação</h2>
+                   <h2> tabela </h2>
+                   
+                   <br />
+                   <div class="form-group">
+                        <label class="col-md-3 control-label" for="inputSuccess">Medicamento:</label>
+                        <div class="col-md-6">
+                          <select class="form-control input-lg mb-md" name="sangue" id="sangue">
+                            <option selected id="sangueSelect">Selecionar</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                      <label class="col-md-3 control-label" for="profileCompany">Horário de aplicação</label>
+                     <div class="col-md-6">
+                       <input type="text" class="form-control" name="orgao_emissor" id="orgao_emissor" onkeypress="return Onlychars(event)">
+                     </div>
+                     </div>
+                      
+                      
+                     <br />
+                     <input type="hidden" name="idatendido" value=1>
+                     <input type="hidden" name="idatendido" value=1>
+                     <button type="button" class="btn btn-danger" id="botaoEditarDocumentacao" onclick="return editar_documentacao()">Aplicar medicação</button>
+
+                     <br />
+                     <br />
+
+
+                     <h2 class="panel-title">Aplicações efetuadas</h2>
+                     <h2> tabela </h2>
+                     
+                   
+                   <input id="botaoSalvarDocumentacao" type="submit" class="btn btn-primary" value="Cadastrar aplicação desses medicamentos" onclick="funcao3()">
+                 </form>
+            </div>
+         </section>
+       </div>  
+
+
+
+       
          <aside id="sidebar-right" class="sidebar-right">
             <div class="nano">
                <div class="nano-content">
