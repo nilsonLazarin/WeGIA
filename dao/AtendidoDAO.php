@@ -256,7 +256,7 @@ class AtendidoDAO
     {
         try {
 
-            $sql = 'update pessoa as p inner join atendido as a on p.id_pessoa=a.pessoa_id_pessoa set p.registro_geral=:rg,p.orgao_emissor=:orgao,p.data_expedicao=:data_expedicao,p.cpf=:cpf where idatendido=:idatendido';
+            $sql = 'update pessoa as p inner join atendido as a on p.id_pessoa=a.pessoa_id_pessoa set p.registro_geral=:registro_geral,p.orgao_emissor=:orgao_emissor,p.data_expedicao=:data_expedicao,p.cpf=:cpf where idatendido=:idatendido';
             
            $sql = str_replace("'", "\'", $sql);
 
@@ -274,6 +274,40 @@ class AtendidoDAO
             $stmt->bindParam(':registro_geral',$rg);
             $stmt->bindParam(':orgao_emissor',$orgao);
             $stmt->bindParam(':data_expedicao',$data_expedicao);
+            $stmt->execute();
+        } catch (PDOException $e) {
+            echo 'Error: <b>  na tabela pessoas = ' . $sql . '</b> <br /><br />' . $e->getMessage();
+        }
+    }
+    public function alterarEndereco($atendido)
+    {
+        try {
+            $sql = 'update pessoa as p inner join atendido as a on p.id_pessoa=a.pessoa_id_pessoa set cep=:cep,estado=:estado,cidade=:cidade,bairro=:bairro,logradouro=:logradouro,numero_endereco=:numero_endereco,complemento=:complemento,ibge=:ibge where idatendido=:idatendido';
+            
+           $sql = str_replace("'", "\'", $sql);
+
+            $pdo = Conexao::connect();
+            $stmt = $pdo->prepare($sql);
+
+            $idatendido=$atendido->getIdatendido();
+            $cep=$atendido->getCep();
+            $estado=$atendido->getEstado();
+            $cidade=$atendido->getCidade();
+            $bairro=$atendido->getBairro();
+            $logradouro=$atendido->getLogradouro();
+            $numero_endereco=$atendido->getNumeroEndereco();        
+            $complemento=$atendido->getComplemento();
+            $ibge=$atendido->getIbge();
+
+            $stmt->bindParam(':idatendido',$idatendido);
+            $stmt->bindParam(':cep',$cep);
+            $stmt->bindParam(':estado',$estado);
+            $stmt->bindParam(':cidade',$cidade);
+            $stmt->bindParam(':bairro',$bairro);
+            $stmt->bindParam(':logradouro',$logradouro);
+            $stmt->bindParam(':numero_endereco',$numero_endereco);        
+            $stmt->bindParam(':complemento',$complemento);
+            $stmt->bindParam(':ibge',$ibge);
             $stmt->execute();
         } catch (PDOException $e) {
             echo 'Error: <b>  na tabela pessoas = ' . $sql . '</b> <br /><br />' . $e->getMessage();

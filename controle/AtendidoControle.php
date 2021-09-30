@@ -82,9 +82,6 @@ class AtendidoControle
             if((!isset($cidade)) || empty(($cidade))){
                 $cidade = '';
             }
-            if((!isset($estado)) || empty(($estado))){
-                $estado = '';
-            }
             if((!isset($logradouro)) || empty(($logradouro))){
                 $logradouro = '';
             }
@@ -121,7 +118,7 @@ class AtendidoControle
             // $cpf=str_replace("-", "", $cpf);
             //$nascimento=str_replace("-", "", $nascimento);
             $senha='null';
-            $atendido = new Atendido($cpf,$nome,$sobrenome,$sexo,$nascimento,$registroGeral,$orgaoEmissor,$dataExpedicao,$nomeMae,$nomePai,$tipoSanguineo,$senha,$telefone,$imagem,$cep,$estado,$cidade,$bairro,$logradouro,$numeroEndereco,$complemento,$ibge);
+            $atendido = new Atendido($cpf,$nome,$sobrenome,$sexo,$nascimento,$registroGeral,$orgaoEmissor,$dataExpedicao,$nomeMae,$nomePai,$tipoSanguineo,$senha,$telefone,$imagem,$cep,$uf,$cidade,$bairro,$logradouro,$numeroEndereco,$complemento,$ibge);
             $atendido->setIntTipo($intTipo);
             $atendido->setIntStatus($intStatus);
             return $atendido;
@@ -248,7 +245,7 @@ class AtendidoControle
         $cpf=str_replace(".", '', $cpf);
         $cpf=str_replace("-", "", $cpf);
 
-        $atendido = new Atendido($cpf,'','','','',$rg,$orgao_emissor,$data_expedicao,'','','','','','','','','','','','','','');
+        $atendido = new Atendido($cpf,'','','','',$registroGeral,$orgaoEmissor,$dataExpedicao,'','','','','','','','','','','','','','');
             
             $atendido->setIdatendido($idatendido);
 
@@ -268,12 +265,12 @@ class AtendidoControle
         if((!isset($numero_residencia)) || empty(($numero_residencia))){
             $numero_residencia = "null";
         }
-        $funcionario = new Funcionario('','','','','','','','','','','','','','',$cep,$uf,$cidade,$bairro,$rua,$numero_residencia,$complemento,$ibge);
-        $funcionario->setId_funcionario($id_funcionario);
-        $funcionarioDAO=new FuncionarioDAO();
+        $atendido = new Atendido('','','','','','','','','','','','','','',$cep,$uf,$cidade,$bairro,$rua,$numero_residencia,$complemento,$ibge);
+        $atendido->setIdatendido($idatendido);
+        $atendidoDAO=new AtendidoDAO();
         try {
-            $funcionarioDAO->alterarEndereco($funcionario);
-            header("Location: ../html/profile_funcionario.php?id_funcionario=".$id_funcionario);
+            $atendidoDAO->alterarEndereco($atendido);
+            header("Location: ../html/atendido/Profile_Atendido.php?idatendido=".$idatendido);
         } catch (PDOException $e) {
             echo $e->getMessage();
         }    
