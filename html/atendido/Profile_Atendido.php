@@ -122,6 +122,17 @@ session_start();
 	   <script src="../../Functions/enviar_dados.js"></script>
       <script src="../../Functions/mascara.js"></script>
       <script>
+        function exibir_reservista() {
+
+        $("#reservista1").show();
+        $("#reservista2").show();
+        }
+
+        function esconder_reservista() {
+
+        $("#reservista1").hide();
+        $("#reservista2").hide();
+        }
          function alterardate(data)
          {
          	var date=data.split("-");
@@ -140,16 +151,7 @@ session_start();
             }
          $(function(){
          	var interno= <?php echo $_SESSION['atendido']?>;
-            var endereco=[];
             console.log(interno);
-            $.each(endereco,function(i,item){
-               $("#cep").text("CEP: "+item.cep);
-               $("#cidade").text("Cidade: "+item.cidade);
-               $("#bairro").text("Bairro: "+item.bairro);
-               $("#logradouro").text("Logradouro: "+item.logradouro);
-               $("#numero").text("Numero: "+item.numero_endereco);
-               $("#complemento").text("Complemento: "+item.complemento);
-            });
          	$.each(interno,function(i,item){
          		if(i=1)
          		{
@@ -173,36 +175,31 @@ session_start();
          				$("#sexo").html("Sexo: <i class='fa fa-female'>  Feminino");
          				$("#radioF").prop('checked',true);
          			}
-         			$("#pai").text("Nome do pai: "+item.nome_pai);
-         			$("#paiform").val(item.nome_pai);
-         
-         			$("#mae").text("Nome da mãe: "+item.nome_mae);
-         			$("#maeform").val(item.nome_mae);
          
          			$("#telefone").text("Telefone:"+item.telefone);
          			$("#telefone").val(item.telefone);
          
          
-         			$("#sangueSelect").text("Sangue: "+item.tipo_sanguineo);
-         			$("#sangueSelect").val(item.tipo_sanguineo);
+         			$("#tipoSanguineoSelecionado").text(item.tipo_sanguineo);
+         			$("#tipoSanguineoSelecionado").val(item.tipo_sanguineo);
          			
          			$("#nascimento").text("Data de nascimento: "+alterardate(item.data_nascimento));
          			$("#nascimento").val(item.data_nascimento);
          
-         			$("#rg").text("Registro geral: "+item.registro_geral);
-         			$("#rg").val(item.registro_geral);
+         			$("#registroGeral").text("Registro geral: "+item.registro_geral);
+         			$("#registroGeral").val(item.registro_geral);
                   
                   if(item.data_expedicao=="0000-00-00")
                   {
-                     $("#data_expedicao").text("Data de expedição: Não informado");
+                     $("#dataExpedicao").text("Data de expedição: Não informado");
                   }
                   else{
-                     $("#data_expedicao").text("Data de expedição: "+item.data_expedicao);     
+                     $("#dataExpedicao").text("Data de expedição: "+item.data_expedicao);     
                   }
                   $("#expedicao").val(item.data_expedicao);
          
-         			$('#orgao').text("Orgão emissor: "+item.orgao_emissor);
-         			$("#orgaoform").val(item.orgao_emissor);
+         			$('#orgaoEmissor').text("Orgão emissor: "+item.orgao_emissor);
+         			$("#orgaoEmissor").val(item.orgao_emissor);
                   if(item.cpf.indexOf("ni")!=-1)
                   {
                      $("#cpf").text("Não informado");
@@ -274,20 +271,39 @@ session_start();
          $("#nascimento").prop('disabled', false);
          $("#pai").prop('disabled', false);
          $("#mae").prop('disabled', false);
-         $("#sangue").prop('disabled', false);
-         $("#sangueSelect").remove();
-         $('#sangue').append('<option selected >Selecionar...</option>');
+         $("#tipoSanguineo").prop('disabled', false);
+         //$("#sangueSelect").remove();
+        // $('#tipoSanguineo').append('<option selected >Selecionar...</option>');
          $("#botaoEditarIP").html('Cancelar');
          $("#botaoSalvarIP").prop('disabled', false);
          $("#botaoEditarIP").removeAttr('onclick');
          $("#botaoEditarIP").attr('onclick', "return cancelar_informacoes_pessoais()");
     }
+    function cancelar_informacoes_pessoais() {
+
+    $("#nome").prop('disabled', true);
+    $("#sobrenome").prop('disabled', true);
+    $("#radioM").prop('disabled', true);
+    $("#radioF").prop('disabled', true);
+    $("#telefone").prop('disabled', true);
+    $("#nascimento").prop('disabled', true);
+    $("#pai").prop('disabled', true);
+    $("#mae").prop('disabled', true);
+    $("#tipoSanguineo").prop('disabled', true);
+
+    $("#botaoEditarIP").html('Editar');
+    $("#botaoSalvarIP").prop('disabled', true);
+    $("#botaoEditarIP").removeAttr('onclick');
+    $("#botaoEditarIP").attr('onclick', "return editar_informacoes_pessoais()");
+
+    }
+
     function editar_documentacao() {
 
-$("#rg").prop('disabled', false);
-$("#orgao_emissor").prop('disabled', false);
-$("#data_expedicao").prop('disabled', false);
-$("#cpf").prop('disabled', false);
+$("#registroGeral").prop('disabled', false);
+$("#orgaoEmissor").prop('disabled', false);
+$("#dataExpedicao").prop('disabled', false);
+$("#cpf").prop('disabled', true);
 $("#data_admissao").prop('disabled', false);
 
 $("#botaoEditarDocumentacao").html('Cancelar');
@@ -300,8 +316,8 @@ $("#botaoEditarDocumentacao").attr('onclick', "return cancelar_documentacao()");
 function cancelar_documentacao() {
 
 $("#rg").prop('disabled', true);
-$("#orgao_emissor").prop('disabled', true);
-$("#data_expedicao").prop('disabled', true);
+$("#orgaoEmissor").prop('disabled', true);
+$("#dataExpedicao").prop('disabled', true);
 $("#cpf").prop('disabled', true);
 $("#data_admissao").prop('disabled', true);
 
@@ -322,7 +338,7 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
           $("#numero_residencia").prop('disabled', true);
           $("#complemento").prop('disabled', true);
           $("#ibge").prop('disabled', true);
-         var endereco = [] ;
+         var endereco = <?php echo $_SESSION['atendido']?>;
          if(endereco=="")
          {
             $("#metodo").val("incluirEndereco");
@@ -636,8 +652,8 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                       <div class="form-group">
                         <label class="col-md-3 control-label" for="profileLastName">Sexo</label>
                         <div class="col-md-8">
-                          <label><input type="radio" name="gender" id="radioM" id="M" disabled value="m" style="margin-top: 10px; margin-left: 15px;" onclick="return exibir_reservista()"> <i class="fa fa-male" style="font-size: 20px;"> </i></label>
-                          <label><input type="radio" name="gender" id="radioF" disabled id="F" value="f" style="margin-top: 10px; margin-left: 15px;" onclick="return esconder_reservista()"> <i class="fa fa-female" style="font-size: 20px;"> </i> </label>
+                          <label><input type="radio" name="sexo" id="radioM" id="M" disabled value="m" style="margin-top: 10px; margin-left: 15px;" onclick="return exibir_reservista()"> <i class="fa fa-male" style="font-size: 20px;"> </i></label>
+                          <label><input type="radio" name="sexo" id="radioF" disabled id="F" value="f" style="margin-top: 10px; margin-left: 15px;" onclick="return esconder_reservista()"> <i class="fa fa-female" style="font-size: 20px;"> </i> </label>
                         </div>
                       </div>
                       <div class="form-group">
@@ -655,8 +671,8 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                       <div class="form-group">
                         <label class="col-md-3 control-label" for="inputSuccess">Tipo sanguíneo</label>
                         <div class="col-md-6">
-                          <select class="form-control input-lg mb-md" name="sangue" id="sangue" disabled>
-                            <option selected id="sangueSelect">Selecionar</option>
+                          <select class="form-control input-lg mb-md" name="tipoSanguineo" id="tipoSanguineo" disabled>
+                            <option selected id="tipoSanguineoSelecionado">Selecionar</option>
                             <option value="A+">A+</option>
                             <option value="A-">A-</option>
                             <option value="B+">B+</option>
@@ -670,10 +686,11 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                       </div>
                       <input type="hidden" name="idatendido" value=<?php echo $_GET['idatendido'] ?>>
                       <button type="button" class="btn btn-primary" id="botaoEditarIP" onclick="return editar_informacoes_pessoais()">Editar</button>
-                      <input type="submit" class="btn btn-primary" disabled="true" value="Salvar" id="botaoSalvarIP">
+                      <input type="submit" class="btn btn-primary" disabled="true" value="Salvar" id="botaoSalvarIP" onclick="funcao3();">
                   </form>
 
                   <br />
+                  <!--Exclusao -->
              
                   <div class="panel-footer">
                     <div class="row">
@@ -692,7 +709,7 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                         </div>
                         <div class="modal-body">
                           <p> Tem certeza que deseja excluir esse funcionário? Essa ação não poderá ser desfeita e todas as informações referentes a esse funcionário serão perdidas!</p>
-                          <a href="../controle/control.php?metodo=excluir&nomeClasse=AtendidisoControle&idatendido=<?php echo $_GET['idatendido']; ?>"><button button type="button" class="btn btn-success">Confirmar</button></a>
+                          <a href="../../controle/control.php?metodo=excluir&nomeClasse=AtendidoControle&idatendido=<?php echo $_GET['idatendido']; ?>"><button button type="button" class="btn btn-success">Confirmar</button></a>
                           <button button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                         </div>
                       </div>
@@ -719,7 +736,7 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                     <!--Endereço-->
                    <hr class="dotted short">
                     <form id="endereco" class="form-horizontal" method="post" action="../../controle/control.php">
-                      <input type="hidden" name="nomeClasse" value="EnderecoControle">
+                      <input type="hidden" name="nomeClasse" value="AtendidoControle">
                       <input type="hidden" name="metodo" value="alterarEndereco">
                       <div class="form-group">
                         <label class="col-md-3 control-label" for="cep">CEP</label>
@@ -779,7 +796,7 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
 
 
                                         <div class="form-group center">
-                                            <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
+                                            <input type="hidden" name="idatendido" value=<?php echo $_GET['idatendido'] ?>>
                       <button type="button" class="btn btn-primary" id="botaoEditarEndereco" onclick="return editar_endereco()">Editar</button>
                       <input id="botaoSalvarEndereco" type="submit" class="btn btn-primary" disabled="true" value="Salvar" onclick="funcao3()">
                     </form>
@@ -803,26 +820,26 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
 
                      <h2 class="panel-title">Documentos</h2>
                      <!--Documentação-->
-                 <hr class="dotted short">
-                 <form class="form-horizontal" method="post" action="../controle/control.php">
-                   <input type="hidden" name="nomeClasse" value="AtendidoControle">
-                   <input type="hidden" name="metodo" value="alterarDocumentacao">
-                   <div class="form-group">
+                     <hr class="dotted short">
+                    <form class="form-horizontal" method="post" action="../../controle/control.php">
+                      <input type="hidden" name="nomeClasse" value="AtendidoControle">
+                      <input type="hidden" name="metodo" value="alterarDocumentacao">
+                      <div class="form-group">
                      <label class="col-md-3 control-label" for="profileCompany">Número do RG</label>
                      <div class="col-md-6">
-                       <input type="text" class="form-control" name="rg" id="rg" disabled onkeypress="return Onlynumbers(event)" placeholder="Ex: 22.222.222-2" onkeyup="mascara('##.###.###-#',this,event)">
+                       <input type="text" class="form-control" name="registroGeral" id="registroGeral" disabled onkeypress="return Onlynumbers(event)" placeholder="Ex: 22.222.222-2" onkeyup="mascara('##.###.###-#',this,event)">
                      </div>
                    </div>
                    <div class="form-group">
                      <label class="col-md-3 control-label" for="profileCompany">Órgão Emissor</label>
                      <div class="col-md-6">
-                       <input type="text" class="form-control" name="orgao_emissor" disabled id="orgao_emissor" onkeypress="return Onlychars(event)">
+                       <input type="text" class="form-control" name="orgaoEmissor" disabled id="orgaoEmissor" onkeypress="return Onlychars(event)">
                      </div>
                    </div>
                    <div class="form-group">
                      <label class="col-md-3 control-label" for="profileCompany">Data de expedição</label>
                      <div class="col-md-6">
-                       <input type="date" class="form-control" disabled maxlength="10" placeholder="dd/mm/aaaa" name="data_expedicao" id="data_expedicao" max=2021-06-11>
+                       <input type="date" class="form-control" disabled maxlength="10" placeholder="dd/mm/aaaa" name="dataExpedicao" id="dataExpedicao" max=2021-06-11>
                      </div>
                    </div>
                    <div class="form-group">
@@ -839,9 +856,9 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                    </div>
                    
                    <br />
-                   <input type="hidden" name="idatendido" value=1>
-                   <button type="button" class="btn btn-primary" id="botaoEditarDocumentacao" onclick="return editar_documentacao()">Editar</button>
-                   <input id="botaoSalvarDocumentacao" type="submit" class="btn btn-primary" disabled="true" value="Salvar" onclick="funcao3()">
+                   <input type="hidden" name="idatendido" value="<?php echo $_GET['idatendido'] ?>">
+                      <button type="button" class="btn btn-primary" id="botaoEditarDocumentacao" onclick="return editar_documentacao()">Editar</button>
+                      <input id="botaoSalvarDocumentacao" type="submit" class="btn btn-primary" disabled="true" value="Salvar" onclick="funcao3()">
                  </form>
                    </header>
                    
@@ -1110,6 +1127,32 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
           alert("Cadastrado com sucesso!")
         }
       }
+      function funcao3() {
+      var idatend = <?php echo $_GET['idatendido']; ?>;
+      var cpfs = <?php echo $_SESSION['cpf_atendido']; ?>;
+      var cpf_atendido = $("#cpf").val();
+      var cpf_atendido_correto = cpf_atendido.replace(".", "");
+      var cpf_atendido_correto1 = cpf_atendido_correto.replace(".", "");
+      var cpf_atendido_correto2 = cpf_atendido_correto1.replace(".", "");
+      var cpf_atendido_correto3 = cpf_atendido_correto2.replace("-", "");
+      var apoio = 0;
+      var cpfs1 = <?php echo $_SESSION['cpf_atendido']; ?>;
+      $.each(cpfs, function(i, item) {
+        if (item.cpf == cpf_atendido_correto3 && item.id != idatend) {
+          alert("Alteração não realizada! O CPF informado já está cadastrado no sistema");
+          apoio = 1;
+        }
+      });
+      $.each(cpfs1, function(i, item) {
+        if (item.cpf == cpf_atendido_correto3) {
+          alert("Cadastro não realizado! O CPF informado já está cadastrado no sistema");
+          apoio = 1;
+        }
+      });
+      if (apoio == 0) {
+        alert("Editado com sucesso!");
+      }
+    }
    </script>
     </body>
 </html> 

@@ -1,4 +1,5 @@
 <?php
+
 $config_path = "config.php";
 if(file_exists($config_path)){
     require_once($config_path);
@@ -58,19 +59,19 @@ class AtendidoDAO
         
     }
     //excluir  
-    public function excluir($idatendido)
+    public function excluir($id)
     {
         
         try {
             
-            $sql = 'call excluirinterno(:idi)';
+            $sql = 'call excluiratendido(:idatendido)';
             $sql = str_replace("'", "\'", $sql);
             $pdo = Conexao::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             
             $stmt = $pdo->prepare($sql);
 
-            $stmt->bindParam(':idi', $idinterno);
+            $stmt->bindParam(':idatendido', $id);
             
             $stmt->execute();
         } catch (PDOException $e) {
@@ -101,7 +102,7 @@ class AtendidoDAO
     public function alterar($atendido)
     {
         try {
-            $sql = 'update pessoa as p inner join interno as i on p.id_pessoa=i.id_pessoa set p.senha=:senha,p.nome=:nome, p.sobrenome=:sobrenome,p.cpf=:cpf,p.sexo=:sexo,p.telefone=:telefone,p.strdataNascimento=:strdataNascimento,p.imagem=:imagem,p.cep=:cep,p.estado=:estado,p.cidade=:cidade,p.bairro=:bairro,p.logradouro=:logradouro,p.numero_endereco=:numero_endereco,p.complemento=:complemento,p.ibge=:ibge,p.registro_geral=:registro_geral,p.orgao_emissor=:orgao_emissor,p.data_expedicao=:data_expedicao,p.nome_pai=:nome_pai,p.nome_mae=:nome_mae,p.intTipo_sanguineo=:intTipo_sanguineo,i.nome_contato_urgente=:nome_contato_urgente,i.strTelefone_contato_urgente_1=:strTelefone_contato_urgente_1,i.strTelefone_contato_urgente_2=:strTelefone_contato_urgente_2,i.strTelefone_contato_urgente_3=:strTelefone_contato_urgente_3,i.observacao=:observacao,i.certidao_nascimento=:certidao,i.curatela=:curatela,i.inss=:inss,i.loas=:loas,i.bpc=:bpc,i.funrural=:funrural,i.saf=:saf,i.sus=:sus,i.certidao_casamento=:certidao_casamento,i.ctps=:ctps,i.titulo=:titulo where i.id_pessoa=:id_pessoa';
+            $sql = 'update pessoa as p inner join atendido as a on p.id_pessoa=a.pessoa_id_pessoa set p.senha=:senha,p.nome=:nome, p.sobrenome=:sobrenome,p.cpf=:cpf,p.sexo=:sexo,p.telefone=:telefone,data_nascimento=:data_nascimento,p.imagem=:imagem,p.cep=:cep,p.estado=:estado,p.cidade=:cidade,p.bairro=:bairro,p.logradouro=:logradouro,p.numero_endereco=:numero_endereco,p.complemento=:complemento,p.ibge=:ibge,p.registro_geral=:registro_geral,p.orgao_emissor=:orgao_emissor,p.data_expedicao=:data_expedicao,p.nome_pai=:nome_pai,p.nome_mae=:nome_mae,p.intTipo_sanguineo=:intTipo_sanguineo,i.nome_contato_urgente=:nome_contato_urgente,i.strTelefone_contato_urgente_1=:strTelefone_contato_urgente_1,i.strTelefone_contato_urgente_2=:strTelefone_contato_urgente_2,i.strTelefone_contato_urgente_3=:strTelefone_contato_urgente_3,i.observacao=:observacao,i.certidao_nascimento=:certidao,i.curatela=:curatela,i.inss=:inss,i.loas=:loas,i.bpc=:bpc,i.funrural=:funrural,i.saf=:saf,i.sus=:sus,i.certidao_casamento=:certidao_casamento,i.ctps=:ctps,i.titulo=:titulo where a.pessoa_id_pessoa=:id_pessoa';
             
             $sql = str_replace("'", "\'", $sql);
             $pdo = Conexao::connect();
@@ -114,12 +115,12 @@ class AtendidoDAO
             $telefone=$atendido->getTelefone();
             $nascimento=$atendido->getDataNascimento();
 
-            $stmt->bindParam(':strNome',$nome);
-            $stmt->bindParam(':strSobrenome',$sobrenome);
-            $stmt->bindParam(':strCpf',$cpf);
-            $stmt->bindParam(':strSexo',$sexo);
-            $stmt->bindParam(':strTelefone',$telefone);
-            $stmt->bindParam(':dateNascimento',$nascimento);
+            $stmt->bindParam('nome',$nome);
+            $stmt->bindParam('sobrenome',$sobrenome);
+            $stmt->bindParam(':cpf',$cpf);
+            $stmt->bindParam(':sexo',$sexo);
+            $stmt->bindParam(':telefone',$telefone);
+            $stmt->bindParam(':data_nascimento',$nascimento);
             $stmt->execute();
         } catch (PDOException $e) {
             echo 'Error: <b>  na tabela pessoas = ' . $sql . '</b> <br /><br />' . $e->getMessage();
@@ -130,7 +131,7 @@ class AtendidoDAO
         try{
             $atendidos=array();
             $pdo = Conexao::connect();
-            $consulta = $pdo->query("SELECT p.nome,p.sobrenome,p.cpf,a.pessoa_id_pessoa FROM pessoa p INNER JOIN atendido a ON p.id_pessoa = a.pessoa_id_pessoa");
+            $consulta = $pdo->query("SELECT p.nome,p.sobrenome,p.cpf,a.idatendido FROM pessoa p INNER JOIN atendido a ON p.id_pessoa = a.pessoa_id_pessoa");
             //$produtos = Array();
             $x=0;
             while($linha = $consulta->fetch(PDO::FETCH_ASSOC)){
@@ -138,7 +139,7 @@ class AtendidoDAO
                     $atendidos[$x]=array('cpf'=>$linha['cpf'],'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'id'=>$linha['id_pessoa']);
                 }
                 else{
-                $atendidos[$x]=array('cpf'=>mask($linha['cpf'],'###.###.###-##'),'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'id'=>$linha['pessoa_id_pessoa']);
+                $atendidos[$x]=array('cpf'=>mask($linha['cpf'],'###.###.###-##'),'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'id'=>$linha['idatendido']);
                 }
                 $x++;
             }
@@ -176,7 +177,7 @@ class AtendidoDAO
         try{
             echo $id;
             $pdo = Conexao::connect();
-            $sql = "SELECT p.imagem,p.nome,p.sobrenome,p.cpf, p.senha, p.sexo, p.telefone,p.data_nascimento, p.cep,p.cidade,p.bairro,p.logradouro,p.numero_endereco,p.complemento,p.ibge,p.registro_geral,p.orgao_emissor,p.data_expedicao,p.nome_pai,p.nome_mae,p.tipo_sanguineo,d.id_documento FROM pessoa p LEFT JOIN atendido a ON p.id_pessoa = a.pessoa_id_pessoa left join documento d on p.id_pessoa=d.id_pessoa WHERE a.pessoa_id_pessoa=:id";
+            $sql = "SELECT p.imagem,p.nome,p.sobrenome,p.cpf, p.senha, p.sexo, p.telefone,p.data_nascimento, p.cep,p.cidade,p.bairro,p.logradouro,p.numero_endereco,p.complemento,p.ibge,p.registro_geral,p.orgao_emissor,p.data_expedicao,p.nome_pai,p.nome_mae,p.tipo_sanguineo,d.id_documento FROM pessoa p LEFT JOIN atendido a ON p.id_pessoa = a.pessoa_id_pessoa left join documento d on p.id_pessoa=d.id_pessoa WHERE a.idatendido=:id";
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':id',$id);
 
@@ -220,15 +221,15 @@ class AtendidoDAO
     {
         try {
             $sql = 'update pessoa as p inner join atendido as a on p.id_pessoa=a.pessoa_id_pessoa set nome=:nome,sobrenome=:sobrenome,sexo=:sexo,telefone=:telefone,data_nascimento=:data_nascimento,nome_pai=:nome_pai,nome_mae=:nome_mae,tipo_sanguineo=:tipo_sanguineo where idatendido=:idatendido';
-            
+
             $sql = str_replace("'", "\'", $sql);
             $pdo = Conexao::connect();
             $stmt = $pdo->prepare($sql);
-            
+
             $stmt = $pdo->prepare($sql);
             $nome=$atendido->getNome();
             $sobrenome=$atendido->getSobrenome();
-            $idatendido=$atendido->getIdatendido();
+            $id=$atendido->getIdatendido();
             $sexo=$atendido->getSexo();
             $telefone=$atendido->getTelefone();
             $nascimento=$atendido->getDataNascimento();
@@ -238,7 +239,7 @@ class AtendidoDAO
 
             $stmt->bindParam(':nome',$nome);
             $stmt->bindParam(':sobrenome',$sobrenome);
-            $stmt->bindParam(':idatendido',$idatendido);
+            $stmt->bindParam(':idatendido',$id);
             $stmt->bindParam(':sexo',$sexo);
             $stmt->bindParam(':telefone',$telefone);
             $stmt->bindParam(':data_nascimento',$nascimento);
@@ -250,6 +251,69 @@ class AtendidoDAO
             echo 'Error: <b>  na tabela pessoas = ' . $sql . '</b> <br /><br />' . $e->getMessage();
         }
     }
+
+    public function alterarDocumentacao($atendido)
+    {
+        try {
+
+            $sql = 'update pessoa as p inner join atendido as a on p.id_pessoa=a.pessoa_id_pessoa set p.registro_geral=:registro_geral,p.orgao_emissor=:orgao_emissor,p.data_expedicao=:data_expedicao,p.cpf=:cpf where idatendido=:idatendido';
+            
+           $sql = str_replace("'", "\'", $sql);
+
+            $pdo = Conexao::connect();
+            $stmt = $pdo->prepare($sql);
+
+            $cpf=$atendido->getCpf();
+            $idatendido=$atendido->getIdatendido();
+            $rg=$atendido->getRegistroGeral();
+            $orgao=$atendido->getOrgaoEmissor();
+            $data_expedicao=$atendido->getDataExpedicao();
+
+            $stmt->bindParam(':cpf',$cpf);
+            $stmt->bindParam(':idatendido',$idatendido);
+            $stmt->bindParam(':registro_geral',$rg);
+            $stmt->bindParam(':orgao_emissor',$orgao);
+            $stmt->bindParam(':data_expedicao',$data_expedicao);
+            $stmt->execute();
+        } catch (PDOException $e) {
+            echo 'Error: <b>  na tabela pessoas = ' . $sql . '</b> <br /><br />' . $e->getMessage();
+        }
+    }
+    public function alterarEndereco($atendido)
+    {
+        try {
+            $sql = 'update pessoa as p inner join atendido as a on p.id_pessoa=a.pessoa_id_pessoa set cep=:cep,estado=:estado,cidade=:cidade,bairro=:bairro,logradouro=:logradouro,numero_endereco=:numero_endereco,complemento=:complemento,ibge=:ibge where idatendido=:idatendido';
+            
+           $sql = str_replace("'", "\'", $sql);
+
+            $pdo = Conexao::connect();
+            $stmt = $pdo->prepare($sql);
+
+            $idatendido=$atendido->getIdatendido();
+            $cep=$atendido->getCep();
+            $estado=$atendido->getEstado();
+            $cidade=$atendido->getCidade();
+            $bairro=$atendido->getBairro();
+            $logradouro=$atendido->getLogradouro();
+            $numero_endereco=$atendido->getNumeroEndereco();        
+            $complemento=$atendido->getComplemento();
+            $ibge=$atendido->getIbge();
+
+            $stmt->bindParam(':idatendido',$idatendido);
+            $stmt->bindParam(':cep',$cep);
+            $stmt->bindParam(':estado',$estado);
+            $stmt->bindParam(':cidade',$cidade);
+            $stmt->bindParam(':bairro',$bairro);
+            $stmt->bindParam(':logradouro',$logradouro);
+            $stmt->bindParam(':numero_endereco',$numero_endereco);        
+            $stmt->bindParam(':complemento',$complemento);
+            $stmt->bindParam(':ibge',$ibge);
+            $stmt->execute();
+        } catch (PDOException $e) {
+            echo 'Error: <b>  na tabela pessoas = ' . $sql . '</b> <br /><br />' . $e->getMessage();
+        }
+    }
+
 
 }
 ?>

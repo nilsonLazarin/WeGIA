@@ -82,9 +82,6 @@ class AtendidoControle
             if((!isset($cidade)) || empty(($cidade))){
                 $cidade = '';
             }
-            if((!isset($estado)) || empty(($estado))){
-                $estado = '';
-            }
             if((!isset($logradouro)) || empty(($logradouro))){
                 $logradouro = '';
             }
@@ -121,7 +118,7 @@ class AtendidoControle
             // $cpf=str_replace("-", "", $cpf);
             //$nascimento=str_replace("-", "", $nascimento);
             $senha='null';
-            $atendido = new Atendido($cpf,$nome,$sobrenome,$sexo,$nascimento,$registroGeral,$orgaoEmissor,$dataExpedicao,$nomeMae,$nomePai,$tipoSanguineo,$senha,$telefone,$imagem,$cep,$estado,$cidade,$bairro,$logradouro,$numeroEndereco,$complemento,$ibge);
+            $atendido = new Atendido($cpf,$nome,$sobrenome,$sexo,$nascimento,$registroGeral,$orgaoEmissor,$dataExpedicao,$nomeMae,$nomePai,$tipoSanguineo,$senha,$telefone,$imagem,$cep,$uf,$cidade,$bairro,$logradouro,$numeroEndereco,$complemento,$ibge);
             $atendido->setIntTipo($intTipo);
             $atendido->setIntStatus($intStatus);
             return $atendido;
@@ -220,8 +217,8 @@ class AtendidoControle
         extract($_REQUEST);
         $AtendidoDAO=new AtendidoDAO();
         try {
-            $AtendidoDAO->excluir($id);
-            header("Location:../controle/control.php?metodo=listarTodos&nomeClasse=AtendidoControle&nextPage=../html/Informacao_Atendido.php");
+            $AtendidoDAO->excluir($idatendido);
+            header("Location:../controle/control.php?metodo=listarTodos&nomeClasse=AtendidoControle&nextPage=../html/atendido/Informacao_Atendido.php");
         } catch (Exception $e) {
             echo $e->getMessage();
         }
@@ -229,7 +226,7 @@ class AtendidoControle
     public function alterarInfPessoal()
     {
         extract($_REQUEST);
-        $atendido = new Atendido('',$nome,$sobrenome,$gender,$nascimento,'','','',$nome_mae,$nome_pai,$sangue,'',$telefone,'','','','','','','','','');
+        $atendido = new Atendido('',$nome,$sobrenome,$sexo,$nascimento,'','','','','',$tipoSanguineo,'',$telefone,'','','','','','','','','');
         $atendido->setIdatendido($idatendido);
         //echo $funcionario->getId_Funcionario();
         $atendidoDAO=new AtendidoDAO();
@@ -241,4 +238,43 @@ class AtendidoControle
         }
         
     }
+
+    public function alterarDocumentacao()
+    {
+        extract($_REQUEST);
+        $cpf=str_replace(".", '', $cpf);
+        $cpf=str_replace("-", "", $cpf);
+
+        $atendido = new Atendido($cpf,'','','','',$registroGeral,$orgaoEmissor,$dataExpedicao,'','','','','','','','','','','','','','');
+            
+            $atendido->setIdatendido($idatendido);
+
+        $atendidoDAO=new atendidoDAO();
+        try {
+            $atendidoDAO->alterarDocumentacao($atendido);
+            header("Location: ../html/atendido/Profile_Atendido.php?idatendido=".$idatendido);
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+        
+    }
+
+    public function alterarEndereco()
+    {
+        extract($_REQUEST);
+        if((!isset($numero_residencia)) || empty(($numero_residencia))){
+            $numero_residencia = "null";
+        }
+        $atendido = new Atendido('','','','','','','','','','','','','','',$cep,$uf,$cidade,$bairro,$rua,$numero_residencia,$complemento,$ibge);
+        $atendido->setIdatendido($idatendido);
+        $atendidoDAO=new AtendidoDAO();
+        try {
+            $atendidoDAO->alterarEndereco($atendido);
+            header("Location: ../html/atendido/Profile_Atendido.php?idatendido=".$idatendido);
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }    
+    }
+
+
 }
