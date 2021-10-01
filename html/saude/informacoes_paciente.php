@@ -182,7 +182,7 @@ session_start();
          			$("#telefone").val(item.telefone);
          
          
-         			$("#sangueSelect").text("Sangue: "+item.tipo_sanguineo);
+         			$("#sangueSelect").text(item.tipo_sanguineo);
          			$("#sangueSelect").val(item.tipo_sanguineo);
          			
          			$("#nascimento").text("Data de nascimento: "+alterardate(item.data_nascimento));
@@ -658,7 +658,7 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                         <label class="col-md-3 control-label" for="inputSuccess">Tipo sanguíneo</label>
                         <div class="col-md-6">
                           <select class="form-control input-lg mb-md" name="sangue" id="sangue" disabled>
-                            <option selected id="sangueSelect">Selecionar</option>
+                            <option selected id="sangueSelect">Não informado</option>
                             <option value="A+">A+</option>
                             <option value="A-">A-</option>
                             <option value="B+">B+</option>

@@ -194,8 +194,6 @@
 								<tr>
 									<th>Nome</th>
 									<th>Sexo</th>
-									<!--<th>Telefone</th>
-									<th>Nascimento</th>-->
 									<th>Ação</th>
 								</tr>
 							</thead>
