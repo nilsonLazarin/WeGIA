@@ -122,6 +122,15 @@ session_start();
 	   <script src="../../Functions/enviar_dados.js"></script>
       <script src="../../Functions/mascara.js"></script>
       <script>
+        // $(document).ready(function(){
+        //  	$('#doc').on("submit", function(event){
+        //  		event.preventDefault();
+          
+        //  		var dados = $("#doc").serialize();
+        //  		alert(dados);
+        //  	}) 
+        //  });
+
         function exibir_reservista() {
 
         $("#reservista1").show();
@@ -196,7 +205,7 @@ session_start();
                   else{
                      $("#dataExpedicao").text("Data de expedição: "+item.data_expedicao);     
                   }
-                  $("#expedicao").val(item.data_expedicao);
+                  $("#dataExpedicao").val(item.data_expedicao);
          
          			$('#orgaoEmissor').text("Orgão emissor: "+item.orgao_emissor);
          			$("#orgaoEmissor").val(item.orgao_emissor);
@@ -303,7 +312,7 @@ session_start();
 $("#registroGeral").prop('disabled', false);
 $("#orgaoEmissor").prop('disabled', false);
 $("#dataExpedicao").prop('disabled', false);
-$("#cpf").prop('disabled', true);
+$("#cpf").prop('disabled', false);
 $("#data_admissao").prop('disabled', false);
 
 $("#botaoEditarDocumentacao").html('Cancelar');
@@ -315,7 +324,7 @@ $("#botaoEditarDocumentacao").attr('onclick', "return cancelar_documentacao()");
 
 function cancelar_documentacao() {
 
-$("#rg").prop('disabled', true);
+$("#registroGeral").prop('disabled', true);
 $("#orgaoEmissor").prop('disabled', true);
 $("#dataExpedicao").prop('disabled', true);
 $("#cpf").prop('disabled', true);
@@ -349,6 +358,7 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
          }
          $.each(endereco,function(i,item){   
             console.log(endereco);
+            console.log("oi" +item.estado);
               $("#nome").val(item.nome).prop('disabled', true);
               $("#cep").val(item.cep).prop('disabled', true);
               $("#uf").val(item.estado).prop('disabled', true);
@@ -686,7 +696,7 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                       </div>
                       <input type="hidden" name="idatendido" value=<?php echo $_GET['idatendido'] ?>>
                       <button type="button" class="btn btn-primary" id="botaoEditarIP" onclick="return editar_informacoes_pessoais()">Editar</button>
-                      <input type="submit" class="btn btn-primary" disabled="true" value="Salvar" id="botaoSalvarIP" onclick="funcao3();">
+                      <input type="submit" class="btn btn-primary" disabled="true" value="Salvar" id="botaoSalvarIP">
                   </form>
 
                   <br />
@@ -798,7 +808,7 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                                         <div class="form-group center">
                                             <input type="hidden" name="idatendido" value=<?php echo $_GET['idatendido'] ?>>
                       <button type="button" class="btn btn-primary" id="botaoEditarEndereco" onclick="return editar_endereco()">Editar</button>
-                      <input id="botaoSalvarEndereco" type="submit" class="btn btn-primary" disabled="true" value="Salvar" onclick="funcao3()">
+                      <input id="botaoSalvarEndereco" type="submit" class="btn btn-primary" disabled="true" value="Salvar">
                     </form>
                   </div>
                   
@@ -821,7 +831,7 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                      <h2 class="panel-title">Documentos</h2>
                      <!--Documentação-->
                      <hr class="dotted short">
-                    <form class="form-horizontal" method="post" action="../../controle/control.php">
+                    <form class="form-horizontal" id="doc" method="post" action="../../controle/control.php">
                       <input type="hidden" name="nomeClasse" value="AtendidoControle">
                       <input type="hidden" name="metodo" value="alterarDocumentacao">
                       <div class="form-group">
@@ -858,7 +868,7 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                    <br />
                    <input type="hidden" name="idatendido" value="<?php echo $_GET['idatendido'] ?>">
                       <button type="button" class="btn btn-primary" id="botaoEditarDocumentacao" onclick="return editar_documentacao()">Editar</button>
-                      <input id="botaoSalvarDocumentacao" type="submit" class="btn btn-primary" disabled="true" value="Salvar" onclick="funcao3()">
+                      <input id="botaoSalvarDocumentacao" type="submit" class="btn btn-primary" disabled="true" value="Salvar">
                  </form>
                    </header>
                    

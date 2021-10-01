@@ -950,6 +950,7 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                    <h2 class="panel-title">Medicação</h2>
                   </header>
                    <br />
+                   
                    <div class="panel-body">
                    <div class="form-group">
                         <label class="col-md-3 control-label" for="inputSuccess">Medicamento:</label>
@@ -986,10 +987,82 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                      </div>
                    </div>
 
+                  
+                   <div class="panel-body">
+                      <table class="table table-bordered table-striped mb-none" id="datatable-docfuncional">
+                        <thead>
+                          <tr>
+                            <th>Medicação</th>
+                            <th>Data</th>
+                            <th>Descrição</th>
+                            <th>Nome do médico</th>
+                            <th>Ação</th>
+                          </tr>
+                        </thead>
+                        <tbody id="doc-tab">
+                        </tbody>
+                      </table>
+                      <br>
+                      <!-- Button trigger modal -->
+                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#docFormModal">
+                        Inserir na tabela
+                      </button>
+                      <!-- Modal Form Documentos -->
+                      <div class="modal fade" id="docFormModal" tabindex="-1" role="dialog" aria-labelledby="docFormModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header" style="display: flex;justify-content: space-between;">
+                              <h5 class="modal-title" id="exampleModalLabel">Adicionar Arquivo</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <form action='./funcionario/documento_upload.php' method='post' enctype='multipart/form-data' id='funcionarioDocForm'>
+                              <div class="modal-body" style="padding: 15px 40px">
+                                <div class="form-group" style="display: grid;">
+                                  <label class="my-1 mr-2" for="tipoDocumento">Tipo de Arquivo</label><br>
+                                  <div style="display: flex;">
+                                    <select name="id_docfuncional" class="custom-select my-1 mr-sm-2" id="tipoDocumento" required>
+                                      <option selected disabled>Selecionar...</option>
+                                      <option value="Certidão de Nascimento">Certidão de Nascimento</option>
+                                       <option value="Certidão de Casamento">Certidão de Casamento</option>
+                                       <option value="Curatela">Curatela</option>
+                                       <option value="INSS">INSS</option>
+                                       <option value="LOAS">LOAS</option>
+                                       <option value="FUNRURAL">FUNRURAL</option>
+                                       <option value="Título de Eleitor">Título de Eleitor</option>
+                                       <option value="CTPS">CTPS</option>
+                                       <option value="SAF">SAF</option>
+                                       <option value="SUS">SUS</option>
+                                       <option value="BPC">BPC</option> 
+                                       <option value="CPF">CPF</option>
+                                       <option value="Registro Geral">RG</option>
+                                      
+                                    
+                                    </select>
+                                   <!-- <a onclick="adicionarDocFuncional()" style="margin: 0 20px;"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a> -->
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <label for="arquivoDocumento">Arquivo</label>
+                                  <input name="arquivo" type="file" class="form-control-file" id="id_documento" accept="png;jpeg;jpg;pdf;docx;doc;odp" required>
+                                </div>
+                                <input type="number" name="id_interno" value="" style='display: none;'>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                <input type="submit" value="Enviar" class="btn btn-primary">
+                              </div>
+                            </form>
+                            </div>
+                          </div>
+                        </div>
+                   
+                   <br />
                    <br />
                    <input type="hidden" name="idatendido" value=1>
-                   <button type="button" class="btn btn-primary" id="botaoEditarDocumentacao" onclick="return editar_documentacao()">Inserir na tabela</button>
-                   <input id="botaoSalvarDocumentacao" type="submit" class="btn btn-primary" value="Cadastrar" onclick="funcao3()">
+                   <button type="button" class="btn btn-primary" id="botaoEditarDocumentacao" onclick="return editar_documentacao()">Cadastrar atendimento</button>
+                   <!--<input id="botaoSalvarDocumentacao" type="submit" class="btn btn-primary" value="Cadastrar" onclick="funcao3()">-->
                  </form>
             
          </section>
@@ -1006,7 +1079,6 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                <h2 class="panel-title">Atendimento enfermeiro</h2>
             </header>
             <div class="panel-body">
-               <hr class="dotted short">
                <form class="form-horizontal" method="post" action="../controle/control.php">
                    <input type="hidden" name="nomeClasse" value="AtendidoControle">
                    <input type="hidden" name="metodo" value="alterarDocumentacao">
@@ -1036,7 +1108,12 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                         </div>
                       </div>
                    <br />
-                   
+                </section>
+                <section class="panel">
+                   <header class="panel-heading">
+                    <div class="panel-actions">
+                        <a href="#" class="fa fa-caret-down"></a>
+                    </div>
                    <h2 class="panel-title">Aplicar medicação</h2>
                    <h2> tabela </h2>
                    

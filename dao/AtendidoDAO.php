@@ -256,7 +256,7 @@ class AtendidoDAO
     {
         try {
 
-            $sql = 'update pessoa as p inner join atendido as a on p.id_pessoa=a.pessoa_id_pessoa set p.registro_geral=:registro_geral,p.orgao_emissor=:orgao_emissor,p.data_expedicao=:data_expedicao,p.cpf=:cpf where idatendido=:idatendido';
+            $sql = 'update pessoa as p inner join atendido as a on p.id_pessoa=a.pessoa_id_pessoa set registro_geral=:registro_geral,orgao_emissor=:orgao_emissor,data_expedicao=:data_expedicao,cpf=:cpf where idatendido=:idatendido';
             
            $sql = str_replace("'", "\'", $sql);
 
@@ -265,14 +265,20 @@ class AtendidoDAO
 
             $cpf=$atendido->getCpf();
             $idatendido=$atendido->getIdatendido();
-            $rg=$atendido->getRegistroGeral();
-            $orgao=$atendido->getOrgaoEmissor();
+            $registro_geral=$atendido->getRegistroGeral();
+            $orgao_emissor=$atendido->getOrgaoEmissor();
             $data_expedicao=$atendido->getDataExpedicao();
+
+           /* $cpf='065.123.587-16';
+            $idatendido=1;
+            $registro_geral='22.555.555-7';
+            $orgao_emissor='detram';
+            $data_expedicao='2003-11-28';*/
 
             $stmt->bindParam(':cpf',$cpf);
             $stmt->bindParam(':idatendido',$idatendido);
-            $stmt->bindParam(':registro_geral',$rg);
-            $stmt->bindParam(':orgao_emissor',$orgao);
+            $stmt->bindParam(':registro_geral',$registro_geral);
+            $stmt->bindParam(':orgao_emissor',$orgao_emissor);
             $stmt->bindParam(':data_expedicao',$data_expedicao);
             $stmt->execute();
         } catch (PDOException $e) {
