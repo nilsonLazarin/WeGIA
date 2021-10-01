@@ -187,7 +187,7 @@
 					<li class="nav-parent nav-active">
 						<a>
 							<i class="fa fa-ambulance" aria-hidden="true"></i>
-							<span>Saúde</span>
+							<span>Saúde (em breve)</span>
 						</a>
 						<ul class="nav nav-children">
 							<li id="31">
@@ -195,7 +195,7 @@
 									 Cadastrar ficha médica
 								</a>
 								<a href="<?= WWW ?>html/saude/profile_paciente.php">
-									 Informações do paciente
+									 Informações paciente
 								</a>
 							</li>
 						</ul>

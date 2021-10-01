@@ -27,7 +27,7 @@
 	<!-- Basic -->
 	<meta charset="UTF-8">
 
-	<title>Cadastro de Atendido</title>
+	<title>Cadastro ficha médica</title>
 
 	<!-- Mobile Metas -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -174,7 +174,7 @@
 
 			<section role="main" class="content-body">
 				<header class="page-header">
-					<h2>Cadastro</h2>
+					<h2>Cadastro ficha médica</h2>
 					<div class="right-wrapper pull-right">
 						<ol class="breadcrumbs">
 							<li>
@@ -182,12 +182,13 @@
 									<i class="fa fa-home"></i>
 								</a>
 							</li>
-							<li><span>Cadastro</span></li>
-							<li><span>Atendido</span></li>
+							<li><span>Cadastro ficha médica</span></li>
 						</ol>
 						<a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
 					</div>
 				</header>
+
+        
 
 				<!-- start: page -->
 				<div class="row">
@@ -195,13 +196,23 @@
           <div class="tabs">
             <ul class="nav nav-tabs tabs-primary">
               <li class="active">
-                <a href="#overview" data-toggle="tab">Cadastro de Funcionário</a>
+                <a href="#overview" data-toggle="tab">Cadastro ficha médica</a>
               </li>
             </ul>
             <div class="tab-content">
               <div id="overview" class="tab-pane active">
                 <form class="form-horizontal" method="GET" action="../controle/control.php">
-                  <h4 class="mb-xlg">Informações Pessoais</h4>
+                <div id="cadastro_exames" class="tab-pane">
+                 <section class="panel">  
+                <header class="panel-heading">
+                  <div class="panel-actions">
+                        <a href="#" class="fa fa-caret-down"></a>
+                  </div>
+                  <h2 class="panel-title">Informações Pessoais</h2>
+                  </header>
+                  <div class="panel-body">
+                  <hr class="dotted short">
+
                   <h5 class="obrig">Campos Obrigatórios(*)</h5>
                   <div class="form-group">
                     <label class="col-md-3 control-label" for="profileFirstName">Nome<sup class="obrig">*</sup></label>
@@ -210,6 +221,7 @@
                     </div>
                   </div>
 
+
                   <div class="form-group">
                     <label class="col-md-3 control-label" for="profileFirstName">Descrição médica<sup class="obrig">*</sup></label>
                     <div class="col-md-8">
@@ -217,17 +229,15 @@
                     </div>
                   </div>
                  
-                  
-
-                  
-
+                
                   <div class="panel-footer">
                     <div class="row">
                       <div class="col-md-9 col-md-offset-3">
                         <input id="enviar" type="submit" class="btn btn-primary"  value="Salvar" onclick="validarFuncionario()">
                       </div>
                     </div>
-                  </div>	
+    </section>
+    </div>
 
 									</form>
 							  </div>
@@ -235,7 +245,7 @@
 						</div>
 					</div>
 				</div>
-				               <!-- end: page -->
+         <!-- end: page -->
 			</section>
 		</div>
 
