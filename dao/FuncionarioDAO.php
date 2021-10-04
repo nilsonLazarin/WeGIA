@@ -270,9 +270,9 @@ class FuncionarioDAO
     {
         try {
 
-            $sql = 'update pessoa as p inner join funcionario as f on p.id_pessoa=f.id_pessoa set p.registro_geral=:registro_geral,p.orgao_emissor=:orgao_emissor,p.data_expedicao=:data_expedicao,p.cpf=:cpf,f.data_admissao=:data_admissao where id_funcionario=:id_funcionario';
+            $sql = 'update pessoa as p inner join funcionario as f on p.id_pessoa=f.id_pessoa set registro_geral=:registro_geral,orgao_emissor=:orgao_emissor,data_expedicao=:data_expedicao,cpf=:cpf where id_funcionario=:id_funcionario';
             
-           $sql = str_replace("'", "\'", $sql);
+            $sql = str_replace("'", "\'", $sql);
 
             $pdo = Conexao::connect();
             $stmt = $pdo->prepare($sql);
@@ -289,7 +289,6 @@ class FuncionarioDAO
             $stmt->bindParam(':registro_geral',$registro_geral);
             $stmt->bindParam(':orgao_emissor',$orgao_emissor);
             $stmt->bindParam(':data_expedicao',$data_expedicao);
-            $stmt->bindParam(':data_admissao',$data_admissao);
             $stmt->execute();
         } catch (PDOException $e) {
             echo 'Error: <b>  na tabela pessoas = ' . $sql . '</b> <br /><br />' . $e->getMessage();
