@@ -989,6 +989,9 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
 
                   
                    <div class="panel-body">
+                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#docFormModal">Inserir na tabela</button>
+                      <br>
+                      <br>
                       <table class="table table-bordered table-striped mb-none" id="datatable-docfuncional">
                         <thead>
                           <tr>
@@ -1003,10 +1006,6 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                         </tbody>
                       </table>
                       <br>
-                      <!-- Button trigger modal -->
-                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#docFormModal">
-                        Inserir na tabela
-                      </button>
                       <!-- Modal Form Documentos -->
                       <div class="modal fade" id="docFormModal" tabindex="-1" role="dialog" aria-labelledby="docFormModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
@@ -1064,10 +1063,11 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                    <button type="button" class="btn btn-primary" id="botaoEditarDocumentacao" onclick="return editar_documentacao()">Cadastrar atendimento</button>
                    <!--<input id="botaoSalvarDocumentacao" type="submit" class="btn btn-primary" value="Cadastrar" onclick="funcao3()">-->
                  </form>
-            
+            </div>
          </section>
        </div>
-
+      
+       
        <!-- aba de atendimento enfermeiro -->
        <div id="atendimento_enfermeiro" class="tab-pane">
          <section class="panel">
@@ -1109,16 +1109,37 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                       </div>
                    <br />
                 </section>
+           
+            
+                
                 <section class="panel">
                    <header class="panel-heading">
                     <div class="panel-actions">
                         <a href="#" class="fa fa-caret-down"></a>
                     </div>
                    <h2 class="panel-title">Aplicar medicação</h2>
-                   <h2> tabela </h2>
+                </header>
                    
-                   <br />
-                   <div class="form-group">
+                   <div class="panel-body">
+                    <label class="col-md-12 control-label">Informações recuperadas da medicação que o médico forneceu:</label>
+                    <br>
+                    <table class="table table-bordered table-striped mb-none" id="datatable-docfuncional">
+                          <thead>
+                            <tr>
+                              <th>Remédio</th>
+                              <th>Horário</th>
+                              <th>Dose</th>
+                              <th>Tempo</th>
+                            </tr>
+                          </thead>
+                          <tbody id="doc-tab">
+                          </tbody>
+                        </table>
+                  <br>
+                  <br>
+                  <br>
+                  <div class="form-group">
+                     
                         <label class="col-md-3 control-label" for="inputSuccess">Medicamento:</label>
                         <div class="col-md-6">
                           <select class="form-control input-lg mb-md" name="sangue" id="sangue">
@@ -1140,19 +1161,34 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                        <input type="text" class="form-control" name="orgao_emissor" id="orgao_emissor" onkeypress="return Onlychars(event)">
                      </div>
                      </div>
-                      
+                    
                       
                      <br />
                      <input type="hidden" name="idatendido" value=1>
                      <input type="hidden" name="idatendido" value=1>
-                     <button type="button" class="btn btn-danger" id="botaoEditarDocumentacao" onclick="return editar_documentacao()">Aplicar medicação</button>
+                     <button type="button" class="btn btn-primary" id="botaoEditarDocumentacao" onclick="return editar_documentacao()">Aplicar medicação</button>
 
                      <br />
                      <br />
 
 
                      <h2 class="panel-title">Aplicações efetuadas</h2>
-                     <h2> tabela </h2>
+                     
+                     <div class="panel-body">
+                    <table class="table table-bordered table-striped mb-none" id="datatable-docfuncional">
+                          <thead>
+                            <tr>
+                              <th>Medicamento</th>
+                              <th>Horário de aplicação</th>
+                              <th>Ação</th>
+                            </tr>
+                          </thead>
+                          <tbody id="doc-tab">
+                          </tbody>
+                        </table>
+                  <br>
+                  <br>
+                  <br>
                      
                    
                    <input id="botaoSalvarDocumentacao" type="submit" class="btn btn-primary" value="Cadastrar aplicação desses medicamentos" onclick="funcao3()">
