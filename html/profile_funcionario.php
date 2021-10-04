@@ -1172,12 +1172,7 @@ $dependente = json_encode($dependente);
                           <input type="text" class="form-control" maxlength="14" minlength="14" name="telefone" id="telefone" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeyup="mascara('(##)#####-####',this,event)">
                         </div>
                       </div>
-                      <div class="form-group">
-											<label class="col-md-3 control-label" for="profileCompany">Telefone</label>
-											<div class="col-md-8">
-												<input type="text" class="form-control" maxlength="14" minlength="14" name="telefone" id="telefone" id="profileCompany" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeyup="mascara('(##)#####-####',this,event)" >
-											</div>
-										</div>
+                      
                       <div class="form-group">
                         <label class="col-md-3 control-label" for="profileCompany">Nascimento</label>
                         <div class="col-md-8">
@@ -1977,12 +1972,15 @@ $dependente = json_encode($dependente);
                           <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" name="data_expedicao" id="data_expedicao" max="<?php echo date('Y-m-d'); ?>">
                         </div>
                       </div>
+                     
+
                       <div class="form-group">
-                        <label class="col-md-3 control-label" for="profileCompany">Número do CPF</label>
-                        <div class="col-md-6">
-                          <input type="text" class="form-control" id="cpf" name="cpf" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##',this,event)">
-                        </div>
-                      </div>
+                     <label class="col-md-3 control-label" for="profileCompany">Número do CPF</label>
+                     <div class="col-md-6">
+                       <input type="text" class="form-control" id="cpf" name="cpf" disabled placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##',this,event)">
+                     </div>
+                   </div>
+
                       <div class="form-group">
                         <label class="col-md-3 control-label" for="profileCompany"></label>
                         <div class="col-md-6">
@@ -2439,7 +2437,7 @@ $dependente = json_encode($dependente);
       var cpf_funcionario_correto2 = cpf_funcionario_correto1.replace(".", "");
       var cpf_funcionario_correto3 = cpf_funcionario_correto2.replace("-", "");
       var apoio = 0;
-      var cpfs1 = <?php echo $_SESSION['cpf_interno']; ?>;
+      var cpfs1 = <?php echo $_SESSION['cpf_atendido']; ?>;
       $.each(cpfs, function(i, item) {
         if (item.cpf == cpf_funcionario_correto3 && item.id != idfunc) {
           alert("Alteração não realizada! O CPF informado já está cadastrado no sistema");

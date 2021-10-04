@@ -270,9 +270,9 @@ class FuncionarioDAO
     {
         try {
 
-            $sql = 'update pessoa as p inner join funcionario as f on p.id_pessoa=f.id_pessoa set p.registro_geral=:registro_geral,p.orgao_emissor=:orgao_emissor,p.data_expedicao=:data_expedicao,p.cpf=:cpf,f.data_admissao=:data_admissao where id_funcionario=:id_funcionario';
+            $sql = 'update pessoa as p inner join funcionario as f on p.id_pessoa=f.id_pessoa set registro_geral=:registro_geral,orgao_emissor=:orgao_emissor,data_expedicao=:data_expedicao,cpf=:cpf where id_funcionario=:id_funcionario';
             
-           $sql = str_replace("'", "\'", $sql);
+            $sql = str_replace("'", "\'", $sql);
 
             $pdo = Conexao::connect();
             $stmt = $pdo->prepare($sql);
@@ -283,6 +283,13 @@ class FuncionarioDAO
             $orgao_emissor=$funcionario->getOrgaoEmissor();
             $data_expedicao=$funcionario->getDataExpedicao();
             $data_admissao=$funcionario->getData_admissao();
+
+            /*$cpf='241.683.800-84';
+            $id_funcionario=2;
+            $registro_geral='11.111.111-1';
+            $orgao_emissor='detran';
+            $data_expedicao='2003-11-11';
+            $data_admissao='2003-11-11';*/
 
             $stmt->bindParam(':cpf',$cpf);
             $stmt->bindParam(':id_funcionario',$id_funcionario);
