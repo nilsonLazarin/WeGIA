@@ -284,19 +284,11 @@ class FuncionarioDAO
             $data_expedicao=$funcionario->getDataExpedicao();
             $data_admissao=$funcionario->getData_admissao();
 
-            /*$cpf='241.683.800-84';
-            $id_funcionario=2;
-            $registro_geral='11.111.111-1';
-            $orgao_emissor='detran';
-            $data_expedicao='2003-11-11';
-            $data_admissao='2003-11-11';*/
-
             $stmt->bindParam(':cpf',$cpf);
             $stmt->bindParam(':id_funcionario',$id_funcionario);
             $stmt->bindParam(':registro_geral',$registro_geral);
             $stmt->bindParam(':orgao_emissor',$orgao_emissor);
             $stmt->bindParam(':data_expedicao',$data_expedicao);
-            $stmt->bindParam(':data_admissao',$data_admissao);
             $stmt->execute();
         } catch (PDOException $e) {
             echo 'Error: <b>  na tabela pessoas = ' . $sql . '</b> <br /><br />' . $e->getMessage();
