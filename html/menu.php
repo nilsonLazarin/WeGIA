@@ -1,16 +1,16 @@
 <?php
-$config_path = "config.php";
-if(file_exists($config_path)){
-    require_once($config_path);
-}else{
-    while(true){
-        $config_path = "../" . $config_path;
-        if(file_exists($config_path)) break;
-    }
-    require_once($config_path);
-}
+	$config_path = "config.php";
+	if(file_exists($config_path)){
+		require_once($config_path);
+	}else{
+		while(true){
+			$config_path = "../" . $config_path;
+			if(file_exists($config_path)) break;
+		}
+		require_once($config_path);
+	}
 
-session_start();
+	session_start();
 ?>
 	<div class="sidebar-header">
 		<div class="sidebar-title">
@@ -187,7 +187,7 @@ session_start();
 					<li class="nav-parent nav-active">
 						<a>
 							<i class="fa fa-ambulance" aria-hidden="true"></i>
-							<span>Saúde</span>
+							<span>Saúde (em breve)</span>
 						</a>
 						<ul class="nav nav-children">
 							<li id="31">
@@ -195,7 +195,7 @@ session_start();
 									 Cadastrar ficha médica
 								</a>
 								<a href="<?= WWW ?>html/saude/profile_paciente.php">
-									 Informações do paciente
+									 Informações paciente
 								</a>
 							</li>
 						</ul>

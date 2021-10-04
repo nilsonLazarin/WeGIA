@@ -122,6 +122,15 @@ session_start();
 	   <script src="../../Functions/enviar_dados.js"></script>
       <script src="../../Functions/mascara.js"></script>
       <script>
+        // $(document).ready(function(){
+        //  	$('#doc').on("submit", function(event){
+        //  		event.preventDefault();
+          
+        //  		var dados = $("#doc").serialize();
+        //  		alert(dados);
+        //  	}) 
+        //  });
+
         function exibir_reservista() {
 
         $("#reservista1").show();
@@ -151,16 +160,7 @@ session_start();
             }
          $(function(){
          	var interno= <?php echo $_SESSION['atendido']?>;
-            var endereco=[];
             console.log(interno);
-            $.each(endereco,function(i,item){
-               $("#cep").text("CEP: "+item.cep);
-               $("#cidade").text("Cidade: "+item.cidade);
-               $("#bairro").text("Bairro: "+item.bairro);
-               $("#logradouro").text("Logradouro: "+item.logradouro);
-               $("#numero").text("Numero: "+item.numero_endereco);
-               $("#complemento").text("Complemento: "+item.complemento);
-            });
          	$.each(interno,function(i,item){
          		if(i=1)
          		{
@@ -195,20 +195,20 @@ session_start();
          			$("#nascimento").text("Data de nascimento: "+alterardate(item.data_nascimento));
          			$("#nascimento").val(item.data_nascimento);
          
-         			$("#rg").text("Registro geral: "+item.registro_geral);
-         			$("#rg").val(item.registro_geral);
+         			$("#registroGeral").text("Registro geral: "+item.registro_geral);
+         			$("#registroGeral").val(item.registro_geral);
                   
                   if(item.data_expedicao=="0000-00-00")
                   {
-                     $("#data_expedicao").text("Data de expedição: Não informado");
+                     $("#dataExpedicao").text("Data de expedição: Não informado");
                   }
                   else{
-                     $("#data_expedicao").text("Data de expedição: "+item.data_expedicao);     
+                     $("#dataExpedicao").text("Data de expedição: "+item.data_expedicao);     
                   }
-                  $("#expedicao").val(item.data_expedicao);
+                  $("#dataExpedicao").val(item.data_expedicao);
          
-         			$('#orgao').text("Orgão emissor: "+item.orgao_emissor);
-         			$("#orgao").val(item.orgao_emissor);
+         			$('#orgaoEmissor').text("Orgão emissor: "+item.orgao_emissor);
+         			$("#orgaoEmissor").val(item.orgao_emissor);
                   if(item.cpf.indexOf("ni")!=-1)
                   {
                      $("#cpf").text("Não informado");
@@ -309,9 +309,9 @@ session_start();
 
     function editar_documentacao() {
 
-$("#rg").prop('disabled', false);
-$("#orgao_emissor").prop('disabled', false);
-$("#data_expedicao").prop('disabled', false);
+$("#registroGeral").prop('disabled', false);
+$("#orgaoEmissor").prop('disabled', false);
+$("#dataExpedicao").prop('disabled', false);
 $("#cpf").prop('disabled', false);
 $("#data_admissao").prop('disabled', false);
 
@@ -324,9 +324,9 @@ $("#botaoEditarDocumentacao").attr('onclick', "return cancelar_documentacao()");
 
 function cancelar_documentacao() {
 
-$("#rg").prop('disabled', true);
-$("#orgao_emissor").prop('disabled', true);
-$("#data_expedicao").prop('disabled', true);
+$("#registroGeral").prop('disabled', true);
+$("#orgaoEmissor").prop('disabled', true);
+$("#dataExpedicao").prop('disabled', true);
 $("#cpf").prop('disabled', true);
 $("#data_admissao").prop('disabled', true);
 
@@ -347,7 +347,7 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
           $("#numero_residencia").prop('disabled', true);
           $("#complemento").prop('disabled', true);
           $("#ibge").prop('disabled', true);
-         var endereco = [] ;
+         var endereco = <?php echo $_SESSION['atendido']?>;
          if(endereco=="")
          {
             $("#metodo").val("incluirEndereco");
@@ -358,6 +358,7 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
          }
          $.each(endereco,function(i,item){   
             console.log(endereco);
+            console.log("oi" +item.estado);
               $("#nome").val(item.nome).prop('disabled', true);
               $("#cep").val(item.cep).prop('disabled', true);
               $("#uf").val(item.estado).prop('disabled', true);
@@ -699,6 +700,7 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                   </form>
 
                   <br />
+                  <!--Exclusao -->
              
                   <div class="panel-footer">
                     <div class="row">
@@ -744,7 +746,7 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                     <!--Endereço-->
                    <hr class="dotted short">
                     <form id="endereco" class="form-horizontal" method="post" action="../../controle/control.php">
-                      <input type="hidden" name="nomeClasse" value="EnderecoControle">
+                      <input type="hidden" name="nomeClasse" value="AtendidoControle">
                       <input type="hidden" name="metodo" value="alterarEndereco">
                       <div class="form-group">
                         <label class="col-md-3 control-label" for="cep">CEP</label>
@@ -804,9 +806,9 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
 
 
                                         <div class="form-group center">
-                                            <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
+                                            <input type="hidden" name="idatendido" value=<?php echo $_GET['idatendido'] ?>>
                       <button type="button" class="btn btn-primary" id="botaoEditarEndereco" onclick="return editar_endereco()">Editar</button>
-                      <input id="botaoSalvarEndereco" type="submit" class="btn btn-primary" disabled="true" value="Salvar" onclick="funcao3()">
+                      <input id="botaoSalvarEndereco" type="submit" class="btn btn-primary" disabled="true" value="Salvar">
                     </form>
                   </div>
                   
@@ -829,25 +831,25 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                      <h2 class="panel-title">Documentos</h2>
                      <!--Documentação-->
                      <hr class="dotted short">
-                    <form class="form-horizontal" method="post" action="../../controle/control.php">
+                    <form class="form-horizontal" id="doc" method="post" action="../../controle/control.php">
                       <input type="hidden" name="nomeClasse" value="AtendidoControle">
                       <input type="hidden" name="metodo" value="alterarDocumentacao">
                       <div class="form-group">
                      <label class="col-md-3 control-label" for="profileCompany">Número do RG</label>
                      <div class="col-md-6">
-                       <input type="text" class="form-control" name="rg" id="rg" disabled onkeypress="return Onlynumbers(event)" placeholder="Ex: 22.222.222-2" onkeyup="mascara('##.###.###-#',this,event)">
+                       <input type="text" class="form-control" name="registroGeral" id="registroGeral" disabled onkeypress="return Onlynumbers(event)" placeholder="Ex: 22.222.222-2" onkeyup="mascara('##.###.###-#',this,event)">
                      </div>
                    </div>
                    <div class="form-group">
                      <label class="col-md-3 control-label" for="profileCompany">Órgão Emissor</label>
                      <div class="col-md-6">
-                       <input type="text" class="form-control" name="orgao_emissor" disabled id="orgao_emissor" onkeypress="return Onlychars(event)">
+                       <input type="text" class="form-control" name="orgaoEmissor" disabled id="orgaoEmissor" onkeypress="return Onlychars(event)">
                      </div>
                    </div>
                    <div class="form-group">
                      <label class="col-md-3 control-label" for="profileCompany">Data de expedição</label>
                      <div class="col-md-6">
-                       <input type="date" class="form-control" disabled maxlength="10" placeholder="dd/mm/aaaa" name="data_expedicao" id="data_expedicao" max=2021-06-11>
+                       <input type="date" class="form-control" disabled maxlength="10" placeholder="dd/mm/aaaa" name="dataExpedicao" id="dataExpedicao" max=2021-06-11>
                      </div>
                    </div>
                    <div class="form-group">
@@ -864,9 +866,9 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                    </div>
                    
                    <br />
-                   <input type="hidden" name="idatendido" value=1>
-                   <button type="button" class="btn btn-primary" id="botaoEditarDocumentacao" onclick="return editar_documentacao()">Editar</button>
-                   <input id="botaoSalvarDocumentacao" type="submit" class="btn btn-primary" disabled="true" value="Salvar" onclick="funcao3()">
+                   <input type="hidden" name="idatendido" value="<?php echo $_GET['idatendido'] ?>">
+                      <button type="button" class="btn btn-primary" id="botaoEditarDocumentacao" onclick="return editar_documentacao()">Editar</button>
+                      <input id="botaoSalvarDocumentacao" type="submit" class="btn btn-primary" disabled="true" value="Salvar">
                  </form>
                    </header>
                    
@@ -1135,6 +1137,32 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
           alert("Cadastrado com sucesso!")
         }
       }
+      function funcao3() {
+      var idatend = <?php echo $_GET['idatendido']; ?>;
+      var cpfs = <?php echo $_SESSION['cpf_atendido']; ?>;
+      var cpf_atendido = $("#cpf").val();
+      var cpf_atendido_correto = cpf_atendido.replace(".", "");
+      var cpf_atendido_correto1 = cpf_atendido_correto.replace(".", "");
+      var cpf_atendido_correto2 = cpf_atendido_correto1.replace(".", "");
+      var cpf_atendido_correto3 = cpf_atendido_correto2.replace("-", "");
+      var apoio = 0;
+      var cpfs1 = <?php echo $_SESSION['cpf_atendido']; ?>;
+      $.each(cpfs, function(i, item) {
+        if (item.cpf == cpf_atendido_correto3 && item.id != idatend) {
+          alert("Alteração não realizada! O CPF informado já está cadastrado no sistema");
+          apoio = 1;
+        }
+      });
+      $.each(cpfs1, function(i, item) {
+        if (item.cpf == cpf_atendido_correto3) {
+          alert("Cadastro não realizado! O CPF informado já está cadastrado no sistema");
+          apoio = 1;
+        }
+      });
+      if (apoio == 0) {
+        alert("Editado com sucesso!");
+      }
+    }
    </script>
     </body>
 </html> 

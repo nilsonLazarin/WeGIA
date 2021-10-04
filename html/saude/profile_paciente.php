@@ -119,7 +119,7 @@
 	<!-- jquery functions -->
 	<script>
 		function clicar(id) {
-			window.location.href = "informacoes_paciente.php?idatendido="+id;
+			window.location.href = "saude.php?idatendido="+id;
 		}
 		$(function() {
 			var atendidos = <?php echo $_SESSION['atendidos'];?> ;
@@ -161,13 +161,13 @@
 			<!-- end: sidebar -->
 			<section role="main" class="content-body">
 				<header class="page-header">
-					<h2>Informações do paciente</h2>
+					<h2>Informações paciente</h2>
 
 					<div class="right-wrapper pull-right">
 						<ol class="breadcrumbs">
 							<li><a href="../index.php"> <i class="fa fa-home"></i>
 							</a></li>
-							<li><span>Informações do paciente</span></li>
+							<li><span>Informações paciente</span></li>
 						</ol>
 
 						<a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
@@ -185,7 +185,7 @@
 							<a href="#" class="fa fa-caret-down"></a>
 						</div>
 
-						<h2 class="panel-title">Informações do paciente</h2>
+						<h2 class="panel-title">Informações paciente</h2>
 					</header>
 					<div class="panel-body">
 						<table class="table table-bordered table-striped mb-none"
@@ -194,8 +194,6 @@
 								<tr>
 									<th>Nome</th>
 									<th>Sexo</th>
-									<!--<th>Telefone</th>
-									<th>Nascimento</th>-->
 									<th>Ação</th>
 								</tr>
 							</thead>

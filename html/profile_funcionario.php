@@ -362,7 +362,7 @@ $dependente = json_encode($dependente);
       var funcionario = <?= $func ?>; 
       $.each(funcionario, function(i, item) {
         //Informações pessoais
-        // console.log(funcionario)
+         console.log(funcionario)
         $("#nomeForm").val(item.nome).prop('disabled', true);
         $("#sobrenomeForm").val(item.sobrenome).prop('disabled', true);
         if (item.sexo == "m") {
