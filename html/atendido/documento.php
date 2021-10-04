@@ -2,7 +2,7 @@
 
 // require "../../dao/Conexao.php";
 
-class DocumentoFuncionario {
+class DocumentoAtendido {
     private $id_fundocs;
     private $documento;
     private $extensao;
@@ -17,11 +17,11 @@ class DocumentoFuncionario {
         $this->setid_fundocs($id);
         try {
             $pdo = Conexao::connect();
-            $query = $pdo->query("SELECT extensao_arquivo, nome_arquivo, arquivo FROM funcionario_docs WHERE id_fundocs = $id ;");
+            $query = $pdo->query("SELECT arquivo_extensao, arquivo_nome, arquivo FROM atendido_documentacao WHERE idatendido_documentacao = $id ;");
             $query = $query->fetch(PDO::FETCH_ASSOC);
             $this->setDocumento(base64_decode(gzuncompress($query["arquivo"])));
-            $this->setExtensao($query["extensao_arquivo"]);
-            $this->setNome($query["nome_arquivo"]);
+            $this->setExtensao($query["arquivo_extensao"]);
+            $this->setNome($query["arquivo_nome"]);
         } catch (PDOException $e) {
             $this->setException("Houve um erro ao consultar o documento no banco de dados: $e");
         }
@@ -96,7 +96,7 @@ class DocumentoFuncionario {
     function delete(){
         try {
             $pdo = Conexao::connect();
-            $query = $pdo->query("DELETE FROM funcionario_docs WHERE id_fundocs = ".$this->getid_fundocs()." ;");
+            $query = $pdo->query("DELETE FROM atendido_documentacao WHERE idatendido_documentacao = ".$this->getid_fundocs()." ;");
             $query = $query->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             $this->setException("Houve um erro ao remover o documento do banco de dados: $e");

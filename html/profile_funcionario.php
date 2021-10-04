@@ -575,18 +575,18 @@ $dependente = json_encode($dependente);
     $(function() {
       var docfuncional = <?= $docfuncional ?>;
 
-      $.each(docfuncional, function(i, item) {
-        $("#doc-tab")
-          .append($("<tr>")
-            .append($("<td>").text(item.nome_docfuncional))
-            .append($("<td>").text(item.data))
-            .append($("<td style='display: flex; justify-content: space-evenly;'>")
-              .append($("<a href='./funcionario/documento_download.php?id_doc=" + item.id_fundocs + "' title='Visualizar ou Baixar'><button class='btn btn-primary'><i class='fas fa-download'></i></button></a>"))
-              .append($("<a onclick='removerFuncionarioDocs("+item.id_fundocs+")' href='#' title='Excluir'><button class='btn btn-danger'><i class='fas fa-trash-alt'></i></button></a>"))
-            )
-          )
-      });
-    });
+    //   $.each(docfuncional, function(i, item) {
+    //     $("#doc-tab")
+    //       .append($("<tr>")
+    //         .append($("<td>").text(item.nome_docfuncional))
+    //         .append($("<td>").text(item.data))
+    //         .append($("<td style='display: flex; justify-content: space-evenly;'>")
+    //           .append($("<a href='./funcionario/documento_download.php?id_doc=" + item.id_fundocs + "' title='Visualizar ou Baixar'><button class='btn btn-primary'><i class='fas fa-download'></i></button></a>"))
+    //           .append($("<a onclick='removerFuncionarioDocs("+item.id_fundocs+")' href='#' title='Excluir'><button class='btn btn-danger'><i class='fas fa-trash-alt'></i></button></a>"))
+    //         )
+    //       )
+    //   });
+    // });
 
     function listarFunDocs(docfuncional){
       $("#doc-tab").empty();
@@ -1089,7 +1089,7 @@ $dependente = json_encode($dependente);
                               </div>
                           </div>
                           <div class="modal-footer">
-                            <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
+                            <input type="hidden" name="id_funcionario" value="<?php echo $_GET['id_funcionario'] ?>">
                             <input type="submit" id="formsubmit" value="Alterar imagem">
                           </div>
                         </div>
@@ -1176,7 +1176,7 @@ $dependente = json_encode($dependente);
                       <div class="form-group">
                         <label class="col-md-3 control-label" for="profileCompany">Nascimento</label>
                         <div class="col-md-8">
-                          <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" id="nascimento" max=<?php echo date('Y-m-d'); ?>>
+                          <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" id="nascimento" max="<?php echo date('Y-m-d'); ?>">
                         </div>
                       </div>
                       <div class="form-group">
@@ -1207,7 +1207,7 @@ $dependente = json_encode($dependente);
                           </select>
                         </div>
                       </div>
-                      <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
+                      <input type="hidden" name="id_funcionario" value="<?php echo $_GET['id_funcionario'] ?>">
                       <button type="button" class="btn btn-primary" id="botaoEditarIP" onclick="return editar_informacoes_pessoais()">Editar</button>
                       <input type="submit" class="btn btn-primary" disabled="true" value="Salvar" id="botaoSalvarIP">
                   </form>
@@ -1323,7 +1323,7 @@ $dependente = json_encode($dependente);
                                 <input type="date" name="fim" id="fim_remuneracao" class="form-control">
                               </div>
                             </div>
-                            <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
+                            <input type="hidden" name="id_funcionario" value="<?php echo $_GET['id_funcionario'] ?>">
                             <input type="hidden" name="action" value="remuneracao_adicionar">
                             <button class="btn btn-primary" id="botaoSalvarRemuneracao" onclick="adicionarRemuneracao('formRemuneracao', console.log)">Salvar</button>
                           </fieldset>
@@ -1420,7 +1420,7 @@ $dependente = json_encode($dependente);
                                 <div class="form-group">
                                   <label class="col-md-3 control-label" for="profileCompany">Data</label>
                                   <div class="col-md-8">
-                                    <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data" id="data" max=<?php echo date('Y-m-d'); ?>>
+                                    <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data" id="data" max="<?php echo date('Y-m-d'); ?>">
                                   </div>
                                 </div>
                               </div><br>
@@ -1428,7 +1428,7 @@ $dependente = json_encode($dependente);
                                 <div class="row">
                                   <div class="col-md-9 col-md-offset-3">
                                     <input type="hidden" name="nomeClasse" value="FuncionarioControle">
-                                    <input type="hidden" name="person2" value=<?php echo $_GET['id_funcionario']; ?>>
+                                    <input type="hidden" name="person2" value="<?php echo $_GET['id_funcionario']; ?>">
                                     <input type="hidden" name="metodo" value="incluirEpi">
                                     <input id="enviar" type="submit" class="btn btn-primary" value="Salvar" onclick="funcao2()">
                                     <button button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
@@ -1508,7 +1508,7 @@ $dependente = json_encode($dependente);
                         <div class="form-group">
                         <label class="col-md-3 control-label" for="profileCompany">Data de Admissão</label>
                         <div class="col-md-6">
-                          <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data_admissao" id="data_admissao" max=<?php echo date('Y-m-d'); ?>>
+                          <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data_admissao" id="data_admissao" max="<?php echo date('Y-m-d'); ?>">
                         </div>
                       </div>
 
@@ -1540,7 +1540,7 @@ $dependente = json_encode($dependente);
                           </div>
                         </div>
 
-                        <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
+                        <input type="hidden" name="id_funcionario" value="<?php echo $_GET['id_funcionario'] ?>">
                         <button type="button" class="btn btn-primary" id="botaoEditarOutros" onclick="return editar_outros()">Editar</button>
                         <input type="submit" class="btn btn-primary" disabled="true" value="Salvar" id="botaoSalvarOutros" disabled="true">
                       </form>

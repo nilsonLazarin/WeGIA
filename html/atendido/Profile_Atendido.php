@@ -1183,6 +1183,14 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
         alert("Editado com sucesso!");
       }
     }
+    function removerFuncionarioDocs(id_doc) {
+      if (!window.confirm("Tem certeza que deseja remover esse documento?")){
+        return false;
+      }
+      let url = "documento_excluir.php?id_doc="+id_doc+"&idatendido=<?= $_GET["idatendido"] ?>";
+      let data = "";
+      post(url, data, listarFunDocs);
+    }
    </script>
     </body>
 </html> 
