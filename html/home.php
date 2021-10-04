@@ -168,7 +168,7 @@
 					<a href="#">
 					<div class="col-lg-2 col-md-8 i" data-toggle="collapse" href="#saude">
 							<i  class="fa fa-ambulance"></i>
-							<h4>Saúde</h4>
+							<h4>Saúde <br>(em breve)</h4>
 						</div>
 					</a>
 
@@ -222,7 +222,7 @@
 						<a href="../html/saude/profile_paciente.php">
 							<div class="col-lg-2 col-md-8 i" >
 								<i  class="far fa-address-card"></i>
-								<h4>Informações do paciente</h4>
+								<h4>Informações paciente</h4>
 							</div>
 						</a>				
 					</div>

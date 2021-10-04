@@ -814,8 +814,8 @@ class FuncionarioControle
 
         $funcionario = new Funcionario($cpf,'','','','',$rg,$orgao_emissor,$data_expedicao,'','','','','','','','','','','','','','');
             
-            $funcionario->setData_admissao($data_admissao);
-            $funcionario->setId_funcionario($id_funcionario);
+        $funcionario->setData_admissao($data_admissao);
+        $funcionario->setId_funcionario($id_funcionario);
 
         $funcionarioDAO=new FuncionarioDAO();
         try {

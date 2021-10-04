@@ -89,7 +89,7 @@ session_start();
    <head>
       <!-- Basic -->
       <meta charset="UTF-8">
-      <title>Informações do paciente</title>
+      <title>Informações paciente</title>
       <!-- Mobile Metas -->
       <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
       <!-- Web Fonts  -->
@@ -529,7 +529,7 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
          <!-- end: sidebar -->
          <section role="main" class="content-body">
             <header class="page-header">
-               <h2>Informações do paciente</h2>
+               <h2>Informações paciente</h2>
                <div class="right-wrapper pull-right">
                   <ol class="breadcrumbs">
                      <li>
@@ -537,8 +537,7 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                         <i class="fa fa-home"></i>
                         </a>
                      </li>
-                     <li><span>Páginas</span></li>
-                     <li><span>Perfil</span></li>
+                     <li><span>Informações paciente</span></li>
                   </ol>
                   <a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
                </div>
@@ -612,16 +611,25 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                   <a href="#atendimento_enfermeiro" data-toggle="tab">Atendimento enfermeiro</a>
                </li>
             </ul>
-            <div class="tab-content">
           
-
-
             <div class="tab-content">
                 <div id="overview" class="tab-pane active">
                   <form class="form-horizontal" method="post" action="../../controle/control.php">
                     <input type="hidden" name="nomeClasse" value="AtendidoControle">
                     <input type="hidden" name="metodo" value="alterarInfPessoal">
-                    <h4 class="mb-xlg">Informações Pessoais</h4>
+
+                 
+                    <section class="panel">
+                    <header class="panel-heading">
+                    <div class="panel-actions">
+                    <a href="#" class="fa fa-caret-down"></a>
+                    </div>
+
+                    <h2 class="panel-title">Informações pessoais</h2>
+                    </header>
+                    <div class="panel-body">
+                    <hr class="dotted short">
+
                     <fieldset>
                       <div class="form-group">
                         <label class="col-md-3 control-label" for="profileFirstName">Nome</label>
@@ -630,22 +638,10 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="col-md-3 control-label" for="profileFirstName">Sobrenome</label>
-                        <div class="col-md-8">
-                          <input type="text" class="form-control" disabled name="sobrenome" id="sobrenome" onkeypress="return Onlychars(event)">
-                        </div>
-                      </div>
-                      <div class="form-group">
                         <label class="col-md-3 control-label" for="profileLastName">Sexo</label>
                         <div class="col-md-8">
                           <label><input type="radio" name="gender" id="radioM" id="M" disabled value="m" style="margin-top: 10px; margin-left: 15px;" onclick="return exibir_reservista()"> <i class="fa fa-male" style="font-size: 20px;"> </i></label>
                           <label><input type="radio" name="gender" id="radioF" disabled id="F" value="f" style="margin-top: 10px; margin-left: 15px;" onclick="return esconder_reservista()"> <i class="fa fa-female" style="font-size: 20px;"> </i> </label>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="col-md-3 control-label" for="profileCompany">Telefone</label>
-                        <div class="col-md-8">
-                          <input type="text" class="form-control" maxlength="14" minlength="14" name="telefone" id="telefone" disabled placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeyup="mascara('(##)#####-####',this,event)">
                         </div>
                       </div>
                       <div class="form-group">
@@ -670,39 +666,12 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                           </select>
                         </div>
                       </div>
-                      <input type="hidden" name="idatendido" value=<?php echo $_GET['idatendido'] ?>>
-                      <button type="button" class="btn btn-primary" id="botaoEditarIP" onclick="return editar_informacoes_pessoais()">Editar</button>
-                      <input type="submit" class="btn btn-primary" disabled="true" value="Salvar" id="botaoSalvarIP">
+                      <!--<input type="hidden" name="idatendido" value=<?php echo $_GET['idatendido'] ?>>
+                      <button type="button" class="btn btn-primary" id="botaoEditarIP" onclick="return editar_informacoes_pessoais()">Editar</button>-->
+                      <input type="submit" class="btn btn-primary" value="Salvar" id="botaoSalvarIP">
+                      </section>
+                   </div>
                   </form>
-
-                  <br />
-             
-                  <div class="panel-footer">
-                    <div class="row">
-                      <div class="col-md-9 col-md-offset-3">
-                        <button id="excluir" type="button" class="btn btn-danger" data-toggle="modal" data-target="#exclusao">Excluir</button>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="modal fade" id="exclusao" role="dialog">
-                    <div class="modal-dialog">
-                      <!-- Modal content-->
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <button type="button" class="close" aba-dismiss="modal">×</button>
-                          <h3>Excluir um Funcionário</h3>
-                        </div>
-                        <div class="modal-body">
-                          <p> Tem certeza que deseja excluir esse funcionário? Essa ação não poderá ser desfeita e todas as informações referentes a esse funcionário serão perdidas!</p>
-                          <a href="../controle/control.php?metodo=excluir&nomeClasse=AtendidisoControle&idatendido=<?php echo $_GET['idatendido']; ?>"><button button type="button" class="btn btn-success">Confirmar</button></a>
-                          <button button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>  
-               
-
 <!-- Aba  de  comorbidades -->
 
    <div id="cadastro_comorbidades" class="tab-pane">
@@ -757,11 +726,10 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                        <a href="#" class="fa fa-caret-down"></a>
                      </div>
                      
-                     
                      <h2 class="panel-title">Exames</h2>
+
                      </header>
                      <div class="panel-body">
-                 <hr class="dotted short">
                  <form class="form-horizontal" method="post" action="../controle/control.php">
                    <input type="hidden" name="nomeClasse" value="AtendidoControle">
                    <input type="hidden" name="metodo" value="alterarDocumentacao">
@@ -770,11 +738,8 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                      <div class="col-md-6">
                        <input type="text" class="form-control" name="rg" id="rg">
                      </div>-->
-
                      
-                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#docFormModal">
-                        Clique para adicionar os exames
-                      </button>
+                   
                       <div class="modal fade" id="docFormModal" tabindex="-1" role="dialog" aria-labelledby="docFormModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                           <div class="modal-content">
@@ -853,12 +818,83 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                        <p id="cpfInvalido" style="display: none; color: #b30000">CPF INVÁLIDO!</p>
                      </div>
                    </div>
+
+
+                   <div class="panel-body">
+                      <table class="table table-bordered table-striped mb-none" id="datatable-docfuncional">
+                        <thead>
+                          <tr>
+                            <th>Arquivo</th>
+                            <th>Tipo exame</th>
+                            <th>Data exame</th>
+                            <th>Ação</th>
+                          </tr>
+                        </thead>
+                        <tbody id="doc-tab">
+                        </tbody>
+                      </table>
+                      <br>
+                      <!-- Button trigger modal -->
+                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#docFormModal">
+                        Adicionar
+                      </button>
+                      <!-- Modal Form Documentos -->
+                      <div class="modal fade" id="docFormModal" tabindex="-1" role="dialog" aria-labelledby="docFormModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header" style="display: flex;justify-content: space-between;">
+                              <h5 class="modal-title" id="exampleModalLabel">Adicionar Arquivo</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <form action='./funcionario/documento_upload.php' method='post' enctype='multipart/form-data' id='funcionarioDocForm'>
+                              <div class="modal-body" style="padding: 15px 40px">
+                                <div class="form-group" style="display: grid;">
+                                  <label class="my-1 mr-2" for="tipoDocumento">Tipo de Arquivo</label><br>
+                                  <div style="display: flex;">
+                                    <select name="id_docfuncional" class="custom-select my-1 mr-sm-2" id="tipoDocumento" required>
+                                      <option selected disabled>Selecionar...</option>
+                                      <option value="Certidão de Nascimento">Certidão de Nascimento</option>
+                                       <option value="Certidão de Casamento">Certidão de Casamento</option>
+                                       <option value="Curatela">Curatela</option>
+                                       <option value="INSS">INSS</option>
+                                       <option value="LOAS">LOAS</option>
+                                       <option value="FUNRURAL">FUNRURAL</option>
+                                       <option value="Título de Eleitor">Título de Eleitor</option>
+                                       <option value="CTPS">CTPS</option>
+                                       <option value="SAF">SAF</option>
+                                       <option value="SUS">SUS</option>
+                                       <option value="BPC">BPC</option> 
+                                       <option value="CPF">CPF</option>
+                                       <option value="Registro Geral">RG</option>
+                                      
+                                    
+                                    </select>
+                                   <!-- <a onclick="adicionarDocFuncional()" style="margin: 0 20px;"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a> -->
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <label for="arquivoDocumento">Arquivo</label>
+                                  <input name="arquivo" type="file" class="form-control-file" id="id_documento" accept="png;jpeg;jpg;pdf;docx;doc;odp" required>
+                                </div>
+                                <input type="number" name="id_interno" value="" style='display: none;'>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                <input type="submit" value="Enviar" class="btn btn-primary">
+                              </div>
+                            </form>
+                            </div>
+                          </div>
+                        </div>
                    
                    <br />
-                   <input type="hidden" name="idatendido" value=1>
+                   <!--<input type="hidden" name="idatendido" value=1>
                    <button type="button" class="btn btn-primary" id="botaoEditarDocumentacao" onclick="return editar_documentacao()">Cadastrar</button>
-                   <!--<input id="botaoSalvarDocumentacao" type="submit" class="btn btn-primary" disabled="true" value="Salvar" onclick="funcao3()">-->
+                   <input id="botaoSalvarDocumentacao" type="submit" class="btn btn-primary" disabled="true" value="Salvar" onclick="funcao3()">-->
                  </form>
+            </div>
          </section>
          </div>
        
@@ -904,8 +940,18 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                    </div>
                    <br />
                    
+            </section>
+              <section class="panel">
+                   <header class="panel-heading">
+                    <div class="panel-actions">
+                        <a href="#" class="fa fa-caret-down"></a>
+                    </div>
+
                    <h2 class="panel-title">Medicação</h2>
+                  </header>
                    <br />
+                   
+                   <div class="panel-body">
                    <div class="form-group">
                         <label class="col-md-3 control-label" for="inputSuccess">Medicamento:</label>
                         <div class="col-md-6">
@@ -941,15 +987,87 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                      </div>
                    </div>
 
+                  
+                   <div class="panel-body">
+                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#docFormModal">Inserir na tabela</button>
+                      <br>
+                      <br>
+                      <table class="table table-bordered table-striped mb-none" id="datatable-docfuncional">
+                        <thead>
+                          <tr>
+                            <th>Medicação</th>
+                            <th>Data</th>
+                            <th>Descrição</th>
+                            <th>Nome do médico</th>
+                            <th>Ação</th>
+                          </tr>
+                        </thead>
+                        <tbody id="doc-tab">
+                        </tbody>
+                      </table>
+                      <br>
+                      <!-- Modal Form Documentos -->
+                      <div class="modal fade" id="docFormModal" tabindex="-1" role="dialog" aria-labelledby="docFormModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header" style="display: flex;justify-content: space-between;">
+                              <h5 class="modal-title" id="exampleModalLabel">Adicionar Arquivo</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <form action='./funcionario/documento_upload.php' method='post' enctype='multipart/form-data' id='funcionarioDocForm'>
+                              <div class="modal-body" style="padding: 15px 40px">
+                                <div class="form-group" style="display: grid;">
+                                  <label class="my-1 mr-2" for="tipoDocumento">Tipo de Arquivo</label><br>
+                                  <div style="display: flex;">
+                                    <select name="id_docfuncional" class="custom-select my-1 mr-sm-2" id="tipoDocumento" required>
+                                      <option selected disabled>Selecionar...</option>
+                                      <option value="Certidão de Nascimento">Certidão de Nascimento</option>
+                                       <option value="Certidão de Casamento">Certidão de Casamento</option>
+                                       <option value="Curatela">Curatela</option>
+                                       <option value="INSS">INSS</option>
+                                       <option value="LOAS">LOAS</option>
+                                       <option value="FUNRURAL">FUNRURAL</option>
+                                       <option value="Título de Eleitor">Título de Eleitor</option>
+                                       <option value="CTPS">CTPS</option>
+                                       <option value="SAF">SAF</option>
+                                       <option value="SUS">SUS</option>
+                                       <option value="BPC">BPC</option> 
+                                       <option value="CPF">CPF</option>
+                                       <option value="Registro Geral">RG</option>
+                                      
+                                    
+                                    </select>
+                                   <!-- <a onclick="adicionarDocFuncional()" style="margin: 0 20px;"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a> -->
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <label for="arquivoDocumento">Arquivo</label>
+                                  <input name="arquivo" type="file" class="form-control-file" id="id_documento" accept="png;jpeg;jpg;pdf;docx;doc;odp" required>
+                                </div>
+                                <input type="number" name="id_interno" value="" style='display: none;'>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                <input type="submit" value="Enviar" class="btn btn-primary">
+                              </div>
+                            </form>
+                            </div>
+                          </div>
+                        </div>
+                   
+                   <br />
                    <br />
                    <input type="hidden" name="idatendido" value=1>
-                   <button type="button" class="btn btn-danger" id="botaoEditarDocumentacao" onclick="return editar_documentacao()">Inserir na tabela</button>
-                   <input id="botaoSalvarDocumentacao" type="submit" class="btn btn-primary" value="Cadastrar" onclick="funcao3()">
+                   <button type="button" class="btn btn-primary" id="botaoEditarDocumentacao" onclick="return editar_documentacao()">Cadastrar atendimento</button>
+                   <!--<input id="botaoSalvarDocumentacao" type="submit" class="btn btn-primary" value="Cadastrar" onclick="funcao3()">-->
                  </form>
-            
+            </div>
          </section>
        </div>
-
+      
+       
        <!-- aba de atendimento enfermeiro -->
        <div id="atendimento_enfermeiro" class="tab-pane">
          <section class="panel">
@@ -961,7 +1079,6 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                <h2 class="panel-title">Atendimento enfermeiro</h2>
             </header>
             <div class="panel-body">
-               <hr class="dotted short">
                <form class="form-horizontal" method="post" action="../controle/control.php">
                    <input type="hidden" name="nomeClasse" value="AtendidoControle">
                    <input type="hidden" name="metodo" value="alterarDocumentacao">
@@ -991,12 +1108,38 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                         </div>
                       </div>
                    <br />
-                   
+                </section>
+           
+            
+                
+                <section class="panel">
+                   <header class="panel-heading">
+                    <div class="panel-actions">
+                        <a href="#" class="fa fa-caret-down"></a>
+                    </div>
                    <h2 class="panel-title">Aplicar medicação</h2>
-                   <h2> tabela </h2>
+                </header>
                    
-                   <br />
-                   <div class="form-group">
+                   <div class="panel-body">
+                    <label class="col-md-12 control-label">Informações recuperadas da medicação que o médico forneceu:</label>
+                    <br>
+                    <table class="table table-bordered table-striped mb-none" id="datatable-docfuncional">
+                          <thead>
+                            <tr>
+                              <th>Remédio</th>
+                              <th>Horário</th>
+                              <th>Dose</th>
+                              <th>Tempo</th>
+                            </tr>
+                          </thead>
+                          <tbody id="doc-tab">
+                          </tbody>
+                        </table>
+                  <br>
+                  <br>
+                  <br>
+                  <div class="form-group">
+                     
                         <label class="col-md-3 control-label" for="inputSuccess">Medicamento:</label>
                         <div class="col-md-6">
                           <select class="form-control input-lg mb-md" name="sangue" id="sangue">
@@ -1018,19 +1161,34 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                        <input type="text" class="form-control" name="orgao_emissor" id="orgao_emissor" onkeypress="return Onlychars(event)">
                      </div>
                      </div>
-                      
+                    
                       
                      <br />
                      <input type="hidden" name="idatendido" value=1>
                      <input type="hidden" name="idatendido" value=1>
-                     <button type="button" class="btn btn-danger" id="botaoEditarDocumentacao" onclick="return editar_documentacao()">Aplicar medicação</button>
+                     <button type="button" class="btn btn-primary" id="botaoEditarDocumentacao" onclick="return editar_documentacao()">Aplicar medicação</button>
 
                      <br />
                      <br />
 
 
                      <h2 class="panel-title">Aplicações efetuadas</h2>
-                     <h2> tabela </h2>
+                     
+                     <div class="panel-body">
+                    <table class="table table-bordered table-striped mb-none" id="datatable-docfuncional">
+                          <thead>
+                            <tr>
+                              <th>Medicamento</th>
+                              <th>Horário de aplicação</th>
+                              <th>Ação</th>
+                            </tr>
+                          </thead>
+                          <tbody id="doc-tab">
+                          </tbody>
+                        </table>
+                  <br>
+                  <br>
+                  <br>
                      
                    
                    <input id="botaoSalvarDocumentacao" type="submit" class="btn btn-primary" value="Cadastrar aplicação desses medicamentos" onclick="funcao3()">
