@@ -1,5 +1,9 @@
 <?php
 
+ini_set('display_errors',1);
+ini_set('display_startup_erros',1);
+error_reporting(E_ALL);
+extract($_REQUEST);
 session_start();
 if (!isset($_SESSION["usuario"])){
     header("Location: ../../index.php");
@@ -10,7 +14,7 @@ require_once '../permissao/permissao.php';
 permissao($_SESSION['id_pessoa'], 11, 7);
 
 require_once "../../dao/Conexao.php";
-require_once "./Documento.php";
+require_once "documento.php";
 
 define("TYPEOF_EXTENSION", [
     'jpg' => 'image/jpg',
@@ -22,7 +26,7 @@ define("TYPEOF_EXTENSION", [
     'odp' => 'application/odp',
 ]);
 
-$arquivo = new DocumentoFuncionario($_GET["id_doc"]);
+$arquivo = new DocumentoAtendido($_GET["id_doc"]);
 
 if (!$arquivo->getException()){
     header("Content-type: ".TYPEOF_EXTENSION[$arquivo->getExtensao()]);
