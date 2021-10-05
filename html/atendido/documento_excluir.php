@@ -10,7 +10,7 @@ require_once '../permissao/permissao.php';
 permissao($_SESSION['id_pessoa'], 11, 7);
 
 require_once "../../dao/Conexao.php";
-require_once "./Documento.php";
+require_once "Documento.php";
 
 extract($_GET);
 

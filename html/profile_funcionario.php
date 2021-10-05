@@ -575,18 +575,18 @@ $dependente = json_encode($dependente);
     $(function() {
       var docfuncional = <?= $docfuncional ?>;
 
-    //   $.each(docfuncional, function(i, item) {
-    //     $("#doc-tab")
-    //       .append($("<tr>")
-    //         .append($("<td>").text(item.nome_docfuncional))
-    //         .append($("<td>").text(item.data))
-    //         .append($("<td style='display: flex; justify-content: space-evenly;'>")
-    //           .append($("<a href='./funcionario/documento_download.php?id_doc=" + item.id_fundocs + "' title='Visualizar ou Baixar'><button class='btn btn-primary'><i class='fas fa-download'></i></button></a>"))
-    //           .append($("<a onclick='removerFuncionarioDocs("+item.id_fundocs+")' href='#' title='Excluir'><button class='btn btn-danger'><i class='fas fa-trash-alt'></i></button></a>"))
-    //         )
-    //       )
-    //   });
-    // });
+      $.each(docfuncional, function(i, item) {
+         $("#doc-tab")
+           .append($("<tr>")
+             .append($("<td>").text(item.nome_docfuncional))
+             .append($("<td>").text(item.data))
+             .append($("<td style='display: flex; justify-content: space-evenly;'>")
+               .append($("<a href='./funcionario/documento_download.php?id_doc=" + item.id_fundocs + "' title='Visualizar ou Baixar'><button class='btn btn-primary'><i class='fas fa-download'></i></button></a>"))
+               .append($("<a onclick='removerFuncionarioDocs("+item.id_fundocs+")' href='#' title='Excluir'><button class='btn btn-danger'><i class='fas fa-trash-alt'></i></button></a>"))
+             )
+           )
+       });
+    });
 
     function listarFunDocs(docfuncional){
       $("#doc-tab").empty();
@@ -1154,7 +1154,7 @@ $dependente = json_encode($dependente);
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="col-md-3 control-label" for="profileFirstName">Sobrenome</label>
+                        <label class="col-md-3 control-label" for="profileFirstName">Sobrenomes</label>
                         <div class="col-md-8">
                           <input type="text" class="form-control" name="sobrenome" id="sobrenomeForm" onkeypress="return Onlychars(event)">
                         </div>
