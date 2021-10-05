@@ -531,25 +531,11 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
         },
         dataType: 'text'
       })
-    }
-            //    function listarFunDocs(docfuncional){
-            //    $("#doc-tab").empty();
-            //    $.each(docfuncional, function(i, item) {
-            //      $("#doc-tab")
-            //        .append($("<tr>")
-            //          .append($("<td>").text(item.nome_docfuncional))
-            //          .append($("<td>").text(item.data))
-            //          .append($("<td style='display: flex; justify-content: space-evenly;'>")
-            //            .append($("<a href='./funcionario/documento_download.php?id_doc=" + item.id_fundocs + "' title='Visualizar ou Baixar'><button class='btn btn-primary'><i class='fas fa-download'></i></button></a>"))
-            //            .append($("<a onclick='removerFuncionarioDocs("+item.id_fundocs+")' href='#' title='Excluir'><button class='btn btn-danger'><i class='fas fa-trash-alt'></i></button></a>"))
-            //          )
-            //        )
-            //    });
-            //  }
+    }                
 
              $(function() {
                 var docfuncional = <?= $docfuncional ?>;
-
+                console.log(docfuncional);
                 $.each(docfuncional, function(i, item) {
                   $("#doc-tab")
                     .append($("<tr>")
@@ -562,6 +548,21 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                     )
                 });
               });
+
+              function listarFunDocs(docfuncional){
+                $("#doc-tab").empty();
+                $.each(docfuncional, function(i, item) {
+                  $("#doc-tab")
+                    .append($("<tr>")
+                      .append($("<td>").text(item.arquivo_nome))
+                      .append($("<td>").text(item.data))
+                      .append($("<td style='display: flex; justify-content: space-evenly;'>")
+                        .append($("<a href='documento_download.php?id_doc=" + item.idatendido_documentacao + "' title='Visualizar ou Baixar'><button class='btn btn-primary'><i class='fas fa-download'></i></button></a>"))
+                        .append($("<a onclick='removerFuncionarioDocs("+item.idatendido_documentacao+")' href='#' title='Excluir'><button class='btn btn-danger'><i class='fas fa-trash-alt'></i></button></a>"))
+                      )
+                    )
+                });
+              }
 
              $(function() {
                $('#datatable-docfuncional').DataTable({
@@ -742,10 +743,10 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                       <div class="modal-content">
                         <div class="modal-header">
                           <button type="button" class="close" aba-dismiss="modal">×</button>
-                          <h3>Excluir um Funcionário</h3>
+                          <h3>Excluir um atendido</h3>
                         </div>
                         <div class="modal-body">
-                          <p> Tem certeza que deseja excluir esse funcionário? Essa ação não poderá ser desfeita e todas as informações referentes a esse funcionário serão perdidas!</p>
+                          <p> Tem certeza que deseja excluir esse atendido? Essa ação não poderá ser desfeita e todas as informações referentes a esse atendido serão perdidas!</p>
                           <a href="../../controle/control.php?metodo=excluir&nomeClasse=AtendidoControle&idatendido=<?php echo $_GET['idatendido']; ?>"><button button type="button" class="btn btn-success">Confirmar</button></a>
                           <button button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                         </div>
@@ -1051,6 +1052,7 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
       </section>
 		<!-- Vendor -->
 		<script src="../../assets/vendor/select2/select2.js"></script>
+    <script src="../geral/post.js"></script>
         <script src="../../assets/vendor/jquery-datatables/media/js/jquery.dataTables.js"></script>
         <script src="../../assets/vendor/jquery-datatables/extras/TableTools/js/dataTables.tableTools.min.js"></script>
         <script src="../../assets/vendor/jquery-datatables-bs3/assets/js/datatables.js"></script>
@@ -1187,10 +1189,14 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
       if (!window.confirm("Tem certeza que deseja remover esse documento?")){
         return false;
       }
-      let url = "documento_excluir.php?id_doc="+id_doc+"&idatendido=<?= $_GET["idatendido"] ?>";
+      let url = "documento_excluir.php?id_doc="+id_doc+"&idatendido=<?= $_GET['idatendido'] ?>";
       let data = "";
       post(url, data, listarFunDocs);
     }
+
+
    </script>
+   <script src="../geral/post.js"></script>
+  <script src="../geral/formulario.js"></script>
     </body>
 </html> 

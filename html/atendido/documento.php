@@ -96,7 +96,7 @@ class DocumentoAtendido {
     function delete(){
         try {
             $pdo = Conexao::connect();
-            $query = $pdo->query("DELETE FROM atendido_documentacao WHERE idatendido_documentacao = ".$this->getid_fundocs()." ;");
+            $query = $pdo->query("DELETE FROM atendido_documentacao WHERE idatendido_documentacao = ".$this->getid_doc()." ;");
             $query = $query->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             $this->setException("Houve um erro ao remover o documento do banco de dados: $e");

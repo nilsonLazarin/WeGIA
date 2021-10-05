@@ -37,6 +37,9 @@ if ($action == "tipo_adicionar"){
 }
 
 if ($action == "remuneracao_adicionar"){
+    $id_funcionario = $_POST['id_funcionario'];
+    $id_tipo = $_POST['id_tipo'];
+    $valor = $_POST['valor'];
     $inicio = $_POST["inicio"] ? "'".$_POST["inicio"]."'" : "NULL";
     $fim = $_POST["fim"] ? "'".$_POST["fim"]."'" : "NULL";
     $sql = "INSERT INTO funcionario_remuneracao VALUES (default , $id_funcionario, $id_tipo, $valor, $inicio, $fim );";
