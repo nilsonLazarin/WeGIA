@@ -2346,6 +2346,7 @@ $dependente = json_encode($dependente);
           case "formInfoAdicional":
               url = "./funcionario/informacao_adicional.php";
               data_nova = "id_descricao=" + data[0] + "&dados=" + data[1] + "&action=adicionar&id_funcionario=" + data[3];
+              listarInfoAdicional(data);
               break;
           default:
               console.warn("Não existe nenhuma URL registrada para o formulário com o seguinte id: " + idForm);
@@ -2359,7 +2360,6 @@ $dependente = json_encode($dependente);
       //var data_nova = "id_descricao=" + data[0] + "&dados=" + data[1] + "&action=adicionar&id_funcionario=" + data[3];
       post(url, data_nova, callback); 
       console.log(idForm + " => " + data + " | ", callback);
-      listarInfoAdicional(data);
       return true;
     }
 
