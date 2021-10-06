@@ -2337,12 +2337,15 @@ $dependente = json_encode($dependente);
       var data = getFormPostParams(idForm);
       console.log(data);
       var url;
+      var data_nova;
       switch (idForm) {
           case "formRemuneracao":
               url = "./funcionario/remuneracao.php";
+              data_nova = "id_tipo=" + data[0] + "&valor=" + data[1] + "&inicio=" + data[2] + "&fim=" + data[3] + "&action=remuneracao_adicionar&id_funcionario=" + data[4];
               break;
           case "formInfoAdicional":
               url = "./funcionario/informacao_adicional.php";
+              data_nova = "id_descricao=" + data[0] + "&dados=" + data[1] + "&action=adicionar&id_funcionario=" + data[3];
               break;
           default:
               console.warn("Não existe nenhuma URL registrada para o formulário com o seguinte id: " + idForm);
@@ -2353,7 +2356,7 @@ $dependente = json_encode($dependente);
           window.alert("Preencha todos os campos obrigatórios antes de prosseguir!");
           return false;
       }
-      var data_nova = "id_descricao=" + data[0] + "&dados=" + data[1] + "&action=adicionar&id_funcionario=" + data[3];
+      //var data_nova = "id_descricao=" + data[0] + "&dados=" + data[1] + "&action=adicionar&id_funcionario=" + data[3];
       post(url, data_nova, callback); 
       console.log(idForm + " => " + data + " | ", callback);
       listarInfoAdicional(data);
