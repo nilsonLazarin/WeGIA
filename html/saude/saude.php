@@ -668,7 +668,7 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                       </div>
                       <!--<input type="hidden" name="idatendido" value=<?php echo $_GET['idatendido'] ?>>
                       <button type="button" class="btn btn-primary" id="botaoEditarIP" onclick="return editar_informacoes_pessoais()">Editar</button>-->
-                      <input type="submit" class="btn btn-primary" value="Salvar" id="botaoSalvarIP">
+                      <!--<input type="submit" class="btn btn-primary" value="Salvar" id="botaoSalvarIP">-->
                       </section>
                    </div>
                   </form>
@@ -805,22 +805,26 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                             <option value="AB-">AB-</option>
                           </select>
                         </div>
-                  </div>
+            </div>
                    <div class="form-group">
                      <label class="col-md-3 control-label" for="profileCompany">Data do exame</label>
                      <div class="col-md-6">
                        <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" name="data_expedicao" id="data_expedicao" max=2021-06-11>
                      </div>
                    </div>
+                   <!--
                    <div class="form-group">
                      <label class="col-md-3 control-label" for="profileCompany"></label>
                      <div class="col-md-6">
                        <p id="cpfInvalido" style="display: none; color: #b30000">CPF INVÁLIDO!</p>
                      </div>
                    </div>
-
+                  -->     
 
                    <div class="panel-body">
+                   
+                     <br>
+                     <br>
                       <table class="table table-bordered table-striped mb-none" id="datatable-docfuncional">
                         <thead>
                           <tr>
@@ -927,11 +931,24 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                      </div>
                    </div>
                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="inputSuccess">Médico:</label>
+                        <div class="col-md-6">
+                          <select class="form-control input-lg mb-md" name="sangue" id="sangue">
+                            <option selected id="sangueSelect">Selecionar</option>
+                            <option value="AB+">Rebeca</option>
+                            <option value="AB-">Artur</option>
+                            <option value="AB-">Maria Clara</option>
+                            <option value="AB-">Luiza</option>
+                          </select>
+                        </div>
+                      </div>
+                   <!--
+                   <div class="form-group">
                      <label class="col-md-3 control-label" for="profileCompany">Médico:</label>
                      <div class="col-md-6">
                        <input type="text" class="form-control" name="orgao_emissor" id="orgao_emissor" onkeypress="return Onlychars(event)">
                      </div>
-                   </div>
+                   </div>-->
                    <div class="form-group">
                      <label class="col-md-3 control-label" for="profileCompany">Descrição:</label>
                      <div class="col-md-6">
@@ -953,7 +970,7 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                    
                    <div class="panel-body">
                    <div class="form-group">
-                        <label class="col-md-3 control-label" for="inputSuccess">Medicamento:</label>
+                        <label class="col-md-3 control-label" for="inputSuccess">Remédio:</label>
                         <div class="col-md-6">
                           <select class="form-control input-lg mb-md" name="sangue" id="sangue">
                             <option selected id="sangueSelect">Selecionar</option>
@@ -1140,7 +1157,7 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                   <br>
                   <div class="form-group">
                      
-                        <label class="col-md-3 control-label" for="inputSuccess">Medicamento:</label>
+                        <label class="col-md-3 control-label" for="inputSuccess">Remédio:</label>
                         <div class="col-md-6">
                           <select class="form-control input-lg mb-md" name="sangue" id="sangue">
                             <option selected id="sangueSelect">Selecionar</option>
