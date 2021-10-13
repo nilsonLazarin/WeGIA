@@ -503,6 +503,36 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `wegia`.`interno`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `wegia`.`interno` (
+  `id_interno` INT(11) NOT NULL AUTO_INCREMENT,
+  `id_pessoa` INT(11) NULL DEFAULT NULL,
+  `nome_contato_urgente` VARCHAR(60) NULL DEFAULT NULL,
+  `telefone_contato_urgente_1` VARCHAR(33) NULL DEFAULT NULL,
+  `telefone_contato_urgente_2` VARCHAR(33) NULL DEFAULT NULL,
+  `telefone_contato_urgente_3` VARCHAR(33) NULL DEFAULT NULL,
+  `observacao` VARCHAR(240) NULL DEFAULT NULL,
+  `certidao_nascimento` VARCHAR(60) NULL DEFAULT NULL,
+  `curatela` VARCHAR(60) NULL DEFAULT NULL,
+  `inss` VARCHAR(60) NULL DEFAULT NULL,
+  `loas` VARCHAR(60) NULL DEFAULT NULL,
+  `bpc` VARCHAR(60) NULL DEFAULT NULL,
+  `funrural` VARCHAR(60) NULL DEFAULT NULL,
+  `saf` VARCHAR(60) NULL DEFAULT NULL,
+  `sus` VARCHAR(60) NULL DEFAULT NULL,
+  `certidao_casamento` VARCHAR(123) NULL DEFAULT NULL,
+  `ctps` VARCHAR(123) NULL DEFAULT NULL,
+  `titulo` VARCHAR(123) NULL DEFAULT NULL,
+  PRIMARY KEY (`id_interno`),
+  INDEX `id_pessoa` (`id_pessoa` ASC),
+  CONSTRAINT `interno_ibfk_1`
+    FOREIGN KEY (`id_pessoa`)
+    REFERENCES `wegia`.`pessoa` (`id_pessoa`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `wegia`.`tipo_saida`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `wegia`.`tipo_saida` (
@@ -593,6 +623,36 @@ CREATE TABLE IF NOT EXISTS `wegia`.`movimentacao_funcionario` (
   CONSTRAINT `movimentacao_funcionario_ibfk_2`
     FOREIGN KEY (`id_situacao_funcionario`)
     REFERENCES `wegia`.`situacao_funcionario` (`id_situacao_funcionario`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `wegia`.`situacao_interno`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `wegia`.`situacao_interno` (
+  `id_situacao_interno` INT(11) NOT NULL AUTO_INCREMENT,
+  `data_hora` DATETIME NULL DEFAULT NULL,
+  `descricao` VARCHAR(50) NULL DEFAULT NULL,
+  `imagem` LONGTEXT NULL DEFAULT NULL,
+  `imagem_extensao` VARCHAR(10) NULL DEFAULT NULL,
+  PRIMARY KEY (`id_situacao_interno`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `wegia`.`movimentacao_interno`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `wegia`.`movimentacao_interno` (
+  `id_interno` INT(11) NOT NULL,
+  `id_situacao_interno` INT(11) NOT NULL,
+  PRIMARY KEY (`id_interno`, `id_situacao_interno`),
+  INDEX `id_situacao_interno` (`id_situacao_interno` ASC),
+  CONSTRAINT `movimentacao_interno_ibfk_1`
+    FOREIGN KEY (`id_interno`)
+    REFERENCES `wegia`.`interno` (`id_interno`),
+  CONSTRAINT `movimentacao_interno_ibfk_2`
+    FOREIGN KEY (`id_situacao_interno`)
+    REFERENCES `wegia`.`situacao_interno` (`id_situacao_interno`))
 ENGINE = InnoDB;
 
 
