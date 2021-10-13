@@ -6,9 +6,11 @@ error_reporting(E_ALL);
 extract($_REQUEST);
 session_start();
 
+
       // if(!isset($_SESSION['atendido'])){
       //    header ("Location: Profile_Atendido.php?idatendido=$id");
       // }
+      
 
    	if(!isset($_SESSION['usuario'])){
    		header ("Location: ../index.php");
@@ -54,9 +56,10 @@ session_start();
    
 
   include_once '../../classes/Cache.php';    
+
 	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
   require_once "../personalizacao_display.php";
-  
+
   require_once ROOT."/controle/FuncionarioControle.php";
   $cpf1 = new FuncionarioControle;
   $cpf1->listarCpf();
@@ -88,6 +91,7 @@ session_start();
    //$docs = $mysqli->query("SELECT * FROM atendido_docs_atendidos");
 
    //$atendidos = $_SESSION['idatendido'];
+   $atend = $_SESSION['atendido'];
    // $atendido = new AtendidoDAO();
    // $atendido->listar($id);
    // var_dump($atendido);
@@ -140,7 +144,6 @@ session_start();
         //  		alert(dados);
         //  	}) 
         //  });
-          
         function exibir_reservista() {
 
         $("#reservista1").show();
@@ -279,6 +282,7 @@ session_start();
             $(".menuu").load("../menu.php");
          });
       </script>
+
       <script type="text/javascript">
       function editar_informacoes_pessoais() {
          $("#nome").prop('disabled', false);
@@ -350,14 +354,14 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
          $("#header").load("header.php");
          $(".menuu").load("menu.php");
           $("#cep").prop('disabled', true);
-          $("#uf").prop('disabled', true);
+          $("#estado").prop('disabled', true);
           $("#cidade").prop('disabled', true);
           $("#bairro").prop('disabled', true);
           $("#rua").prop('disabled', true);
           $("#numero_residencia").prop('disabled', true);
           $("#complemento").prop('disabled', true);
           $("#ibge").prop('disabled', true);
-         var endereco = <?php echo $_SESSION['atendido']?>;
+         var endereco = <?= $atend ?>;
          if(endereco=="")
          {
             $("#metodo").val("incluirEndereco");
@@ -368,10 +372,10 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
          }
          $.each(endereco,function(i,item){   
             console.log(endereco);
-            console.log("oi" +item.estado);
+            console.log("estado=" +item.estado);
               $("#nome").val(item.nome).prop('disabled', true);
               $("#cep").val(item.cep).prop('disabled', true);
-              $("#uf").val(item.estado).prop('disabled', true);
+              $("#estado").val(item.estado).prop('disabled', true);
               $("#cidade").val(item.cidade).prop('disabled', true);
               $("#bairro").val(item.bairro).prop('disabled', true);
               $("#rua").val(item.logradouro).prop('disabled', true);
@@ -387,7 +391,7 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
          
             $("#nome").prop('disabled', false);
             $("#cep").prop('disabled', false);
-            $("#uf").prop('disabled', false);
+            $("#estado").prop('disabled', false);
             $("#cidade").prop('disabled', false);
             $("#bairro").prop('disabled', false);
             $("#rua").prop('disabled', false);
@@ -413,7 +417,7 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
         }
         function cancelar_endereco(){
             $("#cep").prop('disabled', true);
-            $("#uf").prop('disabled', true);
+            $("#estado").prop('disabled', true);
             $("#cidade").prop('disabled', true);
             $("#bairro").prop('disabled', true);
             $("#rua").prop('disabled', true);
@@ -433,7 +437,7 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
             document.getElementById('rua').value=("");
             document.getElementById('bairro').value=("");
             document.getElementById('cidade').value=("");
-            document.getElementById('uf').value=("");
+            document.getElementById('estado').value=("");
             document.getElementById('ibge').value=("");
           }
         function meu_callback(conteudo) {
@@ -442,7 +446,7 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                 document.getElementById('rua').value=(conteudo.logradouro);
                 document.getElementById('bairro').value=(conteudo.bairro);
                 document.getElementById('cidade').value=(conteudo.localidade);
-                document.getElementById('uf').value=(conteudo.uf);
+                document.getElementById('estado').value=(conteudo.estado);
                 document.getElementById('ibge').value=(conteudo.ibge);
             }
             else {
@@ -468,7 +472,7 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                 document.getElementById('rua').value="...";
                 document.getElementById('bairro').value="...";
                 document.getElementById('cidade').value="...";
-                document.getElementById('uf').value="...";
+                document.getElementById('estado').value="...";
                 document.getElementById('ibge').value="...";
    
                 //Cria um elemento javascript.
@@ -539,7 +543,7 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                 $.each(docfuncional, function(i, item) {
                   $("#doc-tab")
                     .append($("<tr>")
-                      .append($("<td>").text(item.arquivo_nome))
+                      .append($("<td>").text(item.descricao))
                       .append($("<td>").text(item.data))
                       .append($("<td style='display: flex; justify-content: space-evenly;'>")
                         .append($("<a href='documento_download.php?id_doc=" + item.idatendido_documentacao + "' title='Visualizar ou Baixar'><button class='btn btn-primary'><i class='fas fa-download'></i></button></a>"))
@@ -550,11 +554,12 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
               });
 
               function listarFunDocs(docfuncional){
-                $("#doc-tab").empty();
+                  $("#doc-tab").empty();
                 $.each(docfuncional, function(i, item) {
+                  console.log("oi"+item.nome_docfuncional);
                   $("#doc-tab")
                     .append($("<tr>")
-                      .append($("<td>").text(item.arquivo_nome))
+                      .append($("<td>").text(item.descricao))
                       .append($("<td>").text(item.data))
                       .append($("<td style='display: flex; justify-content: space-evenly;'>")
                         .append($("<a href='documento_download.php?id_doc=" + item.idatendido_documentacao + "' title='Visualizar ou Baixar'><button class='btn btn-primary'><i class='fas fa-download'></i></button></a>"))
@@ -571,7 +576,8 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                  ]
                });
              });
-    </script>
+    </script>  
+
     <script src="controller/script/valida_cpf_cnpj.js"></script>
    </head>
    <body>
@@ -754,7 +760,6 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                     </div>
                   </div>
                 </div>  
-               
 
 <!-- Aba  de  Endereço -->
 
@@ -783,9 +788,9 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-md-3 control-label" for="uf">Estado</label>
+                                            <label class="col-md-3 control-label" for="estado">Estado</label>
                                             <div class="col-md-8">
-                                                <input type="text" name="uf" size="60" class="form-control" id="uf">
+                                                <input type="text" name="estado" size="60" class="form-control" id="estado">
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -1193,6 +1198,7 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
       let data = "";
       post(url, data, listarFunDocs);
     }
+   
 
 
    </script>
