@@ -79,22 +79,38 @@ class AtendidoDAO
         }
     }
 
-    public function alterarImagem($atendido)
-    {
-        try {
-            $sql = 'update pessoa as p inner join interno as i on p.id_pessoa=i.id_pessoa set imagem=:imagem where id_pessoa=:id_pessoa';
-            $sql = str_replace("'", "\'", $sql);
-            $pdo = Conexao::connect();
-            $stmt = $pdo->prepare($sql);
+    // public function alterarImagem($atendido)
+    // {
+    //     try {
+    //         $sql = 'update pessoa as p inner join interno as i on p.id_pessoa=i.id_pessoa set imagem=:imagem where id_pessoa=:id_pessoa';
+    //         $sql = str_replace("'", "\'", $sql);
+    //         $pdo = Conexao::connect();
+    //         $stmt = $pdo->prepare($sql);
 
+    //         $stmt = $pdo->prepare($sql);
+    //         $imagem=$atendido->getImagem();
+    //         $idatendido=$atendido->getIdatendido();
+    //         $stmt->bindParam(':imagem',$imagem);
+    //         $stmt->bindParam(':id_pessoa',$id_pessoa);
+    //         $stmt->execute();
+    //     } catch (PDOException $e) {
+    //         echo 'Error: <b>  na tabela pessoas = ' . $sql . '</b> <br /><br />' . $e->getMessage();
+    //     }
+    // }
+    public function alterarImagem($idatendido, $imagem)
+    {
+        $imagem = base64_encode($imagem);
+        try {
+            $pdo = Conexao::connect();
+            $id_pessoa = (($pdo->query("SELECT pessoa_id_pessoa FROM atendido WHERE idatendido=$idatendido"))->fetch(PDO::FETCH_ASSOC))["pessoa_id_pessoa"];
+            
+            $sql = "UPDATE pessoa SET imagem = :imagem WHERE id_pessoa = :pessoa_id_pessoa;";
             $stmt = $pdo->prepare($sql);
-            $imagem=$atendido->getImagem();
-            $idatendido=$atendido->getIdatendido();
-            $stmt->bindParam(':imagem',$imagem);
-            $stmt->bindParam(':id_pessoa',$id_pessoa);
+            $stmt->bindValue(':pessoa_id_pessoa', $id_pessoa);
+            $stmt->bindValue(':imagem',$imagem);
             $stmt->execute();
         } catch (PDOException $e) {
-            echo 'Error: <b>  na tabela pessoas = ' . $sql . '</b> <br /><br />' . $e->getMessage();
+            echo 'Error: <b>  na tabela pessoa = ' . $sql . '</b> <br /><br />' . $e->getMessage();
         }
     }
 

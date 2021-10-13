@@ -259,6 +259,20 @@ class AtendidoControle
         
     }
 
+    public function alterarImagem()
+    {
+        extract($_REQUEST);
+        $img = file_get_contents($_FILES['imgperfil']['tmp_name']);
+        $atendidoDAO = new AtendidoDAO();
+        try {
+            $atendidoDAO->alterarImagem($idatendido, $img);
+            header("Location: ../html/atendido/Profile_Atendido.php?idatendido=".$idatendido);
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+        
+    }
+
     public function alterarEndereco()
     {
         extract($_REQUEST);

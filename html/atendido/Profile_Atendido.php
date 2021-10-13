@@ -634,7 +634,7 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                                                 </div>
                                           </div>
                                           <div class="modal-footer">
-                                          <input type="hidden" name="idatendido" value= >
+                                          <input type="hidden" name="idatendido" value="<?php echo $_GET['idatendido'] ?>" >
                                           <input type="submit" id="formsubmit" value="Alterar imagem">
                                           </div>
                                        </div>
