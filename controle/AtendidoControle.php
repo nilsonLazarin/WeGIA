@@ -279,7 +279,7 @@ class AtendidoControle
         if((!isset($numero_residencia)) || empty(($numero_residencia))){
             $numero_residencia = "null";
         }
-        $atendido = new Atendido('','','','','','','','','','','','','','',$cep,$uf,$cidade,$bairro,$rua,$numero_residencia,$complemento,$ibge);
+        $atendido = new Atendido('','','','','','','','','','','','','','',$cep,$estado,$cidade,$bairro,$rua,$numero_residencia,$complemento,$ibge);
         $atendido->setIdatendido($idatendido);
         $atendidoDAO=new AtendidoDAO();
         try {

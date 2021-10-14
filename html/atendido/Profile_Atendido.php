@@ -371,7 +371,7 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
             $("#metodo").val("alterarEndereco");
          }
          $.each(endereco,function(i,item){   
-            console.log(endereco);
+            //console.log(endereco);
             console.log("estado=" +item.estado);
               $("#nome").val(item.nome).prop('disabled', true);
               $("#cep").val(item.cep).prop('disabled', true);
@@ -446,7 +446,7 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                 document.getElementById('rua').value=(conteudo.logradouro);
                 document.getElementById('bairro').value=(conteudo.bairro);
                 document.getElementById('cidade').value=(conteudo.localidade);
-                document.getElementById('estado').value=(conteudo.estado);
+                document.getElementById('estado').value=(conteudo.uf);
                 document.getElementById('ibge').value=(conteudo.ibge);
             }
             else {
@@ -539,7 +539,7 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
 
              $(function() {
                 var docfuncional = <?= $docfuncional ?>;
-                console.log(docfuncional);
+                //console.log(docfuncional);
                 $.each(docfuncional, function(i, item) {
                   $("#doc-tab")
                     .append($("<tr>")
@@ -556,7 +556,6 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
               function listarFunDocs(docfuncional){
                   $("#doc-tab").empty();
                 $.each(docfuncional, function(i, item) {
-                  console.log("oi"+item.nome_docfuncional);
                   $("#doc-tab")
                     .append($("<tr>")
                       .append($("<td>").text(item.descricao))
