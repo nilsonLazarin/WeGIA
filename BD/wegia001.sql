@@ -314,18 +314,6 @@ CREATE TABLE IF NOT EXISTS `wegia`.`entrada` (
     REFERENCES `wegia`.`pessoa` (`id_pessoa`))
 ENGINE = InnoDB;
 
-
--- -----------------------------------------------------
--- Table `wegia`.`epi`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `wegia`.`epi` (
-  `id_epi` INT(11) NOT NULL AUTO_INCREMENT,
-  `descricao_epi` VARCHAR(100) NULL DEFAULT NULL,
-  PRIMARY KEY (`id_epi`),
-  UNIQUE INDEX `descricao_epi` (`descricao_epi` ASC))
-ENGINE = InnoDB;
-
-
 -- -----------------------------------------------------
 -- Table `wegia`.`unidade`
 -- -----------------------------------------------------
@@ -629,61 +617,6 @@ CREATE TABLE IF NOT EXISTS `wegia`.`quadro_horario_funcionario` (
     FOREIGN KEY (`tipo`)
     REFERENCES `wegia`.`tipo_quadro_horario` (`id_tipo`))
 ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `wegia`.`voluntario`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `wegia`.`voluntario` (
-  `id_voluntario` INT(11) NOT NULL AUTO_INCREMENT,
-  `id_pessoa` INT(11) NOT NULL,
-  `id_situacao` INT(11) NOT NULL,
-  `id_cargo` INT(11) NOT NULL,
-  `descricao_atividade` VARCHAR(100) NULL DEFAULT NULL,
-  `data_admissao` DATE NOT NULL,
-  PRIMARY KEY (`id_voluntario`),
-  INDEX `id_pessoa` (`id_pessoa` ASC),
-  INDEX `fk_voluntario_situacao1_idx` (`id_situacao` ASC),
-  INDEX `fk_voluntario_cargo1_idx` (`id_cargo` ASC),
-  CONSTRAINT `voluntario_ibfk_1`
-    FOREIGN KEY (`id_pessoa`)
-    REFERENCES `wegia`.`pessoa` (`id_pessoa`),
-  CONSTRAINT `fk_voluntario_situacao1`
-    FOREIGN KEY (`id_situacao`)
-    REFERENCES `wegia`.`situacao` (`id_situacao`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT `fk_voluntario_cargo1`
-    FOREIGN KEY (`id_cargo`)
-    REFERENCES `wegia`.`cargo` (`id_cargo`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `wegia`.`quadro_horario_voluntario`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `wegia`.`quadro_horario_voluntario` (
-  `id_quadro_horario` INT(11) NOT NULL AUTO_INCREMENT,
-  `id_voluntario` INT(11) NOT NULL,
-  `escala` VARCHAR(200) NULL DEFAULT NULL,
-  `tipo` VARCHAR(200) NULL DEFAULT NULL,
-  `carga_horaria` VARCHAR(200) NULL DEFAULT NULL,
-  `entrada1` VARCHAR(200) NULL DEFAULT NULL,
-  `saida1` VARCHAR(200) NULL DEFAULT NULL,
-  `entrada2` VARCHAR(200) NULL DEFAULT NULL,
-  `saida2` VARCHAR(200) NULL DEFAULT NULL,
-  `total` VARCHAR(200) NULL DEFAULT NULL,
-  `dias_trabalhados` VARCHAR(200) NULL DEFAULT NULL,
-  `folga` VARCHAR(200) NULL DEFAULT NULL,
-  PRIMARY KEY (`id_quadro_horario`),
-  INDEX `id_voluntario` (`id_voluntario` ASC),
-  CONSTRAINT `quadro_horario_voluntario_ibfk_1`
-    FOREIGN KEY (`id_voluntario`)
-    REFERENCES `wegia`.`voluntario` (`id_voluntario`))
-ENGINE = InnoDB;
-
 
 -- -----------------------------------------------------
 -- Table `wegia`.`selecao_paragrafo`
@@ -1394,26 +1327,6 @@ declare idF int;
 SELECT MAX(id_funcionario) into idF FROM funcionario;
 
 insert into quadro_horario_funcionario(id_funcionario,escala, tipo, carga_horaria, entrada1, saida1, entrada2, saida2, total, dias_trabalhados, folga) 
-VALUES (idF, escala, tipo, carga_horaria, entrada1, saida1, entrada2, saida2, total, dias_trabalhados, folga);
-
-END$$
-
-DELIMITER ;
-
--- -----------------------------------------------------
--- procedure cadhorariovolunt
--- -----------------------------------------------------
-
-DELIMITER $$
-USE `wegia`$$
-CREATE PROCEDURE `cadhorariovolunt`(IN `escala` VARCHAR(200), IN `tipo` VARCHAR(200), IN `carga_horaria` VARCHAR(200), IN `entrada1` VARCHAR(200), IN `saida1` VARCHAR(200), IN `entrada2` VARCHAR(200), IN `saida2` VARCHAR(200), IN `total` VARCHAR(200), IN `dias_trabalhados` VARCHAR(200), IN `folga` VARCHAR(200))
-    NO SQL
-begin
-declare idV int;
-
-SELECT MAX(id_voluntario) into idV FROM voluntario;
-
-insert into quadro_horario_voluntario(id_voluntario,escala, tipo, carga_horaria, entrada1, saida1, entrada2, saida2, total, dias_trabalhados, folga) 
 VALUES (idF, escala, tipo, carga_horaria, entrada1, saida1, entrada2, saida2, total, dias_trabalhados, folga);
 
 END$$
