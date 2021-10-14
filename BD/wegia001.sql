@@ -1250,6 +1250,142 @@ CREATE TABLE IF NOT EXISTS `wegia`.`funcionario_outrasinfo` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+
+-- -----------------------------------------------------
+-- Table `wegia`.`saude_fichamedica`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `wegia`.`saude_fichamedica` (
+  `id_fichamedica` INT NOT NULL AUTO_INCREMENT,
+  `id_pessoa` INT(11) NOT NULL,
+  `descricao` VARCHAR(500) NULL,
+  PRIMARY KEY (`id_fichamedica`),
+  INDEX `fk_saude_fichamedica_pessoa1_idx` (`id_pessoa` ASC),
+  CONSTRAINT `fk_saude_fichamedica_pessoa1`
+    FOREIGN KEY (`id_pessoa`)
+    REFERENCES `wegia`.`pessoa` (`id_pessoa`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `wegia`.`saude_tabelacid`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `wegia`.`saude_tabelacid` (
+  `id_CID` INT NOT NULL AUTO_INCREMENT,
+  `CID` VARCHAR(10) NOT NULL,
+  `descricao` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`id_CID`),
+  UNIQUE INDEX `CID_UNIQUE` (`CID` ASC))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `wegia`.`saude_enfermidades`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `wegia`.`saude_enfermidades` (
+  `id_enfermidade` INT NOT NULL AUTO_INCREMENT,
+  `id_fichamedica` INT NOT NULL,
+  `id_CID` INT NOT NULL,
+  `data_diagnostico` DATE NULL,
+  `status` TINYINT NULL,
+  PRIMARY KEY (`id_enfermidade`),
+  INDEX `fk_daude_enfermidades_saude_fichamedica1_idx` (`id_fichamedica` ASC),
+  INDEX `fk_saude_enfermidades_saude_CID1_idx` (`id_CID` ASC),
+  CONSTRAINT `fk_daude_enfermidades_saude_fichamedica1`
+    FOREIGN KEY (`id_fichamedica`)
+    REFERENCES `wegia`.`saude_fichamedica` (`id_fichamedica`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_saude_enfermidades_saude_CID1`
+    FOREIGN KEY (`id_CID`)
+    REFERENCES `wegia`.`saude_tabelacid` (`id_CID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `wegia`.`saude_exame_tipos`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `wegia`.`saude_exame_tipos` (
+  `id_exame_tipo` INT NOT NULL AUTO_INCREMENT,
+  `descricao` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`id_exame_tipo`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `wegia`.`saude_exames`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `wegia`.`saude_exames` (
+  `id_exame` INT NOT NULL AUTO_INCREMENT,
+  `id_fichamedica` INT NOT NULL,
+  `id_exame_tipos` INT NOT NULL,
+  `data` TIMESTAMP NOT NULL,
+  `arquivo_nome` VARCHAR(255) NOT NULL,
+  `arquivo_extensao` VARCHAR(10) NULL,
+  `arquivo` LONGBLOB NOT NULL,
+  PRIMARY KEY (`id_exame`),
+  INDEX `fk_saude_exames_saude_fichamedica1_idx` (`id_fichamedica` ASC),
+  INDEX `fk_saude_exames_saude_exame_tipos1_idx` (`id_exame_tipos` ASC),
+  CONSTRAINT `fk_saude_exames_saude_fichamedica1`
+    FOREIGN KEY (`id_fichamedica`)
+    REFERENCES `wegia`.`saude_fichamedica` (`id_fichamedica`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_saude_exames_saude_exame_tipos1`
+    FOREIGN KEY (`id_exame_tipos`)
+    REFERENCES `wegia`.`saude_exame_tipos` (`id_exame_tipo`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `wegia`.`saude_atendimento`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `wegia`.`saude_atendimento` (
+  `id_atendimento` INT NOT NULL AUTO_INCREMENT,
+  `id_fichamedica` INT NOT NULL,
+  `id_funcionario` INT(11) NOT NULL,
+  `data_atendimento` DATE NULL,
+  `descricao` BLOB NULL,
+  PRIMARY KEY (`id_atendimento`),
+  INDEX `fk_saude_atendimento_saude_fichamedica1_idx` (`id_fichamedica` ASC),
+  INDEX `fk_saude_atendimento_funcionario1_idx` (`id_funcionario` ASC),
+  CONSTRAINT `fk_saude_atendimento_saude_fichamedica1`
+    FOREIGN KEY (`id_fichamedica`)
+    REFERENCES `wegia`.`saude_fichamedica` (`id_fichamedica`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_saude_atendimento_funcionario1`
+    FOREIGN KEY (`id_funcionario`)
+    REFERENCES `wegia`.`funcionario` (`id_funcionario`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `wegia`.`saude_medicacao`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `wegia`.`saude_medicacao` (
+  `id_medicacao` INT NOT NULL AUTO_INCREMENT,
+  `id_atendimento` INT NOT NULL,
+  `medicamento` VARCHAR(255) NOT NULL,
+  `dosagem` VARCHAR(100) NULL,
+  `horario` VARCHAR(100) NULL,
+  `duracao` VARCHAR(100) NULL,
+  PRIMARY KEY (`id_medicacao`),
+  INDEX `fk_saude_medicacao_saude_atendimento1_idx` (`id_atendimento` ASC),
+  CONSTRAINT `fk_saude_medicacao_saude_atendimento1`
+    FOREIGN KEY (`id_atendimento`)
+    REFERENCES `wegia`.`saude_atendimento` (`id_atendimento`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
 USE `wegia` ;
 
 -- -----------------------------------------------------
