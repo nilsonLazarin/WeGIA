@@ -206,19 +206,6 @@ INSERT INTO `funcionario_listainfo` (`idfuncionario_listainfo`, `descricao`) VAL
 (3, 'Estado Civil'),
 (4, 'Carteira do SUS');
 
-INSERT INTO `epi` (`descricao_epi`) VALUES 
-('Uniforme completo'),
-('Calça'),
-('Calçado'),
-('Capacete'),
-('Capuz ou balaclava'),
-('Luvas'),
-('Macacão'),
-('Óculos de proteção'),
-('Protetor Facial'),
-('Protetor Auditivo'),
-('Respirador purificador');
-
 INSERT INTO categoria_produto (descricao_categoria) VALUES ('Alimento'),('Higiene'),('Limpeza'),('Medicamento'),('Papelaria');
 
 INSERT INTO origem (nome_origem) VALUES ('Doador não identificado');

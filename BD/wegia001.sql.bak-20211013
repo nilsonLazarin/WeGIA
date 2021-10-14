@@ -225,6 +225,41 @@ CREATE TABLE IF NOT EXISTS `wegia`.`anexo` (
     REFERENCES `wegia`.`despacho` (`id_despacho`))
 ENGINE = InnoDB;
 
+
+-- -----------------------------------------------------
+-- Table `wegia`.`beneficios`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `wegia`.`beneficios` (
+  `id_beneficios` INT(11) NOT NULL AUTO_INCREMENT,
+  `descricao_beneficios` VARCHAR(100) NULL DEFAULT NULL,
+  PRIMARY KEY (`id_beneficios`),
+  UNIQUE INDEX `descricao_beneficios` (`descricao_beneficios` ASC))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `wegia`.`beneficiados`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `wegia`.`beneficiados` (
+  `id_beneficiados` INT(11) NOT NULL AUTO_INCREMENT,
+  `id_pessoa` INT(11) NOT NULL,
+  `id_beneficios` INT(11) NOT NULL,
+  `data_inicio` DATE NULL DEFAULT NULL,
+  `data_fim` DATE NULL DEFAULT NULL,
+  `beneficios_status` VARCHAR(100) NULL DEFAULT NULL,
+  `valor` DECIMAL(10,2) NULL DEFAULT NULL,
+  PRIMARY KEY (`id_beneficiados`),
+  INDEX `id_beneficios` (`id_beneficios` ASC),
+  INDEX `id_pessoa` (`id_pessoa` ASC),
+  CONSTRAINT `beneficiados_ibfk_1`
+    FOREIGN KEY (`id_beneficios`)
+    REFERENCES `wegia`.`beneficios` (`id_beneficios`),
+  CONSTRAINT `beneficiados_ibfk_2`
+    FOREIGN KEY (`id_pessoa`)
+    REFERENCES `wegia`.`pessoa` (`id_pessoa`))
+ENGINE = InnoDB;
+
+
 -- -----------------------------------------------------
 -- Table `wegia`.`campo_imagem`
 -- -----------------------------------------------------
@@ -259,6 +294,24 @@ CREATE TABLE IF NOT EXISTS `wegia`.`destino` (
   `telefone` VARCHAR(33) NULL DEFAULT NULL,
   PRIMARY KEY (`id_destino`))
 ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `wegia`.`documento`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `wegia`.`documento` (
+  `id_documento` INT(11) NOT NULL AUTO_INCREMENT,
+  `id_pessoa` INT(11) NOT NULL,
+  `imgdoc` LONGBLOB NULL DEFAULT NULL,
+  `imagem_extensao` VARCHAR(10) NULL DEFAULT NULL,
+  `descricao` VARCHAR(40) NULL DEFAULT NULL,
+  PRIMARY KEY (`id_documento`),
+  INDEX `id_pessoa` (`id_pessoa` ASC),
+  CONSTRAINT `documento_ibfk_1`
+    FOREIGN KEY (`id_pessoa`)
+    REFERENCES `wegia`.`pessoa` (`id_pessoa`))
+ENGINE = InnoDB;
+
 
 -- -----------------------------------------------------
 -- Table `wegia`.`origem`
@@ -313,6 +366,18 @@ CREATE TABLE IF NOT EXISTS `wegia`.`entrada` (
     FOREIGN KEY (`id_responsavel`)
     REFERENCES `wegia`.`pessoa` (`id_pessoa`))
 ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `wegia`.`epi`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `wegia`.`epi` (
+  `id_epi` INT(11) NOT NULL AUTO_INCREMENT,
+  `descricao_epi` VARCHAR(100) NULL DEFAULT NULL,
+  PRIMARY KEY (`id_epi`),
+  UNIQUE INDEX `descricao_epi` (`descricao_epi` ASC))
+ENGINE = InnoDB;
+
 
 -- -----------------------------------------------------
 -- Table `wegia`.`unidade`
@@ -438,6 +503,36 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `wegia`.`interno`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `wegia`.`interno` (
+  `id_interno` INT(11) NOT NULL AUTO_INCREMENT,
+  `id_pessoa` INT(11) NULL DEFAULT NULL,
+  `nome_contato_urgente` VARCHAR(60) NULL DEFAULT NULL,
+  `telefone_contato_urgente_1` VARCHAR(33) NULL DEFAULT NULL,
+  `telefone_contato_urgente_2` VARCHAR(33) NULL DEFAULT NULL,
+  `telefone_contato_urgente_3` VARCHAR(33) NULL DEFAULT NULL,
+  `observacao` VARCHAR(240) NULL DEFAULT NULL,
+  `certidao_nascimento` VARCHAR(60) NULL DEFAULT NULL,
+  `curatela` VARCHAR(60) NULL DEFAULT NULL,
+  `inss` VARCHAR(60) NULL DEFAULT NULL,
+  `loas` VARCHAR(60) NULL DEFAULT NULL,
+  `bpc` VARCHAR(60) NULL DEFAULT NULL,
+  `funrural` VARCHAR(60) NULL DEFAULT NULL,
+  `saf` VARCHAR(60) NULL DEFAULT NULL,
+  `sus` VARCHAR(60) NULL DEFAULT NULL,
+  `certidao_casamento` VARCHAR(123) NULL DEFAULT NULL,
+  `ctps` VARCHAR(123) NULL DEFAULT NULL,
+  `titulo` VARCHAR(123) NULL DEFAULT NULL,
+  PRIMARY KEY (`id_interno`),
+  INDEX `id_pessoa` (`id_pessoa` ASC),
+  CONSTRAINT `interno_ibfk_1`
+    FOREIGN KEY (`id_pessoa`)
+    REFERENCES `wegia`.`pessoa` (`id_pessoa`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `wegia`.`tipo_saida`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `wegia`.`tipo_saida` (
@@ -532,6 +627,36 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `wegia`.`situacao_interno`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `wegia`.`situacao_interno` (
+  `id_situacao_interno` INT(11) NOT NULL AUTO_INCREMENT,
+  `data_hora` DATETIME NULL DEFAULT NULL,
+  `descricao` VARCHAR(50) NULL DEFAULT NULL,
+  `imagem` LONGTEXT NULL DEFAULT NULL,
+  `imagem_extensao` VARCHAR(10) NULL DEFAULT NULL,
+  PRIMARY KEY (`id_situacao_interno`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `wegia`.`movimentacao_interno`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `wegia`.`movimentacao_interno` (
+  `id_interno` INT(11) NOT NULL,
+  `id_situacao_interno` INT(11) NOT NULL,
+  PRIMARY KEY (`id_interno`, `id_situacao_interno`),
+  INDEX `id_situacao_interno` (`id_situacao_interno` ASC),
+  CONSTRAINT `movimentacao_interno_ibfk_1`
+    FOREIGN KEY (`id_interno`)
+    REFERENCES `wegia`.`interno` (`id_interno`),
+  CONSTRAINT `movimentacao_interno_ibfk_2`
+    FOREIGN KEY (`id_situacao_interno`)
+    REFERENCES `wegia`.`situacao_interno` (`id_situacao_interno`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `wegia`.`recurso`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `wegia`.`recurso` (
@@ -562,6 +687,27 @@ CREATE TABLE IF NOT EXISTS `wegia`.`permissao` (
     REFERENCES `wegia`.`recurso` (`id_recurso`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `wegia`.`pessoa_epi`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `wegia`.`pessoa_epi` (
+  `id_pessoa_epi` INT(11) NOT NULL AUTO_INCREMENT,
+  `id_pessoa` INT(11) NOT NULL,
+  `id_epi` INT(11) NOT NULL,
+  `data` DATE NULL DEFAULT NULL,
+  `epi_status` VARCHAR(100) NULL DEFAULT NULL,
+  PRIMARY KEY (`id_pessoa_epi`),
+  INDEX `id_pessoa` (`id_pessoa` ASC),
+  INDEX `id_epi` (`id_epi` ASC),
+  CONSTRAINT `pessoa_epi_ibfk_1`
+    FOREIGN KEY (`id_pessoa`)
+    REFERENCES `wegia`.`pessoa` (`id_pessoa`),
+  CONSTRAINT `pessoa_epi_ibfk_2`
+    FOREIGN KEY (`id_epi`)
+    REFERENCES `wegia`.`epi` (`id_epi`))
 ENGINE = InnoDB;
 
 
@@ -617,6 +763,61 @@ CREATE TABLE IF NOT EXISTS `wegia`.`quadro_horario_funcionario` (
     FOREIGN KEY (`tipo`)
     REFERENCES `wegia`.`tipo_quadro_horario` (`id_tipo`))
 ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `wegia`.`voluntario`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `wegia`.`voluntario` (
+  `id_voluntario` INT(11) NOT NULL AUTO_INCREMENT,
+  `id_pessoa` INT(11) NOT NULL,
+  `id_situacao` INT(11) NOT NULL,
+  `id_cargo` INT(11) NOT NULL,
+  `descricao_atividade` VARCHAR(100) NULL DEFAULT NULL,
+  `data_admissao` DATE NOT NULL,
+  PRIMARY KEY (`id_voluntario`),
+  INDEX `id_pessoa` (`id_pessoa` ASC),
+  INDEX `fk_voluntario_situacao1_idx` (`id_situacao` ASC),
+  INDEX `fk_voluntario_cargo1_idx` (`id_cargo` ASC),
+  CONSTRAINT `voluntario_ibfk_1`
+    FOREIGN KEY (`id_pessoa`)
+    REFERENCES `wegia`.`pessoa` (`id_pessoa`),
+  CONSTRAINT `fk_voluntario_situacao1`
+    FOREIGN KEY (`id_situacao`)
+    REFERENCES `wegia`.`situacao` (`id_situacao`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_voluntario_cargo1`
+    FOREIGN KEY (`id_cargo`)
+    REFERENCES `wegia`.`cargo` (`id_cargo`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `wegia`.`quadro_horario_voluntario`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `wegia`.`quadro_horario_voluntario` (
+  `id_quadro_horario` INT(11) NOT NULL AUTO_INCREMENT,
+  `id_voluntario` INT(11) NOT NULL,
+  `escala` VARCHAR(200) NULL DEFAULT NULL,
+  `tipo` VARCHAR(200) NULL DEFAULT NULL,
+  `carga_horaria` VARCHAR(200) NULL DEFAULT NULL,
+  `entrada1` VARCHAR(200) NULL DEFAULT NULL,
+  `saida1` VARCHAR(200) NULL DEFAULT NULL,
+  `entrada2` VARCHAR(200) NULL DEFAULT NULL,
+  `saida2` VARCHAR(200) NULL DEFAULT NULL,
+  `total` VARCHAR(200) NULL DEFAULT NULL,
+  `dias_trabalhados` VARCHAR(200) NULL DEFAULT NULL,
+  `folga` VARCHAR(200) NULL DEFAULT NULL,
+  PRIMARY KEY (`id_quadro_horario`),
+  INDEX `id_voluntario` (`id_voluntario` ASC),
+  CONSTRAINT `quadro_horario_voluntario_ibfk_1`
+    FOREIGN KEY (`id_voluntario`)
+    REFERENCES `wegia`.`voluntario` (`id_voluntario`))
+ENGINE = InnoDB;
+
 
 -- -----------------------------------------------------
 -- Table `wegia`.`selecao_paragrafo`
@@ -1253,6 +1454,24 @@ ENGINE = InnoDB;
 USE `wegia` ;
 
 -- -----------------------------------------------------
+-- procedure cadbeneficiados
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `wegia`$$
+CREATE PROCEDURE `cadbeneficiados`(IN `id_pessoa` INT, IN `id_beneficios` INT, IN `data_inicio` DATETIME, IN `data_fim` DATETIME, IN `beneficios_status` VARCHAR(100), IN `valor` DECIMAL(10,2))
+begin
+
+insert into beneficiados(id_pessoa,id_beneficios,data_inicio,data_fim,beneficios_status,valor)
+values(id_pessoa,id_beneficios,data_inicio,data_fim,beneficios_status,valor);
+
+
+
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
 -- procedure cadentrada
 -- -----------------------------------------------------
 
@@ -1273,6 +1492,22 @@ INTO idE FROM entrada;
 insert into ientrada(id_entrada, id_produto, qtd, valor_unitario)
   values(idE, id_produto, qtd, valor_unitario);
 end$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure cadepi
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `wegia`$$
+CREATE PROCEDURE `cadepi`(IN `id_pessoa` INT, IN `id_epi` INT, IN `data` DATE, IN `epi_status` VARCHAR(100))
+begin
+
+insert into pessoa_epi(id_pessoa,id_epi,data,epi_status)
+values(id_pessoa,id_epi,data,epi_status);
+
+END$$
 
 DELIMITER ;
 
@@ -1334,6 +1569,40 @@ END$$
 DELIMITER ;
 
 -- -----------------------------------------------------
+-- procedure cadhorariovolunt
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `wegia`$$
+CREATE PROCEDURE `cadhorariovolunt`(IN `escala` VARCHAR(200), IN `tipo` VARCHAR(200), IN `carga_horaria` VARCHAR(200), IN `entrada1` VARCHAR(200), IN `saida1` VARCHAR(200), IN `entrada2` VARCHAR(200), IN `saida2` VARCHAR(200), IN `total` VARCHAR(200), IN `dias_trabalhados` VARCHAR(200), IN `folga` VARCHAR(200))
+    NO SQL
+begin
+declare idV int;
+
+SELECT MAX(id_voluntario) into idV FROM voluntario;
+
+insert into quadro_horario_voluntario(id_voluntario,escala, tipo, carga_horaria, entrada1, saida1, entrada2, saida2, total, dias_trabalhados, folga) 
+VALUES (idF, escala, tipo, carga_horaria, entrada1, saida1, entrada2, saida2, total, dias_trabalhados, folga);
+
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- procedure cadimagem
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `wegia`$$
+CREATE PROCEDURE `cadimagem`(IN `id_pessoa` INT, IN `imagem` LONGBLOB, IN `imagem_extensao` VARCHAR(10), IN `descricao` VARCHAR(40))
+begin
+declare idD int;
+insert into documento(id_pessoa,imgdoc,imagem_extensao,descricao) VALUES (id_pessoa,imagem,imagem_extensao,descricao);
+END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
 -- procedure atendido
 -- -----------------------------------------------------
 
@@ -1389,6 +1658,10 @@ delete from quadro_horario_funcionario where id_funcionario=idf;
 
 select id_pessoa into idp from funcionario where id_funcionario=idf;
 
+delete from beneficiados where id_pessoa=idp;
+
+delete from pessoa_epi where id_pessoa=idp;
+
 delete f,p from funcionario as f inner join pessoa as p on p.id_pessoa=f.id_pessoa where f.id_funcionario=idf;
 END$$
 
@@ -1405,6 +1678,8 @@ BEGIN
 DECLARE idp int;
 
 select pessoa_id_pessoa into idp from atendido where idatendido=ida;
+
+delete from documento where id_pessoa=idp;
 
 delete a,p from atendido as a inner join pessoa as p on p.id_pessoa=a.pessoa_id_pessoa where a.idatendido=ida;
 END$$
