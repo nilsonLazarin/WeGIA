@@ -232,7 +232,11 @@ class AtendidoControle
         $atendidoDAO=new AtendidoDAO();
         try {
             $atendidoDAO->alterarInfPessoal($atendido);
-            header("Location: ../html/atendido/Profile_Atendido.php?idatendido=".$idatendido);
+            //echo "<script type='javascript'>alert('Email enviado com Sucesso!');</script>";
+            //echo "javascript:window.location='index.php';</script>";
+            header("Location: ../html/atendido/Informacao_Atendido.php");
+            //sleep(2);
+            // header("Location: ../html/atendido/Profile_Atendido.php?idatendido=".$idatendido);
         } catch (PDOException $e) {
             echo $e->getMessage();
         }

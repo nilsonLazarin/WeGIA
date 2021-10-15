@@ -51,6 +51,13 @@ class AtendidoDAO
             $stmt->bindParam(':intStatus',$intStatus);
             $stmt->bindParam(':intTipo',$intTipo);
             $stmt->execute();
+            $pdo->commit();
+            $pdo->close();
+            
+
+            //$pdo = Conexao::flush();
+            //$pdo = Conexao::close();
+
             
         } catch (PDOException $e) {
             echo 'Error: <b>  na tabela pessoas = ' . $sql . '</b> <br /><br />' . $e->getMessage();
@@ -74,29 +81,14 @@ class AtendidoDAO
             $stmt->bindParam(':idatendido', $id);
             
             $stmt->execute();
+
+            $pdo->commit();
+            $pdo->close();
         } catch (PDOException $e) {
             echo 'Error: <b>  na tabela pessoas = ' . $sql . '</b> <br /><br />' . $e->getMessage();
         }
     }
 
-    // public function alterarImagem($atendido)
-    // {
-    //     try {
-    //         $sql = 'update pessoa as p inner join interno as i on p.id_pessoa=i.id_pessoa set imagem=:imagem where id_pessoa=:id_pessoa';
-    //         $sql = str_replace("'", "\'", $sql);
-    //         $pdo = Conexao::connect();
-    //         $stmt = $pdo->prepare($sql);
-
-    //         $stmt = $pdo->prepare($sql);
-    //         $imagem=$atendido->getImagem();
-    //         $idatendido=$atendido->getIdatendido();
-    //         $stmt->bindParam(':imagem',$imagem);
-    //         $stmt->bindParam(':id_pessoa',$id_pessoa);
-    //         $stmt->execute();
-    //     } catch (PDOException $e) {
-    //         echo 'Error: <b>  na tabela pessoas = ' . $sql . '</b> <br /><br />' . $e->getMessage();
-    //     }
-    // }
     public function alterarImagem($idatendido, $imagem)
     {
         $imagem = base64_encode($imagem);
@@ -109,6 +101,8 @@ class AtendidoDAO
             $stmt->bindValue(':pessoa_id_pessoa', $id_pessoa);
             $stmt->bindValue(':imagem',$imagem);
             $stmt->execute();
+            $pdo->commit();
+            $pdo->close();
         } catch (PDOException $e) {
             echo 'Error: <b>  na tabela pessoa = ' . $sql . '</b> <br /><br />' . $e->getMessage();
         }
@@ -138,6 +132,12 @@ class AtendidoDAO
             $stmt->bindParam(':telefone',$telefone);
             $stmt->bindParam(':data_nascimento',$nascimento);
             $stmt->execute();
+            $pdo->commit();
+            $pdo->close();
+
+            // mysqli_stmt_close($stmt);
+            // mysqli_close($pdo);
+            
         } catch (PDOException $e) {
             echo 'Error: <b>  na tabela pessoas = ' . $sql . '</b> <br /><br />' . $e->getMessage();
         }
@@ -159,6 +159,8 @@ class AtendidoDAO
                 }
                 $x++;
             }
+           // $pdo->commit();
+            //$pdo->close();
             } catch (PDOExeption $e){
                 echo 'Error:' . $e->getMessage;
             }
@@ -183,6 +185,8 @@ class AtendidoDAO
                 }
                 $x++;
             }
+            // $pdo = Conexao::flush();
+            // $pdo = Conexao::close();
             } catch (PDOExeption $e){
                 echo 'Error:' . $e->getMessage;
             }
@@ -233,6 +237,8 @@ class AtendidoDAO
         {
             echo 'Error:' . $e->getMessage;
         }
+        /////////////////$pdo = Conexao::flush();
+        //$pdo = Conexao::close();
         return json_encode($cpfs);
     }
     public function alterarInfPessoal($atendido)
@@ -265,6 +271,11 @@ class AtendidoDAO
             $stmt->bindParam(':nome_mae',$nomeMae);
             $stmt->bindParam(':tipo_sanguineo',$sangue);
             $stmt->execute();
+            $pdo->commit();
+            $pdo->close();
+
+            // mysqli_stmt_close($stmt);
+            // mysqli_close($pdo);
         } catch (PDOException $e) {
             echo 'Error: <b>  na tabela pessoas = ' . $sql . '</b> <br /><br />' . $e->getMessage();
         }
@@ -299,6 +310,13 @@ class AtendidoDAO
             $stmt->bindParam(':orgao_emissor',$orgao_emissor);
             $stmt->bindParam(':data_expedicao',$data_expedicao);
             $stmt->execute();
+            $pdo->commit();
+            $pdo->close();
+            //$stmt->commit();
+
+
+            // mysqli_stmt_close($stmt);
+            // mysqli_close($pdo);
         } catch (PDOException $e) {
             echo 'Error: <b>  na tabela pessoas = ' . $sql . '</b> <br /><br />' . $e->getMessage();
         }
@@ -333,6 +351,11 @@ class AtendidoDAO
             $stmt->bindParam(':complemento',$complemento);
             $stmt->bindParam(':ibge',$ibge);
             $stmt->execute();
+            $pdo->commit();
+            $pdo->close();
+
+            // mysqli_stmt_close($stmt);
+            // mysqli_close($pdo);
         } catch (PDOException $e) {
             echo 'Error: <b>  na tabela pessoas = ' . $sql . '</b> <br /><br />' . $e->getMessage();
         }

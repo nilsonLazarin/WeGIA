@@ -52,7 +52,9 @@ session_start();
          $permissao = 1;
        $msg = "Você não tem as permissões necessárias para essa página.";
        header("Location: ./home.php?msg_c=$msg");
-      }	
+      }
+      mysqli_close($conexao);
+      //fechar conexao arq
    
 
   include_once '../../classes/Cache.php';    
