@@ -50,7 +50,7 @@ session_start();
        $msg = "Você não tem as permissões necessárias para essa página.";
        header("Location: ./home.php?msg_c=$msg");
       }	
-   
+  
 
   include_once '../../classes/Cache.php';    
 	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
@@ -83,6 +83,109 @@ session_start();
       }
    
 ?>
+
+    <!-- Vendor -->
+    <script src="<?php echo WWW;?>assets/vendor/jquery/jquery.min.js"></script>
+    <script src="<?php echo WWW;?>assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
+    <script src="<?php echo WWW;?>assets/vendor/bootstrap/js/bootstrap.js"></script>
+    <script src="<?php echo WWW;?>assets/vendor/nanoscroller/nanoscroller.js"></script>
+    <script src="<?php echo WWW;?>assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <script src="<?php echo WWW;?>assets/vendor/magnific-popup/magnific-popup.js"></script>
+    <script src="<?php echo WWW;?>assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
+        
+    <!-- Specific Page Vendor -->
+    <script src="<?php echo WWW;?>assets/vendor/jquery-autosize/jquery.autosize.js"></script>
+        
+    <!-- Theme Base, Components and Settings -->
+    <script src="<?php echo WWW;?>assets/javascripts/theme.js"></script>
+        
+    <!-- Theme Custom -->
+    <script src="<?php echo WWW;?>assets/javascripts/theme.custom.js"></script>
+        
+    <!-- Theme Initialization Files -->
+    <script src="<?php echo WWW;?>assets/javascripts/theme.init.js"></script>
+
+    <!-- javascript functions -->
+    <script src="<?php echo WWW;?>Functions/onlyNumbers.js"></script>
+    <script src="<?php echo WWW;?>Functions/onlyChars.js"></script>
+    <script src="<?php echo WWW;?>Functions/mascara.js"></script>
+
+    <!-- jkeditor -->
+    <script src="<?php echo WWW;?>assets/vendor/ckeditor/ckeditor.js"></script>
+        
+    <!-- jquery functions -->
+
+    <script>
+        $(function(){
+            var funcionario=[];
+            $.each(funcionario,function(i,item){
+                $("#destinatario")
+                    .append($("<option id="+item.id_pessoa+" value="+item.id_pessoa+" name="+item.id_pessoa+">"+item.nome+" "+item.sobrenome+"</option>"));
+            });
+            $("#header").load("../header.php");
+            $(".menuu").load("../menu.php");
+
+            //var id_memorando = 1;
+            //$("#id_memorando").val(id_memorando);
+
+            CKEDITOR.replace('despacho');
+        });
+    </script>
+    
+
+    <style type="text/css">
+        .select{
+            position: absolute;
+            width: 235px;
+        }
+        .select-table-filter{
+            width: 140px;
+            float: left;
+        }
+        .panel-body{
+            margin-bottom: 15px;
+        }
+        img{
+        	margin-left:10px;
+        }
+        #div_texto
+        {
+            width: 100%;
+        }
+        #cke_despacho
+        {
+            height: 500px;
+        }
+        .cke_inner
+        {
+            height: 500px;
+        }
+        #cke_1_contents
+        {
+            height: 455px !important;
+        }
+        .col-md-3 {
+            width: 10%;
+        }
+    </style>
+<script>
+        $(function(){
+            var funcionario=[];
+            $.each(funcionario,function(i,item){
+                $("#destinatario")
+                    .append($("<option id="+item.id_pessoa+" value="+item.id_pessoa+" name="+item.id_pessoa+">"+item.nome+" "+item.sobrenome+"</option>"));
+            });
+            $("#header").load("../header.php");
+            $(".menuu").load("../menu.php");
+
+            //var id_memorando = 1;
+            //$("#id_memorando").val(id_memorando);
+
+            CKEDITOR.replace('despacho');
+        });
+</script>
+
+
 
 <!doctype html>
 <html class="fixed">
@@ -951,12 +1054,16 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                    </div>-->
                    <div class="form-group">
                      <label class="col-md-3 control-label" for="profileCompany">Descrição:</label>
-                     <div class="col-md-6">
+                       <div class='col-md-6' id='div_texto' style="height: 499px;">
+                        <textarea cols='30' rows='3' id='despacho' name='texto' required class='form-control'></textarea>
+                        </div>
+                     
+                      </div>
+                     <!--<div class="col-md-6">
                        <input type="text" class="form-control" name="orgao_emissor" id="orgao_emissor" onkeypress="return Onlychars(event)">
                      </div>
-                   </div>
-                   <br />
-                   
+                   </div>-->
+
             </section>
               <section class="panel">
                    <header class="panel-heading">
@@ -1389,5 +1496,23 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
         }
       }
    </script>
-    </body>
+   <!-- Vendor -->
+   <script src="<?php echo WWW;?>assets/vendor/select2/select2.js"></script>
+        <script src="<?php echo WWW;?>assets/vendor/jquery-datatables/media/js/jquery.dataTables.js"></script>
+        <script src="<?php echo WWW;?>assets/vendor/jquery-datatables/extras/TableTools/js/dataTables.tableTools.min.js"></script>
+        <script src="<?php echo WWW;?>assets/vendor/jquery-datatables-bs3/assets/js/datatables.js"></script>
+        
+        <!-- Theme Base, Components and Settings -->
+        <script src="<?php echo WWW;?>assets/javascripts/theme.js"></script>
+        
+        <!-- Theme Custom -->
+        <script src="<?php echo WWW;?>assets/javascripts/theme.custom.js"></script>
+        
+        <!-- Theme Initialization Files -->
+        <script src="<?php echo WWW;?>assets/javascripts/theme.init.js"></script>
+        <!-- Examples -->
+        <script src="<?php echo WWW;?>assets/javascripts/tables/examples.datatables.default.js"></script>
+        <script src="<?php echo WWW;?>assets/javascripts/tables/examples.datatables.row.with.details.js"></script>
+        <script src="<?php echo WWW;?>assets/javascripts/tables/examples.datatables.tabletools.js"></script>
+  </body>
 </html> 

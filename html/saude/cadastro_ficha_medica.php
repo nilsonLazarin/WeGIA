@@ -21,7 +21,7 @@ if(!isset($_SESSION['usuario'])){
     header ("Location: ".WWW."index.php");
 }
 
-$conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+/*$conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 $id_pessoa = $_SESSION['id_pessoa'];
 $resultado = mysqli_query($conexao, "SELECT * FROM funcionario WHERE id_pessoa=$id_pessoa");
 if(!is_null($resultado)){
@@ -47,8 +47,8 @@ if(!is_null($resultado)){
     $msg = "Você não tem as permissões necessárias para essa página.";
     header("Location: ".WWW."html/home.php?msg_c=$msg");
 }	
-
-require_once ROOT."/controle/FuncionarioControle.php";
+*/
+/*require_once ROOT."/controle/saudeControle.php";
 require_once ROOT."/controle/memorando/MemorandoControle.php";
 
 $funcionarios = new FuncionarioControle;
@@ -57,16 +57,14 @@ $funcionarios->listarTodos2();
 $listarInativos = new MemorandoControle;
 $listarInativos->listarIdTodosInativos();
 
-// criar um controle para o modulo saude//
 $issetMemorando = new MemorandoControle;
-$issetMemorando->issetMemorando($_GET['id_memorando']);
+$issetMemorando->issetMemorando($_GET['id_memorando']);*/
 
 // Adiciona a Função display_campo($nome_campo, $tipo_campo)
 require_once ROOT."/html/personalizacao_display.php";
 ?>
 
- <!DOCTYPE html>
-
+<!DOCTYPE html>
 <html class="fixed">
 <head>
     <!-- Basic -->
@@ -100,6 +98,13 @@ require_once ROOT."/html/personalizacao_display.php";
 
     <!-- Head Libs -->
     <script src="<?php echo WWW;?>assets/vendor/modernizr/modernizr.js"></script>
+
+    <!-- Vermelho dos campos obrigatórios -->
+    <style type="text/css">
+	  .obrig {
+      color: rgb(255, 0, 0);
+         }
+    </style>
         
     <!-- Vendor -->
     <script src="<?php echo WWW;?>assets/vendor/jquery/jquery.min.js"></script>
@@ -135,22 +140,16 @@ require_once ROOT."/html/personalizacao_display.php";
 
     <script>
         $(function(){
-            var funcionario=<?php echo $_SESSION['funcionarios2']?>;
+            var funcionario=[];
             $.each(funcionario,function(i,item){
                 $("#destinatario")
                     .append($("<option id="+item.id_pessoa+" value="+item.id_pessoa+" name="+item.id_pessoa+">"+item.nome+" "+item.sobrenome+"</option>"));
             });
-            $("#header").load("<?php echo WWW;?>html/header.php");
-            $(".menuu").load("<?php echo WWW;?>html/menu.php");
-            
-            /* $(function ()
             $("#header").load("../header.php");
             $(".menuu").load("../menu.php");
-            })*/
-            
 
-            var id_memorando = <?php echo $_GET['id_memorando']?>;
-            $("#id_memorando").val(id_memorando);
+            //var id_memorando = 1;
+            //$("#id_memorando").val(id_memorando);
 
             CKEDITOR.replace('despacho');
         });
@@ -218,31 +217,8 @@ require_once ROOT."/html/personalizacao_display.php";
                         <a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
                     </div>
                 </header>
-                <!-- start: page -->
-                <!-- Caso o memorando tenha sido inserido-->
-                <?php
-                if (isset($_GET['msg']))
-                { 
-                    if ($_GET['msg'] == 'success')
-                    {
-                     echo('<div class="alert alert-success"><i class="fas fa-check mr-md"></i><a href="#" class="close" onclick="closeMsg()" data-dismiss="alert" aria-label="close">&times;</a>'.$_GET["sccs"]."</div>");
-                    }
-                }
-                ?>
+               
 
-                <section class="panel" >
-                <?php 
-                if(in_array($_GET['id_memorando'], $_SESSION['memorandoIdInativo']) || $_SESSION['isset_memorando']==1)
-                {
-                ?>
-                <script>
-                    $(".panel").html("<p>Desculpe, você não tem acesso à essa página</p>");
-                </script>
-                <?php
-                }
-                else
-                {
-                ?>
             <div class="row">
                 <div class="col-md-8 col-lg-8">
                 <div class="tabs">
@@ -254,8 +230,9 @@ require_once ROOT."/html/personalizacao_display.php";
                 <div class="tab-content">
                 <div id="overview" class="tab-pane active">
                     <form class="form-horizontal" method="GET" action="../controle/control.php">
-                    <div id="cadastro_exames" class="tab-pane">
-                    <section class="panel">  
+
+
+                <section class="panel">  
                 <header class="panel-heading">
                 <div class="panel-actions">
                     <a href="#" class="fa fa-caret-down"></a>
@@ -267,23 +244,26 @@ require_once ROOT."/html/personalizacao_display.php";
                         <!--<?php
                         echo "<form action='".WWW."controle/control.php' class='file-uploader' method='post' enctype='multipart/form-data'>";
                         ?>-->
-                            
+                        
+							<form class="form-horizontal" method="GET" action="../../controle/control.php" id="form-cadastro" enctype="multipart/form-data">
+									
                             <h5 class="obrig">Campos Obrigatórios(*)</h5>
+                            <br>
                             <div class="form-group">
-                                <label class="col-md-3 control-label" for="profileFirstName">Nome<sup class="obrig">*</sup></label>
-                                <div class="col-md-8">
+                                <!-- na class tinha um control-label-->
+                                <label class="col-md-2" for="profileFirstName">Nome do paciente<sup class="obrig">*</sup></label>
+                                <div class="col-md-10">
                                 <input type="text" class="form-control" name="nome" id="profileFirstName" id="nome" onkeypress="return Onlychars(event)" required>
                                 </div>
                             </div>
-                            
                             <div class="form-group">
-                                    <label for=texto id=etiqueta_despacho class='col-md-3 control-label'>Descrição médica </label>
+                                    <label for="texto" id="etiqueta_despacho" style="padding-left: 15px;">Descrição médica<sup class="obrig">*</sup></label>
                                     <div class='col-md-6' id='div_texto' style="height: 499px;">
                                         <textarea cols='30' rows='5' id='despacho' name='texto' required class='form-control'></textarea>
                                     </div>
                             </div>
                             <div class='row'>
-                                <div class='col-md-9 col-md-offset-8'>
+                                <!--<div class='col-md-9 col-md-offset-8'>
                                     <input type='hidden' value='DespachoControle' name='nomeClasse' class='mb-xs mt-xs mr-xs btn btn-default'>
                                 </div>
                                 <div class='col-md-9 col-md-offset-8'>
@@ -294,18 +274,18 @@ require_once ROOT."/html/personalizacao_display.php";
                                 </div>
                                 <div class='col-md-9 col-md-offset-8'>
                                     <input type='hidden' name='modulo' value="memorando" class='mb-xs mt-xs mr-xs btn btn-default'>
-                                </div>
+                                </div>-->
                                 <div class='col-md-9 col-md-offset-8'>
                                     <input type='submit' value='Enviar' name='enviar' id='enviar' class='mb-xs mt-xs mr-xs btn btn-primary'>
                                 </div>
-                            </div>
+                                </div>
+                            </form>
+                        </div>
                 </div>
                 </div>
                 </form>
                 </div> 
-                <?php
-                }
-                ?>
+                
             </div>
             </div>
             </div>
