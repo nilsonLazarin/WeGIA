@@ -1,4 +1,9 @@
 <?php
+
+ini_set('display_errors',1);
+ini_set('display_startup_erros',1);
+error_reporting(E_ALL);
+extract($_REQUEST);
 session_start();
 
 require_once "../dao/Conexao.php";
@@ -8,20 +13,20 @@ if (!isset($_SESSION['usuario'])) {
 } else if (!isset($_SESSION['funcionario'])) {
   $id_funcionario = $_GET['id_funcionario'];
   header('Location: ../controle/control.php?metodo=listarUm&nomeClasse=FuncionarioControle&nextPage=../html/profile_funcionario.php?id_funcionario=' . $id_funcionario . '&id_funcionario=' . $id_funcionario);
-} else if (!isset($_SESSION['beneficio'])) {
+/*} else if (!isset($_SESSION['beneficio'])) {
   $id_funcionario = $_GET['id_funcionario'];
   header('Location: ../controle/control.php?metodo=listarBeneficio&nomeClasse=FuncionarioControle&nextPage=../html/profile_funcionario.php?id_funcionario=' . $id_funcionario . '&id_funcionario=' . $id_funcionario);
 } else if (!isset($_SESSION['epi'])) {
   $id_funcionario = $_GET['id_funcionario'];
-  header('Location: ../controle/control.php?metodo=listarEpi&nomeClasse=FuncionarioControle&nextPage=../html/profile_funcionario.php?id_funcionario=' . $id_funcionario . '&id_funcionario=' . $id_funcionario);
+  header('Location: ../controle/control.php?metodo=listarEpi&nomeClasse=FuncionarioControle&nextPage=../html/profile_funcionario.php?id_funcionario=' . $id_funcionario . '&id_funcionario=' . $id_funcionario);*/
 } else {
 
   $func = $_SESSION['funcionario'];
-  $bene = $_SESSION['beneficio'];
-  $epi = $_SESSION['epi'];
+  //$bene = $_SESSION['beneficio'];
+  //$epi = $_SESSION['epi'];
   unset($_SESSION['funcionario']);
-  unset($_SESSION['beneficio']);
-  unset($_SESSION['epi']);
+  //unset($_SESSION['beneficio']);
+  //unset($_SESSION['epi']);
 
   // Adiciona Descrição de escala e tipo
   $func = json_decode($func);
@@ -53,8 +58,8 @@ permissao($_SESSION['id_pessoa'], 11, 7);
 $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 $situacao = $mysqli->query("SELECT * FROM situacao");
 $cargo = $mysqli->query("SELECT * FROM cargo");
-$beneficios = $mysqli->query("SELECT * FROM beneficios");
-$descricao_epi = $mysqli->query("SELECT * FROM epi");
+//$beneficios = $mysqli->query("SELECT * FROM beneficios");
+//$descricao_epi = $mysqli->query("SELECT * FROM epi");
 
 // Adiciona a Função display_campo($nome_campo, $tipo_campo)
 require_once "personalizacao_display.php";
@@ -63,12 +68,12 @@ require_once ROOT . "/controle/FuncionarioControle.php";
 $cpf = new FuncionarioControle;
 $cpf->listarCPF();
 
-require_once ROOT . "/controle/InternoControle.php";
+/*require_once ROOT . "/controle/InternoControle.php";
 $cpf1 = new InternoControle;
-$cpf1->listarCPF();
+$cpf1->listarCPF();*/
 
-require_once "./funcionario/Documento.php";
-$doc_funcionario = new DocumentoFuncionario($_GET["id_funcionario"]);
+//require_once "./funcionario/Documento.php";
+//$doc_funcionario = new DocumentoFuncionario($_GET["id_funcionario"]);
 
 require_once "./geral/msg.php";
 
@@ -188,6 +193,7 @@ $dependente = json_encode($dependente);
   </style>
   <!-- jquery functions -->
   <script>
+    console.log("oioioii");
     function editar_informacoes_pessoais() {
 
       $("#nomeForm").prop('disabled', false);
@@ -336,7 +342,7 @@ $dependente = json_encode($dependente);
 
     }
 
-    function clicar_epi(id) {
+   /* function clicar_epi(id) {
       window.location.href = "../html/editar_epi.php?id_funcionario=" + id;
     }
 
@@ -350,7 +356,7 @@ $dependente = json_encode($dependente);
 
     function excluir_epi(id) {
       window.location.href = "../controle/control.php?metodo=excluirEpi&nomeClasse=FuncionarioControle&id_pessoa_epi=" + id;
-    }
+    }*/
 
     function alterardate(data) {
       var date = data.split("/")
@@ -360,9 +366,10 @@ $dependente = json_encode($dependente);
     $(function() {
 
       var funcionario = <?= $func ?>; 
+      console.log(funcionario);
+      console.log("oi");
       $.each(funcionario, function(i, item) {
         //Informações pessoais
-         console.log(funcionario)
         $("#nomeForm").val(item.nome).prop('disabled', true);
         $("#sobrenomeForm").val(item.sobrenome).prop('disabled', true);
         if (item.sexo == "m") {
@@ -509,9 +516,10 @@ $dependente = json_encode($dependente);
                 }*/
 
     //Beneficios
-    $(function() {
+    /*$(function() {
 
       var beneficio = <?= $bene ?>;
+
       $.each(beneficio, function(i, item) {
         $("#tabela")
           .append($("<tr>")
@@ -534,6 +542,7 @@ $dependente = json_encode($dependente);
           );
       })
     });
+    */
     //});
     /*
     $("#beneficios").val(item.id_beneficios).prop('disabled', true);
@@ -542,7 +551,7 @@ $dependente = json_encode($dependente);
     $("#data_fim").val(item.data_fim).prop('disabled', true);
     */
     //EPI
-    $(function() {
+   /* $(function() {
 
       var epi = <?= $epi ?>;
       $.each(epi, function(i, item) {
@@ -562,13 +571,13 @@ $dependente = json_encode($dependente);
           );
 
         //});
-        /*
+        
         $("#descricao_epi").val(item.id_epi).prop('disabled', true);
         $("#epi_status").val(item.epi_status).prop('disabled', true);
         $("#data").val(item.data).prop('disabled', true);
-        */
+        
       })
-    });
+    });*/
 
         
 
@@ -898,7 +907,7 @@ $dependente = json_encode($dependente);
       })
     }
 
-    function gerarBeneficios() {
+    /*function gerarBeneficios() {
       url = '../dao/exibir_beneficios.php';
       $.ajax({
         data: '',
@@ -981,7 +990,7 @@ $dependente = json_encode($dependente);
         },
         dataType: 'text'
       })
-    }
+    }*/
 
     function funcao1() {
       alert("Cadastrado com sucesso o Benefício!");
@@ -1173,12 +1182,6 @@ $dependente = json_encode($dependente);
                         </div>
                       </div>
                       <div class="form-group">
-											<label class="col-md-3 control-label" for="profileCompany">Telefone</label>
-											<div class="col-md-8">
-												<input type="text" class="form-control" maxlength="14" minlength="14" name="telefone" id="telefone" id="profileCompany" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeyup="mascara('(##)#####-####',this,event)" >
-											</div>
-										</div>
-                      <div class="form-group">
                         <label class="col-md-3 control-label" for="profileCompany">Nascimento</label>
                         <div class="col-md-8">
                           <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" id="nascimento" max=<?php echo date('Y-m-d'); ?>>
@@ -1259,9 +1262,7 @@ $dependente = json_encode($dependente);
 
                       <h2 class="panel-title">Remuneração</h2>
                     </header>
-                    <!-- <input type="hidden" name="nomeClasse" value="FuncionarioControle">
-                    <input type="hidden" name="metodo" value="alterarInfPessoal"> -->
-
+                  
                     <div class="panel-body">
                       <h5 class="mb-xlg">Remuneração: R$ <b class="total"></b></h5>
                       <table class="table table-bordered table-striped mb-none" id="datatable-default">

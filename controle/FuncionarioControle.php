@@ -11,12 +11,12 @@ if(file_exists($config_path)){
 }
 include_once ROOT."/dao/Conexao.php";
 include_once ROOT.'/classes/Funcionario.php';
-include_once ROOT.'/classes/Pessoa_epi.php';
+//include_once ROOT.'/classes/Pessoa_epi.php';
 include_once ROOT.'/classes/QuadroHorario.php';
 include_once ROOT.'/dao/FuncionarioDAO.php';
 include_once ROOT.'/dao/QuadroHorarioDAO.php';
-include_once ROOT.'/dao/BeneficiadosDAO.php';
-include_once ROOT.'/dao/Pessoa_epiDAO.php';
+//include_once ROOT.'/dao/BeneficiadosDAO.php';
+//include_once ROOT.'/dao/Pessoa_epiDAO.php';
 include_once ROOT.'/dao/PermissaoDAO.php';
 
 
@@ -364,7 +364,7 @@ class FuncionarioControle
         $_SESSION['id_pessoaa']=$pessoa;
     }
 
-    public function verificarBeneficiados(){
+    /*public function verificarBeneficiados(){
         extract($_REQUEST);
         
         if((!isset($ibeneficios)) || (empty($ibeneficios))){
@@ -398,9 +398,9 @@ class FuncionarioControle
         $beneficiados->setValor($valor);
 
         return $beneficiados;
-    }
+    }*/
 
-    public function verificarEpi(){
+    /*public function verificarEpi(){
         extract($_REQUEST);
         
         if((!isset($descricao_epi)) || (empty($descricao_epi))){
@@ -426,7 +426,7 @@ class FuncionarioControle
         $epi->setId_pessoa($_SESSION['id_pessoaa'][0]);
 
         return $epi;
-    }
+    }*/
 
     public function verificarSenha(){
         extract($_REQUEST);
@@ -496,7 +496,7 @@ class FuncionarioControle
         
     }
 
-    public function listarEpi()
+   /* public function listarEpi()
     {
         extract($_REQUEST);
         try {
@@ -509,7 +509,7 @@ class FuncionarioControle
             echo $e->getMessage();
         }
         
-    }
+    }*/
     public function adicionar_permissao(){
         extract($_REQUEST);
         try {
@@ -520,7 +520,8 @@ class FuncionarioControle
             echo $e->getMessage();
         }
     }
-    public function listarBeneficio()
+    
+    /*public function listarBeneficio()
     {
         extract($_REQUEST);
         try {
@@ -533,7 +534,7 @@ class FuncionarioControle
             echo $e->getMessage();
         }
         
-    }
+    }*/
    
     public function incluir(){
         $funcionario = $this->verificarFuncionario();
@@ -561,53 +562,53 @@ class FuncionarioControle
         }
     }
 
-        public function incluirBeneficio(){
-            $beneficiados = $this->verificarBeneficiados();
-            $beneficiadosDAO = new BeneficiadosDAO();
-            
-            try{
-                $beneficiadosDAO->incluir($beneficiados);
-                $_SESSION['msg']="Funcionario cadastrado com sucesso";
-                $_SESSION['proxima']="Cadastrar outro funcionario";
-                $_SESSION['link']="../html/cadastro_funcionario.php";
-                header("Location: ../html/informacao_funcionario.php");
+    /*public function incluirBeneficio(){
+        $beneficiados = $this->verificarBeneficiados();
+        $beneficiadosDAO = new BeneficiadosDAO();
+        
+        try{
+            $beneficiadosDAO->incluir($beneficiados);
+            $_SESSION['msg']="Funcionario cadastrado com sucesso";
+            $_SESSION['proxima']="Cadastrar outro funcionario";
+            $_SESSION['link']="../html/cadastro_funcionario.php";
+            header("Location: ../html/informacao_funcionario.php");
 
-            } catch (PDOException $e){
-                $msg= "NÃ£o foi possÃ­vel registrar o funcionário"."<br>".$e->getMessage();
-                echo $msg;
-            }
+        } catch (PDOException $e){
+            $msg= "NÃ£o foi possÃ­vel registrar o funcionário"."<br>".$e->getMessage();
+            echo $msg;
         }
+    }*/
 
-        public function incluirEpi(){
-            $epi = $this->verificarEpi();
-            $epiDAO = new Pessoa_epiDAO();
-            
-            try{
-                $epiDAO->incluir($epi);
-                $_SESSION['msg']="Funcionario cadastrado com sucesso";
-                $_SESSION['proxima']="Cadastrar outro funcionario";
-                $_SESSION['link']="../html/cadastro_funcionario.php";
-                header("Location: ../html/informacao_funcionario.php");
+    /*public function incluirEpi(){
+        $epi = $this->verificarEpi();
+        $epiDAO = new Pessoa_epiDAO();
+        
+        try{
+            $epiDAO->incluir($epi);
+            $_SESSION['msg']="Funcionario cadastrado com sucesso";
+            $_SESSION['proxima']="Cadastrar outro funcionario";
+            $_SESSION['link']="../html/cadastro_funcionario.php";
+            header("Location: ../html/informacao_funcionario.php");
 
-            } catch (PDOException $e){
-                $msg= "NÃ£o foi possÃ­vel registrar o funcionário"."<br>".$e->getMessage();
-                echo $msg;
-            }
+        } catch (PDOException $e){
+            $msg= "NÃ£o foi possÃ­vel registrar o funcionário"."<br>".$e->getMessage();
+            echo $msg;
         }
-        public function incluirEpi1(){
-            $epi = $this->verificarEpi();
-            $epiDAO = new Pessoa_epiDAO();
-            
-            try{
-                $epiDAO->incluir($epi);
-                header("Location: ../html/informacao_funcionario.php");
+    }
+    public function incluirEpi1(){
+        $epi = $this->verificarEpi();
+        $epiDAO = new Pessoa_epiDAO();
+        
+        try{
+            $epiDAO->incluir($epi);
+            header("Location: ../html/informacao_funcionario.php");
 
-            } catch (PDOException $e){
-                $msg= "NÃ£o foi possÃ­vel registrar o funcionário"."<br>".$e->getMessage();
-                echo $msg;
-            }
+        } catch (PDOException $e){
+            $msg= "NÃ£o foi possÃ­vel registrar o funcionário"."<br>".$e->getMessage();
+            echo $msg;
         }
-        /*try{
+    }*/
+    /*try{
             $horarioDAO->incluir($horario);
             //header("Location: ../html/sucesso.php");
         } catch (PDOException $e){
@@ -728,7 +729,7 @@ class FuncionarioControle
     }
 */  
 
-    public function alterarBeneficiados(){
+    /*public function alterarBeneficiados(){
         extract($_REQUEST);
         $beneficiados = new Beneficiados();
         $beneficiados->setId_pessoa($id_funcionario);
@@ -745,9 +746,9 @@ class FuncionarioControle
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
-    }
+    }*/
 
-    public function alterarEpi(){
+    /*public function alterarEpi(){
         extract($_REQUEST);
         $epi = new Pessoa_epi();
         $epi->setId_pessoa($id_funcionario);
@@ -761,7 +762,7 @@ class FuncionarioControle
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
-    }
+    }*/
 
     public function alterarOutros()
     {
@@ -888,7 +889,7 @@ class FuncionarioControle
         }
     }
 
-    public function excluirBeneficio()
+    /*public function excluirBeneficio()
     {
         extract($_REQUEST);
         $beneficiadosDAO = new BeneficiadosDAO();
@@ -909,6 +910,6 @@ class FuncionarioControle
         } catch (Exception $e) {
             echo $e->getMessage();
         }
-    }
+    }*/
 
 }

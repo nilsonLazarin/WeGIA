@@ -404,7 +404,6 @@ class FuncionarioDAO
             LEFT JOIN situacao s ON s.id_situacao = f.id_situacao 
             LEFT JOIN cargo c ON c.id_cargo = f.id_cargo 
             WHERE f.id_funcionario = :id_funcionario";
-           
 
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':id_funcionario',$id_funcionario);

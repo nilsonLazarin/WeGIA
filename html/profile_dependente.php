@@ -1,3 +1,4 @@
+
 <?php
 session_start();
 
@@ -42,8 +43,9 @@ require_once ROOT . "/controle/FuncionarioControle.php";
 $cpf = new FuncionarioControle;
 $cpf->listarCPF();
 
-require_once ROOT . "/controle/InternoControle.php";
-$cpf1 = new InternoControle;
+
+require_once ROOT . "/controle/AtendidoControle.php";
+$cpf1 = new AtendidoControle;
 $cpf1->listarCPF();
 
 require_once "./geral/msg.php";

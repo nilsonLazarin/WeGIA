@@ -19,8 +19,8 @@ if (file_exists($config_path)) {
 $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 $situacao = $mysqli->query("SELECT * FROM situacao");
 $cargo = $mysqli->query("SELECT * FROM cargo");
-$beneficios = $mysqli->query("SELECT * FROM beneficios");
-$descricao_epi = $mysqli->query("SELECT * FROM epi");
+//$beneficios = $mysqli->query("SELECT * FROM beneficios");
+//$descricao_epi = $mysqli->query("SELECT * FROM epi");
 
 $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 $id_pessoa = $_SESSION['id_pessoa'];
@@ -53,9 +53,9 @@ require_once ROOT . "/controle/FuncionarioControle.php";
 $listaCPF = new FuncionarioControle;
 $listaCPF->listarCpf();
 
-require_once ROOT . "/controle/InternoControle.php";
+/*require_once ROOT . "/controle/InternoControle.php";
 $listaCPF2 = new InternoControle;
-$listaCPF2->listarCpf();
+$listaCPF2->listarCpf();*/
 
 
 // Inclui display de Campos
@@ -375,7 +375,7 @@ require_once "./personalizacao_display.php";
       var cpf_funcionario_correto2 = cpf_funcionario_correto1.replace(".", "");
       var cpf_funcionario_correto3 = cpf_funcionario_correto2.replace("-", "");
       var apoio = 0;
-      var cpfs1 = <?php echo $_SESSION['cpf_interno']; ?>;
+      //var cpfs1 = <?php echo $_SESSION['cpf_interno']; ?>;
       $.each(cpfs, function(i, item) {
         if (item.cpf == cpf_funcionario_correto3) {
           alert("Cadastro não realizado! O CPF informado já está cadastrado no sistema");
@@ -383,13 +383,13 @@ require_once "./personalizacao_display.php";
           send.attr('disabled', 'disabled');
         }
       });
-      $.each(cpfs1, function(i, item) {
+      /*$.each(cpfs1, function(i, item) {
         if (item.cpf == cpf_funcionario_correto3) {
           alert("Cadastro não realizado! O CPF informado já está cadastrado no sistema");
           apoio = 1;
           send.attr('disabled', 'disabled');
         }
-      });
+      });*/
       if (apoio == 0) {
         alert("Cadastrado com sucesso!");
       }
@@ -397,7 +397,8 @@ require_once "./personalizacao_display.php";
 
     function validarFuncionario(){
       var btn = $("#enviar");
-      var cpf_cadastrado = (<?php echo $_SESSION['cpf_funcionario']; ?>).concat(<?php echo $_SESSION['cpf_interno']; ?>);
+      /*var cpf_cadastrado = (<?php echo $_SESSION['cpf_funcionario']; ?>).concat(<?php echo $_SESSION['cpf_interno']; ?>);*/
+      var cpf_cadastrado = (<?php echo $_SESSION['cpf_funcionario']; ?>);
       var cpf = (($("#cpf").val()).replaceAll(".", "")).replaceAll("-", "");
       console.log(this);
       $.each(cpf_cadastrado, function(i, item) {
@@ -629,7 +630,7 @@ require_once "./personalizacao_display.php";
     }
 
     $(function() {
-      console.log(<?php echo $_SESSION['cpf_interno']; ?>);
+      //console.log(<?php echo $_SESSION['cpf_interno']; ?>);
       $("#header").load("header.php");
       $(".menuu").load("menu.php");
     });
