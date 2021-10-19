@@ -143,7 +143,7 @@
 						.text(item.descricao_almoxarifado || "Nenhum")));
 		});
 		$('#mostrarZerado').prop('checked', false);
-		$('.itemSemEstoque').hide();
+		
 	});
 	$(function () {
         $("#header").load("header.php");

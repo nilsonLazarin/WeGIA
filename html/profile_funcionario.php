@@ -68,6 +68,7 @@ require_once ROOT . "/controle/FuncionarioControle.php";
 $cpf = new FuncionarioControle;
 $cpf->listarCPF();
 
+
 /*require_once ROOT . "/controle/InternoControle.php";
 $cpf1 = new InternoControle;
 $cpf1->listarCPF();*/
@@ -232,6 +233,8 @@ $dependente = json_encode($dependente);
 
     }
 
+    
+    
     function editar_endereco() {
 
       $("#cep").prop('disabled', false);
@@ -1149,6 +1152,7 @@ $dependente = json_encode($dependente);
                   <a href="#dependentes" data-toggle="tab">Dependentes</a>
                 </li>
               </ul>
+              
               <div class="tab-content">
                 <div id="overview" class="tab-pane active">
                   <form class="form-horizontal" method="post" action="../controle/control.php">
@@ -1338,117 +1342,6 @@ $dependente = json_encode($dependente);
                       </div>
                     </div>
                 </div>
-
-
-
-               <!--
-                  Aba epi do funcionario
-
-                -->
-
-                <div id="epi" class="tab-pane">
-                  <section class="panel">
-                    <header class="panel-heading">
-                      <div class="panel-actions">
-                        <a href="#" class="fa fa-caret-down"></a>
-                      </div>
-
-                      <h2 class="panel-title">Epi</h2>
-                    </header>
-                      
-                    <?php
-                            
-                            // $tam = $descricao.lenght;
-                            // echo $tam;
-                            // foreach ($descricao as $key => $value) {
-                            //   echo ("<option id='desc' value=".$value["idfuncionario_listainfo"].">" . $value["descricao"] . "</option>");
-                            // }
-                          ?>
-
-                    <div class="panel-body">
-                      <table class="table table-bordered table-striped mb-none" id="datatable-default">
-                        <thead>
-                          <tr>
-                            <th>Epi</th>
-                            <th>Epi Status</th>
-                            <th>Data</th>
-                            <th>Ação</th>
-                          </tr>
-                        </thead>
-                        <tbody id="tabela_epi">
-                        
-                        </tbody>
-                      </table>
-                    </div><br>
-                    <div class="panel-footer">
-                      <div class="row">
-                        <div class="col-md-9 col-md-offset-3">
-                          <button id="excluir" type="button" class="btn btn-success" data-toggle="modal" data-target="#adicionar_epi">Adicionar</button>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="modal fade" id="adicionar_epi" role="dialog">
-                      <div class="modal-dialog">
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">×</button>
-                            <h3>Adicionar EPI</h3>
-                          </div>
-                          <div class="modal-body">
-                            <form class="form-horizontal" method="POST" action="../controle/control.php">
-                              <h4 class="mb-xlg">EPI</h4>
-                              <div id="epi" class="tab-pane">
-                                <div class="form-group">
-                                  <label class="col-md-3 control-label" for="inputSuccess">EPI</label>
-                                  <a onclick="adicionar_epi()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
-                                  <div class="col-md-6">
-                                    <select class="form-control input-lg mb-md" name="descricao_epi" id="descricao_epi">
-                                      <option selected disabled>Selecionar</option>
-                                      <?php
-                                      while ($row = $descricao_epi->fetch_array(MYSQLI_NUM)) {
-                                        echo "<option value=" . $row[0] . ">" . $row[1] . "</option>";
-                                      } ?>
-                                    </select>
-                                  </div>
-                                </div>
-
-                                <div class="form-group">
-                                  <label class="col-md-3 control-label" for="inputSuccess">EPI Status</label>
-                                  <div class="col-md-6">
-                                    <select class="form-control input-lg mb-md" name="epi_status" id="epi_status">
-                                      <option selected disabled>Selecionar</option>
-                                      <option value="Ativo">Ativo</option>
-                                      <option value="Inativo">Inativo</option>
-                                    </select>
-                                  </div>
-                                </div>
-                                <div class="form-group">
-                                  <label class="col-md-3 control-label" for="profileCompany">Data</label>
-                                  <div class="col-md-8">
-                                    <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data" id="data" max=<?php echo date('Y-m-d'); ?>>
-                                  </div>
-                                </div>
-                              </div><br>
-                              <div class="panel-footer">
-                                <div class="row">
-                                  <div class="col-md-9 col-md-offset-3">
-                                    <input type="hidden" name="nomeClasse" value="FuncionarioControle">
-                                    <input type="hidden" name="person2" value=<?php echo $_GET['id_funcionario']; ?>>
-                                    <input type="hidden" name="metodo" value="incluirEpi">
-                                    <input id="enviar" type="submit" class="btn btn-primary" value="Salvar" onclick="funcao2()">
-                                    <button button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                                  </div>
-                                </div>
-                              </div>
-                            </form>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </section>
-                </div>
-
                 <!--Outros-->
                 <div id="outros" class="tab-pane">
                   <section class="panel">
@@ -1736,9 +1629,7 @@ $dependente = json_encode($dependente);
                     </div>
                   </section>
                 </div>
-
-
-               <!--
+                <!--
                   Aba de carga horária do funcionário
 
                 -->
@@ -2308,7 +2199,10 @@ $dependente = json_encode($dependente);
         <!-- end: page -->
       </section>
     </div>
-  </section>
+
+
+            
+                 </section>
 
   <!-- Vendor -->
   <script src="../assets/vendor/select2/select2.js"></script>
