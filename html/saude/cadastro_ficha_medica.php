@@ -20,7 +20,9 @@ if(file_exists($config_path)){
 if(!isset($_SESSION['usuario'])){
     header ("Location: ".WWW."index.php");
 }
-
+$mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+//$nome = $mysqli->query("SELECT nome FROM pessoa"); //p JOIN atendido a ON(p.id_pessoa=a.pessoa_id_pessoa");
+$nome = $mysqli->query("SELECT * FROM cargo");
 /*$conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 $id_pessoa = $_SESSION['id_pessoa'];
 $resultado = mysqli_query($conexao, "SELECT * FROM funcionario WHERE id_pessoa=$id_pessoa");
@@ -48,8 +50,8 @@ if(!is_null($resultado)){
     header("Location: ".WWW."html/home.php?msg_c=$msg");
 }	
 */
-/*require_once ROOT."/controle/saudeControle.php";
-require_once ROOT."/controle/memorando/MemorandoControle.php";
+ require_once ROOT."/controle/SaudeControle.php";
+/*require_once ROOT."/controle/memorando/MemorandoControle.php";
 
 $funcionarios = new FuncionarioControle;
 $funcionarios->listarTodos2();
@@ -153,8 +155,7 @@ require_once ROOT."/html/personalizacao_display.php";
 
             CKEDITOR.replace('despacho');
         });
-    </script>
-    
+    </script>     
 
     <style type="text/css">
         .select{
@@ -229,7 +230,7 @@ require_once ROOT."/html/personalizacao_display.php";
                 </ul>
                 <div class="tab-content">
                 <div id="overview" class="tab-pane active">
-                    <form class="form-horizontal" method="GET" action="../controle/control.php">
+                    <form class="form-horizontal" method="GET" action="../../controle/control.php">
 
 
                 <section class="panel">  
@@ -250,19 +251,27 @@ require_once ROOT."/html/personalizacao_display.php";
                             <h5 class="obrig">Campos Obrigatórios(*)</h5>
                             <br>
                             <div class="form-group">
-                                <!-- na class tinha um control-label-->
-                                <label class="col-md-2" for="profileFirstName">Nome do paciente<sup class="obrig">*</sup></label>
-                                <div class="col-md-10">
-                                <input type="text" class="form-control" name="nome" id="profileFirstName" id="nome" onkeypress="return Onlychars(event)" required>
-                                </div>
+                            <label class="col-md-3 control-label" for="inputSuccess">Nome do paciente<sup class="obrig">*</sup></label>
+                            <div class="col-md-6">
+                            <select class="form-control input-lg mb-md" name="nome" id="nome" required>
+                                <option selected disabled>Selecionar</option>
+                                <?php
+                                while ($row = $nome->fetch_array(MYSQLI_NUM)) {
+                                echo "<option value=" . $row[0] . ">" . $row[1] . "</option>";
+                                }
+                                ?>
+                            </select>
                             </div>
+                        </div>
                             <div class="form-group">
                                     <label for="texto" id="etiqueta_despacho" style="padding-left: 15px;">Descrição médica<sup class="obrig">*</sup></label>
                                     <div class='col-md-6' id='div_texto' style="height: 499px;">
                                         <textarea cols='30' rows='5' id='despacho' name='texto' required class='form-control'></textarea>
                                     </div>
                             </div>
-                            <div class='row'>
+
+                           
+                            
                                 <!--<div class='col-md-9 col-md-offset-8'>
                                     <input type='hidden' value='DespachoControle' name='nomeClasse' class='mb-xs mt-xs mr-xs btn btn-default'>
                                 </div>
@@ -275,9 +284,13 @@ require_once ROOT."/html/personalizacao_display.php";
                                 <div class='col-md-9 col-md-offset-8'>
                                     <input type='hidden' name='modulo' value="memorando" class='mb-xs mt-xs mr-xs btn btn-default'>
                                 </div>-->
-                                <div class='col-md-9 col-md-offset-8'>
-                                    <input type='submit' value='Enviar' name='enviar' id='enviar' class='mb-xs mt-xs mr-xs btn btn-primary'>
-                                </div>
+                                <div class="panel-footer">
+                                <div class='row'>
+                                <div class="col-md-9 col-md-offset-3">
+						        <input type="hidden" name="nomeClasse" value="SaudeControle">
+						        <input type="hidden" name="metodo" value="incluir">
+						        <input id="enviar" type="submit" class="btn btn-primary" value="Enviar">
+						        </div>
                                 </div>
                             </form>
                         </div>

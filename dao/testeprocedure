@@ -1,0 +1,5 @@
+begin
+declare idP int;
+INSERT INTO saude_fichamedica(id_fichamedica, id_pessoa, descricao) VALUES (default, pessoa_id_pessoa, texto);
+select max(id_pessoa) into idP FROM pessoa;
+END

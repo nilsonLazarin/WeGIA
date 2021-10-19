@@ -197,7 +197,7 @@
 							<thead>
 								<tr>
 									<th>Nome</th>
-									<th>Sexo</th>
+									<th>Descrição médica</th>
 									<th>Ação</th>
 								</tr>
 							</thead>
