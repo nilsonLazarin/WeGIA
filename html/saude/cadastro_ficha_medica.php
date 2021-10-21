@@ -21,8 +21,8 @@ if(!isset($_SESSION['usuario'])){
     header ("Location: ".WWW."index.php");
 }
 $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-//$nome = $mysqli->query("SELECT nome FROM pessoa"); //p JOIN atendido a ON(p.id_pessoa=a.pessoa_id_pessoa");
-$nome = $mysqli->query("SELECT * FROM cargo");
+$nome = $mysqli->query("SELECT id_pessoa,nome,sobrenome FROM pessoa p JOIN atendido a ON(p.id_pessoa=a.pessoa_id_pessoa)");
+//$nome = $mysqli->query("SELECT * FROM cargo");
 /*$conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 $id_pessoa = $_SESSION['id_pessoa'];
 $resultado = mysqli_query($conexao, "SELECT * FROM funcionario WHERE id_pessoa=$id_pessoa");
@@ -221,7 +221,7 @@ require_once ROOT."/html/personalizacao_display.php";
                
 
             <div class="row">
-                <div class="col-md-8 col-lg-8">
+                <div class="col-md-8 col-lg-12">
                 <div class="tabs">
                 <ul class="nav nav-tabs tabs-primary">
                     <li class="active">
@@ -257,7 +257,7 @@ require_once ROOT."/html/personalizacao_display.php";
                                 <option selected disabled>Selecionar</option>
                                 <?php
                                 while ($row = $nome->fetch_array(MYSQLI_NUM)) {
-                                echo "<option value=" . $row[0] . ">" . $row[1] . "</option>";
+                                echo "<option value=" . $row[0] . ">" . $row[1] . " " . $row[2] . "</option>";
                                 }
                                 ?>
                             </select>

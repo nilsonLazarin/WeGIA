@@ -117,21 +117,42 @@ class SaudeControle
         return $saude;
     }
 
-    public function incluir(){
-    $saude = $this->verificar();
-    $intDAO = new SaudeDAO();
-    //$docDAO = new DocumentoDAO();
-
-    try{
-        $idatendido=$intDAO->incluir($atendido);
-        $_SESSION['msg']="Ficha médica cadastrada com sucesso!";
-        $_SESSION['proxima']="Cadastrar outra ficha.";
-        $_SESSION['link']="../html/saude/cadastro_ficha_medica.php";
-        header("Location: ../html/atendido/Informacao_Atendido.php");
-        // header("Location: ../dao/AtendidoDAO.php");
-    } catch (PDOException $e){
-        $msg= "Não foi possível registrar o atendido <form> <input type='button' value='Voltar' onClick='history.go(-1)'> </form>"."<br>".$e->getMessage();
-        echo $msg;
+    /*public function listarTodos(){
+        extract($_REQUEST);
+        $SaudeDAO= new SaudeDAO();
+        $Saude = $SaudeDAO->listarTodos();
+        session_start();
+        $_SESSION['saude']=$pacientes;
+        header('Location: '.$nextPage);
     }
-}
+
+    public function listarTodos2(){
+        extract($_REQUEST);
+        $SaudeDAO= new SaudeDAO();
+        $pacientes = $SaudeDAO->listarTodos2();
+        if (session_status() !== PHP_SESSION_ACTIVE)
+        {
+            session_start();
+        }
+        $_SESSION['pacientes2']=$pacientes;
+    }
+    */
+
+    public function incluir(){
+        $saude = $this->verificar();
+        $intDAO = new SaudeDAO();
+        //$docDAO = new DocumentoDAO();
+
+        try{
+            $idasaude=$intDAO->incluir($saude);
+            $_SESSION['msg']="Ficha médica cadastrada com sucesso!";
+            $_SESSION['proxima']="Cadastrar outra ficha.";
+            $_SESSION['link']="../html/saude/cadastro_ficha_medica.php";
+            header("Location: ../html/saude/profile_paciente.php");
+            // header("Location: ../dao/AtendidoDAO.php");
+        } catch (PDOException $e){
+            $msg= "Não foi possível registrar o atendido <form> <input type='button' value='Voltar' onClick='history.go(-1)'> </form>"."<br>".$e->getMessage();
+            echo $msg;
+        }
+    }
 }

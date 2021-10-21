@@ -123,10 +123,10 @@
 	<!-- jquery functions -->
 	<script>
 		function clicar(id) {
-			window.location.href = "saude.php?idatendido="+id;
+			window.location.href = "saude.php?idsaude="+id;
 		}
 		$(function() {
-			var atendidos = <?php echo $_SESSION['atendidos'];?> ;
+			var pacientes = <?php echo $_SESSION['atendidos'];?> ;
 			<?php unset($_SESSION['atendidos']); ?>;
 			$.each(atendidos, function(i, item) {
 				$("#tabela")
@@ -135,17 +135,10 @@
 					.attr("class", "teste")
 					.append($("<td>")
 						.text(item.nome+' '+item.sobrenome))
-					.append($("<td id=cpf"+item.id+">")
-						.text(item.cpf))
 					.append($("<td />")
 						.attr('onclick','clicar("'+item.id+'")')
 					.html('<i class="glyphicon glyphicon-pencil"></i>')));
-			if(item.cpf.indexOf("ni")!=-1)
-            {
-            	$("#cpf"+item.id).text("Não informado");
-            }
 			});
-
 		});
 		$(function () {
 	      $("#header").load("../header.php");
