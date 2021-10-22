@@ -16,15 +16,15 @@ $id_dependente = $_POST["id_dependente"];
 try {
     $pdo = Conexao::connect();
     // $pdo->query("DELETE FROM funcionario_dependentes_docs WHERE id_dependente = $id_dependente;");
-    $pdo->query("DELETE FROM funcionario_dependentes WHERE id_dependente = $id_dependente;");
+    $pdo->query("DELETE FROM atendido_familiares WHERE idatendido_familiares = $id_dependente;");
     
     $response = $pdo->query("SELECT 
     af.idatendido_familiares AS id_dependente, p.nome AS nome, p.cpf AS cpf, ap.parentesco AS parentesco
     FROM atendido_familiares af
-    LEFT JOIN atendido a ON a.atendido_idatendido = af.atendido_idatendido
+    LEFT JOIN atendido a ON a.idatendido = af.atendido_idatendido
     LEFT JOIN pessoa p ON p.id_pessoa = af.pessoa_id_pessoa
     LEFT JOIN atendido_parentesco ap ON ap.idatendido_parentesco = af.atendido_parentesco_idatendido_parentesco
-    WHERE af.atendido_atendido = ".$_POST['id_funcionario']);
+    WHERE af.atendido_idatendido = ".$_POST['idatendido']);
     $response = $response->fetchAll(PDO::FETCH_ASSOC);
     echo json_encode($response);
 } catch (PDOException $th) {

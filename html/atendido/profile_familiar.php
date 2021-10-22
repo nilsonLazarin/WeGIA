@@ -38,7 +38,7 @@ $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 $situacao = $mysqli->query("SELECT * FROM situacao");
 $cargo = $mysqli->query("SELECT * FROM cargo");
 $beneficios = $mysqli->query("SELECT * FROM beneficios");
-$descricao_epi = $mysqli->query("SELECT * FROM epi");
+
 
 // Adiciona a Função display_campo($nome_campo, $tipo_campo)
 require_once "../personalizacao_display.php";
@@ -71,7 +71,7 @@ $JSON_dependente = json_encode($dependente);
 <head>
     <!-- Basic -->
     <meta charset="UTF-8">
-    <title>Perfil de Dependente</title>
+    <title>Perfil de Familiar</title>
     <meta name="keywords" content="HTML5 Admin Template" />
     <meta name="description" content="Porto Admin - Responsive HTML5 Template">
     <meta name="author" content="okler.net">
@@ -157,12 +157,12 @@ $JSON_dependente = json_encode($dependente);
                     }
                 },
                 formInfoPessoal: function(dep) {
-                    $("#nome").val(dep.nome);
-                    $("#sobrenome").val(dep.sobrenome);
-                    $("#telefone").val(dep.telefone);
-                    $("#nascimento").val(dep.data_nascimento);
-                    $("#pai").val(dep.nome_pai);
-                    $("#mae").val(dep.nome_mae);
+                    $("#nomeForm").val(dep.nome);
+                    $("#sobrenomeForm").val(dep.sobrenome);
+                    $("#telefoneForm").val(dep.telefone);
+                    $("#nascimentoForm").val(dep.data_nascimento);
+                    $("#paiForm").val(dep.nome_pai);
+                    $("#maeForm").val(dep.nome_mae);
                     if (dep.sexo) {
                         let radio = $("input:radio[name=gender]");
                         radio.filter('[value=' + dep.sexo + ']').prop('checked', true);
@@ -193,17 +193,6 @@ $JSON_dependente = json_encode($dependente);
                     $("#cpf").val(dep.cpf);
                 },
 
-                // ,
-                // formOutros: function(dep) {
-                //     $("#pis").val(dep.pis).prop('disabled', true);
-                //     $("#ctps").val(dep.ctps).prop('disabled', true);
-                //     $("#uf_ctps").val(dep.uf_ctps).prop('disabled', true);
-                //     $("#zona_eleitoral").val(dep.zona).prop('disabled', true);
-                //     $("#titulo_eleitor").val(dep.numero_titulo).prop('disabled', true);
-                //     $("#secao_titulo_eleitor").val(dep.secao).prop('disabled', true);
-                //     $("#certificado_reservista_numero").val(dep.certificado_reservista_numero).prop('disabled', true);
-                //     $("#certificado_reservista_serie").val(dep.certificado_reservista_serie).prop('disabled', true);
-                // }
             };
 
 
@@ -625,7 +614,7 @@ $JSON_dependente = json_encode($dependente);
             <!-- end: sidebar -->
             <section role="main" class="content-body">
                 <header class="page-header">
-                    <h2>Dependente</h2>
+                    <h2>Familiar</h2>
                     <div class="right-wrapper pull-right">
                         <ol class="breadcrumbs">
                             <li>
@@ -634,7 +623,7 @@ $JSON_dependente = json_encode($dependente);
                                 </a>
                             </li>
                             <li><span>Páginas</span></li>
-                            <li><span>Dependente</span></li>
+                            <li><span>Familiar</span></li>
                         </ol>
                         <a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
                     </div>
@@ -647,7 +636,7 @@ $JSON_dependente = json_encode($dependente);
 
                 <div class="panel">
                     <div class="panel-body">
-                        <h3>Dependente de: <?= $dependente["nome_atendido"] . " " . $dependente["sobrenome_atendido"];?></h3>
+                        <h3>Familiar de: <?= $dependente["nome_atendido"] . " " . $dependente["sobrenome_atendido"];?></h3>
                         <div class="tabs">
 
                             <ul class="nav nav-tabs tabs-primary">
@@ -678,13 +667,13 @@ $JSON_dependente = json_encode($dependente);
                                         <div class="form-group">
                                             <label class="col-md-3 control-label" for="nome">Nome</label>
                                             <div class="col-md-8">
-                                                <input type="text" class="form-control" name="nome" id="nome" onkeypress="return Onlychars(event)" required>
+                                                <input type="text" class="form-control" name="nome" id="nomeForm" onkeypress="return Onlychars(event)" required>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-md-3 control-label" for="sobrenome">Sobrenome</label>
                                             <div class="col-md-8">
-                                                <input type="text" class="form-control" name="sobrenome" id="sobrenome" onkeypress="return Onlychars(event)">
+                                                <input type="text" class="form-control" name="sobrenomeForm" id="sobrenome" onkeypress="return Onlychars(event)">
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -697,13 +686,13 @@ $JSON_dependente = json_encode($dependente);
                                         <div class="form-group">
                                             <label class="col-md-3 control-label" for="telefone">Telefone</label>
                                             <div class="col-md-8">
-                                                <input type="text" class="form-control" maxlength="14" minlength="14" name="telefone" id="telefone" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeydown="mascara('(##)#####-####',this,event)">
+                                                <input type="text" class="form-control" maxlength="14" minlength="14" name="telefone" id="telefoneForm" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeydown="mascara('(##)#####-####',this,event)">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-md-3 control-label" for="nascimento">Nascimento</label>
                                             <div class="col-md-8">
-                                                <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" id="nascimento" max="<?php echo date('Y-m-d'); ?>">
+                                                <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" id="nascimentoForm" max="<?php echo date('Y-m-d'); ?>">
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -722,100 +711,10 @@ $JSON_dependente = json_encode($dependente);
                                             <button type="button" class="btn btn-primary" id="botaoEditar_formInfoPessoal" onclick="switchForm('formInfoPessoal')">Editar</button>
                                             <input type="submit" class="btn btn-primary" disabled="true" value="Salvar" id="botaoSalvar_formInfoPessoal" onclick="submitForm('formInfoPessoal')">
                                         </div>
+                                        
 
                                     </fieldset>
-                                    <hr>
-
-
-                                    
-                                    <!-- <hr>
-                                    <h4>Outros</h4>
-                                    <fieldset id="formOutros">
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label">PIS</label>
-                                            <div class="col-md-6">
-                                                <input type="text" id="pis" name="pis" class="form-control">
-                                            </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label">CTPS</label>
-                                            <div class="col-md-6">
-                                                <input type="text" id="ctps" name="ctps" class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label" for="uf">Estado CTPS</label>
-                                            <div class="col-md-6">
-                                                <input type="text" name="uf_ctps" size="60" class="form-control" id="uf_ctps">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label">Título de eleitor</label>
-                                            <div class="col-md-6">
-                                                <input type="text" name="titulo_eleitor" id="titulo_eleitor" class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label">Zona eleitoral</label>
-                                            <div class="col-md-6">
-                                                <input type="text" name="zona_eleitoral" id="zona_eleitoral" class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label">Seção do título de eleitor</label>
-                                            <div class="col-md-6">
-                                                <input type="text" name="secao_titulo_eleitor" id="secao_titulo_eleitor" class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="form-group" id="reservista1" style="display: none">
-                                            <label class="col-md-3 control-label">Número do certificado reservista</label>
-                                            <div class="col-md-6">
-                                                <input type="text" id="certificado_reservista_numero" name="certificado_reservista_numero" class="form-control num_reservista">
-                                            </div>
-                                        </div>
-                                        <div class="form-group" id="reservista2" style="display: none">
-                                            <label class="col-md-3 control-label">Série do certificado reservista</label>
-                                            <div class="col-md-6">
-                                                <input type="text" id="certificado_reservista_serie" name="certificado_reservista_serie" class="form-control serie_reservista">
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label" for="inputSuccess">Situação</label>
-                                            <a onclick="adicionar_situacao()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
-                                            <div class="col-md-6">
-                                                <select class="form-control input-lg mb-md" name="situacao" id="situacao">
-                                                    <option selected disabled>Selecionar</option>
-                                                    <?php
-                                                    while ($row = $situacao->fetch_array(MYSQLI_NUM)) {
-                                                        echo "<option value=" . $row[0] . ">" . $row[1] . "</option>";
-                                                    }                            ?>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label" for="inputSuccess">Cargo</label>
-                                            <a onclick="adicionar_cargo()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
-                                            <div class="col-md-6">
-                                                <select class="form-control input-lg mb-md" name="cargo" id="cargo">
-                                                    <option selected disabled>Selecionar</option>
-                                                    <?php
-                                                    while ($row = $cargo->fetch_array(MYSQLI_NUM)) {
-                                                        echo "<option value=" . $row[0] . ">" . $row[1] . "</option>";
-                                                    }                            ?>
-                                                </select>
-                                            </div>
-                                        </div>
-
-
-                                        <div class="form-group center">
-                                            <button type="button" class="btn btn-primary" id="botaoEditar_formOutros" onclick="switchForm('formOutros')">Editar</button>
-                                            <input type="submit" class="btn btn-primary" disabled="true" value="Salvar" id="botaoSalvar_formOutros" onclick="submitForm('formOutros')">
-                                        </div>
-                                    </fieldset> -->
-                                </div>
-
 
 
                                 <!-- Aba de arquivos do dependente -->
@@ -1007,6 +906,7 @@ $JSON_dependente = json_encode($dependente);
                             </a>
                             
                         </div>
+
                             </div>
                         </div>
                     </div>

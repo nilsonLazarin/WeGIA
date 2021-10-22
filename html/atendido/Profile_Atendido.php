@@ -1387,6 +1387,7 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
       if (apoio == 0) {
         alert("Editado com sucesso!");
       }
+    }
       function gerarParentesco() {
       url = './funcionario/dependente_parentesco_listar.php';
       $.ajax({
@@ -1405,7 +1406,6 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
         dataType: 'json'
       });
     }
-
     function adicionarParentesco() {
       url = './funcionario/dependente_parentesco_adicionar.php';
       var descricao = window.prompt("Cadastre um novo tipo de Parentesco:");
@@ -1428,8 +1428,24 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
         dataType: 'text'
       })
     }
-
-    function verificaSucesso(response){
+    function removerFuncionarioDocs(id_doc) {
+      if (!window.confirm("Tem certeza que deseja remover esse documento?")){
+        return false;
+      }
+      let url = "documento_excluir.php?id_doc="+id_doc+"&idatendido=<?= $_GET['idatendido'] ?>";
+      let data = "";
+      post(url, data, listarFunDocs);
+    }    
+   </script>
+   <script>
+       function removerDependente(id_dep) {
+      let url = "familiar_remover.php";
+      let data = "idatendido=<?= $_GET['idatendido']; ?>&id_dependente=" + id_dep;
+      post(url, data, verificaSucesso);
+    }
+    </script>
+    <script>
+     function verificaSucesso(response){
       console.log(response);
       if (response.errorInfo){
         if (response.errorInfo[1] == 1451){
@@ -1441,27 +1457,9 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
       }
       listarDependentes(response);
     }
+</script>
+  
 
-    function removerDependente(id_dep) {
-      let url = "familiar_remover.php";
-      let data = "idatendido=<?= $_GET['idatendido']; ?>&id_dependente=" + id_dep;
-      post(url, data, verificaSucesso);
-    }
-    }
-
-    function removerFuncionarioDocs(id_doc) {
-      if (!window.confirm("Tem certeza que deseja remover esse documento?")){
-        return false;
-      }
-      let url = "documento_excluir.php?id_doc="+id_doc+"&idatendido=<?= $_GET['idatendido'] ?>";
-      let data = "";
-      post(url, data, listarFunDocs);
-    }
-   
-
-
-    
-   </script>
    <script src="../geral/post.js"></script>
   <script src="../geral/formulario.js"></script>
     </body>
