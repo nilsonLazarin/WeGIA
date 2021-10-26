@@ -69,6 +69,10 @@ $cpf = new FuncionarioControle;
 $cpf->listarCPF();
 
 
+require_once ROOT . "/controle/AtendidoControle.php";
+$cpf1 = new AtendidoControle;
+$cpf1->listarCPF();
+
 /*require_once ROOT . "/controle/InternoControle.php";
 $cpf1 = new InternoControle;
 $cpf1->listarCPF();*/
@@ -1820,7 +1824,7 @@ $dependente = json_encode($dependente);
                         <hr class="dotted short">
                         <input type="hidden" name="nomeClasse" value="FuncionarioControle">
                         <input type="hidden" name="metodo" value="alterarCargaHoraria">
-                        <input type="hidden" name="id_funcionario" value="<?php echo $_GET['id_funcionario'] ?>">
+                        <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
                         <div class="form-group center">
                           <button type="button" class="btn btn-primary" id="botaoEditar_editar_cargaHoraria" onclick="switchForm('editar_cargaHoraria')">Editar</button>
                           <input id="enviarCarga" type="submit" class="btn btn-primary" value="Alterar carga">
@@ -1866,7 +1870,7 @@ $dependente = json_encode($dependente);
                       <div class="form-group">
                         <label class="col-md-3 control-label" for="profileCompany">Data de expedição</label>
                         <div class="col-md-6">
-                          <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" name="data_expedicao" id="data_expedicao" max="<?php echo date('Y-m-d'); ?>">
+                          <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" name="data_expedicao" id="data_expedicao" max=<?php echo date('Y-m-d'); ?>>
                         </div>
                       </div>
                       <div class="form-group">
@@ -1882,7 +1886,7 @@ $dependente = json_encode($dependente);
                         </div>
                       </div>
                      
-                      <input type="hidden" name="id_funcionario" value="<?php echo $_GET['id_funcionario'] ?>">
+                      <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
                       <button type="button" class="btn btn-primary" id="botaoEditarDocumentacao" onclick="return editar_documentacao()">Editar</button>
                       <input id="botaoSalvarDocumentacao" type="submit" class="btn btn-primary" disabled="true" value="Salvar" onclick="funcao3()">
                     </form>
@@ -2045,7 +2049,7 @@ $dependente = json_encode($dependente);
                                 <div class="form-group">
                                   <label class="col-md-3 control-label" for="profileCompany">Nascimento<sup class="obrig">*</sup></label>
                                   <div class="col-md-8">
-                                    <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" id="nascimento" max="<?php echo date('Y-m-d'); ?> required">
+                                    <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" id="nascimento" max=<?php echo date('Y-m-d'); ?> required>
                                   </div>
                                 </div>
                                 <hr class="dotted short">
@@ -2093,10 +2097,10 @@ $dependente = json_encode($dependente);
                                 <div class="form-group">
                                   <label class="col-md-3 control-label" for="profileCompany">Data de expedição</label>
                                   <div class="col-md-6">
-                                    <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" id="profileCompany" name="data_expedicao" id="data_expedicao" max="<?php echo date('Y-m-d'); ?>">
+                                    <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" id="profileCompany" name="data_expedicao" id="data_expedicao" max=<?php echo date('Y-m-d'); ?>>
                                   </div>
                                 </div>
-                                <input type="hidden" name="id_funcionario" value="<?= $_GET['id_funcionario']; ?>" readonly>
+                                <input type="hidden" name="id_funcionario" value=<?= $_GET['id_funcionario']; ?> readonly>
                                 <div class="modal-footer">
                                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                                   <input type="submit" value="Enviar" class="btn btn-primary">
@@ -2182,7 +2186,7 @@ $dependente = json_encode($dependente);
                                             </div>
                                         </div>
                                         <div class="form-group center">
-                                            <input type="hidden" name="id_funcionario" value="<?php echo $_GET['id_funcionario'] ?>">
+                                            <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
                       <button type="button" class="btn btn-primary" id="botaoEditarEndereco" onclick="return editar_endereco()">Editar</button>
                       <input id="botaoSalvarEndereco" type="submit" class="btn btn-primary" disabled="true" value="Salvar" onclick="funcao3()">
                     </form>
@@ -2337,7 +2341,7 @@ $dependente = json_encode($dependente);
       var cpf_funcionario_correto2 = cpf_funcionario_correto1.replace(".", "");
       var cpf_funcionario_correto3 = cpf_funcionario_correto2.replace("-", "");
       var apoio = 0;
-      var cpfs1 = <?php echo $_SESSION['cpf_interno']; ?>;
+      var cpfs1 = <?php echo $_SESSION['cpf_atendido']; ?>;
       $.each(cpfs, function(i, item) {
         if (item.cpf == cpf_funcionario_correto3 && item.id != idfunc) {
           alert("Alteração não realizada! O CPF informado já está cadastrado no sistema");
