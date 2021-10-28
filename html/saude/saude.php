@@ -6,12 +6,12 @@ error_reporting(E_ALL);
 extract($_REQUEST);
 session_start();
 
-    if(!isset($_SESSION['saude'])){
-        header ("Location: profile_paciente.php?idatendido=$id");
-    }
-   	/*if(!isset($_SESSION['usuario'])){
+    // if(!isset($_SESSION['saude_id'])){
+    //     header ("Location: profile_paciente.php?idsaude=$id");
+    // }
+   	if(!isset($_SESSION['usuario'])){
    		header ("Location: ../index.php");
-   	}*/
+   	}
 
       $config_path = "config.php";
       if(file_exists($config_path)){
@@ -79,7 +79,7 @@ session_start();
    
    if (!isset($teste)) {
    		
-   		header('Location: ../../controle/control.php?metodo=listarUm&nomeClasse=AtendidoControle&nextPage=../html/saude/profile_paciente.php?idatendido='.$id.'&id='.$id);
+   		header('Location: ../../controle/control.php?metodo=listarUm&nomeClasse=SaudeControle&nextPage=../html/saude/profile_paciente.php?idsaude='.$id.'&id='.$id);
       }
    
 ?>
@@ -168,23 +168,6 @@ session_start();
             width: 10%;
         }
     </style>
-<script>
-        $(function(){
-            var funcionario=[];
-            $.each(funcionario,function(i,item){
-                $("#destinatario")
-                    .append($("<option id="+item.id_pessoa+" value="+item.id_pessoa+" name="+item.id_pessoa+">"+item.nome+" "+item.sobrenome+"</option>"));
-            });
-            $("#header").load("../header.php");
-            $(".menuu").load("../menu.php");
-
-            //var id_memorando = 1;
-            //$("#id_memorando").val(id_memorando);
-
-            CKEDITOR.replace('despacho');
-        });
-</script>
-
 
 
 <!doctype html>
@@ -223,12 +206,13 @@ session_start();
       <!-- JavaScript Functions -->
 	   <script src="../../Functions/enviar_dados.js"></script>
       <script src="../../Functions/mascara.js"></script>
+      
       <script>
-         function alterardate(data)
+         /*function alterardate(data)
          {
          	var date=data.split("-");
          	return date[2]+"/"+date[1]+"/"+date[0];
-         }
+         }*/
          function excluirimg(id)
             {
                $("#excluirimg").modal('show');
@@ -241,7 +225,7 @@ session_start();
                $("#editimg").modal('show');
             }
          $(function(){
-         	var interno= <?php echo $_SESSION['atendido']?>;
+         	var interno= <?php echo $_SESSION['saude_id']?>;
             var endereco=[];
             console.log(interno);
             $.each(endereco,function(i,item){

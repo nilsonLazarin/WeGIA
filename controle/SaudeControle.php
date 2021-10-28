@@ -148,6 +148,29 @@ class SaudeControle
     }
     */
 
+    public function listarUm()
+    {
+        extract($_REQUEST);
+        $cache = new Cache();
+        $infSaude = $cache->read($id);
+        if (!$infSaude) {
+            try {
+                $SaudeDAO=new SaudeDAO();
+                $infSaude=$SaudeDAO->listar($id);
+                session_start();
+                $_SESSION['saude_id']=$infSaude;
+                $cache->save($id, $infSaude, '15 seconds');
+                header('Location:'.$nextPage);
+            } catch (PDOException $e) {
+                echo $e->getMessage();
+            }
+        }
+        else{
+            header('Location:'.$nextPage);
+        }
+        
+    }
+
     public function incluir(){
         $saude = $this->verificar();
         $intDAO = new SaudeDAO();

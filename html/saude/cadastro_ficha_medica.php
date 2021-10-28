@@ -30,7 +30,11 @@ $pdo = Conexao::connect();
 // $nome_fichas_medicas = $mysqli->query("SELECT id_pessoa FROM saude_fichamedica");
 
 
-$nome = $pdo->query("SELECT id_pessoa,nome,sobrenome FROM pessoa p JOIN atendido a ON(p.id_pessoa=a.pessoa_id_pessoa)")->fetchAll(PDO::FETCH_ASSOC);
+$nome = $pdo->query("SELECT p.id_pessoa,p.nome,p.sobrenome FROM pessoa p JOIN atendido a ON(p.id_pessoa=a.pessoa_id_pessoa)")->fetchAll(PDO::FETCH_ASSOC);
+
+// $nome = $pdo->query("SELECT p.id_pessoa, f.id_pessoa, p.nome,p.sobrenome FROM pessoa p JOIN atendido a ON(p.id_pessoa=a.pessoa_id_pessoa) JOIN funcionario f ON(p.id_pessoa=f.id_pessoa)")->fetchAll(PDO::FETCH_ASSOC);//
+//SELECT p.id_pessoa FROM pessoa p JOIN funcionario f ON(p.id_pessoa=f.id_pessoa);//
+
 
 $idsPessoas = $pdo->query("SELECT id_pessoa FROM pessoa p JOIN atendido a ON(p.id_pessoa=a.pessoa_id_pessoa)")->fetchAll(PDO::FETCH_ASSOC);
 
