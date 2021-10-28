@@ -110,6 +110,12 @@ $JSON_dependente = json_encode($dependente);
     <!-- Specific Page Vendor CSS -->
     <link rel="stylesheet" href="../../assets/vendor/select2/select2.css" />
     <link rel="stylesheet" href="../../assets/vendor/jquery-datatables-bs3/assets/css/datatables.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/profile-theme.css"> 
+    <script src="../../assets/vendor/jquery/jquery.min.js"></script> 
+    <script src="../../assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js">
+    </script> 
+    <script src="../../assets/vendor/bootstrap/js/bootstrap.js"></script> 
+    <script src="../../assets/vendor/nanoscroller/nanoscroller.js"></script>
 
     <!-- Theme CSS -->
     <link rel="stylesheet" href="../../assets/stylesheets/theme.css" />
@@ -134,8 +140,8 @@ $JSON_dependente = json_encode($dependente);
     <script src="../../assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
 
     <!-- JavaScript Custom -->
-    <script src="../..//geral/post.js"></script>
-    <script src="../..//geral/formulario.js"></script>
+    <script src="../geral/post.js"></script>
+    <script src="../geral/formulario.js"></script>
 
     <script>
         var dependente = <?= $JSON_dependente; ?>;
@@ -646,9 +652,9 @@ $JSON_dependente = json_encode($dependente);
                                 <li>
                                     <a href="#documentacao" data-toggle="tab">Documentação</a>
                                 </li>
-                                <li>
+                                <!-- <li>
                                     <a href="#arquivo" data-toggle="tab">Arquivo</a>
-                                </li>
+                                </li> -->
                                 <li>
                                     <a href="#endereco" data-toggle="tab">Endereço</a>
                                 </li>
@@ -673,7 +679,7 @@ $JSON_dependente = json_encode($dependente);
                                         <div class="form-group">
                                             <label class="col-md-3 control-label" for="sobrenome">Sobrenome</label>
                                             <div class="col-md-8">
-                                                <input type="text" class="form-control" name="sobrenomeForm" id="sobrenome" onkeypress="return Onlychars(event)">
+                                                <input type="text" class="form-control" name="sobrenomeForm" id="sobrenomeForm" onkeypress="return Onlychars(event)">
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -719,7 +725,7 @@ $JSON_dependente = json_encode($dependente);
 
                                 <!-- Aba de arquivos do dependente -->
 
-                                <div id="arquivo" class="tab-pane" role="tabpanel">
+                                <!-- <div id="arquivo" class="tab-pane" role="tabpanel">
                                     <h4>Arquivo</h4>
                                     <fieldset>
                                         <div class="panel-body">
@@ -736,7 +742,7 @@ $JSON_dependente = json_encode($dependente);
                                                 </tbody>
                                             </table>
                                             <br>
-                                            <!-- Button trigger modal -->
+                                            Button trigger modal 
                                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#docFormModal">
                                                 Adicionar arquivo
                                             </button>
@@ -786,7 +792,7 @@ $JSON_dependente = json_encode($dependente);
                                             </div>
                                         </div>
                                     </fieldset>
-                                </div>
+                                </div> -->
 
                                 <!-- Aba de documentação do dependente -->
 
@@ -900,11 +906,7 @@ $JSON_dependente = json_encode($dependente);
                                 </div>
                                 
                                  <div class="justify-content-between" style="height: 30px;">
-                             <a type="buton" onclick="goBack()" class="btn btn-secondary" style="float: right;">
-                                Voltar
-                                <i class="fas fa-arrow-right"></i>
-                            </a>
-                            
+                             
                         </div>
 
                             </div>
@@ -980,9 +982,9 @@ $JSON_dependente = json_encode($dependente);
 
 
     <!-- Examples -->
-    <script src="../../assets/javascripts/tables/examples.datatables.default.js"></script>
-    <script src="../../assets/javascripts/tables/examples.datatables.row.with.details.js"></script>
-    <script src="../../assets/javascripts/tables/examples.datatables.tabletools.js"></script>
+    <script src="../assets/javascripts/tables/examples.datatables.default.js"></script>
+    <script src="../assets/javascripts/tables/examples.datatables.row.with.details.js"></script>
+    <script src="../assets/javascripts/tables/examples.datatables.tabletools.js"></script>
 </body>
 
 </html>
