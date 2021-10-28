@@ -131,7 +131,7 @@ session_start();
       <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
       <link rel="stylesheet" href="../../assets/vendor/magnific-popup/magnific-popup.css" />
       <link rel="stylesheet" href="../../assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
-       <link rel="stylesheet" type="text/css" href="../../css/profile-theme.css"> <script src="../../assets/vendor/jquery/jquery.min.js"></script> <script src="../../assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script> <script src="../../assets/vendor/bootstrap/js/bootstrap.js"></script> <script src="../../assets/vendor/nanoscroller/nanoscroller.js"></script>
+      <link rel="stylesheet" type="text/css" href="../../css/profile-theme.css"> <script src="../../assets/vendor/jquery/jquery.min.js"></script> <script src="../../assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script> <script src="../../assets/vendor/bootstrap/js/bootstrap.js"></script> <script src="../../assets/vendor/nanoscroller/nanoscroller.js"></script>
       <script src="../../assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
       <script src="../../assets/vendor/magnific-popup/magnific-popup.js"></script>
       <script src="../../assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>7
@@ -1334,7 +1334,7 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
          </div>
          </div>
          <script>
-   function funcao1(){
+        function funcao1(){
         var cpfs = [{"cpf":"admin","id":"1"}] ;
         var cpf_atendido = $("#cpf").val();
         var cpf_atendido_correto = cpf_atendido.replace(".", "");
@@ -1406,8 +1406,26 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
         dataType: 'json'
       });
     }
-    function adicionarParentesco() {
-      url = './funcionario/dependente_parentesco_adicionar.php';
+    
+    function removerFuncionarioDocs(id_doc) {
+      if (!window.confirm("Tem certeza que deseja remover esse documento?")){
+        return false;
+      }
+      let url = "documento_excluir.php?id_doc="+id_doc+"&idatendido=<?= $_GET['idatendido'] ?>";
+      let data = "";
+      post(url, data, listarFunDocs);
+    }    
+   </script>
+   <script>
+       function removerDependente(id_dep) {
+      let url = "familiar_remover.php";
+      let data = "idatendido=<?= $_GET['idatendido']; ?>&id_dependente=" + id_dep;
+      post(url, data, verificaSucesso);
+       }
+      </script>
+      <script>
+      function adicionarParentesco() {
+      url = 'atendido/familiar_parentesco_adicionar.php';
       var descricao = window.prompt("Cadastre um novo tipo de Parentesco:");
       if (!descricao) {
         return
@@ -1427,21 +1445,6 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
         },
         dataType: 'text'
       })
-    }
-    function removerFuncionarioDocs(id_doc) {
-      if (!window.confirm("Tem certeza que deseja remover esse documento?")){
-        return false;
-      }
-      let url = "documento_excluir.php?id_doc="+id_doc+"&idatendido=<?= $_GET['idatendido'] ?>";
-      let data = "";
-      post(url, data, listarFunDocs);
-    }    
-   </script>
-   <script>
-       function removerDependente(id_dep) {
-      let url = "familiar_remover.php";
-      let data = "idatendido=<?= $_GET['idatendido']; ?>&id_dependente=" + id_dep;
-      post(url, data, verificaSucesso);
     }
     </script>
     <script>
