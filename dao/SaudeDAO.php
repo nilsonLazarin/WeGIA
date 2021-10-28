@@ -37,4 +37,25 @@ class SaudeDAO
         
         
     }
+    public function listarTodos(){
+
+        try{
+            $pacientes=array();
+            $pdo = Conexao::connect();
+            $consulta = $pdo->query("SELECT p.nome,s.descricao,p.sobrenome FROM pessoa p INNER JOIN saude_fichamedica s ON s.id_pessoa = p.id_pessoa");
+            // $produtos = Array();
+            $x=0;
+            while($linha = $consulta->fetch(PDO::FETCH_ASSOC)){
+            
+                $pacientes[$x]=array('nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'descricao'=>$linha['descricao']);
+                $x++;
+            }
+            //$pdo->commit();
+            //$pdo->close();
+            } catch (PDOExeption $e){
+                echo 'Error:' . $e->getMessage;
+            }
+            return json_encode($pacientes);
+    }
+
 }

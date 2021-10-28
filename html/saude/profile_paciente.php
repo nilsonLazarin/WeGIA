@@ -9,8 +9,8 @@
 		header ("Location: ../index.php");
 	}
 
-	if(!isset($_SESSION['atendidos']))	{
-		header('Location: ../../controle/control.php?metodo=listarTodos&nomeClasse=AtendidoControle&nextPage=../html/saude/profile_paciente.php');
+	if(!isset($_SESSION['saude']))	{
+		header('Location: ../../controle/control.php?metodo=listarTodos&nomeClasse=SaudeControle&nextPage=../html/saude/profile_paciente.php');
 	}
 	$config_path = "config.php";
 	if(file_exists($config_path)){
@@ -22,7 +22,7 @@
 		}
 		require_once($config_path);
 	}
-	$conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+	/*$conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 	$id_pessoa = $_SESSION['id_pessoa'];
 	$resultado = mysqli_query($conexao, "SELECT * FROM funcionario WHERE id_pessoa=$id_pessoa");
 	if(!is_null($resultado)){
@@ -48,7 +48,7 @@
     $msg = "Você não tem as permissões necessárias para essa página.";
     header("Location: ../../home.php?msg_c=$msg");
 	}	
-
+	*/
 	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
 	require_once "../personalizacao_display.php";
 
@@ -126,19 +126,23 @@
 			window.location.href = "saude.php?idsaude="+id;
 		}
 		$(function() {
-			var pacientes = <?php echo $_SESSION['atendidos'];?> ;
-			<?php unset($_SESSION['atendidos']); ?>;
-			$.each(atendidos, function(i, item) {
+			var pacientes = <?php echo $_SESSION['saude'];?> ;
+			<?php unset($_SESSION['saude']); ?>;
+			console.log(pacientes);
+			$.each(pacientes, function(i, item) {
 				$("#tabela")
 				.append($("<tr>")
 					.attr("onclick", "clicar('" + item.id + "')")
 					.attr("class", "teste")
 					.append($("<td>")
 						.text(item.nome+' '+item.sobrenome))
+					//.append($("<td id=descricao"+item.id+">")
+					//.text(item.descricao))
 					.append($("<td />")
 						.attr('onclick','clicar("'+item.id+'")')
 					.html('<i class="glyphicon glyphicon-pencil"></i>')));
 			});
+
 		});
 		$(function () {
 	      $("#header").load("../header.php");
@@ -190,7 +194,7 @@
 							<thead>
 								<tr>
 									<th>Nome</th>
-									<th>Descrição médica</th>
+									<!--<th>Descrição médica</th>-->
 									<th>Ação</th>
 								</tr>
 							</thead>

@@ -117,15 +117,25 @@ class SaudeControle
         return $saude;
     }
 
-    /*public function listarTodos(){
+    public function listarTodos(){
         extract($_REQUEST);
         $SaudeDAO= new SaudeDAO();
-        $Saude = $SaudeDAO->listarTodos();
+        $pacientes = $SaudeDAO->listarTodos();
         session_start();
         $_SESSION['saude']=$pacientes;
         header('Location: '.$nextPage);
     }
 
+    /*public function listarDescricao(){
+        extract($_REQUEST);
+        $SaudeDAO= new SaudeDAO();
+        $descricao = $SaudeDAO->listarDescricao();
+        session_start();
+        $_SESSION['descricao']=$descricao;
+        header('Location: '.$nextPage);
+    }*/
+
+    /*
     public function listarTodos2(){
         extract($_REQUEST);
         $SaudeDAO= new SaudeDAO();

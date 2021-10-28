@@ -20,9 +20,51 @@ if(file_exists($config_path)){
 if(!isset($_SESSION['usuario'])){
     header ("Location: ".WWW."index.php");
 }
-$mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-$nome = $mysqli->query("SELECT id_pessoa,nome,sobrenome FROM pessoa p JOIN atendido a ON(p.id_pessoa=a.pessoa_id_pessoa)");
-//$nome = $mysqli->query("SELECT * FROM cargo");
+
+require_once "../../dao/Conexao.php";
+$pdo = Conexao::connect();
+
+// original
+// $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+// $nome = $mysqli->query("SELECT id_pessoa,nome,sobrenome FROM pessoa p JOIN atendido a ON(p.id_pessoa=a.pessoa_id_pessoa)");
+// $nome_fichas_medicas = $mysqli->query("SELECT id_pessoa FROM saude_fichamedica");
+
+
+$nome = $pdo->query("SELECT id_pessoa,nome,sobrenome FROM pessoa p JOIN atendido a ON(p.id_pessoa=a.pessoa_id_pessoa)")->fetchAll(PDO::FETCH_ASSOC);
+
+$idsPessoas = $pdo->query("SELECT id_pessoa FROM pessoa p JOIN atendido a ON(p.id_pessoa=a.pessoa_id_pessoa)")->fetchAll(PDO::FETCH_ASSOC);
+
+$idsPessoasFichasMedicas = $pdo->query("SELECT id_pessoa FROM saude_fichamedica")->fetchAll(PDO::FETCH_ASSOC);
+$idPes = array();
+$idPesCadastradas = array();
+$idsVerificados = array();
+$nomesCertos = array();
+
+foreach($idsPessoas as $valor){
+    array_push($idPes, $valor['id_pessoa']);
+}
+
+foreach($idsPessoasFichasMedicas as $value){
+    array_push($idPesCadastradas, $value['id_pessoa']);
+}
+
+foreach($idPes as $val){
+    if(!in_array($val, $idPesCadastradas))
+    {
+        array_push($idsVerificados, $val);
+    }
+}
+
+foreach($nome as $va)
+{
+    if(in_array($va["id_pessoa"], $idsVerificados))
+    {
+        array_push($nomesCertos, $va);
+    }
+}
+
+
+// $nome = $mysqli->query("SELECT * FROM cargo");
 /*$conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 $id_pessoa = $_SESSION['id_pessoa'];
 $resultado = mysqli_query($conexao, "SELECT * FROM funcionario WHERE id_pessoa=$id_pessoa");
@@ -140,6 +182,7 @@ require_once ROOT."/html/personalizacao_display.php";
         
     <!-- jquery functions -->
 
+    
     <script>
         $(function(){
             var funcionario=[];
@@ -256,8 +299,9 @@ require_once ROOT."/html/personalizacao_display.php";
                             <select class="form-control input-lg mb-md" name="nome" id="nome" required>
                                 <option selected disabled>Selecionar</option>
                                 <?php
-                                while ($row = $nome->fetch_array(MYSQLI_NUM)) {
-                                echo "<option value=" . $row[0] . ">" . $row[1] . " " . $row[2] . "</option>";
+                                foreach($nomesCertos as $key => $value)
+                                {
+                                    echo "<option value=" . $nomesCertos[$key]['id_pessoa'] . ">" . $nomesCertos[$key]['nome'] . " " . $nomesCertos[$key]['sobrenome'] . "</option>";
                                 }
                                 ?>
                             </select>
@@ -266,12 +310,17 @@ require_once ROOT."/html/personalizacao_display.php";
                             <div class="form-group">
                                     <label for="texto" id="etiqueta_despacho" style="padding-left: 15px;">Descrição médica<sup class="obrig">*</sup></label>
                                     <div class='col-md-6' id='div_texto' style="height: 499px;">
-                                        <textarea cols='30' rows='5' id='despacho' name='texto' required class='form-control'></textarea>
+                                        <textarea cols='30' rows='5' id='despacho' name='texto' class='form-control' onkeypress="return Onlychars(event)"required></textarea>
+                                        <!-- eh o id despacho que atrapalha a descricao-->
+                                        <!-- pegar o lugar que tem todos esses campos obrigatorios -->
+                                        <!-- porque o only chars não funciona com o CKEDITOR.replace -->
+										
+                                        <!-- <input type="text" class="form-control" name="nome" id="nome" id="profileFirstName" onkeypress="return Onlychars(event)"required> -->
+                                        
                                     </div>
                             </div>
 
                            
-                            
                                 <!--<div class='col-md-9 col-md-offset-8'>
                                     <input type='hidden' value='DespachoControle' name='nomeClasse' class='mb-xs mt-xs mr-xs btn btn-default'>
                                 </div>

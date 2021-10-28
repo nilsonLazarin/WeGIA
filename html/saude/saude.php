@@ -6,13 +6,13 @@ error_reporting(E_ALL);
 extract($_REQUEST);
 session_start();
 
-    if(!isset($_SESSION['atendido'])){
+    if(!isset($_SESSION['saude'])){
         header ("Location: profile_paciente.php?idatendido=$id");
     }
    	/*if(!isset($_SESSION['usuario'])){
    		header ("Location: ../index.php");
    	}*/
-      
+
       $config_path = "config.php";
       if(file_exists($config_path)){
          require_once($config_path);
@@ -24,7 +24,7 @@ session_start();
          require_once($config_path);
       }
 
-      $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+      /*$conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
       $id_pessoa = $_SESSION['id_pessoa'];
       $resultado = mysqli_query($conexao, "SELECT * FROM funcionario WHERE id_pessoa=$id_pessoa");
       if(!is_null($resultado)){
@@ -49,27 +49,27 @@ session_start();
          $permissao = 1;
        $msg = "Você não tem as permissões necessárias para essa página.";
        header("Location: ./home.php?msg_c=$msg");
-      }	
+      }	*/
   
 
   include_once '../../classes/Cache.php';    
 	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
   require_once "../personalizacao_display.php";
   
-  require_once ROOT."/controle/FuncionarioControle.php";
+  /*require_once ROOT."/controle/FuncionarioControle.php";
   $cpf1 = new FuncionarioControle;
-  $cpf1->listarCpf();
+  $cpf1->listarCpf();*/
 
-  require_once ROOT."/controle/AtendidoControle.php";
-  $cpf = new AtendidoControle;
-  $cpf->listarCpf();
+  require_once ROOT."/controle/SaudeControle.php";
+  /*$cpf = new AtendidoControle;
+  $cpf->listarCpf();*/
 
-  require_once ROOT."/controle/EnderecoControle.php";
+  /*require_once ROOT."/controle/EnderecoControle.php";
   $endereco = new EnderecoControle;
-  $endereco->listarInstituicao();
+  $endereco->listarInstituicao();*/
    
    
-   $id=$_GET['idatendido'];
+   $id=$_GET['idsaude'];
    $cache = new Cache();
    $teste = $cache->read($id);
    //$atendidos = $_SESSION['idatendido'];
@@ -810,7 +810,7 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                         </div>
                       </div>
                      <div class="form-group center">
-                     <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
+                     <!--<input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>-->
                       <button type="button" class="btn btn-primary" id="botaoEditarEndereco" onclick="return editar_endereco()">Cadastrar</button>
                       <!--<input id="botaoSalvarEndereco" type="submit" class="btn btn-primary" disabled="true" value="Salvar" onclick="funcao3()">-->
                     </form>
