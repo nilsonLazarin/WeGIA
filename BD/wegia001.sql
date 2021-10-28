@@ -1554,6 +1554,8 @@ DECLARE idp int;
 
 select pessoa_id_pessoa into idp from atendido where idatendido=ida;
 
+delete from saude_fichamedica where id_pessoa=idp;
+
 delete a,p from atendido as a inner join pessoa as p on p.id_pessoa=a.pessoa_id_pessoa where a.idatendido=ida;
 END$$
 
