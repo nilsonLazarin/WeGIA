@@ -1032,7 +1032,7 @@ ENGINE = InnoDB;
 -- Table `wegia`.`atendido_familiares`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `wegia`.`atendido_familiares` (
-  `idatendido_familiares` INT NOT NULL,
+  `idatendido_familiares` INT NOT NULL AUTO_INCREMENT,
   `atendido_idatendido` INT NOT NULL,
   `pessoa_id_pessoa` INT(11) NOT NULL,
   `atendido_parentesco_idatendido_parentesco` INT NOT NULL,
