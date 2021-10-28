@@ -1256,7 +1256,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `wegia`.`saude_fichamedica` (
   `id_fichamedica` INT NOT NULL AUTO_INCREMENT,
-  `id_pessoa` INT(11) NOT NULL,
+  `id_pessoa` INT(11) NOT NULL UNIQUE,
   `descricao` VARCHAR(500) NULL,
   PRIMARY KEY (`id_fichamedica`),
   INDEX `fk_saude_fichamedica_pessoa1_idx` (`id_pessoa` ASC),
@@ -1386,7 +1386,19 @@ CREATE TABLE IF NOT EXISTS `wegia`.`saude_medicacao` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+
+-- ########################### PROCEDURES #################### --
+
 USE `wegia` ;
+
+-- saude_cad_fichamedica
+-- cria cadastro de ficha médica para pessoa
+
+DELIMITER $$
+CREATE PROCEDURE saude_cad_fichamedica(IN codpessoa INT, IN resumomedico VARCHAR(500))
+	INSERT INTO saude_fichamedica(id_fichamedica, id_pessoa, descricao) VALUES (NULL, codpessoa, resumomedico)$$
+DELIMITER ;
+
 
 -- -----------------------------------------------------
 -- procedure cadentrada
@@ -1861,7 +1873,12 @@ BEGIN
 END$$
 
 
+
+
+
+
 DELIMITER ;
+
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
