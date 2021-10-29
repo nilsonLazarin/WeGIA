@@ -29,10 +29,9 @@ $pdo = Conexao::connect();
 // $nome = $mysqli->query("SELECT id_pessoa,nome,sobrenome FROM pessoa p JOIN atendido a ON(p.id_pessoa=a.pessoa_id_pessoa)");
 // $nome_fichas_medicas = $mysqli->query("SELECT id_pessoa FROM saude_fichamedica");
 
-
 // $nome = $pdo->query("SELECT p.id_pessoa,p.nome,p.sobrenome FROM pessoa p JOIN atendido a ON(p.id_pessoa=a.pessoa_id_pessoa)")->fetchAll(PDO::FETCH_ASSOC);//
 
-$nome = $pdo->query("SELECT p.id_pessoa, p.nome, p.sobrenome FROM pessoa p JOIN atendido a ON(p.id_pessoa=a.pessoa_id_pessoa) JOIN funcionario f ON (p.id_pessoa=f.id_pessoa)")->fetchAll(PDO::FETCH_ASSOC);
+$nome = $pdo->query("SELECT p.id_pessoa, p.nome, p.sobrenome FROM pessoa p JOIN atendido a ON(p.id_pessoa=a.pessoa_id_pessoa)")->fetchAll(PDO::FETCH_ASSOC);
 
 $idsPessoas = $pdo->query("SELECT p.id_pessoa FROM pessoa p JOIN atendido a ON(p.id_pessoa=a.pessoa_id_pessoa)")->fetchAll(PDO::FETCH_ASSOC);
 
@@ -92,6 +91,7 @@ foreach($nome as $va)
     }
 }
 
+// $nomesCertos = json_encode($nomesCertos);
 
 //$nome = $mysqli->query("SELECT * FROM cargo");
 /*$conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
@@ -323,6 +323,13 @@ require_once ROOT."/html/personalizacao_display.php";
                             <h5 class="obrig">Campos Obrigatórios(*)</h5>
                             <br>
                             <div class="form-group">
+                                <!-- <label class="col-md-3 control-label" for="profileLastName">Nome do paciente<sup class="obrig">*</sup></label> -->
+                                <div class="col-md-8">
+                                <label><input type="radio" value="m" style="margin-top: 10px; margin-left: 15px;" onclick="return exibir_funcionarios()" required>funcionário</label>
+                                <label><input type="radio" value="f" style="margin-top: 10px; margin-left: 15px;" onclick="">atendido</label>
+                                </div>
+                            </div>
+                            <!-- <div class="form-group">
                             <label class="col-md-3 control-label" for="inputSuccess">Nome do paciente<sup class="obrig">*</sup></label>
                             <div class="col-md-6">
                             <select class="form-control input-lg mb-md" name="nome" id="nome" required>
@@ -334,7 +341,7 @@ require_once ROOT."/html/personalizacao_display.php";
                                 }
                                 ?>
                             </select>
-                            </div>
+                            </div> -->
                         </div>
                             <div class="form-group">
                                     <label for="texto" id="etiqueta_despacho" style="padding-left: 15px;">Descrição médica<sup class="obrig">*</sup></label>
@@ -385,7 +392,19 @@ require_once ROOT."/html/personalizacao_display.php";
             </section>
         </div>
     </section><!--section do body-->
-    
+        
+        <script>
+            // $(function() {
+            //     function exibir_funcionarios(){
+            //     console.log("teste");
+            //     var teste = <?= $nomesCertos[0]['nome'] ?>;
+            //     console.log(teste);
+            // }
+            // });
+
+            
+
+        </script>
     <!-- end: page -->
     <!-- Vendor -->
         <script src="<?php echo WWW;?>assets/vendor/select2/select2.js"></script>
