@@ -30,35 +30,60 @@ $pdo = Conexao::connect();
 // $nome_fichas_medicas = $mysqli->query("SELECT id_pessoa FROM saude_fichamedica");
 
 
-$nome = $pdo->query("SELECT p.id_pessoa,p.nome,p.sobrenome FROM pessoa p JOIN atendido a ON(p.id_pessoa=a.pessoa_id_pessoa)")->fetchAll(PDO::FETCH_ASSOC);
+// $nome = $pdo->query("SELECT p.id_pessoa,p.nome,p.sobrenome FROM pessoa p JOIN atendido a ON(p.id_pessoa=a.pessoa_id_pessoa)")->fetchAll(PDO::FETCH_ASSOC);//
 
-// $nome = $pdo->query("SELECT p.id_pessoa, f.id_pessoa, p.nome,p.sobrenome FROM pessoa p JOIN atendido a ON(p.id_pessoa=a.pessoa_id_pessoa) JOIN funcionario f ON(p.id_pessoa=f.id_pessoa)")->fetchAll(PDO::FETCH_ASSOC);//
-//SELECT p.id_pessoa FROM pessoa p JOIN funcionario f ON(p.id_pessoa=f.id_pessoa);//
+$nome = $pdo->query("SELECT p.id_pessoa, p.nome, p.sobrenome FROM pessoa p JOIN atendido a ON(p.id_pessoa=a.pessoa_id_pessoa) JOIN funcionario f ON (p.id_pessoa=f.id_pessoa)")->fetchAll(PDO::FETCH_ASSOC);
 
-
-$idsPessoas = $pdo->query("SELECT id_pessoa FROM pessoa p JOIN atendido a ON(p.id_pessoa=a.pessoa_id_pessoa)")->fetchAll(PDO::FETCH_ASSOC);
+$idsPessoas = $pdo->query("SELECT p.id_pessoa FROM pessoa p JOIN atendido a ON(p.id_pessoa=a.pessoa_id_pessoa)")->fetchAll(PDO::FETCH_ASSOC);
 
 $idsPessoasFichasMedicas = $pdo->query("SELECT id_pessoa FROM saude_fichamedica")->fetchAll(PDO::FETCH_ASSOC);
+
+//$idsFuncionario = $pdo->query("SELECT p.id_pessoa FROM pessoa p JOIN funcionario f ON(p./////id_pessoa=f.id_pessoa)")->fetchAll(PDO::FETCH_ASSOC);
+
 $idPes = array();
+//$idFun = array();
 $idPesCadastradas = array();
 $idsVerificados = array();
 $nomesCertos = array();
 
+// add o id pessoa da pessoa em um array//
 foreach($idsPessoas as $valor){
     array_push($idPes, $valor['id_pessoa']);
 }
 
+// foreach($idsFuncionario as $v){
+//     array_push($idFun, $v['id_pessoa']);
+// }
+
+// add o id da saude num array//
 foreach($idsPessoasFichasMedicas as $value){
     array_push($idPesCadastradas, $value['id_pessoa']);
 }
 
+//pego um array e se não tiver no array cadastrado, add no verificado//
 foreach($idPes as $val){
     if(!in_array($val, $idPesCadastradas))
+     {
+         array_push($idsVerificados, $val);
+     }
+}
+
+// foreach($idFun as $vall){
+//     if(!in_array($vall, $idPesCadastradas))
+//     {
+//         array_push($idsVerificados, $vall);
+//     }
+// }
+
+/*foreach(array_combine($idPes, $idFun) as $val => $val2){
+    if(!in_array($val, $idPesCadastradas) && (!in_array($val2, $idPesCadastradas)))
     {
         array_push($idsVerificados, $val);
     }
-}
+}*/
 
+// pego o id, nome e sobrenome e se o tiver dentro do verificado, add ele aos nomes
+//certos
 foreach($nome as $va)
 {
     if(in_array($va["id_pessoa"], $idsVerificados))
@@ -68,7 +93,7 @@ foreach($nome as $va)
 }
 
 
-// $nome = $mysqli->query("SELECT * FROM cargo");
+//$nome = $mysqli->query("SELECT * FROM cargo");
 /*$conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 $id_pessoa = $_SESSION['id_pessoa'];
 $resultado = mysqli_query($conexao, "SELECT * FROM funcionario WHERE id_pessoa=$id_pessoa");

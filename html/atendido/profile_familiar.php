@@ -34,10 +34,10 @@ if (file_exists($config_path)) {
 require_once "../permissao/permissao.php";
 permissao($_SESSION['id_pessoa'], 11, 7);
 
-// $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-// $situacao = $mysqli->query("SELECT * FROM situacao");
-// $cargo = $mysqli->query("SELECT * FROM cargo");
-// $beneficios = $mysqli->query("SELECT * FROM beneficios");
+$mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+$situacao = $mysqli->query("SELECT * FROM situacao");
+$cargo = $mysqli->query("SELECT * FROM cargo");
+$beneficios = $mysqli->query("SELECT * FROM beneficios");
 
 
 // Adiciona a Função display_campo($nome_campo, $tipo_campo)
@@ -63,7 +63,6 @@ $dependente = $dependente->fetch(PDO::FETCH_ASSOC);
 $dependente["nome_atendido"] = ($pdo->query("SELECT p.nome FROM atendido a LEFT JOIN pessoa p ON a.pessoa_id_pessoa = p.id_pessoa WHERE a.idatendido = ".$dependente["atendido_idatendido"].";")->fetch(PDO::FETCH_ASSOC))["nome"];
 $dependente["sobrenome_atendido"] = ($pdo->query("SELECT p.sobrenome FROM atendido a LEFT JOIN pessoa p ON a.pessoa_id_pessoa = p.id_pessoa WHERE a.idatendido = ".$dependente["atendido_idatendido"].";")->fetch(PDO::FETCH_ASSOC))["sobrenome"];
 $JSON_dependente = json_encode($dependente);
-// var_dump($JSON_dependente);
 
 ?>
 <!doctype html>
@@ -135,12 +134,11 @@ $JSON_dependente = json_encode($dependente);
     <script src="../../assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
 
     <!-- JavaScript Custom -->
-    <script src="../geral/post.js"></script>
-    <script src="../geral/formulario.js"></script>
+    <script src="../..//geral/post.js"></script>
+    <script src="../..//geral/formulario.js"></script>
 
     <script>
         var dependente = <?= $JSON_dependente; ?>;
-        console.log(dependente);
         var url = "familiar_listar_um.php",
             data = "id_dependente=<?= $_GET["id_dependente"] ?>";
         var formState = [],
@@ -196,7 +194,18 @@ $JSON_dependente = json_encode($dependente);
                 },
 
             };
-                function switchButton(idForm) {
+
+
+
+
+
+
+
+
+
+
+
+        function switchButton(idForm) {
             if (!formState[idForm]) {
                 $("#botaoEditar_" + idForm).text("Editar").prop("class", "btn btn-primary");
             } else {
@@ -218,6 +227,7 @@ $JSON_dependente = json_encode($dependente);
             }
             switchButton(idForm);
         }
+
         function getInfoDependente(id = null) {
             if (!id) {
                 post(url, data, function(response) {
@@ -246,13 +256,13 @@ $JSON_dependente = json_encode($dependente);
             var url;
             switch (idForm) {
                 case "formInfoPessoal":
-                    url = "../pessoa/editar_info_pessoal.php";
+                    url = "./pessoa/editar_info_pessoal.php";
                     break;
                 case "formEndereco":
-                    url = "../pessoa/editar_endereco.php";
+                    url = "./pessoa/editar_endereco.php";
                     break;
                 case "formDocumentacao":
-                    url = "../pessoa/editar_documentacao.php";
+                    url = "./pessoa/editar_documentacao.php";
                     break;
                 default:
                     console.warn("Não existe nenhuma URL registrada para o formulário com o seguinte id: " + idForm);
@@ -290,7 +300,20 @@ $JSON_dependente = json_encode($dependente);
 
 
     </script>
-    <script type="text/javascript">
+
+
+
+
+
+
+
+
+
+
+
+
+    
+     <script type="text/javascript">
         
     function numero_residencial() {
         if ($("#numResidencial").prop('checked')) {
@@ -301,7 +324,12 @@ $JSON_dependente = json_encode($dependente);
         document.getElementById("numero_residencia").disabled = false;
       }
     }   
-    
+
+
+
+
+
+
     function meu_callback(conteudo) {
       if (!("erro" in conteudo)) {
         //Atualiza os campos com os valores.
@@ -482,7 +510,19 @@ $JSON_dependente = json_encode($dependente);
             })
         }
 
-            function listarDocDependente(doc) {
+
+
+
+
+
+
+
+
+
+
+
+
+        function listarDocDependente(doc) {
             $("#doc-tab").empty();
             $.each(doc, function(i, item) {
                 $("#doc-tab")
@@ -565,6 +605,12 @@ $JSON_dependente = json_encode($dependente);
         <div class="inner-wrapper">
             <!-- start: sidebar -->
             <aside id="sidebar-left" class="sidebar-left menuu"></aside>
+
+
+
+
+
+
             <!-- end: sidebar -->
             <section role="main" class="content-body">
                 <header class="page-header">
@@ -600,9 +646,9 @@ $JSON_dependente = json_encode($dependente);
                                 <li>
                                     <a href="#documentacao" data-toggle="tab">Documentação</a>
                                 </li>
-                                <!-- <li>
+                                <li>
                                     <a href="#arquivo" data-toggle="tab">Arquivo</a>
-                                </li> -->
+                                </li>
                                 <li>
                                     <a href="#endereco" data-toggle="tab">Endereço</a>
                                 </li>
@@ -619,15 +665,15 @@ $JSON_dependente = json_encode($dependente);
 
                                     <fieldset id="formInfoPessoal">
                                         <div class="form-group">
-                                            <label class="col-md-3 control-label" for="nomeForm">Nome</label>
+                                            <label class="col-md-3 control-label" for="nome">Nome</label>
                                             <div class="col-md-8">
                                                 <input type="text" class="form-control" name="nome" id="nomeForm" onkeypress="return Onlychars(event)" required>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-md-3 control-label" for="sobrenomeForm">Sobrenome</label>
+                                            <label class="col-md-3 control-label" for="sobrenome">Sobrenome</label>
                                             <div class="col-md-8">
-                                                <input type="text" class="form-control" name="sobrenomeForm" id="sobrenomeForm" onkeypress="return Onlychars(event)">
+                                                <input type="text" class="form-control" name="sobrenomeForm" id="sobrenome" onkeypress="return Onlychars(event)">
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -662,15 +708,16 @@ $JSON_dependente = json_encode($dependente);
                                             </div>
                                         </div>
                                         <div class="form-group center">
-                                        <button type="button" class="btn btn-primary" id="botaoEditar_formInfoPessoal" onclick="switchForm('formInfoPessoal')">Editar</button>
+                                            <button type="button" class="btn btn-primary" id="botaoEditar_formInfoPessoal" onclick="switchForm('formInfoPessoal')">Editar</button>
                                             <input type="submit" class="btn btn-primary" disabled="true" value="Salvar" id="botaoSalvar_formInfoPessoal" onclick="submitForm('formInfoPessoal')">
+                                        </div>
                                         
 
                                     </fieldset>
-                                </div>
+                                        </div>
 
 
-                                <!-- Aba de arquivos do dependente
+                                <!-- Aba de arquivos do dependente -->
 
                                 <div id="arquivo" class="tab-pane" role="tabpanel">
                                     <h4>Arquivo</h4>
@@ -689,9 +736,9 @@ $JSON_dependente = json_encode($dependente);
                                                 </tbody>
                                             </table>
                                             <br>
-                                            <!- Button trigger modal -->
-                                            <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#docFormModal">
-                                                |Adicionar arquivo
+                                            <!-- Button trigger modal -->
+                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#docFormModal">
+                                                Adicionar arquivo
                                             </button>
 
                                             <div class="modal fade" id="docFormModal" tabindex="-1" role="dialog" aria-labelledby="docFormModalLabel" aria-hidden="true">
@@ -702,21 +749,21 @@ $JSON_dependente = json_encode($dependente);
                                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                 <span aria-hidden="true">&times;</span>
                                                             </button>
-                                                        </div> -->
-                                                        <!-- <form action='docfamiliar_upload.php' method='post' enctype='multipart/form-data' id='funcionarioDocForm'>
+                                                        </div>
+                                                        <form action='./funcionario/docdependente_upload.php' method='post' enctype='multipart/form-data' id='funcionarioDocForm'>
                                                             <div class="modal-body" style="padding: 15px 40px">
                                                                 <div class="form-group" style="display: grid;">
                                                                     <label class="my-1 mr-2" for="id_docdependente">Tipo de Documento</label><br>
                                                                     <div style="display: flex;">
                                                                         <select name="id_docdependente" class="custom-select my-1 mr-sm-2" id="tipoDocumento" required>
                                                                             <option selected disabled>Selecionar...</option>
-                                                                             <?php
+                                                                            <?php
                                                                             foreach ($pdo->query("SELECT * FROM funcionario_docdependentes ORDER BY nome_docdependente ASC;")->fetchAll(PDO::FETCH_ASSOC) as $item) {
                                                                                 echo ("
                                                                                 <option value='" . $item["id_docdependentes"] . "' >" . $item["nome_docdependente"] . "</option>
                                                                                 ");
                                                                             }
-                                                                            ?> 
+                                                                            ?>
                                                                         </select>
                                                                         <a onclick="adicionarDocDependente()" style="margin: 0 20px;"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
                                                                     </div>
@@ -726,9 +773,9 @@ $JSON_dependente = json_encode($dependente);
                                                                     <input name="arquivo" type="file" class="form-control-file" id="arquivoDocumento" accept="png;jpeg;jpg;pdf;docx;doc;odp" required>
                                                                 </div>
 
-                                                                <input type="number" name="id_dependente" value="<?= $_GET['id_dependente']; ?>" style='display: none;'> -->
+                                                                <input type="number" name="id_dependente" value="<?= $_GET['id_dependente']; ?>" style='display: none;'>
 
-                                                            <!-- </div>
+                                                            </div>
                                                             <div class="modal-footer">
                                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                                                                 <input type="submit" value="Enviar" class="btn btn-primary">
@@ -736,10 +783,10 @@ $JSON_dependente = json_encode($dependente);
                                                         </form>
                                                     </div>
                                                 </div>
-                                            </div> -->
-                                        <!-- </div> -->
-                                    <!-- </fieldset> -->
-                                <!-- </div>  -->
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
 
                                 <!-- Aba de documentação do dependente -->
 
@@ -852,12 +899,11 @@ $JSON_dependente = json_encode($dependente);
                                     </fieldset>
                                 </div>
                                 
-                                
                                  <div class="justify-content-between" style="height: 30px;">
-                             <!-- <a type="buton" onclick="goBack()" class="btn btn-secondary" style="float: right;">
+                             <a type="buton" onclick="goBack()" class="btn btn-secondary" style="float: right;">
                                 Voltar
                                 <i class="fas fa-arrow-right"></i>
-                            </a> -->
+                            </a>
                             
                         </div>
 
@@ -922,12 +968,6 @@ $JSON_dependente = json_encode($dependente);
     <script src="../../assets/vendor/jquery-datatables/media/js/jquery.dataTables.js"></script>
     <script src="../../assets/vendor/jquery-datatables/extras/TableTools/js/dataTables.tableTools.min.js"></script>
     <script src="../../assets/vendor/jquery-datatables-bs3/assets/js/datatables.js"></script>
-    <link rel="stylesheet" type="text/css" href="../../css/profile-theme.css"> 
-    <script src="../../assets/vendor/jquery/jquery.min.js"></script> 
-    <script src="../../assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script> 
-    <script src="../../assets/vendor/bootstrap/js/bootstrap.js"></script>
-    <script src="../../assets/vendor/nanoscroller/nanoscroller.js"></script>
-    <script src="../../assets/vendor/magnific-popup/magnific-popup.js"></script>
 
     <!-- Theme Base, Components and Settings -->
     <script src="../../assets/javascripts/theme.js"></script>
@@ -940,9 +980,9 @@ $JSON_dependente = json_encode($dependente);
 
 
     <!-- Examples -->
-    <script src="../assets/javascripts/tables/examples.datatables.default.js"></script>
-    <script src="../assets/javascripts/tables/examples.datatables.row.with.details.js"></script>
-    <script src="../assets/javascripts/tables/examples.datatables.tabletools.js"></script>
+    <script src="../../assets/javascripts/tables/examples.datatables.default.js"></script>
+    <script src="../../assets/javascripts/tables/examples.datatables.row.with.details.js"></script>
+    <script src="../../assets/javascripts/tables/examples.datatables.tabletools.js"></script>
 </body>
 
 </html>
