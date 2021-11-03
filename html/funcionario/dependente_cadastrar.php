@@ -64,4 +64,4 @@ try {
     die();
 }
 
-header("Location: ../profile_funcionario.php?id_funcionario=$id_funcionario");
+header("Location: profile_funcionario.php?id_funcionario=$id_funcionario");

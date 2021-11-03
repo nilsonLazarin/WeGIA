@@ -6,13 +6,13 @@ error_reporting(E_ALL);
 extract($_REQUEST);
 session_start();
 
-require_once "../dao/Conexao.php";
+require_once "../../dao/Conexao.php";
 $pdo = Conexao::connect();
 if (!isset($_SESSION['usuario'])) {
   header("Location: ../index.php");
 } else if (!isset($_SESSION['funcionario'])) {
   $id_funcionario = $_GET['id_funcionario'];
-  header('Location: ../controle/control.php?metodo=listarUm&nomeClasse=FuncionarioControle&nextPage=../html/profile_funcionario.php?id_funcionario=' . $id_funcionario . '&id_funcionario=' . $id_funcionario);
+  header('Location: ../../controle/control.php?metodo=listarUm&nomeClasse=FuncionarioControle&nextPage=../html/funcionario/profile_funcionario.php?id_funcionario=' . $id_funcionario . '&id_funcionario=' . $id_funcionario);
 /*} else if (!isset($_SESSION['beneficio'])) {
   $id_funcionario = $_GET['id_funcionario'];
   header('Location: ../controle/control.php?metodo=listarBeneficio&nomeClasse=FuncionarioControle&nextPage=../html/profile_funcionario.php?id_funcionario=' . $id_funcionario . '&id_funcionario=' . $id_funcionario);
@@ -52,7 +52,7 @@ if (file_exists($config_path)) {
   require_once($config_path);
 }
 
-require_once "./permissao/permissao.php";
+require_once "../permissao/permissao.php";
 permissao($_SESSION['id_pessoa'], 11, 7);
 
 $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
@@ -62,8 +62,8 @@ $cargo = $mysqli->query("SELECT * FROM cargo");
 //$descricao_epi = $mysqli->query("SELECT * FROM epi");
 
 // Adiciona a Função display_campo($nome_campo, $tipo_campo)
-require_once "personalizacao_display.php";
-require_once "../dao/Conexao.php";
+require_once "../personalizacao_display.php";
+require_once "../../dao/Conexao.php";
 require_once ROOT . "/controle/FuncionarioControle.php";
 $cpf = new FuncionarioControle;
 $cpf->listarCPF();
@@ -80,7 +80,7 @@ $cpf1->listarCPF();*/
 //require_once "./funcionario/Documento.php";
 //$doc_funcionario = new DocumentoFuncionario($_GET["id_funcionario"]);
 
-require_once "./geral/msg.php";
+require_once "../geral/msg.php";
 
 $docfuncional = $pdo->query("SELECT * FROM funcionario_docs f JOIN funcionario_docfuncional docf ON f.id_docfuncional = docf.id_docfuncional WHERE id_funcionario = " . $_GET['id_funcionario']);
 $docfuncional = $docfuncional->fetchAll(PDO::FETCH_ASSOC);
@@ -117,58 +117,58 @@ $dependente = json_encode($dependente);
   <link rel="icon" href="<?php display_campo("Logo", 'file'); ?>" type="image/x-icon" id="logo-icon">
 
   <!-- Vendor CSS -->
-  <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css" />
-  <link rel="stylesheet" href="../assets/vendor/font-awesome/css/font-awesome.css" />
+  <link rel="stylesheet" href="../../assets/vendor/bootstrap/css/bootstrap.css" />
+  <link rel="stylesheet" href="../../assets/vendor/font-awesome/css/font-awesome.css" />
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
-  <link rel="stylesheet" href="../assets/vendor/magnific-popup/magnific-popup.css" />
-  <link rel="stylesheet" href="../assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
+  <link rel="stylesheet" href="../../assets/vendor/magnific-popup/magnific-popup.css" />
+  <link rel="stylesheet" href="../../assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
   <link rel="icon" href="<?php display_campo("Logo", 'file'); ?>" type="image/x-icon" id="logo-icon">
   <!-- Theme CSS -->
-  <link rel="stylesheet" href="../assets/stylesheets/theme.css" />
+  <link rel="stylesheet" href="../../assets/stylesheets/theme.css" />
   <!-- Skin CSS -->
-  <link rel="stylesheet" href="../assets/stylesheets/skins/default.css" />
+  <link rel="stylesheet" href="../../assets/stylesheets/skins/default.css" />
   <!-- Theme Custom CSS -->
-  <link rel="stylesheet" href="../assets/stylesheets/theme-custom.css">
-  <link rel="stylesheet" href="../css/profile-theme.css" />
+  <link rel="stylesheet" href="../../assets/stylesheets/theme-custom.css">
+  <link rel="stylesheet" href="../../css/profile-theme.css" />
   <!-- Head Libs -->
-  <script src="../assets/vendor/modernizr/modernizr.js"></script>
-  <script src="../Functions/onlyNumbers.js"></script>
-  <script src="../Functions/onlyChars.js"></script>
+  <script src="../../assets/vendor/modernizr/modernizr.js"></script>
+  <script src="../../Functions/onlyNumbers.js"></script>
+  <script src="../../Functions/onlyChars.js"></script>
   <!--script src="../Functions/enviar_dados.js"></script-->
-  <script src="../Functions/mascara.js"></script>
-  <script src="../Functions/lista.js"></script>
+  <script src="../../Functions/mascara.js"></script>
+  <script src="../../Functions/lista.js"></script>
 
 
-  <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css" />
-  <link rel="stylesheet" href="../assets/vendor/magnific-popup/magnific-popup.css" />
-  <link rel="stylesheet" href="../assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
+  <link rel="stylesheet" href="../../assets/vendor/bootstrap/css/bootstrap.css" />
+  <link rel="stylesheet" href="../../assets/vendor/magnific-popup/magnific-popup.css" />
+  <link rel="stylesheet" href="../../assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
   <link rel="icon" href="<?php display_campo("Logo", 'file'); ?>" type="image/x-icon" id="logo-icon">
 
   <!-- Specific Page Vendor CSS -->
-  <link rel="stylesheet" href="../assets/vendor/select2/select2.css" />
-  <link rel="stylesheet" href="../assets/vendor/jquery-datatables-bs3/assets/css/datatables.css" />
+  <link rel="stylesheet" href="../../assets/vendor/select2/select2.css" />
+  <link rel="stylesheet" href="../../assets/vendor/jquery-datatables-bs3/assets/css/datatables.css" />
 
   <!-- Theme CSS -->
-  <link rel="stylesheet" href="../assets/stylesheets/theme.css" />
+  <link rel="stylesheet" href="../../assets/stylesheets/theme.css" />
 
   <!-- Skin CSS -->
-  <link rel="stylesheet" href="../assets/stylesheets/skins/default.css" />
+  <link rel="stylesheet" href="../../assets/stylesheets/skins/default.css" />
 
   <!-- Theme Custom CSS -->
-  <link rel="stylesheet" href="../assets/stylesheets/theme-custom.css">
+  <link rel="stylesheet" href="../../assets/stylesheets/theme-custom.css">
 
   <!-- Head Libs -->
-  <script src="../assets/vendor/modernizr/modernizr.js"></script>
+  <script src="../../assets/vendor/modernizr/modernizr.js"></script>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 
   <!-- Vendor -->
-  <script src="../assets/vendor/jquery/jquery.min.js"></script>
-  <script src="../assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
-  <script src="../assets/vendor/bootstrap/js/bootstrap.js"></script>
-  <script src="../assets/vendor/nanoscroller/nanoscroller.js"></script>
-  <script src="../assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-  <script src="../assets/vendor/magnific-popup/magnific-popup.js"></script>
-  <script src="../assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
+  <script src="../../assets/vendor/jquery/jquery.min.js"></script>
+  <script src="../../assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
+  <script src="../../assets/vendor/bootstrap/js/bootstrap.js"></script>
+  <script src="../../assets/vendor/nanoscroller/nanoscroller.js"></script>
+  <script src="../../assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+  <script src="../../assets/vendor/magnific-popup/magnific-popup.js"></script>
+  <script src="../../assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
 
 
   <style type="text/css">
@@ -637,7 +637,7 @@ $dependente = json_encode($dependente);
             .append($("<td>").text(dependente.cpf))
             .append($("<td>").text(dependente.parentesco))
             .append($("<td style='display: flex; justify-content: space-evenly;'>")
-              .append($("<a href='./profile_dependente.php?id_dependente=" + dependente.id_dependente + "' title='Editar'><button class='btn btn-primary'><i class='fas fa-user-edit'></i></button></a>"))
+              .append($("<a href='profile_dependente.php?id_dependente=" + dependente.id_dependente + "' title='Editar'><button class='btn btn-primary'><i class='fas fa-user-edit'></i></button></a>"))
               .append($("<button class='btn btn-danger' onclick='removerDependente(" + dependente.id_dependente + ")'><i class='fas fa-trash-alt'></i></button>"))
             )
           )
@@ -824,12 +824,12 @@ $dependente = json_encode($dependente);
 
     }
     $(function() {
-      $("#header").load("header.php");
-      $(".menuu").load("menu.php");
+      $("#header").load("../header.php");
+      $(".menuu").load("../menu.php");
     });
 
     function gerarSituacao() {
-      url = '../dao/exibir_situacao.php';
+      url = '../../dao/exibir_situacao.php';
       $.ajax({
         data: '',
         type: "POST",
@@ -848,7 +848,7 @@ $dependente = json_encode($dependente);
     }
 
     function adicionar_situacao() {
-      url = '../dao/adicionar_situacao.php';
+      url = '../../dao/adicionar_situacao.php';
       var situacao = window.prompt("Cadastre uma Nova Situação:");
       if (!situacao) {
         return
@@ -891,7 +891,7 @@ $dependente = json_encode($dependente);
     }
 
     function adicionar_cargo() {
-      url = '../dao/adicionar_cargo.php';
+      url = '../../dao/adicionar_cargo.php';
       var cargo = window.prompt("Cadastre um Novo Cargo:");
       if (!cargo) {
         return
@@ -1024,7 +1024,7 @@ $dependente = json_encode($dependente);
           <div class="right-wrapper pull-right">
             <ol class="breadcrumbs">
               <li>
-                <a href="home.php">
+                <a href="../home.php">
                   <i class="fa fa-home"></i>
                 </a>
               </li>
@@ -1094,7 +1094,7 @@ $dependente = json_encode($dependente);
                             <h4 class="modal-title">Adicionar uma Foto</h4>
                           </div>
                           <div class="modal-body">
-                            <form class="form-horizontal" method="POST" action="../controle/control.php" enctype="multipart/form-data">
+                            <form class="form-horizontal" method="POST" action="../../controle/control.php" enctype="multipart/form-data">
                               <input type="hidden" name="nomeClasse" value="FuncionarioControle">
                               <input type="hidden" name="metodo" value="alterarImagem">
                               <div class="form-group">
@@ -1159,7 +1159,7 @@ $dependente = json_encode($dependente);
               
               <div class="tab-content">
                 <div id="overview" class="tab-pane active">
-                  <form class="form-horizontal" method="post" action="../controle/control.php">
+                  <form class="form-horizontal" method="post" action="../../controle/control.php">
                     <input type="hidden" name="nomeClasse" value="FuncionarioControle">
                     <input type="hidden" name="metodo" value="alterarInfPessoal">
                     <h4 class="mb-xlg">Informações Pessoais</h4>
@@ -1247,7 +1247,7 @@ $dependente = json_encode($dependente);
                         </div>
                         <div class="modal-body">
                           <p> Tem certeza que deseja excluir esse funcionário? Essa ação não poderá ser desfeita e todas as informações referentes a esse funcionário serão perdidas!</p>
-                          <a href="../controle/control.php?metodo=excluir&nomeClasse=FuncionarioControle&id_funcionario=<?php echo $_GET['id_funcionario']; ?>"><button button type="button" class="btn btn-success">Confirmar</button></a>
+                          <a href="../../controle/control.php?metodo=excluir&nomeClasse=FuncionarioControle&id_funcionario=<?php echo $_GET['id_funcionario']; ?>"><button button type="button" class="btn btn-success">Confirmar</button></a>
                           <button button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                         </div>
                       </div>
@@ -1356,7 +1356,7 @@ $dependente = json_encode($dependente);
                       <h2 class="panel-title">Outros</h2>
                     </header>
                     <div class="panel-body">
-                      <form class="form-horizontal" method="POST" action="../controle/control.php">
+                      <form class="form-horizontal" method="POST" action="../../controle/control.php">
                         <input type="hidden" name="nomeClasse" value="FuncionarioControle">
                         <input type="hidden" name="metodo" value="alterarOutros">
 
@@ -1546,11 +1546,11 @@ $dependente = json_encode($dependente);
                                       [0, "asc"]
                                     ]
                                   });
-                                  post("./funcionario/informacao_adicional.php", "action=listar&id_funcionario<?= $_GET['id_funcionario']?>", listarInfoAdicional)
+                                  post("informacao_adicional.php", "action=listar&id_funcionario<?= $_GET['id_funcionario']?>", listarInfoAdicional)
                                 });
 
                                 function adicionar_addInfoDescricao(){
-                                  url = './funcionario/informacao_adicional.php';
+                                  url = 'informacao_adicional.php';
                                   var situacao = window.prompt("Cadastrar nova descrição:");
                                   if (!situacao) {
                                     return
@@ -1580,7 +1580,7 @@ $dependente = json_encode($dependente);
                                 }
 
                                 function removerDescricao(id_descricao){
-                                  let url = "./funcionario/informacao_adicional.php";
+                                  let url = "informacao_adicional.php";
                                   let data = "action=remover&id_descricao="+id_descricao;
                                   post(url, data, listarInfoAdicional);
                                   $("#"+id_descricao+"").remove();
@@ -1595,7 +1595,7 @@ $dependente = json_encode($dependente);
                                   var vetor = new Array;
                                   $.ajax({
                                       type: "POST",
-                                      url: "./funcionario/informacao_adicional.php",
+                                      url: "informacao_adicional.php",
                                       data: argsdesc,
                                       dataType: 'json',
                                       success: function(resp){
@@ -1606,7 +1606,7 @@ $dependente = json_encode($dependente);
                                           console.log(vetor);
                                           $.ajax({
                                             type: "POST",
-                                            url: "./funcionario/informacao_adicional.php",
+                                            url: "informacao_adicional.php",
                                             data: argsAdicional,
                                             dataType: 'json',
                                             success: function(res){
@@ -1648,7 +1648,7 @@ $dependente = json_encode($dependente);
                       <h2 class="panel-title">Carga Horária</h2>
                     </header>
                     <div class="panel-body">
-                      <form class="form-horizontal" method="post" action="../controle/control.php">
+                      <form class="form-horizontal" method="post" action="../../controle/control.php">
                         <div class="form-group">
                           <label class="col-md-3 control-label">Escala</label>
                           <div class="col-md-6">
@@ -1851,7 +1851,7 @@ $dependente = json_encode($dependente);
                   <div class="panel-body">
                     <!--Documentação-->
                     <hr class="dotted short">
-                    <form class="form-horizontal" method="post" action="../controle/control.php">
+                    <form class="form-horizontal" method="post" action="../../controle/control.php">
                       <input type="hidden" name="nomeClasse" value="FuncionarioControle">
                       <input type="hidden" name="metodo" value="alterarDocumentacao">
                       <div class="form-group">
@@ -1937,7 +1937,7 @@ $dependente = json_encode($dependente);
                                 <span aria-hidden="true">&times;</span>
                               </button>
                             </div>
-                            <form action='./funcionario/documento_upload.php' method='post' enctype='multipart/form-data' id='funcionarioDocForm'>
+                            <form action='documento_upload.php' method='post' enctype='multipart/form-data' id='funcionarioDocForm'>
                               <div class="modal-body" style="padding: 15px 40px">
                                 <div class="form-group" style="display: grid;">
                                   <label class="my-1 mr-2" for="tipoDocumento">Tipo de Arquivo</label><br>
@@ -2016,7 +2016,7 @@ $dependente = json_encode($dependente);
                               <span aria-hidden="true">&times;</span>
                             </button>
                           </div>
-                          <form action='./funcionario/dependente_cadastrar.php' method='post' id='funcionarioDepForm'>
+                          <form action='dependente_cadastrar.php' method='post' id='funcionarioDepForm'>
                             <div class="modal-body" style="padding: 15px 40px">
                               <div class="form-group" style="display: grid;">
                                 <h4 class="mb-xlg">Informações Pessoais</h4>
@@ -2129,7 +2129,7 @@ $dependente = json_encode($dependente);
                   <div class="panel-body">
                     <!--Endereço-->
                     <hr class="dotted short">
-                    <form class="form-horizontal" method="post" action="../controle/control.php">
+                    <form class="form-horizontal" method="post" action="../../controle/control.php">
                       <input type="hidden" name="nomeClasse" value="FuncionarioControle">
                       <input type="hidden" name="metodo" value="alterarEndereco">
                       <div class="form-group">
@@ -2209,28 +2209,28 @@ $dependente = json_encode($dependente);
                  </section>
 
   <!-- Vendor -->
-  <script src="../assets/vendor/select2/select2.js"></script>
-  <script src="../assets/vendor/jquery-datatables/media/js/jquery.dataTables.js"></script>
-  <script src="../assets/vendor/jquery-datatables/extras/TableTools/js/dataTables.tableTools.min.js"></script>
-  <script src="../assets/vendor/jquery-datatables-bs3/assets/js/datatables.js"></script>
+  <script src="../../assets/vendor/select2/select2.js"></script>
+  <script src="../../assets/vendor/jquery-datatables/media/js/jquery.dataTables.js"></script>
+  <script src="../../assets/vendor/jquery-datatables/extras/TableTools/js/dataTables.tableTools.min.js"></script>
+  <script src="../../assets/vendor/jquery-datatables-bs3/assets/js/datatables.js"></script>
 
   <!-- Theme Base, Components and Settings -->
-  <script src="../assets/javascripts/theme.js"></script>
+  <script src="../../assets/javascripts/theme.js"></script>
 
   <!-- Theme Custom -->
-  <script src="../assets/javascripts/theme.custom.js"></script>
+  <script src="../../assets/javascripts/theme.custom.js"></script>
 
   <!-- Metodo Post -->
-  <script src="./geral/post.js"></script>
+  <script src="../geral/post.js"></script>
 
   <!-- Theme Initialization Files -->
-  <script src="../assets/javascripts/theme.init.js"></script>
+  <script src="../../assets/javascripts/theme.init.js"></script>
 
 
   <!-- Examples -->
-  <script src="../assets/javascripts/tables/examples.datatables.default.js"></script>
-  <script src="../assets/javascripts/tables/examples.datatables.row.with.details.js"></script>
-  <script src="../assets/javascripts/tables/examples.datatables.tabletools.js"></script>
+  <script src="../../assets/javascripts/tables/examples.datatables.default.js"></script>
+  <script src="../../assets/javascripts/tables/examples.datatables.row.with.details.js"></script>
+  <script src="../../assets/javascripts/tables/examples.datatables.tabletools.js"></script>
   <script>
     function submitForm(idForm, callback = function(){return true;}) {
       var data = getFormPostParams(idForm);
@@ -2239,11 +2239,11 @@ $dependente = json_encode($dependente);
       var data_nova;
       switch (idForm) {
           case "formRemuneracao":
-              url = "./funcionario/remuneracao.php";
+              url = "remuneracao.php";
               data_nova = "id_tipo=" + data[0] + "&valor=" + data[1] + "&inicio=" + data[2] + "&fim=" + data[3] + "&action=remuneracao_adicionar&id_funcionario=" + data[4];
               break;
           case "formInfoAdicional":
-              url = "./funcionario/informacao_adicional.php";
+              url = "informacao_adicional.php";
               data_nova = "id_descricao=" + data[0] + "&dados=" + data[1] + "&action=adicionar&id_funcionario=" + data[3];
               listarInfoAdicional(data);
               break;
@@ -2294,7 +2294,7 @@ $dependente = json_encode($dependente);
     }
 
     function adicionarTipoRemuneracao() {
-        url = './funcionario/remuneracao.php';
+        url = 'remuneracao.php';
         var descricao = window.prompt("Cadastre um novo tipo de Remuneração:");
         if (!descricao) {
             return
@@ -2309,7 +2309,7 @@ $dependente = json_encode($dependente);
     }
 
     function removerRemuneracao(id){
-      var url = "./funcionario/remuneracao.php";
+      var url = "remuneracao.php";
       var data = "action=remover&id_remuneracao=" + id + "&id_funcionario=<?= $_GET['id_funcionario']?>";
       post(url, data, listar_remuneracao);
     }
@@ -2327,7 +2327,7 @@ $dependente = json_encode($dependente);
     }
 
     $(function() {
-      post("./funcionario/remuneracao.php", "action=listar&id_funcionario=<?= $_GET['id_funcionario']?>", listar_remuneracao);
+      post("remuneracao.php", "action=listar&id_funcionario=<?= $_GET['id_funcionario']?>", listar_remuneracao);
     })
 
 
@@ -2360,7 +2360,7 @@ $dependente = json_encode($dependente);
     }
 
     function gerarDocFuncional() {
-      url = './funcionario/documento_listar.php';
+      url = 'documento_listar.php';
       $.ajax({
         data: '',
         type: "POST",
@@ -2379,7 +2379,7 @@ $dependente = json_encode($dependente);
     }
 
     function adicionarDocFuncional() {
-      url = './funcionario/documento_adicionar.php';
+      url = 'documento_adicionar.php';
       var nome_docfuncional = window.prompt("Cadastre um novo tipo de Documento:");
       if (!nome_docfuncional) {
         return
@@ -2403,7 +2403,7 @@ $dependente = json_encode($dependente);
     }
 
     function gerarParentesco() {
-      url = './funcionario/dependente_parentesco_listar.php';
+      url = 'dependente_parentesco_listar.php';
       $.ajax({
         data: '',
         type: "POST",
@@ -2422,7 +2422,7 @@ $dependente = json_encode($dependente);
     }
 
     function adicionarParentesco() {
-      url = './funcionario/dependente_parentesco_adicionar.php';
+      url = 'dependente_parentesco_adicionar.php';
       var descricao = window.prompt("Cadastre um novo tipo de Parentesco:");
       if (!descricao) {
         return
@@ -2458,7 +2458,7 @@ $dependente = json_encode($dependente);
     }
 
     function removerDependente(id_dep) {
-      let url = "./funcionario/dependente_remover.php";
+      let url = "dependente_remover.php";
       let data = "id_funcionario=<?= $_GET['id_funcionario']; ?>&id_dependente=" + id_dep;
       post(url, data, verificaSucesso);
     }
@@ -2467,15 +2467,15 @@ $dependente = json_encode($dependente);
       if (!window.confirm("Tem certeza que deseja remover esse documento?")){
         return false;
       }
-      let url = "./funcionario/documento_excluir.php?id_doc="+id_doc+"&id_funcionario=<?= $_GET["id_funcionario"] ?>";
+      let url = "documento_excluir.php?id_doc="+id_doc+"&id_funcionario=<?= $_GET["id_funcionario"] ?>";
       let data = "";
       post(url, data, listarFunDocs);
     }
   </script>
 
   <!-- JavaScript Custom -->
-  <script src="./geral/post.js"></script>
-  <script src="./geral/formulario.js"></script>
+  <script src="../geral/post.js"></script>
+  <script src="../geral/formulario.js"></script>
 
   <script>
     var formState = [];

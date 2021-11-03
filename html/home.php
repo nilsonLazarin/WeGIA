@@ -230,14 +230,14 @@
 
 				<div class="row ">
 					<div  id="pessoas" class="collapse">
-						<a href="../html/cadastro_funcionario.php">
+						<a href="../html/funcionario/cadastro_funcionario.php">
 							<div class="col-lg-2 col-md-8 i" >
 								<i  class="far fa-address-book"></i>
 								<h4>Cadastrar Funcionário</h4>
 							</div>
 						</a>
 
-						<a href="../controle/control.php?metodo=listarTodos&nomeClasse=FuncionarioControle&nextPage=../html/informacao_funcionario.php">
+						<a href="../controle/control.php?metodo=listarTodos&nomeClasse=FuncionarioControle&nextPage=../html/funcionario/informacao_funcionario.php">
 							<div class="col-lg-2 col-md-8 i">
 									<i  class="far fa-address-card" id="listarFuncionario"></i>
 									<h4>Informação funcionários</h4>

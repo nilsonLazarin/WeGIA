@@ -48,13 +48,13 @@
 							</li>
 
 							<li>
-								<a href="<?= WWW ?>html/cadastro_funcionario.php">
+								<a href="<?= WWW ?>html/funcionario/cadastro_funcionario.php">
 									 Cadastrar Funcionário
 								</a>
 
 							</li>
 							<li>
-								<a href="<?= WWW ?>controle/control.php?metodo=listarTodos&nomeClasse=FuncionarioControle&nextPage=<?= WWW ?>html/informacao_funcionario.php">
+								<a href="<?= WWW ?>controle/control.php?metodo=listarTodos&nomeClasse=FuncionarioControle&nextPage=<?= WWW ?>html/funcionario/informacao_funcionario.php">
 									 Informações Funcionários
 								</a>
 							</li>

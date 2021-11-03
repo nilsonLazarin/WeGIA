@@ -553,8 +553,8 @@ class FuncionarioControle
             //$epiDAO->incluir($epi);
             $_SESSION['msg']="Funcionario cadastrado com sucesso";
             $_SESSION['proxima']="Cadastrar outro funcionario";
-            $_SESSION['link']="../html/cadastro_funcionario.php";
-            header("Location: ../html/informacao_funcionario.php");
+            $_SESSION['link']="../html/funcionario/cadastro_funcionario.php";
+            header("Location: ../html/funcionario/informacao_funcionario.php");
 
         } catch (PDOException $e){
             $msg= "NÃ£o foi possÃ­vel registrar o funcionário"."<br>".$e->getMessage();
@@ -644,7 +644,7 @@ class FuncionarioControle
         $funcionarioDAO=new FuncionarioDAO();
         try {
             $funcionarioDAO->alterarInfPessoal($funcionario);
-            header("Location: ../html/profile_funcionario.php?id_funcionario=".$id_funcionario);
+            header("Location: ../html/funcionario/profile_funcionario.php?id_funcionario=".$id_funcionario);
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -786,7 +786,7 @@ class FuncionarioControle
         $funcionarioDAO=new FuncionarioDAO();
         try {
             $funcionarioDAO->alterarOutros($funcionario);
-            header("Location: ../html/profile_funcionario.php?id_funcionario=".$id_funcionario);
+            header("Location: ../html/funcionario/profile_funcionario.php?id_funcionario=".$id_funcionario);
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -800,7 +800,7 @@ class FuncionarioControle
         $funcionarioDAO = new FuncionarioDAO();
         try {
             $funcionarioDAO->alterarImagem($id_funcionario, $img);
-            header("Location: ../html/profile_funcionario.php?id_funcionario=".$id_funcionario);
+            header("Location: ../html/funcionario/profile_funcionario.php?id_funcionario=".$id_funcionario);
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -821,7 +821,7 @@ class FuncionarioControle
         $funcionarioDAO=new FuncionarioDAO();
         try {
             $funcionarioDAO->alterarDocumentacao($funcionario);
-            header("Location: ../html/profile_funcionario.php?id_funcionario=".$id_funcionario);
+            header("Location: ../html/funcionario/profile_funcionario.php?id_funcionario=".$id_funcionario);
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -839,7 +839,7 @@ class FuncionarioControle
         $funcionarioDAO=new FuncionarioDAO();
         try {
             $funcionarioDAO->alterarEndereco($funcionario);
-            header("Location: ../html/profile_funcionario.php?id_funcionario=".$id_funcionario);
+            header("Location: ../html/funcionario/profile_funcionario.php?id_funcionario=".$id_funcionario);
         } catch (PDOException $e) {
             echo $e->getMessage();
         }    
@@ -855,7 +855,7 @@ class FuncionarioControle
             session_start();
             $_SESSION['msg']="Informações do funcionário alteradas com sucesso!";
             $_SESSION['proxima']="Ver lista de funcionario";
-            $_SESSION['link']="../html/informacao_funcionario.php";
+            $_SESSION['link']="../html/funcionario/informacao_funcionario.php";
             header("Location: ../html/sucesso.php");
         } catch (PDOException $e) {
             echo $e->getMessage();
@@ -883,7 +883,7 @@ class FuncionarioControle
         $funcionarioDAO = new FuncionarioDAO();
         try {
             $funcionarioDAO->excluir($id_funcionario);
-            header("Location:../controle/control.php?metodo=listarTodos&nomeClasse=FuncionarioControle&nextPage=../html/informacao_funcionario.php");
+            header("Location:../controle/control.php?metodo=listarTodos&nomeClasse=FuncionarioControle&nextPage=../html/funcionario/informacao_funcionario.php");
         } catch (Exception $e) {
             echo $e->getMessage();
         }

@@ -2,7 +2,7 @@
 <?php
 session_start();
 
-require_once "../dao/Conexao.php";
+require_once "../../dao/Conexao.php";
 $pdo = Conexao::connect();
 
 function urlGetParams()
@@ -27,7 +27,7 @@ if (file_exists($config_path)) {
     require_once($config_path);
 }
 
-require_once "./permissao/permissao.php";
+require_once "../permissao/permissao.php";
 permissao($_SESSION['id_pessoa'], 11, 7);
 
 $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
@@ -37,8 +37,8 @@ $beneficios = $mysqli->query("SELECT * FROM beneficios");
 $descricao_epi = $mysqli->query("SELECT * FROM epi");
 
 // Adiciona a Função display_campo($nome_campo, $tipo_campo)
-require_once "personalizacao_display.php";
-require_once "../dao/Conexao.php";
+require_once "../personalizacao_display.php";
+require_once "../../dao/Conexao.php";
 require_once ROOT . "/controle/FuncionarioControle.php";
 $cpf = new FuncionarioControle;
 $cpf->listarCPF();
@@ -48,7 +48,7 @@ require_once ROOT . "/controle/AtendidoControle.php";
 $cpf1 = new AtendidoControle;
 $cpf1->listarCPF();
 
-require_once "./geral/msg.php";
+require_once "../geral/msg.php";
 
 $dependente = $pdo->query("SELECT *, par.descricao AS parentesco
 FROM funcionario_dependentes fdep
@@ -78,64 +78,64 @@ $JSON_dependente = json_encode($dependente);
     <link rel="icon" href="<?php display_campo("Logo", 'file'); ?>" type="image/x-icon" id="logo-icon">
 
     <!-- Vendor CSS -->
-    <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css" />
-    <link rel="stylesheet" href="../assets/vendor/font-awesome/css/font-awesome.css" />
-    <link rel="stylesheet" href="../assets/vendor/magnific-popup/magnific-popup.css" />
-    <link rel="stylesheet" href="../assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
+    <link rel="stylesheet" href="../../assets/vendor/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" href="../../assets/vendor/font-awesome/css/font-awesome.css" />
+    <link rel="stylesheet" href="../../assets/vendor/magnific-popup/magnific-popup.css" />
+    <link rel="stylesheet" href="../../assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
     <link rel="icon" href="<?php display_campo("Logo", 'file'); ?>" type="image/x-icon" id="logo-icon">
     <!-- Theme CSS -->
-    <link rel="stylesheet" href="../assets/stylesheets/theme.css" />
+    <link rel="stylesheet" href="../../assets/stylesheets/theme.css" />
     <!-- Skin CSS -->
-    <link rel="stylesheet" href="../assets/stylesheets/skins/default.css" />
+    <link rel="stylesheet" href="../../assets/stylesheets/skins/default.css" />
     <!-- Theme Custom CSS -->
-    <link rel="stylesheet" href="../assets/stylesheets/theme-custom.css">
-    <link rel="stylesheet" href="../css/profile-theme.css" />
+    <link rel="stylesheet" href="../../assets/stylesheets/theme-custom.css">
+    <link rel="stylesheet" href="../../css/profile-theme.css" />
     <!-- Head Libs -->
-    <script src="../Functions/onlyNumbers.js"></script>
-    <script src="../Functions/onlyChars.js"></script>
+    <script src="../../Functions/onlyNumbers.js"></script>
+    <script src="../../Functions/onlyChars.js"></script>
     <!--script src="../Functions/enviar_dados.js"></script-->
-    <script src="../Functions/mascara.js"></script>
-    <script src="../Functions/lista.js"></script>
+    <script src="../../Functions/mascara.js"></script>
+    <script src="../../Functions/lista.js"></script>
 
 
-    <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css" />
-    <link rel="stylesheet" href="../assets/vendor/magnific-popup/magnific-popup.css" />
-    <link rel="stylesheet" href="../assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
+    <link rel="stylesheet" href="../../assets/vendor/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" href="../../assets/vendor/magnific-popup/magnific-popup.css" />
+    <link rel="stylesheet" href="../../assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
     <link rel="icon" href="<?php display_campo("Logo", 'file'); ?>" type="image/x-icon" id="logo-icon">
 
     <!-- Specific Page Vendor CSS -->
-    <link rel="stylesheet" href="../assets/vendor/select2/select2.css" />
-    <link rel="stylesheet" href="../assets/vendor/jquery-datatables-bs3/assets/css/datatables.css" />
+    <link rel="stylesheet" href="../../assets/vendor/select2/select2.css" />
+    <link rel="stylesheet" href="../../assets/vendor/jquery-datatables-bs3/assets/css/datatables.css" />
 
     <!-- Theme CSS -->
-    <link rel="stylesheet" href="../assets/stylesheets/theme.css" />
+    <link rel="stylesheet" href="../../assets/stylesheets/theme.css" />
 
     <!-- Skin CSS -->
-    <link rel="stylesheet" href="../assets/stylesheets/skins/default.css" />
+    <link rel="stylesheet" href="../../assets/stylesheets/skins/default.css" />
 
     <!-- Theme Custom CSS -->
-    <link rel="stylesheet" href="../assets/stylesheets/theme-custom.css">
+    <link rel="stylesheet" href="../../assets/stylesheets/theme-custom.css">
 
     <!-- Head Libs -->
-    <script src="../assets/vendor/modernizr/modernizr.js"></script>
+    <script src="../../assets/vendor/modernizr/modernizr.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 
     <!-- Vendor -->
-    <script src="../assets/vendor/jquery/jquery.min.js"></script>
-    <script src="../assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
-    <script src="../assets/vendor/bootstrap/js/bootstrap.js"></script>
-    <script src="../assets/vendor/nanoscroller/nanoscroller.js"></script>
-    <script src="../assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-    <script src="../assets/vendor/magnific-popup/magnific-popup.js"></script>
-    <script src="../assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
+    <script src="../../assets/vendor/jquery/jquery.min.js"></script>
+    <script src="../../assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
+    <script src="../../assets/vendor/bootstrap/js/bootstrap.js"></script>
+    <script src="../../assets/vendor/nanoscroller/nanoscroller.js"></script>
+    <script src="../../assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <script src="../../assets/vendor/magnific-popup/magnific-popup.js"></script>
+    <script src="../../assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
 
     <!-- JavaScript Custom -->
-    <script src="./geral/post.js"></script>
-    <script src="./geral/formulario.js"></script>
+    <script src="../geral/post.js"></script>
+    <script src="../geral/formulario.js"></script>
 
     <script>
         var dependente = <?= $JSON_dependente; ?>;
-        var url = "./funcionario/dependente_listar_um.php",
+        var url = "dependente_listar_um.php",
             data = "id_dependente=<?= $_GET["id_dependente"] ?>";
         var formState = [],
             form = {
@@ -204,14 +204,6 @@ $JSON_dependente = json_encode($dependente);
 
 
 
-
-
-
-
-
-
-
-
         function switchButton(idForm) {
             if (!formState[idForm]) {
                 $("#botaoEditar_" + idForm).text("Editar").prop("class", "btn btn-primary");
@@ -263,13 +255,13 @@ $JSON_dependente = json_encode($dependente);
             var url;
             switch (idForm) {
                 case "formInfoPessoal":
-                    url = "./pessoa/editar_info_pessoal.php";
+                    url = "../pessoa/editar_info_pessoal.php";
                     break;
                 case "formEndereco":
-                    url = "./pessoa/editar_endereco.php";
+                    url = "../pessoa/editar_endereco.php";
                     break;
                 case "formDocumentacao":
-                    url = "./pessoa/editar_documentacao.php";
+                    url = "../pessoa/editar_documentacao.php";
                     break;
                 default:
                     console.warn("Não existe nenhuma URL registrada para o formulário com o seguinte id: " + idForm);
@@ -287,8 +279,8 @@ $JSON_dependente = json_encode($dependente);
         var id_dependente = <?= $_GET['id_dependente'] ?? null; ?>;
 
         $(function() {
-            $("#header").load("header.php");
-            $(".menuu").load("menu.php");
+            $("#header").load("../header.php");
+            $(".menuu").load("../menu.php");
             if (id_dependente) {
                 getInfoDependente();
             }
@@ -434,7 +426,7 @@ $JSON_dependente = json_encode($dependente);
     }
 
         function gerarSituacao() {
-            url = '../dao/exibir_situacao.php';
+            url = '../../dao/exibir_situacao.php';
             $.ajax({
                 data: '',
                 type: "POST",
@@ -453,7 +445,7 @@ $JSON_dependente = json_encode($dependente);
         }
 
         function adicionar_situacao() {
-            url = '../dao/adicionar_situacao.php';
+            url = '../../dao/adicionar_situacao.php';
             var situacao = window.prompt("Cadastre uma Nova Situação:");
             if (!situacao) {
                 return
@@ -477,7 +469,7 @@ $JSON_dependente = json_encode($dependente);
         }
 
         function gerarCargo() {
-            url = '../dao/exibir_cargo.php';
+            url = '../../dao/exibir_cargo.php';
             $.ajax({
                 data: '',
                 type: "POST",
@@ -495,7 +487,7 @@ $JSON_dependente = json_encode($dependente);
         }
 
         function adicionar_cargo() {
-            url = '../dao/adicionar_cargo.php';
+            url = '../../dao/adicionar_cargo.php';
             var cargo = window.prompt("Cadastre um Novo Cargo:");
             if (!cargo) {
                 return
@@ -1060,25 +1052,25 @@ $JSON_dependente = json_encode($dependente);
     </script>
 
     <!-- Vendor -->
-    <script src="../assets/vendor/select2/select2.js"></script>
-    <script src="../assets/vendor/jquery-datatables/media/js/jquery.dataTables.js"></script>
-    <script src="../assets/vendor/jquery-datatables/extras/TableTools/js/dataTables.tableTools.min.js"></script>
-    <script src="../assets/vendor/jquery-datatables-bs3/assets/js/datatables.js"></script>
+    <script src="../../assets/vendor/select2/select2.js"></script>
+    <script src="../../assets/vendor/jquery-datatables/media/js/jquery.dataTables.js"></script>
+    <script src="../../assets/vendor/jquery-datatables/extras/TableTools/js/dataTables.tableTools.min.js"></script>
+    <script src="../../assets/vendor/jquery-datatables-bs3/assets/js/datatables.js"></script>
 
     <!-- Theme Base, Components and Settings -->
-    <script src="../assets/javascripts/theme.js"></script>
+    <script src="../../assets/javascripts/theme.js"></script>
 
     <!-- Theme Custom -->
-    <script src="../assets/javascripts/theme.custom.js"></script>
+    <script src="../../assets/javascripts/theme.custom.js"></script>
 
     <!-- Theme Initialization Files -->
-    <script src="../assets/javascripts/theme.init.js"></script>
+    <script src="../../assets/javascripts/theme.init.js"></script>
 
 
     <!-- Examples -->
-    <script src="../assets/javascripts/tables/examples.datatables.default.js"></script>
-    <script src="../assets/javascripts/tables/examples.datatables.row.with.details.js"></script>
-    <script src="../assets/javascripts/tables/examples.datatables.tabletools.js"></script>
+    <script src="../../assets/javascripts/tables/examples.datatables.default.js"></script>
+    <script src="../../assets/javascripts/tables/examples.datatables.row.with.details.js"></script>
+    <script src="../../assets/javascripts/tables/examples.datatables.tabletools.js"></script>
 </body>
 
 </html>

@@ -59,7 +59,7 @@ $listaCPF2->listarCpf();*/
 
 
 // Inclui display de Campos
-require_once "./personalizacao_display.php";
+require_once "../personalizacao_display.php";
 
 ?>
 <!DOCTYPE html>
@@ -76,21 +76,21 @@ require_once "./personalizacao_display.php";
   <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">
 
   <!-- Vendor CSS -->
-  <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css" />
-  <link rel="stylesheet" href="../assets/vendor/font-awesome/css/font-awesome.css" />
+  <link rel="stylesheet" href="../../assets/vendor/bootstrap/css/bootstrap.css" />
+  <link rel="stylesheet" href="../../assets/vendor/font-awesome/css/font-awesome.css" />
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
-  <link rel="stylesheet" href="../assets/vendor/magnific-popup/magnific-popup.css" />
-  <link rel="stylesheet" href="../assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
+  <link rel="stylesheet" href="../../assets/vendor/magnific-popup/magnific-popup.css" />
+  <link rel="stylesheet" href="../../assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
 <link rel="icon" href="<?php display_campo("Logo",'file');?>" type="image/x-icon">
 
   <!-- Theme CSS -->
-  <link rel="stylesheet" href="../assets/stylesheets/theme.css" />
+  <link rel="stylesheet" href="../../assets/stylesheets/theme.css" />
 
   <!-- Skin CSS -->
-  <link rel="stylesheet" href="../assets/stylesheets/skins/default.css" />
+  <link rel="stylesheet" href="../../assets/stylesheets/skins/default.css" />
 
   <!-- Theme Custom CSS -->
-  <link rel="stylesheet" href="../assets/stylesheets/theme-custom.css">
+  <link rel="stylesheet" href="../../assets/stylesheets/theme-custom.css">
 </head>
 
 <body>
@@ -132,7 +132,7 @@ require_once "./personalizacao_display.php";
                   }
                 } else {
                 ?>
-                  <img src="../img/semfoto.png" class="rounded img-responsive" alt="John Doe">
+                  <img src="../../img/semfoto.png" class="rounded img-responsive" alt="John Doe">
                 <?php
                 }
                 ?>
@@ -184,7 +184,7 @@ require_once "./personalizacao_display.php";
             </ul>
             <div class="tab-content">
               <div id="overview" class="tab-pane active">
-                <form class="form-horizontal" method="GET" action="../controle/control.php">
+                <form class="form-horizontal" method="GET" action="../../controle/control.php">
                   <h4 class="mb-xlg">Informações Pessoais</h4>
                   <h5 class="obrig">Campos Obrigatórios(*)</h5>
                   <div class="form-group">
@@ -298,7 +298,7 @@ require_once "./personalizacao_display.php";
                         ?>
                       </select>
                     </div>
-                    <a href="./quadro_horario/adicionar_escala.php"><i class="fas fa-plus w3-xlarge"></i></a>
+                    <a href="../../quadro_horario/adicionar_escala.php"><i class="fas fa-plus w3-xlarge"></i></a>
                   </div>
                   <div class="form-group">
                     <label class="col-md-3 control-label">Tipo<sup class="obrig">*</sup></label>
@@ -314,7 +314,7 @@ require_once "./personalizacao_display.php";
                         ?>
                       </select>
                     </div>
-                    <a href="./quadro_horario/adicionar_tipo_quadro_horario.php"><i class="fas fa-plus w3-xlarge"></i></a>
+                    <a href="../../quadro_horario/adicionar_tipo_quadro_horario.php"><i class="fas fa-plus w3-xlarge"></i></a>
                   </div>
                   <div class="form-group" id="reservista1" style="display: none">
                     <label class="col-md-3 control-label">Número do certificado reservista</label>
@@ -350,7 +350,7 @@ require_once "./personalizacao_display.php";
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
   <!-- JQuery Local -->
-  <script src="../assets/vendor/jquery/jquery.min.js"></script>
+  <script src="../../assets/vendor/jquery/jquery.min.js"></script>
   <script src="https://requirejs.org/docs/release/2.3.6/r.js"></script>
   <style type="text/css">
     .btn span.fa-check {
@@ -544,7 +544,7 @@ require_once "./personalizacao_display.php";
     }
 
     function gerarSituacao() {
-      url = '../dao/exibir_situacao.php';
+      url = '../../dao/exibir_situacao.php';
       $.ajax({
         data: '',
         type: "POST",
@@ -563,7 +563,7 @@ require_once "./personalizacao_display.php";
     }
 
     function adicionar_situacao() {
-      url = '../dao/adicionar_situacao.php';
+      url = '../../dao/adicionar_situacao.php';
       var situacao = window.prompt("Cadastre uma Nova Situação:");
       if (!situacao) {
         return
@@ -606,7 +606,7 @@ require_once "./personalizacao_display.php";
     }
 
     function adicionar_cargo() {
-      url = '../dao/adicionar_cargo.php';
+      url = '../../dao/adicionar_cargo.php';
       var cargo = window.prompt("Cadastre um Novo Cargo:");
       if (!cargo) {
         return
@@ -631,19 +631,19 @@ require_once "./personalizacao_display.php";
 
     $(function() {
       //console.log(<?php echo $_SESSION['cpf_interno']; ?>);
-      $("#header").load("header.php");
-      $(".menuu").load("menu.php");
+      $("#header").load("../header.php");
+      $(".menuu").load("../menu.php");
     });
   </script>
   <!-- Head Libs -->
-  <script src="../assets/vendor/modernizr/modernizr.js"></script>
+  <script src="../../assets/vendor/modernizr/modernizr.js"></script>
 
   <!-- javascript functions -->
-  <script src="../Functions/onlyNumbers.js"></script>
-  <script src="../Functions/onlyChars.js"></script>
+  <script src="../../Functions/onlyNumbers.js"></script>
+  <script src="../../Functions/onlyChars.js"></script>
   <!--script src="../Functions/enviar_dados.js"></script-->
-  <script src="../Functions/mascara.js"></script>
-  <script src="../Functions/lista.js"></script>
+  <script src="../../Functions/mascara.js"></script>
+  <script src="../../Functions/lista.js"></script>
   <script language="JavaScript">
     var numValidos = "0123456789-()";
     var num1invalido = "78";
@@ -670,13 +670,13 @@ require_once "./personalizacao_display.php";
     }
   </script>
   <!-- Vendor -->
-  <script src="../assets/vendor/jquery/jquery.js"></script>
-  <script src="../assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
-  <script src="../assets/vendor/bootstrap/js/bootstrap.js"></script>
-  <script src="../assets/vendor/nanoscroller/nanoscroller.js"></script>
-  <script src="../assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-  <script src="../assets/vendor/magnific-popup/magnific-popup.js"></script>
-  <script src="../assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
+  <script src="../../assets/vendor/jquery/jquery.js"></script>
+  <script src="../../assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
+  <script src="../../assets/vendor/bootstrap/js/bootstrap.js"></script>
+  <script src="../../assets/vendor/nanoscroller/nanoscroller.js"></script>
+  <script src="../../assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+  <script src="../../assets/vendor/magnific-popup/magnific-popup.js"></script>
+  <script src="../../assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
 </body>
 
 </html>
