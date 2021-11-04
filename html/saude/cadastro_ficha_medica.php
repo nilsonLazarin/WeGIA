@@ -24,23 +24,15 @@ if(!isset($_SESSION['usuario'])){
 require_once "../../dao/Conexao.php";
 $pdo = Conexao::connect();
 
-// original
-// $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-// $nome = $mysqli->query("SELECT id_pessoa,nome,sobrenome FROM pessoa p JOIN atendido a ON(p.id_pessoa=a.pessoa_id_pessoa)");
-// $nome_fichas_medicas = $mysqli->query("SELECT id_pessoa FROM saude_fichamedica");
 
-// $nome = $pdo->query("SELECT p.id_pessoa,p.nome,p.sobrenome FROM pessoa p JOIN atendido a ON(p.id_pessoa=a.pessoa_id_pessoa)")->fetchAll(PDO::FETCH_ASSOC);//
-
+// caso paciente ser atendido //
 $nome = $pdo->query("SELECT p.id_pessoa, p.nome, p.sobrenome FROM pessoa p JOIN atendido a ON(p.id_pessoa=a.pessoa_id_pessoa)")->fetchAll(PDO::FETCH_ASSOC);
 
 $idsPessoas = $pdo->query("SELECT p.id_pessoa FROM pessoa p JOIN atendido a ON(p.id_pessoa=a.pessoa_id_pessoa)")->fetchAll(PDO::FETCH_ASSOC);
 
 $idsPessoasFichasMedicas = $pdo->query("SELECT id_pessoa FROM saude_fichamedica")->fetchAll(PDO::FETCH_ASSOC);
 
-//$idsFuncionario = $pdo->query("SELECT p.id_pessoa FROM pessoa p JOIN funcionario f ON(p./////id_pessoa=f.id_pessoa)")->fetchAll(PDO::FETCH_ASSOC);
-
 $idPes = array();
-//$idFun = array();
 $idPesCadastradas = array();
 $idsVerificados = array();
 $nomesCertos = array();
@@ -49,10 +41,6 @@ $nomesCertos = array();
 foreach($idsPessoas as $valor){
     array_push($idPes, $valor['id_pessoa']);
 }
-
-// foreach($idsFuncionario as $v){
-//     array_push($idFun, $v['id_pessoa']);
-// }
 
 // add o id da saude num array//
 foreach($idsPessoasFichasMedicas as $value){
@@ -67,20 +55,6 @@ foreach($idPes as $val){
      }
 }
 
-// foreach($idFun as $vall){
-//     if(!in_array($vall, $idPesCadastradas))
-//     {
-//         array_push($idsVerificados, $vall);
-//     }
-// }
-
-/*foreach(array_combine($idPes, $idFun) as $val => $val2){
-    if(!in_array($val, $idPesCadastradas) && (!in_array($val2, $idPesCadastradas)))
-    {
-        array_push($idsVerificados, $val);
-    }
-}*/
-
 // pego o id, nome e sobrenome e se o tiver dentro do verificado, add ele aos nomes
 //certos
 foreach($nome as $va)
@@ -91,7 +65,45 @@ foreach($nome as $va)
     }
 }
 
-// $nomesCertos = json_encode($nomesCertos);
+
+
+
+// caso o paciente seja funcionario //
+$nome_funcionario = $pdo->query("SELECT p.id_pessoa, p.nome, p.sobrenome FROM pessoa p JOIN funcionario f ON(p.id_pessoa=f.id_pessoa)")->fetchAll(PDO::FETCH_ASSOC);
+
+$idsPessoas2 = $pdo->query("SELECT p.id_pessoa FROM pessoa p JOIN funcionario f ON(p.id_pessoa=f.id_pessoa)")->fetchAll(PDO::FETCH_ASSOC);
+
+$idsPessoasFichasMedicas2 = $pdo->query("SELECT id_pessoa FROM saude_fichamedica")->fetchAll(PDO::FETCH_ASSOC);
+
+$idFun = array();
+$idPesCadastradas2 = array();
+$idsVerificados2 = array();
+$nomesCertos2 = array();
+
+foreach($idsPessoas2 as $valor2){
+    array_push($idFun, $valor2['id_pessoa']);
+}
+
+foreach($idsPessoasFichasMedicas2 as $value2){
+    array_push($idPesCadastradas2, $value2['id_pessoa']);
+}
+
+foreach($idFun as $val2){
+    if(!in_array($val2, $idPesCadastradas2))
+     {
+         array_push($idsVerificados2, $val2);
+     }
+}
+
+foreach($nome_funcionario as $va2)
+{
+    if(in_array($va2["id_pessoa"], $idsVerificados2))
+    {
+        array_push($nomesCertos2, $va2);
+    }
+}
+
+
 
 //$nome = $mysqli->query("SELECT * FROM cargo");
 /*$conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
@@ -211,7 +223,6 @@ require_once ROOT."/html/personalizacao_display.php";
         
     <!-- jquery functions -->
 
-    
     <script>
         $(function(){
             var funcionario=[];
@@ -227,7 +238,9 @@ require_once ROOT."/html/personalizacao_display.php";
 
             CKEDITOR.replace('despacho');
         });
-    </script>     
+    </script>    
+    
+    
 
     <style type="text/css">
         .select{
@@ -318,19 +331,23 @@ require_once ROOT."/html/personalizacao_display.php";
                         echo "<form action='".WWW."controle/control.php' class='file-uploader' method='post' enctype='multipart/form-data'>";
                         ?>-->
                         
-							<form class="form-horizontal" method="GET" action="../../controle/control.php" id="form-cadastro" enctype="multipart/form-data">
-									
+							<form class="form-horizontal" method="GET" action="../../controle/control.php" id="form-cadastro" enctype="multipart/form-data">	
                             <h5 class="obrig">Campos Obrigatórios(*)</h5>
                             <br>
                             <div class="form-group">
-                                <!-- <label class="col-md-3 control-label" for="profileLastName">Nome do paciente<sup class="obrig">*</sup></label> -->
+                                <label class="col-md-3 control-label" for="profileLastName">Selecione:<sup class="obrig">*</sup></label> 
                                 <div class="col-md-8">
-                                <label><input type="radio" value="m" style="margin-top: 10px; margin-left: 15px;" onclick="return exibir_funcionarios()" required>funcionário</label>
-                                <label><input type="radio" value="f" style="margin-top: 10px; margin-left: 15px;" onclick="">atendido</label>
+                                <label><input type="radio" name="gender" id="radioM" id="bolinha_atendido" value="atendido" style="margin-top: 10px; margin-left: 15px;" onclick="return exibirAtendido()">  Atendido</label>
+                                <label><input type="radio" name="gender" id="radioF" id="bolinha_funcionario" value="f" style="margin-top: 10px; margin-left: 15px;" onclick="return exibirFuncionario()">  Funcionário </label>
+                                <!-- <label><input type="radio" value="m" id='m' style="margin-top: 10px; margin-left: 15px;" onclick="return exibir_funcionarios()" required>funcionário</label>
+                                <label><input type="radio" value="f" id='f' style="margin-top: 10px; margin-left: 15px;" onclick="">atendido</label> -->
                                 </div>
                             </div>
-                            <!-- <div class="form-group">
-                            <label class="col-md-3 control-label" for="inputSuccess">Nome do paciente<sup class="obrig">*</sup></label>
+                        
+                            <div class="form-group">
+                                
+                            <div id="clicado" style="display:none;">
+                            <label class="col-md-3 control-label" for="inputSuccess">Paciente:<sup class="obrig">*</sup></label>
                             <div class="col-md-6">
                             <select class="form-control input-lg mb-md" name="nome" id="nome" required>
                                 <option selected disabled>Selecionar</option>
@@ -341,11 +358,31 @@ require_once ROOT."/html/personalizacao_display.php";
                                 }
                                 ?>
                             </select>
-                            </div> -->
-                        </div>
-                            <div class="form-group">
-                                    <label for="texto" id="etiqueta_despacho" style="padding-left: 15px;">Descrição médica<sup class="obrig">*</sup></label>
+                            <br>
+                            </div>
+                            </div>
+
+                            <div id="clicado2" style="display:none;">
+                            <label class="col-md-3 control-label" for="inputSuccess">Paciente:<sup class="obrig">*</sup></label>
+                            <div class="col-md-6">
+                            <select class="form-control input-lg mb-md" name="nome" id="nome" required>
+                                <option selected disabled>Selecionar</option>
+                                <?php
+                                foreach($nomesCertos2 as $key2 => $value2)
+                                {
+                                    echo "<option value=" . $nomesCertos2[$key2]['id_pessoa'] . ">" . $nomesCertos2[$key2]['nome'] . " " . $nomesCertos2[$key2]['sobrenome'] . "</option>";
+                                }
+                                ?>
+
+                            </select>
+                            <br>
+                            </div>
+                            
+                            </div>  
+                                    <div class="form-group">
                                     <div class='col-md-6' id='div_texto' style="height: 499px;">
+                                    
+                                        <label for="texto" id="etiqueta_despacho" style="padding-left: 15px;">Descrição médica<sup class="obrig">*</sup></label>
                                         <textarea cols='30' rows='5' id='despacho' name='texto' class='form-control' onkeypress="return Onlychars(event)"required></textarea>
                                         <!-- eh o id despacho que atrapalha a descricao-->
                                         <!-- pegar o lugar que tem todos esses campos obrigatorios -->
@@ -354,7 +391,7 @@ require_once ROOT."/html/personalizacao_display.php";
                                         <!-- <input type="text" class="form-control" name="nome" id="nome" id="profileFirstName" onkeypress="return Onlychars(event)"required> -->
                                         
                                     </div>
-                            </div>
+                                </div>
 
                            
                                 <!--<div class='col-md-9 col-md-offset-8'>
@@ -392,19 +429,83 @@ require_once ROOT."/html/personalizacao_display.php";
             </section>
         </div>
     </section><!--section do body-->
+
+    <!-- teste para o radio do paciente -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+    <script>
+        // function exibeOutros(){
+        //     if (document.getElementById("gender").value == "atendido")
+        //         document.getElementById("camposExtras").visibility = visible;
+
+        //     else
+        //         document.getElementById("camposExtras").visible = hidden;
+        //     }
         
-        <script>
-            // $(function() {
-            //     function exibir_funcionarios(){
-            //     console.log("teste");
-            //     var teste = <?= $nomesCertos[0]['nome'] ?>;
-            //     console.log(teste);
-            // }
-            // });
+        //se eu clicar em atendido, escondo as informações de funcionario e exibo as do atendido 
 
+        // function exibir_Atendido(){
+        //     var bolinha_atendido = document.getElementById("bolinha_atendido");
+        //     if ($(bolinha_atendido).prop("checked")) {
+        //     $("#clicado").css("display", "none")
+        //     }
+        // }
+
+        function exibirAtendido(){
+
+            var aparecer_atendido = document.getElementById("clicado");
+            var bolinha_atendido = document.getElementById("bolinha_atendido");
             
+            if(aparecer_atendido.style.display === "none"){
+                aparecer_atendido.style.display = "block";
+            }
+            else{
+                aparecer_atendido.style.display = "none";
+            }
 
-        </script>
+        }
+        function exibirFuncionario(){
+            var aparecer_funcionario = document.getElementById("clicado2");
+            var bolinha_funcionario = document.getElementById("bolinha_funcionario");
+            
+            if(aparecer_funcionario.style.display === "none"){
+                aparecer_funcionario.style.display = "block";
+            }
+            else{
+                aparecer_funcionario.style.display = "none";
+            }
+        }
+
+        // function exibir_funcionarios(){
+        //         console.log("teste");
+        //         // document.getElementById("camposExtras").visibility = visible;
+        //     }
+
+    </script>
+        
+        <!-- <script>
+            // $(function() {
+            //     var teste = <?= $nomesCertos ?>;
+            //     console.log(teste);
+
+            // });
+            // 
+            function exibir_reservista() {
+
+            $("#reservista1").show();
+            $("#reservista2").show();
+            }
+            function esconder_reservista() {
+
+            $("#reservista1").hide();
+            $("#reservista2").hide();
+            }
+            
+            function exibir_funcionarios(){
+                console.log("teste");
+                document.getElementById("camposExtras").visibility = visible;
+            }
+
+        </script> -->
     <!-- end: page -->
     <!-- Vendor -->
         <script src="<?php echo WWW;?>assets/vendor/select2/select2.js"></script>
