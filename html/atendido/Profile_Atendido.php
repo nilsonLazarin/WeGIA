@@ -134,7 +134,7 @@ session_start();
        <link rel="stylesheet" type="text/css" href="../../css/profile-theme.css"> <script src="../../assets/vendor/jquery/jquery.min.js"></script> <script src="../../assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script> <script src="../../assets/vendor/bootstrap/js/bootstrap.js"></script> <script src="../../assets/vendor/nanoscroller/nanoscroller.js"></script>
       <script src="../../assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
       <script src="../../assets/vendor/magnific-popup/magnific-popup.js"></script>
-      <script src="../../assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>7
+      <script src="../../assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
       <style type="text/css">
     
     .btn span.fa-check {
@@ -316,7 +316,7 @@ session_start();
                   $("#observacao").text("Observações: "+item.observacao);
                   $("#observacaoform").val(item.observacao);
          		}
-               if(item.imgdoc==null)
+               if(item.imagem==null)
                {
                   $('#docs').append($("<strong >").append($("<p >").text("Não foi possível encontrar nenhuma imagem referente a esse Atendido!")));
                }
@@ -920,11 +920,12 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                      <div class="panel-actions">
                        <a href="#" class="fa fa-caret-down"></a>
                      </div>
-
                      <h2 class="panel-title">Documentos</h2>
+                    </header>
                      <!--Documentação-->
                      <hr class="dotted short">
-                    <form class="form-horizontal" id="doc" method="post" action="../../controle/control.php">
+                  <div class="panel-body">
+                     <form class="form-horizontal" id="doc" method="post" action="../../controle/control.php">
                       <input type="hidden" name="nomeClasse" value="AtendidoControle">
                       <input type="hidden" name="metodo" value="alterarDocumentacao">
                       <div class="form-group">
@@ -932,40 +933,38 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                      <div class="col-md-6">
                        <input type="text" class="form-control" name="registroGeral" id="registroGeral" disabled onkeypress="return Onlynumbers(event)" placeholder="Ex: 22.222.222-2" onkeyup="mascara('##.###.###-#',this,event)">
                      </div>
-                   </div>
-                   <div class="form-group">
+                     </div>
+                     <div class="form-group">
                      <label class="col-md-3 control-label" for="profileCompany">Órgão Emissor</label>
                      <div class="col-md-6">
                        <input type="text" class="form-control" name="orgaoEmissor" disabled id="orgaoEmissor" onkeypress="return Onlychars(event)">
                      </div>
-                   </div>
-                   <div class="form-group">
+                     </div>
+                     <div class="form-group">
                      <label class="col-md-3 control-label" for="profileCompany">Data de expedição</label>
                      <div class="col-md-6">
                        <input type="date" class="form-control" disabled maxlength="10" placeholder="dd/mm/aaaa" name="dataExpedicao" id="dataExpedicao" max=2021-06-11>
                      </div>
-                   </div>
-                   <div class="form-group">
+                     </div>
+                     <div class="form-group">
                      <label class="col-md-3 control-label" for="profileCompany">Número do CPF</label>
                      <div class="col-md-6">
                        <input type="text" class="form-control" id="cpf" name="cpf" disabled placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##',this,event)">
                      </div>
-                   </div>
-                   <div class="form-group">
+                     </div>
+                     <div class="form-group">
                      <label class="col-md-3 control-label" for="profileCompany"></label>
                      <div class="col-md-6">
                        <p id="cpfInvalido" style="display: none; color: #b30000">CPF INVÁLIDO!</p>
                      </div>
-                   </div>
-                   
-                   <br />
-                   <input type="hidden" name="idatendido" value="<?php echo $_GET['idatendido'] ?>">
+                     </div>
+                     <input type="hidden" name="idatendido" value="<?php echo $_GET['idatendido'] ?>">
+                     <br />
                       <button type="button" class="btn btn-primary" id="botaoEditarDocumentacao" onclick="return editar_documentacao()">Editar</button>
                       <input id="botaoSalvarDocumentacao" type="submit" class="btn btn-primary" disabled="true" value="Salvar">
-                 </form>
-                   </header>
-                   
-                 </section>
+                    </form>
+            </div>
+                      </section>
 
        </div>
 
