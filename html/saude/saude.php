@@ -225,7 +225,7 @@ session_start();
                $("#editimg").modal('show');
             }
          $(function(){
-         	var interno= <?php echo $_SESSION['saude_id']?>;
+         	var interno= <?php echo $_SESSION['atendido']?>;
             var endereco=[];
             console.log(interno);
             $.each(endereco,function(i,item){
