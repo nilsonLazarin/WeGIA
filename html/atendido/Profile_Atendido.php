@@ -1120,7 +1120,7 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                       <h2 class="panel-title">Arquivos</h2>
                     </header>
                     <div class="panel-body">
-                      <table class="table table-bordered table-striped mb-none" id="datatable-docfuncional">
+                      <table class="table table-bordered table-striped mb-none">
                         <thead>
                           <tr>
                             <th>Arquivo</th>
@@ -1400,7 +1400,7 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
           $('#parentesco').empty();
           $('#parentesco').append('<option selected disabled>Selecionar...</option>');
           $.each(parentesco, function(i, item) {
-            $('#parentesco').append('<option value="' + item.+ '">' + item.atendido_parentesco_idatendido_parentesco + '</option>');
+            $('#parentesco').append('<option value="' + item+ '">' + item.atendido_parentesco_idatendido_parentesco + '</option>');
           });
         },
         dataType: 'json'
@@ -1426,16 +1426,19 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
           gerarParentesco();
         },
         dataType: 'text'
-      })
+      });
     }
-    function removerFuncionarioDocs(id_doc) {
+      
+   </script>
+   <script>
+      function removerFuncionarioDocs(id_doc) {
       if (!window.confirm("Tem certeza que deseja remover esse documento?")){
         return false;
       }
       let url = "documento_excluir.php?id_doc="+id_doc+"&idatendido=<?= $_GET['idatendido'] ?>";
       let data = "";
       post(url, data, listarFunDocs);
-    }    
+    } 
    </script>
    <script>
        function removerDependente(id_dep) {
