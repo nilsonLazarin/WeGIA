@@ -32,14 +32,14 @@ if ($_POST){
 
         $prep->execute();
         
-        header("Location: ../profile_funcionario.php?id_funcionario=$id_funcionario");
+        header("Location: ../funcionario/profile_funcionario.php?id_funcionario=$id_funcionario");
     } catch (PDOException $e) {
         echo("Houve um erro ao realizar o upload do documento:<br><br>$e");
     }
 
 
 }else {
-    header("Location: ../informacao_funcionario.php");
+    header("Location: ../funcionario/informacao_funcionario.php");
 }
 
 

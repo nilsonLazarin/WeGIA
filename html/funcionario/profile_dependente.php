@@ -189,17 +189,6 @@ $JSON_dependente = json_encode($dependente);
                     $("#cpf").val(dep.cpf);
                 },
 
-                // ,
-                // formOutros: function(dep) {
-                //     $("#pis").val(dep.pis).prop('disabled', true);
-                //     $("#ctps").val(dep.ctps).prop('disabled', true);
-                //     $("#uf_ctps").val(dep.uf_ctps).prop('disabled', true);
-                //     $("#zona_eleitoral").val(dep.zona).prop('disabled', true);
-                //     $("#titulo_eleitor").val(dep.numero_titulo).prop('disabled', true);
-                //     $("#secao_titulo_eleitor").val(dep.secao).prop('disabled', true);
-                //     $("#certificado_reservista_numero").val(dep.certificado_reservista_numero).prop('disabled', true);
-                //     $("#certificado_reservista_serie").val(dep.certificado_reservista_serie).prop('disabled', true);
-                // }
             };
 
 
@@ -715,93 +704,7 @@ $JSON_dependente = json_encode($dependente);
                                     <hr>
 
 
-                                    
-                                    <!-- <hr>
-                                    <h4>Outros</h4>
-                                    <fieldset id="formOutros">
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label">PIS</label>
-                                            <div class="col-md-6">
-                                                <input type="text" id="pis" name="pis" class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label">CTPS</label>
-                                            <div class="col-md-6">
-                                                <input type="text" id="ctps" name="ctps" class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label" for="uf">Estado CTPS</label>
-                                            <div class="col-md-6">
-                                                <input type="text" name="uf_ctps" size="60" class="form-control" id="uf_ctps">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label">Título de eleitor</label>
-                                            <div class="col-md-6">
-                                                <input type="text" name="titulo_eleitor" id="titulo_eleitor" class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label">Zona eleitoral</label>
-                                            <div class="col-md-6">
-                                                <input type="text" name="zona_eleitoral" id="zona_eleitoral" class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label">Seção do título de eleitor</label>
-                                            <div class="col-md-6">
-                                                <input type="text" name="secao_titulo_eleitor" id="secao_titulo_eleitor" class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="form-group" id="reservista1" style="display: none">
-                                            <label class="col-md-3 control-label">Número do certificado reservista</label>
-                                            <div class="col-md-6">
-                                                <input type="text" id="certificado_reservista_numero" name="certificado_reservista_numero" class="form-control num_reservista">
-                                            </div>
-                                        </div>
-                                        <div class="form-group" id="reservista2" style="display: none">
-                                            <label class="col-md-3 control-label">Série do certificado reservista</label>
-                                            <div class="col-md-6">
-                                                <input type="text" id="certificado_reservista_serie" name="certificado_reservista_serie" class="form-control serie_reservista">
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label" for="inputSuccess">Situação</label>
-                                            <a onclick="adicionar_situacao()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
-                                            <div class="col-md-6">
-                                                <select class="form-control input-lg mb-md" name="situacao" id="situacao">
-                                                    <option selected disabled>Selecionar</option>
-                                                    <?php
-                                                    while ($row = $situacao->fetch_array(MYSQLI_NUM)) {
-                                                        echo "<option value=" . $row[0] . ">" . $row[1] . "</option>";
-                                                    }                            ?>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label" for="inputSuccess">Cargo</label>
-                                            <a onclick="adicionar_cargo()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
-                                            <div class="col-md-6">
-                                                <select class="form-control input-lg mb-md" name="cargo" id="cargo">
-                                                    <option selected disabled>Selecionar</option>
-                                                    <?php
-                                                    while ($row = $cargo->fetch_array(MYSQLI_NUM)) {
-                                                        echo "<option value=" . $row[0] . ">" . $row[1] . "</option>";
-                                                    }                            ?>
-                                                </select>
-                                            </div>
-                                        </div>
-
-
-                                        <div class="form-group center">
-                                            <button type="button" class="btn btn-primary" id="botaoEditar_formOutros" onclick="switchForm('formOutros')">Editar</button>
-                                            <input type="submit" class="btn btn-primary" disabled="true" value="Salvar" id="botaoSalvar_formOutros" onclick="submitForm('formOutros')">
-                                        </div>
-                                    </fieldset> -->
+                                             
                                 </div>
 
 

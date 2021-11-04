@@ -19,9 +19,6 @@ if (file_exists($config_path)) {
 $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 $situacao = $mysqli->query("SELECT * FROM situacao");
 $cargo = $mysqli->query("SELECT * FROM cargo");
-//$beneficios = $mysqli->query("SELECT * FROM beneficios");
-//$descricao_epi = $mysqli->query("SELECT * FROM epi");
-
 $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 $id_pessoa = $_SESSION['id_pessoa'];
 $resultado = mysqli_query($conexao, "SELECT * FROM funcionario WHERE id_pessoa=$id_pessoa");
@@ -53,9 +50,9 @@ require_once ROOT . "/controle/FuncionarioControle.php";
 $listaCPF = new FuncionarioControle;
 $listaCPF->listarCpf();
 
-/*require_once ROOT . "/controle/InternoControle.php";
-$listaCPF2 = new InternoControle;
-$listaCPF2->listarCpf();*/
+require_once ROOT . "/controle/AtendidoControle.php";
+$listaCPF2 = new AtendidoControle;
+$listaCPF2->listarCpf();
 
 
 // Inclui display de Campos
@@ -383,13 +380,7 @@ require_once "../personalizacao_display.php";
           send.attr('disabled', 'disabled');
         }
       });
-      /*$.each(cpfs1, function(i, item) {
-        if (item.cpf == cpf_funcionario_correto3) {
-          alert("Cadastro não realizado! O CPF informado já está cadastrado no sistema");
-          apoio = 1;
-          send.attr('disabled', 'disabled');
-        }
-      });*/
+      
       if (apoio == 0) {
         alert("Cadastrado com sucesso!");
       }
@@ -588,7 +579,7 @@ require_once "../personalizacao_display.php";
     }
 
     function gerarCargo() {
-      url = '../dao/exibir_cargo.php';
+      url = '../../dao/exibir_cargo.php';
       $.ajax({
         data: '',
         type: "POST",
@@ -630,7 +621,7 @@ require_once "../personalizacao_display.php";
     }
 
     $(function() {
-      //console.log(<?php echo $_SESSION['cpf_interno']; ?>);
+     
       $("#header").load("../header.php");
       $(".menuu").load("../menu.php");
     });
@@ -641,7 +632,6 @@ require_once "../personalizacao_display.php";
   <!-- javascript functions -->
   <script src="../../Functions/onlyNumbers.js"></script>
   <script src="../../Functions/onlyChars.js"></script>
-  <!--script src="../Functions/enviar_dados.js"></script-->
   <script src="../../Functions/mascara.js"></script>
   <script src="../../Functions/lista.js"></script>
   <script language="JavaScript">

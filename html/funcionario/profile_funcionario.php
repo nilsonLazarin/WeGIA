@@ -13,20 +13,10 @@ if (!isset($_SESSION['usuario'])) {
 } else if (!isset($_SESSION['funcionario'])) {
   $id_funcionario = $_GET['id_funcionario'];
   header('Location: ../../controle/control.php?metodo=listarUm&nomeClasse=FuncionarioControle&nextPage=../html/funcionario/profile_funcionario.php?id_funcionario=' . $id_funcionario . '&id_funcionario=' . $id_funcionario);
-/*} else if (!isset($_SESSION['beneficio'])) {
-  $id_funcionario = $_GET['id_funcionario'];
-  header('Location: ../controle/control.php?metodo=listarBeneficio&nomeClasse=FuncionarioControle&nextPage=../html/profile_funcionario.php?id_funcionario=' . $id_funcionario . '&id_funcionario=' . $id_funcionario);
-} else if (!isset($_SESSION['epi'])) {
-  $id_funcionario = $_GET['id_funcionario'];
-  header('Location: ../controle/control.php?metodo=listarEpi&nomeClasse=FuncionarioControle&nextPage=../html/profile_funcionario.php?id_funcionario=' . $id_funcionario . '&id_funcionario=' . $id_funcionario);*/
 } else {
 
   $func = $_SESSION['funcionario'];
-  //$bene = $_SESSION['beneficio'];
-  //$epi = $_SESSION['epi'];
   unset($_SESSION['funcionario']);
-  //unset($_SESSION['beneficio']);
-  //unset($_SESSION['epi']);
 
   // Adiciona Descrição de escala e tipo
   $func = json_decode($func);
@@ -58,8 +48,6 @@ permissao($_SESSION['id_pessoa'], 11, 7);
 $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 $situacao = $mysqli->query("SELECT * FROM situacao");
 $cargo = $mysqli->query("SELECT * FROM cargo");
-//$beneficios = $mysqli->query("SELECT * FROM beneficios");
-//$descricao_epi = $mysqli->query("SELECT * FROM epi");
 
 // Adiciona a Função display_campo($nome_campo, $tipo_campo)
 require_once "../personalizacao_display.php";
@@ -72,13 +60,6 @@ $cpf->listarCPF();
 require_once ROOT . "/controle/AtendidoControle.php";
 $cpf1 = new AtendidoControle;
 $cpf1->listarCPF();
-
-/*require_once ROOT . "/controle/InternoControle.php";
-$cpf1 = new InternoControle;
-$cpf1->listarCPF();*/
-
-//require_once "./funcionario/Documento.php";
-//$doc_funcionario = new DocumentoFuncionario($_GET["id_funcionario"]);
 
 require_once "../geral/msg.php";
 
@@ -134,7 +115,6 @@ $dependente = json_encode($dependente);
   <script src="../../assets/vendor/modernizr/modernizr.js"></script>
   <script src="../../Functions/onlyNumbers.js"></script>
   <script src="../../Functions/onlyChars.js"></script>
-  <!--script src="../Functions/enviar_dados.js"></script-->
   <script src="../../Functions/mascara.js"></script>
   <script src="../../Functions/lista.js"></script>
 
@@ -349,21 +329,6 @@ $dependente = json_encode($dependente);
 
     }
 
-   /* function clicar_epi(id) {
-      window.location.href = "../html/editar_epi.php?id_funcionario=" + id;
-    }
-
-    function clicar_beneficio(id) {
-      window.location.href = "../html/editar_beneficio.php?id_funcionario=" + id;
-    }
-
-    function excluir_beneficio(id) {
-      window.location.href = "../controle/control.php?metodo=excluirBeneficio&nomeClasse=FuncionarioControle&id_beneficiados=" + id;
-    }
-
-    function excluir_epi(id) {
-      window.location.href = "../controle/control.php?metodo=excluirEpi&nomeClasse=FuncionarioControle&id_pessoa_epi=" + id;
-    }*/
 
     function alterardate(data) {
       var date = data.split("/")
@@ -389,13 +354,6 @@ $dependente = json_encode($dependente);
           $("#radioM").prop('checked', false).prop('disabled', true)
           $("#radioF").prop('checked', true).prop('disabled', true);
         }
-
-        // if(item.imagem!=""){
-        //   $("#imagem").attr("src","data:image/gif;base64,"+item.imagem);
-        // }
-        // else{
-        //   $("#imagem").attr("src", "../img/semfoto.png");
-        // }
 
         $("#telefone").val(item.telefone).prop('disabled', true);
         $("#nascimento").val(alterardate(item.data_nascimento)).prop('disabled', true);
@@ -424,8 +382,8 @@ $dependente = json_encode($dependente);
 
 
         //Documentação
-        // var cpf = item.cpf.substr(0, 3) + "." + item.cpf.substr(3, 3) + "." + item.cpf.substr(6, 3) + "-" + item.cpf.substr(9, 2);
-        var cpf = item.cpf;
+        
+         var cpf = item.cpf;
 
         $("#rg").val(item.registro_geral).prop('disabled', true);
         $("#orgao_emissor").val(item.orgao_emissor).prop('disabled', true);
@@ -447,29 +405,13 @@ $dependente = json_encode($dependente);
 
         //CARGA HORÁRIA
 
-
-        // $("#escala").text("Escala: " + (item.escala_descricao || "Sem informação"));
-        // $("#tipo").text("Tipo: " + (item.tipo_descricao || "Sem informação"));
         $("#dias_trabalhados").text("Dias trabalhados: " + (item.dias_trabalhados || "Sem informação"));
         if (item.dias_trabalhados == "Plantão") {
           $("#dias_trabalhados").text("Dias trabalhados: " + (item.dias_trabalhados || "Sem informação") + " 12/36");
         }
         $("#dias_folga").text("Dias de folga: " + (item.folga || "Sem informação"));
-        // $("#entrada1").text("Primeira entrada: " + (item.entrada1 || "Sem informação"));
-        // $("#saida1").text("Primeira Saída: " + (item.saida1 || "Sem informação"));
-        // $("#entrada2").text("Segunda entrada: " + (item.entrada2 || "Sem informação"));
-        // $("#saida2").text("Segunda saída: " + (item.saida2 || "Sem informação"));
         $("#total").text("Carga horária diária: " + (item.total || "Sem informação"));
-       // var novoValor1 = item.total;
-        //var campo1 = document.getElementById("campo1");
-
-        //campo1.value = novoValor1;
-
         $("#carga_horaria_mensal").text("Carga horária mensal: " + (item.carga_horaria || "Sem informação"));
-        //var novoValor = item.carga_horaria;
-        //var campo = document.getElementById("campo");
-
-        //campo.value = novoValor;
 
         if (item.escala) {
           $("#escala_input").val(item.escala);
@@ -500,94 +442,10 @@ $dependente = json_encode($dependente);
         }
       })
     });
-    /*if (item.usa_vtp== "Possui") {
-           
-                  $("#radioTransportePossui").prop('checked',true).prop('disabled', true);
-                  $("#radioTransporteNaoPossui").prop('checked',false).prop('disabled', true);
-                  $("#esconder_exibir").show();
-                  $("#num_transporte").val(item.vale_transporte).prop('disabled', true);
-                 
-                }else {
-                 
-                  $("#radioTransportePossui").prop('checked',false).prop('disabled', true);
-                  $("#radioTransporteNaoPossui").prop('checked',true).prop('disabled', true);
 
-                }
 
-                if (item.cesta_basica=="Possui") {
-                  $("#cesta_basicaPossui").prop('checked',true).prop('disabled', true);
-                  $("#cesta_basicaNaoPossui").prop('checked',false).prop('disabled', true);
-                }else{
-                  $("#cesta_basicaPossui").prop('checked',false).prop('disabled', true);
-                  $("#cesta_basicaNaoPossui").prop('checked',true).prop('disabled', true);
-                }*/
-
-    //Beneficios
-    /*$(function() {
-
-      var beneficio = <?= $bene ?>;
-
-      $.each(beneficio, function(i, item) {
-        $("#tabela")
-          .append($("<tr>")
-            .attr("class", "teste")
-            .append($("<td>")
-              .text(item.descricao_beneficios))
-            .append($("<td>")
-              .text(item.beneficios_status))
-            .append($("<td >")
-              .text(item.data_inicio))
-            .append($("<td >")
-              .text(item.data_fim))
-            .append($("<td >")
-              .text(item.valor))
-            .append($('<td />')
-              //.attr("onclick", "clicar_beneficio('" + item.id_funcionario+"')")
-              .html('<button style="background-color: rgb(0,160,0); border-color: rgb(0,170,0); border-radius: 10%; color: white; " onclick="clicar_beneficio(' + item.id_funcionario + ')" class="glyphicon glyphicon-pencil"></button>' + ' ' +
-                '<button style="background-color: rgb(190,0,0); border-color: rgb(165,0,0); border-radius: 10%; color: white; " onclick="excluir_beneficio(' + item.id_beneficiados + ')" onclick="" class="glyphicon glyphicon-trash"></button>'))
-
-          );
-      })
-    });
-    */
-    //});
-    /*
-    $("#beneficios").val(item.id_beneficios).prop('disabled', true);
-    $("#beneficios_status").val(item.beneficios_status).prop('disabled', true);
-    $("#inicio").val(item.data_inicio).prop('disabled', true);
-    $("#data_fim").val(item.data_fim).prop('disabled', true);
-    */
-    //EPI
-   /* $(function() {
-
-      var epi = <?= $epi ?>;
-      $.each(epi, function(i, item) {
-        $("#tabela_epi")
-          .append($("<tr>")
-            .attr("class", "teste")
-            .append($("<td>")
-              .text(item.descricao_epi))
-            .append($("<td>")
-              .text(item.epi_status))
-            .append($("<td >")
-              .text(item.data))
-            .append($('<td />')
-              //.attr("onclick", "clicar_epi('" + item.id_funcionario+"')")
-              .html('<button style="background-color: rgb(0,160,0); border-color: rgb(0,170,0); border-radius: 10%; color: white; " onclick="clicar_epi(' + item.id_funcionario + ')" class="glyphicon glyphicon-pencil"></button>' + ' ' +
-                '<button style="background-color: rgb(190,0,0); border-color: rgb(165,0,0); border-radius: 10%; color: white; " onclick="excluir_epi(' + item.id_pessoa_epi + ')" class="glyphicon glyphicon-trash"></button>'))
-          );
-
-        //});
-        
-        $("#descricao_epi").val(item.id_epi).prop('disabled', true);
-        $("#epi_status").val(item.epi_status).prop('disabled', true);
-        $("#data").val(item.data).prop('disabled', true);
-        
-      })
-    });*/
-
-        
-
+     
+      //ARQUIVOS
     $(function() {
       var docfuncional = <?= $docfuncional ?>;
 
@@ -597,7 +455,7 @@ $dependente = json_encode($dependente);
             .append($("<td>").text(item.nome_docfuncional))
             .append($("<td>").text(item.data))
             .append($("<td style='display: flex; justify-content: space-evenly;'>")
-              .append($("<a href='./funcionario/documento_download.php?id_doc=" + item.id_fundocs + "' title='Visualizar ou Baixar'><button class='btn btn-primary'><i class='fas fa-download'></i></button></a>"))
+              .append($("<a href='documento_download.php?id_doc=" + item.id_fundocs + "' title='Visualizar ou Baixar'><button class='btn btn-primary'><i class='fas fa-download'></i></button></a>"))
               .append($("<a onclick='removerFuncionarioDocs("+item.id_fundocs+")' href='#' title='Excluir'><button class='btn btn-danger'><i class='fas fa-trash-alt'></i></button></a>"))
             )
           )
@@ -612,7 +470,7 @@ $dependente = json_encode($dependente);
             .append($("<td>").text(item.nome_docfuncional))
             .append($("<td>").text(item.data))
             .append($("<td style='display: flex; justify-content: space-evenly;'>")
-              .append($("<a href='./funcionario/documento_download.php?id_doc=" + item.id_fundocs + "' title='Visualizar ou Baixar'><button class='btn btn-primary'><i class='fas fa-download'></i></button></a>"))
+              .append($("<a href='documento_download.php?id_doc=" + item.id_fundocs + "' title='Visualizar ou Baixar'><button class='btn btn-primary'><i class='fas fa-download'></i></button></a>"))
               .append($("<a onclick='removerFuncionarioDocs("+item.id_fundocs+")' href='#' title='Excluir'><button class='btn btn-danger'><i class='fas fa-trash-alt'></i></button></a>"))
             )
           )
@@ -630,7 +488,6 @@ $dependente = json_encode($dependente);
     function listarDependentes(dependente) {
       $("#dep-tab").empty();
       $.each(dependente, function(i, dependente) {
-        // dependente.cpf = [dependente.cpf.slice(0, 3), ".", dependente.cpf.slice(3, 6), ".", dependente.cpf.slice(6, 9), "-", dependente.cpf.slice(9, 11)].join("")
         $("#dep-tab")
           .append($("<tr>")
             .append($("<td>").text(dependente.nome))
@@ -667,19 +524,6 @@ $dependente = json_encode($dependente);
       }
     }
 
-
-    /*function exibir_vale_transporte() {
-   
-       $("#esconder_exibir").show();
-   
-    }
-   
-    function esconder_vale_transporte() {
-       
-       document.getElementById('num_transporte').value=("");
-       $("#esconder_exibir").hide();
-   
-    }*/
 
     function exibir_reservista() {
 
@@ -913,100 +757,7 @@ $dependente = json_encode($dependente);
         dataType: 'text'
       })
     }
-
-    /*function gerarBeneficios() {
-      url = '../dao/exibir_beneficios.php';
-      $.ajax({
-        data: '',
-        type: "POST",
-        url: url,
-        async: true,
-        success: function(response) {
-
-          var beneficios = response;
-          $('#ibeneficios').empty();
-          $('#ibeneficios').append('<option selected disabled>Selecionar</option>');
-          $.each(beneficios, function(i, item) {
-            $('#ibeneficios').append('<option value="' + item.id_beneficios + '">' + item.descricao_beneficios + '</option>');
-          });
-        },
-        dataType: 'json'
-      });
-    }
-
-    function adicionar_beneficios() {
-      url = '../dao/adicionar_beneficios.php';
-      var beneficios = window.prompt("Cadastre um Novo Benefício:");
-      if (!beneficios) {
-        return
-      }
-      situacao = beneficios.trim();
-      if (beneficios == '') {
-        return
-      }
-      data = 'beneficios=' + beneficios;
-      // console.log(data);
-      $.ajax({
-        type: "POST",
-        url: url,
-        data: data,
-        success: function(response) {
-          gerarBeneficios();
-        },
-        dataType: 'text'
-      })
-    }
-
-     function gerarEpi() {
-      url = '../dao/exibir_epi.php';
-      $.ajax({
-        data: '',
-        type: "POST",
-        url: url,
-        async: true,
-        success: function(response) {
-          var epi = response;
-          $('#descricao_epi').empty();
-          $('#descricao_epi').append('<option selected disabled>Selecionar</option>');
-          $.each(epi, function(i, item) {
-            $('#descricao_epi').append('<option value="' + item.id_epi + '">' + item.descricao_epi + '</option>');
-          });
-        },
-        dataType: 'json'
-      });
-    }
-
-     function adicionar_epi() {
-      url = '../dao/adicionar_epi.php';
-      var descricao_epi = window.prompt("Cadastre uma Nova Epi:");
-      if (!descricao_epi) {
-        return
-      }
-      situacao = descricao_epi.trim();
-      if (descricao_epi == '') {
-        return
-      }
-      data = 'descricao_epi=' + descricao_epi;
-      // console.log(data);
-      $.ajax({
-        type: "POST",
-        url: url,
-        data: data,
-        success: function(response) {
-          gerarEpi();
-        },
-        dataType: 'text'
-      })
-    }*/
-
-    function funcao1() {
-      alert("Cadastrado com sucesso o Benefício!");
-    }
-
-    function funcao2() {
-      alert("Cadastrado com sucesso o EPI!");
-
-    }
+  
   </script>
 </head>
 
@@ -1046,27 +797,6 @@ $dependente = json_encode($dependente);
               <div class="panel-body">
                 <div class="thumb-info mb-md">
                   <?php
-                  /*
-                                 if($_SERVER['REQUEST_METHOD'] == 'POST')
-                                 {
-                                   if(isset($_FILES['imgperfil']))
-                                   {
-                                    $image = file_get_contents ($_FILES['imgperfil']['tmp_name']);
-                                    //session_start();
-                                    if ($image){
-                                      $_SESSION['imagem']=$image;
-                                      echo '<img src="data:image/gif;base64,'.base64_encode($image).'" class="rounded img-responsive" alt="John Doe">';
-                                    }else{
-                                      echo '<img src="../img/semfoto.png" class="rounded img-responsive" alt="John Doe">';
-                                    }
-                                   }
-                                 }
-                                 else
-                                 {
-                                  echo '<img src="../img/semfoto.png" class="rounded img-responsive" alt="John Doe">';
-                                 }
-                                 */
-
 
                    $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
                   $id_pessoa = $_SESSION['id_pessoa'];
@@ -1143,9 +873,6 @@ $dependente = json_encode($dependente);
                 <li>
                   <a href="#outros" data-toggle="tab">Outros</a>
                 </li>
-                <!--<li>
-                  <a href="#epi" data-toggle="tab">Epi</a>
-                </li> -->
                 <li>
                   <a href="#beneficio" data-toggle="tab">Remuneração</a>
                 </li>
@@ -1158,6 +885,7 @@ $dependente = json_encode($dependente);
               </ul>
               
               <div class="tab-content">
+                <!--Aba de Informações Pessoais-->
                 <div id="overview" class="tab-pane active">
                   <form class="form-horizontal" method="post" action="../../controle/control.php">
                     <input type="hidden" name="nomeClasse" value="FuncionarioControle">
@@ -1470,10 +1198,9 @@ $dependente = json_encode($dependente);
 
                                 $idInfoAdicional = $infoAdd[$i]['idfunncionario_outrasinfo'];
 
-                                // echo $desc_id;
                                 $descricao = $pdo->query("SELECT descricao FROM funcionario_listainfo WHERE idfuncionario_listainfo = '$desc_id';")->fetchAll(PDO::FETCH_ASSOC);
                                 $nome_desc = $descricao[0]['descricao'];
-                                // var_dump($descricao);
+                               
                                 echo
                                 "
                                   <tr id='$idInfoAdicional'>
@@ -1485,13 +1212,10 @@ $dependente = json_encode($dependente);
                                   </tr>
 
                                 ";
-                                // }
+                                 
                             }
 
-                            // $ultimoId = $pdo->query("SELECT max(idfunncionario_outrasinfo) FROM funcionario_outrasinfo;")->fetchAll(PDO::FETCH_ASSOC);
-                            // var_dump($ultimoId);
-                            // $ultimoIdInserido = $pdo->query("SELECT max(idfunncionario_outrasinfo) FROM funcionario_outrasinfo where idfunncionario_outrasinfo != 153 ")->fetchAll(PDO::FETCH_ASSOC);
-                            // var_dump($ultimoIdInserido);
+                            
                           ?>
                         </tbody>
                       </table>
@@ -1587,10 +1311,8 @@ $dependente = json_encode($dependente);
                                 }
 
                                 function listarInfoAdicional(lista){
-                                  // $("#addInfo-tab").empty();
                                   var argsAdicional = "action=idInfoAdicional";
                                   var argsdesc = "action=selectDescricao";
-                                  // var url = "./funcionario/informacao_adicional.php";
                                   console.log(lista[0]);
                                   var vetor = new Array;
                                   $.ajax({
@@ -1810,15 +1532,9 @@ $dependente = json_encode($dependente);
                           <h3 class="text-center col-md-12">Carga Horária</h3>
                           <ul class="nav nav-children" id="info">
                             <li id="total"> Carga horária diária:</br></li>
-                           <!-- <input id="campo1" value="" size="4"> -->
-
-                           
-                   
-                           
+  
                           <li id="carga_horaria_mensal">Carga horária mensal:</li>
-                          
-                        <!-- <input type="text" id="campo"  size="4"> -->
-                        
+
                           </ul>
                         </div>
                         <hr class="dotted short">
@@ -2256,7 +1972,7 @@ $dependente = json_encode($dependente);
           window.alert("Preencha todos os campos obrigatórios antes de prosseguir!");
           return false;
       }
-      //var data_nova = "id_descricao=" + data[0] + "&dados=" + data[1] + "&action=adicionar&id_funcionario=" + data[3];
+     
       post(url, data_nova, callback); 
       console.log(idForm + " => " + data + " | ", callback);
       return true;

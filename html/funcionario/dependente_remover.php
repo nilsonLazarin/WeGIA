@@ -15,7 +15,7 @@ $id_dependente = $_POST["id_dependente"];
 
 try {
     $pdo = Conexao::connect();
-    // $pdo->query("DELETE FROM funcionario_dependentes_docs WHERE id_dependente = $id_dependente;");
+    
     $pdo->query("DELETE FROM funcionario_dependentes WHERE id_dependente = $id_dependente;");
     
     $response = $pdo->query("SELECT 
