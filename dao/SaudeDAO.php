@@ -23,9 +23,11 @@ class SaudeDAO
             //$sql = str_replace("'", "\'", $sql); 
             $pdo = Conexao::connect();
             $stmt = $pdo->prepare($sql);
-            $nome=$saude->getNome();
+            $nomePacienteAtend=$saude->getNomePacienteAtend();
+            $nomePacienteFunc=$saude->getNomePacienteFunc();
             $descricao=$saude->getTexto();
-            $stmt->bindParam(':nome',$nome);
+            $stmt->bindParam(':nome',$nomePacienteAtend);
+            $stmt->bindParam(':nome',$nomePacienteFunc);
             $stmt->bindParam(':descricao',$descricao);
             $stmt->execute();
             $pdo->commit();

@@ -349,7 +349,7 @@ require_once ROOT."/html/personalizacao_display.php";
                             <div id="clicado" style="display:none;">
                             <label class="col-md-3 control-label" for="inputSuccess">Paciente:<sup class="obrig">*</sup></label>
                             <div class="col-md-6">
-                            <select class="form-control input-lg mb-md" name="nome" id="nome" required>
+                            <select class="form-control input-lg mb-md" name="nomePacienteAtend" id="nomePacienteAtend" required>
                                 <option selected disabled>Selecionar</option>
                                 <?php
                                 foreach($nomesCertos as $key => $value)
@@ -365,7 +365,7 @@ require_once ROOT."/html/personalizacao_display.php";
                             <div id="clicado2" style="display:none;">
                             <label class="col-md-3 control-label" for="inputSuccess">Paciente:<sup class="obrig">*</sup></label>
                             <div class="col-md-6">
-                            <select class="form-control input-lg mb-md" name="nome" id="nome" required>
+                            <select class="form-control input-lg mb-md" name="nomePacienteFunc" id="nomePacienteFunc" required>
                                 <option selected disabled>Selecionar</option>
                                 <?php
                                 foreach($nomesCertos2 as $key2 => $value2)
@@ -406,6 +406,7 @@ require_once ROOT."/html/personalizacao_display.php";
                                 <div class='col-md-9 col-md-offset-8'>
                                     <input type='hidden' name='modulo' value="memorando" class='mb-xs mt-xs mr-xs btn btn-default'>
                                 </div>-->
+                                <br>
                                 <div class="panel-footer">
                                 <div class='row'>
                                 <div class="col-md-9 col-md-offset-3">
@@ -433,28 +434,14 @@ require_once ROOT."/html/personalizacao_display.php";
     <!-- teste para o radio do paciente -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
     <script>
-        // function exibeOutros(){
-        //     if (document.getElementById("gender").value == "atendido")
-        //         document.getElementById("camposExtras").visibility = visible;
-
-        //     else
-        //         document.getElementById("camposExtras").visible = hidden;
-        //     }
         
-        //se eu clicar em atendido, escondo as informações de funcionario e exibo as do atendido 
-
-        // function exibir_Atendido(){
-        //     var bolinha_atendido = document.getElementById("bolinha_atendido");
-        //     if ($(bolinha_atendido).prop("checked")) {
-        //     $("#clicado").css("display", "none")
-        //     }
-        // }
-
         function exibirAtendido(){
 
             var aparecer_atendido = document.getElementById("clicado");
             var bolinha_atendido = document.getElementById("bolinha_atendido");
-            
+
+            $("#clicado2").hide(); // escondendo 
+
             if(aparecer_atendido.style.display === "none"){
                 aparecer_atendido.style.display = "block";
             }
@@ -464,21 +451,56 @@ require_once ROOT."/html/personalizacao_display.php";
 
         }
         function exibirFuncionario(){
+            
             var aparecer_funcionario = document.getElementById("clicado2");
             var bolinha_funcionario = document.getElementById("bolinha_funcionario");
             
+            $("#clicado").hide(); 
+
             if(aparecer_funcionario.style.display === "none"){
                 aparecer_funcionario.style.display = "block";
             }
             else{
                 aparecer_funcionario.style.display = "none";
             }
+
         }
 
-        // function exibir_funcionarios(){
-        //         console.log("teste");
-        //         // document.getElementById("camposExtras").visibility = visible;
+        // function teste(){
+        //     if(document.getElementById('bolinha_atendido').checked){
+        //         var aparecer_atendido = document.getElementById("clicado");
+        //         var bolinha_atendido = document.getElementById("bolinha_atendido");
+                
+        //         if(aparecer_atendido.style.display === "none"){
+        //             aparecer_atendido.style.display = "block";
+        //         }
+        //         else{
+        //             aparecer_atendido.style.display = "none";
+        //         }
         //     }
+        //     else if(document.getElementById('bolinha_funcionario').checked){
+        //         var aparecer_funcionario = document.getElementById("clicado2");
+        //         var bolinha_funcionario = document.getElementById("bolinha_funcionario");
+                
+        //         if(aparecer_funcionario.style.display === "none"){
+        //             aparecer_funcionario.style.display = "block";
+        //         }
+        //         else{
+        //             aparecer_funcionario.style.display = "none";
+        //         }
+        //     }
+        // }
+        // if(document.getElementById('bolinha_atendido').checked) {
+        //     alert("desclique!");
+        // }else if(document.getElementById('bolinha_funcionario').checked) {
+            
+        //     if(aparecer_funcionario.style.display === "none"){
+        //         aparecer_funcionario.style.display = "block";
+        //     }
+        //     else{
+        //         aparecer_funcionario.style.display = "none";
+        //     }
+        // }
 
     </script>
         

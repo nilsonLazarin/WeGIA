@@ -26,8 +26,12 @@ class SaudeControle
 {
     public function verificar(){
             extract($_REQUEST);
-            if((!isset($nome)) || (empty($nome))){
+            if((!isset($nomePacienteAtend)) || (empty($nomePacienteAtend))){
                 $msg .= "Nome do atendido não informado. Por favor, informe o nome!";
+                header('Location: ../html/saude/cadastro_ficha_medica.php?msg='.$msg);
+            }
+            if((!isset($nomePacienteFunc)) || (empty($nomePacienteFunc))){
+                $msg .= "Nome do funcionário não informado. Por favor, informe o nome!";
                 header('Location: ../html/saude/cadastro_ficha_medica.php?msg='.$msg);
             }
             if((!isset($texto)) || (empty($texto))){
@@ -111,8 +115,9 @@ class SaudeControle
                 unset($_SESSION['imagem']);
             }
         $senha='null';
-        $saude = new Saude($cpf,$nome,$sobrenome,$sexo,$dataNascimento,$registroGeral,$orgaoEmissor,$dataExpedicao,$nomeMae,$nomePai,$tipoSanguineo,$senha,$telefone,$imagem,$cep,$estado,$cidade,$bairro,$logradouro,$numeroEndereco,$complemento,$ibge);
-        $saude->setNome($nome);
+        $saude = new Saude($cpf,$nomePacienteAtend, $nomePacienteFunc,$sobrenome,$sexo,$dataNascimento,$registroGeral,$orgaoEmissor,$dataExpedicao,$nomeMae,$nomePai,$tipoSanguineo,$senha,$telefone,$imagem,$cep,$estado,$cidade,$bairro,$logradouro,$numeroEndereco,$complemento,$ibge);
+        $saude->setNome($nomePacienteAtend);
+        $saude->setNome($nomePacienteFunc);
         $saude->setTexto($texto);
         return $saude;
     }
