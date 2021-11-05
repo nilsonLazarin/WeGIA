@@ -72,11 +72,19 @@
 								</a>
 							</li>
 
+						
 							<li>
 							<a href="<?= WWW ?>controle/control.php?metodo=listarTodos&nomeClasse=AtendidoControle&nextPage=<?= WWW ?>html/atendido/Informacao_Atendido.php">
 									 Informações Atendido
 								</a>
 							</li>
+
+							<li>
+							<a href="<?= WWW ?>controle/control.php?metodo=listarTodos&nomeClasse=AtendidoControle&nextPage=<?= WWW ?>html/atendido/ocorrencia/cadastro_ocorrencia.php">
+									 Cadastrar Ocorrência
+								</a>
+							</li>
+
 						</ul>
 					</li>
 
