@@ -80,7 +80,7 @@
 							</li>
 
 							<li>
-							<a href="<?= WWW ?>controle/control.php?metodo=listarTodos&nomeClasse=AtendidoControle&nextPage=<?= WWW ?>html/atendido/ocorrencia/cadastro_ocorrencia.php">
+							<a href="<?= WWW ?>controle/control.php?metodo=listarTodos&nomeClasse=AtendidoControle&nextPage=<?= WWW ?>html/atendido/cadastro_ocorrencia.php">
 									 Cadastrar Ocorrência
 								</a>
 							</li>

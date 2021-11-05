@@ -264,7 +264,7 @@
 						</a>
 
 
-						<a href="../controle/control.php?metodo=listarTodos&nomeClasse=AtendidoControle&nextPage=../html/atendido/ocorrencia/cadastro_ocorrencia.php">
+						<a href="../controle/control.php?metodo=listarTodos&nomeClasse=AtendidoControle&nextPage=../html/atendido/cadastro_ocorrencia.php">
 							<div class="col-lg-2 col-md-8 i">
 								<form id="listarAtendido" method="POST" action="../controle/control.php">
 									<i  class="far fa-address-book" id="listarAtendido"></i>
