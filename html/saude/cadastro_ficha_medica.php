@@ -392,7 +392,6 @@ require_once ROOT."/html/personalizacao_display.php";
                                         
                                     </div>
                                 </div>
-
                            
                                 <!--<div class='col-md-9 col-md-offset-8'>
                                     <input type='hidden' value='DespachoControle' name='nomeClasse' class='mb-xs mt-xs mr-xs btn btn-default'>
@@ -412,6 +411,7 @@ require_once ROOT."/html/personalizacao_display.php";
                                 <div class="col-md-9 col-md-offset-3">
 						        <input type="hidden" name="nomeClasse" value="SaudeControle">
 						        <input type="hidden" name="metodo" value="incluir">
+                                <!-- <input type="hidden" name="metodo" value="incluirFunc"> -->
 						        <input id="enviar" type="submit" class="btn btn-primary" value="Enviar">
 						        </div>
                                 </div>

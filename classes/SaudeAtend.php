@@ -1,11 +1,10 @@
 <?php
 require_once 'Atendido.php';
 
-class Saude extends Atendido
+class SaudeAtend extends Atendido
 {
     private $pessoa_id_pessoa;
     private $nomePacienteAtend;
-    private $nomePacienteFunc;
     private $texto;
 
     public function getPessoa_id_pessoa()
@@ -16,15 +15,10 @@ class Saude extends Atendido
     {
         return $this->nomePacienteAtend;
     }
-    public function getNomePacienteFunc()
-    {
-        return $this->nomePacienteFunc;
-    }
     public function getTexto()
     {
         return $this->texto;
     }
-
     public function setPessoa_id_pessoa($pessoa_id_pessoa)
     {
         $this->pessoa_id_pessoa = $pessoa_id_pessoa;
@@ -34,15 +28,12 @@ class Saude extends Atendido
     {
         $this->nomePacienteAtend = $nomePacienteAtend;
     }
-    public function setNomePacienteFunc($nomePacienteFunc)
-    {
-        $this->nomePacienteFunc = $nomePacienteFunc;
-    }
     public function setTexto($texto)
     {
         $this->texto = $texto;
     }
 
 }
+
 
 ?>

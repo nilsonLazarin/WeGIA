@@ -11,7 +11,8 @@ if(file_exists($config_path)){
     require_once($config_path);
 }
 require_once ROOT."/dao/Conexao.php";
-require_once ROOT."/classes/Saude.php";
+require_once ROOT."/classes/SaudeAtend.php";
+require_once ROOT."/classes/SaudeFunc.php";
 require_once ROOT."/Functions/funcoes.php";
 
 class SaudeDAO
@@ -37,8 +38,26 @@ class SaudeDAO
             echo 'Error: <b>  na tabela pessoas = ' . $sql . '</b> <br /><br />' . $e->getMessage();
         }
         
-        
     }
+    // public function incluirFunc($saudeFunc)
+    // {
+    //     try {
+    //         $sql = "call saude_cad_fichamedica(:nome,:descricao)";
+    //         //$sql = str_replace("'", "\'", $sql); 
+    //         $pdo = Conexao::connect();
+    //         $stmt = $pdo->prepare($sql);
+    //         $nomePacienteFunc=$saudeFunc->getNomePacienteFunc();
+    //         $descricao=$saudeFunc->getTexto();
+    //         $stmt->bindParam(':nome',$nomePacienteFunc);
+    //         $stmt->bindParam(':descricao',$descricao);
+    //         $stmt->execute();
+    //         $pdo->commit();
+    //         $pdo->close();
+            
+    //     } catch (PDOException $e) {
+    //         echo 'Error: <b>  na tabela pessoas = ' . $sql . '</b> <br /><br />' . $e->getMessage();
+    //     }
+    // }
     public function listarTodos(){
 
         try{
