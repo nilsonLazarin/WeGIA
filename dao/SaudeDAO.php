@@ -11,8 +11,7 @@ if(file_exists($config_path)){
     require_once($config_path);
 }
 require_once ROOT."/dao/Conexao.php";
-require_once ROOT."/classes/SaudeAtend.php";
-require_once ROOT."/classes/SaudeFunc.php";
+require_once ROOT."/classes/Saude.php";
 require_once ROOT."/Functions/funcoes.php";
 
 class SaudeDAO
@@ -24,11 +23,10 @@ class SaudeDAO
             //$sql = str_replace("'", "\'", $sql); 
             $pdo = Conexao::connect();
             $stmt = $pdo->prepare($sql);
-            $nomePacienteAtend=$saude->getNomePacienteAtend();
-            $nomePacienteFunc=$saude->getNomePacienteFunc();
+            $nome=$saude->getNome();
+            $nome=$saude->getNome();
             $descricao=$saude->getTexto();
-            $stmt->bindParam(':nome',$nomePacienteAtend);
-            $stmt->bindParam(':nome',$nomePacienteFunc);
+            $stmt->bindParam(':nome',$nome);
             $stmt->bindParam(':descricao',$descricao);
             $stmt->execute();
             $pdo->commit();

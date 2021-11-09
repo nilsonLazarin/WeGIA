@@ -11,8 +11,7 @@ if(file_exists($config_path)){
 }
 
 //include_once "/dao/Conexao.php";
-require_once ROOT.'/classes/SaudeAtend.php';
-require_once ROOT.'/classes/SaudeFunc.php';
+require_once ROOT.'/classes/Saude.php';
 require_once ROOT.'/dao/SaudeDAO.php';
 require_once ROOT.'/classes/Documento.php';
 require_once ROOT.'/dao/DocumentoDAO.php';
@@ -28,10 +27,10 @@ class SaudeControle
     public function verificar(){
             extract($_REQUEST);
             // se não estiver definida ou vazia//
-            // if((!isset($nome)) || (empty($nome)) || (!isset($nomePacienteFunc)) ||(empty($nomePacienteFunc))){
-            //     $msg .= "Nome do atendido/funcionario não informado. Por favor, informe o nome!";
-            //     header('Location: ../html/saude/cadastro_ficha_medica.php?msg='.$msg);
-            // }
+            if((!isset($nome)) || (empty($nome))){
+                $msg .= "Nome do atendido/funcionario não informado. Por favor, informe o nome!";
+                header('Location: ../html/saude/cadastro_ficha_medica.php?msg='.$msg);
+            }
             // if((!isset($nomePacienteFunc)) || (empty($nomePacienteFunc))){
             //     $msg .= "Nome do funcionário não informado. Por favor, informe o nome!";
             //     header('Location: ../html/saude/cadastro_ficha_medica.php?msg='.$msg);
@@ -117,24 +116,27 @@ class SaudeControle
                 unset($_SESSION['imagem']);
             }
         $senha='null';
-        // $saude = new Saude($cpf,$nome,$sobrenome,$sexo,$dataNascimento,$registroGeral,$orgaoEmissor,$dataExpedicao,$nomeMae,$nomePai,$tipoSanguineo,$senha,$telefone,$imagem,$cep,$estado,$cidade,$bairro,$logradouro,$numeroEndereco,$complemento,$ibge);
-        if((isset($nomePacienteAtend)) || ($nomePacienteAtend != ""))
-        {
-            $saudeAtend = new SaudeAtend($cpf,$nomePacienteAtend,$sobrenome,$sexo,$dataNascimento,$registroGeral,$orgaoEmissor,$dataExpedicao,$nomeMae,$nomePai,$tipoSanguineo,$senha,$telefone,$imagem,$cep,$estado,$cidade,$bairro,$logradouro,$numeroEndereco,$complemento,$ibge);
+        $saude = new Saude($cpf,$nome,$sobrenome,$sexo,$dataNascimento,$registroGeral,$orgaoEmissor,$dataExpedicao,$nomeMae,$nomePai,$tipoSanguineo,$senha,$telefone,$imagem,$cep,$estado,$cidade,$bairro,$logradouro,$numeroEndereco,$complemento,$ibge);
+        $saude->setNome($nome);
+        $saude->setTexto($texto);  
+        return $saude;
+        // if((isset($nomePacienteAtend)) || ($nomePacienteAtend != ""))
+        // {
+        //     $saudeAtend = new SaudeAtend($cpf,$nomePacienteAtend,$sobrenome,$sexo,$dataNascimento,$registroGeral,$orgaoEmissor,$dataExpedicao,$nomeMae,$nomePai,$tipoSanguineo,$senha,$telefone,$imagem,$cep,$estado,$cidade,$bairro,$logradouro,$numeroEndereco,$complemento,$ibge);
 
-            $saudeAtend->setNomePacienteAtend($nomePacienteAtend);
-            $saudeAtend->setTexto($texto);  
-            return $saudeAtend;
+        //     $saudeAtend->setNomePacienteAtend($nomePacienteAtend);
+        //     $saudeAtend->setTexto($texto);  
+        //     return $saudeAtend;
 
-        }
-        if((isset($nomePacienteFunc)) || ($nomePacienteFunc != ""))
-        {
-            $saudeFunc = new SaudeFunc($cpf,$nomePacienteFunc,$sobrenome,$sexo,$dataNascimento,$registroGeral,$orgaoEmissor,$dataExpedicao,$nomeMae,$nomePai,$tipoSanguineo,$senha,$telefone,$imagem,$cep,$estado,$cidade,$bairro,$logradouro,$numeroEndereco,$complemento,$ibge);
+        // }
+        // if((isset($nomePacienteFunc)) || ($nomePacienteFunc != ""))
+        // {
+        //     $saudeFunc = new SaudeFunc($cpf,$nomePacienteFunc,$sobrenome,$sexo,$dataNascimento,$registroGeral,$orgaoEmissor,$dataExpedicao,$nomeMae,$nomePai,$tipoSanguineo,$senha,$telefone,$imagem,$cep,$estado,$cidade,$bairro,$logradouro,$numeroEndereco,$complemento,$ibge);
              
-            $saudeFunc->setNomePacienteFunc($nomePacienteFunc);
-            $saudeFunc->setTexto($texto);
-            return $saudeFunc;
-        }
+        //     $saudeFunc->setNomePacienteFunc($nomePacienteFunc);
+        //     $saudeFunc->setTexto($texto);
+        //     return $saudeFunc;
+        // }
        
 
        

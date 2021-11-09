@@ -1,19 +1,19 @@
 <?php
 require_once 'Atendido.php';
 
-class SaudeAtend extends Atendido
+class Saude
 {
     private $pessoa_id_pessoa;
-    private $nomePacienteAtend;
+    private $nome;
     private $texto;
 
     public function getPessoa_id_pessoa()
     {
         return $this->pessoa_id_pessoa;
     }
-    public function getNomePacienteAtend()
+    public function getNome()
     {
-        return $this->nomePacienteAtend;
+        return $this->nome;
     }
     public function getTexto()
     {
@@ -24,9 +24,9 @@ class SaudeAtend extends Atendido
         $this->pessoa_id_pessoa = $pessoa_id_pessoa;
     }
 
-    public function setNomePacienteAtend($nomePacienteAtend)
+    public function setNome($nome)
     {
-        $this->nomePacienteAtend = $nomePacienteAtend;
+        $this->nome = $nome;
     }
     public function setTexto($texto)
     {
