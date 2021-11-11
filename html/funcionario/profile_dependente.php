@@ -58,6 +58,8 @@ WHERE fdep.id_dependente = " . $_GET['id_dependente'] ?? null);
 $dependente = $dependente->fetch(PDO::FETCH_ASSOC);
 $dependente["nome_funcionario"] = ($pdo->query("SELECT p.nome FROM funcionario f LEFT JOIN pessoa p ON f.id_pessoa = p.id_pessoa WHERE f.id_funcionario = ".$dependente["id_funcionario"].";")->fetch(PDO::FETCH_ASSOC))["nome"];
 $dependente["sobrenome_funcionario"] = ($pdo->query("SELECT p.sobrenome FROM funcionario f LEFT JOIN pessoa p ON f.id_pessoa = p.id_pessoa WHERE f.id_funcionario = ".$dependente["id_funcionario"].";")->fetch(PDO::FETCH_ASSOC))["sobrenome"];
+$id_pessoa = $dependente["id_pessoa"];
+$id_dependente = $dependente["id_dependente"];
 $JSON_dependente = json_encode($dependente);
 
 ?>
@@ -135,6 +137,7 @@ $JSON_dependente = json_encode($dependente);
 
     <script>
         var dependente = <?= $JSON_dependente; ?>;
+        console.log(dependente);
         var url = "dependente_listar_um.php",
             data = "id_dependente=<?= $_GET["id_dependente"] ?>";
         var formState = [],
@@ -650,61 +653,59 @@ $JSON_dependente = json_encode($dependente);
                                 -->
                                 <div id="overview" class="tab-pane active" role="tabpanel">
                                     <h4>Informações Pessoais</h4><br>
+                                    <form action="dependente_editarInfoPessoal.php?id_pessoa=<?php echo $id_pessoa ?>&idatendido_familiares=<?php echo $id_dependente ?>" method='POST'>
+                                        <fieldset id="formInfoPessoal">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label" for="nomeForm">Nome</label>
+                                                <div class="col-md-8">
+                                                    <input type="text" class="form-control" name="nome" id="nomeForm" onkeypress="return Onlychars(event)" required>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label" for="sobrenomeForm">Sobrenome</label>
+                                                <div class="col-md-8">
+                                                    <input type="text" class="form-control" name="sobrenomeForm" id="sobrenomeForm">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label" for="profileLastName">Sexo</label>
+                                                <div class="col-md-8">
+                                                    <label><input type="radio" name="gender" id="radioM" id="M" value="m" style="margin-top: 10px; margin-left: 15px;" onclick="return exibir_reservista()"> <i class="fa fa-male" style="font-size: 20px;"> Masculino</i></label>
+                                                    <label><input type="radio" name="gender" id="radioF" id="F" value="f" style="margin-top: 10px; margin-left: 15px;" onclick="return esconder_reservista()"> <i class="fa fa-female" style="font-size: 20px;"> Feminino</i> </label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label" for="telefone">Telefone</label>
+                                                <div class="col-md-8">
+                                                    <input type="text" class="form-control" maxlength="14" minlength="14" name="telefone" id="telefone" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeydown="mascara('(##)#####-####',this,event)">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label" for="nascimento">Nascimento</label>
+                                                <div class="col-md-8">
+                                                    <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" id="nascimento" max="<?php echo date('Y-m-d'); ?>">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label" for="pai">Nome do pai</label>
+                                                <div class="col-md-8">
+                                                    <input type="text" class="form-control" name="nome_pai" id="pai" onkeypress="return Onlychars(event)">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label" for="mae">Nome da mãe</label>
+                                                <div class="col-md-8">
+                                                    <input type="text" class="form-control" name="nome_mae" id="mae" onkeypress="return Onlychars(event)">
+                                                </div>
+                                            </div>
+                                            <div class="form-group center">
+                                                <button type="button" class="btn btn-primary" id="botaoEditar_formInfoPessoal" onclick="switchForm('formInfoPessoal')">Editar</button>
+                                                <input type="submit" class="btn btn-primary" disabled="true" value="Salvar" id="botaoSalvar_formInfoPessoal" onclick="submitForm('formInfoPessoal')">
+                                            </div>
 
-                                    <fieldset id="formInfoPessoal">
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label" for="nomeForm">Nome</label>
-                                            <div class="col-md-8">
-                                                <input type="text" class="form-control" name="nome" id="nomeForm" onkeypress="return Onlychars(event)" required>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label" for="sobrenomeForm">Sobrenome</label>
-                                            <div class="col-md-8">
-                                                <input type="text" class="form-control" name="sobrenome" id="sobrenomeForm" onkeypress="return Onlychars(event)">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label" for="profileLastName">Sexo</label>
-                                            <div class="col-md-8">
-                                                <label><input type="radio" name="gender" id="radioM" id="M" value="m" style="margin-top: 10px; margin-left: 15px;" onclick="return exibir_reservista()"> <i class="fa fa-male" style="font-size: 20px;"> Masculino</i></label>
-                                                <label><input type="radio" name="gender" id="radioF" id="F" value="f" style="margin-top: 10px; margin-left: 15px;" onclick="return esconder_reservista()"> <i class="fa fa-female" style="font-size: 20px;"> Feminino</i> </label>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label" for="telefone">Telefone</label>
-                                            <div class="col-md-8">
-                                                <input type="text" class="form-control" maxlength="14" minlength="14" name="telefone" id="telefone" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeydown="mascara('(##)#####-####',this,event)">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label" for="nascimento">Nascimento</label>
-                                            <div class="col-md-8">
-                                                <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" id="nascimento" max="<?php echo date('Y-m-d'); ?>">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label" for="pai">Nome do pai</label>
-                                            <div class="col-md-8">
-                                                <input type="text" class="form-control" name="nome_pai" id="pai" onkeypress="return Onlychars(event)">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label" for="mae">Nome da mãe</label>
-                                            <div class="col-md-8">
-                                                <input type="text" class="form-control" name="nome_mae" id="mae" onkeypress="return Onlychars(event)">
-                                            </div>
-                                        </div>
-                                        <div class="form-group center">
-                                            <button type="button" class="btn btn-primary" id="botaoEditar_formInfoPessoal" onclick="switchForm('formInfoPessoal')">Editar</button>
-                                            <input type="submit" class="btn btn-primary" disabled="true" value="Salvar" id="botaoSalvar_formInfoPessoal" onclick="submitForm('formInfoPessoal')">
-                                        </div>
-
-                                    </fieldset>
-                                    <hr>
-
-
-                                             
+                                        </fieldset>
+                                    </form> 
+                                    <hr>            
                                 </div>
 
 
@@ -783,112 +784,116 @@ $JSON_dependente = json_encode($dependente);
                                 <!-- Aba de documentação do dependente -->
 
                                 <div id="documentacao" class="tab-pane" role="tabpanel">
-                                <h4>Documentação</h4>
-                                    <fieldset id="formDocumentacao">
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label" for="profileCompany">Número do RG</label>
-                                            <div class="col-md-8">
-                                                <input type="text" class="form-control" name="rg" id="rg" onkeypress="return Onlynumbers(event)" placeholder="Ex: 22.222.222-2" onkeydown="mascara('##.###.###-#',this,event)">
+                                    <h4>Documentação</h4>
+                                    <form action="dependente_editarDoc.php?id_pessoa=<?php echo $id_pessoa ?>&idatendido_familiares=<?php echo $id_dependente ?>" method='POST'>
+                                        <fieldset id="formDocumentacao">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label" for="profileCompany">Número do RG</label>
+                                                <div class="col-md-8">
+                                                    <input type="text" class="form-control" name="rg" id="rg" onkeypress="return Onlynumbers(event)" placeholder="Ex: 22.222.222-2" onkeydown="mascara('##.###.###-#',this,event)">
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label" for="profileCompany">Órgão Emissor</label>
-                                            <div class="col-md-8">
-                                                <input type="text" class="form-control" name="orgao_emissor" id="orgao_emissor" onkeypress="return Onlychars(event)">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label" for="profileCompany">Órgão Emissor</label>
+                                                <div class="col-md-8">
+                                                    <input type="text" class="form-control" name="orgao_emissor" id="orgao_emissor" onkeypress="return Onlychars(event)">
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label" for="profileCompany">Data de expedição</label>
-                                            <div class="col-md-8">
-                                                <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" name="data_expedicao" id="data_expedicao" max=<?php echo date('Y-m-d'); ?>>
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label" for="profileCompany">Data de expedição</label>
+                                                <div class="col-md-8">
+                                                    <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" name="data_expedicao" id="data_expedicao" max=<?php echo date('Y-m-d'); ?>>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label" for="profileCompany">Número do CPF</label>
-                                            <div class="col-md-8">
-                                                <input type="text" class="form-control" id="cpf" name="cpf" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeydown="mascara('###.###.###-##',this,event)" required>
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label" for="profileCompany">Número do CPF</label>
+                                                <div class="col-md-8">
+                                                    <input type="text" class="form-control" id="cpf" name="cpf" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeydown="mascara('###.###.###-##',this,event)" required>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label" for="profileCompany"></label>
-                                            <div class="col-md-6">
-                                                <p id="cpfInvalido" style="display: none; color: #b30000">CPF INVÁLIDO!</p>
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label" for="profileCompany"></label>
+                                                <div class="col-md-6">
+                                                    <p id="cpfInvalido" style="display: none; color: #b30000">CPF INVÁLIDO!</p>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <br />
-                                        <div class="form-group center">
-                                            <button type="button" class="btn btn-primary" id="botaoEditar_formDocumentacao" onclick="switchForm('formDocumentacao')">Editar</button>
-                                            <input type="submit" class="btn btn-primary" disabled="true" value="Salvar" id="botaoSalvar_formDocumentacao" onclick="submitForm('formDocumentacao')">
-                                            
+                                            <br />
+                                            <div class="form-group center">
+                                                <button type="button" class="btn btn-primary" id="botaoEditar_formDocumentacao" onclick="switchForm('formDocumentacao')">Editar</button>
+                                                <input type="submit" class="btn btn-primary" disabled="true" value="Salvar" id="botaoSalvar_formDocumentacao" onclick="submitForm('formDocumentacao')">
+                                                
 
-                                        </div>
-                                    </fieldset>
+                                            </div>
+                                        </fieldset>
+                                    </form>
                                 </div>
                                                          
                                 <!-- Aba de endereço do dependente -->
 
                                 <div id="endereco" class="tab-pane" role="tabpanel">
                                     <h4>Endereço</h4>
-                                    <fieldset id="formEndereco">
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label" for="cep">CEP</label>
-                                            <div class="col-md-8">
-                                                <input type="text" name="cep" value="" size="10" onblur="pesquisacep(this.value);" class="form-control" id="cep" maxlength="9" placeholder="Ex: 22222-222" onkeydown="return Onlynumbers(event)" onkeyup="mascara('#####-###',this,event)">
+                                    <form action="dependente_editarEndereco.php?id_pessoa=<?php echo $id_pessoa ?>&idatendido_familiares=<?php echo $id_dependente ?>" method='POST'>
+                                        <fieldset id="formEndereco">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label" for="cep">CEP</label>
+                                                <div class="col-md-8">
+                                                    <input type="text" name="cep" value="" size="10" onblur="pesquisacep(this.value);" class="form-control" id="cep" maxlength="9" placeholder="Ex: 22222-222" onkeydown="return Onlynumbers(event)" onkeyup="mascara('#####-###',this,event)">
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label" for="uf">Estado</label>
-                                            <div class="col-md-8">
-                                                <input type="text" name="uf" size="60" class="form-control" id="uf">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label" for="uf">Estado</label>
+                                                <div class="col-md-8">
+                                                    <input type="text" name="uf" size="60" class="form-control" id="uf">
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label" for="cidade">Cidade</label>
-                                            <div class="col-md-8">
-                                                <input type="text" size="40" class="form-control" name="cidade" id="cidade">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label" for="cidade">Cidade</label>
+                                                <div class="col-md-8">
+                                                    <input type="text" size="40" class="form-control" name="cidade" id="cidade">
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label" for="bairro">Bairro</label>
-                                            <div class="col-md-8">
-                                                <input type="text" name="bairro" size="40" class="form-control" id="bairro">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label" for="bairro">Bairro</label>
+                                                <div class="col-md-8">
+                                                    <input type="text" name="bairro" size="40" class="form-control" id="bairro">
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label" for="rua">Logradouro</label>
-                                            <div class="col-md-8">
-                                                <input type="text" name="rua" size="2" class="form-control" id="rua">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label" for="rua">Logradouro</label>
+                                                <div class="col-md-8">
+                                                    <input type="text" name="rua" size="2" class="form-control" id="rua">
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label" for="profileCompany">Número residencial</label>
-                                            <div class="col-md-4">
-                                                <input type="number" min="0" oninput="this.value = Math.abs(this.value)" class="form-control" name="numero_residencia" id="numero_residencia">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label" for="profileCompany">Número residencial</label>
+                                                <div class="col-md-4">
+                                                    <input type="number" min="0" oninput="this.value = Math.abs(this.value)" class="form-control" name="numero_residencia" id="numero_residencia">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>Não possuo número
+                                                        <input type="checkbox" id="numResidencial" name="naoPossuiNumeroResidencial" style="margin-left: 4px" onclick="return numero_residencial()">
+                                                    </label>
+                                                </div>
                                             </div>
-                                            <div class="col-md-3">
-                                                <label>Não possuo número
-                                                    <input type="checkbox" id="numResidencial" name="naoPossuiNumeroResidencial" style="margin-left: 4px" onclick="return numero_residencial()">
-                                                </label>
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label" for="profileCompany">Complemento</label>
+                                                <div class="col-md-8">
+                                                    <input type="text" class="form-control" name="complemento" id="complemento" id="profileCompany">
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label" for="profileCompany">Complemento</label>
-                                            <div class="col-md-8">
-                                                <input type="text" class="form-control" name="complemento" id="complemento" id="profileCompany">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label" for="ibge">IBGE</label>
+                                                <div class="col-md-8">
+                                                    <input type="text" size="8" name="ibge" class="form-control" id="ibge">
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label" for="ibge">IBGE</label>
-                                            <div class="col-md-8">
-                                                <input type="text" size="8" name="ibge" class="form-control" id="ibge">
+                                            <div class="form-group center">
+                                                <button type="button" class="btn btn-primary" id="botaoEditar_formEndereco" onclick="switchForm('formEndereco')">Editar</button>
+                                                <input type="submit" class="btn btn-primary" disabled="true" value="Salvar" id="botaoSalvar_formEndereco" onclick="submitForm('formEndereco')">
                                             </div>
-                                        </div>
-                                        <div class="form-group center">
-                                            <button type="button" class="btn btn-primary" id="botaoEditar_formEndereco" onclick="switchForm('formEndereco')">Editar</button>
-                                            <input type="submit" class="btn btn-primary" disabled="true" value="Salvar" id="botaoSalvar_formEndereco" onclick="submitForm('formEndereco')">
-                                        </div>
 
-                                    </fieldset>
+                                        </fieldset>
+                                    </form> 
                                 </div>
                                 
                                  <div class="justify-content-between" style="height: 30px;">
