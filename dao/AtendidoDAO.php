@@ -287,7 +287,7 @@ class AtendidoDAO
 
             $sql = 'update pessoa as p inner join atendido as a on p.id_pessoa=a.pessoa_id_pessoa set registro_geral=:registro_geral,orgao_emissor=:orgao_emissor,data_expedicao=:data_expedicao,cpf=:cpf where idatendido=:idatendido';
             
-           $sql = str_replace("'", "\'", $sql);
+            $sql = str_replace("'", "\'", $sql);
 
             $pdo = Conexao::connect();
             $stmt = $pdo->prepare($sql);
@@ -297,6 +297,10 @@ class AtendidoDAO
             $registro_geral=$atendido->getRegistroGeral();
             $orgao_emissor=$atendido->getOrgaoEmissor();
             $data_expedicao=$atendido->getDataExpedicao();
+
+            if(count($data_expedicao) <10){
+                $data_expedicao= null;
+            }
 
            /* $cpf='065.123.587-16';
             $idatendido=1;
