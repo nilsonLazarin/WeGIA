@@ -161,7 +161,7 @@
 					<div class="col-md-8 col-lg-8">
 						<div class="tabs">
 						<ul class="nav nav-tabs tabs-primary">
-							<li class="active">
+							<li cla ss="active">
 								<a href="#overview" data-toggle="tab">Cadastro de Doação</a>
 							</li>
 						</ul>

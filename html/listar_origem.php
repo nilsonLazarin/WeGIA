@@ -99,7 +99,7 @@
       <!-- jquery functions -->
       <script>
          function excluir(id){
-         	window.location.replace('../controle/Control.php?metodo=excluir&nomeClasse=OrigemControle&id_origem='+id);
+         	window.location.replace('../controle/control.php?metodo=excluir&nomeClasse=OrigemControle&id_origem='+id);
          }
       </script>
       <script>
@@ -107,7 +107,7 @@
          	var origem= <?php 
             echo $origem; 
             ?>;
-         
+            console.log(origem);
          	$.each(origem, function(i,item){
          
          		$('#tabela')
