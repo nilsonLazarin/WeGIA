@@ -103,6 +103,7 @@ INSERT INTO `recurso` (`id_recurso`, `descricao`) VALUES
 ('25', 'Relatórios'),
 ('3', 'Módulo Memorando'),
 ('4', 'Módulo Sócio'),
+('5', 'Módulo Saúde'),
 ('9', 'Configurações'),
 ('91', 'Permissões');
 
