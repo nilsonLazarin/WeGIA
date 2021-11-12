@@ -272,6 +272,15 @@
 								</form>
 							</div>
 						</a>
+
+						<a href="../controle/control.php?metodo=listarTodos&nomeClasse=AtendidoControle&nextPage=../html/atendido/listar_ocorrencias_ativas.php">
+							<div class="col-lg-2 col-md-8 i">
+								<form id="listarAtendido" method="POST" action="../controle/control.php">
+									<i  class="far fa-address-book" id="listarAtendido"></i>
+									<h4>Ocorrências Ativas</h4>
+								</form>
+							</div>
+						</a>
 					</div>
 				</div><br>
 				<div class="row">

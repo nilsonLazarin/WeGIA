@@ -21,13 +21,43 @@ if(!isset($_SESSION['usuario'])){
     header ("Location: ".WWW."index.php");
 }
 
+$conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+$id_pessoa = $_SESSION['id_pessoa'];
+$resultado = mysqli_query($conexao, "SELECT * FROM funcionario WHERE id_pessoa=$id_pessoa");
+if(!is_null($resultado)){
+	$id_cargo = mysqli_fetch_array($resultado);
+	if(!is_null($id_cargo)){
+		$id_cargo = $id_cargo['id_cargo'];
+	}
+	$resultado = mysqli_query($conexao, "SELECT * FROM permissao WHERE id_cargo=$id_cargo and id_recurso=3");
+	if(!is_bool($resultado) and mysqli_num_rows($resultado)){
+		$permissao = mysqli_fetch_array($resultado);
+		if($permissao['id_acao'] == 1){
+            $msg = "Você não tem as permissões necessárias para essa página.";
+            header("Location: ".WWW."html/home.php?msg_c=$msg");
+		}
+		$permissao = $permissao['id_acao'];
+	}else{
+        $permissao = 1;
+        $msg = "Você não tem as permissões necessárias para essa página.";
+        header("Location: ".WWW."html/home.php?msg_c=$msg");
+	}	
+}else{
+	$permissao = 1;
+    $msg = "Você não tem as permissões necessárias para essa página.";
+    header("Location: ".WWW."html/home.php?msg_c=$msg");
+}	
+
 require_once ROOT."/dao/Conexao.php";
 require_once ROOT."/controle/Atendido_ocorrenciaControle.php";
 require_once ROOT."/html/personalizacao_display.php";
 
 $pdo = Conexao::connect();
-$nome = $pdo->query("SELECT p.id_pessoa, p.nome, p.sobrenome FROM pessoa p JOIN atendido a ON(p.id_pessoa=a.pessoa_id_pessoa)")->fetchAll(PDO::FETCH_ASSOC);
+$nome = $pdo->query("SELECT a.idatendido, p.nome, p.sobrenome FROM pessoa p JOIN atendido a ON(p.id_pessoa=a.pessoa_id_pessoa)")->fetchAll(PDO::FETCH_ASSOC);
 $tipo = $pdo->query("SELECT * FROM atendido_ocorrencia_tipos")->fetchAll(PDO::FETCH_ASSOC);
+$recupera_id_funcionario = $pdo->query("SELECT id_funcionario FROM funcionario WHERE id_pessoa=" .$id_pessoa.";")->fetchAll(PDO::FETCH_ASSOC);
+$id_funcionario = $recupera_id_funcionario[0]['id_funcionario'];
+
 ?> 
 
 <!DOCTYPE html>
@@ -217,12 +247,12 @@ $tipo = $pdo->query("SELECT * FROM atendido_ocorrencia_tipos")->fetchAll(PDO::FE
                             <div class="form-group">
                                 <label class="col-md-3 control-label" for="profileLastName">Atendido:<sup class="obrig">*</sup></label> 
                                 <div class="col-md-6">
-                                <select class="form-control input-lg mb-md" name="nomePacienteAtend" id="nomePacienteAtend" required>
+                                <select class="form-control input-lg mb-md" name="atendido_idatendido" id="atendido_idatendido" required>
                                 <option selected disabled>Selecionar</option>
                                     <?php
                                     foreach($nome as $key => $value)
                                     {
-                                        echo "<option value=" . $nome[$key]['id_pessoa'] . ">" . $nome[$key]['nome'] . " " . $nome[$key]['sobrenome'] . "</option>";
+                                        echo "<option value=" . $nome[$key]['idatendido'] . ">" . $nome[$key]['nome'] . " " . $nome[$key]['sobrenome'] . "</option>";
                                     }
                                     ?>
                                 </select>
@@ -232,7 +262,7 @@ $tipo = $pdo->query("SELECT * FROM atendido_ocorrencia_tipos")->fetchAll(PDO::FE
                             <div class="form-group">
                                 <label class="col-md-3 control-label" for="profileLastName">Tipo de ocorrência:<sup class="obrig">*</sup></label> 
                                 <div class="col-md-6">
-                                <select class="form-control input-lg mb-md" name="nomePacienteAtend" id="nomePacienteAtend" required>
+                                <select class="form-control input-lg mb-md" name="id_tipos_ocorrencia" id="id_tipos_ocorrencia" required>
                                 <option selected disabled>Selecionar</option>
                                     <?php
                                     foreach($tipo as $key => $value)
@@ -243,15 +273,33 @@ $tipo = $pdo->query("SELECT * FROM atendido_ocorrencia_tipos")->fetchAll(PDO::FE
                                 </select>
                                 </div>
                             </div>
-                        
                             <div class="form-group">
+											 <label class="col-md-3 control-label" for="profileCompany">Data da ocorrência:<sup class="obrig">*</sup></label>
+											<div class="col-md-4">
+												<input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data" id="data" max=<?php echo date('Y-m-d');?> required> 
+										    </div>
+										</div>
+                            <div class="form-group">
+                                <label for=arquivo id=etiqueta_arquivo class='col-md-3 control-label' >Arquivo </label>
+                                <!-- <div class="file-uploader__message-area"></div>
+                                <div class='col-md-6' class="file-chooser">
+                                    <input type="file" multiple name="anexo[]" class="file-chooser__input" id="anexo">
+                                </div> -->
+                                
+                                <div class="file-chooser">
+                                    <input type="file" multiple name='anexo[]' class="file-chooser__input" id='teste'>
+                                </div><br>
+                                <div class="file-uploader__message-area">
+                                    <!-- <p>Select a file to upload</p> -->
+                                </div>
+                            </div> 
             
  
                                 <div class="form-group">
                                     <div class='col-md-6' id='div_texto' style="height: 499px;">
                                     
-                                        <label for="texto" id="etiqueta_despacho" style="padding-left: 15px;">Descrição ocorrência<sup class="obrig">*</sup></label>
-                                        <textarea cols='30' rows='5' id='despacho' name='texto' class='form-control' onkeypress="return Onlychars(event)"required></textarea>
+                                        <label for="texto" id="descricao" style="padding-left: 15px;">Descrição ocorrência<sup class="obrig">*</sup></label>
+                                        <textarea cols='30' rows='5' id='despacho' name='descricao' class='form-control' onkeypress="return Onlychars(event)"required></textarea>
                                         <!-- eh o id despacho que atrapalha a descricao-->
                                         <!-- pegar o lugar que tem todos esses campos obrigatorios -->
                                         <!-- porque o only chars não funciona com o CKEDITOR.replace -->
@@ -278,6 +326,7 @@ $tipo = $pdo->query("SELECT * FROM atendido_ocorrencia_tipos")->fetchAll(PDO::FE
                                 <div class="panel-footer">
                                 <div class='row'>
                                 <div class="col-md-9 col-md-offset-3">
+                                <input type="hidden" name="id_funcionario" value="<?= $id_funcionario; ?>">
 						        <input type="hidden" name="nomeClasse" value="Atendido_ocorrenciaControle">
 						        <input type="hidden" name="metodo" value="incluir">
 						        <input id="enviar" type="submit" class="btn btn-primary" value="Enviar">

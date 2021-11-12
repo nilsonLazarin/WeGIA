@@ -1,5 +1,9 @@
 <?php
 
+ini_set('display_errors',1);
+ini_set('display_startup_erros',1);
+error_reporting(E_ALL);
+
 $config_path = "config.php";
 if(file_exists($config_path)){
     require_once($config_path);
@@ -11,147 +15,138 @@ if(file_exists($config_path)){
     require_once($config_path);
 }
 
-require_once ROOT."/dao/Atendido_ocorrenciaDAO.php";
+require_once ROOT."/dao/Conexao.php";
 require_once ROOT."/classes/Atendido_ocorrencia.php";
-// require_once ROOT."/dao/memorando/UsuarioDAO.php";
- 
+require_once ROOT."/dao/Atendido_ocorrenciaDAO.php";
+require_once ROOT."/controle/Atendido_ocorrenciaControle.php";
 
-
-class OcorrenciaControle
+class Atendido_ocorrenciaControle
 {
-    //Listar memorandos ativos (Caixa de entrada)
-	public function listarTodos()
+	//Listar despachos
+	public function listarTodos(){
+        extract($_REQUEST);
+        $atendido_ocorrenciaDAO= new atendido_ocorrenciaDAO();
+        $ocorrencias = $atendido_ocorrenciaDAO->listarTodos();
+        session_start();
+        $_SESSION['ocorrencia']=$ocorrencias;
+        header('Location: '.$nextPage);
+    }
+
+		// $MemorandoDAO = new MemorandoDAO();
+		// $dadosMemorando = $MemorandoDAO->listarTodosId($id_memorando);
+
+		// $ultimoDespacho =  new MemorandoControle;
+		// $ultimoDespacho->buscarUltimoDespacho($id_memorando);
+
+		// if(!empty($_SESSION['ultimo_despacho']))
+		// {
+		// if($dadosMemorando[0]['id_status_memorando'] == 3 AND $_SESSION['ultimo_despacho'][0]['id_destinatarioo']==$_SESSION['id_pessoa'])
+		// {
+		// 	$memorando = new Memorando('','',$dadosMemorando[0]['id_status_memorando'],'','');
+       	// 	$memorando->setId_memorando($id_memorando);
+        // 	$memorando->setId_status_memorando(2);
+		// 	$MemorandoDAO2 = new MemorandoDAO();
+		// 	$id_status_memorando = 2;
+		// 	$MemorandoDAO2->alterarIdStatusMemorando($memorando);
+		// }
+		//}
+	
+
+	//Listar Despachos com anexo
+	public function listarTodosComAnexo()
 	{
 		extract($_REQUEST);
-		$memorandoDAO = new MemorandoDAO();
-		$memorandos = $memorandoDAO->listarTodos();
-		$_SESSION['memorando']=$memorandos;
+		$despachoComAnexoDAO = new DespachoDAO();
+		$despachosComAnexo = $despachoComAnexoDAO->listarTodosComAnexo($id_memorando);
+		$_SESSION['despachoComAnexo'] = $despachosComAnexo;
 	}
 
-    //LIstar memorando pelo Id
-    public function listarTodosId($id_memorando)
-    {
-        extract($_REQUEST);
-        $memorandoDAO = new MemorandoDAO();
-        $memorandos = $memorandoDAO->listarTodosId($id_memorando);
-        $_SESSION['memorandoId'] = $memorandos;
-    }
-
-    //LIstar memorandos inativos
-    public function listarTodosInativos()
-    {
-        extract($_REQUEST);
-        $memorandoDAO = new MemorandoDAO();
-        $memorandos = $memorandoDAO->listarTodosInativos();
-        $_SESSION['memorandoInativo'] = $memorandos;
-    }
-
-    public function listarIdTodosInativos()
-    {
-        extract($_REQUEST);
-        $memorandoDAO = new MemorandoDAO();
-        $memorandos = $memorandoDAO->listarIdTodosInativos();
-        $_SESSION['memorandoIdInativo'] = $memorandos;
-    }
-
-    //Criar memorando
-    public function incluir()
-    {
-        $memorando = $this->verificarMemorando();
-        $memorandoDAO = new MemorandoDAO();
-        
-
-        
-        try
-        {
-            $lastId = $memorandoDAO->incluir($memorando);
-            $msg = "success";
-            $sccs = "Memorando criado com sucesso";
-            header("Location: ".WWW."html/memorando/insere_despacho.php?id_memorando=$lastId&msg=".$msg."&sccs=".$sccs);
-
-        } 
-        catch (PDOException $e)
-        {
-            $msg= "Não foi possível criar o memorando"."<br>".$e->getMessage();
+	//Incluir despachos  
+	public function incluir()
+	{
+		extract($_REQUEST);
+		$ocorrencia = $this->verificar();
+		$ocorrenciaDAO = new Atendido_ocorrenciaDAO();
+		try
+		{
+			$lastId = $ocorrenciaDAO->incluir($ocorrencia);
+			$anexoss = $_FILES["anexo"];
+			$anexo2 = $_FILES["anexo"]["tmp_name"][0];
+			var_dump($anexo2);
+    		// if(isset($anexo2) && !empty($anexo2))
+    		// {
+			// 	// require_once ROOT."/controle/AnexoControle.php";
+    		// 	$arquivo = new AnexoControle();
+    		// 	$arquivo->incluir($anexoss, $lastId);
+    		// }
+    		$msg = "success";
+			$sccd = "Ocorrencia enviada com sucesso";
+			header("Location: ".WWW."html/atendido/listar_ocorrencias_ativas.php?msg=".$msg."&sccd=".$sccd);
+		}
+		catch(PDOException $e)
+		{
+			$msg= "Não foi possível criar o despacho"."<br>".$e->getMessage();
             echo $msg;
-        }
-    }
+		}
+	}
 
-    //Verifica memorando
-    public function verificarMemorando()
-    {
-    	session_start();
-    	$cpf_usuario = $_SESSION["usuario"];
-    	extract($_REQUEST);
-    	if((!isset($assunto)) || (empty($assunto)))
-    	{
-    		$msg = "Assunto do memorando não informado. Por favor, informe um assunto!";
-            //header('Location: ../html/memorando/novo_memorandoo.php');
-    	}
-    	$pessoa = new UsuarioDAO();
-    	$id_pessoa = $pessoa->obterUsuario($cpf_usuario);
-    	$id_pessoa = $id_pessoa['0']['id_pessoa'];
-    	$memorando = new Memorando($assunto);
-    	$memorando->setId_pessoa($id_pessoa);
-    	$memorando->setData();
-    	$memorando->setId_status_memorando(1);
+	public function verificar(){
+		extract($_REQUEST);
+		// se não estiver definida ou vazia//
+		if((!isset($descricao)) || (empty($descricao))){
+			$msg .= "Descricao do atendido não informado. Por favor, informe a descricao!";
+			header('Location: ../html/atendido/cadastro_ocorrencia.php?msg='.$msg); 
+		}
+		if((!isset($atendido_idatendido)) || (empty($atendido_idatendido))){
+		 	$atendido_idatendido=""; 
+		}
+		if((!isset($id_funcionario)) || (empty($id_funcionario))){
+			$id_funcionario=""; 
+	    }
 
-    	return $memorando;
-    }
+	    if((!isset($id_tipos_ocorrencia)) || (empty($id_tipos_ocorrencia))){
+			$id_tipos_ocorrencia="";
+		}
+		// if((!isset($idatendido_ocorrencias)) || (empty($idatendido_ocorrencias))){
+		// 	$idatendido_ocorrencias="";
+		// }
+		if((!isset($data)) || (empty($data))){
+			$msg .= "Data da ocorrencia não informada. Por favor, informe a data!";
+			header('Location: ../html/atendido/cadastro_ocorrencia.php?msg='.$msg); 
+	    }
+		// if((!isset($nome)) || (empty($nome))){
+		// 	$msg .= "Data da ocorrencia não informada. Por favor, informe a data!";
+		// 	header('Location: ../html/atendido/cadastro_ocorrencia.php?msg='.$msg); 
+	    // }
 
-    //Alterar status do memorando
-    public function alterarIdStatusMemorando()
-    {
-        extract($_REQUEST);
-        $memorando = new Memorando('','',$id_status_memorando,'','');
-        $memorando->setId_memorando($id_memorando);
-        $memorando->setId_status_memorando($id_status_memorando);
-        $memorandoDAO=new MemorandoDAO();
-        try 
-        {
-            $memorandoDAO->alterarIdStatusMemorando($memorando);
-           //header("Location: ".WWW."html/memorando/DespachoControle.php");
-        } 
-        catch (PDOException $e) 
-        {
-            echo $e->getMessage();
-        } 
-    }
-
-    //Buscar último despacho de um memorando
-    public function buscarUltimoDespacho($id_memorando)
-    {
-        if (session_status() !== PHP_SESSION_ACTIVE)
-        {
-        session_start();
-        }
-        $memorandoDAO = new MemorandoDAO();
-        $despacho = $memorandoDAO->buscarUltimoDespacho($id_memorando);
-        $_SESSION["ultimo_despacho"] = $despacho;
-    }
-
-    //Buscar id_status_memorando
-    public function buscarIdStatusMemorando($id_memorando)
-    {
-        if (session_status() !== PHP_SESSION_ACTIVE)
-        {
-        session_start();
-        }
-        $memorandoDAO = new MemorandoDAO();
-        $id = $memorandoDAO->buscarIdStatusMemorando($id_memorando);
-        $_SESSION['id_status_memorando']=$id;
-    }
-
-    //Verifica se o memorando existe
-    public function issetMemorando($id_memorando)
-    {
-        if (session_status() !== PHP_SESSION_ACTIVE)
-        {
-        session_start();
-        }
-        $memorandoDAO = new MemorandoDAO();
-        $isset = $memorandoDAO->issetMemorando($id_memorando);
-        $_SESSION['isset_memorando']=$isset;
-    }
+	$ocorrencia = new Ocorrencia($descricao);  
+	$ocorrencia->setAtendido_idatendido($atendido_idatendido);
+	// $ocorrencia->setNome($nome);  
+	$ocorrencia->setFuncionario_idfuncionario($id_funcionario); 
+	$ocorrencia->setId_tipos_ocorrencia($id_tipos_ocorrencia); 
+	// $ocorrencia->setIdatendido_ocorrencias($idatendido_ocorrencias);
+	$ocorrencia->setData($data);  
+	return $ocorrencia;
+	}
+	//Verificar despachos
+	// public function verificarDespacho()
+	// {
+	// 	session_start();
+	// 	$cpf_usuario = $_SESSION["usuario"];
+	// 	extract($_REQUEST);
+	// 	if(!isset($descricao) || (empty($descricao)))
+	// 	{
+	// 		$msg = "Ocorrência não informada. Por favor informe um texto.";
+	// 	}
+	// 	$pessoa = new Atendido_ocorrenciaDAO();
+    // 	// $id_pessoa = $pessoa->obterUsuario($cpf_usuario);
+    // 	// $id_pessoa = $id_pessoa['0']['id_pessoa'];
+    // 	$ocorrencia = new Ocorrencia($descricao);
+    // 	$ocorrencia->setId_pessoa($id_pessoa);
+    // 	$ocorrencia->setData();
+    // 	$ocorrencia->setId_tipos_ocorrencia($id_tipos_ocorrencia);
+    // 	$ocorrencia->setIdatendido_ocorrencias($idatendido_ocorrencias);
+    // 	return $ocorrencia;
+	// }
 }
 ?>

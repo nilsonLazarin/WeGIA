@@ -2,35 +2,27 @@
 
 class Ocorrencia
 {
-	private $id_ocorrencia;
-	private $id_pessoa;
+	private $idatendido_ocorrencias;
+	private $atendido_idatendido;
+	private $funcionario_idfuncionario;
 	private $id_tipos_ocorrencia;
-	private $titulo;
+	private $descricao;
 	private $data;
+	private $nome;
 
-	public function __construct($titulo)
+	public function __construct($descricao)
 	{
-		$this->titulo=$titulo;
+		$this->descricao=$descricao;
 	}
 
-	public function getId_ocorrencia()
+	public function getIdatendido_ocorrencias()
 	{
-		return $this->id_ocorrencia;
+		return $this->idatendido_ocorrencias;
 	}
 
-	public function getId_pessoa()
+	public function getNome()
 	{
-		return $this->id_pessoa;
-	}
-
-	public function getId_tipos_ocorrencia()
-	{
-		return $this->id_tipo_ocorrencia;
-	}
-
-	public function getTitulo()
-	{
-		return $this->titulo;
+		return $this->nome;
 	}
 
 	public function getData()
@@ -38,14 +30,45 @@ class Ocorrencia
 		return $this->data;
 	}
 
-	public function setId_ocorrencia($id_ocorrencia)
+	public function getAtendido_idatendido()
 	{
-		$this->id_ocorrencia = $id_ocorrencia;
+		return $this->atendido_idatendido;
 	}
 
-	public function setId_pessoa($id_pessoa)
+	public function getFuncionario_idfuncionario()
 	{
-		$this->id_pessoa = $id_pessoa;
+		return $this->funcionario_idfuncionario;
+	}
+
+	public function getId_tipos_ocorrencia()
+	{
+		return $this->id_tipos_ocorrencia;
+	}
+
+	public function getDescricao()
+	{
+		return $this->descricao;
+	}
+
+	public function setIdatendido_ocorrencias($idatendido_ocorrencias)
+	{
+		$this->idatendido_ocorrencias = $idatendido_ocorrencias;
+	}
+
+	public function setAtendido_idatendido($atendido_idatendido)
+	{
+		$this->atendido_idatendido = $atendido_idatendido;
+	}
+
+	public function setNome($nome)
+	{
+		$this->nome = $nome;
+	}
+
+
+	public function setFuncionario_idfuncionario($funcionario_idfuncionario)
+	{
+		$this->funcionario_idfuncionario = $funcionario_idfuncionario;
 	}
 
 	public function setId_tipos_ocorrencia($id_tipos_ocorrencia)
@@ -53,16 +76,15 @@ class Ocorrencia
 		$this->id_tipos_ocorrencia = $id_tipos_ocorrencia;
 	}
 
-	public function setTitulo($titulo)
+	public function setDescricao($descricao)
 	{
-		$this->titulo = $titulo;
+		$this->descricao = $descricao;
 	}
 
-	public function setData()
+	public function setData($data)
 	{
-		date_default_timezone_set('America/Sao_Paulo');
-        $data=date('Y-m-d H:i:s');
 		$this->data = $data;
 	}
+
 }
 ?>
