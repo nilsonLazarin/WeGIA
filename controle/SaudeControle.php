@@ -120,28 +120,9 @@ class SaudeControle
         $saude->setNome($nome);
         $saude->setTexto($texto);  
         return $saude;
-        // if((isset($nomePacienteAtend)) || ($nomePacienteAtend != ""))
-        // {
-        //     $saudeAtend = new SaudeAtend($cpf,$nomePacienteAtend,$sobrenome,$sexo,$dataNascimento,$registroGeral,$orgaoEmissor,$dataExpedicao,$nomeMae,$nomePai,$tipoSanguineo,$senha,$telefone,$imagem,$cep,$estado,$cidade,$bairro,$logradouro,$numeroEndereco,$complemento,$ibge);
-
-        //     $saudeAtend->setNomePacienteAtend($nomePacienteAtend);
-        //     $saudeAtend->setTexto($texto);  
-        //     return $saudeAtend;
-
-        // }
-        // if((isset($nomePacienteFunc)) || ($nomePacienteFunc != ""))
-        // {
-        //     $saudeFunc = new SaudeFunc($cpf,$nomePacienteFunc,$sobrenome,$sexo,$dataNascimento,$registroGeral,$orgaoEmissor,$dataExpedicao,$nomeMae,$nomePai,$tipoSanguineo,$senha,$telefone,$imagem,$cep,$estado,$cidade,$bairro,$logradouro,$numeroEndereco,$complemento,$ibge);
-             
-        //     $saudeFunc->setNomePacienteFunc($nomePacienteFunc);
-        //     $saudeFunc->setTexto($texto);
-        //     return $saudeFunc;
-        // }
-       
-
-       
     }
 
+    // aq era atendidos
     public function listarTodos(){
         extract($_REQUEST);
         $SaudeDAO= new SaudeDAO();
@@ -160,18 +141,18 @@ class SaudeControle
         header('Location: '.$nextPage);
     }*/
 
-    /*
-    public function listarTodos2(){
-        extract($_REQUEST);
-        $SaudeDAO= new SaudeDAO();
-        $pacientes = $SaudeDAO->listarTodos2();
-        if (session_status() !== PHP_SESSION_ACTIVE)
-        {
-            session_start();
-        }
-        $_SESSION['pacientes2']=$pacientes;
-    }
-    */
+    
+    // public function listarTodos2(){
+    //     extract($_REQUEST);
+    //     $SaudeDAO= new SaudeDAO();
+    //     $pacientes = $SaudeDAO->listarTodos2();
+    //     if (session_status() !== PHP_SESSION_ACTIVE)
+    //     {
+    //         session_start();
+    //     }
+    //     $_SESSION['pacientes2']=$pacientes;
+    // }
+    
 
     public function listarUm()
     {
@@ -183,7 +164,7 @@ class SaudeControle
                 $SaudeDAO=new SaudeDAO();
                 $infSaude=$SaudeDAO->listar($id);
                 session_start();
-                $_SESSION['saude_id']=$infSaude;
+                $_SESSION['id_fichamedica']=$infSaude;
                 $cache->save($id, $infSaude, '15 seconds');
                 header('Location:'.$nextPage);
             } catch (PDOException $e) {
@@ -209,7 +190,7 @@ class SaudeControle
             header("Location: ../html/saude/profile_paciente.php");
             // header("Location: ../dao/AtendidoDAO.php");
         } catch (PDOException $e){
-            $msg= "Não foi possível registrar o atendido <form> <input type='button' value='Voltar' onClick='history.go(-1)'> </form>"."<br>".$e->getMessage();
+            $msg= "Não foi possível registrar o paciente <form> <input type='button' value='Voltar' onClick='history.go(-1)'> </form>"."<br>".$e->getMessage();
             echo $msg;
         }
     }

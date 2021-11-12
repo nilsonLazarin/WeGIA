@@ -22,7 +22,7 @@
 		}
 		require_once($config_path);
 	}
-	/*$conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+	$conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 	$id_pessoa = $_SESSION['id_pessoa'];
 	$resultado = mysqli_query($conexao, "SELECT * FROM funcionario WHERE id_pessoa=$id_pessoa");
 	if(!is_null($resultado)){
@@ -48,7 +48,7 @@
     $msg = "Você não tem as permissões necessárias para essa página.";
     header("Location: ../../home.php?msg_c=$msg");
 	}	
-	*/
+
 	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
 	require_once "../personalizacao_display.php";
 
@@ -62,21 +62,18 @@
 	<!-- Basic -->
 	<meta charset="UTF-8">
 
-	<title>Informações do paciente</title>
+	<title>Informações</title>
 
 	<!-- Mobile Metas -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
-	<!-- Vendor CSS-->
+	<!-- Vendor CSS -->
 	<link rel="stylesheet" href="../../assets/vendor/bootstrap/css/bootstrap.css" />
-    <link rel="stylesheet" href="../../assets/vendor/font-awesome/css/font-awesome.css" />
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
-    <link rel="stylesheet" href="../../assets/vendor/magnific-popup/magnific-popup.css" />
-    <link rel="stylesheet" href="../../assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
-	<link rel="stylesheet" type="text/css" href="../../css/profile-theme.css"> <script src="../../assets/vendor/jquery/jquery.min.js"></script> <script src="../../assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script> <script src="../../assets/vendor/bootstrap/js/bootstrap.js"></script> <script src="../../assets/vendor/nanoscroller/nanoscroller.js"></script>
-    <script src="../../assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-    <script src="../../assets/vendor/magnific-popup/magnific-popup.js"></script>
-    <script src="../../assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
+	<link rel="stylesheet" href="../../assets/vendor/font-awesome/css/font-awesome.css" />
+	<link rel="stylesheet" href="../../assets/vendor/magnific-popup/magnific-popup.css" />
+	<link rel="stylesheet" href="../../assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
+	<link rel="icon" href="<?php display_campo("Logo",'file');?>" type="image/x-icon" id="logo-icon">
+
 	<!-- Specific Page Vendor CSS -->
 	<link rel="stylesheet" href="../../assets/vendor/select2/select2.css" />
 	<link rel="stylesheet" href="../../assets/vendor/jquery-datatables-bs3/assets/css/datatables.css" />
@@ -123,12 +120,12 @@
 	<!-- jquery functions -->
 	<script>
 		function clicar(id) {
-			window.location.href = "saude.php?idsaude="+id;
+			window.location.href = "saude.php?id_fichamedica="+id;
 		}
 		$(function() {
+
 			var pacientes = <?php echo $_SESSION['saude'];?> ;
 			<?php unset($_SESSION['saude']); ?>;
-			console.log(pacientes);
 			$.each(pacientes, function(i, item) {
 				$("#tabela")
 				.append($("<tr>")
@@ -136,14 +133,13 @@
 					.attr("class", "teste")
 					.append($("<td>")
 						.text(item.nome+' '+item.sobrenome))
-					//.append($("<td id=descricao"+item.id+">")
-					//.text(item.descricao))
 					.append($("<td />")
 						.attr('onclick','clicar("'+item.id+'")')
 					.html('<i class="glyphicon glyphicon-pencil"></i>')));
 			});
+			});
 
-		});
+
 		$(function () {
 	      $("#header").load("../header.php");
 	      $(".menuu").load("../menu.php");
@@ -162,13 +158,13 @@
 			<!-- end: sidebar -->
 			<section role="main" class="content-body">
 				<header class="page-header">
-					<h2>Informações paciente</h2>
+					<h2>Informações</h2>
 
 					<div class="right-wrapper pull-right">
 						<ol class="breadcrumbs">
 							<li><a href="../index.php"> <i class="fa fa-home"></i>
 							</a></li>
-							<li><span>Informações paciente</span></li>
+							<li><span>Informações Paciente</span></li>
 						</ol>
 
 						<a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
@@ -186,7 +182,7 @@
 							<a href="#" class="fa fa-caret-down"></a>
 						</div>
 
-						<h2 class="panel-title">Informações paciente</h2>
+						<h2 class="panel-title">Pacientes</h2>
 					</header>
 					<div class="panel-body">
 						<table class="table table-bordered table-striped mb-none"
@@ -194,7 +190,6 @@
 							<thead>
 								<tr>
 									<th>Nome</th>
-									<!--<th>Descrição médica</th>-->
 									<th>Ação</th>
 								</tr>
 							</thead>
