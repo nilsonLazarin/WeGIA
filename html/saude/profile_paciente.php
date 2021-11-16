@@ -125,18 +125,19 @@
 		$(function() {
 
 			var pacientes = <?php echo $_SESSION['saude'];?> ;
+			console.log(pacientes);
 			<?php unset($_SESSION['saude']); ?>;
 			$.each(pacientes, function(i, item) {
 				$("#tabela")
 				.append($("<tr>")
-					.attr("onclick", "clicar('" + item.id + "')")
+					.attr("onclick", "clicar('" + item.id_fichamedica + "')")
 					.attr("class", "teste")
 					.append($("<td>")
 						.text(item.nome+' '+item.sobrenome))
 					.append($("<td />")
-						.attr('onclick','clicar("'+item.id+'")')
+						.attr('onclick','clicar("'+item.id_fichamedica+'")')
 					.html('<i class="glyphicon glyphicon-pencil"></i>')));
-			});
+				});
 			});
 
 

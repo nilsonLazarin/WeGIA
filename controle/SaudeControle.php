@@ -132,28 +132,6 @@ class SaudeControle
         header('Location: '.$nextPage);
     }
 
-    /*public function listarDescricao(){
-        extract($_REQUEST);
-        $SaudeDAO= new SaudeDAO();
-        $descricao = $SaudeDAO->listarDescricao();
-        session_start();
-        $_SESSION['descricao']=$descricao;
-        header('Location: '.$nextPage);
-    }*/
-
-    
-    // public function listarTodos2(){
-    //     extract($_REQUEST);
-    //     $SaudeDAO= new SaudeDAO();
-    //     $pacientes = $SaudeDAO->listarTodos2();
-    //     if (session_status() !== PHP_SESSION_ACTIVE)
-    //     {
-    //         session_start();
-    //     }
-    //     $_SESSION['pacientes2']=$pacientes;
-    // }
-    
-
     public function listarUm()
     {
         extract($_REQUEST);
@@ -174,7 +152,6 @@ class SaudeControle
         else{
             header('Location:'.$nextPage);
         }
-        
     }
 
     public function incluir(){
@@ -183,7 +160,7 @@ class SaudeControle
         //$docDAO = new DocumentoDAO();
 
         try{
-            $idasaude=$intDAO->incluir($saude);
+            $idsaude=$intDAO->incluir($saude);
             $_SESSION['msg']="Ficha médica cadastrada com sucesso!";
             $_SESSION['proxima']="Cadastrar outra ficha.";
             $_SESSION['link']="../html/saude/cadastro_ficha_medica.php";

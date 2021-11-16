@@ -6,6 +6,10 @@ error_reporting(E_ALL);
 extract($_REQUEST);
 session_start();
 
+if(!isset($_SESSION['usuario'])){
+    header ("Location: ../index.php");
+}
+
 $config_path = "config.php";
 if(file_exists($config_path)){
     require_once($config_path);
@@ -17,13 +21,38 @@ if(file_exists($config_path)){
     require_once($config_path);
 }
 
-if(!isset($_SESSION['usuario'])){
-    header ("Location: ".WWW."index.php");
-}
+
 
 require_once "../../dao/Conexao.php";
 $pdo = Conexao::connect();
 
+$conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+      $id_pessoa = $_SESSION['id_pessoa'];
+      $resultado = mysqli_query($conexao, "SELECT * FROM funcionario WHERE id_pessoa=$id_pessoa");
+      if(!is_null($resultado)){
+         $id_cargo = mysqli_fetch_array($resultado);
+         if(!is_null($id_cargo)){
+            $id_cargo = $id_cargo['id_cargo'];
+         }
+         $resultado = mysqli_query($conexao, "SELECT * FROM permissao WHERE id_cargo=$id_cargo and id_recurso=12");
+         if(!is_bool($resultado) and mysqli_num_rows($resultado)){
+            $permissao = mysqli_fetch_array($resultado);
+            if($permissao['id_acao'] < 7){
+           $msg = "Você não tem as permissões necessárias para essa página.";
+           header("Location: ../home.php?msg_c=$msg");
+            }
+            $permissao = $permissao['id_acao'];
+         }else{
+              $permissao = 1;
+             $msg = "Você não tem as permissões necessárias para essa página.";
+             header("Location: ../home.php?msg_c=$msg");
+         }	
+      }else{
+         $permissao = 1;
+       $msg = "Você não tem as permissões necessárias para essa página.";
+       header("Location: ../home.php?msg_c=$msg");
+      }	
+      
 // caso paciente ser atendido //
 $nome = $pdo->query("SELECT p.id_pessoa, p.nome, p.sobrenome FROM pessoa p JOIN atendido a ON(p.id_pessoa=a.pessoa_id_pessoa)")->fetchAll(PDO::FETCH_ASSOC);
 

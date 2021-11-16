@@ -13,6 +13,10 @@ session_start();
    		header ("Location: ../index.php");
    	}
 
+     if(!isset($_SESSION['id_fichamedica']))	{
+      header('Location: ../../controle/control.php?metodo=listarUm&nomeClasse=SaudeControle&nextPage=../html/saude/saude.php');
+    }
+
       $config_path = "config.php";
       if(file_exists($config_path)){
          require_once($config_path);
@@ -63,7 +67,7 @@ session_start();
   require_once ROOT."/controle/SaudeControle.php";
   /*$cpf = new AtendidoControle;
   $cpf->listarCpf();*/
-
+ 
   /*require_once ROOT."/controle/EnderecoControle.php";
   $endereco = new EnderecoControle;
   $endereco->listarInstituicao();*/
@@ -76,6 +80,8 @@ session_start();
    // $atendido = new AtendidoDAO();
    // $atendido->listar($id);
    // var_dump($atendido);
+  
+   $sessao_saude = $_SESSION['id_fichamedica'];
    
   //  if (!isset($teste)) {
    		
@@ -97,7 +103,7 @@ session_start();
     <script src="<?php echo WWW;?>assets/vendor/jquery-autosize/jquery.autosize.js"></script>
         
     <!-- Theme Base, Components and Settings -->
-    <script src="<?php echo WWW;?>assets/javascripts/theme.js"></script>
+    <!-- <script src="<?php echo WWW;?>assets/javascripts/theme.js"></script> -->
         
     <!-- Theme Custom -->
     <script src="<?php echo WWW;?>assets/javascripts/theme.custom.js"></script>
@@ -117,11 +123,11 @@ session_start();
 
     <script>
         $(function(){
-            var funcionario=[];
-            $.each(funcionario,function(i,item){
-                $("#destinatario")
-                    .append($("<option id="+item.id_pessoa+" value="+item.id_pessoa+" name="+item.id_pessoa+">"+item.nome+" "+item.sobrenome+"</option>"));
-            });
+            // var funcionario=[];
+            // $.each(funcionario,function(i,item){
+            //     $("#destinatario")
+            //         .append($("<option id="+item.id_pessoa+" value="+item.id_pessoa+" name="+item.id_pessoa+">"+item.nome+" "+item.sobrenome+"</option>"));
+            // });
             $("#header").load("../header.php");
             $(".menuu").load("../menu.php");
 
@@ -208,10 +214,10 @@ session_start();
       <script>
         
          $(function(){
-         	var interno= <?php echo $_SESSION['id_fichamedica']?>; // pega no SaudeControle, listarUm
-            var endereco=[];
+          // pega no SaudeControle, listarUm
+            var interno = <?php echo $_SESSION['id_fichamedica']; ?>;
             console.log(interno);
-         	$.each(interno,function(i,item){
+         	  $.each(interno,function(i,item){
          		if(i=1)
          		{
               $("#formulario").append($("<input type='hidden' name='id_fichamedica' value='"+item.id+"'>"));
@@ -244,31 +250,16 @@ session_start();
                {
                   $('#docs').append($("<strong >").append($("<p >").text("Não foi possível encontrar nenhuma imagem referente a esse Atendido!")));
                }
-               else{
-                  b64 = item.imgdoc;
-                  b64 = b64.replace("data:image/pdf;base64,", "");
-                  b64 = b64.replace("data:image/png;base64,", "");
-                  b64 = b64.replace("data:image/jpg;base64,", "");
-                  b64 = b64.replace("data:image/jpeg;base64,", "");
-                  console.log(b64);
-               if(b64.charAt(0) == "/" || b64.charAt(0) == "i"){
-                  $('#docs').append($("<strong >").append($("<p >").text(item.descricao).attr("class","col-md-8"))).append($("<a >").attr("onclick","excluirimg("+item.id_documento+")").attr("class","link").append($("<i >").attr("class","fa fa-trash col-md-1 pull-right icones"))).append($("<a >").attr("onclick","editimg("+item.id_documento+",'"+item.descricao+"')").attr("class","link").append($("<i >").attr("class","fa fa-edit col-md-1 pull-right icones"))).append($("<div>").append($("<img />").attr("src", item.imgdoc).addClass("lazyload").attr("max-height","50px"))).append($("<form method='get' action='"+ item.imgdoc+"'><button type='submit'>Download</button></form>"));
-               }else{
-                  $('#docs').append($("<strong >").append($("<p >").text(item.descricao).attr("class","col-md-8"))).append($("<a >").attr("onclick","excluirimg("+item.id_documento+")").attr("class","link").append($("<i >").attr("class","fa fa-trash col-md-1 pull-right icones"))).append($("<a >").attr("onclick","editimg("+item.id_documento+",'"+item.descricao+"')").attr("class","link").append($("<i >").attr("class","fa fa-edit col-md-1 pull-right icones"))).append($("<div>").append($( `<a href="data:application/pdf;base64,${b64}" download="${item.descricao}.pdf"><button type='submit'>Download</button></a>`)));
-               }
-            }
-         	})
+             }
+         	});
          });
-         });
+        //  });
          $(function () {
             $("#header").load("../header.php");
             $(".menuu").load("../menu.php");
          });
       // </script>
-      // <script type="text/javascript">
-    //  });
-               
-    </script>
+      
     <script src="controller/script/valida_cpf_cnpj.js"></script>
    </head>
    <body>
@@ -1150,6 +1141,8 @@ session_start();
         
         <!-- Theme Custom -->
         <script src="<?php echo WWW;?>assets/javascripts/theme.custom.js"></script>
+
+        <script src="<?php echo WWW;?>assets/javascripts/theme.js"></script>
         
         <!-- Theme Initialization Files -->
         <!-- Examples -->

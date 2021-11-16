@@ -61,12 +61,12 @@ class SaudeDAO
         try{
             $pacientes=array();
             $pdo = Conexao::connect();
-            $consulta = $pdo->query("SELECT p.nome,s.descricao,p.sobrenome FROM pessoa p INNER JOIN saude_fichamedica s ON s.id_pessoa = p.id_pessoa");
+            $consulta = $pdo->query("SELECT s.id_fichamedica,p.nome,s.descricao,p.sobrenome FROM pessoa p INNER JOIN saude_fichamedica s ON s.id_pessoa = p.id_pessoa");
             // $produtos = Array();
             $x=0;
             while($linha = $consulta->fetch(PDO::FETCH_ASSOC)){
             
-                $pacientes[$x]=array('nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'descricao'=>$linha['descricao']);
+                $pacientes[$x]=array('id_fichamedica'=>$linha['id_fichamedica'],'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'descricao'=>$linha['descricao']);
                 $x++;
             }
             //$pdo->commit();
@@ -84,30 +84,32 @@ class SaudeDAO
             /*$sql = "SELECT p.imagem,p.nome,p.sobrenome,p.cpf, p.senha, p.sexo, p.telefone,p.data_nascimento, p.cep,p.estado,p.cidade,p.bairro,p.logradouro,p.numero_endereco,p.complemento,p.ibge,p.registro_geral,p.orgao_emissor,p.data_expedicao,p.nome_pai,p.nome_mae,p.tipo_sanguineo, d.id_documento FROM pessoa p LEFT JOIN atendido a ON p.id_pessoa = a.pessoa_id_pessoa left join documento d on p.id_pessoa=d.id_pessoa WHERE a.idatendido=:id";*/
 
             $sql = "SELECT p.nome,p.sobrenome,p.sexo,p.data_nascimento FROM pessoa p JOIN atendido a ON p.id_pessoa = a.pessoa_id_pessoa JOIN saude_fichamedica sf ON a.pessoa_id_pessoa = sf.id_pessoa WHERE sf.id_fichamedica=:id";
+            // $sql = "SELECT nome from pessoa where id ='1'";
 
-            $sql = "SELECT p.nome, p.sobrenome, p.sexo, p.data_nascimento FROM pessoa p JOIN funcionario f ON p.id_pessoa=f.id_pessoa JOIN saude_fichamedica sf ON f.id_pessoa = sf.id_pessoa WHERE sf.id_fichamedica=:id";
+            // $sql = "SELECT p.nome, p.sobrenome, p.sexo, p.data_nascimento FROM pessoa p JOIN funcionario f ON p.id_pessoa=f.id_pessoa JOIN saude_fichamedica sf ON f.id_pessoa = sf.id_pessoa WHERE sf.id_fichamedica=:id";
             // o tipo sanguinio e a imagem vou ter que pegar de outra forma //
 
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':id',$id);
 
             $stmt->execute();
-            $pacienteAtendido=array();
-            $pacienteFuncionario=array();
+            $paciente=array();
+            // $pacienteFuncionario=array();
             while ($linha = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
-                $pacienteAtendido[]=array('nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'sexo'=>$linha['sexo'],'data_nascimento'=>$linha['data_nascimento']);
-                $pacienteFuncionario[]=array('nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'sexo'=>$linha['sexo'],'data_nascimento'=>$linha['data_nascimento']);
+                $paciente[]=array('nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'sexo'=>$linha['sexo'],'data_nascimento'=>$linha['data_nascimento']);
+                // $paciente[]=array('nome'=>$linha['nome']);
+                // $pacienteFuncionario[]=array('nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'sexo'=>$linha['sexo'],'data_nascimento'=>$linha['data_nascimento']);
                 // 'imagem'=>$linha['imagem']
                 // 'tipo_sanguineo'=>$linha['tipo_sanguineo']
                 // 'id_fichamedica'=>$linha['id_fichamedica']
 
-        }
+            }
         }catch (PDOExeption $e){
             echo 'Error: ' .  $e->getMessage();
         }
-        return json_encode($pacienteAtendido);
-        return json_encode($pacienteFuncionario);
+        return json_encode($paciente);
+        // return json_encode($pacienteFuncionario);
     }
     
 }
