@@ -73,7 +73,7 @@ session_start();
   $endereco->listarInstituicao();*/
    
    
-   $id=$_GET['id_fichamedica'];
+   $id=$_GET['id_fichamedica']; //NÃO TA RECEBENDO ja 
    $cache = new Cache();
    $teste = $cache->read($id);
    //$atendidos = $_SESSION['idatendido'];
@@ -81,12 +81,12 @@ session_start();
    // $atendido->listar($id);
    // var_dump($atendido);
   
-   $sessao_saude = $_SESSION['id_fichamedica'];
+  //  $sessao_saude = $_SESSION['id_fichamedica'];
    
-  //  if (!isset($teste)) {
+   if (!isset($teste)) {
    		
-  //  		header('Location: ../../controle/control.php?metodo=listarUm&nomeClasse=SaudeControle&nextPage=../html/saude/saude.php?id_fichamedica='.$id.'&id='.$id);
-  //     }
+   		header('Location: ../../controle/control.php?metodo=listarUm&nomeClasse=SaudeControle&nextPage=../html/saude/saude.php?id_fichamedica='.$id.'&id='.$id);
+      }
    
 ?>
 
