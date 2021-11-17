@@ -1580,6 +1580,7 @@ DELIMITER ;
 -- -----------------------------------------------------
 -- procedure insarquivo_ocorrencia
 -- -----------------------------------------------------
+DELIMITER $$
 USE `wegia`$$
 CREATE PROCEDURE `insarquivo_ocorrencia`(IN `atentido_ocorrencia_idatentido_ocorrencias` INT, IN `arquivo_nome`VARCHAR(200),  IN `arquivo_extensao` VARCHAR(200),  IN `arquivo` LONGBLOB)
 BEGIN
