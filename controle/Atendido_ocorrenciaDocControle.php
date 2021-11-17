@@ -95,9 +95,9 @@ class Atendido_ocorrenciaDocControle
 			$arquivo_zip = $AnexoControle->comprimir($arquivo);
 			
 			$anexo = new Atendido_ocorrenciaDoc();
-			$anexo->setIdatendido_ocorrencia_doc($lastId);
+			$anexo->setAtentido_ocorrencia_idatentido_ocorrencias($lastId);
     		$anexo->setAnexo($arquivo_zip);
-            $anexo->setAtentido_ocorrencia_idatentido_ocorrencias($atentido_ocorrencia_idatentido_ocorrencias);
+            // $anexo->setAtentido_ocorrencia_idatentido_ocorrencias($atentido_ocorrencia_idatentido_ocorrencias);
     		$anexo->setNome($nome);
     		$anexo->setExtensao($extensao);	
     		$anexoDAO = new Atendido_ocorrenciaDocDAO();

@@ -8,7 +8,7 @@ class Ocorrencia
 	private $id_tipos_ocorrencia;
 	private $descricao;
 	private $data;
-	private $nome;
+	// private $nome;
 
 	public function __construct($descricao)
 	{
@@ -20,10 +20,10 @@ class Ocorrencia
 		return $this->idatendido_ocorrencias;
 	}
 
-	public function getNome()
-	{
-		return $this->nome;
-	}
+	// public function getNome()
+	// {
+	// 	return $this->nome;
+	// }
 
 	public function getData()
 	{
@@ -60,10 +60,10 @@ class Ocorrencia
 		$this->atendido_idatendido = $atendido_idatendido;
 	}
 
-	public function setNome($nome)
-	{
-		$this->nome = $nome;
-	}
+	// public function setNome($nome)
+	// {
+	// 	$this->nome = $nome;
+	// }
 
 
 	public function setFuncionario_idfuncionario($funcionario_idfuncionario)

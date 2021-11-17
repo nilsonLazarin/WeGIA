@@ -67,15 +67,18 @@ class Atendido_ocorrenciaDocDAO
 	{
 		try
 		{
-			$sql = "INSERT INTO `atendido_ocorrencia_doc` (`idatendido_ocorrencia_doc`, `atentido_ocorrencia_idatentido_ocorrencias`, `data`, `arquivo_nome`, `arquivo_extensao`, `arquivo`) VALUES (default, :atentido_ocorrencia_idatentido_ocorrencias, current_timestamp(), :arquivo_nome, :arquivo_extensao, :arquivo";
-			// $sql = str_replace("'", "\'", $sql);
 			$pdo = Conexao::connect();
-			$id_ocorrencia = $anexo->getAtentido_ocorrencia_idatentido_ocorrencias();
+			$consulta = $pdo->query("SELECT max(idatendido_ocorrencias) from atendido_ocorrencia;")->fetch(PDO::FETCH_ASSOC);
+			
+			$sql = "call insarquivo_ocorrencia(:atentido_ocorrencia_idatentido_ocorrencias, :arquivo_nome, :arquivo_extensao, :arquivo)";
+			
+			$id = $consulta['max(idatendido_ocorrencias)'];
 			$arquivo = $anexo->getAnexo();
+			$data = '2003-11-11';
 			$extensao = $anexo->getExtensao();
 			$nome = $anexo->getNome();
 			$stmt = $pdo->prepare($sql);
-			$stmt->bindParam(':atentido_ocorrencia_idatentido_ocorrencias', $id_ocorrencia);
+			$stmt->bindParam(':atentido_ocorrencia_idatentido_ocorrencias', $id);
 			$stmt->bindParam(':arquivo', $arquivo);
 			$stmt->bindParam(':arquivo_extensao', $extensao);
 			$stmt->bindParam(':arquivo_nome', $nome);

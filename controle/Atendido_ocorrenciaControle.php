@@ -19,6 +19,8 @@ require_once ROOT."/dao/Conexao.php";
 require_once ROOT."/classes/Atendido_ocorrencia.php";
 require_once ROOT."/dao/Atendido_ocorrenciaDAO.php";
 require_once ROOT."/controle/Atendido_ocorrenciaControle.php";
+require_once ROOT."/classes/Atendido_ocorrenciaDoc.php";
+
 
 class Atendido_ocorrenciaControle
 {
@@ -65,7 +67,7 @@ class Atendido_ocorrenciaControle
 	public function incluir()
 	{
 		extract($_REQUEST);
-		$ocorrencia = $this->verificar();
+		$ocorrencia = $this->verificarDespacho();
 		$ocorrenciaDAO = new Atendido_ocorrenciaDAO();
 		try
 		{
@@ -128,25 +130,28 @@ class Atendido_ocorrenciaControle
 	return $ocorrencia;
 	}
 	//Verificar despachos
-	// public function verificarDespacho()
-	// {
-	// 	session_start();
-	// 	$cpf_usuario = $_SESSION["usuario"];
-	// 	extract($_REQUEST);
-	// 	if(!isset($descricao) || (empty($descricao)))
-	// 	{
-	// 		$msg = "Ocorrência não informada. Por favor informe um texto.";
-	// 	}
-	// 	$pessoa = new Atendido_ocorrenciaDAO();
-    // 	// $id_pessoa = $pessoa->obterUsuario($cpf_usuario);
-    // 	// $id_pessoa = $id_pessoa['0']['id_pessoa'];
-    // 	$ocorrencia = new Ocorrencia($descricao);
-    // 	$ocorrencia->setId_pessoa($id_pessoa);
-    // 	$ocorrencia->setData();
-    // 	$ocorrencia->setId_tipos_ocorrencia($id_tipos_ocorrencia);
-    // 	$ocorrencia->setIdatendido_ocorrencias($idatendido_ocorrencias);
-    // 	return $ocorrencia;
-	// }
+	public function verificarDespacho()
+	{
+		session_start();
+		$cpf_usuario = $_SESSION["usuario"];
+		extract($_REQUEST);
+		if(!isset($descricao) || (empty($descricao)))
+		{
+			$msg = "Ocorrência não informada. Por favor informe um texto.";
+		}
+		// $pessoa = new Atendido_ocorrenciaDoc();
+    	// $id_pessoa = $pessoa->obterUsuario($cpf_usuario);
+    	// $id_pessoa = $id_pessoa['0']['id_pessoa'];
+    	$ocorrencia = new Ocorrencia($descricao);
+		$ocorrencia->setAtendido_idatendido($atendido_idatendido);
+		$ocorrencia->setFuncionario_idfuncionario($id_funcionario); 
+		$ocorrencia->setId_tipos_ocorrencia($id_tipos_ocorrencia);  
+		$ocorrencia->setData($data); 
+		// $ocorrencia->setIdatendido_ocorrencias($idatendido_ocorrencias);
+		// $ocorrencia->setExtensao($extensao); 
+		// $ocorrencia->setNome($nome);  
+		return $ocorrencia;
+	}
 
 	public function incluirdoc($anexo, $lastId)
 	{

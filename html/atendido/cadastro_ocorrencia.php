@@ -430,7 +430,7 @@ $id_funcionario = $recupera_id_funcionario[0]['id_funcionario'];
                 </ul>
                 <div class="tab-content">
                 <div id="overview" class="tab-pane active">
-                    <form class="form-horizontal" method="GET" action="../../controle/control.php">
+                    <!-- <form class="form-horizontal" method="GET" action="../../controle/control.php"> -->
 
 
                 <section class="panel">  
@@ -443,7 +443,7 @@ $id_funcionario = $recupera_id_funcionario[0]['id_funcionario'];
                     <div class="panel-body">
 
                         
-							<form class="form-horizontal" method="GET" class='file-uploader' action="../../controle/control.php" id="form-cadastro" enctype="multipart/form-data">	
+							<form class="form-horizontal" method="post" action="../../controle/control.php" enctype="multipart/form-data">	
                             <h5 class="obrig">Campos Obrigatórios(*)</h5>
                             <br>
                             <div class="form-group">
@@ -538,7 +538,7 @@ $id_funcionario = $recupera_id_funcionario[0]['id_funcionario'];
                         </div>
                 </div>
                 </div>
-                </form>
+                <!-- </form> -->
                 </div> 
                 
             </div>
