@@ -1169,7 +1169,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`atendido_ocorrencia_doc` (
   `atentido_ocorrencia_idatentido_ocorrencias` INT NOT NULL,
   `data` TIMESTAMP NOT NULL,
   `arquivo_nome` VARCHAR(255) NOT NULL,
-  `arquivo_extensao` VARCHAR(10) NOT NULL,
+  `arquivo_extensao` VARCHAR(200) NOT NULL,
   `arquivo` LONGBLOB NOT NULL,
   PRIMARY KEY (`idatendido_ocorrencia_doc`),
   INDEX `fk_atendido_ocorrencia_doc_atentido_ocorrencia1_idx` (`atentido_ocorrencia_idatentido_ocorrencias` ASC),
@@ -1577,7 +1577,20 @@ BEGIN
 END$$
 
 DELIMITER ;
+-- -----------------------------------------------------
+-- procedure insarquivo_ocorrencia
+-- -----------------------------------------------------
+USE `wegia`$$
+CREATE PROCEDURE `insarquivo_ocorrencia`(IN `atentido_ocorrencia_idatentido_ocorrencias` INT, IN `arquivo_nome`VARCHAR(200),  IN `arquivo_extensao` VARCHAR(200),  IN `arquivo` LONGBLOB)
+BEGIN
+    declare idA int;
+        
+        INSERT INTO atendido_ocorrencia_doc( atentido_ocorrencia_idatentido_ocorrencias, arquivo_nome, arquivo_extensao, arquivo)
+        values (atentido_ocorrencia_idatentido_ocorrencias ,arquivo_nome, arquivo_extensao,arquivo);
+        
+END$$
 
+DELIMITER ;
 -- -----------------------------------------------------
 -- procedure insdespacho
 -- -----------------------------------------------------
