@@ -86,7 +86,7 @@
 							</li>
 
 							<li>
-							<a href="<?= WWW ?>controle/control.php?metodo=listarTodos&nomeClasse=AtendidoControle&nextPage=<?= WWW ?>html/atendido/listar_ocorrencias_ativas.php">
+							<a href="<?= WWW ?>controle/control.php?metodo=listarTodos&nomeClasse=Atendido_ocorrenciaControle&nextPage=<?= WWW ?>html/atendido/listar_ocorrencias_ativas.php">
 									 Ocorrências Ativas
 								</a>
 							</li>

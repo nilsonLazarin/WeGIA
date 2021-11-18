@@ -9,8 +9,11 @@
 		header ("Location: ../index.php");
 	}
 
-	if(!isset($_SESSION['atendidos']))	{
+	/*if(!isset($_SESSION['atendidos']))	{
 		header('Location: ../../controle/control.php?metodo=listarTodos&nomeClasse=AtendidoControle&nextPage=../html/atendido/Informacao_Atendido.php');
+	}*/
+	if(!isset($_SESSION['ocorrencia']))	{
+		header('Location: ../../controle/control.php?metodo=listarTodos&nomeClasse=Atendido_ocorrenciaControle&nextPage=../html/atendido/listar_ocorrencias_ativas.php');
 	}
 	$config_path = "config.php";
 	if(file_exists($config_path)){
@@ -51,6 +54,8 @@
 
 	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
 	require_once "../personalizacao_display.php";
+
+
 
 ?>
 
@@ -120,7 +125,7 @@
 	<!-- jquery functions -->
 	<script>
 		function clicar(id) {
-			window.location.href = "Profile_Atendido.php?idatendido="+id;
+			window.location.href = "listar_ocorrencias.php?idatendido="+id;
 		}
 		$(function() {
 
@@ -142,8 +147,9 @@
 				}
 			});*/
 
-			var atendidos = <?php echo $_SESSION['atendidos'];?> ;
-			<?php unset($_SESSION['atendidos']); ?>;
+			var atendidos = <?php echo $_SESSION['ocorrencia'];?> ;
+			<?php unset($_SESSION['ocorrencia']); ?>;
+			console.log(atendidos);
 			$.each(atendidos, function(i, item) {
 				$("#tabela")
 				.append($("<tr>")
@@ -151,15 +157,18 @@
 					.attr("class", "teste")
 					.append($("<td>")
 						.text(item.nome+' '+item.sobrenome))
+					//.append($("<td id=tipo"+item.id+">")
+						//.text(item.atendido_ocorrencia_tipos_idatendido_ocorrencia_tipos))
 					.append($("<td id=cpf"+item.id+">")
-						.text(item.cpf))
+						.text(item.data))
 					.append($("<td />")
 						.attr('onclick','clicar("'+item.id+'")')
-					.html('<i class="glyphicon glyphicon-pencil"></i>')));
-			if(item.cpf.indexOf("ni")!=-1)
-            {
-            	$("#cpf"+item.id).text("Não informado");
-            }
+					.html('<i class="glyphicon glyphicon-pencil"></i>'))
+					);
+			//if(item.cpf.indexOf("ni")!=-1)
+            //{
+            //	$("#cpf"+item.id).text("Não informado");
+            //}
 			});
 
 		});
@@ -213,8 +222,8 @@
 							<thead>
 								<tr>
 									<th>Nome</th>
-									<th>Cpf</th>
-									<th>Ação</th>
+									<th>Data</th>
+									<th>Informações</th>
 								</tr>
 							</thead>
 							<tbody id="tabela">

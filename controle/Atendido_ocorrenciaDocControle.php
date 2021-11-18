@@ -16,18 +16,18 @@ require_once ROOT."/dao/Atendido_ocorrenciaDocDAO.php";
 
 class Atendido_ocorrenciaDocControle
 {
-	// public function listarTodos($id_memorando)
-	// {
-	// 	$id_despacho=0;
-	// 	extract($_REQUEST);
-	// 	$AnexoDAO = new AnexoDAO();
-	// 	$anexos = $AnexoDAO->listarTodos($id_memorando);
-	// 	if (session_status() !== PHP_SESSION_ACTIVE)
- 	// 	{
-    // 		session_start();
-	// 	}
-	// 	$_SESSION['arquivos'] = $anexos;
-	// }
+	 public function listarTodos($idatendido_ocorrencia_doc)
+	 {
+	 	$id_despacho=0;
+	 	extract($_REQUEST);
+	 	$atendido_ocorrenciaDocDAO = new Atendido_ocorrenciaDocDAO();
+	 	$anexos = $AnexoDAO->listarTodos($idatendido_ocorrencia_doc);
+	 	if (session_status() !== PHP_SESSION_ACTIVE)
+ 	 	{
+     		session_start();
+	 	}
+	 	$_SESSION['arquivos'] = $anexos;
+	 }
 
 	// public function listarAnexo($id_anexo)
 	// {
@@ -95,7 +95,7 @@ class Atendido_ocorrenciaDocControle
 			$arquivo_zip = $AnexoControle->comprimir($arquivo);
 			
 			$anexo = new Atendido_ocorrenciaDoc();
-			$anexo->setAtentido_ocorrencia_idatentido_ocorrencias($lastId);
+			$anexo->setAtentido_ocorrencia_idatentido_ocorrencia($lastId);
     		$anexo->setAnexo($arquivo_zip);
             // $anexo->setAtentido_ocorrencia_idatentido_ocorrencias($atentido_ocorrencia_idatentido_ocorrencias);
     		$anexo->setNome($nome);

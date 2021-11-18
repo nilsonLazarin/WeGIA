@@ -34,12 +34,12 @@ class Atendido_ocorrenciaDAO
         try{
             $ocorrencias=array();
             $pdo = Conexao::connect();
-            $consulta = $pdo->query("SELECT p.nome,ao.descricao,p.sobrenome FROM pessoa p INNER JOIN atendido_ocorrencia ao ON ao.atendido_idatendido = p.id_pessoa");
+            $consulta = $pdo->query("SELECT p.nome, p.sobrenome, ao.data, ao.atendido_ocorrencia_tipos_idatendido_ocorrencia_tipos FROM pessoa p INNER JOIN atendido a ON(p.id_pessoa=a.pessoa_id_pessoa) INNER JOIN atendido_ocorrencia ao ON (a.idatendido=ao.atendido_idatendido)");
             // $produtos = Array();
             $x=0;
             while($linha = $consulta->fetch(PDO::FETCH_ASSOC)){
             
-                $ocorrencias[$x]=array('nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'descricao'=>$linha['descricao']);
+                $ocorrencias[$x]=array('nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'atendido_ocorrencia_tipos_idatendido_ocorrencia_tipos'=>$linha['atendido_ocorrencia_tipos_idatendido_ocorrencia_tipos'], 'data'=>$linha['data']);
                 $x++;
             }
             //$pdo->commit();
