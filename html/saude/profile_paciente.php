@@ -252,9 +252,15 @@ session_start();
          				$("#sexo").html("Sexo: <i class='fa fa-female'>  Feminino");
          				$("#radioF").prop('checked',true);
          			}
-         			$("#sangueSelect").text(item.tipo_sanguineo);
-         			$("#sangueSelect").val(item.tipo_sanguineo);
+
+              // ver o audio do nilson, se o paciente tiver sangue, n exibe o editar, se n, o medico coloca e salva sem capacidade para mudança ne, pq o sangue não muda//
+              //if(item.tipo_sanguineo != ""){
+                
+              //}
          			
+              $("#sangueSelect").text(item.tipo_sanguineo);
+         			$("#sangueSelect").val(item.tipo_sanguineo);
+
          			$("#nascimento").text("Data de nascimento: "+item.data_nascimento);
          			$("#nascimento").val(item.data_nascimento);
          
@@ -406,7 +412,7 @@ session_start();
                         </div>
                       </div>
                       
-                      <div class="form-group">
+                      <div class="form-group" id="sanguineonormal" disabled="true">
                         <label class="col-md-3 control-label" for="inputSuccess">Tipo sanguíneo</label>
                         <div class="col-md-6">
                           <select class="form-control input-lg mb-md" name="sangue" id="sangue" disabled>
@@ -422,6 +428,22 @@ session_start();
                           </select>
                         </div>
                       </div>
+                      <!--<div class="form-group" id="sanguineonull" disabled="true">
+                        <label class="col-md-3 control-label" for="inputSuccess">Tipo sanguíneo NULL</label>
+                        <div class="col-md-6">
+                          <select class="form-control input-lg mb-md" name="sangue" id="sangue" disabled>
+                            <option selected id="sangueSelect">Não informado</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                          </select>
+                        </div>
+                      </div>-->
                       <!--<input type="hidden" name="id_fichamedica" value=<?php echo $_GET['id_fichamedica'] ?>>
                       <button type="button" class="btn btn-primary" id="botaoEditarIP" onclick="return editar_informacoes_pessoais()">Editar</button>-->
                       <!--<input type="submit" class="btn btn-primary" value="Salvar" id="botaoSalvarIP">-->
