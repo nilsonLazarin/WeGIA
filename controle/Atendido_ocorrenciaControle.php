@@ -20,6 +20,7 @@ require_once ROOT."/classes/Atendido_ocorrencia.php";
 require_once ROOT."/dao/Atendido_ocorrenciaDAO.php";
 require_once ROOT."/controle/Atendido_ocorrenciaControle.php";
 require_once ROOT."/classes/Atendido_ocorrenciaDoc.php";
+require_once ROOT."/classes/Cache.php";
 
 
 class Atendido_ocorrenciaControle
@@ -218,5 +219,26 @@ class Atendido_ocorrenciaControle
 			}
 		}
 	}
+	public function listarUm()
+    {
+        extract($_REQUEST);
+        $cache = new Cache();
+        $inf = $cache->read($id);
+        if (!$inf) {
+            try {
+                $atendido_ocorrenciaDAO=new Atendido_ocorrenciaDAO();
+                $inf=$atendido_ocorrenciaDAO->listar($id);
+                session_start();
+                $_SESSION['atendido_ocorrencia']=$inf;
+                $cache->save($id, $inf, '15 seconds');
+                header('Location:'.$nextPage);
+            } catch (PDOException $e) {
+                echo $e->getMessage();
+            }
+        }
+        else{
+            header('Location:'.$nextPage);
+        }
+    }
 }
 ?>

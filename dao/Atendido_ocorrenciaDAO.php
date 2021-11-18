@@ -34,12 +34,12 @@ class Atendido_ocorrenciaDAO
         try{
             $ocorrencias=array();
             $pdo = Conexao::connect();
-            $consulta = $pdo->query("SELECT p.nome, p.sobrenome, ao.data, ao.atendido_ocorrencia_tipos_idatendido_ocorrencia_tipos FROM pessoa p INNER JOIN atendido a ON(p.id_pessoa=a.pessoa_id_pessoa) INNER JOIN atendido_ocorrencia ao ON (a.idatendido=ao.atendido_idatendido)");
+            $consulta = $pdo->query("SELECT ao.idatendido_ocorrencias, p.nome, p.sobrenome, ao.data, ao.atendido_ocorrencia_tipos_idatendido_ocorrencia_tipos FROM pessoa p INNER JOIN atendido a ON(p.id_pessoa=a.pessoa_id_pessoa) INNER JOIN atendido_ocorrencia ao ON (a.idatendido=ao.atendido_idatendido)");
             // $produtos = Array();
             $x=0;
             while($linha = $consulta->fetch(PDO::FETCH_ASSOC)){
             
-                $ocorrencias[$x]=array('nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'atendido_ocorrencia_tipos_idatendido_ocorrencia_tipos'=>$linha['atendido_ocorrencia_tipos_idatendido_ocorrencia_tipos'], 'data'=>$linha['data']);
+                $ocorrencias[$x]=array('idatendido_ocorrencias'=>$linha['idatendido_ocorrencias'],'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'atendido_ocorrencia_tipos_idatendido_ocorrencia_tipos'=>$linha['atendido_ocorrencia_tipos_idatendido_ocorrencia_tipos'], 'data'=>$linha['data']);
                 $x++;
             }
             //$pdo->commit();
@@ -105,6 +105,24 @@ class Atendido_ocorrenciaDAO
             echo 'Error: <b>  na tabela pessoas = ' . $sql . '</b> <br /><br />' . $e->getMessage();
         }
         
+    }
+    public function listar($id){
+        try{
+            echo $id;
+            $pdo = Conexao::connect();
+            $sql = "SELECT atendido_idatendido, atendido_ocorrencia_tipos_idatendido_ocorrencia_tipos, funcionario_id_funcionario, data, descricao FROM atendido_ocorrencia WHERE idatendido_ocorrencias= :id";
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindParam(':id',$id);
+            $stmt->execute();
+            $paciente=array();
+            while ($linha = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+                $paciente[]=array('atendido_idatendido'=>$linha['atendido_idatendido'],'atendido_ocorrencia_tipos_idatendido_ocorrencia_tipos'=>$linha['atendido_ocorrencia_tipos_idatendido_ocorrencia_tipos'],'funcionario_id_funcionario'=>$linha['funcionario_id_funcionario'],'data'=>$linha['data'], 'descricao'=>$linha['descricao']);
+            }
+        }catch (PDOExeption $e){
+            echo 'Error: ' .  $e->getMessage();
+        }
+        return json_encode($paciente);
     }
 
 }

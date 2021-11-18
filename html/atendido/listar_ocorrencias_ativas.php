@@ -125,7 +125,7 @@
 	<!-- jquery functions -->
 	<script>
 		function clicar(id) {
-			window.location.href = "listar_ocorrencias.php?idatendido="+id;
+			window.location.href = "listar_ocorrencias.php?id="+id;
 		}
 		$(function() {
 
@@ -153,16 +153,16 @@
 			$.each(atendidos, function(i, item) {
 				$("#tabela")
 				.append($("<tr>")
-					.attr("onclick", "clicar('" + item.id + "')")
+					.attr("onclick", "clicar('" + item.idatendido_ocorrencias + "')")
 					.attr("class", "teste")
 					.append($("<td>")
 						.text(item.nome+' '+item.sobrenome))
 					//.append($("<td id=tipo"+item.id+">")
 						//.text(item.atendido_ocorrencia_tipos_idatendido_ocorrencia_tipos))
-					.append($("<td id=cpf"+item.id+">")
+					.append($("<td id=cpf"+item.idatendido_ocorrencias+">")
 						.text(item.data))
 					.append($("<td />")
-						.attr('onclick','clicar("'+item.id+'")')
+						.attr('onclick','clicar("'+item.idatendido_ocorrencias+'")')
 					.html('<i class="glyphicon glyphicon-pencil"></i>'))
 					);
 			//if(item.cpf.indexOf("ni")!=-1)
@@ -190,13 +190,13 @@
 			<!-- end: sidebar -->
 			<section role="main" class="content-body">
 				<header class="page-header">
-					<h2>Informações</h2>
+					<h2>Ocorrências ativas</h2>
 
 					<div class="right-wrapper pull-right">
 						<ol class="breadcrumbs">
 							<li><a href="../index.php"> <i class="fa fa-home"></i>
 							</a></li>
-							<li><span>Informações Atendidos</span></li>
+							<li><span>Ocorrências ativas</span></li>
 						</ol>
 
 						<a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
