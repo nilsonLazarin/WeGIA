@@ -219,7 +219,7 @@
 								<h4>Cadastro ficha médica</h4>
 							</div>
 						</a>	
-						<a href="../html/saude/profile_paciente.php">
+						<a href="../html/saude/saude.php">
 							<div class="col-lg-2 col-md-8 i" >
 								<i  class="far fa-address-card"></i>
 								<h4>Informações paciente</h4>

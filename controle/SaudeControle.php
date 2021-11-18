@@ -23,7 +23,16 @@ include_once ROOT."/dao/Conexao.php";
 class SaudeControle 
 
 
-{
+{   
+    // public function formatoDataYMD($data)
+    // {
+    //     $data_arr = explode("/", $data);
+        
+    //     $datac = $data_arr[2] . '-' . $data_arr[1] . '-' . $data_arr[0];
+        
+    //     return $datac;
+    // }
+
     public function verificar(){
             extract($_REQUEST);
             // se não estiver definida ou vazia//
@@ -152,6 +161,20 @@ class SaudeControle
         else{
             header('Location:'.$nextPage);
         }
+    }
+
+    public function alterarImagem()
+    {
+        extract($_REQUEST);
+        $img = file_get_contents($_FILES['imgperfil']['tmp_name']);
+        $SaudeDAO = new SaudeDAO();
+        try {
+            $SaudeDAO->alterarImagem($id_fichamedica, $img);
+            header("Location: ../html/saude/profile_paciente.php?id_fichamedica=".$id_fichamedica);
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+        
     }
 
     public function incluir(){

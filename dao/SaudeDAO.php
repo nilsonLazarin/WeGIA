@@ -37,25 +37,41 @@ class SaudeDAO
         }
         
     }
-    // public function incluirFunc($saudeFunc)
-    // {
-    //     try {
-    //         $sql = "call saude_cad_fichamedica(:nome,:descricao)";
-    //         //$sql = str_replace("'", "\'", $sql); 
-    //         $pdo = Conexao::connect();
-    //         $stmt = $pdo->prepare($sql);
-    //         $nomePacienteFunc=$saudeFunc->getNomePacienteFunc();
-    //         $descricao=$saudeFunc->getTexto();
-    //         $stmt->bindParam(':nome',$nomePacienteFunc);
-    //         $stmt->bindParam(':descricao',$descricao);
-    //         $stmt->execute();
-    //         $pdo->commit();
-    //         $pdo->close();
+    public function alterar($saude)
+    {
+        try {
+            $sql = 'update pessoa as p inner join saude_fichamedica as sf on p.id_pessoa=sf.id_pessoa set p.imagem=:imagem where sf.id_pessoa=:id_pessoa';
             
-    //     } catch (PDOException $e) {
-    //         echo 'Error: <b>  na tabela pessoas = ' . $sql . '</b> <br /><br />' . $e->getMessage();
-    //     }
-    // }
+            $sql = str_replace("'", "\'", $sql);
+            $pdo = Conexao::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            
+            // $nome=$atendido->getNome();
+            // $sobrenome=$atendido->getSobrenome();
+            // $cpf=$atendido->getCpf();
+            // $sexo=$atendido->getSexo();
+            // $telefone=$atendido->getTelefone();
+            // $nascimento=$atendido->getDataNascimento();
+
+            // $stmt->bindParam('nome',$nome);
+            // $stmt->bindParam('sobrenome',$sobrenome);
+            // $stmt->bindParam(':cpf',$cpf);
+            // $stmt->bindParam(':sexo',$sexo);
+            // $stmt->bindParam(':telefone',$telefone);
+            // $stmt->bindParam(':data_nascimento',$nascimento);
+            $stmt->execute();
+            $pdo->commit();
+            $pdo->close();
+
+            // mysqli_stmt_close($stmt);
+            // mysqli_close($pdo);
+            
+        } catch (PDOException $e) {
+            echo 'Error: <b>  na tabela pessoas = ' . $sql . '</b> <br /><br />' . $e->getMessage();
+        }
+    }
+   
+
     public function listarTodos(){
 
         try{
@@ -83,7 +99,9 @@ class SaudeDAO
             $pdo = Conexao::connect();
             /*$sql = "SELECT p.imagem,p.nome,p.sobrenome,p.cpf, p.senha, p.sexo, p.telefone,p.data_nascimento, p.cep,p.estado,p.cidade,p.bairro,p.logradouro,p.numero_endereco,p.complemento,p.ibge,p.registro_geral,p.orgao_emissor,p.data_expedicao,p.nome_pai,p.nome_mae,p.tipo_sanguineo, d.id_documento FROM pessoa p LEFT JOIN atendido a ON p.id_pessoa = a.pessoa_id_pessoa left join documento d on p.id_pessoa=d.id_pessoa WHERE a.idatendido=:id";*////
 
-            $sql = "SELECT p.nome,p.sobrenome,p.sexo,p.data_nascimento FROM pessoa p JOIN atendido a ON p.id_pessoa = a.pessoa_id_pessoa JOIN saude_fichamedica sf ON a.pessoa_id_pessoa = sf.id_pessoa WHERE sf.id_fichamedica=:id";
+            $sql = "SELECT p.nome,p.sobrenome,p.sexo,p.data_nascimento,p.tipo_sanguineo FROM pessoa p 
+            JOIN saude_fichamedica sf ON p.id_pessoa = sf.id_pessoa 
+            WHERE sf.id_fichamedica=:id";
             // $sql = "SELECT nome from pessoa where id ='1'";
 
             // $sql = "SELECT p.nome, p.sobrenome, p.sexo, p.data_nascimento FROM pessoa p JOIN funcionario f ON p.id_pessoa=f.id_pessoa JOIN saude_fichamedica sf ON f.id_pessoa = sf.id_pessoa WHERE sf.id_fichamedica=:id";
@@ -97,7 +115,7 @@ class SaudeDAO
             // $pacienteFuncionario=array();
             while ($linha = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
-                $paciente[]=array('nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'sexo'=>$linha['sexo'],'data_nascimento'=>$linha['data_nascimento']);
+                $paciente[]=array('nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'sexo'=>$linha['sexo'],'data_nascimento'=>$linha['data_nascimento'], 'tipo_sanguineo'=>$linha['tipo_sanguineo']);
                 // $paciente[]=array('nome'=>$linha['nome']);
                 // $pacienteFuncionario[]=array('nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'sexo'=>$linha['sexo'],'data_nascimento'=>$linha['data_nascimento']);
                 // 'imagem'=>$linha['imagem']
