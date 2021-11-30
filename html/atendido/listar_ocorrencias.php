@@ -60,6 +60,17 @@ session_start();
 	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
   require_once "../personalizacao_display.php";
   require_once "../../controle/Atendido_ocorrenciaControle.php";
+  $pdo = Conexao::connect();
+  $nome = $pdo->query("SELECT a.idatendido, p.nome, p.sobrenome FROM pessoa p JOIN atendido a ON(p.id_pessoa=a.pessoa_id_pessoa)")->fetchAll(PDO::FETCH_ASSOC);
+//   $tipo = $pdo->query("SELECT * FROM atendido_ocorrencia_tipos.descricao WHERE ")->fetchAll(PDO::FETCH_ASSOC);
+
+    // $sessao_ocorrencia = $_SESSION['atendido_ocorrencia'];
+    // var_dump($sessao_ocorrencia);
+    // $id_atendido = $sessao_ocorrencia.atendido_idatendido;
+    // // echo $sessao_ocorrencia['atendido_idatendido'];
+    // echo $id_atendido;
+
+
   
   /*require_once ROOT."/controle/FuncionarioControle.php";
   $cpf1 = new FuncionarioControle;
@@ -224,6 +235,9 @@ session_start();
                $('input[name="id_documento"]').val(id);
                $("#editimg").modal('show');
             }
+
+
+            
         
          $(function(){
           // pega no SaudeControle, listarUm
@@ -233,31 +247,25 @@ session_start();
          	  $.each(interno,function(i,item){
          		if(i=1)
          		{
-              $("#formulario").append($("<input type='hidden' name='id_fichamedica' value='"+item.id+"'>"));
+                    $("#formulario").append($("<input type='hidden' name='id_fichamedica' value='"+item.id+"'>"));
          			//var cpf=item.cpf;
-         			$("#nome").text("Nome: "+item.nome+' '+item.sobrenome);
-         			$("#nome").val(item.nome);
-              $("#sobrenome").val(item.sobrenome);
-         			if(item.imagem!=""){
-                     $("#imagem").attr("src","data:image/gif;base64,"+item.imagem);
-                  }else{
-                     $("#imagem").attr("src","../../img/semfoto.png");
-                  }
-         			if(item.sexo=="m")
-         			{
-         				$("#sexo").html("Sexo: <i class='fa fa-male'></i>  Masculino");
-         				$("#radioM").prop('checked',true);
-         			}
-         			else if(item.sexo=="f")
-         			{
-         				$("#sexo").html("Sexo: <i class='fa fa-female'>  Feminino");
-         				$("#radioF").prop('checked',true);
-         			}
-         			$("#sangueSelect").text(item.tipo_sanguineo);
-         			$("#sangueSelect").val(item.tipo_sanguineo);
+         			// $("#nome").text("Nome: "+item.nome_atendido+' '+item.sobrenome_atendido);
+         			$("#nome").val(item.nome_atendido + " " +item.sobrenome_atendido);
+                    // $("#sobrenome").val(item.sobrenome_atendido);
          			
-         			$("#nascimento").text("Data de nascimento: "+item.data_nascimento);
-         			$("#nascimento").val(item.data_nascimento);
+         			// $("#tipo").text(item.ocorrencia_tipos_idatendido_ocorrencia_tipos);
+         			$("#tipo").val(item.descricao);
+         			
+         			// $("#data").text("Data: "+item.data);
+         			$("#data").val(item.data);
+
+                    // $("#descricao").text("Descricao: "+item.descricao);
+         			$("#descricao").val(item.atendido_ocorrencia_tipos_idatendido_ocorrencia_tipos);
+
+                    // $("#autor").text("Data: "+item.funcionario_id_funcionario);
+         			$("#autor").val(item.funcionario_id_funcionario);
+                     
+                     
          
                if(item.imgdoc==null)
                {
@@ -326,21 +334,34 @@ session_start();
                                             <div class="form-group">
 											<label class="col-md-2 control-label" for="profileFirstName">Nome</label>
 											<div class="col-md-8">
-												<input type="text" class="form-control" disabled name="nome" id="nome" id="profileFirstName" onkeypress="return Onlychars(event)"required>
-											</div>
+												<input type="text" class="form-control" disabled name="nome" id="nome" id="profileFirstName" onkeypress="return Onlychars(event)" value="<?php echo $nome['nome'] ?>" required>
+                                                <?php
+                                                foreach($nome as $key => $value)
+                                                {
+                                                    // echo "" . "" . $nome[$key]['nome'] . " " . $nome[$key]['sobrenome'];
+                                                    // echo "<input type='text' class='form-control' disabled name='nome' id='nome' id='profileFirstName' onkeypress='return Onlychars(event)' value='$nome['nome']' required>"
+                                                }
+                                    ?>
+                                    </div>
 										</div>
                                 
                     <div class="form-group">
 											<label class="col-md-2 control-label" for="profileFirstName">Tipo da ocorrência</label>
 											<div class="col-md-8">
 												<input type="text" class="form-control" disabled name="nome" id="tipo" id="tipo" onkeypress="return Onlychars(event)"required>
-											</div>
+                                                <!-- <?php
+                                                foreach($tipo as $key => $value)
+                                                {
+                                                    echo "" . "" . $tipo[$key]['descricao'];
+                                                }
+                                                ?> -->
+                                    </div>
 										</div>
 
                     <div class="form-group">
 											<label class="col-md-2 control-label" for="profileFirstName">Autor da ocorrência</label>
 											<div class="col-md-8">
-												<input type="text" class="form-control" disabled name="nome" id="funcionario" id="funcionario" onkeypress="return Onlychars(event)"required>
+												<input type="text" class="form-control" disabled name="autor" id="autor" id="autor" onkeypress="return Onlychars(event)"required>
 											</div>
 										</div>
                     <div class="form-group">
@@ -352,7 +373,7 @@ session_start();
                     <div class="form-group">
 											<label class="col-md-2 control-label" for="profileFirstName">Descrição</label>
 											<div class="col-md-8">
-												<input type="text" class="form-control" disabled name="descricao" id="descricao" id="profileFirstName" onkeypress="return Onlychars(event)"required>
+												<textarea type="text" class="form-control" disabled name="descricao" id="descricao" id="profileFirstName" onkeypress="return Onlychars(event)"required>
 											</div>
 										</div>
                                             <br>

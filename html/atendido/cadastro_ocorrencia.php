@@ -438,7 +438,7 @@ $id_funcionario = $recupera_id_funcionario[0]['id_funcionario'];
                 <div class="panel-actions">
                     <a href="#" class="fa fa-caret-down"></a>
                 </div>
-                <h2 class="panel-title">Informações Pessoais</h2>
+                <h2 class="panel-title">Informações </h2>
                   </header>
                     <div class="panel-body">
 
