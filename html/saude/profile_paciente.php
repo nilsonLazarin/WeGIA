@@ -212,6 +212,25 @@ session_start();
       <script src="../../Functions/mascara.js"></script>
       
       <script>
+        function editar_informacoes_pessoais(){
+          $("#sangue").prop('disabled', false);
+          $("#botaoSalvarIP").prop('disabled', false);
+
+          $("#botaoEditarIP").html('Cancelar');
+          $("#botaoSalvarIP").prop('disabled', false);
+          $("#botaoEditarIP").removeAttr('onclick');
+          $("#botaoEditarIP").attr('onclick', "return cancelar_informacoes_pessoais()");
+
+        }
+        function cancelar_informacoes_pessoais()
+        {
+          $("#sangue").prop('disabled', true);
+          
+          $("#botaoEditarIP").html('Editar');
+          $("#botaoSalvarIP").prop('disabled', true);
+          $("#botaoEditarIP").removeAttr('onclick');
+          $("#botaoEditarIP").attr('onclick', "return editar_informacoes_pessoais()");
+        }
         function excluirimg(id)
             {
                $("#excluirimg").modal('show');
@@ -258,8 +277,9 @@ session_start();
                 
               //}
          			
-              $("#sangueSelect").text(item.tipo_sanguineo);
-         			$("#sangueSelect").val(item.tipo_sanguineo);
+              // $("#sangueSelect").text(item.tipo_sanguineo);
+         			// $("#sangueSelect").val(item.tipo_sanguineo);
+              $("#sangue").val(item.tipo_sanguineo).prop('disabled', true);
 
          			$("#nascimento").text("Data de nascimento: "+item.data_nascimento);
          			$("#nascimento").val(item.data_nascimento);
@@ -377,7 +397,7 @@ session_start();
                 <div id="overview" class="tab-pane active">
                   <form class="form-horizontal" method="post" action="../../controle/control.php">
                     <input type="hidden" name="nomeClasse" value="SaudeControle">
-                    <input type="hidden" name="metodo" value="alterarInfPessoal">
+                    <!-- <input type="hidden" name="metodo" value="alterarInfPessoal"> -->
 
                  
                     <section class="panel">
@@ -412,7 +432,8 @@ session_start();
                         </div>
                       </div>
                       
-                      <div class="form-group" id="sanguineonormal" disabled="true">
+                      <div class="form-group" id="sanguineonormal">
+                      <input type="hidden" name="metodo" value="alterarInfPessoal">
                         <label class="col-md-3 control-label" for="inputSuccess">Tipo sanguíneo</label>
                         <div class="col-md-6">
                           <select class="form-control input-lg mb-md" name="sangue" id="sangue" disabled>
@@ -444,12 +465,14 @@ session_start();
                           </select>
                         </div>
                       </div>-->
-                      <!--<input type="hidden" name="id_fichamedica" value=<?php echo $_GET['id_fichamedica'] ?>>
-                      <button type="button" class="btn btn-primary" id="botaoEditarIP" onclick="return editar_informacoes_pessoais()">Editar</button>-->
-                      <!--<input type="submit" class="btn btn-primary" value="Salvar" id="botaoSalvarIP">-->
+                      <input type="hidden" name="id_fichamedica" value=<?php echo $_GET['id_fichamedica'] ?>>
+                      <button type="button" class="btn btn-primary" id="botaoEditarIP" onclick="return editar_informacoes_pessoais()">Editar</button>
+                      <input type="submit" class="btn btn-primary" disabled="true" value="Salvar" id="botaoSalvarIP">
                       </section>
                    </div>
                   </form>
+
+                  
 <!-- Aba  de  comorbidades -->
 
    <div id="cadastro_comorbidades" class="tab-pane">

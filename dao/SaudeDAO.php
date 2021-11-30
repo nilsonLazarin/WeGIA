@@ -20,6 +20,7 @@ class SaudeDAO
     {               
         try {
             $sql = "call saude_cad_fichamedica(:nome,:descricao)";
+            // ou codpessoa e resumomedico//
             //$sql = str_replace("'", "\'", $sql); 
             $pdo = Conexao::connect();
             $stmt = $pdo->prepare($sql);
@@ -128,6 +129,40 @@ class SaudeDAO
         }
         return json_encode($paciente);
         // return json_encode($pacienteFuncionario);
+    }
+
+    public function alterarInfPessoal($paciente)
+    {
+        try {
+            $sql = 'update pessoa as p inner join saude_fichamedica as s on p.id_pessoa=s.id_pessoa set tipo_sanguineo=:tipo_sanguineo where id_fichamedica=:id_fichamedica';
+            
+            $sql = str_replace("'", "\'", $sql);
+            $pdo = Conexao::connect();
+            $stmt = $pdo->prepare($sql);
+            
+            $stmt = $pdo->prepare($sql);
+            // $nome=$paciente->getNome();
+            // $sobrenome=$funcionario->getSobrenome();
+            // $id_funcionario=$funcionario->getId_funcionario();
+            // $sexo=$funcionario->getSexo();
+            // $telefone=$funcionario->getTelefone();
+            // $nascimento=$funcionario->getDataNascimento();
+            // $nomePai=$funcionario->getNomePai();        
+            // $nomeMae=$funcionario->getNomeMae();
+            $sangue=$paciente->getTipoSanguineo();
+            // $stmt->bindParam(':nome',$nome);
+            // $stmt->bindParam(':sobrenome',$sobrenome);
+            // $stmt->bindParam(':id_funcionario',$id_funcionario);
+            // $stmt->bindParam(':sexo',$sexo);
+            // $stmt->bindParam(':telefone',$telefone);
+            // $stmt->bindParam(':data_nascimento',$nascimento);
+            // $stmt->bindParam(':nome_pai',$nomePai);        
+            // $stmt->bindParam(':nome_mae',$nomeMae);
+            $stmt->bindParam(':tipo_sanguineo',$sangue);
+            $stmt->execute();
+        } catch (PDOException $e) {
+            echo 'Error: <b>  na tabela pessoas = ' . $sql . '</b> <br /><br />' . $e->getMessage();
+        }
     }
     
 }

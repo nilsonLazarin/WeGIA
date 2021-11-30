@@ -36,10 +36,10 @@ class SaudeControle
     public function verificar(){
             extract($_REQUEST);
             // se não estiver definida ou vazia//
-            if((!isset($nome)) || (empty($nome))){
-                $msg .= "Nome do atendido/funcionario não informado. Por favor, informe o nome!";
-                header('Location: ../html/saude/cadastro_ficha_medica.php?msg='.$msg);
-            }
+            // if((!isset($nome)) || (empty($nome))){
+            //     $msg .= "Nome do atendido/funcionario não informado. Por favor, informe o nome!";
+            //     header('Location: ../html/saude/cadastro_ficha_medica.php?msg='.$msg);
+            // }
             // if((!isset($nomePacienteFunc)) || (empty($nomePacienteFunc))){
             //     $msg .= "Nome do funcionário não informado. Por favor, informe o nome!";
             //     header('Location: ../html/saude/cadastro_ficha_medica.php?msg='.$msg);
@@ -85,9 +85,9 @@ class SaudeControle
             if((!isset($cep)) || empty(($cep))){
                 $cep = '';
             }
-            if((!isset($uf)) || empty(($uf))){
-                $uf = '';
-            }
+            // if((!isset($uf)) || empty(($uf))){
+            //     $uf = '';
+            // }
             if((!isset($cidade)) || empty(($cidade))){
                 $cidade = '';
             }
@@ -100,12 +100,12 @@ class SaudeControle
             if((!isset($bairro)) || empty(($bairro))){
                 $bairro = '';
             }
-            if((!isset($rua)) || empty(($rua))){
-                $rua = '';
-            }
-            if((!isset($numero_residencia)) || empty(($numero_residencia))){
-                $numero_residencia = "";
-            }
+            // if((!isset($rua)) || empty(($rua))){
+            //     $rua = '';
+            // }
+            // if((!isset($numero_residencia)) || empty(($numero_residencia))){
+            //     $numero_residencia = "";
+            // }
             if((!isset($complemento)) || (empty($complemento))){
                 $complemento='';
             }
@@ -126,7 +126,8 @@ class SaudeControle
             }
         $senha='null';
         $saude = new Saude($cpf,$nome,$sobrenome,$sexo,$dataNascimento,$registroGeral,$orgaoEmissor,$dataExpedicao,$nomeMae,$nomePai,$tipoSanguineo,$senha,$telefone,$imagem,$cep,$estado,$cidade,$bairro,$logradouro,$numeroEndereco,$complemento,$ibge);
-        $saude->setNome($nome);
+        
+        // $saude->setNome($nome);
         $saude->setTexto($texto);  
         return $saude;
     }
@@ -193,5 +194,20 @@ class SaudeControle
             $msg= "Não foi possível registrar o paciente <form> <input type='button' value='Voltar' onClick='history.go(-1)'> </form>"."<br>".$e->getMessage();
             echo $msg;
         }
+    }
+    public function alterarInfPessoal()
+    {
+        extract($_REQUEST);
+        $paciente = new Saude($sangue);
+        $paciente->setId_pessoa($id_fichamedica);
+        //echo $funcionario->getId_Funcionario();
+        $SaudeDAO=new SaudeDAO();
+        try {
+            $SaudeDAO->alterarInfPessoal($paciente);
+            header("Location: ../html/saude/profile_paciente.php?id_fichamedica=".$id_fichamedica);
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+        
     }
 }
