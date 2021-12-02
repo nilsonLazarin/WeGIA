@@ -213,9 +213,7 @@ session_start();
       
       <script>
         function editar_informacoes_pessoais(){
-          $("#sangue").prop('disabled', false);
-          $("#botaoSalvarIP").prop('disabled', false);
-
+          $("#tipoSanguineo").prop('disabled', false);
           $("#botaoEditarIP").html('Cancelar');
           $("#botaoSalvarIP").prop('disabled', false);
           $("#botaoEditarIP").removeAttr('onclick');
@@ -224,8 +222,7 @@ session_start();
         }
         function cancelar_informacoes_pessoais()
         {
-          $("#sangue").prop('disabled', true);
-          
+          $("#tipoSanguineo").prop('disabled', true);
           $("#botaoEditarIP").html('Editar');
           $("#botaoSalvarIP").prop('disabled', true);
           $("#botaoEditarIP").removeAttr('onclick');
@@ -254,7 +251,7 @@ session_start();
               $("#formulario").append($("<input type='hidden' name='id_fichamedica' value='"+item.id+"'>"));
          			//var cpf=item.cpf;
          			$("#nome").text("Nome: "+item.nome+' '+item.sobrenome);
-         			$("#nome").val(item.nome);
+         			$("#nome").val(item.nome + " " + item.sobrenome);
               $("#sobrenome").val(item.sobrenome);
          			if(item.imagem!=""){
                      $("#imagem").attr("src","data:image/gif;base64,"+item.imagem);
@@ -271,7 +268,7 @@ session_start();
          				$("#sexo").html("Sexo: <i class='fa fa-female'>  Feminino");
          				$("#radioF").prop('checked',true);
          			}
-
+              $("#tipoSanguineo").val(item.tipo_sanguineo).prop('disabled', true);
               // ver o audio do nilson, se o paciente tiver sangue, n exibe o editar, se n, o medico coloca e salva sem capacidade para mudança ne, pq o sangue não muda//
               //if(item.tipo_sanguineo != ""){
                 
@@ -279,7 +276,24 @@ session_start();
          			
               // $("#sangueSelect").text(item.tipo_sanguineo);
          			// $("#sangueSelect").val(item.tipo_sanguineo);
-              $("#sangue").val(item.tipo_sanguineo).prop('disabled', true);
+              // $("#tipoSanguineoSelecionado").text(item.tipo_sanguineo);
+         			// $("#tipoSanguineoSelecionado").val(item.tipo_sanguineo);
+
+              // $("#sangue").val(item.tipo_sanguineo).prop('disabled', true);
+              
+              // if(item.tipo_sanguineo != null)
+              // {
+                
+              // }
+              // if(item.tipo_sanguineo != null){
+              //     item.tipo_sanguineo.style.display = "block";
+              // }
+              // else{
+              //     item.tipo_sanguineo.style.display = "none";
+              // }
+              // var aparecer_funcionario = document.getElementById("clicado2");
+              // var bolinha_funcionario = document.getElementById("bolinha_funcionario");
+              // 
 
          			$("#nascimento").text("Data de nascimento: "+item.data_nascimento);
          			$("#nascimento").val(item.data_nascimento);
@@ -296,6 +310,25 @@ session_start();
             $("#header").load("../header.php");
             $(".menuu").load("../menu.php");
          });
+        //  function editar_informacoes_pessoais(){
+        //   $("#tipoSanguineo").prop('disabled', false);
+        //   // $("#botaoSalvarIP").prop('disabled', false);
+        //   $("#botaoEditarIP").html('Cancelar');
+        //   $("#botaoSalvarIP").prop('disabled', false);
+        //   $("#botaoEditarIP").removeAttr('onclick');
+        //   $("#botaoEditarIP").attr('onclick', "return cancelar_informacoes_pessoais()");
+        //   console.log("bem, editando");
+
+        // }
+        // function cancelar_informacoes_pessoais()
+        // {
+        //   $("#tipoSanguineo").prop('disabled', true);
+        //   $("#botaoEditarIP").html('Editar');
+        //   $("#botaoSalvarIP").prop('disabled', true);
+        //   $("#botaoEditarIP").removeAttr('onclick');
+        //   $("#botaoEditarIP").attr('onclick', "return editar_informacoes_pessoais()");
+        //   console.log("bem, cancelando");
+        // }
       //</script>
       
     <script src="controller/script/valida_cpf_cnpj.js"></script>
@@ -432,12 +465,12 @@ session_start();
                         </div>
                       </div>
                       
-                      <div class="form-group" id="sanguineonormal">
+                      <div class="form-group" id="testesanguineo">
                       <input type="hidden" name="metodo" value="alterarInfPessoal">
                         <label class="col-md-3 control-label" for="inputSuccess">Tipo sanguíneo</label>
                         <div class="col-md-6">
-                          <select class="form-control input-lg mb-md" name="sangue" id="sangue" disabled>
-                            <option selected id="sangueSelect">Não informado</option>
+                          <select class="form-control input-lg mb-md" name="tipoSanguineo" id="tipoSanguineo">
+                            <option selected disabled>Não informado</option>
                             <option value="A+">A+</option>
                             <option value="A-">A-</option>
                             <option value="B+">B+</option>
@@ -495,7 +528,7 @@ session_start();
                         <label class="col-md-3 control-label" for="inputSuccess">Doenças:</label>
                         <div class="col-md-6">
                           <select class="form-control input-lg mb-md" name="sangue" id="sangue">
-                            <option selected id="sangueSelect">Selecionar</option>
+                            <option selected disabled>Selecionar</option>
                             <option value="A+">A+</option>
                             <option value="A-">A-</option>
                             <option value="B+">B+</option>
@@ -509,7 +542,7 @@ session_start();
                       </div>
                      <div class="form-group center">
                      <!--<input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>-->
-                      <button type="button" class="btn btn-primary" id="botaoEditarEndereco" onclick="return editar_endereco()">Cadastrar</button>
+                      <!-- <button type="button" class="btn btn-primary" id="botaoEditarEndereco" onclick="return editar_endereco()">Cadastrar</button> -->
                       <!--<input id="botaoSalvarEndereco" type="submit" class="btn btn-primary" disabled="true" value="Salvar" onclick="funcao3()">-->
                     </form>
                   </div>
@@ -591,7 +624,7 @@ session_start();
                           </div>
                         </div>
                         <br />
-                   <div class="form-group">
+                   <div class="form-group" id="testesanguineo">
                         <label class="col-md-3 control-label" for="inputSuccess">Tipo exame:</label>
                         <div class="col-md-6">
                           <select class="form-control input-lg mb-md" name="sangue" id="sangue">
