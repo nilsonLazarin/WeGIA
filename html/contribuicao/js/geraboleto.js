@@ -31,12 +31,14 @@ function geraBoleto()
         var complemento = $("#complemento").val();    
         var numeroRandom = Math.round(Math.random()*100000000);
         var reference=nomerefer+numeroRandom;
-            /*console.log(api);
+            console.log(api);
+            console.log(dado);
+            console.log("dia"+dia);
             console.log(token);
             console.log(agradecimento);
             console.log(dias_venc_unico);
             console.log(dias_venc_mensal);
-            console.log(parcelas);*/
+            console.log(parcelas);
         
         var check;
       
@@ -140,31 +142,69 @@ function retorna_dataV(dia)
         var diaA = now.getDate() +3;
             if(dia == 29 || dia == 30 || dia == 31)
             {
+                var dataV = new Date; 
+                dataV.setMonth(now.getMonth() + 2);
+                var mes_atual = dataV.getMonth();
+                var ano_atual = dataV.getFullYear();
                 diaA = 3;
-                var mesA = now.getMonth() + 2;
+                var DataV = diaA+"/"+mes_atual+"/"+ano_atual;
+                // var mesA = now.getMonth() + 2;
+                return DataV;
             }
-        var mesA = now.getMonth()+1;
-        var anoA = now.getFullYear();
-        var DataV = diaA+"/"+mesA+"/"+anoA;
+            else{
+                var mesA = now.getMonth()+1;
+                var anoA = now.getFullYear();
+                var DataV = diaA+"/"+mesA+"/"+anoA;
+                return DataV;
+            }
+        
 
-        return DataV;
+        // return DataV;
     }
         else
         {
             var diaA = now.getDate();
+              
                 if(dia<=diaA)
                 {
-                    var mes_atual = now.getMonth() + 2;
+                    var dataV = new Date; 
+                    dataV.setMonth(now.getMonth() + 2);
+                    var mes_atual = dataV.getMonth();
+                    var ano_atual = dataV.getFullYear();
+                    var DataV = dia+"/"+mes_atual+"/"+ano_atual;
+            
+                    return DataV;
+                    // var mes_atual = now.getMonth() + 2;
                 }
                 else
                 {
+                    // var dataV = new Date; 
+                    // dataV.setMonth(now.getMonth() +1);
                     var mes_atual = now.getMonth() + 1;
-                }  
 
-            var ano_atual = now.getFullYear();
-            var DataV = dia+"/"+mes_atual+"/"+ano_atual;
+                    // var mes_atual = dataV.getMonth();
+                    var ano_atual = now.getFullYear();
+                    var DataV = dia+"/"+mes_atual+"/"+ano_atual;
+            
+                    return DataV;
+                    // var mes_atual = now.getMonth() + 1;
+                }  
+                // if(dia<=diaA)
+                // {
+                //     var mes_atual = now.getMonth() + 2;
+                // }
+                // else
+                // {
+                //     var mes_atual = now.getMonth() + 1;
+                // }  
+            // var ano_atual = now.getFullYear();
+            // var DataV = dia+"/"+mes_atual+"/"+ano_atual;
+
+            // var mes_atual = dataV.getMonth();
+            // var ano_atual = dataV.getFullYear();
+            // var DataV = dia+"/"+mes_atual+"/"+ano_atual;
     
-            return DataV;
+            // return DataV;
         }
             
 }
@@ -182,7 +222,7 @@ function retorna_parecela()
         }
         else
             {
-                parcelas = (12 - mes)+ 12;
+                parcelas = (12 - mes)+ 13;
             }
 
         return parcelas;
