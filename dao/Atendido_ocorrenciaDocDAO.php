@@ -18,18 +18,18 @@ require_once ROOT."/Functions/funcoes.php";
 class Atendido_ocorrenciaDocDAO
 //SELECT aod.arquivo_extensao, aod.arquivo_nome, aod.idatendido_ocorrencia_doc, ao.idatendido_ocorrencias FROM atendido_ocorrencia_doc aod JOIN atendido_ocorrencia ao ON (aod.idatendido_ocorrencia_doc=ao.idatendido_ocorrencias) WHERE aod.idatendido_ocorrencia_doc = " .$idatendido_ocorrencia_doc.";");
 {
-	public function listarTodos($id_memorando)
+	public function listarTodos($idatendido_ocorrencias)
 	 {
 	 	try{
 	 	$Anexos = array();
 	 	$pdo = Conexao::connect();
-	 	$consulta = $pdo->query("SELECT a.extensao, a.nome, d.id_despacho, a.id_anexo FROM anexo a JOIN despacho d ON(a.id_despacho=d.id_despacho) JOIN memorando m ON(d.id_memorando=m.id_memorando) WHERE m.id_memorando=$id_memorando");
+	 	$consulta = $pdo->query("SELECT arquivo_nome, arquivo_extensao, arquivo FROM `atendido_ocorrencia_doc` WHERE atentido_ocorrencia_idatentido_ocorrencias = $idatendido_ocorrencias");
 	 	$x = 0;
 
  		while($linha = $consulta->fetch(PDO::FETCH_ASSOC))
 	 		{
-	 			$AnexoDAO = new AnexoDAO;
-	 			$Anexos[$x] = array('extensao'=>$linha['extensao'], 'nome'=>$linha['nome'], 'id_despacho'=>$linha['id_despacho'], 'id_anexo'=>$linha['id_anexo']);
+	 			$AnexoDAO = new Atendido_ocorrenciaDocDAO;
+	 			$Anexos[$x] = array('arquivo_extensao'=>$linha['arquivo_extensao'], 'arquivo_nome'=>$linha['arquivo_nome'], 'arquivo'=>$linha['arquivo']);
 	 			$x++;
 	 		}
 	 	}

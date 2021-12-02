@@ -35,6 +35,8 @@ class Atendido_ocorrenciaControle
         header('Location: '.$nextPage);
     }
 
+	
+
 		// $MemorandoDAO = new MemorandoDAO();
 		// $dadosMemorando = $MemorandoDAO->listarTodosId($id_memorando);
 
@@ -59,10 +61,28 @@ class Atendido_ocorrenciaControle
 	public function listarTodosComAnexo()
 	{
 		extract($_REQUEST);
-		$despachoComAnexoDAO = new DespachoDAO();
+		$despachoComAnexoDAO = new atendido_ocorrenciaDAO();
 		$despachosComAnexo = $despachoComAnexoDAO->listarTodosComAnexo($id_memorando);
 		$_SESSION['despachoComAnexo'] = $despachosComAnexo;
 	}
+
+	public function listarAnexo($id_anexo)
+	{
+		$AnexoDAO = new Atendido_ocorrenciaDAO();
+		$anexos = $Atendido_ocorrenciaDAO->listarAnexo($id_anexo);
+		if (session_status() !== PHP_SESSION_ACTIVE)
+ 		{
+    		session_start();
+		}
+		$_SESSION['arq'] = $anexos;
+	}
+
+	public function comprimir($anexoParaCompressao)
+	{
+		$arquivo_zip = gzcompress($anexoParaCompressao);
+		return $arquivo_zip;
+	}
+
 
 	//Incluir despachos  
 	public function incluir()

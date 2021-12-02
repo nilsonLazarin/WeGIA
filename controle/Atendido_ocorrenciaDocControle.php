@@ -16,12 +16,12 @@ require_once ROOT."/dao/Atendido_ocorrenciaDocDAO.php";
 
 class Atendido_ocorrenciaDocControle
 {
-	 public function listarTodos($idatendido_ocorrencia_doc)
+	 public function listarTodos($idatendido_ocorrencias)
 	 {
-	 	$id_despacho=0;
+	 	// $id_despacho=0;
 	 	extract($_REQUEST);
 	 	$atendido_ocorrenciaDocDAO = new Atendido_ocorrenciaDocDAO();
-	 	$anexos = $AnexoDAO->listarTodos($idatendido_ocorrencia_doc);
+	 	$anexos = $atendido_ocorrenciaDocDAO->listarTodos($idatendido_ocorrencias);
 	 	if (session_status() !== PHP_SESSION_ACTIVE)
  	 	{
      		session_start();
