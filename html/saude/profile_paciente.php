@@ -212,22 +212,29 @@ session_start();
       <script src="../../Functions/mascara.js"></script>
       
       <script>
-        function editar_informacoes_pessoais(){
-          $("#tipoSanguineo").prop('disabled', false);
-          $("#botaoEditarIP").html('Cancelar');
-          $("#botaoSalvarIP").prop('disabled', false);
-          $("#botaoEditarIP").removeAttr('onclick');
-          $("#botaoEditarIP").attr('onclick', "return cancelar_informacoes_pessoais()");
+      
+        // console.log("teste");
 
-        }
-        function cancelar_informacoes_pessoais()
-        {
-          $("#tipoSanguineo").prop('disabled', true);
-          $("#botaoEditarIP").html('Editar');
-          $("#botaoSalvarIP").prop('disabled', true);
-          $("#botaoEditarIP").removeAttr('onclick');
-          $("#botaoEditarIP").attr('onclick', "return editar_informacoes_pessoais()");
-        }
+        // function editar_informacoes_pessoais(){
+        //             $("#tipoSanguineo").prop('disabled', false);
+        //             $("#botaoEditarIP").html('Cancelar');
+        //             $("#botaoSalvarIP").prop('disabled', false);
+        //             $("#botaoEditarIP").removeAttr('onclick');
+        //             $("#botaoEditarIP").attr('onclick', "return cancelar_informacoes_pessoais()");
+
+        //           }
+        //           function cancelar_informacoes_pessoais()
+        //           {
+        //             $("#tipoSanguineo").prop('disabled', true);
+        //             $("#botaoEditarIP").html('Editar');
+        //             $("#botaoSalvarIP").prop('disabled', true);
+        //             $("#botaoEditarIP").removeAttr('onclick');
+        //             $("#botaoEditarIP").attr('onclick', "return editar_informacoes_pessoais()");
+        //           }
+        //            $("#tipoSanguineo").val(item.tipo_sanguineo).prop('disabled', true);
+        //       }
+         
+        
         function excluirimg(id)
             {
                $("#excluirimg").modal('show');
@@ -252,7 +259,7 @@ session_start();
          			//var cpf=item.cpf;
          			$("#nome").text("Nome: "+item.nome+' '+item.sobrenome);
          			$("#nome").val(item.nome + " " + item.sobrenome);
-              $("#sobrenome").val(item.sobrenome);
+              // $("#sobrenome").val(item.sobrenome);
          			if(item.imagem!=""){
                      $("#imagem").attr("src","data:image/gif;base64,"+item.imagem);
                   }else{
@@ -268,7 +275,11 @@ session_start();
          				$("#sexo").html("Sexo: <i class='fa fa-female'>  Feminino");
          				$("#radioF").prop('checked',true);
          			}
-              $("#tipoSanguineo").val(item.tipo_sanguineo).prop('disabled', true);
+             
+              
+              // $("#tipoSanguineo").val(item.tipo_sanguineo).prop('disabled', true);
+              // var $t = $("#tipoSanguineo").val(item.tipo_sanguineo).prop('disabled', true);
+              // console.log($t);
               // ver o audio do nilson, se o paciente tiver sangue, n exibe o editar, se n, o medico coloca e salva sem capacidade para mudança ne, pq o sangue não muda//
               //if(item.tipo_sanguineo != ""){
                 
@@ -297,6 +308,27 @@ session_start();
 
          			$("#nascimento").text("Data de nascimento: "+item.data_nascimento);
          			$("#nascimento").val(item.data_nascimento);
+
+              if(item.tipo_sanguineo==null)
+              {
+                  $("#adicionartipo").show(); // dps um hide//
+                  // $("#tipoSanguineo").val(item.tipo_sanguineo).prop('disabled', true);
+                  function editar_informacoes_pessoais(){
+                    $("#tipoSanguineo").prop('disabled', false);
+                    // $("#botaoEditarIP").html('Cancelar');
+                    $("#botaoSalvarIP").prop('disabled', false);
+                    // $("#botaoEditarIP").removeAttr('onclick');
+                    // $("#botaoEditarIP").attr('onclick', "return cancelar_informacoes_pessoais()");
+
+                  }
+              }
+              if(item.tipo_sanguineo !=null)
+              {
+                $("#exibirtipo").show();
+                // $("#tipoSanguineo").text(item.tipo_sanguineo);
+                $("#sangue").text("Sangue: "+item.tipo_sanguineo);
+         			  $("#sangue").val(item.tipo_sanguineo);
+              }
          
                if(item.imgdoc==null)
                {
@@ -464,13 +496,16 @@ session_start();
                           <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" disabled id="nascimento" max=<?php echo date('Y-m-d'); ?>>
                         </div>
                       </div>
-                      
+
+                      <!-- caso o paciente não tenha o tipo sanguineo definido -->
+                      <div id="adicionartipo" style="display:none;">
+
                       <div class="form-group" id="testesanguineo">
                       <input type="hidden" name="metodo" value="alterarInfPessoal">
                         <label class="col-md-3 control-label" for="inputSuccess">Tipo sanguíneo</label>
                         <div class="col-md-6">
                           <select class="form-control input-lg mb-md" name="tipoSanguineo" id="tipoSanguineo">
-                            <option selected disabled>Não informado</option>
+                            <option selected disabled>Selecionar</option>
                             <option value="A+">A+</option>
                             <option value="A-">A-</option>
                             <option value="B+">B+</option>
@@ -482,25 +517,23 @@ session_start();
                           </select>
                         </div>
                       </div>
-                      <!--<div class="form-group" id="sanguineonull" disabled="true">
-                        <label class="col-md-3 control-label" for="inputSuccess">Tipo sanguíneo NULL</label>
-                        <div class="col-md-6">
-                          <select class="form-control input-lg mb-md" name="sangue" id="sangue" disabled>
-                            <option selected id="sangueSelect">Não informado</option>
-                            <option value="A+">A+</option>
-                            <option value="A-">A-</option>
-                            <option value="B+">B+</option>
-                            <option value="B-">B-</option>
-                            <option value="O+">O+</option>
-                            <option value="O-">O-</option>
-                            <option value="AB+">AB+</option>
-                            <option value="AB-">AB-</option>
-                          </select>
-                        </div>
-                      </div>-->
+                      
                       <input type="hidden" name="id_fichamedica" value=<?php echo $_GET['id_fichamedica'] ?>>
-                      <button type="button" class="btn btn-primary" id="botaoEditarIP" onclick="return editar_informacoes_pessoais()">Editar</button>
-                      <input type="submit" class="btn btn-primary" disabled="true" value="Salvar" id="botaoSalvarIP">
+                      <!-- <button type="button" class="btn btn-primary" id="botaoEditarIP" onclick="return editar_informacoes_pessoais()">Editar</button> -->
+                      <input type="submit" class="btn btn-primary" value="Salvar" id="botaoSalvarIP">
+
+                      </div>
+
+
+                      <!-- caso o paciente já tenha o tipo sanguíneo definido -->
+                      <div class="form-group" id="exibirtipo" style="display:none;">
+                        <label class="col-md-3 control-label" for="inputSuccess">Tipo sanguíneo</label>
+                        <div class="col-md-6">
+                        <input class="form-control input-lg mb-md" name="tipoSanguineo" disabled id="sangue">
+                      </div>
+                      </div> 
+
+
                       </section>
                    </div>
                   </form>

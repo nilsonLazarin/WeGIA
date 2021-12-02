@@ -149,7 +149,7 @@ class SaudeDAO
             // $nascimento=$funcionario->getDataNascimento();
             // $nomePai=$funcionario->getNomePai();        
             // $nomeMae=$funcionario->getNomeMae();
-            $sangue=$paciente->getTipoSanguineo();
+            $tipoSanguineo=$paciente->getTipoSanguineo();
             // $stmt->bindParam(':nome',$nome);
             // $stmt->bindParam(':sobrenome',$sobrenome);
             // $stmt->bindParam(':id_funcionario',$id_funcionario);
@@ -158,7 +158,7 @@ class SaudeDAO
             // $stmt->bindParam(':data_nascimento',$nascimento);
             // $stmt->bindParam(':nome_pai',$nomePai);        
             // $stmt->bindParam(':nome_mae',$nomeMae);
-            $stmt->bindParam(':tipo_sanguineo',$sangue);
+            $stmt->bindParam(':tipo_sanguineo',$tipoSanguineo);
             $stmt->execute();
         } catch (PDOException $e) {
             echo 'Error: <b>  na tabela pessoas = ' . $sql . '</b> <br /><br />' . $e->getMessage();
