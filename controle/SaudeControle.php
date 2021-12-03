@@ -198,7 +198,8 @@ class SaudeControle
     public function alterarInfPessoal()
     {
         extract($_REQUEST);
-        $paciente = new Saude('',$nome,$sobrenome,$sexo,$nascimento,'','','','','',$tipoSanguineo,'','',$imagem,'','','','','','','','');
+        // $paciente = new Saude('',$nome,$sobrenome,$sexo,$nascimento,'','','','','',$tipoSanguineo,'','',$imagem,'','','','','','','','');
+        $paciente = new Saude('','','','','','','','','','',$tipoSanguineo,'','','','','','','','','','','');
         $paciente->setId_pessoa($id_fichamedica);
         //echo $funcionario->getId_Funcionario();
         $SaudeDAO=new SaudeDAO();

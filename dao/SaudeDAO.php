@@ -38,6 +38,24 @@ class SaudeDAO
         }
         
     }
+    public function alterarImagem($id_fichamedica, $imagem)
+    {
+        $imagem = base64_encode($imagem);
+        try {
+            $pdo = Conexao::connect();
+            $id_pessoa = (($pdo->query("SELECT id_pessoa FROM saude_fichamedica WHERE id_fichamedica=$id_fichamedica"))->fetch(PDO::FETCH_ASSOC))["id_pessoa"];
+            
+            $sql = "UPDATE pessoa SET imagem = :imagem WHERE id_pessoa = :id_pessoa;";
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindValue(':id_pessoa', $id_pessoa);
+            $stmt->bindValue(':imagem',$imagem);
+            $stmt->execute();
+            $pdo->commit();
+            $pdo->close();
+        } catch (PDOException $e) {
+            echo 'Error: <b>  na tabela pessoa = ' . $sql . '</b> <br /><br />' . $e->getMessage();
+        }
+    }
     public function alterar($saude)
     {
         try {

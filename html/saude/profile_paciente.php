@@ -313,14 +313,18 @@ session_start();
               {
                   $("#adicionartipo").show(); // dps um hide//
                   // $("#tipoSanguineo").val(item.tipo_sanguineo).prop('disabled', true);
-                  function editar_informacoes_pessoais(){
-                    $("#tipoSanguineo").prop('disabled', false);
+                  // $("#botaoSalvarIP").prop('disabled', false);
+                  function disabled_select(){
+                    $("#tipoSanguineo").prop('disabled',true);
+                  }
+                  // function editar_informacoes_pessoais(){
+                    // $("#tipoSanguineo").prop('disabled', true);
                     // $("#botaoEditarIP").html('Cancelar');
-                    $("#botaoSalvarIP").prop('disabled', false);
+                    // $("#botaoSalvarIP").prop('disabled', false);
                     // $("#botaoEditarIP").removeAttr('onclick');
                     // $("#botaoEditarIP").attr('onclick', "return cancelar_informacoes_pessoais()");
 
-                  }
+                  // }
               }
               if(item.tipo_sanguineo !=null)
               {
@@ -330,10 +334,10 @@ session_start();
          			  $("#sangue").val(item.tipo_sanguineo);
               }
          
-               if(item.imgdoc==null)
-               {
-                  $('#docs').append($("<strong >").append($("<p >").text("Não foi possível encontrar nenhuma imagem referente a esse Paciente!")));
-               }
+              //  if(item.imgdoc==null)
+              //  {
+              //     $('#docs').append($("<strong >").append($("<p >").text("Não foi possível encontrar nenhuma imagem referente a esse Paciente!")));
+              //  }
              }
          	});
          });
@@ -393,16 +397,21 @@ session_start();
             <div class="col-md-4 col-lg-3">
                <section class="panel">
                         <div class="panel-body">
-                          <div class="alert alert-warning" style="font-size: 15px;"><i class="fas fa-check mr-md"></i>O endereço da instituição não está cadastrado no sistema<br><a href=https://demo.wegia.org/html/personalizacao.php>Cadastrar endereço da instituição</a></div>
+                          <div class="alert alert-warning" style="font-size: 15px;">
+                          <i class="fas fa-check mr-md"></i>O endereço da instituição não está cadastrado no sistema<br><a href=https://demo.wegia.org/html/personalizacao.php>Cadastrar endereço da instituição</a>
+                        </div>
+
                             <div class="thumb-info mb-md">
                                   <img id="imagem" alt="John Doe">
                                 <i class="fas fa-camera-retro btn btn-info btn-lg" data-toggle="modal" data-target="#myModal"></i>
+
                               <div class="container">
                                  <div class="modal fade" id="myModal" role="dialog">
                                     <div class="modal-dialog">
                                        <!-- Modal content-->
                                        <div class="modal-content">
                                           <div class="modal-header">
+                                             <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
                                              <button type="button" class="close" data-dismiss="modal">&times;</button>
                                              <h4 class="modal-title">Adicionar uma Foto</h4>
                                           </div>
@@ -418,7 +427,7 @@ session_start();
                                                 </div>
                                           </div>
                                           <div class="modal-footer">
-                                          <input type="hidden" name="id_fichamedica" value= >
+                                          <input type="hidden" name="id_fichamedica" value="<?php echo $_GET['id_fichamedica']?>">
                                           <input type="submit" id="formsubmit" value="Alterar imagem">
                                           </div>
                                        </div>
@@ -459,53 +468,62 @@ session_start();
             </ul>
           
             <div class="tab-content">
+              
                 <div id="overview" class="tab-pane active">
                   <form class="form-horizontal" method="post" action="../../controle/control.php">
                     <input type="hidden" name="nomeClasse" value="SaudeControle">
                     <!-- <input type="hidden" name="metodo" value="alterarInfPessoal"> -->
-
-                 
                     <section class="panel">
-                    <header class="panel-heading">
-                    <div class="panel-actions">
-                    <a href="#" class="fa fa-caret-down"></a>
-                    </div>
-
-                    <h2 class="panel-title">Informações pessoais</h2>
-                    </header>
+                      <header class="panel-heading">
+                        <div class="panel-actions">
+                        <a href="#" class="fa fa-caret-down"></a>
+                        </div>
+                      <h2 class="panel-title">Informações pessoais</h2>
+                      </header>
+                    
                     <div class="panel-body">
                     <hr class="dotted short">
-
                     <fieldset>
-                      <div class="form-group">
+                      
+                    <div class="form-group">
                         <label class="col-md-3 control-label" for="profileFirstName">Nome</label>
                         <div class="col-md-8">
                           <input type="text" class="form-control" disabled name="nome" id="nome" onkeypress="return Onlychars(event)">
                         </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="col-md-3 control-label" for="profileLastName">Sexo</label>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="col-md-3 control-label" for="profileLastName">Sexo</label>
                         <div class="col-md-8">
                           <label><input type="radio" name="gender" id="radioM" id="M" disabled value="m" style="margin-top: 10px; margin-left: 15px;" onclick="return exibir_reservista()"> <i class="fa fa-male" style="font-size: 20px;"> </i></label>
                           <label><input type="radio" name="gender" id="radioF" disabled id="F" value="f" style="margin-top: 10px; margin-left: 15px;" onclick="return esconder_reservista()"> <i class="fa fa-female" style="font-size: 20px;"> </i> </label>
                         </div>
-                      </div>
-                      <div class="form-group">
+                    </div>
+
+                    <div class="form-group">
                         <label class="col-md-3 control-label" for="profileCompany">Nascimento</label>
                         <div class="col-md-8">
                           <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" disabled id="nascimento" max=<?php echo date('Y-m-d'); ?>>
                         </div>
-                      </div>
+                    </div>
 
-                      <!-- caso o paciente não tenha o tipo sanguineo definido -->
-                      <div id="adicionartipo" style="display:none;">
-
-                      <div class="form-group" id="testesanguineo">
-                      <input type="hidden" name="metodo" value="alterarInfPessoal">
+                    <!-- caso o paciente já tenha o tipo sanguíneo definido -->
+                      <div class="form-group" id="exibirtipo" style="display:none;">
                         <label class="col-md-3 control-label" for="inputSuccess">Tipo sanguíneo</label>
                         <div class="col-md-6">
+                          <input class="form-control input-lg mb-md" name="tipoSanguineo" disabled id="sangue">
+                        </div>
+                      </div> 
+
+
+                      <!-- caso o paciente não tenha o tipo sanguineo definido -->
+                      <div id="adicionartipo" style="display:none;" class="form-group">
+                      <input type="hidden" name="metodo" value="alterarInfPessoal">
+
+                      <label class="col-md-3 control-label" for="inputSuccess">Tipo sanguíneo</label>
+                        <div class="col-md-6">
                           <select class="form-control input-lg mb-md" name="tipoSanguineo" id="tipoSanguineo">
-                            <option selected disabled>Selecionar</option>
+                            <option selected>Selecionar</option>
                             <option value="A+">A+</option>
                             <option value="A-">A-</option>
                             <option value="B+">B+</option>
@@ -516,27 +534,25 @@ session_start();
                             <option value="AB-">AB-</option>
                           </select>
                         </div>
-                      </div>
+
+                      <!-- </div> -->
                       
                       <input type="hidden" name="id_fichamedica" value=<?php echo $_GET['id_fichamedica'] ?>>
                       <!-- <button type="button" class="btn btn-primary" id="botaoEditarIP" onclick="return editar_informacoes_pessoais()">Editar</button> -->
-                      <input type="submit" class="btn btn-primary" value="Salvar" id="botaoSalvarIP">
-
-                      </div>
-
-
-                      <!-- caso o paciente já tenha o tipo sanguíneo definido -->
-                      <div class="form-group" id="exibirtipo" style="display:none;">
-                        <label class="col-md-3 control-label" for="inputSuccess">Tipo sanguíneo</label>
-                        <div class="col-md-6">
-                        <input class="form-control input-lg mb-md" name="tipoSanguineo" disabled id="sangue">
-                      </div>
+                      <!-- <input type="hidden" name="nomeClasse" value="SaudeControle"> -->
+                     <div class="col-md-9 col-md-offset-3">
+                            <!-- <input type="hidden" name="nomeClasse" value="SaudeControle">
+                            <input type="hidden" name="metodo" value="AlterarInfPessoal"> -->
+                            <input type="submit" class="btn btn-primary" value="Salvar" id="botaoSalvarIP" onclick="disabled_select()">
+                            <!-- <input id="Salvar" type="submit" class="btn btn-primary" value="Salvar"> -->
                       </div> 
+                     </div>
 
-
+                      </div>
                       </section>
-                   </div>
+                   <!-- </div> -->
                   </form>
+        </div>
 
                   
 <!-- Aba  de  comorbidades -->
