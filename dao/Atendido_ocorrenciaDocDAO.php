@@ -21,17 +21,17 @@ class Atendido_ocorrenciaDocDAO
 	public function listarTodos($idatendido_ocorrencias)
 	 {
 	 	try{
-	 	$Anexos = array();
-	 	$pdo = Conexao::connect();
-	 	$consulta = $pdo->query("SELECT arquivo_nome, arquivo_extensao, arquivo FROM `atendido_ocorrencia_doc` WHERE atentido_ocorrencia_idatentido_ocorrencias = $idatendido_ocorrencias");
-	 	$x = 0;
-
- 		while($linha = $consulta->fetch(PDO::FETCH_ASSOC))
-	 		{
-	 			$AnexoDAO = new Atendido_ocorrenciaDocDAO;
-	 			$Anexos[$x] = array('arquivo_extensao'=>$linha['arquivo_extensao'], 'arquivo_nome'=>$linha['arquivo_nome'], 'arquivo'=>$linha['arquivo']);
-	 			$x++;
-	 		}
+			$Anexos = array();
+			$pdo = Conexao::connect();
+			$consulta = $pdo->query("SELECT arquivo_nome, arquivo_extensao FROM `atendido_ocorrencia_doc` WHERE atentido_ocorrencia_idatentido_ocorrencias = $idatendido_ocorrencias");
+			$x = 0;
+			
+			while($linha = $consulta->fetch(PDO::FETCH_ASSOC))
+				{
+					$AnexoDAO = new Atendido_ocorrenciaDocDAO;
+					$Anexos[$x] = array('arquivo_extensao'=>$linha['arquivo_extensao'], 'arquivo_nome'=>$linha['arquivo_nome']);
+					$x++;
+				}
 	 	}
 	 	catch(PDOException $e)
 	 	{

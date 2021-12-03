@@ -10,25 +10,80 @@ if(file_exists($config_path)){
     }
     require_once($config_path);
 }
-
+require_once ROOT."/dao/Conexao.php";
 require_once ROOT."/classes/Atendido_ocorrenciaDoc.php";
 require_once ROOT."/dao/Atendido_ocorrenciaDocDAO.php";
+require_once ROOT."/classes/Cache.php";
+
+// $idatendido_ocorrencias = $_GET['idatendido_ocorrencias'];
 
 class Atendido_ocorrenciaDocControle
 {
-	 public function listarTodos($idatendido_ocorrencias)
+	 public function listarTodos()
 	 {
 	 	// $id_despacho=0;
-	 	extract($_REQUEST);
-	 	$atendido_ocorrenciaDocDAO = new Atendido_ocorrenciaDocDAO();
-	 	$anexos = $atendido_ocorrenciaDocDAO->listarTodos($idatendido_ocorrencias);
-	 	if (session_status() !== PHP_SESSION_ACTIVE)
- 	 	{
-     		session_start();
-	 	}
-	 	$_SESSION['arquivos'] = $anexos;
-	 }
+	 	// extract($_REQUEST);
+	 	// $atendido_ocorrenciaDocDAO = new Atendido_ocorrenciaDocDAO();
+	 	// $anexos = $atendido_ocorrenciaDocDAO->listarTodos($idatendido_ocorrencias);
+	 	// if (session_status() !== PHP_SESSION_ACTIVE)
+ 	 	// {
+     	// 	session_start();
+	 	// }
+	 	// $_SESSION['arquivos'] = $anexos;
+		// else{
+        //     header('Location:'.$nextPage);
+        // }
+	}
 
+
+		// extract($_REQUEST);
+        // $cache = new Cache();
+        // $inf = $cache->read($idatendido_ocorrencias);
+        // if (!$inf) {
+        //     try {
+        //         $atendido_ocorrenciaDocDAO = new Atendido_ocorrenciaDocDAO();
+        //         $inf=$atendido_ocorrenciaDocDAO->listarTodos($idatendido_ocorrencias);
+        //         session_start();
+        //         $_SESSION['arquivos']=$inf;
+        //         $cache->save($idatendido_ocorrencias, $inf, '15 seconds');
+        //         header('Location:'.$nextPage);
+        //     } catch (PDOException $e) {
+        //         echo $e->getMessage();
+        //     }
+        
+
+	 
+
+	// public function listarTodos($id_memorando)
+	// {
+	// 	$id_despacho=0;
+	// 	extract($_REQUEST);
+	// 	$AnexoDAO = new AnexoDAO();
+	// 	$anexos = $AnexoDAO->listarTodos($id_memorando);
+	// 	if (session_status() !== PHP_SESSION_ACTIVE)
+ 	// 	{
+    // 		session_start();
+	// 	}
+	// 	$_SESSION['arquivos'] = $anexos;
+	// }
+	// public function listarTodosComAnexo()
+	// {
+	// 	extract($_REQUEST);
+	// 	$despachoComAnexoDAO = new atendido_ocorrenciaDAO();
+	// 	$despachosComAnexo = $despachoComAnexoDAO->listarTodosComAnexo($id_memorando);
+	// 	$_SESSION['despachoComAnexo'] = $despachosComAnexo;
+	// }
+
+	// public function listarAnexo($id_anexo)
+	// {
+	// 	$AnexoDAO = new Atendido_ocorrenciaDAO();
+	// 	$anexos = $Atendido_ocorrenciaDAO->listarAnexo($id_anexo);
+	// 	if (session_status() !== PHP_SESSION_ACTIVE)
+ 	// 	{
+    // 		session_start();
+	// 	}
+	// 	$_SESSION['arquivos'] = $anexos;
+	// }
 	// public function listarAnexo($id_anexo)
 	// {
 	// 	$AnexoDAO = new AnexoDAO();

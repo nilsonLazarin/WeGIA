@@ -355,13 +355,13 @@ session_start();
                                             <div class="form-group">
 											<label class="col-md-2 control-label" for="profileFirstName">Nome</label>
 											<div class="col-md-8">
-												<input type="text" class="form-control" disabled name="nome" id="nome" id="profileFirstName" onkeypress="return Onlychars(event)" value="<?php echo $nome['nome'] ?>" required>
+												<input type="text" class="form-control" disabled name="nome" id="nome" id="profileFirstName" onkeypress="return Onlychars(event)"  required>
                                                 <?php
-                                                foreach($nome as $key => $value)
-                                                {
-                                                    // echo "" . "" . $nome[$key]['nome'] . " " . $nome[$key]['sobrenome'];
-                                                    // echo "<input type='text' class='form-control' disabled name='nome' id='nome' id='profileFirstName' onkeypress='return Onlychars(event)' value='$nome['nome']' required>"
-                                                }
+                                                // foreach($nome as $key => $value)
+                                                // {
+                                                //     // echo "" . "" . $nome[$key]['nome'] . " " . $nome[$key]['sobrenome'];
+                                                //     // echo "<input type='text' class='form-control' disabled name='nome' id='nome' id='profileFirstName' onkeypress='return Onlychars(event)' value='$nome['nome']' required>"
+                                                // }
                                     ?>
                                     </div>
 										</div>

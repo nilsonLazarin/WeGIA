@@ -70,12 +70,11 @@ class Atendido_ocorrenciaDAO
 		{
 			echo 'Error:' . $e->getMessage;
 		}
-
 		return json_encode($Despachos);
 	}
 
 	
-		public function incluir($ocorrencia)
+	public function incluir($ocorrencia)
     {               
         try {
             $sql = "INSERT INTO `atendido_ocorrencia` (`idatendido_ocorrencias`, `atendido_idatendido`, `atendido_ocorrencia_tipos_idatendido_ocorrencia_tipos`, `funcionario_id_funcionario`, `data`, `descricao`) values (default, :atendido_idatendido, :id_tipos_ocorrencia, :funcionario_idfuncionario, :datao, :descricao)";
@@ -104,8 +103,8 @@ class Atendido_ocorrenciaDAO
         } catch (PDOException $e) {
             echo 'Error: <b>  na tabela pessoas = ' . $sql . '</b> <br /><br />' . $e->getMessage();
         }
-        
     }
+
     public function listarAnexo($id_anexo)
 	{
 		try
@@ -129,6 +128,7 @@ class Atendido_ocorrenciaDAO
 		}
 		return $Anexo;
 	}
+
     public function listar($id){
         try{
             echo $id;
