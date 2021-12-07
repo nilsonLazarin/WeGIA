@@ -194,7 +194,7 @@ session_start();
       <link rel="stylesheet" href="../../assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
 
        <link rel="stylesheet" type="text/css" href="../../css/profile-theme.css"> 
-      </script> <script src="../../assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script> <script src="../../assets/vendor/bootstrap/js/bootstrap.js"></script> <script src="../../assets/vendor/nanoscroller/nanoscroller.js"></script>
+      </script> <script src="../../assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>  <script src="../../assets/vendor/nanoscroller/nanoscroller.js"></script>
       <script src="../../assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
       <script src="../../assets/vendor/magnific-popup/magnific-popup.js"></script>
       <script src="../../assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
@@ -428,7 +428,7 @@ session_start();
                                           </div>
                                           <div class="modal-footer">
                                           <input type="hidden" name="id_fichamedica" value="<?php echo $_GET['id_fichamedica']?>">
-                                          <input type="submit" id="formsubmit" value="Alterar imagem">
+                                          <input type="submit" id="formsubmit" value="alterarImagem">
                                           </div>
                                        </div>
                                        </form>

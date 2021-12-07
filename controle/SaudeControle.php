@@ -167,10 +167,10 @@ class SaudeControle
     public function alterarImagem()
     {
         extract($_REQUEST);
-        $img = file_get_contents($_FILES['imgperfil']['tmp_name']);
+        $imagem = file_get_contents($_FILES['imgperfil']['tmp_name']);
         $SaudeDAO = new SaudeDAO();
         try {
-            $SaudeDAO->alterarImagem($id_fichamedica, $img);
+            $SaudeDAO->alterarImagem($id_fichamedica, $imagem);
             header("Location: ../html/saude/profile_paciente.php?id_fichamedica=".$id_fichamedica);
         } catch (PDOException $e) {
             echo $e->getMessage();

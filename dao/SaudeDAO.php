@@ -96,12 +96,12 @@ class SaudeDAO
         try{
             $pacientes=array();
             $pdo = Conexao::connect();
-            $consulta = $pdo->query("SELECT s.id_fichamedica,p.nome,s.descricao,p.sobrenome FROM pessoa p INNER JOIN saude_fichamedica s ON s.id_pessoa = p.id_pessoa");
+            $consulta = $pdo->query("SELECT s.id_fichamedica,p.imagem,p.nome,s.descricao,p.sobrenome FROM pessoa p INNER JOIN saude_fichamedica s ON s.id_pessoa = p.id_pessoa");
             // $produtos = Array();
             $x=0;
             while($linha = $consulta->fetch(PDO::FETCH_ASSOC)){
             
-                $pacientes[$x]=array('id_fichamedica'=>$linha['id_fichamedica'],'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'descricao'=>$linha['descricao']);
+                $pacientes[$x]=array('id_fichamedica'=>$linha['id_fichamedica'], 'imagem'=>$linha['imagem'],'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'descricao'=>$linha['descricao']);
                 $x++;
             }
             //$pdo->commit();
@@ -118,7 +118,7 @@ class SaudeDAO
             $pdo = Conexao::connect();
             /*$sql = "SELECT p.imagem,p.nome,p.sobrenome,p.cpf, p.senha, p.sexo, p.telefone,p.data_nascimento, p.cep,p.estado,p.cidade,p.bairro,p.logradouro,p.numero_endereco,p.complemento,p.ibge,p.registro_geral,p.orgao_emissor,p.data_expedicao,p.nome_pai,p.nome_mae,p.tipo_sanguineo, d.id_documento FROM pessoa p LEFT JOIN atendido a ON p.id_pessoa = a.pessoa_id_pessoa left join documento d on p.id_pessoa=d.id_pessoa WHERE a.idatendido=:id";*////
 
-            $sql = "SELECT p.nome,p.sobrenome,p.sexo,p.data_nascimento,p.tipo_sanguineo FROM pessoa p 
+            $sql = "SELECT p.nome,p.sobrenome,p.imagem,p.sexo,p.data_nascimento,p.tipo_sanguineo FROM pessoa p 
             JOIN saude_fichamedica sf ON p.id_pessoa = sf.id_pessoa 
             WHERE sf.id_fichamedica=:id";
             // $sql = "SELECT nome from pessoa where id ='1'";
@@ -134,7 +134,7 @@ class SaudeDAO
             // $pacienteFuncionario=array();
             while ($linha = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
-                $paciente[]=array('nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'sexo'=>$linha['sexo'],'data_nascimento'=>$linha['data_nascimento'], 'tipo_sanguineo'=>$linha['tipo_sanguineo']);
+                $paciente[]=array('nome'=>$linha['nome'],'imagem'=>$linha['imagem'],'sobrenome'=>$linha['sobrenome'],'sexo'=>$linha['sexo'],'data_nascimento'=>$linha['data_nascimento'], 'tipo_sanguineo'=>$linha['tipo_sanguineo']);
                 // $paciente[]=array('nome'=>$linha['nome']);
                 // $pacienteFuncionario[]=array('nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'sexo'=>$linha['sexo'],'data_nascimento'=>$linha['data_nascimento']);
                 // 'imagem'=>$linha['imagem']
@@ -161,7 +161,7 @@ class SaudeDAO
             $stmt = $pdo->prepare($sql);
             // $nome=$paciente->getNome();
             // $sobrenome=$funcionario->getSobrenome();
-            // $id_funcionario=$funcionario->getId_funcionario();
+            $id_fichamedica=$paciente->getId_pessoa();
             // $sexo=$funcionario->getSexo();
             // $telefone=$funcionario->getTelefone();
             // $nascimento=$funcionario->getDataNascimento();
@@ -170,7 +170,7 @@ class SaudeDAO
             $tipoSanguineo=$paciente->getTipoSanguineo();
             // $stmt->bindParam(':nome',$nome);
             // $stmt->bindParam(':sobrenome',$sobrenome);
-            // $stmt->bindParam(':id_funcionario',$id_funcionario);
+            $stmt->bindParam(':id_fichamedica',$id_fichamedica);
             // $stmt->bindParam(':sexo',$sexo);
             // $stmt->bindParam(':telefone',$telefone);
             // $stmt->bindParam(':data_nascimento',$nascimento);
