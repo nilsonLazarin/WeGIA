@@ -22,6 +22,24 @@
 }
 	</style>
 
+	<script>
+			$(document).ready(function(){
+				var data = new Date;
+				var dia = data.getDate();
+				var diaF = (dia.length == 1) ? '0'+dia : dia;
+				var mes = data.getMonth()+1;
+				var ano = data.getFullYear();
+				var t = ano+"-"+mes+"-"+"0"+diaF;
+				// console.log(t);
+
+				$("#data_vencimento").attr({
+					"max" : data,        // substitute your own
+					"min" : t          // values (or variables) here
+				});
+
+			});
+	</script>
+
 		<!-- start: header -->
 		<header id="header" class="header">
 			
@@ -86,16 +104,17 @@
            
 		   <div class="data">
 		   <label for="data_vencimento">Data de vencimento (se não for boleto único será a data de vencimento da primeira parcela)</label>
-		   <input type="date" class="form-control" id="data_vencimento" name="data_vencimento" placeholder="Data vencimento" required disabled>
+		   <input type="date" class="form-control" id="data_vencimento" name="data_vencimento" placeholder="Data vencimento" min="2021-12-07" required>
 		   </div>
 
+		   <!-- <input type="date" required="required" maxlength="10" name="date" pattern="[0-9]{2}\/[0-9]{2}\/[0-9]{4}$" min="2012-01-01" max="2014-02-18" /> -->
 
 		   </div>
 		   <div class="form-group mb-2 col-xs-6">
            
 		   <div class="data">
 		   <label for="data_vencimento">Parcelas</label>
-		   <input type="text" class="form-control" id="num_parcelas" name="num_parcelas" placeholder="num. parcelas" required disabled>
+		   <input type="text" class="form-control" id="num_parcelas" name="num_parcelas" placeholder="num. parcelas" required>
 		   </div>
 
 
@@ -141,7 +160,7 @@
             </div>
 
           <!-- /.box -->
-        </div> 
+       <!-- </div> 
 		<div class="row">
         <div class="box box-warning box-solid socioModal box-geracao">
             <div class="box-header">
@@ -182,7 +201,7 @@
 
             </div>
             </div>
-
+				-->
           <!-- /.box -->
         </div>   
       </div>
