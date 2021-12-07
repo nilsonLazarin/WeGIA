@@ -18,7 +18,7 @@ if(!isset($_SESSION['usuario'])){
 
 require_once ROOT."/controle/Atendido_ocorrenciaControle.php";
 
-$id_anexo = $_GET['id_anexo'];
+$id_anexo = $_GET['idatendido_ocorrencias'];
 $extensao = $_GET['extensao'];
 $nome = $_GET['nome'];
 

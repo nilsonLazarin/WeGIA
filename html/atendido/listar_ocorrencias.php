@@ -243,10 +243,10 @@ session_start();
          $(function(){
           // pega no SaudeControle, listarUm
             var interno = <?php echo $_SESSION['atendido_ocorrencia']; ?>;
-            var arquivo = <?php echo $_SESSION['arquivos']; ?>;
+          
             
             console.log(interno);
-            console.log(arquivo);
+            // console.log(arquivo);
          	  $.each(interno,function(i,item){
          		if(i=1)
          		{
@@ -255,7 +255,8 @@ session_start();
          			// $("#nome").text("Nome: "+item.nome_atendido+' '+item.sobrenome_atendido);
          			$("#nome").val(item.nome_atendido + " " +item.sobrenome_atendido);
                     // $("#sobrenome").val(item.sobrenome_atendido);
-         			
+                    //$("#arquivo").val(item.arquivo_nome + "." + item.arquivo_extensao);
+                    
          			// $("#tipo").text(item.ocorrencia_tipos_idatendido_ocorrencia_tipos);
          			$("#tipo").val(item.descricao);
          			
@@ -267,7 +268,14 @@ session_start();
 
                     // $("#autor").text("Data: "+item.funcionario_id_funcionario);
          			$("#autor").val(item.funcionario_id_funcionario);
-                     
+
+                     $("#arquivos")
+                     .append($("<tr>")
+						// .append($("<th>")
+                            .append($("<td>")
+                            .html("<a href='<?php echo WWW;?>html/atendido/exibe_anexo.php?idatendido_ocorrencias="+item.idatendido_ocorrencias+"&extensao="+item.arquivo_extensao+"&nome="+item.arquivo_nome+"'>"+item.arquivo_nome+"."+item.arquivo_extensao+"</a>")));
+                            //     .append($("<td colspan=4>")
+                            //         .html("<a href='<?php echo WWW;?>html/atendido/exibe_anexo.php?idatendido_ocorrencias="+item.idatendido_ocorrencias+"&extensao="+item.arquivo_extensao+"&nome="+item.arquivo_nome+"'>"+item.arquivo_nome+"."+item.arquivo_extensao+"</a>")));
                      
          
                if(item.imgdoc==null)
@@ -284,12 +292,6 @@ session_start();
 		// });
                 
          });
-         $.each(arquivo, function(i, item){
-                    $("#"+item.arquivo)
-                        .append($("<tr id=link>")
-                                .append($("<td colspan=4>")
-                                    .html("<a href='<?php echo WWW;?>html/memorando/exibe_anexo.php?id_anexo="+item.id_anexo+"&extensao="+item.extensao+"&nome="+item.nome+"'>"+item.nome+"."+item.extensao+"</a>")));
-                });
         //  });
          $(function () {
             $("#header").load("../header.php");
@@ -394,13 +396,22 @@ session_start();
                                     <div class="form-group">
                                                 <label class="col-md-2 control-label" for="profileFirstName">Descrição</label>
                                                 <div class="col-md-8">
-                                                    <input type="text" class="form-control" disabled name="autor" id="descricao" id="descricao" onkeypress="return Onlychars(event)"required>
+                                                    <textarea type="text" class="form-control" disabled name="autor" id="descricao" id="descricao" onkeypress="return Onlychars(event)"required>
+                                                </textarea>
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-md-2 control-label" for="profileFirstName">Arquivos</label>
-                                                <div class="col-md-8">
-                                                    <input type="text" class="form-control" disabled name="arquivo" id="arquivo" id="arquivo" onkeypress="return Onlychars(event)"required>
+                                                <label class="col-md-2 control-label" for="profileFirstName" id="arquivo">Arquivos:</label>
+                                                <div id="arquivos" class="col-md-8">
+                                                <?php
+                                                echo(" 
+                                                    <p> </p>
+                                                    <p> </p>
+                                                    <p> </p>
+                                                    
+
+                                                    ");
+                                                ?>
                                                 </div>
                                             </div>
                                     

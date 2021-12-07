@@ -68,7 +68,7 @@ class Atendido_ocorrenciaControle
 
 	public function listarAnexo($id_anexo)
 	{
-		$AnexoDAO = new Atendido_ocorrenciaDAO();
+		$Atendido_ocorrenciaDAO = new Atendido_ocorrenciaDAO();
 		$anexos = $Atendido_ocorrenciaDAO->listarAnexo($id_anexo);
 		if (session_status() !== PHP_SESSION_ACTIVE)
  		{
