@@ -26,6 +26,7 @@ $(document).ready(function(){
                         $("#btn_wpp").css("display", "none");
                         $("#btn_geracao_unica").attr("disabled", false);
                         $("#btn_geracao_unica").text("Confirmar geração");
+                        console.log("te chegando");
                         console.log(data_inicial, periodicidade_socio, parcelas, valor);
                         console.log("parcelas:"+parcelas);
                         referenciaAccordion = nome_socio.replace(/[^a-zA-Zs]/g, "") + Math.round(Math.random()*100000000);
@@ -72,101 +73,101 @@ $(document).ready(function(){
                         `)
                     }
 
-                    function gerarDataParcelas(Now, tipo, dia_preferencial){
-                        var NovaData = new Date(Now);
-                        var fimDoAno = new Date(String(Now.getFullYear()), '11', '31');
-                        var proximoAno = new Date(String(Now.getFullYear() + 1), '11', '31');
-                        var retornoDatas = {
-                            dataV: null,
-                            dataV_formatada: null,
-                            parcelas: null
-                        };
-                        if(tipo == 1){
-                            var parcelas = 0;
-                            while((NovaData.getMonth() + 1) % 2 != 0){
-                                NovaData.setMonth(NovaData.getMonth() + 1);
-                            }
+                    // function gerarDataParcelas(Now, tipo, dia_preferencial){
+                    //     var NovaData = new Date(Now);
+                    //     var fimDoAno = new Date(String(Now.getFullYear()), '11', '31');
+                    //     var proximoAno = new Date(String(Now.getFullYear() + 1), '11', '31');
+                    //     var retornoDatas = {
+                    //         dataV: null,
+                    //         dataV_formatada: null,
+                    //         parcelas: null
+                    //     };
+                    //     if(tipo == 1){
+                    //         var parcelas = 0;
+                    //         while((NovaData.getMonth() + 1) % 2 != 0){
+                    //             NovaData.setMonth(NovaData.getMonth() + 1);
+                    //         }
                             
-                            if(Now.getMonth() == NovaData.getMonth() && dia_preferencial <= Now.getDate()){
-                                NovaData.setMonth(NovaData.getMonth() + 2);
-                            }
-                            var Mes = NovaData.getMonth() + 1;
-                            if(Mes <= 6){
-                                parcelas = 7 - Math.floor(Mes/2);
-                            }else{
-                                for(var dataHoje = new Date(NovaData); dataHoje < proximoAno; dataHoje.setMonth(dataHoje.getMonth() + 2)){
-                                    parcelas++;
-                                }
-                            }
-                        }else if(tipo == 2){
-                            var parcelas = 0;
-                            while((NovaData.getMonth() + 1) % 3 != 0){
-                                NovaData.setMonth(NovaData.getMonth() + 1);
-                            }
+                    //         if(Now.getMonth() == NovaData.getMonth() && dia_preferencial <= Now.getDate()){
+                    //             NovaData.setMonth(NovaData.getMonth() + 2);
+                    //         }
+                    //         var Mes = NovaData.getMonth() + 1;
+                    //         if(Mes <= 6){
+                    //             parcelas = 7 - Math.floor(Mes/2);
+                    //         }else{
+                    //             for(var dataHoje = new Date(NovaData); dataHoje < proximoAno; dataHoje.setMonth(dataHoje.getMonth() + 2)){
+                    //                 parcelas++;
+                    //             }
+                    //         }
+                    //     }else if(tipo == 2){
+                    //         var parcelas = 0;
+                    //         while((NovaData.getMonth() + 1) % 3 != 0){
+                    //             NovaData.setMonth(NovaData.getMonth() + 1);
+                    //         }
                             
-                            if(Now.getMonth() == NovaData.getMonth() && dia_preferencial <= Now.getDate()){
-                                NovaData.setMonth(NovaData.getMonth() + 3);
-                            }
-                            var Mes = NovaData.getMonth() + 1;
-                            if(Mes <= 6){
-                                parcelas = 5 - Math.floor(Mes/3);
-                            }else{
-                                for(var dataHoje = new Date(NovaData); dataHoje < proximoAno; dataHoje.setMonth(dataHoje.getMonth() + 3)){
-                                    parcelas++;
-                                }
-                            }
-                        }else if(tipo == 3){
-                            var parcelas = 0;
-                            while((NovaData.getMonth() + 1) % 6 != 0){
-                                NovaData.setMonth(NovaData.getMonth() + 1);
-                            }
+                    //         if(Now.getMonth() == NovaData.getMonth() && dia_preferencial <= Now.getDate()){
+                    //             NovaData.setMonth(NovaData.getMonth() + 3);
+                    //         }
+                    //         var Mes = NovaData.getMonth() + 1;
+                    //         if(Mes <= 6){
+                    //             parcelas = 5 - Math.floor(Mes/3);
+                    //         }else{
+                    //             for(var dataHoje = new Date(NovaData); dataHoje < proximoAno; dataHoje.setMonth(dataHoje.getMonth() + 3)){
+                    //                 parcelas++;
+                    //             }
+                    //         }
+                    //     }else if(tipo == 3){
+                    //         var parcelas = 0;
+                    //         while((NovaData.getMonth() + 1) % 6 != 0){
+                    //             NovaData.setMonth(NovaData.getMonth() + 1);
+                    //         }
                             
-                            if(Now.getMonth() == NovaData.getMonth() && dia_preferencial <= Now.getDate()){
-                                NovaData.setMonth(NovaData.getMonth() + 6);
-                            }
-                            var Mes = NovaData.getMonth() + 1;
-                            if(Mes <= 6){
-                                parcelas = 3 - Math.floor(Mes/6);
-                            }else{
-                                for(var dataHoje = new Date(NovaData); dataHoje < proximoAno; dataHoje.setMonth(dataHoje.getMonth() + 6)){
-                                    parcelas++;
-                                }
-                            }
-                        }else if(tipo == 6){
-                            var parcelas = 1;
-                            diaAtual = Now.getDate() + 3;
-                            if(diaAtual == 29 || diaAtual == 30 || diaAtual == 31)
-                            {
-                                diaAtual = 3;
-                                var Mes = NovaData.getMonth() + 2;
-                            }
-                            dia_preferencial = diaAtual;
-                            console.log(NovaData);
-                        }else{
-                            var parcelas = 0;
-                            if(dia_preferencial <= Now.getDate()){
-                                NovaData.setMonth(NovaData.getMonth() + 1);
-                            }
-                            Mes = NovaData.getMonth() + 1;
-                            if(Mes <= 6){
-                                parcelas = 13 - Mes;
-                            }else{
-                                for(var dataHoje = new Date(Now); dataHoje < proximoAno; dataHoje.setMonth(dataHoje.getMonth() + 1)){
-                                    parcelas++;
-                                }
-                            }
-                        }
-                        Number.prototype.zeroAntes = function() {
-                            return (this < 10 ? '0' : '') + this;
-                        }
-                        retornoDatas.dataV = (String(`${dia_preferencial}/${(NovaData.getMonth() + 1).zeroAntes()}/${NovaData.getFullYear()}`));
-                        retornoDatas.dataV_formatada = (String(`${NovaData.getFullYear()}-${(NovaData.getMonth()).zeroAntes()}-${dia_preferencial}`));
-                        retornoDatas.dataV_formatada_v2 = (String(`${NovaData.getFullYear()}-${(NovaData.getMonth() + 1).zeroAntes()}-${dia_preferencial}`));
-                        retornoDatas.parcelas = parcelas;
-                        console.log(retornoDatas);
-                        console.log(dia_preferencial);
-                        return retornoDatas;
-                    }
+                    //         if(Now.getMonth() == NovaData.getMonth() && dia_preferencial <= Now.getDate()){
+                    //             NovaData.setMonth(NovaData.getMonth() + 6);
+                    //         }
+                    //         var Mes = NovaData.getMonth() + 1;
+                    //         if(Mes <= 6){
+                    //             parcelas = 3 - Math.floor(Mes/6);
+                    //         }else{
+                    //             for(var dataHoje = new Date(NovaData); dataHoje < proximoAno; dataHoje.setMonth(dataHoje.getMonth() + 6)){
+                    //                 parcelas++;
+                    //             }
+                    //         }
+                    //     }else if(tipo == 6){
+                    //         var parcelas = 1;
+                    //         diaAtual = Now.getDate() + 3;
+                    //         if(diaAtual == 29 || diaAtual == 30 || diaAtual == 31)
+                    //         {
+                    //             diaAtual = 3;
+                    //             var Mes = NovaData.getMonth() + 2;
+                    //         }
+                    //         dia_preferencial = diaAtual;
+                    //         console.log(NovaData);
+                    //     }else{
+                    //         var parcelas = 0;
+                    //         if(dia_preferencial <= Now.getDate()){
+                    //             NovaData.setMonth(NovaData.getMonth() + 1);
+                    //         }
+                    //         Mes = NovaData.getMonth() + 1;
+                    //         if(Mes <= 6){
+                    //             parcelas = 13 - Mes;
+                    //         }else{
+                    //             for(var dataHoje = new Date(Now); dataHoje < proximoAno; dataHoje.setMonth(dataHoje.getMonth() + 1)){
+                    //                 parcelas++;
+                    //             }
+                    //         }
+                    //     }
+                    //     Number.prototype.zeroAntes = function() {
+                    //         return (this < 10 ? '0' : '') + this;
+                    //     }
+                    //     retornoDatas.dataV = (String(`${dia_preferencial}/${(NovaData.getMonth() + 1).zeroAntes()}/${NovaData.getFullYear()}`));
+                    //     retornoDatas.dataV_formatada = (String(`${NovaData.getFullYear()}-${(NovaData.getMonth()).zeroAntes()}-${dia_preferencial}`));
+                    //     retornoDatas.dataV_formatada_v2 = (String(`${NovaData.getFullYear()}-${(NovaData.getMonth() + 1).zeroAntes()}-${dia_preferencial}`));
+                    //     retornoDatas.parcelas = parcelas;
+                    //     console.log(retornoDatas);
+                    //     console.log(dia_preferencial);
+                    //     return retornoDatas;
+                    // }
 
                     console.log(socios.length, socios);
                     $(".configs_unico").css("display", "block");
@@ -218,90 +219,91 @@ $(document).ready(function(){
                     var dia_preferencial;
                     if(socios[0].data_referencia != "0000-00-00" && socios[0].data_referencia != null){
                         dia_preferencial = socios[0].data_referencia.split("-")[2];
-                        dataParcelas = gerarDataParcelas(Now, tipo, dia_preferencial);
-                        data_formatada = dataParcelas.dataV_formatada;
-                        data_formatada_br = dataParcelas.dataV;
-                        num_parcelas = dataParcelas.parcelas;
+                        // dataParcelas = gerarDataParcelas(Now, tipo, dia_preferencial);
+                        data_formatada = '2021-12-21';
+                        data_formatada_br = '21-12-2021';
+                        num_parcelas = 2;
                     }else{
                         dia_preferencial = 10;
-                        dataParcelas = gerarDataParcelas(Now, tipo, dia_preferencial);
-                        data_formatada = dataParcelas.dataV_formatada;
-                        data_formatada_br = dataParcelas.dataV;
-                        num_parcelas = dataParcelas.parcelas;
+                        // dataParcelas = gerarDataParcelas(Now, tipo, dia_preferencial);
+                        data_formatada = '2021-12-21';
+                        data_formatada_br = '21-12-2021';
+                        num_parcelas = 2;
                     } 
                     $("#tipo_geracao").change(function(){
                             switch(Number($(this).val())){
                                 case 1: 
                                     console.log("teste1");
                                     tipo = 6;
-                                    dataParcelas = gerarDataParcelas(Now, tipo, 10);
-                                    data_formatada = dataParcelas.dataV_formatada;
-                                    data_formatada_br = dataParcelas.dataV;
-                                    num_parcelas = dataParcelas.parcelas;
+                                    // dataParcelas = gerarDataParcelas(Now, tipo, 10);
+                                    data_formatada = '2021-12-21';
+                                    data_formatada_br = '21-12-2021';
+                                    num_parcelas = 2;
                                     periodicidade_socio = 0;
-                                    $("#data_vencimento").val(dataParcelas.dataV_formatada_v2);
+                                    // $("#data_vencimento").val(dataParcelas.dataV_formatada_v2);
                                     montaTabelaInicial(data_formatada, data_formatada_br, periodicidade_socio, num_parcelas, Number($("#valor_u").val()), socios[0].nome);
                                 break;
                                 case 2:
                                     tipo = 4;
-                                    dataParcelas = gerarDataParcelas(Now, tipo, 10);
-                                    data_formatada = dataParcelas.dataV_formatada;
-                                    data_formatada_br = dataParcelas.dataV;
-                                    num_parcelas = dataParcelas.parcelas;
+                                    // dataParcelas = gerarDataParcelas(Now, tipo, 10);
+                                    data_formatada = '2021-12-21';
+                                    data_formatada_br = '21-12-2021';
+                                    num_parcelas = 2;
                                     periodicidade_socio = 1;
-                                    $("#data_vencimento").val(dataParcelas.dataV_formatada_v2);
+                                    // $("#data_vencimento").val(dataParcelas.dataV_formatada_v2);
                                     montaTabelaInicial(data_formatada, data_formatada_br, periodicidade_socio, num_parcelas, Number($("#valor_u").val()), socios[0].nome);
                                 break;
                                 case 3:
                                     tipo = 1;
-                                    dataParcelas = gerarDataParcelas(Now, tipo, 10);
-                                    data_formatada = dataParcelas.dataV_formatada;
-                                    data_formatada_br = dataParcelas.dataV;
-                                    num_parcelas = dataParcelas.parcelas;
+                                    // dataParcelas = gerarDataParcelas(Now, tipo, 10);
+                                    data_formatada = '2021-12-21';
+                                    data_formatada_br = '21-12-2021';
+                                    num_parcelas = 2;
                                     periodicidade_socio = 2;
-                                    $("#data_vencimento").val(dataParcelas.dataV_formatada_v2);
+                                    // $("#data_vencimento").val(dataParcelas.dataV_formatada_v2);
                                     montaTabelaInicial(data_formatada, data_formatada_br, periodicidade_socio, num_parcelas, Number($("#valor_u").val()), socios[0].nome);
                                 break;
                                 case 4:
                                     tipo = 2;
-                                    dataParcelas = gerarDataParcelas(Now, tipo, 10);
-                                    data_formatada = dataParcelas.dataV_formatada;
-                                    data_formatada_br = dataParcelas.dataV;
-                                    num_parcelas = dataParcelas.parcelas;
+                                    // dataParcelas = gerarDataParcelas(Now, tipo, 10);
+                                    data_formatada = '2021-12-21';
+                                    data_formatada_br = '21-12-2021';
+                                    num_parcelas = 2;
                                     periodicidade_socio = 3;
-                                    $("#data_vencimento").val(dataParcelas.dataV_formatada_v2);
+                                    // $("#data_vencimento").val(dataParcelas.dataV_formatada_v2);
                                     montaTabelaInicial(data_formatada, data_formatada_br, periodicidade_socio, num_parcelas, Number($("#valor_u").val()), socios[0].nome);
                                 break;
                                 case 5:
                                     tipo = 3;
-                                    dataParcelas = gerarDataParcelas(Now, tipo, 10);
-                                    data_formatada = dataParcelas.dataV_formatada;
-                                    data_formatada_br = dataParcelas.dataV;
-                                    num_parcelas = dataParcelas.parcelas;
+                                    // dataParcelas = gerarDataParcelas(Now, tipo, 10);
+                                    data_formatada = '2021-12-21';
+                                    data_formatada_br = '21-12-2021';
+                                    num_parcelas = 2;
                                     periodicidade_socio = 6;
-                                    $("#data_vencimento").val(dataParcelas.dataV_formatada_v2);
+                                    // $("#data_vencimento").val(dataParcelas.dataV_formatada_v2);
                                     montaTabelaInicial(data_formatada, data_formatada_br, periodicidade_socio, num_parcelas, Number($("#valor_u").val()), socios[0].nome);
                                 break;
                                 default:
                                     tipo = 6;
-                                    dataParcelas = gerarDataParcelas(Now, tipo, 10);
-                                    data_formatada = dataParcelas.dataV_formatada;
-                                    data_formatada_br = dataParcelas.dataV;
-                                    num_parcelas = dataParcelas.parcelas;
+                                    // dataParcelas = gerarDataParcelas(Now, tipo, 10);
+                                    data_formatada = '2021-12-21';
+                                    data_formatada_br = '21-12-2021';
+                                    num_parcelas = 2;
                                     periodicidade_socio = 0;
-                                    $("#data_vencimento").val(dataParcelas.dataV_formatada_v2);
+                                    // $("#data_vencimento").val(dataParcelas.dataV_formatada_v2);
                                     montaTabelaInicial(data_formatada, data_formatada_br, periodicidade_socio, num_parcelas, Number($("#valor_u").val()), socios[0].nome);
                                 break;
                             }
                             if(socios[0].data_referencia != "0000-00-00" && socios[0].data_referencia != null){
                                 var dia_preferencial = socios[0].data_referencia.split("-")[2];
-                                dataParcelas = gerarDataParcelas(Now, tipo, dia_preferencial);
-                                data_formatada = dataParcelas.dataV_formatada;
-                                data_formatada_br = dataParcelas.dataV;
-                                $("#data_vencimento").val(dataParcelas.dataV_formatada_v2);
-                                num_parcelas = dataParcelas.parcelas;
+                                // dataParcelas = gerarDataParcelas(Now, tipo, dia_preferencial);
+                                data_formatada = '2021-12-21';
+                                data_formatada_br = '21-12-2021';
+                                num_parcelas = 2;
+                                // $("#data_vencimento").val(dataParcelas.dataV_formatada_v2);
+                                // num_parcelas = dataParcelas.parcelas;
                             }
-                            $("#data_vencimento").val(dataParcelas.dataV_formatada_v2);
+                            // $("#data_vencimento").val(dataParcelas.dataV_formatada_v2);
                             $("#num_parcelas").val(`Número de parcelas: ${num_parcelas}`);
                             montaTabelaInicial(data_formatada, data_formatada_br, periodicidade_socio, num_parcelas, Number($("#valor_u").val()), socios[0].nome);
                     })
@@ -310,14 +312,14 @@ $(document).ready(function(){
                         montaTabelaInicial(data_formatada, data_formatada_br, periodicidade_socio, num_parcelas, Number($("#valor_u").val()), socios[0].nome);
                     })
 
-                    $("#data_vencimento").change(function(){
-                        dataParcelas = gerarDataParcelas(Now, tipo, $(this).val().split("-")[2]);
-                        data = dataParcelas.dataV_formatada_v2;
-                        num_parcelas = dataParcelas.parcelas;
-                        montaTabelaInicial(data_formatada, data_formatada_br, periodicidade_socio, num_parcelas, Number($("#valor_u").val()), socios[0].nome);
-                    })
+                    // $("#data_vencimento").change(function(){
+                    //     dataParcelas = gerarDataParcelas(Now, tipo, $(this).val().split("-")[2]);
+                    //     data = dataParcelas.dataV_formatada_v2;
+                    //     num_parcelas = dataParcelas.parcelas;
+                    //     montaTabelaInicial(data_formatada, data_formatada_br, periodicidade_socio, num_parcelas, Number($("#valor_u").val()), socios[0].nome);
+                    // })
 
-                    $("#data_vencimento").val(dataParcelas.dataV_formatada_v2);
+                    // $("#data_vencimento").val(dataParcelas.dataV_formatada_v2);
                     
                     $("#num_parcelas").val(`Número de parcelas: ${num_parcelas}`);
                     montaTabelaInicial(data_formatada, data_formatada_br, periodicidade_socio, num_parcelas, Number($("#valor_u").val()), socios[0].nome);
@@ -334,6 +336,7 @@ $(document).ready(function(){
                                 carneBoletos = [];
                                 function montaTabela(nome_socio, carne, tipo_socio, telefone){
                                     console.log(telefone);
+                                    console.log(carne);
                                     $(".detalhes_unico").html("");
                                     $("#btn_wpp").css("display", "inline-block");
                                     referenciaAccordion = nome_socio.replace(/[^a-zA-Zs]/g, "") + Math.round(Math.random()*100000000);
@@ -396,12 +399,12 @@ $(document).ready(function(){
                                     switch(tipo){
                                         case 6:
                                             var Now = new Date();
-                                            var dadosDataParcelas = gerarDataParcelas(Now, 6, $("#data_vencimento").val().split("-")[2]);
-                                            var dataV = dadosDataParcelas['dataV'];
-                                            var dataV_formatada = dadosDataParcelas['dataV_formatada'];
-                                            var parcelas = dadosDataParcelas['parcelas']; 
+                                            // var dadosDataParcelas = gerarDataParcelas(Now, 6, $("#data_vencimento").val().split("-")[2]);
+                                            var dataV = '2021-12-21';
+                                            var dataV_formatada = '21-12-2021';
+                                            var parcelas = 2; 
                                             //aqui q tem q mudar as parcelas
-                                            console.log("teste - "+parcelas);
+                                            console.log("teste a- "+parcelas);
                                             $.ajax({
                                                 type: "GET",
                                                 url: `${apiData.api}token=${apiData.token_api}&description=${apiData.agradecimento}&amount=${$("#valor_u").val()}&dueDate=${dataV}&maxOverdueDays=${apiData.max_dias_venc}&installments=${parcelas}&payerName=${socio.nome}&payerCpfCnpj=${socio.cpf}&payerEmail=${socio.email}&payerPhone=${socio.telefone}&billingAddressStreet=${socio.logradouro}&billingAddressNumber=${socio.numero_endereco}&billingAddressComplement=${socio.complemento}&billingAddressNeighborhood=${socio.bairro}&billingAddressCity=${socio.cidade}&billingAddressState=${socio.estado}&billingAddressPostcode=${socio.cep}&fine=${apiData.multa}&interest=${apiData.juros}&paymentTypes=BOLETO&notifyPayer=TRUE&reference=${geraRef(socio.nome)}`,
@@ -420,10 +423,10 @@ $(document).ready(function(){
                                         break;
                                         case 4:
                                             var Now = new Date();
-                                            var dadosDataParcelas = gerarDataParcelas(Now, 4, $("#data_vencimento").val().split("-")[2]);
-                                            var dataV = dadosDataParcelas['dataV'];
-                                            var dataV_formatada = dadosDataParcelas['dataV_formatada'];
-                                            var parcelas = dadosDataParcelas['parcelas'];
+                                            // var dadosDataParcelas = gerarDataParcelas(Now, 4, $("#data_vencimento").val().split("-")[2]);
+                                            var dataV = '2021-12-21';
+                                            var dataV_formatada = '21-12-2021';
+                                            var parcelas = 2; 
                                             $.ajax({
                                                 type: "GET",
                                                 url: `${apiData.api}token=${apiData.token_api}&description=${apiData.agradecimento}&amount=${$("#valor_u").val()}&dueDate=${dataV}&maxOverdueDays=${apiData.max_dias_venc}&installments=${parcelas}&payerName=${socio.nome}&payerCpfCnpj=${socio.cpf}&payerEmail=${socio.email}&payerPhone=${socio.telefone}&billingAddressStreet=${socio.logradouro}&billingAddressNumber=${socio.numero_endereco}&billingAddressComplement=${socio.complemento}&billingAddressNeighborhood=${socio.bairro}&billingAddressCity=${socio.cidade}&billingAddressState=${socio.estado}&billingAddressPostcode=${socio.cep}&fine=${apiData.multa}&interest=${apiData.juros}&paymentTypes=BOLETO&notifyPayer=TRUE&reference=${geraRef(socio.nome)}`,
@@ -442,10 +445,10 @@ $(document).ready(function(){
                                         break;
                                         case 1:
                                             var Now = new Date();
-                                            var dadosDataParcelas = gerarDataParcelas(Now, 1, $("#data_vencimento").val().split("-")[2]);
-                                            var dataV = dadosDataParcelas['dataV'];
-                                            var dataV_formatada = dadosDataParcelas['dataV_formatada'];
-                                            var parcelas = dadosDataParcelas['parcelas'];
+                                            // var dadosDataParcelas = gerarDataParcelas(Now, 1, $("#data_vencimento").val().split("-")[2]);
+                                            var dataV = '2021-12-21';
+                                            var dataV_formatada = '21-12-2021';
+                                            var parcelas = 2; 
                                             for(i = 0; i < parcelas; i++){
                                                 $.ajax({
                                                     type: "GET",
@@ -471,10 +474,10 @@ $(document).ready(function(){
                                         break;
                                         case 2:
                                             var Now = new Date();
-                                            var dadosDataParcelas = gerarDataParcelas(Now, 2, $("#data_vencimento").val().split("-")[2]);
-                                            var dataV = dadosDataParcelas['dataV'];
-                                            var dataV_formatada = dadosDataParcelas['dataV_formatada'];
-                                            var parcelas = dadosDataParcelas['parcelas'];
+                                            // var dadosDataParcelas = gerarDataParcelas(Now, 2, $("#data_vencimento").val().split("-")[2]);
+                                            var dataV = '2021-12-21';
+                                            var dataV_formatada = '21-12-2021';
+                                            var parcelas = 2; 
                                             for(i = 0; i < parcelas; i++){
                                                 $.ajax({
                                                     type: "GET",
@@ -500,10 +503,10 @@ $(document).ready(function(){
                                         break;
                                         case 3:
                                             var Now = new Date();
-                                            var dadosDataParcelas = gerarDataParcelas(Now, 3, $("#data_vencimento").val().split("-")[2]);
-                                            var dataV = dadosDataParcelas['dataV'];
-                                            var dataV_formatada = dadosDataParcelas['dataV_formatada'];
-                                            var parcelas = dadosDataParcelas['parcelas'];
+                                            // var dadosDataParcelas = gerarDataParcelas(Now, 3, $("#data_vencimento").val().split("-")[2]);
+                                            var dataV = '2021-12-21';
+                                            var dataV_formatada = '21-12-2021';
+                                            var parcelas = 2; 
                                             for(i = 0; i < parcelas; i++){
                                                 $.ajax({
                                                     type: "GET",

@@ -23,21 +23,22 @@
 	</style>
 
 	<script>
-			$(document).ready(function(){
-				var data = new Date;
-				var dia = data.getDate();
-				var diaF = (dia.length == 1) ? '0'+dia : dia;
-				var mes = data.getMonth()+1;
-				var ano = data.getFullYear();
-				var t = ano+"-"+mes+"-"+"0"+diaF;
-				// console.log(t);
-
-				$("#data_vencimento").attr({
-					"max" : data,        // substitute your own
-					"min" : t          // values (or variables) here
-				});
-
+		// mudar o maximo e o minimo da data de vencimento do boleto
+		$(document).ready(function(){
+			var data = new Date;
+			var dia = data.getDate();
+			var diaF = (dia.length == 1) ? '0'+dia : dia;
+			var mes = data.getMonth()+1;
+			var ano = data.getFullYear();
+			var anoM1 = data.getFullYear()+1;
+			var data_minima = ano+"-"+mes+"-"+"0"+diaF;
+			var data_maxima = anoM1+"-"+mes+"-"+"0"+diaF;
+			$("#data_vencimento").attr({
+				"max" : data_maxima,      
+				"min" : data_minima         
 			});
+
+		});
 	</script>
 
 		<!-- start: header -->
@@ -104,10 +105,8 @@
            
 		   <div class="data">
 		   <label for="data_vencimento">Data de vencimento (se não for boleto único será a data de vencimento da primeira parcela)</label>
-		   <input type="date" class="form-control" id="data_vencimento" name="data_vencimento" placeholder="Data vencimento" min="2021-12-07" required>
+		   <input type="date" class="form-control" id="data_vencimento" name="data_vencimento" placeholder="Data vencimento" required>
 		   </div>
-
-		   <!-- <input type="date" required="required" maxlength="10" name="date" pattern="[0-9]{2}\/[0-9]{2}\/[0-9]{4}$" min="2012-01-01" max="2014-02-18" /> -->
 
 		   </div>
 		   <div class="form-group mb-2 col-xs-6">
@@ -124,7 +123,12 @@
 		   
 
 </div>
-			<div style="display: none" class="col-xs-12 div_btn_gerar"><button type="button" id="btn_geracao_unica" class="btn btn-primary">Confirmar geração</button> <button style="display: none" type="button" id="btn_wpp" class="btn btn-success"><i style="padding: 0; font-size: 20px" class="fab fa-whatsapp"></i></button></div>
+			<div style="display: none" class="col-xs-12 div_btn_gerar">
+				<button type="button" id="btn_geracao_unica" class="btn btn-primary">Confirmar geração</button> 
+				<button style="display: none" type="button" id="btn_wpp" class="btn btn-success">
+				<i style="padding: 0; font-size: 20px" class="fab fa-whatsapp"></i></button>
+			</div>
+			
 				</div>
 				<?php 
 						$socios = array();
