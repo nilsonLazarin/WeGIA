@@ -73,7 +73,7 @@ session_start();
   $endereco->listarInstituicao();*/
    
    
-   $id=$_GET['id_fichamedica']; //NÃO TA RECEBENDO ja 
+   $id=$_GET['id_fichamedica']; 
    $cache = new Cache();
    $teste = $cache->read($id);
    //$atendidos = $_SESSION['idatendido'];
@@ -276,55 +276,12 @@ session_start();
          				$("#radioF").prop('checked',true);
          			}
              
-              
-              // $("#tipoSanguineo").val(item.tipo_sanguineo).prop('disabled', true);
-              // var $t = $("#tipoSanguineo").val(item.tipo_sanguineo).prop('disabled', true);
-              // console.log($t);
-              // ver o audio do nilson, se o paciente tiver sangue, n exibe o editar, se n, o medico coloca e salva sem capacidade para mudança ne, pq o sangue não muda//
-              //if(item.tipo_sanguineo != ""){
-                
-              //}
-         			
-              // $("#sangueSelect").text(item.tipo_sanguineo);
-         			// $("#sangueSelect").val(item.tipo_sanguineo);
-              // $("#tipoSanguineoSelecionado").text(item.tipo_sanguineo);
-         			// $("#tipoSanguineoSelecionado").val(item.tipo_sanguineo);
-
-              // $("#sangue").val(item.tipo_sanguineo).prop('disabled', true);
-              
-              // if(item.tipo_sanguineo != null)
-              // {
-                
-              // }
-              // if(item.tipo_sanguineo != null){
-              //     item.tipo_sanguineo.style.display = "block";
-              // }
-              // else{
-              //     item.tipo_sanguineo.style.display = "none";
-              // }
-              // var aparecer_funcionario = document.getElementById("clicado2");
-              // var bolinha_funcionario = document.getElementById("bolinha_funcionario");
-              // 
-
          			$("#nascimento").text("Data de nascimento: "+item.data_nascimento);
          			$("#nascimento").val(item.data_nascimento);
 
               if(item.tipo_sanguineo==null)
               {
                   $("#adicionartipo").show(); // dps um hide//
-                  // $("#tipoSanguineo").val(item.tipo_sanguineo).prop('disabled', true);
-                  // $("#botaoSalvarIP").prop('disabled', false);
-                  function disabled_select(){
-                    $("#tipoSanguineo").prop('disabled',true);
-                  }
-                  // function editar_informacoes_pessoais(){
-                    // $("#tipoSanguineo").prop('disabled', true);
-                    // $("#botaoEditarIP").html('Cancelar');
-                    // $("#botaoSalvarIP").prop('disabled', false);
-                    // $("#botaoEditarIP").removeAttr('onclick');
-                    // $("#botaoEditarIP").attr('onclick', "return cancelar_informacoes_pessoais()");
-
-                  // }
               }
               if(item.tipo_sanguineo !=null)
               {
@@ -346,25 +303,7 @@ session_start();
             $("#header").load("../header.php");
             $(".menuu").load("../menu.php");
          });
-        //  function editar_informacoes_pessoais(){
-        //   $("#tipoSanguineo").prop('disabled', false);
-        //   // $("#botaoSalvarIP").prop('disabled', false);
-        //   $("#botaoEditarIP").html('Cancelar');
-        //   $("#botaoSalvarIP").prop('disabled', false);
-        //   $("#botaoEditarIP").removeAttr('onclick');
-        //   $("#botaoEditarIP").attr('onclick', "return cancelar_informacoes_pessoais()");
-        //   console.log("bem, editando");
-
-        // }
-        // function cancelar_informacoes_pessoais()
-        // {
-        //   $("#tipoSanguineo").prop('disabled', true);
-        //   $("#botaoEditarIP").html('Editar');
-        //   $("#botaoSalvarIP").prop('disabled', true);
-        //   $("#botaoEditarIP").removeAttr('onclick');
-        //   $("#botaoEditarIP").attr('onclick', "return editar_informacoes_pessoais()");
-        //   console.log("bem, cancelando");
-        // }
+       
       //</script>
       
     <script src="controller/script/valida_cpf_cnpj.js"></script>
@@ -536,23 +475,15 @@ session_start();
                         </div>
 
                       <!-- </div> -->
-                      
                       <input type="hidden" name="id_fichamedica" value=<?php echo $_GET['id_fichamedica'] ?>>
-                      <!-- <button type="button" class="btn btn-primary" id="botaoEditarIP" onclick="return editar_informacoes_pessoais()">Editar</button> -->
-                      <!-- <input type="hidden" name="nomeClasse" value="SaudeControle"> -->
                      <div class="col-md-9 col-md-offset-3">
-                            <!-- <input type="hidden" name="nomeClasse" value="SaudeControle">
-                            <input type="hidden" name="metodo" value="AlterarInfPessoal"> -->
-                            <input type="submit" class="btn btn-primary" value="Salvar" id="botaoSalvarIP" onclick="disabled_select()">
-                            <!-- <input id="Salvar" type="submit" class="btn btn-primary" value="Salvar"> -->
+                        <input type="submit" class="btn btn-primary" value="Salvar" id="botaoSalvarIP">
                       </div> 
                      </div>
-
-                      </div>
-                      </section>
-                   <!-- </div> -->
+                    </div>
+                    </section>
                   </form>
-        </div>
+                </div>
 
                   
 <!-- Aba  de  comorbidades -->
@@ -563,33 +494,68 @@ session_start();
                       <div class="panel-actions">
                         <a href="#" class="fa fa-caret-down"></a>
                       </div>
-                      
-
                       <h2 class="panel-title">Cadastro de comorbidades</h2>
                     </header>
                   <div class="panel-body">
                     <!--Cadastro de comorbidades-->
                    <hr class="dotted short">
                     <form id="endereco" class="form-horizontal" method="post" action="../../controle/control.php">
-                      <input type="hidden" name="nomeClasse" value="EnderecoControle">
-                      <input type="hidden" name="metodo" value="alterarEndereco">
-                      <div class="form-group">
-                        <label class="col-md-3 control-label" for="inputSuccess">Doenças:</label>
-                        <div class="col-md-6">
-                          <select class="form-control input-lg mb-md" name="sangue" id="sangue">
-                            <option selected disabled>Selecionar</option>
-                            <option value="A+">A+</option>
-                            <option value="A-">A-</option>
-                            <option value="B+">B+</option>
-                            <option value="B-">B-</option>
-                            <option value="O+">O+</option>
-                            <option value="O-">O-</option>
-                            <option value="AB+">AB+</option>
-                            <option value="AB-">AB-</option>
-                          </select>
+                      <!-- <input type="hidden" name="nomeClasse" value="EnderecoControle"> -->
+                      <!-- <input type="hidden" name="metodo" value="alterarEndereco"> -->
+
+                      <div class="modal-body" style="padding: 15px 40px">
+
+                        <div class="form-group">
+                          <label class="col-md-3 control-label" for="inputSuccess">Enfermidades</label>
+                          
+                          <div class="col-md-8">
+                            <select class="form-control input-lg mb-md" name="sangue" id="sangue" style="width:350px;">
+                              <?php
+                                  // require_once 'conexao.php';
+                                  $comando_select = "select * from saude_tabelacid";
+                                  $resultado_select = mysqli_query($conexao,$comando_select);
+                                  $linhas_select = mysqli_num_rows($resultado_select);
+                                  for($i=0;$i<$linhas_select;$i++)
+                                  {
+                                      $registro_select = mysqli_fetch_row($resultado_select);
+                                      echo
+                                      "
+                                              <option value='$registro_select[1]'>$registro_select[2]</option>
+                                      ";
+                                  }
+                              ?> 
+                            </select>
+                            <!-- <input type="submit" class="btn btn-primary" value="Cadastrar"> -->
+                          </div>
                         </div>
-                      </div>
-                     <div class="form-group center">
+
+                        <div class="form-group">
+                          <label class="col-md-3 control-label" for="inputSuccess">Data cadastro</label>
+                          <div class="col-md-6">
+                            <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" name="data_expedicao" id="data_expedicao" max=2021-06-11>
+                          </div>
+                        </div>
+                        <br>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#docFormModal"> Cadastrar </button>
+                        <div class="form-group">
+                          
+                            <br>
+                            <br>
+                            <table class="table table-bordered table-striped mb-none" id="datatable-docfuncional">
+                              <thead>
+                                <tr>
+                                  <th>Enfermidade</th>
+                                  <th>Data de cadastro</th>
+                                  <th>Ação</th>
+                                </tr>
+                              </thead>
+                              <tbody id="doc-tab">
+                              </tbody>
+                            </table>
+                          </div>
+                      
+                      <div> <!-- div do padding -->
+                     <!-- <div class="form-group center"> -->
                      <!--<input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>-->
                       <!-- <button type="button" class="btn btn-primary" id="botaoEditarEndereco" onclick="return editar_endereco()">Cadastrar</button> -->
                       <!--<input id="botaoSalvarEndereco" type="submit" class="btn btn-primary" disabled="true" value="Salvar" onclick="funcao3()">-->
@@ -705,8 +671,6 @@ session_start();
                   -->     
 
                    <div class="panel-body">
-                   
-                     <br>
                      <br>
                       <table class="table table-bordered table-striped mb-none" id="datatable-docfuncional">
                         <thead>

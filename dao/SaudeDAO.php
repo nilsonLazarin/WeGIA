@@ -157,25 +157,10 @@ class SaudeDAO
             $sql = str_replace("'", "\'", $sql);
             $pdo = Conexao::connect();
             $stmt = $pdo->prepare($sql);
-            
             $stmt = $pdo->prepare($sql);
-            // $nome=$paciente->getNome();
-            // $sobrenome=$funcionario->getSobrenome();
             $id_fichamedica=$paciente->getId_pessoa();
-            // $sexo=$funcionario->getSexo();
-            // $telefone=$funcionario->getTelefone();
-            // $nascimento=$funcionario->getDataNascimento();
-            // $nomePai=$funcionario->getNomePai();        
-            // $nomeMae=$funcionario->getNomeMae();
             $tipoSanguineo=$paciente->getTipoSanguineo();
-            // $stmt->bindParam(':nome',$nome);
-            // $stmt->bindParam(':sobrenome',$sobrenome);
             $stmt->bindParam(':id_fichamedica',$id_fichamedica);
-            // $stmt->bindParam(':sexo',$sexo);
-            // $stmt->bindParam(':telefone',$telefone);
-            // $stmt->bindParam(':data_nascimento',$nascimento);
-            // $stmt->bindParam(':nome_pai',$nomePai);        
-            // $stmt->bindParam(':nome_mae',$nomeMae);
             $stmt->bindParam(':tipo_sanguineo',$tipoSanguineo);
             $stmt->execute();
         } catch (PDOException $e) {
