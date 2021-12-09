@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
     // Geração para sócio único
-
+    var teste;
     function procurar_desejado(id_socio){
         $.post("./controller/query_geracao_auto.php", {
             "query": `SELECT * FROM socio s JOIN pessoa p ON p.id_pessoa = s.id_pessoa WHERE s.id_sociostatus NOT IN (1,2,3,4) AND s.id_socio = ${id_socio}`
