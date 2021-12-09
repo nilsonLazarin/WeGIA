@@ -122,7 +122,7 @@
 		   <div class="col-xs-12 detalhes_unico">
 		   
 
-</div>
+		   </div>
 			<div style="display: none" class="col-xs-12 div_btn_gerar">
 				<button type="button" id="btn_geracao_unica" class="btn btn-primary">Confirmar geração</button> 
 				<button style="display: none" type="button" id="btn_wpp" class="btn btn-success">
