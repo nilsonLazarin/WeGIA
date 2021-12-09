@@ -311,7 +311,7 @@ require_once ROOT."/html/personalizacao_display.php";
                                             <br>
 
                                             <div class="form-group" id="teste">
-                                                <label class="col-md-3 control-label" for="profileLastName">Selecione:<sup class="obrig">*</sup></label> 
+                                                <label class="col-md-3 control-label" for="profileLastName" style="padding-left:29px;">Selecione:<sup class="obrig">*</sup></label> 
                                                 <div class="col-md-8">
                                                 <label><input type="radio" name="gender" id="bolinha_atendido" value="atendido" style="margin-top: 10px; margin-left: 15px;" onclick="return exibirAtendido()">  Atendido</label>
                                                 <label><input type="radio" name="gender" id="bolinha_funcionario" value="f" style="margin-top: 10px; margin-left: 15px;" onclick="return exibirFuncionario()">  Funcionário </label>
@@ -320,7 +320,7 @@ require_once ROOT."/html/personalizacao_display.php";
                                 
                                             <div class="form-group">
                                                 <div id="clicado" style="display:none;">
-                                                    <label class="col-md-3 control-label" for="inputSuccess">Paciente:<sup class="obrig">*</sup></label>
+                                                    <label class="col-md-3 control-label" for="inputSuccess" style="padding-left:29px;">Paciente:<sup class="obrig">*</sup></label>
                                                     <div class="col-md-6">
                                                         <select class="form-control input-lg mb-md" name="nome" id="nome" required>
                                                             <option selected disabled>Selecionar</option>
@@ -332,7 +332,7 @@ require_once ROOT."/html/personalizacao_display.php";
 
                                             <div class="form-group">
                                                 <div class='col-md-6' id='div_texto' style="height: 499px;">
-                                                    <label for="texto" id="etiqueta_despacho" style="padding-left: 15px;">Descrição médica<sup class="obrig">*</sup></label>
+                                                    <label for="texto" id="etiqueta_despacho" style="padding-left: 15px;">Descrição médica</label>
                                                     <textarea cols='30' rows='5' id='despacho' name='texto' class='form-control' onkeypress="return Onlychars(event)"required></textarea>
                                                 </div>
                                             </div>

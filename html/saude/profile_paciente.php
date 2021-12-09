@@ -83,10 +83,13 @@ session_start();
   
   //  $sessao_saude = $_SESSION['id_fichamedica'];
    
-   if (!isset($teste)) {
-   		
+   if (!isset($teste)) 
+   {
    		header('Location: ../../controle/control.php?metodo=listarUm&nomeClasse=SaudeControle&nextPage=../html/saude/saude.php?id_fichamedica='.$id.'&id='.$id);
-      }
+  }
+  $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+  // $intTipo = $mysqli->query("SELECT * FROM atendido_tipo");
+  $intStatus = $mysqli->query("SELECT * FROM saude_enfermidades");
    
 ?>
 
@@ -193,8 +196,9 @@ session_start();
       <link rel="stylesheet" href="../../assets/vendor/magnific-popup/magnific-popup.css" />
       <link rel="stylesheet" href="../../assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
 
-       <link rel="stylesheet" type="text/css" href="../../css/profile-theme.css"> 
-      </script> <script src="../../assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>  <script src="../../assets/vendor/nanoscroller/nanoscroller.js"></script>
+      <link rel="stylesheet" type="text/css" href="../../css/profile-theme.css"> 
+      </script> <script src="../../assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>  
+      <script src="../../assets/vendor/nanoscroller/nanoscroller.js"></script>
       <script src="../../assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
       <script src="../../assets/vendor/magnific-popup/magnific-popup.js"></script>
       <script src="../../assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
@@ -208,32 +212,10 @@ session_start();
       <script src="../../assets/vendor/modernizr/modernizr.js"></script>
       <script src="../../Functions/lista.js"></script>
       <!-- JavaScript Functions -->
-	   <script src="../../Functions/enviar_dados.js"></script>
+	    <script src="../../Functions/enviar_dados.js"></script>
       <script src="../../Functions/mascara.js"></script>
       
       <script>
-      
-        // console.log("teste");
-
-        // function editar_informacoes_pessoais(){
-        //             $("#tipoSanguineo").prop('disabled', false);
-        //             $("#botaoEditarIP").html('Cancelar');
-        //             $("#botaoSalvarIP").prop('disabled', false);
-        //             $("#botaoEditarIP").removeAttr('onclick');
-        //             $("#botaoEditarIP").attr('onclick', "return cancelar_informacoes_pessoais()");
-
-        //           }
-        //           function cancelar_informacoes_pessoais()
-        //           {
-        //             $("#tipoSanguineo").prop('disabled', true);
-        //             $("#botaoEditarIP").html('Editar');
-        //             $("#botaoSalvarIP").prop('disabled', true);
-        //             $("#botaoEditarIP").removeAttr('onclick');
-        //             $("#botaoEditarIP").attr('onclick', "return editar_informacoes_pessoais()");
-        //           }
-        //            $("#tipoSanguineo").val(item.tipo_sanguineo).prop('disabled', true);
-        //       }
-         
         
         function excluirimg(id)
             {
@@ -253,59 +235,88 @@ session_start();
             
             console.log(interno);
          	  $.each(interno,function(i,item){
-         		if(i=1)
-         		{
-              $("#formulario").append($("<input type='hidden' name='id_fichamedica' value='"+item.id+"'>"));
-         			//var cpf=item.cpf;
-         			$("#nome").text("Nome: "+item.nome+' '+item.sobrenome);
-         			$("#nome").val(item.nome + " " + item.sobrenome);
-              // $("#sobrenome").val(item.sobrenome);
-         			if(item.imagem!=""){
-                     $("#imagem").attr("src","data:image/gif;base64,"+item.imagem);
-                  }else{
-                     $("#imagem").attr("src","../../img/semfoto.png");
-                  }
-         			if(item.sexo=="m")
-         			{
-         				$("#sexo").html("Sexo: <i class='fa fa-male'></i>  Masculino");
-         				$("#radioM").prop('checked',true);
-         			}
-         			else if(item.sexo=="f")
-         			{
-         				$("#sexo").html("Sexo: <i class='fa fa-female'>  Feminino");
-         				$("#radioF").prop('checked',true);
-         			}
-             
-         			$("#nascimento").text("Data de nascimento: "+item.data_nascimento);
-         			$("#nascimento").val(item.data_nascimento);
+              if(i=1)
+              {
+                $("#formulario").append($("<input type='hidden' name='id_fichamedica' value='"+item.id+"'>"));
+                //var cpf=item.cpf;
+                $("#nome").text("Nome: "+item.nome+' '+item.sobrenome);
+                $("#nome").val(item.nome + " " + item.sobrenome);
+                // $("#sobrenome").val(item.sobrenome);
+                if(item.imagem!=""){
+                      $("#imagem").attr("src","data:image/gif;base64,"+item.imagem);
+                    }else{
+                      $("#imagem").attr("src","../../img/semfoto.png");
+                    }
+                if(item.sexo=="m")
+                {
+                  $("#sexo").html("Sexo: <i class='fa fa-male'></i>  Masculino");
+                  $("#radioM").prop('checked',true);
+                }
+                else if(item.sexo=="f")
+                {
+                  $("#sexo").html("Sexo: <i class='fa fa-female'>  Feminino");
+                  $("#radioF").prop('checked',true);
+                }
+              
+                $("#nascimento").text("Data de nascimento: "+item.data_nascimento);
+                $("#nascimento").val(item.data_nascimento);
 
-              if(item.tipo_sanguineo==null)
-              {
-                  $("#adicionartipo").show(); // dps um hide//
+                if(item.tipo_sanguineo==null)
+                {
+                    $("#adicionartipo").show(); // dps um hide//
+                }
+                if(item.tipo_sanguineo !=null)
+                {
+                  $("#exibirtipo").show();
+                  // $("#tipoSanguineo").text(item.tipo_sanguineo);
+                  $("#sangue").text("Sangue: "+item.tipo_sanguineo);
+                  $("#sangue").val(item.tipo_sanguineo);
+                }
+          
+                //  if(item.imgdoc==null)
+                //  {
+                //     $('#docs').append($("<strong >").append($("<p >").text("Não foi possível encontrar nenhuma imagem referente a esse Paciente!")));
+                //  }
               }
-              if(item.tipo_sanguineo !=null)
-              {
-                $("#exibirtipo").show();
-                // $("#tipoSanguineo").text(item.tipo_sanguineo);
-                $("#sangue").text("Sangue: "+item.tipo_sanguineo);
-         			  $("#sangue").val(item.tipo_sanguineo);
-              }
-         
-              //  if(item.imgdoc==null)
-              //  {
-              //     $('#docs').append($("<strong >").append($("<p >").text("Não foi possível encontrar nenhuma imagem referente a esse Paciente!")));
-              //  }
-             }
-         	});
-         });
+            });
+          });
+
+          // $(function(){
+
+          //   let tabela_medicacao = new Array();
+
+          //   $("#botao_comorbidade").click(function(){
+          //   let enfermidade = $("#enfermidade").val();
+          //   let data_cadastro =  $("#data_cadastro").val();
+
+          //       $("#tabela_enfermidades").append($("<tr>").addClass("livro")
+          //           .append($("<td>") .text(enfermidade) )
+          //           .append($("<td>") .text(data_cadastro) )
+          //           .append($("<td>") .append($("<img>").attr('src', './img/lixeira.png').addClass("lixeira")) ) ); // imagemzinha da lixeira //
+          //           let tabela = {
+          //                   "enfermidade": enfermidade,
+          //                   "data_cadastro": data_cadastro
+          //               };
+          //           tabela_medicacao.push(tabela);
+          //           $("#data_cadastro").val("");
+          //   });
+          //   });
+        
         //  });
          $(function () {
             $("#header").load("../header.php");
             $(".menuu").load("../menu.php");
          });
+
        
-      //</script>
-      
+       
+      </script>
+      <style type="text/css">
+      .obrig {
+        color: rgb(255, 0, 0);
+      }
+      </style>
+        
     <script src="controller/script/valida_cpf_cnpj.js"></script>
    </head>
    <body>
@@ -499,17 +510,17 @@ session_start();
                   <div class="panel-body">
                     <!--Cadastro de comorbidades-->
                    <hr class="dotted short">
-                    <form id="endereco" class="form-horizontal" method="post" action="../../controle/control.php">
+                    <form id="endereco" class="form-horizontal" method="GET" action="../../controle/control.php">
                       <!-- <input type="hidden" name="nomeClasse" value="EnderecoControle"> -->
                       <!-- <input type="hidden" name="metodo" value="alterarEndereco"> -->
-
+                      <h5 class="obrig">Campos Obrigatórios(*)</h5>
                       <div class="modal-body" style="padding: 15px 40px">
 
                         <div class="form-group">
                           <label class="col-md-3 control-label" for="inputSuccess">Enfermidades</label>
                           
                           <div class="col-md-8">
-                            <select class="form-control input-lg mb-md" name="sangue" id="sangue" style="width:350px;">
+                            <select class="form-control input-lg mb-md" name="enfermidade" id="enfermidade" style="width:350px;">
                               <?php
                                   // require_once 'conexao.php';
                                   $comando_select = "select * from saude_tabelacid";
@@ -530,18 +541,39 @@ session_start();
                         </div>
 
                         <div class="form-group">
-                          <label class="col-md-3 control-label" for="inputSuccess">Data cadastro</label>
+                          <label class="col-md-3 control-label" for="inputSuccess">Data do diagnóstico</label>
                           <div class="col-md-6">
-                            <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" name="data_expedicao" id="data_expedicao" max=2021-06-11>
+                            <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" name="data_diagnostico" id="data_diagnostico" max=2021-06-11>
                           </div>
                         </div>
-                        <br>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#docFormModal"> Cadastrar </button>
+
                         <div class="form-group">
-                          
-                            <br>
-                            <br>
-                            <table class="table table-bordered table-striped mb-none" id="datatable-docfuncional">
+                          <label class="col-md-3 control-label" for="inputSuccess">Status<sup class="obrig">*</sup></label>
+                          <div class="col-md-6">
+                          <select class="form-control input-lg mb-md" name="intStatus" id="intStatus" required>
+                            <option selected disabled>Selecionar</option>
+                            <!-- <?php
+                              while ($row = $intStatus->fetch_array(MYSQLI_NUM)) {
+                              echo "<option value=" . $row[0] . ">" . $row[1] . "</option>";
+                              }
+                            ?> -->
+                            <option>Ativo</option>
+                            <option>Inativo</option>
+                          </select>
+                        </div>
+                        </div>
+                        
+                        <button type="button" id="botao_comorbidade" class="btn btn-primary"> Cadastrar </button>
+                        <!-- <input id="enviar" type="submit" class="btn btn-primary" value="Enviar"> -->
+                        <!-- <input type="hidden" name="id_fichamedica" value=<?php echo $_GET['id_fichamedica'] ?>> -->
+                        <!-- <div class="col-md-9 col-md-offset-3">
+                            <input type="submit" class="btn btn-primary" value="Salvar" id="botaoSalvarIP">
+                          </div>  -->
+                        <br>
+                        <br>
+
+                        <div class="form-group">
+                            <table class="table table-bordered table-striped mb-none" id="tabela_enfermidades">
                               <thead>
                                 <tr>
                                   <th>Enfermidade</th>
@@ -574,14 +606,13 @@ session_start();
                      <div class="panel-actions">
                        <a href="#" class="fa fa-caret-down"></a>
                      </div>
-                     
                      <h2 class="panel-title">Exames</h2>
-
                      </header>
+
                      <div class="panel-body">
-                 <form class="form-horizontal" method="post" action="../controle/control.php">
+                    <!-- <form class="form-horizontal" method="post" action="../controle/control.php">
                    <input type="hidden" name="nomeClasse" value="SaudeControle">
-                   <input type="hidden" name="metodo" value="alterarDocumentacao">
+                   <input type="hidden" name="metodo" value="alterarDocumentacao"> -->
                    <!--<div class="form-group">
                      <label class="col-md-3 control-label" for="profileCompany">Upload de arquivo</label>
                      <div class="col-md-6">
@@ -592,42 +623,47 @@ session_start();
                       <div class="modal fade" id="docFormModal" tabindex="-1" role="dialog" aria-labelledby="docFormModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                           <div class="modal-content">
+
                             <div class="modal-header" style="display: flex;justify-content: space-between;">
-                              <h5 class="modal-title" id="exampleModalLabel">Adicionar Arquivo</h5>
+                              <h5 class="modal-title" id="exampleModalLabel">Adicionar exame</h5>
                               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                               </button>
                             </div>
+
                             <form action='./funcionario/documento_upload.php' method='post' enctype='multipart/form-data' id='funcionarioDocForm'>
                               <div class="modal-body" style="padding: 15px 40px">
                                 <div class="form-group" style="display: grid;">
-                                  <label class="my-1 mr-2" for="tipoDocumento">Tipo de Arquivo</label><br>
+
+                                  <div class="form-group">
+                                    <label for="arquivoDocumento">Exame</label>
+                                    <input name="arquivo" type="file" class="form-control-file" id="id_documento" accept="png;jpeg;jpg;pdf;docx;doc;odp" required>
+                                  </div>
+
+                                  <label class="my-1 mr-2" for="tipoDocumento">Tipo de exame</label><br>
                                   <div style="display: flex;">
                                     <select name="id_docfuncional" class="custom-select my-1 mr-sm-2" id="tipoDocumento" required>
-                                      <option selected disabled>Selecionar...</option>
-                                      <option value="Certidão de Nascimento">Certidão de Nascimento</option>
-                                       <option value="Certidão de Casamento">Certidão de Casamento</option>
-                                       <option value="Curatela">Curatela</option>
-                                       <option value="INSS">INSS</option>
-                                       <option value="LOAS">LOAS</option>
-                                       <option value="FUNRURAL">FUNRURAL</option>
-                                       <option value="Título de Eleitor">Título de Eleitor</option>
-                                       <option value="CTPS">CTPS</option>
-                                       <option value="SAF">SAF</option>
-                                       <option value="SUS">SUS</option>
-                                       <option value="BPC">BPC</option> 
-                                       <option value="CPF">CPF</option>
-                                       <option value="Registro Geral">RG</option>
-                                      
-                                    
+                                       <option selected disabled>Selecionar...</option>
+                                       <option value="Sangue">Sangue</option>
+                                       <option value="Urina">Urina</option>
+                                       <option value="Fezes">Fezes</option>
+                                       <option value="Cardíaco">Cardíaco</option>
+                                       <option value="Glicemia">Glicemia</option>
+                                       <option value="TSH">TSH</option>
+                                       <option value="Papanicolau">Papanicolau</option>
+                                       <option value="Creatinina">Creatinina</option>
+                                       <option value="Transaminases">Transaminases</option>
                                     </select>
-                                   
                                   </div>
                                 </div>
+                               
                                 <div class="form-group">
-                                  <label for="arquivoDocumento">Arquivo</label>
-                                  <input name="arquivo" type="file" class="form-control-file" id="id_documento" accept="png;jpeg;jpg;pdf;docx;doc;odp" required>
+                                <label>Data do exame</label>
+                                <div style="display: flex;">
+                                  <input type="date" class="form-control"  maxlength="10" placeholder="dd/mm/aaaa" name="data_diagnostico" id="data_diagnostico" max=2021-06-11>
                                 </div>
+                              </div>
+
                                 <input type="number" name="id_interno" value="" style='display: none;'>
                               </div>
                               <div class="modal-footer">
@@ -638,37 +674,6 @@ session_start();
                             </div>
                           </div>
                         </div>
-                        <br />
-                   <div class="form-group" id="testesanguineo">
-                        <label class="col-md-3 control-label" for="inputSuccess">Tipo exame:</label>
-                        <div class="col-md-6">
-                          <select class="form-control input-lg mb-md" name="sangue" id="sangue">
-                            <option selected id="sangueSelect">Selecionar</option>
-                            <option value="A+">A+</option>
-                            <option value="A-">A-</option>
-                            <option value="B+">B+</option>
-                            <option value="B-">B-</option>
-                            <option value="O+">O+</option>
-                            <option value="O-">O-</option>
-                            <option value="AB+">AB+</option>
-                            <option value="AB-">AB-</option>
-                          </select>
-                        </div>
-            </div>
-                   <div class="form-group">
-                     <label class="col-md-3 control-label" for="profileCompany">Data do exame</label>
-                     <div class="col-md-6">
-                       <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" name="data_expedicao" id="data_expedicao" max=2021-06-11>
-                     </div>
-                   </div>
-                   <!--
-                   <div class="form-group">
-                     <label class="col-md-3 control-label" for="profileCompany"></label>
-                     <div class="col-md-6">
-                       <p id="cpfInvalido" style="display: none; color: #b30000">CPF INVÁLIDO!</p>
-                     </div>
-                   </div>
-                  -->     
 
                    <div class="panel-body">
                      <br>
@@ -694,7 +699,7 @@ session_start();
                         <div class="modal-dialog" role="document">
                           <div class="modal-content">
                             <div class="modal-header" style="display: flex;justify-content: space-between;">
-                              <h5 class="modal-title" id="exampleModalLabel">Adicionar Arquivo</h5>
+                              <h5 class="modal-title" id="exampleModalLabel">Adicionar exame</h5>
                               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                               </button>
@@ -702,7 +707,7 @@ session_start();
                             <form action='./funcionario/documento_upload.php' method='post' enctype='multipart/form-data' id='funcionarioDocForm'>
                               <div class="modal-body" style="padding: 15px 40px">
                                 <div class="form-group" style="display: grid;">
-                                  <label class="my-1 mr-2" for="tipoDocumento">Tipo de Arquivo</label><br>
+                                  <label class="my-1 mr-2" for="tipoDocumento">Tipo de exame</label><br>
                                   <div style="display: flex;">
                                     <select name="id_docfuncional" class="custom-select my-1 mr-sm-2" id="tipoDocumento" required>
                                       <option selected disabled>Selecionar...</option>

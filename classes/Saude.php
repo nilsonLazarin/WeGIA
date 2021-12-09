@@ -7,6 +7,8 @@ class Saude extends Atendido
     // private $pessoa_id_pessoa;
     // private $nome;
     private $texto;
+    private $enfermidade;
+    private $data_diagnostico;
     // private $tipoSanguineo;
 
     // public function getPessoa_id_pessoa()
@@ -20,6 +22,14 @@ class Saude extends Atendido
     public function getTexto()
     {
         return $this->texto;
+    }
+    public function getEnfermidade()
+    {
+        return $this->enfermidade;
+    }
+    public function getData_diagnostico()
+    {
+        return $this->data_diagnostico;
     }
     // public function getTipoSanguineo()
     // {
@@ -37,6 +47,14 @@ class Saude extends Atendido
     public function setTexto($texto)
     {
         $this->texto = $texto;
+    }
+    public function setEnfermidade($enfermidade)
+    {
+        $this->enfermidade = $enfermidade;
+    }
+    public function setData_diagnostico($data_diagnostico)
+    {
+        $this->data_diagnostico = $data_diagnostico;
     }
     // public function setTipoSanguineo($tipoSanguineo)
     // {

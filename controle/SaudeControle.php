@@ -48,7 +48,6 @@ class SaudeControle
                 $msg .= "Descricao do atendido não informado. Por favor, informe a descricao!";
                 header('Location: ../html/saude/cadastro_ficha_medica.php?msg='.$msg); 
             }
-            
             if((!isset($cpf)) || (empty($cpf))){
                 $cpf= "";
             }
@@ -100,12 +99,6 @@ class SaudeControle
             if((!isset($bairro)) || empty(($bairro))){
                 $bairro = '';
             }
-            // if((!isset($rua)) || empty(($rua))){
-            //     $rua = '';
-            // }
-            // if((!isset($numero_residencia)) || empty(($numero_residencia))){
-            //     $numero_residencia = "";
-            // }
             if((!isset($complemento)) || (empty($complemento))){
                 $complemento='';
             }
@@ -129,6 +122,9 @@ class SaudeControle
         
         // $saude->setNome($nome);
         $saude->setTexto($texto);  
+        $saude->setEnfermidade($enfermidade);
+        $saude->setData_diagnostico($data_diagnostico);
+        $saude->setIntStatus($intStatus);
         return $saude;
     }
 
