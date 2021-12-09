@@ -106,10 +106,11 @@ class AtendidoControle
             if((!isset($telefone)) || (empty($telefone))){
                 $telefone='null';
             }
+            session_start();
             if((!isset($_SESSION['imagem'])) || (empty($_SESSION['imagem']))){
-                $imagem = '';
+                $imgperfil = '';
             }else{
-                $imagem = base64_encode($_SESSION['imagem']);
+                $imgperfil = base64_encode($_SESSION['imagem']);
                 unset($_SESSION['imagem']);
             }
 
@@ -118,7 +119,7 @@ class AtendidoControle
             // $cpf=str_replace("-", "", $cpf);
             //$nascimento=str_replace("-", "", $nascimento);
             $senha='null';
-            $atendido = new Atendido($cpf,$nome,$sobrenome,$sexo,$nascimento,$registroGeral,$orgaoEmissor,$dataExpedicao,$nomeMae,$nomePai,$tipoSanguineo,$senha,$telefone,$imagem,$cep,$uf,$cidade,$bairro,$logradouro,$numeroEndereco,$complemento,$ibge);
+            $atendido = new Atendido($cpf,$nome,$sobrenome,$sexo,$nascimento,$registroGeral,$orgaoEmissor,$dataExpedicao,$nomeMae,$nomePai,$tipoSanguineo,$senha,$telefone,$imgperfil,$cep,$uf,$cidade,$bairro,$logradouro,$numeroEndereco,$complemento,$ibge);
             $atendido->setIntTipo($intTipo);
             $atendido->setIntStatus($intStatus);
             return $atendido;

@@ -144,6 +144,7 @@
 
 			var atendidos = <?php echo $_SESSION['atendidos'];?> ;
 			<?php unset($_SESSION['atendidos']); ?>;
+			console.log(atendidos);
 			$.each(atendidos, function(i, item) {
 				$("#tabela")
 				.append($("<tr>")

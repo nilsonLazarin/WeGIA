@@ -223,7 +223,7 @@
 				</header>
 
 				<!-- start: page -->
-				<div class="row">
+				<!-- <div class="row">
 					<div class="col-md-4 col-lg-3">
 						<section class="panel">
 							<div class="panel-body">
@@ -246,7 +246,7 @@
 										<div class="modal fade" id="myModal" role="dialog">
 										    <div class="modal-dialog">
 											    <!-- Modal content-->
-											    <div class="modal-content">
+											    <!-- <div class="modal-content"> 
 											        <div class="modal-header">
 											         	<button type="button" class="close" data-dismiss="modal">&times;</button>
 											        	<h4 class="modal-title">Adicionar uma Foto</h4>
@@ -280,9 +280,9 @@
 								<h6 class="text-muted"></h6>
 							</div>
 						</section>
-					</div>
+					</div> -->
 
-					<div class="col-md-8 col-lg-8">
+					<div class="col-md-8 col-lg-12">
 						<div class="tabs">
 							<ul class="nav nav-tabs tabs-primary">
 								<li class="active">

@@ -119,6 +119,7 @@
 	}
 	$(function(){
 		var funcionarios=<?php echo $_SESSION['funcionarios'];?> ;
+		console.log(funcionarios);
 		<?php unset($_SESSION['funcionarios']); ?>
 
 		console.log(funcionarios);

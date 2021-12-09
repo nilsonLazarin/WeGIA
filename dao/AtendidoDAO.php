@@ -155,7 +155,7 @@ class AtendidoDAO
                     $atendidos[$x]=array('cpf'=>$linha['cpf'],'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'id'=>$linha['id_pessoa']);
                 }
                 else{
-                $atendidos[$x]=array('cpf'=>mask($linha['cpf'],'###.###.###-##'),'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'id'=>$linha['idatendido']);
+                $atendidos[$x]=array('cpf'=>$linha['cpf'],'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'id'=>$linha['idatendido']);
                 }
                 $x++;
             }
@@ -181,7 +181,7 @@ class AtendidoDAO
                     $pessoas[$x]=array('cpf'=>$linha['cpf'],'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'id'=>$linha['id_pessoa']);
                 }
                 else{
-                $pessoas[$x]=array('cpf'=>mask($linha['cpf'],'###.###.###-##'),'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'id'=>$linha['id_pessoa']);
+                $pessoas[$x]=array('cpf'=>$linha['cpf'],'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'id'=>$linha['id_pessoa']);
                 }
                 $x++;
             }
@@ -211,7 +211,7 @@ class AtendidoDAO
                 
             }
             else{
-                $pessoa[]=array('imagem'=>$linha['imagem'],'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'cpf'=>mask($linha['cpf'],'###.###.###-##'), 'senha'=>$linha['senha'], 'sexo'=>$linha['sexo'], 'telefone'=>$linha['telefone'],'data_nascimento'=>$linha['data_nascimento'], 'cep'=>$linha['cep'],'estado'=>$linha['estado'],'cidade'=>$linha['cidade'],'bairro'=>$linha['bairro'],'logradouro'=>$linha['logradouro'],'numero_endereco'=>$linha['numero_endereco'],'complemento'=>$linha['complemento'],'ibge'=>$linha['ibge'],'registro_geral'=>$linha['registro_geral'],'orgao_emissor'=>$linha['orgao_emissor'],'data_expedicao'=>$linha['data_expedicao'],'nome_pai'=>$linha['nome_pai'],'nome_mae'=>$linha['nome_mae'],'tipo_sanguineo'=>$linha['tipo_sanguineo'],'idatendido'=>$linha['pessoa_id_pessoa'],'imgdoc'=>$linha['imgdoc'],'descricao'=>$linha['descricao'],'id_documento'=>$linha['id_documento']);
+                $pessoa[]=array('imagem'=>$linha['imagem'],'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'cpf'=>$linha['cpf'], 'senha'=>$linha['senha'], 'sexo'=>$linha['sexo'], 'telefone'=>$linha['telefone'],'data_nascimento'=>$linha['data_nascimento'], 'cep'=>$linha['cep'],'estado'=>$linha['estado'],'cidade'=>$linha['cidade'],'bairro'=>$linha['bairro'],'logradouro'=>$linha['logradouro'],'numero_endereco'=>$linha['numero_endereco'],'complemento'=>$linha['complemento'],'ibge'=>$linha['ibge'],'registro_geral'=>$linha['registro_geral'],'orgao_emissor'=>$linha['orgao_emissor'],'data_expedicao'=>$linha['data_expedicao'],'nome_pai'=>$linha['nome_pai'],'nome_mae'=>$linha['nome_mae'],'tipo_sanguineo'=>$linha['tipo_sanguineo'],'idatendido'=>$linha['pessoa_id_pessoa'],'imgdoc'=>$linha['imgdoc'],'descricao'=>$linha['descricao'],'id_documento'=>$linha['id_documento']);
             }
         }
         }catch (PDOExeption $e){
