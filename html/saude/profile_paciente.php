@@ -308,7 +308,24 @@ session_start();
             $(".menuu").load("../menu.php");
          });
 
-       
+      // function gerarDocFuncional() {
+      //     url = 'tipo_exame_listar.php';
+      //     $.ajax({
+      //       data: '',
+      //       type: "POST",
+      //       url: url,
+      //       async: true,
+      //       success: function(response) {
+      //         var documento = response;
+      //         $('#tipoDocumento').empty();
+      //         $('#tipoDocumento').append('<option selected disabled>Selecionar...</option>');
+      //         $.each(documento, function(i, item) {
+      //           $('#tipoDocumento').append('<option value="' + item.id_docfuncional + '">' + item.nome_docfuncional + '</option>');
+      //         });
+      //       },
+      //       dataType: 'json'
+      //     });
+      //   }
        
       </script>
       <style type="text/css">
@@ -599,83 +616,16 @@ session_start();
 
 
 
-         <!-- Aba de exames -->
-            <div id="cadastro_exames" class="tab-pane">
-                 <section class="panel">
-                   <header class="panel-heading">
-                     <div class="panel-actions">
-                       <a href="#" class="fa fa-caret-down"></a>
-                     </div>
-                     <h2 class="panel-title">Exames</h2>
-                     </header>
-
-                     <div class="panel-body">
-                    <!-- <form class="form-horizontal" method="post" action="../controle/control.php">
-                   <input type="hidden" name="nomeClasse" value="SaudeControle">
-                   <input type="hidden" name="metodo" value="alterarDocumentacao"> -->
-                   <!--<div class="form-group">
-                     <label class="col-md-3 control-label" for="profileCompany">Upload de arquivo</label>
-                     <div class="col-md-6">
-                       <input type="text" class="form-control" name="rg" id="rg">
-                     </div>-->
-                     
-                   
-                      <div class="modal fade" id="docFormModal" tabindex="-1" role="dialog" aria-labelledby="docFormModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                          <div class="modal-content">
-
-                            <div class="modal-header" style="display: flex;justify-content: space-between;">
-                              <h5 class="modal-title" id="exampleModalLabel">Adicionar exame</h5>
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                              </button>
-                            </div>
-
-                            <form action='./funcionario/documento_upload.php' method='post' enctype='multipart/form-data' id='funcionarioDocForm'>
-                              <div class="modal-body" style="padding: 15px 40px">
-                                <div class="form-group" style="display: grid;">
-
-                                  <div class="form-group">
-                                    <label for="arquivoDocumento">Exame</label>
-                                    <input name="arquivo" type="file" class="form-control-file" id="id_documento" accept="png;jpeg;jpg;pdf;docx;doc;odp" required>
-                                  </div>
-
-                                  <label class="my-1 mr-2" for="tipoDocumento">Tipo de exame</label><br>
-                                  <div style="display: flex;">
-                                    <select name="id_docfuncional" class="custom-select my-1 mr-sm-2" id="tipoDocumento" required>
-                                       <option selected disabled>Selecionar...</option>
-                                       <option value="Sangue">Sangue</option>
-                                       <option value="Urina">Urina</option>
-                                       <option value="Fezes">Fezes</option>
-                                       <option value="Cardíaco">Cardíaco</option>
-                                       <option value="Glicemia">Glicemia</option>
-                                       <option value="TSH">TSH</option>
-                                       <option value="Papanicolau">Papanicolau</option>
-                                       <option value="Creatinina">Creatinina</option>
-                                       <option value="Transaminases">Transaminases</option>
-                                    </select>
-                                  </div>
-                                </div>
-                               
-                                <div class="form-group">
-                                <label>Data do exame</label>
-                                <div style="display: flex;">
-                                  <input type="date" class="form-control"  maxlength="10" placeholder="dd/mm/aaaa" name="data_diagnostico" id="data_diagnostico" max=2021-06-11>
-                                </div>
-                              </div>
-
-                                <input type="number" name="id_interno" value="" style='display: none;'>
-                              </div>
-                              <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                <input type="submit" value="Enviar" class="btn btn-primary">
-                              </div>
-                            </form>
-                            </div>
-                          </div>
-                        </div>
-
-                   <div class="panel-body">
+        <!-- Aba de exames -->
+          <div id="cadastro_exames" class="tab-pane">
+              <section class="panel">
+                <header class="panel-heading">
+                 <div class="panel-actions">
+                   <a href="#" class="fa fa-caret-down"></a>
+                  </div>
+                  <h2 class="panel-title">Exames</h2>
+                </header>
+                <div class="panel-body">
                      <br>
                       <table class="table table-bordered table-striped mb-none" id="datatable-docfuncional">
                         <thead>
@@ -694,47 +644,67 @@ session_start();
                       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#docFormModal">
                         Adicionar
                       </button>
-                      <!-- Modal Form Documentos -->
+                </div>
+
+                <div class="panel-body">
+                    <!-- <form class="form-horizontal" method="post" action="../controle/control.php">
+                   <input type="hidden" name="nomeClasse" value="SaudeControle">
+                   <input type="hidden" name="metodo" value="alterarDocumentacao"> -->
+                   <!--<div class="form-group">
+                     <label class="col-md-3 control-label" for="profileCompany">Upload de arquivo</label>
+                     <div class="col-md-6">
+                       <input type="text" class="form-control" name="rg" id="rg">
+                     </div>-->
+                     
                       <div class="modal fade" id="docFormModal" tabindex="-1" role="dialog" aria-labelledby="docFormModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                           <div class="modal-content">
+
                             <div class="modal-header" style="display: flex;justify-content: space-between;">
                               <h5 class="modal-title" id="exampleModalLabel">Adicionar exame</h5>
                               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                               </button>
                             </div>
-                            <form action='./funcionario/documento_upload.php' method='post' enctype='multipart/form-data' id='funcionarioDocForm'>
+
+                            <form action='exame_upload.php' method='post' enctype='multipart/form-data' id='funcionarioDocForm'>
                               <div class="modal-body" style="padding: 15px 40px">
                                 <div class="form-group" style="display: grid;">
+
+                                  <div class="form-group">
+                                    <label for="arquivoDocumento">Exame</label>
+                                    <input name="arquivo" type="file" class="form-control-file" id="id_documento" accept="png;jpeg;jpg;pdf;docx;doc;odp" required>
+                                  </div>
+
                                   <label class="my-1 mr-2" for="tipoDocumento">Tipo de exame</label><br>
                                   <div style="display: flex;">
                                     <select name="id_docfuncional" class="custom-select my-1 mr-sm-2" id="tipoDocumento" required>
-                                      <option selected disabled>Selecionar...</option>
-                                      <option value="Certidão de Nascimento">Certidão de Nascimento</option>
-                                       <option value="Certidão de Casamento">Certidão de Casamento</option>
-                                       <option value="Curatela">Curatela</option>
-                                       <option value="INSS">INSS</option>
-                                       <option value="LOAS">LOAS</option>
-                                       <option value="FUNRURAL">FUNRURAL</option>
-                                       <option value="Título de Eleitor">Título de Eleitor</option>
-                                       <option value="CTPS">CTPS</option>
-                                       <option value="SAF">SAF</option>
-                                       <option value="SUS">SUS</option>
-                                       <option value="BPC">BPC</option> 
-                                       <option value="CPF">CPF</option>
-                                       <option value="Registro Geral">RG</option>
-                                      
-                                    
+                                    <option selected disabled>Selecionar...</option>
+                                    <?php
+                                      $comando_select = "select * from saude_exame_tipos";
+                                      $resultado_select = mysqli_query($conexao,$comando_select);
+                                      $linhas_select = mysqli_num_rows($resultado_select);
+                                      for($i=0;$i<$linhas_select;$i++)
+                                      {
+                                          $registro_select = mysqli_fetch_row($resultado_select);
+                                          echo
+                                          "
+                                                  <option value='$registro_select[0]'>$registro_select[1]</option>
+                                          ";
+                                      }
+                                      ?>
                                     </select>
-                                   <!-- <a onclick="adicionarDocFuncional()" style="margin: 0 20px;"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a> -->
                                   </div>
                                 </div>
+                               
                                 <div class="form-group">
-                                  <label for="arquivoDocumento">Arquivo</label>
-                                  <input name="arquivo" type="file" class="form-control-file" id="id_documento" accept="png;jpeg;jpg;pdf;docx;doc;odp" required>
+                                <label>Data do exame</label>
+                                <div style="display: flex;">
+                                  <input type="date" class="form-control"  maxlength="10" placeholder="dd/mm/aaaa" name="data_diagnostico" id="data_diagnostico" max=2021-06-11>
                                 </div>
-                                <input type="number" name="id_interno" value="" style='display: none;'>
+                              </div>
+                              <input type="number" name="id_fichamedica" value="<?= $_GET['id_fichamedica']; ?>" style='display: none;'>
+                                <!-- <input type="number" name="id_interno" value="" style='display: none;'> -->
                               </div>
                               <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
@@ -744,7 +714,6 @@ session_start();
                             </div>
                           </div>
                         </div>
-                   
                    <br />
                    <!--<input type="hidden" name="id_fichamedica" value=1>
                    <button type="button" class="btn btn-primary" id="botaoEditarDocumentacao" onclick="return editar_documentacao()">Cadastrar</button>
