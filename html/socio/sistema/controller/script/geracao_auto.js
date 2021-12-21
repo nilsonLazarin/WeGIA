@@ -689,6 +689,10 @@ $(document).ready(function(){
                                             var dataV = dadosDataParcelas['dataV'];
                                             var dataV_formatada = dadosDataParcelas['dataV_formatada'];
                                             var parcelas = dadosDataParcelas['parcelas']; 
+
+                                            console.log("datav" + dataV);
+                                            console.log("datav f" + dataV_formatada);
+                                            console.log("p" + parcelas);
                                             //aqui q tem q mudar as parcelas
                                             console.log("teste - "+parcelas);
                                             $.ajax({

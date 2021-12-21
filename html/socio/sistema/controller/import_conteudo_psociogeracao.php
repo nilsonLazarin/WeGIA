@@ -31,8 +31,9 @@
 			var mes = data.getMonth()+1;
 			var ano = data.getFullYear();
 			var anoM1 = data.getFullYear()+1;
-			var data_minima = ano+"-"+mes+"-"+"0"+diaF;
-			var data_maxima = anoM1+"-"+mes+"-"+"0"+diaF;
+			var data_minima = ano+"-"+mes+"-"+diaF;
+			var data_maxima = anoM1+"-"+mes+"-"+diaF;
+			console.log(data_minima);
 			$("#data_vencimento").attr({
 				"max" : data_maxima,      
 				"min" : data_minima         
@@ -85,7 +86,8 @@
 				<div class="form-group mb-2 col-xs-6 mt-2">
             <label for="pessoa">O que você deseja gerar?</label>
                 <select class="form-control" name="tipo_geracao" id="tipo_geracao">
-                    <option value="1" selected>Boleto único</option>
+                    <option selected>Selecionar</option>
+                    <option value="1">Boleto único</option>
                     <option value="2">Carnê mensal</option>
                     <option value="3">Carnê bimestral</option>
                     <option value="4">Carnê trimestral</option>
@@ -119,15 +121,17 @@
 
 
 		   </div>
-		   <div class="col-xs-12 detalhes_unico">
 		   
-
-		   </div>
 			<div style="display: none" class="col-xs-12 div_btn_gerar">
+				<!-- <button type="button" id="btn_confirma" class="btn btn-primary">Simular geração</button>  -->
 				<button type="button" id="btn_geracao_unica" class="btn btn-primary">Confirmar geração</button> 
 				<button style="display: none" type="button" id="btn_wpp" class="btn btn-success">
 				<i style="padding: 0; font-size: 20px" class="fab fa-whatsapp"></i></button>
 			</div>
+			<div class="col-xs-12 detalhes_unico">
+		   
+
+		   </div>
 			
 				</div>
 				<?php 
