@@ -80,16 +80,29 @@ session_start();
    // $atendido = new AtendidoDAO();
    // $atendido->listar($id);
    // var_dump($atendido);
-  
+
+ 
   //  $sessao_saude = $_SESSION['id_fichamedica'];
    
-   if (!isset($teste)) 
-   {
+  if (!isset($teste)) 
+  {
    		header('Location: ../../controle/control.php?metodo=listarUm&nomeClasse=SaudeControle&nextPage=../html/saude/saude.php?id_fichamedica='.$id.'&id='.$id);
   }
   $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
   // $intTipo = $mysqli->query("SELECT * FROM atendido_tipo");
   $intStatus = $mysqli->query("SELECT * FROM saude_enfermidades");
+
+  require_once "../../dao/Conexao.php";
+  $pdo = Conexao::connect();
+  $docfuncional = $pdo->query("SELECT * FROM saude_exames se JOIN saude_exame_tipos st ON se.id_exame_tipos  = st.id_exame_tipo WHERE id_fichamedica = " .$_GET['id_fichamedica']);
+  $docfuncional = $docfuncional->fetchAll(PDO::FETCH_ASSOC);
+  foreach ($docfuncional as $key => $value) {
+    $docfuncional[$key]["arquivo"] = gzuncompress($value["arquivo"]);
+  }
+  $docfuncional = json_encode($docfuncional);
+  
+
+  
    
 ?>
 
@@ -280,7 +293,46 @@ session_start();
               }
             });
           });
+         
+          $(function() {
+          var docfuncional = <?= $docfuncional ?>;
 
+          $.each(docfuncional, function(i, item) {
+            $("#doc-tab")
+              .append($("<tr>")
+                .append($("<td>").text(item.arquivo_nome))
+                .append($("<td>").text(item.descricao))
+                .append($("<td>").text(item.data))
+                .append($("<td style='display: flex; justify-content: space-evenly;'>")
+                  .append($("<a href='exame_download.php?id_doc=" + item.id_exame + "' title='Visualizar ou Baixar'><button class='btn btn-primary'><i class='fas fa-download'></i></button></a>"))
+                  .append($("<a onclick='removerFuncionarioDocs("+item.id_exame+")' href='#' title='Excluir'><button class='btn btn-danger'><i class='fas fa-trash-alt'></i></button></a>"))
+                )
+              )
+          });
+        });
+    
+          function listarFunDocs(docfuncional){
+                  $("#doc-tab").empty();
+                $.each(docfuncional, function(i, item) {
+                  $("#doc-tab")
+                    .append($("<tr>")
+                      .append($("<td>").text(item.arquivo_nome))
+                      .append($("<td>").text(item.descricao))
+                      .append($("<td>").text(item.data))
+                      .append($("<td style='display: flex; justify-content: space-evenly;'>")
+                        .append($("<a href='exame_download.php?id_doc=" + item.id_exame + "' title='Visualizar ou Baixar'><button class='btn btn-primary'><i class='fas fa-download'></i></button></a>"))
+                        .append($("<a onclick='removerFuncionarioDocs("+item.id_exame+")' href='#' title='Excluir'><button class='btn btn-danger'><i class='fas fa-trash-alt'></i></button></a>"))
+                      )
+                    )
+                });
+          }
+          $(function() {
+          $('#datatable-docfuncional').DataTable({
+            "order": [
+              [0, "asc"]
+            ]
+          });
+        });
           // $(function(){
 
           //   let tabela_medicacao = new Array();
@@ -424,7 +476,7 @@ session_start();
                   <a href="#cadastro_comorbidades" data-toggle="tab">Cadastro de comorbidades</a>
                 </li>
                 <li>
-                  <a href="#cadastro_exames" data-toggle="tab">Cadastro de exames</a>
+                  <a href="#arquivo" data-toggle="tab">Cadastro de exames</a>
                </li>
                <li>
                   <a href="#atendimento_medico" data-toggle="tab">Atendimento médico</a>
@@ -589,7 +641,7 @@ session_start();
                         <br>
                         <br>
 
-                        <div class="form-group">
+                        <!--<div class="form-group">
                             <table class="table table-bordered table-striped mb-none" id="tabela_enfermidades">
                               <thead>
                                 <tr>
@@ -601,7 +653,7 @@ session_start();
                               <tbody id="doc-tab">
                               </tbody>
                             </table>
-                          </div>
+                          </div>-->
                       
                       <div> <!-- div do padding -->
                      <!-- <div class="form-group center"> -->
@@ -617,7 +669,7 @@ session_start();
 
 
         <!-- Aba de exames -->
-          <div id="cadastro_exames" class="tab-pane">
+          <div id="arquivo" class="tab-pane">
               <section class="panel">
                 <header class="panel-heading">
                  <div class="panel-actions">
@@ -627,16 +679,17 @@ session_start();
                 </header>
                 <div class="panel-body">
                      <br>
-                      <table class="table table-bordered table-striped mb-none" id="datatable-docfuncional">
+                      <table class="table table-bordered table-striped mb-none">
                         <thead>
-                          <tr>
+                          <tr style="font-size:15px;">
                             <th>Arquivo</th>
                             <th>Tipo exame</th>
                             <th>Data exame</th>
                             <th>Ação</th>
                           </tr>
                         </thead>
-                        <tbody id="doc-tab">
+                        <tbody id="doc-tab" style="font-size:15px">
+                          
                         </tbody>
                       </table>
                       <br>
@@ -644,17 +697,7 @@ session_start();
                       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#docFormModal">
                         Adicionar
                       </button>
-                </div>
-
-                <div class="panel-body">
-                    <!-- <form class="form-horizontal" method="post" action="../controle/control.php">
-                   <input type="hidden" name="nomeClasse" value="SaudeControle">
-                   <input type="hidden" name="metodo" value="alterarDocumentacao"> -->
-                   <!--<div class="form-group">
-                     <label class="col-md-3 control-label" for="profileCompany">Upload de arquivo</label>
-                     <div class="col-md-6">
-                       <input type="text" class="form-control" name="rg" id="rg">
-                     </div>-->
+              
                      
                       <div class="modal fade" id="docFormModal" tabindex="-1" role="dialog" aria-labelledby="docFormModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
@@ -718,8 +761,6 @@ session_start();
                    <!--<input type="hidden" name="id_fichamedica" value=1>
                    <button type="button" class="btn btn-primary" id="botaoEditarDocumentacao" onclick="return editar_documentacao()">Cadastrar</button>
                    <input id="botaoSalvarDocumentacao" type="submit" class="btn btn-primary" disabled="true" value="Salvar" onclick="funcao3()">-->
-                 </form>
-            </div>
          </section>
          </div>
        
@@ -858,7 +899,7 @@ session_start();
                                 <span aria-hidden="true">&times;</span>
                               </button>
                             </div>
-                            <form action='./funcionario/documento_upload.php' method='post' enctype='multipart/form-data' id='funcionarioDocForm'>
+                            <form action='documento_upload.php' method='post' enctype='multipart/form-data' id='funcionarioDocForm'>
                               <div class="modal-body" style="padding: 15px 40px">
                                 <div class="form-group" style="display: grid;">
                                   <label class="my-1 mr-2" for="tipoDocumento">Tipo de Arquivo</label><br>
@@ -1181,36 +1222,16 @@ session_start();
          </div>
          </div>
          </div>
-         <script>
-   function funcao1(){
-        var cpfs = [{"cpf":"admin","id":"1"}] ;
-        var cpf_atendido = $("#cpf").val();
-        var cpf_atendido_correto = cpf_atendido.replace(".", "");
-        var cpf_atendido_correto1 = cpf_atendido_correto.replace(".", "");
-        var cpf_atendido_correto2 = cpf_atendido_correto1.replace(".", "");
-        var cpf_atendido_correto3 = cpf_atendido_correto2.replace("-", "");
-        var apoio = 0;
-        var cpfs1 = [] ;
-        $.each(cpfs,function(i,item){
-          if(item.cpf==cpf_atendido_correto3)
-          {
-            alert("Alteração não realizada! O CPF informado já está cadastrado no sistema");
-            apoio = 1;
-          }
-        });
-        $.each(cpfs1,function(i,item){
-          if(item.cpf==cpf_atendido_correto3)
-          { 
-            alert("Cadastro não realizado! O CPF informado já está cadastrado no sistema");
-            apoio = 1;
-          }
-        });
-        if(apoio == 0)
-        {
-          alert("Cadastrado com sucesso!")
-        }
-      }
-   </script>
+   <script>
+      function removerFuncionarioDocs(id_doc) {
+            if (!window.confirm("Tem certeza que deseja remover esse exame?")){
+              return false;
+            }
+            let url = "exame_excluir.php?id_doc="+id_doc+"&id_fichamedica=<?= $_GET['id_fichamedica'] ?>";
+            let data = "";
+            post(url, data, listarFunDocs);
+        } 
+     </script>
    <!-- Vendor -->
    <script src="<?php echo WWW;?>assets/vendor/select2/select2.js"></script>
         <script src="<?php echo WWW;?>assets/vendor/jquery-datatables/media/js/jquery.dataTables.js"></script>

@@ -14,11 +14,8 @@ if (!isset($_SESSION["usuario"])){
 if ($_POST){
     require_once "../../dao/Conexao.php";
 
-    // $idatendido, $id_docfuncional e $arquivo
     var_dump($_POST);
     extract($_POST);
-    
-    // A tabela atendido_ocorrencia_docs requer idatendido_ocorrencia_doc 	atentido_ocorrencia_idatentido_ocorrencias 	data 	arquivo_nome 	arquivo_extensao 	arquivo
     $arquivo = $_FILES["arquivo"];
     $arquivo_nome = $arquivo["name"];
     $extensao_nome = explode(".", $arquivo["name"])[1];
@@ -28,21 +25,8 @@ if ($_POST){
 
     try {
         $pdo = Conexao::connect();
-
-        // $te = "SELECT id from saude_exame_tipos where descricao = 'id_exame_tipos'";
-        // $aa = mysqli_query($te);
-        // $bb = mysqli_fetch_row($aa);
-
-        // $id_exame_tipos = $bb[0];       
-
-        // var_dump($id_exame_tipos);
-        
-        
         $prep = $pdo->prepare("INSERT INTO saude_exames(id_fichamedica, id_exame_tipos, arquivo_nome, arquivo_extensao,arquivo) VALUES ( :id_fichamedica, :id_exame_tipos, :arquivo_nome , :arquivo_extensao, :arquivo )");
 
-        
-        //$prep->bindValue(":ida", $idatendido);
-        //$prep->bindValue(":idd", $atentido_ocorrencia_idatentido_ocorrencias);
         $prep->bindValue(":id_fichamedica", $id_fichamedica);
         $prep->bindValue(":id_exame_tipos", $id_docfuncional);
         $prep->bindValue(":arquivo_nome", $arquivo_nome);
