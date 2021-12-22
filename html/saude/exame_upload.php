@@ -21,8 +21,6 @@ if ($_POST){
     $extensao_nome = explode(".", $arquivo["name"])[1];
     $arquivo_b64 = base64_encode(file_get_contents($arquivo['tmp_name']));	 
     
-    
-
     try {
         $pdo = Conexao::connect();
         $prep = $pdo->prepare("INSERT INTO saude_exames(id_fichamedica, id_exame_tipos, arquivo_nome, arquivo_extensao,arquivo) VALUES ( :id_fichamedica, :id_exame_tipos, :arquivo_nome , :arquivo_extensao, :arquivo )");
@@ -37,12 +35,12 @@ if ($_POST){
         
         header("Location: profile_paciente.php?id_fichamedica=$id_fichamedica");
     } catch (PDOException $e) {
-        echo("Houve um erro ao realizar o upload do documento:<br><br>$e");
+        echo("Houve um erro ao realizar o upload do exame:<br><br>$e");
     }
 
 
 }else {
-    header("Location: saude.php");
+    header("Location: profile_paciente.php");
 }
 
 
