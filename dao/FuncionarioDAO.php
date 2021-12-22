@@ -144,7 +144,8 @@ class FuncionarioDAO
     public function excluir($id_funcionario)
     {
         try {
-            $sql = 'call excluirfuncionario(:id_funcionario)';
+            // $sql = 'call excluirfuncionario(:id_funcionario)';
+            $sql = 'UPDATE funcionario set id_situacao = 2 where id_funcionario = :id_funcionario';
             $sql = str_replace("'", "\'", $sql);
             $pdo = Conexao::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -340,7 +341,7 @@ class FuncionarioDAO
         try{
             $funcionarios=array();
             $pdo = Conexao::connect();
-            $consulta = $pdo->query("SELECT f.id_funcionario, p.nome, p.sobrenome,p.cpf, c.cargo FROM pessoa p INNER JOIN funcionario f ON p.id_pessoa = f.id_pessoa LEFT JOIN cargo c ON c.id_cargo=f.id_cargo");
+            $consulta = $pdo->query("SELECT f.id_funcionario, p.nome, p.sobrenome,p.cpf, c.cargo FROM pessoa p JOIN funcionario f ON p.id_pessoa = f.id_pessoa JOIN cargo c ON c.id_cargo=f.id_cargo JOIN situacao s ON f.id_situacao=s.id_situacao where s.situacoes = 'Ativo'");
             $produtos = Array();
             $x=0;
             while($linha = $consulta->fetch(PDO::FETCH_ASSOC)){

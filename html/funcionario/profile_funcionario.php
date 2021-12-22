@@ -961,7 +961,7 @@ $dependente = json_encode($dependente);
                   <div class="panel-footer">
                     <div class="row">
                       <div class="col-md-9 col-md-offset-3">
-                        <button id="excluir" type="button" class="btn btn-danger" data-toggle="modal" data-target="#exclusao">Excluir</button>
+                        <button id="excluir" type="button" class="btn btn-danger" data-toggle="modal" data-target="#exclusao">Demitir</button>
                       </div>
                     </div>
                   </div>
@@ -971,10 +971,10 @@ $dependente = json_encode($dependente);
                       <div class="modal-content">
                         <div class="modal-header">
                           <button type="button" class="close" aba-dismiss="modal">×</button>
-                          <h3>Excluir um Funcionário</h3>
+                          <h3>Demitir um Funcionário</h3>
                         </div>
                         <div class="modal-body">
-                          <p> Tem certeza que deseja excluir esse funcionário? Essa ação não poderá ser desfeita e todas as informações referentes a esse funcionário serão perdidas!</p>
+                          <p> Tem certeza que deseja demitir esse funcionário? Essa ação não poderá ser desfeita e todas as informações referentes a esse funcionário serão perdidas!</p>
                           <a href="../../controle/control.php?metodo=excluir&nomeClasse=FuncionarioControle&id_funcionario=<?php echo $_GET['id_funcionario']; ?>"><button button type="button" class="btn btn-success">Confirmar</button></a>
                           <button button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                         </div>
