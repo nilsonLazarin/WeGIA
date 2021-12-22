@@ -2,7 +2,7 @@
 
 // require "../../dao/Conexao.php";
 
-class DocumentoAtendido {
+class ExameSaude {
     private $id_exame;
     private $documento;
     private $extensao;
@@ -14,7 +14,7 @@ class DocumentoAtendido {
     function __construct($id)
     {
         $id = (int) $id;
-        $this->setid_fundocs($id);
+        $this->setid_exame($id);
         try {
             $pdo = Conexao::connect();
             $query = $pdo->query("SELECT arquivo_extensao, arquivo_nome, arquivo FROM saude_exames WHERE id_exame = $id ;");

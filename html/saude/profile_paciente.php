@@ -245,8 +245,8 @@ session_start();
          $(function(){
           // pega no SaudeControle, listarUm
             var interno = <?php echo $_SESSION['id_fichamedica']; ?>;
-            
             console.log(interno);
+
          	  $.each(interno,function(i,item){
               if(i=1)
               {
@@ -274,11 +274,11 @@ session_start();
                 $("#nascimento").text("Data de nascimento: "+item.data_nascimento);
                 $("#nascimento").val(item.data_nascimento);
 
-                if(item.tipo_sanguineo==null)
+                if(item.tipo_sanguineo==null || item.tipo_sanguineo == "")
                 {
                     $("#adicionartipo").show(); // dps um hide//
                 }
-                if(item.tipo_sanguineo !=null)
+                if(item.tipo_sanguineo !=null && item.tipo_sanguineo != "")
                 {
                   $("#exibirtipo").show();
                   // $("#tipoSanguineo").text(item.tipo_sanguineo);
@@ -1230,6 +1230,7 @@ session_start();
             let url = "exame_excluir.php?id_doc="+id_doc+"&id_fichamedica=<?= $_GET['id_fichamedica'] ?>";
             let data = "";
             post(url, data, listarFunDocs);
+            console.log(listarFunDocs);
         } 
      </script>
    <!-- Vendor -->
@@ -1248,5 +1249,7 @@ session_start();
         <script src="<?php echo WWW;?>assets/javascripts/tables/examples.datatables.default.js"></script>
         <script src="<?php echo WWW;?>assets/javascripts/tables/examples.datatables.row.with.details.js"></script>
         <script src="<?php echo WWW;?>assets/javascripts/tables/examples.datatables.tabletools.js"></script>
+        <script src="../geral/post.js"></script>
+  <script src="../geral/formulario.js"></script>
   </body>
 </html> 

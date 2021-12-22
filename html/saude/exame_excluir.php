@@ -18,7 +18,7 @@ require_once "exame.php";
 
 extract($_GET);
 
-$arquivo = new DocumentoAtendido($id_doc);
+$arquivo = new ExameSaude($id_doc);
 if (!$arquivo->getException()){
     $arquivo->delete();
     // $sql = "SELECT f.id_fundocs, f.`data`, docf.nome_docfuncional FROM funcionario_docs f JOIN funcionario_docfuncional docf ON f.id_docfuncional = docf.id_docfuncional WHERE id_funcionario = " . $_GET['id_funcionario'] . ";";

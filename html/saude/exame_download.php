@@ -26,7 +26,7 @@ define("TYPEOF_EXTENSION", [
     'odp' => 'application/odp',
 ]);
 
-$arquivo = new DocumentoAtendido($_GET["id_doc"]);
+$arquivo = new ExameSaude($_GET["id_doc"]);
 
 if (!$arquivo->getException()){
     header("Content-type: ".TYPEOF_EXTENSION[$arquivo->getExtensao()]);
