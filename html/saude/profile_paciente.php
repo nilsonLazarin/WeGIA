@@ -101,9 +101,8 @@ session_start();
 
   $enfermidades = $pdo->query("SELECT * FROM saude_enfermidades sf JOIN saude_tabelacid stc ON sf.id_CID = stc.id_CID WHERE id_fichamedica = " .$_GET['id_fichamedica']);
   $enfermidades = $enfermidades->fetchAll(PDO::FETCH_ASSOC);
+  $enfermidades = json_encode($enfermidades);
   
-  
-
 ?>
 
     <!-- Vendor -->
@@ -292,9 +291,8 @@ session_start();
           // exame // 
           $(function() {
           var docfuncional = <?= $docfuncional ?>;
-
           $.each(docfuncional, function(i, item) {
-            $("#doc-tab")
+            $("#dep-tab")
               .append($("<tr>")
                 .append($("<td>").text(item.arquivo_nome))
                 .append($("<td>").text(item.descricao))
@@ -306,11 +304,26 @@ session_start();
               )
             });
           });
+          $(function() {
+          var enfermidades = <?= $enfermidades ?>;
+          $.each(enfermidades, function(i, item) {
+            $("#doc-tab")
+              .append($("<tr>")
+                .append($("<td>").text(item.descricao))
+                .append($("<td>").text(item.data_diagnostico))
+                .append($("<td>").text(item.status))
+                .append($("<td style='display: flex; justify-content: space-evenly;'>")
+                  .append($("<a href='enfermidade_download.php?id_doc=" + item.id_CID + "' title='Visualizar ou Baixar'><button class='btn btn-primary'><i class='fas fa-download'></i></button></a>"))
+                  .append($("<a onclick='removerFuncionarioDocs("+item.id_CID+")' href='#' title='Excluir'><button class='btn btn-danger'><i class='fas fa-trash-alt'></i></button></a>"))
+                )
+              )
+            });
+          });
     
           function listarFunDocs(docfuncional){
-                  $("#doc-tab").empty();
+                  $("#dep-tab").empty();
                 $.each(docfuncional, function(i, item) {
-                  $("#doc-tab")
+                  $("#dep-tab")
                     .append($("<tr>")
                       .append($("<td>").text(item.arquivo_nome))
                       .append($("<td>").text(item.descricao))
@@ -525,13 +538,13 @@ session_start();
 
                   
   <!-- Aba  de  comorbidades -->
-   <div id="cadastro_comorbidades" class="tab-pane">
-        <section class="panel">
-            <header class="panel-heading">
-                  <div class="panel-actions">
-                      <a href="#" class="fa fa-caret-down"></a>
-                  </div>
-                  <h2 class="panel-title">Cadastro de comorbidades</h2>
+  <div id="cadastro_comorbidades" class="tab-pane">
+      <section class="panel">
+          <header class="panel-heading">
+              <div class="panel-actions">
+                  <a href="#" class="fa fa-caret-down"></a>
+              </div>
+              <h2 class="panel-title">Cadastro de comorbidades</h2>
             </header>
 
             <div class="panel-body">
@@ -570,9 +583,9 @@ session_start();
                         </div>
 
                         <div class="form-group">
-                          <label class="col-md-3 control-label" for="inputSuccess">Status<sup class="obrig">*</sup></label>
+                          <label class="col-md-3 control-label" for="inputSuccess">Status</label>
                           <div class="col-md-6">
-                          <select class="form-control input-lg mb-md" name="intStatus" id="intStatus" required>
+                          <select class="form-control input-lg mb-md" name="intStatus" id="intStatus"> <!-- tinha um required aq de obrigatorio -->
                             <option selected disabled>Selecionar</option>
                             <!-- <?php
                               while ($row = $intStatus->fetch_array(MYSQLI_NUM)) {
@@ -592,22 +605,25 @@ session_start();
                           <input type="submit" value="Enviar" class="btn btn-primary"> -->
                           <input type="hidden" name="id_fichamedica" value=<?php echo $_GET['id_fichamedica'] ?>>
                           <input type="submit" class="btn btn-primary" value="Cadastrar" id="botaoSalvarIP">
-                      <!-- 
-                        <br>
-                        <table class="table table-bordered table-striped mb-none">
+                          <!-- <input type="submit" value="Enviar" class="btn btn-primary"> -->
+                      
+                        <br><br>
+                        
+                        <table class="table table-bordered table-striped mb-none" id="datatable-dependente">
                           <thead>
                             <tr style="font-size:15px;">
                               <th>Enfermidade</th>
-                              <th>Data diagnóstico</th>
+                              <th>Data</th>
                               <th>Status</th>
                               <th>Ação</th>
                             </tr>
                           </thead>
-                          <tbody id="doc-tab" style="font-size:15px">
+                          <!-- id="doc tab" -->
+                          <tbody id="doc-tab">
                             
                           </tbody>
                         </table>
-                        <br> -->
+                        <br> 
 
                       <div> 
                     </form>
@@ -628,6 +644,7 @@ session_start();
                 </header>
                 <div class="panel-body">
                      <br>
+                     
                       <table class="table table-bordered table-striped mb-none">
                         <thead>
                           <tr style="font-size:15px;">
@@ -637,7 +654,7 @@ session_start();
                             <th>Ação</th>
                           </tr>
                         </thead>
-                        <tbody id="doc-tab" style="font-size:15px">
+                        <tbody id="dep-tab" style="font-size:15px">
                           
                         </tbody>
                       </table>
