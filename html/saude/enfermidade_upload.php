@@ -14,6 +14,7 @@ if (!isset($_SESSION["usuario"])){
 if ($_POST){
     require_once "../../dao/Conexao.php";
 
+    // $id_CID = $_POST["id_CID"];
     // var_dump($_POST);
     // extract($_POST);
     // $arquivo = $_FILES["arquivo"];

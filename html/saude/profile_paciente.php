@@ -99,12 +99,11 @@ session_start();
   }
   $docfuncional = json_encode($docfuncional);
 
-  $enfermidades = $pdo->query("SELECT * FROM saude_enfermidades sf JOIN saude_tabelacid stc ON sf.id_CID = stc.id_CID WHERE id_fichamedica = " .$_GET['id_fichamedica']);
+  $enfermidades = $pdo->query("SELECT sf.id_CID, sf.data_diagnostico, sf.status, stc.descricao FROM saude_enfermidades sf JOIN saude_tabelacid stc ON sf.id_CID = stc.id_CID WHERE id_fichamedica = " .$_GET['id_fichamedica']);
   $enfermidades = $enfermidades->fetchAll(PDO::FETCH_ASSOC);
   $enfermidades = json_encode($enfermidades);
   
 ?>
-
     <!-- Vendor -->
     <script src="<?php echo WWW;?>assets/vendor/jquery/jquery.min.js"></script>
     <script src="<?php echo WWW;?>assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
@@ -304,22 +303,7 @@ session_start();
               )
             });
           });
-          $(function() {
-          var enfermidades = <?= $enfermidades ?>;
-          $.each(enfermidades, function(i, item) {
-            $("#doc-tab")
-              .append($("<tr>")
-                .append($("<td>").text(item.descricao))
-                .append($("<td>").text(item.data_diagnostico))
-                .append($("<td>").text(item.status))
-                .append($("<td style='display: flex; justify-content: space-evenly;'>")
-                  .append($("<a href='enfermidade_download.php?id_doc=" + item.id_CID + "' title='Visualizar ou Baixar'><button class='btn btn-primary'><i class='fas fa-download'></i></button></a>"))
-                  .append($("<a onclick='removerFuncionarioDocs("+item.id_CID+")' href='#' title='Excluir'><button class='btn btn-danger'><i class='fas fa-trash-alt'></i></button></a>"))
-                )
-              )
-            });
-          });
-    
+          // importante para remover //
           function listarFunDocs(docfuncional){
                   $("#dep-tab").empty();
                 $.each(docfuncional, function(i, item) {
@@ -334,6 +318,40 @@ session_start();
                       )
                     )
                 });
+          }
+
+          // enfermidade //
+          $(function() {
+          var enfermidades = <?= $enfermidades ?>;
+          $.each(enfermidades, function(i, item) {
+            $("#doc-tab")
+              .append($("<tr>")
+                .append($("<td>").text(item.descricao))
+                .append($("<td>").text(item.data_diagnostico))
+                .append($("<td>").text(item.status))
+                .append($("<td style='display: flex; justify-content: space-evenly;'>")
+                  .append($("<a onclick='removerEnfermidade("+item.id_CID+")' href='#' title='Excluir'><button class='btn btn-danger'><i class='fas fa-trash-alt'></i></button></a>"))
+                 
+                )
+              )
+              console.log(item.id_CID);
+                  console.log(item.descricao);
+            });
+          });
+        
+          function listarEnfermidades(enfermidades){
+                  $("#doc-tab").empty();
+                $.each(enfermidades, function(i, item) {
+                  $("#doc-tab")
+                    .append($("<tr>")
+                      .append($("<td>").text(item.descricao))
+                      .append($("<td>").text(item.data_diagnostico))
+                      .append($("<td>").text(item.status))
+                      .append($("<td style='display: flex; justify-content: space-evenly;'>")
+                  .append($("<a onclick='removerEnfermidade("+item.id_CID+")' href='#' title='Excluir'><button class='btn btn-danger'><i class='fas fa-trash-alt'></i></button></a>"))
+                )
+              )
+            });
           }
           $(function() {
             $('#datatable-docfuncional').DataTable({
@@ -541,20 +559,19 @@ session_start();
   <div id="cadastro_comorbidades" class="tab-pane">
       <section class="panel">
           <header class="panel-heading">
-              <div class="panel-actions">
-                  <a href="#" class="fa fa-caret-down"></a>
-              </div>
+            <div class="panel-actions">
+                <a href="#" class="fa fa-caret-down"></a>
+            </div>
               <h2 class="panel-title">Cadastro de comorbidades</h2>
-            </header>
+          </header>
 
-            <div class="panel-body">
-              <hr class="dotted short">
-                <form action='enfermidade_upload.php' method='post' enctype='multipart/form-data' id='funcionarioDocForm'>
-                      <h5 class="obrig">Campos Obrigatórios(*)</h5>
-                      <div class="modal-body" style="padding: 15px 40px">
-                        <div class="form-group">
-                          <label class="col-md-3 control-label" for="inputSuccess">Enfermidades</label>
-                          
+          <div class="panel-body">
+            <hr class="dotted short">
+              <form action='enfermidade_upload.php' method='post' enctype='multipart/form-data' id='funcionarioDocForm'>
+                  <h5 class="obrig">Campos Obrigatórios(*)</h5>
+                    <div class="modal-body" style="padding: 15px 40px">
+                      <div class="form-group">
+                        <label class="col-md-3 control-label" for="inputSuccess">Enfermidades</label>
                           <div class="col-md-8">
                             <select class="form-control input-lg mb-md" name="id_CID" id="id_CID" style="width:350px;">
                             <option selected disabled>Selecionar</option>
@@ -599,36 +616,29 @@ session_start();
                         </div>
                         
                         <input type="number" name="id_fichamedica" value="<?= $_GET['id_fichamedica']; ?>" style='display: none;'>
-                          <!-- <input type="number" name="id_interno" value="" style='display: none;'> -->
-                          <!-- eram esses dois aqui -->
-                          <!-- </div>
-                          <input type="submit" value="Enviar" class="btn btn-primary"> -->
                           <input type="hidden" name="id_fichamedica" value=<?php echo $_GET['id_fichamedica'] ?>>
                           <input type="submit" class="btn btn-primary" value="Cadastrar" id="botaoSalvarIP">
-                          <!-- <input type="submit" value="Enviar" class="btn btn-primary"> -->
-                      
-                        <br><br>
-                        
-                        <table class="table table-bordered table-striped mb-none" id="datatable-dependente">
-                          <thead>
-                            <tr style="font-size:15px;">
-                              <th>Enfermidade</th>
-                              <th>Data</th>
-                              <th>Status</th>
-                              <th>Ação</th>
-                            </tr>
-                          </thead>
-                          <!-- id="doc tab" -->
-                          <tbody id="doc-tab">
-                            
-                          </tbody>
-                        </table>
-                        <br> 
-
                       <div> 
                     </form>
                   </div>
             </section>
+            <div class="panel-body" style="padding-top:0%;">
+            <table class="table table-bordered table-striped mb-none" id="datatable-dependente">
+                <thead>
+                    <tr style="font-size:15px;">
+                        <th>Enfermidade</th>
+                        <th>Data</th>
+                        <th>Status</th>
+                        <th>Ação</th>
+                    </tr>
+                </thead>
+                    <!-- id="doc tab" -->
+                    <tbody id="doc-tab">
+                            
+                    </tbody>
+                    </table>
+              <br> 
+            </div>
          </div>
 
 
@@ -1198,6 +1208,15 @@ session_start();
                 let data = "";
                 post(url, data, listarFunDocs);
                 console.log(listarFunDocs);
+            } 
+            function removerEnfermidade(id_doc) {
+                if (!window.confirm("Tem certeza que deseja remover essa enfermidade?")){
+                  return false;
+                }
+                let url = "enfermidade_excluir.php?id_doc="+id_doc+"&id_fichamedica=<?= $_GET['id_fichamedica'] ?>";
+                let data = "";
+                post(url, data, listarEnfermidades);
+                console.log(listarEnfermidades);
             } 
         </script>
         
