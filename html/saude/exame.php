@@ -27,6 +27,7 @@ class ExameSaude {
         }
     }
 
+
     // Getters & Setters
     
     public function getid_exame()
