@@ -13,7 +13,7 @@ class EnfermidadeSaude {
         $this->setid_CID($id);
         try {
             $pdo = Conexao::connect();
-            $query = $pdo->query("SELECT id_CID, data_diagnostico, status FROM saude_enfermidades WHERE id_CID = $id ;");
+            $query = $pdo->query("SELECT id_CID, data_diagnostico, status FROM saude_enfermidades WHERE id_CID = $id;");
         } catch (PDOException $e) {
             $this->setException("Houve um erro ao consultar o documento no banco de dados: $e");
         }
@@ -55,11 +55,11 @@ class EnfermidadeSaude {
     }
 
     // Metodos
-
+    // o excluir enfermidade é basicamente tornar o status da tabela inativo, por isso um update //
     function delete(){
         try {
             $pdo = Conexao::connect();
-            $query = $pdo->query("DELETE FROM saude_enfermidades WHERE id_CID = ".$this->getid_CID()." ;");
+            $query = $pdo->query("UPDATE saude_enfermidades SET status = 0 WHERE id_CID = ".$this->getid_CID()." ;");
             $query = $query->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             $this->setException("Houve um erro ao remover o documento do banco de dados: $e");

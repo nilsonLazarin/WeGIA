@@ -99,7 +99,7 @@ session_start();
   }
   $docfuncional = json_encode($docfuncional);
 
-  $enfermidades = $pdo->query("SELECT sf.id_CID, sf.data_diagnostico, sf.status, stc.descricao FROM saude_enfermidades sf JOIN saude_tabelacid stc ON sf.id_CID = stc.id_CID WHERE id_fichamedica = " .$_GET['id_fichamedica']);
+  $enfermidades = $pdo->query("SELECT sf.id_CID, sf.data_diagnostico, sf.status, stc.descricao FROM saude_enfermidades sf JOIN saude_tabelacid stc ON sf.id_CID = stc.id_CID WHERE sf.status = 1 AND id_fichamedica = " .$_GET['id_fichamedica']);
   $enfermidades = $enfermidades->fetchAll(PDO::FETCH_ASSOC);
   $enfermidades = json_encode($enfermidades);
   
@@ -328,7 +328,6 @@ session_start();
               .append($("<tr>")
                 .append($("<td>").text(item.descricao))
                 .append($("<td>").text(item.data_diagnostico))
-                .append($("<td>").text(item.status))
                 .append($("<td style='display: flex; justify-content: space-evenly;'>")
                   .append($("<a onclick='removerEnfermidade("+item.id_CID+")' href='#' title='Excluir'><button class='btn btn-danger'><i class='fas fa-trash-alt'></i></button></a>"))
                  
@@ -346,7 +345,6 @@ session_start();
                     .append($("<tr>")
                       .append($("<td>").text(item.descricao))
                       .append($("<td>").text(item.data_diagnostico))
-                      .append($("<td>").text(item.status))
                       .append($("<td style='display: flex; justify-content: space-evenly;'>")
                   .append($("<a onclick='removerEnfermidade("+item.id_CID+")' href='#' title='Excluir'><button class='btn btn-danger'><i class='fas fa-trash-alt'></i></button></a>"))
                 )
@@ -564,10 +562,24 @@ session_start();
             </div>
               <h2 class="panel-title">Cadastro de comorbidades</h2>
           </header>
-
           <div class="panel-body">
             <hr class="dotted short">
-              <form action='enfermidade_upload.php' method='post' enctype='multipart/form-data' id='funcionarioDocForm'>
+            
+            <table class="table table-bordered table-striped mb-none" id="datatable-dependente">
+                <thead>
+                    <tr style="font-size:15px;">
+                        <th>Enfermidade</th>
+                        <th>Data</th>
+                        <th>Ação</th>
+                    </tr>
+                </thead>
+                    <!-- id="doc tab" -->
+                    <tbody id="doc-tab">
+                            
+                    </tbody>
+            </table>
+               <br> 
+                <form action='enfermidade_upload.php' method='post' enctype='multipart/form-data' id='funcionarioDocForm'>
                   <h5 class="obrig">Campos Obrigatórios(*)</h5>
                     <div class="modal-body" style="padding: 15px 40px">
                       <div class="form-group">
@@ -610,7 +622,7 @@ session_start();
                               }
                             ?> -->
                             <option value="1">Ativo</option>
-                            <option value="2">Inativo</option>
+                            <option value="0">Inativo</option>
                           </select>
                         </div>
                         </div>
@@ -622,23 +634,7 @@ session_start();
                     </form>
                   </div>
             </section>
-            <div class="panel-body" style="padding-top:0%;">
-            <table class="table table-bordered table-striped mb-none" id="datatable-dependente">
-                <thead>
-                    <tr style="font-size:15px;">
-                        <th>Enfermidade</th>
-                        <th>Data</th>
-                        <th>Status</th>
-                        <th>Ação</th>
-                    </tr>
-                </thead>
-                    <!-- id="doc tab" -->
-                    <tbody id="doc-tab">
-                            
-                    </tbody>
-                    </table>
-              <br> 
-            </div>
+            
          </div>
 
 
