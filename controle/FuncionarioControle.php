@@ -338,8 +338,8 @@ class FuncionarioControle
             unset($_SESSION['imagem']);
         }
        
-        $cpf=str_replace(".", '', $cpf);
-        $cpf=str_replace("-", "", $cpf);
+        // $cpf=str_replace(".", '', $cpf);
+        // $cpf=str_replace("-", "", $cpf);
         $senha=$this->geraChave($cpf);
         $funcionario = new Funcionario($cpf,$nome,$sobrenome,$gender,$nascimento,$rg,$orgao_emissor,$data_expedicao,$nome_mae,$nome_pai,$sangue,$senha,$telefone,$imgperfil,$cep,$uf,$cidade,$bairro,$rua,$numero_residencia,$complemento,$ibge);
         $funcionario->setData_admissao($data_admissao);
@@ -771,6 +771,7 @@ class FuncionarioControle
         $cpf=str_replace("-", "", $cpf);
 
         $funcionario = new Funcionario('','','','','','','','','','','','','','','','','','','','','','');
+
         $funcionario->setId_funcionario($id_funcionario);
         //$funcionario->setVale_transporte($num_vale_transporte);
         $funcionario->setId_cargo($cargo);

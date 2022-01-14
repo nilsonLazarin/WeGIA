@@ -961,7 +961,7 @@ $dependente = json_encode($dependente);
                   <div class="panel-footer">
                     <div class="row">
                       <div class="col-md-9 col-md-offset-3">
-                        <button id="excluir" type="button" class="btn btn-danger" data-toggle="modal" data-target="#exclusao">Demitir</button>
+                        <!-- <button id="excluir" type="button" class="btn btn-danger" data-toggle="modal" data-target="#exclusao">Demitir</button> -->
                       </div>
                     </div>
                   </div>

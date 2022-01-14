@@ -319,6 +319,9 @@ class FuncionarioDAO
             $certificado_reservista_serie=$funcionario->getCertificado_reservista_serie();
             $id_situacao=$funcionario->getId_situacao();
 
+            if($id_situacao == 2){
+                $id_cargo = 2;
+            }
             $stmt->bindParam(':id_funcionario',$id_funcionario);
             $stmt->bindParam(':id_cargo',$id_cargo);
             $stmt->bindParam(':pis',$pis);
@@ -345,7 +348,7 @@ class FuncionarioDAO
             $produtos = Array();
             $x=0;
             while($linha = $consulta->fetch(PDO::FETCH_ASSOC)){
-                $funcionarios[$x]=array('id_funcionario'=>$linha['id_funcionario'],'cpf'=>mask($linha['cpf'],'###.###.###-##'),'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'] , 'cargo'=>$linha['cargo']);
+                $funcionarios[$x]=array('id_funcionario'=>$linha['id_funcionario'],'cpf'=>$linha['cpf'],'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'] , 'cargo'=>$linha['cargo']);
                 $x++;
             }
             } catch (PDOExeption $e){
