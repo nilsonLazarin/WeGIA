@@ -16,12 +16,12 @@ if ($_POST){
     
     try {
         $pdo = Conexao::connect();
-        $prep = $pdo->prepare("INSERT INTO saude_enfermidades(id_fichamedica, id_CID, data_diagnostico, status) VALUES (:id_fichamedica, :id_CID, :data_diagnostico, :status)");
+        $prep = $pdo->prepare("INSERT INTO saude_atendimento(id_fichamedica, id_funcionario, data_atendimento, descricao) VALUES (:id_fichamedica, :id_funcionario, :data_atendimento, :descricao)");
 
         $prep->bindValue(":id_fichamedica", $id_fichamedica);
-        $prep->bindValue(":id_CID", $id_CID);
-        $prep->bindValue(":data_diagnostico", $data_diagnostico);
-        $prep->bindValue(":status", $intStatus);
+        $prep->bindValue(":id_funcionario", $id_funcionario);
+        $prep->bindValue(":data_atendimento", $data_atendimento);
+        $prep->bindValue(":descricao", $texto);
 
         $prep->execute();
         

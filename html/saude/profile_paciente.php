@@ -17,70 +17,36 @@ session_start();
       header('Location: ../../controle/control.php?metodo=listarUm&nomeClasse=SaudeControle&nextPage=../html/saude/profile_paciente.php');
     }
 
-      $config_path = "config.php";
-      if(file_exists($config_path)){
-         require_once($config_path);
-      }else{
-         while(true){
-            $config_path = "../" . $config_path;
-            if(file_exists($config_path)) break;
-         }
-         require_once($config_path);
+    $config_path = "config.php";
+    if (file_exists($config_path)) {
+      require_once($config_path);
+    } else {
+      while (true) {
+        $config_path = "../" . $config_path;
+        if (file_exists($config_path)) break;
       }
+      require_once($config_path);
+    }
 
-      $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-      $id_pessoa = $_SESSION['id_pessoa'];
-      $resultado = mysqli_query($conexao, "SELECT * FROM funcionario WHERE id_pessoa=$id_pessoa");
-      if(!is_null($resultado)){
-         $id_cargo = mysqli_fetch_array($resultado);
-         if(!is_null($id_cargo)){
-            $id_cargo = $id_cargo['id_cargo'];
-         }
-         $resultado = mysqli_query($conexao, "SELECT * FROM permissao WHERE id_cargo=$id_cargo and id_recurso=12");
-         if(!is_bool($resultado) and mysqli_num_rows($resultado)){
-            $permissao = mysqli_fetch_array($resultado);
-            if($permissao['id_acao'] < 7){
-           $msg = "Você não tem as permissões necessárias para essa página.";
-           header("Location: ../../home.php?msg_c=$msg");
-            }
-            $permissao = $permissao['id_acao'];
-         }else{
-              $permissao = 1;
-             $msg = "Você não tem as permissões necessárias para essa página.";
-             header("Location: ../../home.php?msg_c=$msg");
-         }	
-      }else{
-         $permissao = 1;
-       $msg = "Você não tem as permissões necessárias para essa página.";
-       header("Location: ./home.php?msg_c=$msg");
-      }	
-  
+    /*require_once "../permissao/permissao.php";
+    permissao($_SESSION['id_pessoa'], 5, 3);
+
+    require_once "../permissao/permissao.php";
+    permissao($_SESSION['id_pessoa'], 5, 4);*/
+
+  /*  $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+    $situacao = $mysqli->query("SELECT * FROM situacao");
+    $cargo = $mysqli->query("SELECT * FROM cargo");*/
+
 
   include_once '../../classes/Cache.php';    
-	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
   require_once "../personalizacao_display.php";
-  
-  /*require_once ROOT."/controle/FuncionarioControle.php";
-  $cpf1 = new FuncionarioControle;
-  $cpf1->listarCpf();*/
 
   require_once ROOT."/controle/SaudeControle.php";
-  /*$cpf = new AtendidoControle;
-  $cpf->listarCpf();*/
- 
-  /*require_once ROOT."/controle/EnderecoControle.php";
-  $endereco = new EnderecoControle;
-  $endereco->listarInstituicao();*/
-   
    
    $id=$_GET['id_fichamedica']; 
    $cache = new Cache();
    $teste = $cache->read($id);
-   //$atendidos = $_SESSION['idatendido'];
-   // $atendido = new AtendidoDAO();
-   // $atendido->listar($id);
-   // var_dump($atendido);
-  //  $sessao_saude = $_SESSION['id_fichamedica'];
    
   if (!isset($teste)) 
   {
@@ -137,17 +103,9 @@ session_start();
 
     <script>
         $(function(){
-            // var funcionario=[];
-            // $.each(funcionario,function(i,item){
-            //     $("#destinatario")
-            //         .append($("<option id="+item.id_pessoa+" value="+item.id_pessoa+" name="+item.id_pessoa+">"+item.nome+" "+item.sobrenome+"</option>"));
-            // });
+           
             $("#header").load("../header.php");
             $(".menuu").load("../menu.php");
-
-            //var id_memorando = 1;
-            //$("#id_memorando").val(id_memorando);
-
             CKEDITOR.replace('despacho');
         });
     </script>
@@ -361,9 +319,14 @@ session_start();
           
           function digitarmedicacao()
           {
+            $("#escondermedicacao").hide();
             $("#Inputremedio").show();
+            //$("#outro") == $("#nome_medicacao");
           }
-           
+          function aparecermedicacao()
+          {
+            $("#botaoSalvarIP").show();
+          }
           function esconderoutro()
           {
             $("#Inputremedio").hide();
@@ -751,15 +714,15 @@ session_start();
                
             <div class="panel-body">
               <hr class="dotted short">
-               <form class="form-horizontal" method="post" action="../controle/control.php">
-               <!-- <form action='exame_upload.php' method='post' enctype='multipart/form-data' id='funcionarioDocForm'> -->
+               <!--<form class="form-horizontal" method="post" action="../controle/control.php">-->
+               <form action='atendmedico_upload.php' method='post' enctype='multipart/form-data' id='funcionarioDocForm'>
                    <!-- <input type="hidden" name="nomeClasse" value="SaudeControle">
                    <input type="hidden" name="metodo" value="alterarDocumentacao"> -->
 
                    <div class="form-group">
                      <label class="col-md-3 control-label" for="profileCompany" id="data_atendimento">Data do atendimento:</label>
                      <div class="col-md-6">
-                     <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" name="data_expedicao" id="data_expedicao" max=2021-06-11>
+                     <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" name="data_atendimento" id="data_atendimento" max=2021-06-11>
                      </div>
                     
                    </div>
@@ -773,12 +736,12 @@ session_start();
                    <div class="form-group">
                         <label class="col-md-3 control-label" for="inputSuccess">Médico:</label>
                         <div class="col-md-6">
-                          <select class="form-control input-lg mb-md" name="sangue" id="sangue">
+                          <select class="form-control input-lg mb-md" name="id_funcionario" id="id_funcionario">
                             <option selected id="sangueSelect">Selecionar</option>
-                            <option value="AB+">Rebeca</option>
-                            <option value="AB-">Artur</option>
-                            <option value="AB-">Maria Clara</option>
-                            <option value="AB-">Luiza</option>
+                            <option value=1>Rebeca</option>
+                            <option value=2>Artur</option>
+                            <option value=3>Maria Clara</option>
+                            <option value=4>Luiza</option>
                           </select>
                         </div>
                       </div>
@@ -789,7 +752,25 @@ session_start();
                         <textarea cols='30' rows='3' id='despacho' name='texto' required class='form-control'></textarea>
                         </div>
                       </div>
+                    
+                      <br>
+                      <!--<input type="submit" class="btn btn-primary" value="Cadastrar" id="botaoSalvarIP" onclick="aparecermedicacao();"> -->
 
+                      <br>
+                      <br>
+                      <table class="table table-bordered table-striped mb-none">
+                        <thead>
+                          <tr style="font-size:15px;">
+                            <th>Descrições</th>
+                            <th>Ação</th>
+                          </tr>
+                        </thead>
+                        <tbody id="de-tab" style="font-size:15px">
+                          
+                        </tbody>
+                      </table>
+                      <br>
+                     
             </section>
               <section class="panel">
                    <header class="panel-heading">
@@ -802,20 +783,15 @@ session_start();
                    <br />
                    
                    <div class="panel-body">
-                   <div class="form-group">
+                   <div class="form-group" id="escondermedicacao">
                         <label class="col-md-3 control-label" for="inputSuccess">Medicação:</label>
                         <div class="col-md-6">
-                          <select class="form-control input-lg mb-md" name="sangue" id="sangue">
+                          <select class="form-control input-lg mb-md" name="nome_medicacao" id="nome_medicacao">
                             <option selected id="sangueSelect" onclick="esconderoutro();">Selecionar</option>
-                            <option value="A+" onclick="esconderoutro();">A+</option>
-                            <option value="A-" onclick="esconderoutro();">A-</option>
-                            <option value="B+" onclick="esconderoutro();">B+</option>
-                            <option value="B-" onclick="esconderoutro();">B-</option>
-                            <option value="O+" onclick="esconderoutro();">O+</option>
-                            <option value="O-" onclick="esconderoutro();">O-</option>
-                            <option value="AB+" onclick="esconderoutro();">AB+</option>
-                            <option value="AB-" onclick="esconderoutro();">AB-</option>
-                            <option value="outros" onclick="digitarmedicacao();">Outro</option>
+                            <option value="Dipirona" onclick="esconderoutro();">Dipirona</option>
+                            <option value="Neosaldina" onclick="esconderoutro();">Neosaldina</option>
+                            <option value="Benegripe" onclick="esconderoutro();">Benegripe</option>
+                            <option value="outro" onclick="digitarmedicacao();" id="outro">Outro</option>
                           </select>
                         </div>
                       </div>
@@ -825,7 +801,7 @@ session_start();
                         <div class="form-group">
                         <label class="col-md-3 control-label" for="profileCompany">Nome da medicação:</label>
                         <div class="col-md-6">
-                          <input type="text" class="form-control" name="orgao_emissor" id="orgao_emissor" placeholder="informe a medicação">
+                          <input type="text" class="form-control" name="nome_medicacao" id="nome_medicacao" placeholder="informe a medicação">
                         </div>
                         </div>
                         <br>
@@ -834,44 +810,40 @@ session_start();
                     <div class="form-group">
                       <label class="col-md-3 control-label" for="profileCompany">Laboratório:</label>
                       <div class="col-md-6">
-                        <input type="text" class="form-control" name="orgao_emissor" id="orgao_emissor" onkeypress="return Onlychars(event)">
+                        <input type="text" class="form-control" name="laboratorio" id="laboratorio" onkeypress="return Onlychars(event)">
                       </div>
                     </div>
 
                     <div class="form-group">
                       <label class="col-md-3 control-label" for="profileCompany">Dose:</label>
                       <div class="col-md-6">
-                        <input type="text" class="form-control" name="orgao_emissor" id="orgao_emissor" onkeypress="return Onlychars(event)">
+                        <input type="text" class="form-control" name="dose" id="dose" onkeypress="return Onlychars(event)">
                       </div>
                      </div>
 
                      <div class="form-group">
                       <label class="col-md-3 control-label" for="profileCompany">Horário:</label>
                       <div class="col-md-6">
-                        <input type="text" class="form-control" name="orgao_emissor" id="orgao_emissor" onkeypress="return Onlychars(event)">
+                        <input type="text" class="form-control" name="horario_medicacao" id="horario_medicacao" onkeypress="return Onlychars(event)">
                       </div>
                    </div>
 
                    <div class="form-group">
                       <label class="col-md-3 control-label" for="profileCompany">Duração:</label>
                      <div class="col-md-6">
-                       <input type="text" class="form-control" name="orgao_emissor" id="orgao_emissor" onkeypress="return Onlychars(event)">
+                       <input type="text" class="form-control" name="duracao_medicacao" id="duracao_medicacao" onkeypress="return Onlychars(event)">
                      </div>
                    </div>
-
                   
-                   <div class="panel-body">
-                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#docFormModal">Inserir na tabela</button>
-                      <br>
-                      <br>
-                      <table class="table table-bordered table-striped mb-none">
+                   <br>
+                      <table class="table table-bordered table-striped mb-none" id="tabmed">
                         <thead>
                           <tr style="font-size:15px;">
                             <th>Medicação</th>
-                            <th>Data</th>
-                            <th>Descrição</th>
-                            <th>Laboratório</th>
-                            <th>Médico</th>
+                            <th>Dose</th>
+                            <!--<th>Laboratório</th>-->
+                            <th>Horário</th>
+                            <th>Duração</th>
                             <th>Ação</th>
                           </tr>
                         </thead>
@@ -880,26 +852,20 @@ session_start();
                         </tbody>
                       </table>
                       <br> 
-                      <!-- <table class="table table-bordered table-striped mb-none" id="datatable-docfuncional">
-                        <thead>
-                          <tr>
-                            <th>Medicação</th>
-                            <th>Data</th>
-                            <th>Descrição</th>
-                            <th>Nome do médico</th>
-                            <th>Ação</th>
-                          </tr>
-                        </thead>
-                        <tbody id="doc-tab">
-                        </tbody>
-                      </table> -->
-                      <br>
+
+                   <!--<div class="panel-body">-->
+                      <!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#docFormModal" id="botao">Inserir medicações</button>-->
                      
-                   <input type="hidden" name="id_fichamedica" value=1>
-                   <!-- <button type="button" class="btn btn-primary" id="botaoEditarDocumentacao" onclick="return editar_documentacao()">Cadastrar atendimento</button> -->
-                   <input type="submit" class="btn btn-primary" value="Enviar" id="botaoSalvarIP">
-                   <!--<input id="botaoSalvarDocumentacao" type="submit" class="btn btn-primary" value="Cadastrar" onclick="funcao3()">-->
+                   <br>
+                   <button type="button" class="btn btn-primary" id="botao">Inserir medicação</button> 
+                   <input type="hidden" name="id_fichamedica" value=1>                   
+                   <input id="salvar_bd" type="submit" class="btn btn-primary" value="Cadastrar" onclick="funcao3()">
+                   
                  </form>
+                
+                 <br>
+                 <br>
+                 <!-- esconde a div medicacao -->
             </div>
          </section>
        </div>
@@ -1196,6 +1162,66 @@ session_start();
                 post(url, data, listarEnfermidades);
                 console.log(listarEnfermidades);
             } 
+
+            $(function(){
+
+                let tabela_medicacao = new Array();
+
+                $("#botao").click(function(){
+                let medicamento = $("#nome_medicacao").val();
+                let dose = $("#dose").val();
+                let horario = $("#horario_medicacao").val();
+                let duracao =  $("#duracao_medicacao").val();
+                    
+                $("#tabmed").append($("<tr>").addClass("tabmed")
+                  .append($("<td>") .text(medicamento) )
+                  .append($("<td>") .text(dose) )
+                  .append($("<td>") .text(horario) )
+                  .append($("<td>") .text(duracao) )
+                  .append($("<td style='display: flex; justify-content: space-evenly;'>")
+                  .append($("<button class='btn btn-danger'><i class='fas fa-trash-alt'></i></button>"))));
+               
+                        let tabela = {
+                                "nome_medicacao": medicamento,
+                                "dose": dose,
+                                "horario": horario,
+                                "tempo": duracao
+                            };
+                        tabela_medicacao.push(tabela);
+                        $("#dose").val("");
+                        $("#horario_medicacao").val(""); 
+                        $("#duracao_medicacao").val("");
+                })
+                $("#tabmed").on("click", "td", function(){
+
+                    let tamanho = tabela_medicacao.length;
+                    let dados = tabela_medicacao[0].medicamento + tabela_medicacao[0].dose + tabela_medicacao[0].horario + tabela_medicacao[0].duracao;
+                    let dados_existentes = $(this).parents("#tabmed tr").text();
+                    if(dados == dados_existentes)
+                    {
+                        tabela_medicacao.splice(0,1);
+                    }
+                    else
+                    {
+                        let i;
+                        for(i=1;i<tamanho;i++)
+                        {
+                            let dd = tabela_medicacao[i].medicamento + tabela_medicacao[i].dose + tabela_medicacao[i].horario + tabela_medicacao[i].duracao;
+                            if(dd == dados_existentes)
+                            {   
+                                tabela_medicacao.splice(i,1);
+                            }
+                        }
+                    }
+                    $(this).parents("#tabmed tr").remove();
+                })
+
+                  $("#salvar_bd").click(function(){
+                    $("input[name=id_fichamedica]").val(JSON.stringify(tabela_medicacao)).val();
+                  })
+
+                });
+           
         </script>
         
         <!-- Vendor -->
