@@ -68,6 +68,10 @@ session_start();
   $enfermidades = $pdo->query("SELECT sf.id_CID, sf.data_diagnostico, sf.status, stc.descricao FROM saude_enfermidades sf JOIN saude_tabelacid stc ON sf.id_CID = stc.id_CID WHERE sf.status = 1 AND id_fichamedica = " .$_GET['id_fichamedica']);
   $enfermidades = $enfermidades->fetchAll(PDO::FETCH_ASSOC);
   $enfermidades = json_encode($enfermidades);
+
+  $descricao_medica = $pdo->query("SELECT id_atendimento, descricao FROM saude_atendimento WHERE id_fichamedica = " .$_GET['id_fichamedica']);
+  $descricao_medica = $descricao_medica->fetchAll(PDO::FETCH_ASSOC);
+  $descricao_medica = json_encode($descricao_medica);
   
 ?>
     <!-- Vendor -->
@@ -309,6 +313,38 @@ session_start();
               )
             });
           }
+
+          // descricao medica 
+          $(function() {
+          var descricao_medica = <?= $descricao_medica ?>;
+          $.each(descricao_medica, function(i, item) {
+            $("#de-tab")
+              .append($("<tr>")
+                .append($("<td>").text(item.descricao))
+                .append($("<td style='display: flex; justify-content: space-evenly;'>")
+                  .append($("<a onclick='removerDescricaoMedica("+item.id_atendimento+")' href='#' title='Excluir'><button class='btn btn-danger'><i class='fas fa-trash-alt'></i></button></a>"))
+                )
+              )
+              console.log(item.id_atendimento);
+
+            });
+          });
+
+          function listarDescricaoMedica(descricao_medica){
+                  $("#de-tab").empty();
+                $.each(descricao_medica, function(i, item) {
+                  $("#de-tab")
+                    .append($("<tr>")
+                      .append($("<td>").text(item.descricao))
+                      .append($("<td style='display: flex; justify-content: space-evenly;'>")
+                  .append($("<a onclick='removerDescricaoMedica("+item.id_atendimento+")' href='#' title='Excluir'><button class='btn btn-danger'><i class='fas fa-trash-alt'></i></button></a>"))
+                )
+              )
+            });
+          }
+
+         
+          
           $(function() {
             $('#datatable-docfuncional').DataTable({
               "order": [
@@ -319,7 +355,7 @@ session_start();
           
           function digitarmedicacao()
           {
-            $("#escondermedicacao").hide();
+            $("#escondermedicacao").remove();
             $("#Inputremedio").show();
             //$("#outro") == $("#nome_medicacao");
           }
@@ -752,31 +788,50 @@ session_start();
                         <textarea cols='30' rows='3' id='despacho' name='texto' required class='form-control'></textarea>
                         </div>
                       </div>
-                    
-                      <br>
-                      <!--<input type="submit" class="btn btn-primary" value="Cadastrar" id="botaoSalvarIP" onclick="aparecermedicacao();"> -->
 
-                      <br>
-                      <br>
-                      <table class="table table-bordered table-striped mb-none">
-                        <thead>
-                          <tr style="font-size:15px;">
-                            <th>Descrições</th>
-                            <th>Ação</th>
-                          </tr>
-                        </thead>
-                        <tbody id="de-tab" style="font-size:15px">
-                          
-                        </tbody>
-                      </table>
-                      <br>
-                     
             </section>
-              <section class="panel">
-                   <header class="panel-heading">
-                    <div class="panel-actions">
-                        <a href="#" class="fa fa-caret-down"></a>
-                    </div>
+                      
+            <div class="panel-body">
+              <div class="form-group">
+                <table class="table table-bordered table-striped mb-none">
+                  <thead>
+                    <tr style="font-size:15px;">
+                      <th>Descrições</th>
+                      <th>Ação</th>
+                    </tr>
+                  </thead>
+                  <tbody id="de-tab" style="font-size:15px">                
+                  
+                 </tbody>
+               </table>
+              <br>
+             </div>
+              
+             <div class="form-group">
+                <table class="table table-bordered table-striped mb-none">
+                  <thead>
+                    <tr style="font-size:15px;">
+                      <th>Medicações</th>
+                      <th>Dosagem</th>
+                      <th>Horário</th>
+                      <th>Duração</th>
+                      <th>Ação</th>
+                    </tr>
+                  </thead>
+                  <tbody id="de-tab" style="font-size:15px">                
+                  
+                 </tbody>
+               </table>
+              <br>
+             </div>
+
+           </div>
+
+          <section class="panel">
+             <header class="panel-heading">
+                <div class="panel-actions">
+                    <a href="#" class="fa fa-caret-down"></a>
+                </div>
 
                    <h2 class="panel-title">Medicação</h2>
                   </header>
@@ -787,10 +842,10 @@ session_start();
                         <label class="col-md-3 control-label" for="inputSuccess">Medicação:</label>
                         <div class="col-md-6">
                           <select class="form-control input-lg mb-md" name="nome_medicacao" id="nome_medicacao">
-                            <option selected id="sangueSelect" onclick="esconderoutro();">Selecionar</option>
-                            <option value="Dipirona" onclick="esconderoutro();">Dipirona</option>
-                            <option value="Neosaldina" onclick="esconderoutro();">Neosaldina</option>
-                            <option value="Benegripe" onclick="esconderoutro();">Benegripe</option>
+                            <option selected disabled>Selecionar</option>
+                            <option value="Dipirona">Dipirona</option>
+                            <option value="Neosaldina">Neosaldina</option>
+                            <option value="Benegripe">Benegripe</option>
                             <option value="outro" onclick="digitarmedicacao();" id="outro">Outro</option>
                           </select>
                         </div>
@@ -815,9 +870,9 @@ session_start();
                     </div>
 
                     <div class="form-group">
-                      <label class="col-md-3 control-label" for="profileCompany">Dose:</label>
+                      <label class="col-md-3 control-label" for="profileCompany">Dosagem:</label>
                       <div class="col-md-6">
-                        <input type="text" class="form-control" name="dose" id="dose" onkeypress="return Onlychars(event)">
+                        <input type="text" class="form-control" name="dosagem" id="dosagem" onkeypress="return Onlychars(event)">
                       </div>
                      </div>
 
@@ -840,7 +895,7 @@ session_start();
                         <thead>
                           <tr style="font-size:15px;">
                             <th>Medicação</th>
-                            <th>Dose</th>
+                            <th>Dosagem</th>
                             <!--<th>Laboratório</th>-->
                             <th>Horário</th>
                             <th>Duração</th>
@@ -859,13 +914,12 @@ session_start();
                    <br>
                    <button type="button" class="btn btn-primary" id="botao">Inserir medicação</button> 
                    <input type="hidden" name="id_fichamedica" value=1>                   
-                   <input id="salvar_bd" type="submit" class="btn btn-primary" value="Cadastrar" onclick="funcao3()">
+                   <input id="salvar_bd" type="submit" class="btn btn-primary" value="Cadastrar">
                    
                  </form>
                 
                  <br>
                  <br>
-                 <!-- esconde a div medicacao -->
             </div>
          </section>
        </div>
@@ -931,7 +985,7 @@ session_start();
                             <tr>
                               <th>Medicação</th>
                               <th>Horário</th>
-                              <th>Dose</th>
+                              <th>Dosagem</th>
                               <th>Duração</th>
                             </tr>
                           </thead>
@@ -1162,65 +1216,77 @@ session_start();
                 post(url, data, listarEnfermidades);
                 console.log(listarEnfermidades);
             } 
+            function removerDescricaoMedica(id_doc) {
+                if (!window.confirm("Tem certeza que deseja remover essa descricao medica?")){
+                  return false;
+                }
+                let url = "descricaomedica_excluir.php?id_doc="+id_doc+"&id_fichamedica=<?= $_GET['id_fichamedica'] ?>";
+                let data = "";
+                post(url, data, listarDescricaoMedica);
+                console.log(listarDescricaoMedica);
+            } 
 
-            $(function(){
+            // codigo para inserir medicacao na tabela 
+            // $(function(){
 
-                let tabela_medicacao = new Array();
+            //     let tabela_medicacao = new Array();
 
-                $("#botao").click(function(){
-                let medicamento = $("#nome_medicacao").val();
-                let dose = $("#dose").val();
-                let horario = $("#horario_medicacao").val();
-                let duracao =  $("#duracao_medicacao").val();
+            //     $("#botao").click(function(){
+                
+            //     let medicamento = $("#nome_medicacao").val();
+            //     let dose = $("#dosagem").val();
+            //     let horario = $("#horario_medicacao").val();
+            //     let duracao =  $("#duracao_medicacao").val();
                     
-                $("#tabmed").append($("<tr>").addClass("tabmed")
-                  .append($("<td>") .text(medicamento) )
-                  .append($("<td>") .text(dose) )
-                  .append($("<td>") .text(horario) )
-                  .append($("<td>") .text(duracao) )
-                  .append($("<td style='display: flex; justify-content: space-evenly;'>")
-                  .append($("<button class='btn btn-danger'><i class='fas fa-trash-alt'></i></button>"))));
+            //     $("#tabmed").append($("<tr>").addClass("tabmed")
+            //       .append($("<td>") .text(medicamento) )
+            //       .append($("<td>") .text(dose) )
+            //       .append($("<td>") .text(horario) )
+            //       .append($("<td>") .text(duracao) )
+            //       .append($("<td style='display: flex; justify-content: space-evenly;'>")
+            //       .append($("<button class='btn btn-danger'><i class='fas fa-trash-alt'></i></button>"))));
                
-                        let tabela = {
-                                "nome_medicacao": medicamento,
-                                "dose": dose,
-                                "horario": horario,
-                                "tempo": duracao
-                            };
-                        tabela_medicacao.push(tabela);
-                        $("#dose").val("");
-                        $("#horario_medicacao").val(""); 
-                        $("#duracao_medicacao").val("");
-                })
-                $("#tabmed").on("click", "td", function(){
+            //             let tabela = {
+            //                     "nome_medicacao": medicamento,
+            //                     "dosagem": dose,
+            //                     "horario": horario,
+            //                     "tempo": duracao
+            //                 };
+            //             tabela_medicacao.push(tabela);
+            //             $("#dosagem").val("");
+            //             $("#horario_medicacao").val(""); 
+            //             $("#duracao_medicacao").val("");
+            //     })
+            //     $("#tabmed").on("click", "td", function(){
 
-                    let tamanho = tabela_medicacao.length;
-                    let dados = tabela_medicacao[0].medicamento + tabela_medicacao[0].dose + tabela_medicacao[0].horario + tabela_medicacao[0].duracao;
-                    let dados_existentes = $(this).parents("#tabmed tr").text();
-                    if(dados == dados_existentes)
-                    {
-                        tabela_medicacao.splice(0,1);
-                    }
-                    else
-                    {
-                        let i;
-                        for(i=1;i<tamanho;i++)
-                        {
-                            let dd = tabela_medicacao[i].medicamento + tabela_medicacao[i].dose + tabela_medicacao[i].horario + tabela_medicacao[i].duracao;
-                            if(dd == dados_existentes)
-                            {   
-                                tabela_medicacao.splice(i,1);
-                            }
-                        }
-                    }
-                    $(this).parents("#tabmed tr").remove();
-                })
+            //         let tamanho = tabela_medicacao.length;
+                    
+            //         let dados = tabela_medicacao[0].medicamento + tabela_medicacao[0].dose + tabela_medicacao[0].horario + tabela_medicacao[0].duracao;
+            //         let dados_existentes = $(this).parents("#tabmed tr").text();
+            //         if(dados == dados_existentes)
+            //         {
+            //             tabela_medicacao.splice(0,1);
+            //         }
+            //         else
+            //         {
+            //             let i;
+            //             for(i=1;i<tamanho;i++)
+            //             {
+            //                 let dd = tabela_medicacao[i].medicamento + tabela_medicacao[i].dose + tabela_medicacao[i].horario + tabela_medicacao[i].duracao;
+            //                 if(dd == dados_existentes)
+            //                 {   
+            //                     tabela_medicacao.splice(i,1);
+            //                 }
+            //             }
+            //         }
+            //         $(this).parents("#tabmed tr").remove();
+            //     })
 
-                  $("#salvar_bd").click(function(){
-                    $("input[name=id_fichamedica]").val(JSON.stringify(tabela_medicacao)).val();
-                  })
+            //       $("#salvar_bd").click(function(){
+            //         $("input[name=id_fichamedica]").val(JSON.stringify(tabela_medicacao)).val();
+            //       })
 
-                });
+            //     });
            
         </script>
         
