@@ -87,11 +87,11 @@
             <label for="pessoa">O que você deseja gerar?</label>
                 <select class="form-control" name="tipo_geracao" id="tipo_geracao">
                     <option selected>Selecionar</option>
-                    <option value="1">Boleto único</option>
-                    <option value="2">Carnê mensal</option>
-                    <option value="3">Carnê bimestral</option>
-                    <option value="4">Carnê trimestral</option>
-					<option value="5">Carnê semestral</option>
+                    <option value="0">Boleto único</option>
+                    <option value="1">Carnê mensal</option>
+                    <option value="2">Carnê bimestral</option>
+                    <option value="3">Carnê trimestral</option>
+					<option value="6">Carnê semestral</option>
                 </select>
             </div>
             <div class="form-group mb-2 col-xs-6">
@@ -115,7 +115,7 @@
            
 		   <div class="data">
 		   <label for="data_vencimento">Parcelas</label>
-		   <input type="text" class="form-control" id="num_parcelas" name="num_parcelas" placeholder="num. parcelas" required>
+		   <input type="number" class="form-control" id="num_parcelas" name="num_parcelas" placeholder="num. parcelas" required>
 		   </div>
 
 
@@ -123,7 +123,7 @@
 		   </div>
 		   
 			<div style="display: none" class="col-xs-12 div_btn_gerar">
-				<!-- <button type="button" id="btn_confirma" class="btn btn-primary">Simular geração</button>  -->
+				<button type="button" id="btn_confirma" class="btn btn-primary">Simular geração</button> 
 				<button type="button" id="btn_geracao_unica" class="btn btn-primary">Confirmar geração</button> 
 				<button style="display: none" type="button" id="btn_wpp" class="btn btn-success">
 				<i style="padding: 0; font-size: 20px" class="fab fa-whatsapp"></i></button>
