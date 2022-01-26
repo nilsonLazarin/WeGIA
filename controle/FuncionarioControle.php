@@ -535,7 +535,14 @@ class FuncionarioControle
         }
         
     }*/
-   
+    public function selecionarCadastro(){
+        $cpf = $_GET['cpf'];
+        // echo file_put_contents('arquivo.txt', $cpf);
+        $funcionario = new FuncionarioDAO();
+        $funcionario->selecionarCadastro($cpf);
+        // header("Location: ../html/funcionario/cadastro_funcionario.php");
+    }
+
     public function incluir(){
         $funcionario = $this->verificarFuncionario();
         $horario = $this->verificarHorario();

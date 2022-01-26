@@ -43,6 +43,25 @@ class FuncionarioDAO
         }
         return "Sem informação";
     }
+
+    public function selecionarCadastro($cpf){
+        $pdo = Conexao::connect();
+        $valor = 0;
+        $consultaCPF = $pdo->query("select cpf from pessoa;")->fetchAll(PDO::FETCH_ASSOC);
+        foreach ( $consultaCPF as $key => $value ){
+            if($cpf == $value['cpf']){
+                $valor++;
+            }
+        }
+        if($valor == 0){
+            header("Location: ../html/funcionario/cadastro_funcionario.php");
+        }
+        else
+        {
+            header("Location: ../html/funcionario/cadastro_funcionario_pessoa_existente.php");
+        }
+    }
+
     public function incluir($funcionario)
     {
         try {
