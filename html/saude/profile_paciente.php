@@ -72,6 +72,11 @@ session_start();
   $descricao_medica = $pdo->query("SELECT id_atendimento, descricao FROM saude_atendimento WHERE id_fichamedica = " .$_GET['id_fichamedica']);
   $descricao_medica = $descricao_medica->fetchAll(PDO::FETCH_ASSOC);
   $descricao_medica = json_encode($descricao_medica);
+
+  $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+  $tabelacid = $mysqli->query("SELECT * FROM saude_tabelacid");
+  $tipoexame = $mysqli->query("SELECT * FROM saude_exame_tipos");
+  $descparaenfermeiro = $mysqli->query("SELECT descricao FROM saude_fichamedica");
   
 ?>
     <!-- Vendor -->
@@ -321,6 +326,7 @@ session_start();
             $("#de-tab")
               .append($("<tr>")
                 .append($("<td>").text(item.descricao))
+                .append($("<td>").text(item.id_funcionario))
                 .append($("<td style='display: flex; justify-content: space-evenly;'>")
                   .append($("<a onclick='removerDescricaoMedica("+item.id_atendimento+")' href='#' title='Excluir'><button class='btn btn-danger'><i class='fas fa-trash-alt'></i></button></a>"))
                 )
@@ -336,6 +342,7 @@ session_start();
                   $("#de-tab")
                     .append($("<tr>")
                       .append($("<td>").text(item.descricao))
+                      .append($("<td>").text(item.id_funcionario))
                       .append($("<td style='display: flex; justify-content: space-evenly;'>")
                   .append($("<a onclick='removerDescricaoMedica("+item.id_atendimento+")' href='#' title='Excluir'><button class='btn btn-danger'><i class='fas fa-trash-alt'></i></button></a>"))
                 )
@@ -357,7 +364,6 @@ session_start();
           {
             $("#escondermedicacao").remove();
             $("#Inputremedio").show();
-            //$("#outro") == $("#nome_medicacao");
           }
           function aparecermedicacao()
           {
@@ -593,22 +599,14 @@ session_start();
                       <div class="form-group">
                         <label class="col-md-3 control-label" for="inputSuccess">Enfermidades</label>
                           <div class="col-md-8">
-                            <select class="form-control input-lg mb-md" name="id_CID" id="id_CID" style="width:350px;">
-                            <option selected disabled>Selecionar</option>
-                              <?php
-                                  $comando_select = "select * from saude_tabelacid";
-                                  $resultado_select = mysqli_query($conexao,$comando_select);
-                                  $linhas_select = mysqli_num_rows($resultado_select);
-                                  for($i=0;$i<$linhas_select;$i++)
-                                  {
-                                      $registro_select = mysqli_fetch_row($resultado_select);
-                                      echo
-                                      "
-                                              <option value='$registro_select[0]'>$registro_select[2]</option>
-                                      ";
-                                  }
-                              ?> 
-                            </select>
+                          <select class="form-control input-lg mb-md" name="id_CID" id="id_CID" style="width:350px;" required>
+                          <option selected disabled>Selecionar</option>
+                            <?php
+                            while ($row = $tabelacid->fetch_array(MYSQLI_NUM)) {
+                            echo "<option value=" . $row[0] . ">" . $row[2] . "</option>";
+                            }
+                            ?>
+                          </select>
                           </div>
                         </div>
 
@@ -698,19 +696,11 @@ session_start();
 
                                   <label class="my-1 mr-2" for="tipoDocumento">Tipo de exame</label><br>
                                   <div style="display: flex;">
-                                    <select name="id_docfuncional" class="custom-select my-1 mr-sm-2" id="tipoDocumento" required>
-                                    <option selected disabled>Selecionar...</option>
-                                    <?php
-                                      $comando_select = "select * from saude_exame_tipos";
-                                      $resultado_select = mysqli_query($conexao,$comando_select);
-                                      $linhas_select = mysqli_num_rows($resultado_select);
-                                      for($i=0;$i<$linhas_select;$i++)
-                                      {
-                                          $registro_select = mysqli_fetch_row($resultado_select);
-                                          echo
-                                          "
-                                                  <option value='$registro_select[0]'>$registro_select[1]</option>
-                                          ";
+                                    <select class="form-control input-lg mb-md" name="id_docfuncional" id="tipoDocumento" style="width:170px;" required>
+                                    <option selected disabled>Selecionar</option>
+                                      <?php
+                                      while ($row = $tipoexame->fetch_array(MYSQLI_NUM)) {
+                                      echo "<option value=" . $row[0] . ">" . $row[1] . "</option>";
                                       }
                                       ?>
                                     </select>
@@ -750,10 +740,7 @@ session_start();
                
             <div class="panel-body">
               <hr class="dotted short">
-               <!--<form class="form-horizontal" method="post" action="../controle/control.php">-->
                <form action='atendmedico_upload.php' method='post' enctype='multipart/form-data' id='funcionarioDocForm'>
-                   <!-- <input type="hidden" name="nomeClasse" value="SaudeControle">
-                   <input type="hidden" name="metodo" value="alterarDocumentacao"> -->
 
                    <div class="form-group">
                      <label class="col-md-3 control-label" for="profileCompany" id="data_atendimento">Data do atendimento:</label>
@@ -789,7 +776,6 @@ session_start();
                         </div>
                       </div>
 
-            </section>
                       
             <div class="panel-body">
               <div class="form-group">
@@ -797,6 +783,7 @@ session_start();
                   <thead>
                     <tr style="font-size:15px;">
                       <th>Descrições</th>
+                      <th>Médico(a)</th>
                       <th>Ação</th>
                     </tr>
                   </thead>
@@ -824,13 +811,20 @@ session_start();
                </table>
               <br>
              </div>
-
+              <input type="number" name="id_fichamedica" value="<?= $_GET['id_fichamedica']; ?>" style='display: none;'>
+              <input type="hidden" name="id_fichamedica" value=<?php echo $_GET['id_fichamedica'] ?>>
+              <input type="submit" class="btn btn-primary" value="Cadastrar">
            </div>
+           </section>
 
-          <section class="panel">
+      </form>
+
+          <section class="panel" id="medicacao">
              <header class="panel-heading">
                 <div class="panel-actions">
                     <a href="#" class="fa fa-caret-down"></a>
+
+
                 </div>
 
                    <h2 class="panel-title">Medicação</h2>
@@ -846,6 +840,10 @@ session_start();
                             <option value="Dipirona">Dipirona</option>
                             <option value="Neosaldina">Neosaldina</option>
                             <option value="Benegripe">Benegripe</option>
+                            <option value="Torsilax">Torsilax</option>
+                            <option value="Puran">Puran</option>
+                            <option value="Ibuprofeno">Ibuprofeno</option>
+                            <option value="Amoxicilina">Amoxicilina</option>
                             <option value="outro" onclick="digitarmedicacao();" id="outro">Outro</option>
                           </select>
                         </div>
@@ -907,17 +905,8 @@ session_start();
                         </tbody>
                       </table>
                       <br> 
-
-                   <!--<div class="panel-body">-->
-                      <!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#docFormModal" id="botao">Inserir medicações</button>-->
-                     
                    <br>
-                   <button type="button" class="btn btn-primary" id="botao">Inserir medicação</button> 
-                   <input type="hidden" name="id_fichamedica" value=1>                   
-                   <input id="salvar_bd" type="submit" class="btn btn-primary" value="Cadastrar">
-                   
-                 </form>
-                
+                   <button type="button" class="btn btn-primary" id="botao">Inserir medicação</button>  
                  <br>
                  <br>
             </div>
@@ -935,33 +924,45 @@ session_start();
 
                <h2 class="panel-title">Atendimento enfermeiro</h2>
             </header>
-            <div class="panel-body">
-               <form class="form-horizontal" method="post" action="../controle/control.php">
-                   <input type="hidden" name="nomeClasse" value="SaudeControle">
-                   <input type="hidden" name="metodo" value="alterarDocumentacao">
 
-                   <div class="form-group">
-                     <label class="col-md-3 control-label" for="profileCompany">Data do atendimento:</label>
-                     <div class="col-md-6">
-                     <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" name="data_expedicao" id="data_expedicao" max=2021-06-11>
-                     </div>
-                   </div>
+          <div class="panel-body">
+            <hr class="dotted short">
+            <form action='atendenfermeiro_upload.php' method='post' enctype='multipart/form-data' id='funcionarioDocForm'>
+
+              <div class="form-group">
+                 <label class="col-md-3 control-label" for="profileCompany">Data do atendimento:</label>
+                  <div class="col-md-6">
+                  <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" name="data_expedicao" id="data_expedicao" max=2021-06-11>
+                </div>
+              </div>
+
                    <div class="form-group">
                      <label class="col-md-3 control-label" for="profileCompany"></label>
                      <div class="col-md-6">
                        <p id="cpfInvalido" style="display: none; color: #b30000">CPF INVÁLIDO!</p>
                      </div>
                    </div>
+
                    <div class="form-group">
-                     <label class="col-md-3 control-label" for="profileCompany">Enfermeiro:</label>
-                     <div class="col-md-6">
-                       <input type="text" class="form-control" name="orgao_emissor" id="orgao_emissor" onkeypress="return Onlychars(event)">
-                     </div>
-                   </div>
+                        <label class="col-md-3 control-label" for="inputSuccess">Enfermeiro:</label>
+                        <div class="col-md-6">
+                          <select class="form-control input-lg mb-md" name="id_funcionario" id="id_funcionario">
+                            <option selected id="sangueSelect">Selecionar</option>
+                            <option value=1>Rebeca</option>
+                            <option value=2>Artur</option>
+                            <option value=3>Maria Clara</option>
+                            <option value=4>Luiza</option>
+                          </select>
+                        </div>
+                      </div>
+
                    <div class="form-group">
                         <label class="col-md-3 control-label" for="profileFirstName">Descrição:</label>
                         <div class="col-md-6">
-                          <input type="text" class="form-control" disabled name="sobrenome" id="sobrenome" onkeypress="return Onlychars(event)">
+                          <input type="text" class="form-control" disabled name="sobrenome" id="sobrenome" value="NÃO ESQUECE"/>
+                      
+
+                          
                         </div>
                       </div>
                    <br />
@@ -978,26 +979,28 @@ session_start();
                 </header>
                    
                    <div class="panel-body">
-                    <label class="col-md-12 control-label">Informações recuperadas da medicação que o médico forneceu:</label>
-                    <br>
-                    <table class="table table-bordered table-striped mb-none" id="datatable-docfuncional">
-                          <thead>
-                            <tr>
-                              <th>Medicação</th>
-                              <th>Horário</th>
-                              <th>Dosagem</th>
-                              <th>Duração</th>
-                            </tr>
-                          </thead>
-                          <tbody id="doc-tab">
-                          </tbody>
-                        </table>
+                   <hr class="dotted short">
+                   
+                    <div class="form-group">
+                    <table class="table table-bordered table-striped mb-none">
+                      <thead>
+                        <tr style="font-size:15px;">
+                          <th>Medicações</th>
+                          <th>Dosagem</th>
+                          <th>Horário</th>
+                          <th>Duração</th>
+                        </tr>
+                      </thead>
+                      <tbody id="de-tab" style="font-size:15px">                
+                      
+                    </tbody>
+                  </table>
                   <br>
-                  <br>
-                  <br>
+                </div>
+
                   <div class="form-group">
                      
-                        <label class="col-md-3 control-label" for="inputSuccess">Remédio:</label>
+                        <label class="col-md-3 control-label" for="inputSuccess">Medicamento:</label>
                         <div class="col-md-6">
                           <select class="form-control input-lg mb-md" name="sangue" id="sangue">
                             <option selected id="sangueSelect">Selecionar</option>
@@ -1013,9 +1016,9 @@ session_start();
                         </div>
                       </div>
                       <div class="form-group">
-                      <label class="col-md-3 control-label" for="profileCompany">Horário de aplicação</label>
+                      <label class="col-md-3 control-label" for="profileCompany">Horário de aplicação:</label>
                      <div class="col-md-6">
-                       <input type="text" class="form-control" name="orgao_emissor" id="orgao_emissor" onkeypress="return Onlychars(event)">
+                       <input type="number" class="form-control" name="orgao_emissor" id="orgao_emissor" onkeypress="return Onlychars(event)">
                      </div>
                      </div>
                     
@@ -1028,29 +1031,27 @@ session_start();
                      <br />
                      <br />
 
-
-                     <h2 class="panel-title">Aplicações efetuadas</h2>
+                     <!-- <h2 class="panel-title">Aplicações efetuadas</h2> -->
                      
-                     <div class="panel-body">
-                    <table class="table table-bordered table-striped mb-none" id="datatable-docfuncional">
-                          <thead>
-                            <tr>
-                              <th>Medicamento</th>
-                              <th>Horário de aplicação</th>
-                              <th>Ação</th>
-                            </tr>
-                          </thead>
-                          <tbody id="doc-tab">
-                          </tbody>
-                        </table>
+                     <table class="table table-bordered table-striped mb-none">
+                      <thead>
+                        <tr style="font-size:15px;">
+                          <th>Medicações</th>
+                          <th>Horário da aplicação</th>
+                          <th>Ação</th>
+                        </tr>
+                      </thead>
+                      <tbody id="de-tab" style="font-size:15px">                
+                      
+                    </tbody>
+                  </table>
+                    
                   <br>
                   <br>
                   <br>
-                     
                    
                    <input id="botaoSalvarDocumentacao" type="submit" class="btn btn-primary" value="Cadastrar aplicação desses medicamentos" onclick="funcao3()">
                  </form>
-            </div>
          </section>
        </div>  
 
@@ -1227,66 +1228,66 @@ session_start();
             } 
 
             // codigo para inserir medicacao na tabela 
-            // $(function(){
+            $(function(){
 
-            //     let tabela_medicacao = new Array();
+                let tabela_medicacao = new Array();
 
-            //     $("#botao").click(function(){
+                $("#botao").click(function(){
                 
-            //     let medicamento = $("#nome_medicacao").val();
-            //     let dose = $("#dosagem").val();
-            //     let horario = $("#horario_medicacao").val();
-            //     let duracao =  $("#duracao_medicacao").val();
+                let medicamento = $("#nome_medicacao").val();
+                let dose = $("#dosagem").val();
+                let horario = $("#horario_medicacao").val();
+                let duracao =  $("#duracao_medicacao").val();
                     
-            //     $("#tabmed").append($("<tr>").addClass("tabmed")
-            //       .append($("<td>") .text(medicamento) )
-            //       .append($("<td>") .text(dose) )
-            //       .append($("<td>") .text(horario) )
-            //       .append($("<td>") .text(duracao) )
-            //       .append($("<td style='display: flex; justify-content: space-evenly;'>")
-            //       .append($("<button class='btn btn-danger'><i class='fas fa-trash-alt'></i></button>"))));
+                $("#tabmed").append($("<tr>").addClass("tabmed")
+                  .append($("<td>") .text(medicamento) )
+                  .append($("<td>") .text(dose) )
+                  .append($("<td>") .text(horario) )
+                  .append($("<td>") .text(duracao) )
+                  .append($("<td style='display: flex; justify-content: space-evenly;'>")
+                  .append($("<button class='btn btn-danger'><i class='fas fa-trash-alt'></i></button>"))));
                
-            //             let tabela = {
-            //                     "nome_medicacao": medicamento,
-            //                     "dosagem": dose,
-            //                     "horario": horario,
-            //                     "tempo": duracao
-            //                 };
-            //             tabela_medicacao.push(tabela);
-            //             $("#dosagem").val("");
-            //             $("#horario_medicacao").val(""); 
-            //             $("#duracao_medicacao").val("");
-            //     })
-            //     $("#tabmed").on("click", "td", function(){
+                        let tabela = {
+                                "nome_medicacao": medicamento,
+                                "dosagem": dose,
+                                "horario": horario,
+                                "tempo": duracao
+                            };
+                        tabela_medicacao.push(tabela);
+                        $("#dosagem").val("");
+                        $("#horario_medicacao").val(""); 
+                        $("#duracao_medicacao").val("");
+                })
+                $("#tabmed").on("click", "td", function(){
 
-            //         let tamanho = tabela_medicacao.length;
+                    let tamanho = tabela_medicacao.length;
                     
-            //         let dados = tabela_medicacao[0].medicamento + tabela_medicacao[0].dose + tabela_medicacao[0].horario + tabela_medicacao[0].duracao;
-            //         let dados_existentes = $(this).parents("#tabmed tr").text();
-            //         if(dados == dados_existentes)
-            //         {
-            //             tabela_medicacao.splice(0,1);
-            //         }
-            //         else
-            //         {
-            //             let i;
-            //             for(i=1;i<tamanho;i++)
-            //             {
-            //                 let dd = tabela_medicacao[i].medicamento + tabela_medicacao[i].dose + tabela_medicacao[i].horario + tabela_medicacao[i].duracao;
-            //                 if(dd == dados_existentes)
-            //                 {   
-            //                     tabela_medicacao.splice(i,1);
-            //                 }
-            //             }
-            //         }
-            //         $(this).parents("#tabmed tr").remove();
-            //     })
+                    let dados = tabela_medicacao[0].medicamento + tabela_medicacao[0].dose + tabela_medicacao[0].horario + tabela_medicacao[0].duracao;
+                    let dados_existentes = $(this).parents("#tabmed tr").text();
+                    if(dados == dados_existentes)
+                    {
+                        tabela_medicacao.splice(0,1);
+                    }
+                    else
+                    {
+                        let i;
+                        for(i=1;i<tamanho;i++)
+                        {
+                            let dd = tabela_medicacao[i].medicamento + tabela_medicacao[i].dose + tabela_medicacao[i].horario + tabela_medicacao[i].duracao;
+                            if(dd == dados_existentes)
+                            {   
+                                tabela_medicacao.splice(i,1);
+                            }
+                        }
+                    }
+                    $(this).parents("#tabmed tr").remove();
+                })
 
-            //       $("#salvar_bd").click(function(){
-            //         $("input[name=id_fichamedica]").val(JSON.stringify(tabela_medicacao)).val();
-            //       })
+                  $("#salvar_bd").click(function(){
+                    $("input[name=id_fichamedica]").val(JSON.stringify(tabela_medicacao)).val();
+                  })
 
-            //     });
+                });
            
         </script>
         

@@ -13,13 +13,33 @@ if (!isset($_SESSION["usuario"])){
 
 if ($_POST){
     require_once "../../dao/Conexao.php";	
-    // $pdo = Conexao::connect();
+    $pdo = Conexao::connect();
+    $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
     
+    $funcionario = $_POST["id_funcionario"];
+
     // $obj_post = $_POST['id_fichamedica'];
     // $obj = json_decode($obj_post, true);
     // $total = count($obj);
     // var_dump($total);
     // var_dump($obj);
+
+    /*$comando_select_id_funcionario = "SELECT * FROM funcionario f JOIN pessoa p ON (f.id_pessoa = p.id_pessoa WHERE nome = '$funcionario'";
+    $resultado_select_id_funcionario = mysqli_query($mysqli,$comando_select_id_funcionario);
+    $registro_select_id_funcionario = mysqli_fetch_row($resultado_select_id_funcionario);
+    $id_funcionario = $registro_select_id_funcionario[0];*/
+
+    /*$selectfunc = $mysqli->query("SELECT * FROM funcionario f JOIN pessoa p ON (f.id_pessoa = p.id_pessoa WHERE nome = '$funcionario'");
+    $t = mysqli_fetch_row($selectfunc);
+    $id_funcionario = $t[0];*/
+    // // $a = $mysqli->query($selectfunc);
+    // // $b = mysqli_fetch_row($pdo, $selectfunc);
+    // // $id_funcionario = $b[0];
+    // // $id_funcionario = $b[0];
+
+    /*while ($row = $selectfunc->fetch_array(MYSQLI_NUM)) {
+         echo "<option value=" . $row[0] . ">" . $row[3] . "</option>";
+    }*/
     
     try {
         $pdo = Conexao::connect();
