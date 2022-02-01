@@ -54,11 +54,12 @@ class FuncionarioDAO
             }
         }
         if($valor == 0){
-            header("Location: ../html/funcionario/cadastro_funcionario.php");
+            header("Location: ../html/funcionario/cadastro_funcionario.php?cpf=$cpf");
         }
         else
         {
-            header("Location: ../html/funcionario/cadastro_funcionario_pessoa_existente.php");
+            header("Location: ../html/funcionario/cadastro_funcionario_pessoa_existente.php?cpf=$cpf");
+            // header('Location: ../controle/control.php?metodo=listarPessoaExistente&nomeClasse=FuncionarioControle&nextPage=../html/funcionario/cadastro_funcionario_pessoa_existente.php?cpf=' . $cpf);
         }
     }
 
@@ -437,6 +438,35 @@ class FuncionarioDAO
             while($linha = $stmt->fetch(PDO::FETCH_ASSOC)){
                 $funcionario[] = array('imagem'=>$linha['imagem'],'cpf'=>$linha['cpf'],'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'sexo'=>$linha['sexo'],'data_nascimento'=>$this->formatoDataDMY($linha['data_nascimento']),'registro_geral'=>$linha['registro_geral'],'orgao_emissor'=>$linha['orgao_emissor'],'data_expedicao'=>$this->formatoDataDMY($linha['data_expedicao']),'nome_mae'=>$linha['nome_mae'],'nome_pai'=>$linha['nome_pai'],'tipo_sanguineo'=>$linha['tipo_sanguineo'],'senha'=>$linha['senha'],'telefone'=>$linha['telefone'],'cep'=>$linha['cep'],'estado'=>$linha['estado'],'ibge'=>$linha['ibge'],'cidade'=>$linha['cidade'],'bairro'=>$linha['bairro'],'logradouro'=>$linha['logradouro'],'numero_endereco'=>$linha['numero_endereco'],'complemento'=>$linha['complemento'],'id_funcionario'=>$linha['id_funcionario'],'data_admissao'=>$this->formatoDataDMY($linha['data_admissao']),'pis'=>$linha['pis'],'ctps'=>$linha['ctps'],'uf_ctps'=>$linha['uf_ctps'],'numero_titulo'=>$linha['numero_titulo'],'zona'=>$linha['zona'],'secao'=>$linha['secao'],'certificado_reservista_numero'=>$linha['certificado_reservista_numero'],'certificado_reservista_serie'=>$linha['certificado_reservista_serie'],'id_situacao'=>$linha['id_situacao'],'situacao'=>$linha['situacao'],'escala'=>$linha['escala'],'tipo'=>$linha['tipo'],'carga_horaria'=>$linha['carga_horaria'],'entrada1'=>$linha['entrada1'],'saida1'=>$linha['saida1'],'entrada2'=>$linha['entrada2'],'saida2'=>$linha['saida2'],'total'=>$linha['total'],'dias_trabalhados'=>$linha['dias_trabalhados'],'folga'=>$linha['folga'],'id_cargo'=>$linha['id_cargo'],'cargo'=>$linha['cargo']);
             }
+        }catch (PDOExeption $e){
+            echo 'Error: ' .  $e->getMessage();
+        }
+        return json_encode($funcionario);
+    }
+
+    public function listarPessoaExistente($cpf){
+        try{
+        echo file_put_contents('ar.txt', 'l');
+            
+            $pdo = Conexao::connect();
+            $sql = "SELECT p.imagem,p.nome,p.sobrenome,p.cpf,p.sexo,p.telefone,p.data_nascimento,p.registro_geral,p.orgao_emissor,p.data_expedicao,f.data_admissao,s.id_situacao,c.id_cargo,qh.escala,qh.tipo
+            FROM pessoa p 
+            INNER JOIN funcionario f ON p.id_pessoa = f.id_pessoa 
+            LEFT JOIN quadro_horario_funcionario qh ON qh.id_funcionario = f.id_funcionario 
+            LEFT JOIN situacao s ON s.id_situacao = f.id_situacao 
+            LEFT JOIN cargo c ON c.id_cargo = f.id_cargo 
+            WHERE p.cpf = :cpf";
+
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindParam(':cpf',$cpf);
+
+            $stmt->execute();
+            $funcionario=array();
+            
+            while($linha = $stmt->fetch(PDO::FETCH_ASSOC)){
+                $funcionario[] = array('imagem'=>$linha['imagem'],'cpf'=>$linha['cpf'],'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'sexo'=>$linha['sexo'],'data_nascimento'=>$this->formatoDataDMY($linha['data_nascimento']),'registro_geral'=>$linha['registro_geral'],'orgao_emissor'=>$linha['orgao_emissor'],'data_expedicao'=>$this->formatoDataDMY($linha['data_expedicao']),'telefone'=>$linha['telefone'],'data_admissao'=>$this->formatoDataDMY($linha['data_admissao']),'id_situacao'=>$linha['id_situacao'],'escala'=>$linha['escala'],'tipo'=>$linha['tipo'],'id_cargo'=>$linha['id_cargo'],);
+            }
+
         }catch (PDOExeption $e){
             echo 'Error: ' .  $e->getMessage();
         }

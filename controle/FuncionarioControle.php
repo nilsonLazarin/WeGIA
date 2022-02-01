@@ -496,6 +496,23 @@ class FuncionarioControle
         
     }
 
+    public function listarPessoaExistente()
+    {
+        //extract($_REQUEST);
+        $cpf = $_GET['cpf'];
+        try {
+
+            $funcionarioDAO = new FuncionarioDAO();
+            $funcionario=$funcionarioDAO->listarPessoaExistente($cpf);
+            session_start();
+            $_SESSION['pessoaExistente']=$funcionario;
+            header('Location:'.$nextPage);
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+        
+    }
+
    /* public function listarEpi()
     {
         extract($_REQUEST);

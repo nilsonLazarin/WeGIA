@@ -250,6 +250,11 @@
 									Cargos
 								</a>
 							</li>
+							<li id="47">
+								<a href="<?= WWW ?>html/geral/documentos_funcionario.php">
+									Documentos Funcionário
+								</a>
+							</li>
 							<li id="46">
 								<a href="<?= WWW ?>html/configuracao/debug_info.php">
 									Informações de debug

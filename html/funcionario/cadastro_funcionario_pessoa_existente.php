@@ -16,6 +16,8 @@ if (file_exists($config_path)) {
   }
   require_once($config_path);
 }
+
+
 $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 $situacao = $mysqli->query("SELECT * FROM situacao");
 $cargo = $mysqli->query("SELECT * FROM cargo");
@@ -54,9 +56,38 @@ require_once ROOT . "/controle/AtendidoControle.php";
 $listaCPF2 = new AtendidoControle;
 $listaCPF2->listarCpf();
 
-
 // Inclui display de Campos
 require_once "../personalizacao_display.php";
+
+require_once "../../dao/Conexao.php";
+$pdo = Conexao::connect();
+if (!isset($_SESSION['usuario'])) {
+  header("Location: ../index.php");
+} else if (!isset($_SESSION['pessoaExistente'])) {
+  $cpf = $_GET['cpf'];
+  header('Location: ../../controle/control.php?metodo=listarPessoaExistente&nomeClasse=FuncionarioControle&nextPage=../html/funcionario/cadastro_funcionario_pessoa_existente.php?cpf=' . $cpf . '&cpf='. $cpf);
+} else {
+
+
+  $func = $_SESSION['pessoaExistente'];
+  // unset($_SESSION['pessoaExistente']);
+
+   // Adiciona Descrição de escala e tipo
+  //  $func = json_decode($func);
+  //  if ($func) {
+  //    $func = $func[0];
+  //    if ($func->tipo) {
+  //      $func->tipo_descricao = $pdo->query("SELECT descricao FROM tipo_quadro_horario WHERE id_tipo=" . $func->tipo)->fetch(PDO::FETCH_ASSOC)['descricao'];
+  //    }
+  //    if ($func->escala) {
+  //      $func->escala_descricao = $pdo->query("SELECT descricao FROM escala_quadro_horario WHERE id_escala=" . $func->escala)->fetch(PDO::FETCH_ASSOC)['descricao'];
+  //    }
+  //    $func = json_encode([$func]);
+  //  }
+
+}
+// echo file_put_contents('ar.txt', 'oi');
+
 
 ?>
 <!DOCTYPE html>
@@ -88,6 +119,122 @@ require_once "../personalizacao_display.php";
 
   <!-- Theme Custom CSS -->
   <link rel="stylesheet" href="../../assets/stylesheets/theme-custom.css">
+  <script src="../../assets/vendor/jquery/jquery.min.js"></script>
+  
+  <script>
+
+    console.log("oi");
+    $(function(){
+
+      var funcionario = <?= $func ?>; 
+      console.log(funcionario);
+      console.log("oi");
+      $.each(funcionario, function(i, item) {
+        //Informações pessoais
+        $("#nomeForm").val(item.nome).prop('disabled', true);
+        $("#sobrenomeForm").val(item.sobrenome).prop('disabled', true);
+        if (item.sexo == "m") {
+
+          $("#radioM").prop('checked', true).prop('disabled', true);
+          $("#radioF").prop('checked', false).prop('disabled', true);
+          $("#reservista1").show();
+          $("#reservista2").show();
+        } else if (item.sexo == "f") {
+          $("#radioM").prop('checked', false).prop('disabled', true)
+          $("#radioF").prop('checked', true).prop('disabled', true);
+        }
+
+        $("#telefone").val(item.telefone).prop('disabled', true);
+        $("#nascimento").val(alterardate(item.data_nascimento)).prop('disabled', true);
+        $("#pai").val(item.nome_pai).prop('disabled', true);
+        $("#mae").val(item.nome_mae).prop('disabled', true);
+        $("#sangue").val(item.tipo_sanguineo).prop('disabled', true);
+
+        //Endereço
+
+        $("#cep").val(item.cep).prop('disabled', true);
+        $("#uf").val(item.estado).prop('disabled', true);
+        $("#cidade").val(item.cidade).prop('disabled', true);
+        $("#bairro").val(item.bairro).prop('disabled', true);
+        $("#rua").val(item.logradouro).prop('disabled', true);
+        $("#complemento").val(item.complemento).prop('disabled', true);
+        $("#ibge").val(item.ibge).prop('disabled', true);
+        if (item.numero_endereco == 'N?o possui' || item.numero_endereco == null) {
+
+          $("#numResidencial").prop('checked', true).prop('disabled', true);
+          $("#numero_residencia").prop('disabled', true);
+
+        } else {
+          $("#numero_residencia").val(item.numero_endereco).prop('disabled', true);
+          $("#numResidencial").prop('disabled', true);
+        }
+
+
+        //Documentação
+        
+        var cpf = item.cpf;
+
+        $("#rg").val(item.registro_geral).prop('disabled', true);
+        $("#orgao_emissor").val(item.orgao_emissor).prop('disabled', true);
+        $("#data_expedicao").val(alterardate(item.data_expedicao)).prop('disabled', true);
+        $("#cpf").val(cpf).prop('disabled', true);
+        $("#data_admissao").val(alterardate(item.data_admissao)).prop('disabled', true);
+
+        //Outros
+        $("#pis").val(item.pis).prop('disabled', true);
+        $("#ctps").val(item.ctps).prop('disabled', true);
+        $("#uf_ctps").val(item.uf_ctps).prop('disabled', true);
+        $("#zona_eleitoral").val(item.zona).prop('disabled', true);
+        $("#titulo_eleitor").val(item.numero_titulo).prop('disabled', true);
+        $("#secao_titulo_eleitor").val(item.secao).prop('disabled', true);
+        $("#certificado_reservista_numero").val(item.certificado_reservista_numero).prop('disabled', true);
+        $("#certificado_reservista_serie").val(item.certificado_reservista_serie).prop('disabled', true);
+        $("#situacao").val(item.id_situacao).prop('disabled', true);
+        $("#cargo").val(item.id_cargo).prop('disabled', true);
+
+        //CARGA HORÁRIA
+
+        $("#dias_trabalhados").text("Dias trabalhados: " + (item.dias_trabalhados || "Sem informação"));
+        if (item.dias_trabalhados == "Plantão") {
+          $("#dias_trabalhados").text("Dias trabalhados: " + (item.dias_trabalhados || "Sem informação") + " 12/36");
+        }
+        $("#dias_folga").text("Dias de folga: " + (item.folga || "Sem informação"));
+        $("#total").text("Carga horária diária: " + (item.total || "Sem informação"));
+        $("#carga_horaria_mensal").text("Carga horária mensal: " + (item.carga_horaria || "Sem informação"));
+
+        if (item.escala) {
+          $("#escala_input").val(item.escala);
+        }
+        if (item.tipo) {
+          $("#tipoCargaHoraria_input").val(item.tipo);
+        }
+        if (item.entrada1) {
+          $("#entrada1_input").val(item.entrada1);
+        }
+        if (item.saida1) {
+          $("#saida1_input").val(item.saida1);
+        }
+        if (item.entrada2) {
+          $("#entrada2_input").val(item.entrada2);
+        }
+        if (item.saida2) {
+          $("#saida2_input").val(item.saida2);
+        }
+
+        var dia_trabalhado = (item.dias_trabalhados ? item.dias_trabalhados.split(",") : []);
+        var dia_folga = (item.folga ? item.folga.split(",") : []);
+        for (var i = 0; i < dia_trabalhado.length; i++) {
+          $("#diaTrabalhado_" + dia_trabalhado[i]).prop("checked", true);
+        }
+        for (var j = 0; j < dia_folga.length; j++) {
+          $("#diaFolga_" + dia_folga[j]).prop("checked", true);
+        }
+      })
+    });
+
+
+  </script>
+
 </head>
 
 <body>
