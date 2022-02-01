@@ -496,22 +496,7 @@ class FuncionarioControle
         
     }
 
-    public function listarPessoaExistente()
-    {
-        //extract($_REQUEST);
-        $cpf = $_GET['cpf'];
-        try {
-
-            $funcionarioDAO = new FuncionarioDAO();
-            $funcionario=$funcionarioDAO->listarPessoaExistente($cpf);
-            session_start();
-            $_SESSION['pessoaExistente']=$funcionario;
-            header('Location:'.$nextPage);
-        } catch (PDOException $e) {
-            echo $e->getMessage();
-        }
-        
-    }
+    
 
    /* public function listarEpi()
     {
@@ -554,7 +539,6 @@ class FuncionarioControle
     }*/
     public function selecionarCadastro(){
         $cpf = $_GET['cpf'];
-        // echo file_put_contents('arquivo.txt', $cpf);
         $funcionario = new FuncionarioDAO();
         $funcionario->selecionarCadastro($cpf);
         // header("Location: ../html/funcionario/cadastro_funcionario.php");

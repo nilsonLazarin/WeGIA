@@ -61,33 +61,11 @@ require_once "../personalizacao_display.php";
 
 require_once "../../dao/Conexao.php";
 $pdo = Conexao::connect();
-if (!isset($_SESSION['usuario'])) {
-  header("Location: ../index.php");
-} else if (!isset($_SESSION['pessoaExistente'])) {
-  $cpf = $_GET['cpf'];
-  header('Location: ../../controle/control.php?metodo=listarPessoaExistente&nomeClasse=FuncionarioControle&nextPage=../html/funcionario/cadastro_funcionario_pessoa_existente.php?cpf=' . $cpf . '&cpf='. $cpf);
-} else {
 
+$cpf = $_GET['cpf'];
 
-  $func = $_SESSION['pessoaExistente'];
-  // unset($_SESSION['pessoaExistente']);
-
-   // Adiciona Descrição de escala e tipo
-  //  $func = json_decode($func);
-  //  if ($func) {
-  //    $func = $func[0];
-  //    if ($func->tipo) {
-  //      $func->tipo_descricao = $pdo->query("SELECT descricao FROM tipo_quadro_horario WHERE id_tipo=" . $func->tipo)->fetch(PDO::FETCH_ASSOC)['descricao'];
-  //    }
-  //    if ($func->escala) {
-  //      $func->escala_descricao = $pdo->query("SELECT descricao FROM escala_quadro_horario WHERE id_escala=" . $func->escala)->fetch(PDO::FETCH_ASSOC)['descricao'];
-  //    }
-  //    $func = json_encode([$func]);
-  //  }
-
-}
-// echo file_put_contents('ar.txt', 'oi');
-
+$funcionario = new FuncionarioDAO;
+$informacoesFunc = $funcionario->listarPessoaExistente($cpf);
 
 ?>
 <!DOCTYPE html>
@@ -126,110 +104,54 @@ if (!isset($_SESSION['usuario'])) {
     console.log("oi");
     $(function(){
 
-      var funcionario = <?= $func ?>; 
+      
+      var funcionario = <?php echo $informacoesFunc ?>; 
       console.log(funcionario);
       console.log("oi");
       $.each(funcionario, function(i, item) {
-        //Informações pessoais
-        $("#nomeForm").val(item.nome).prop('disabled', true);
-        $("#sobrenomeForm").val(item.sobrenome).prop('disabled', true);
-        if (item.sexo == "m") {
-
-          $("#radioM").prop('checked', true).prop('disabled', true);
-          $("#radioF").prop('checked', false).prop('disabled', true);
-          $("#reservista1").show();
-          $("#reservista2").show();
-        } else if (item.sexo == "f") {
-          $("#radioM").prop('checked', false).prop('disabled', true)
-          $("#radioF").prop('checked', true).prop('disabled', true);
-        }
-
-        $("#telefone").val(item.telefone).prop('disabled', true);
-        $("#nascimento").val(alterardate(item.data_nascimento)).prop('disabled', true);
-        $("#pai").val(item.nome_pai).prop('disabled', true);
-        $("#mae").val(item.nome_mae).prop('disabled', true);
-        $("#sangue").val(item.tipo_sanguineo).prop('disabled', true);
-
-        //Endereço
-
-        $("#cep").val(item.cep).prop('disabled', true);
-        $("#uf").val(item.estado).prop('disabled', true);
-        $("#cidade").val(item.cidade).prop('disabled', true);
-        $("#bairro").val(item.bairro).prop('disabled', true);
-        $("#rua").val(item.logradouro).prop('disabled', true);
-        $("#complemento").val(item.complemento).prop('disabled', true);
-        $("#ibge").val(item.ibge).prop('disabled', true);
-        if (item.numero_endereco == 'N?o possui' || item.numero_endereco == null) {
-
-          $("#numResidencial").prop('checked', true).prop('disabled', true);
-          $("#numero_residencia").prop('disabled', true);
-
-        } else {
-          $("#numero_residencia").val(item.numero_endereco).prop('disabled', true);
-          $("#numResidencial").prop('disabled', true);
-        }
-
-
-        //Documentação
         
-        var cpf = item.cpf;
+        $("#nome").val(item.nome).prop('disabled', true);
+        $("#sobrenome").val(item.sobrenome).prop('disabled', true);
+        $("#telefone").val(item.telefone).prop('disabled', true);
+        $("#orgao_emissor").val(item.orgao_emissor);
+        $("#nascimento").val(alterardate(item.data_nascimento)).prop('disabled', true);
+        $("#data_expedicao").val(alterardate(item.data_expedicao));
+        $("#cpf").val(item.cpf).prop('disabled', true);
+        $("#rg").val(item.registro_geral);
+        if(item.sexo=="m")
+        {
+          $("#sexo").html("Sexo: <i class='fa fa-male'></i>  Masculino");
+          $("#radioM").prop('checked',true);
+          $("#radioF").prop('disabled', true);
 
-        $("#rg").val(item.registro_geral).prop('disabled', true);
-        $("#orgao_emissor").val(item.orgao_emissor).prop('disabled', true);
-        $("#data_expedicao").val(alterardate(item.data_expedicao)).prop('disabled', true);
-        $("#cpf").val(cpf).prop('disabled', true);
-        $("#data_admissao").val(alterardate(item.data_admissao)).prop('disabled', true);
+        }
+        else if(item.sexo=="f")
+        {
+          $("#sexo").html("Sexo: <i class='fa fa-female'>  Feminino");
+          $("#radioF").prop('checked',true);
+          $("#radioM").prop('disabled', true);
 
-        //Outros
-        $("#pis").val(item.pis).prop('disabled', true);
-        $("#ctps").val(item.ctps).prop('disabled', true);
-        $("#uf_ctps").val(item.uf_ctps).prop('disabled', true);
-        $("#zona_eleitoral").val(item.zona).prop('disabled', true);
-        $("#titulo_eleitor").val(item.numero_titulo).prop('disabled', true);
-        $("#secao_titulo_eleitor").val(item.secao).prop('disabled', true);
-        $("#certificado_reservista_numero").val(item.certificado_reservista_numero).prop('disabled', true);
-        $("#certificado_reservista_serie").val(item.certificado_reservista_serie).prop('disabled', true);
-        $("#situacao").val(item.id_situacao).prop('disabled', true);
-        $("#cargo").val(item.id_cargo).prop('disabled', true);
-
-        //CARGA HORÁRIA
-
-        $("#dias_trabalhados").text("Dias trabalhados: " + (item.dias_trabalhados || "Sem informação"));
-        if (item.dias_trabalhados == "Plantão") {
-          $("#dias_trabalhados").text("Dias trabalhados: " + (item.dias_trabalhados || "Sem informação") + " 12/36");
         }
-        $("#dias_folga").text("Dias de folga: " + (item.folga || "Sem informação"));
-        $("#total").text("Carga horária diária: " + (item.total || "Sem informação"));
-        $("#carga_horaria_mensal").text("Carga horária mensal: " + (item.carga_horaria || "Sem informação"));
-
-        if (item.escala) {
-          $("#escala_input").val(item.escala);
-        }
-        if (item.tipo) {
-          $("#tipoCargaHoraria_input").val(item.tipo);
-        }
-        if (item.entrada1) {
-          $("#entrada1_input").val(item.entrada1);
-        }
-        if (item.saida1) {
-          $("#saida1_input").val(item.saida1);
-        }
-        if (item.entrada2) {
-          $("#entrada2_input").val(item.entrada2);
-        }
-        if (item.saida2) {
-          $("#saida2_input").val(item.saida2);
+        else if(item.sexo = null){
+          $("#radio").prop('disabled', false);
         }
 
-        var dia_trabalhado = (item.dias_trabalhados ? item.dias_trabalhados.split(",") : []);
-        var dia_folga = (item.folga ? item.folga.split(",") : []);
-        for (var i = 0; i < dia_trabalhado.length; i++) {
-          $("#diaTrabalhado_" + dia_trabalhado[i]).prop("checked", true);
-        }
-        for (var j = 0; j < dia_folga.length; j++) {
-          $("#diaFolga_" + dia_folga[j]).prop("checked", true);
-        }
+        // if (item.sexo == "m") {
+        //   $("#radioM").prop('checked', true).prop('disabled', true);
+        //   $("#radioF").prop('checked', false).prop('disabled', true);
+        //   $("#reservista1").show();
+        //   $("#reservista2").show();
+        // } else if (item.sexo == "f") {
+        //   $("#radioM").prop('checked', false).prop('disabled', true)
+        //   $("#radioF").prop('checked', true).prop('disabled', true);
+        // }
       })
+
+      function alterardate(data) {
+        var date = data.split("/")
+        return date[2] + "-" + date[1] + "-" + date[0];
+      }
+
     });
 
 
@@ -334,20 +256,20 @@ if (!isset($_SESSION['usuario'])) {
                   <div class="form-group">
                     <label class="col-md-3 control-label" for="profileFirstName">Nome<sup class="obrig">*</sup></label>
                     <div class="col-md-8">
-                      <input type="text" class="form-control" name="nome" id="profileFirstName" id="nome" onkeypress="return Onlychars(event)" required>
+                      <input type="text" class="form-control" name="nome"  id="nome" onkeypress="return Onlychars(event)">
                     </div>
                   </div>
                   <div class="form-group">
                     <label class="col-md-3 control-label">Sobrenome<sup class="obrig">*</sup></label>
                     <div class="col-md-8">
-                      <input type="text" class="form-control" name="sobrenome" id="sobrenome" onkeypress="return Onlychars(event)" required>
+                      <input type="text" class="form-control" name="sobrenome" id="sobrenome" onkeypress="return Onlychars(event)">
                     </div>
                   </div>
                   <div class="form-group">
                     <label class="col-md-3 control-label" for="profileLastName">Sexo<sup class="obrig">*</sup></label>
                     <div class="col-md-8">
-                      <label><input type="radio" name="gender" id="radio" id="M" value="m" style="margin-top: 10px; margin-left: 15px;" onclick="return exibir_reservista()" required><i class="fa fa-male" style="font-size: 20px;"></i></label>
-                      <label><input type="radio" name="gender" id="radio" id="F" value="f" style="margin-top: 10px; margin-left: 15px;" onclick="return esconder_reservista()"><i class="fa fa-female" style="font-size: 20px;"></i> </label>
+                      <label><input type="radio" name="gender" id="radioM" id="M" value="m" style="margin-top: 10px; margin-left: 15px;" onclick="return exibir_reservista()"><i class="fa fa-male" style="font-size: 20px;"></i></label>
+                      <label><input type="radio" name="gender" id="radioF" id="F" value="f" style="margin-top: 10px; margin-left: 15px;" onclick="return esconder_reservista()"><i class="fa fa-female" style="font-size: 20px;"></i> </label>
                     </div>
                   </div>
                   <div class="form-group">
@@ -359,11 +281,17 @@ if (!isset($_SESSION['usuario'])) {
                   <div class="form-group">
                     <label class="col-md-3 control-label" for="profileCompany">Nascimento<sup class="obrig">*</sup></label>
                     <div class="col-md-8">
-                      <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" id="nascimento" max=<?php echo date('Y-m-d'); ?> required>
+                      <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" id="nascimento" max=<?php echo date('Y-m-d'); ?>>
                     </div>
                   </div>
                   <hr class="dotted short">
                   <h4 class="mb-xlg doch4">Documentação</h4>
+                  <div class="form-group">
+                    <label class="col-md-3 control-label" for="cpf">Número do CPF<sup class="obrig">*</sup></label>
+                    <div class="col-md-6">
+                      <input type="text" class="form-control" id="cpf" id="cpf" name="cpf" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##',this,event)" >
+                    </div>
+                  </div>
                   <div class="form-group">
                     <label class="col-md-3 control-label" for="profileCompany">Número do RG<sup class="obrig">*</sup></label>
                     <div class="col-md-6">
@@ -373,19 +301,13 @@ if (!isset($_SESSION['usuario'])) {
                   <div class="form-group">
                     <label class="col-md-3 control-label" for="profileCompany">Órgão Emissor<sup class="obrig">*</sup></label>
                     <div class="col-md-6">
-                      <input type="text" class="form-control" name="orgao_emissor" id="profileCompany" id="orgao_emissor" onkeypress="return Onlychars(event)" required>
+                      <input type="text" class="form-control" name="orgao_emissor" id="orgao_emissor" onkeypress="return Onlychars(event)" required>
                     </div>
                   </div>
                   <div class="form-group">
                     <label class="col-md-3 control-label" for="profileCompany">Data de expedição<sup class="obrig">*</sup></label>
                     <div class="col-md-6">
-                      <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" id="profileCompany" name="data_expedicao" id="data_expedicao" max=<?php echo date('Y-m-d'); ?> required>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-md-3 control-label" for="cpf">Número do CPF<sup class="obrig">*</sup></label>
-                    <div class="col-md-6">
-                      <input type="text" class="form-control" id="cpf" id="cpf" name="cpf" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##',this,event)" required>
+                      <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" name="data_expedicao" id="data_expedicao" max=<?php echo date('Y-m-d'); ?> required>
                     </div>
                   </div>
                   <div class="form-group">
@@ -477,8 +399,9 @@ if (!isset($_SESSION['usuario'])) {
                     <div class="row">
                       <div class="col-md-9 col-md-offset-3">
                         <input type="hidden" name="nomeClasse" value="FuncionarioControle">
-                        <input type="hidden" name="metodo" value="incluir">
-                        <input id="enviar" type="submit" class="btn btn-primary" disabled="true" value="Salvar" onclick="validarFuncionario()">
+                        <input type="hidden" name="id_pessoa" value="<?php  echo $id_pessoa ?>">
+                        <input type="hidden" name="metodo" value="incluirExistente">
+                        <input id="enviar" type="submit" class="btn btn-primary" value="Salvar" onclick="validarFuncionario()">
                         <input type="reset" class="btn btn-default">
                       </div>
                     </div>

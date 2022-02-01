@@ -59,7 +59,8 @@ class FuncionarioDAO
         else
         {
             header("Location: ../html/funcionario/cadastro_funcionario_pessoa_existente.php?cpf=$cpf");
-            // header('Location: ../controle/control.php?metodo=listarPessoaExistente&nomeClasse=FuncionarioControle&nextPage=../html/funcionario/cadastro_funcionario_pessoa_existente.php?cpf=' . $cpf);
+            // header("Location: ../controle/control.php?metodo=listarPessoaExistente($cpf)&nomeClasse=FuncionarioControle&nextPage=../html/funcionario/cadastro_funcionario_pessoa_existente.php?cpf=$cpf");
+           
         }
     }
 
@@ -154,6 +155,59 @@ class FuncionarioDAO
             $stmt->bindParam(':cesta_basica', $cestaBasica);*/
             $stmt->bindParam(':id_situacao', $situacao);
             $stmt->bindParam(':data_expedicao',$dataExpedicao);
+            $stmt->execute();
+        } catch (PDOException $e) {
+            echo 'Error: <b>  na tabela pessoas1 = ' . $sql . '</b> <br /><br />' . $e->getMessage();
+        }
+    }
+
+    // incluirExistente
+
+    public function incluirExistente($funcionario)
+    {
+        try {
+
+            $sql = 'UPDATE pessoa set orgao_emissor=:orgao_emissor,registro_geral=:registro_geral,data_expedicao=:data_expedicao WHERE id_pessoa=:id_pessoa';
+            
+            $sql = str_replace("'", "\'", $sql);
+            $pdo = Conexao::connect();
+            $stmt = $pdo->prepare($sql);
+            $nome=$funcionario->getNome();
+            $sobrenome=$funcionario->getSobrenome();
+            $cpf=$funcionario->getCpf();
+            $sexo=$funcionario->getSexo();
+            $telefone=$funcionario->getTelefone();
+            $nascimento=$funcionario->getDataNascimento();
+            $imagem=$funcionario->getImagem();
+            $rg=$funcionario->getRegistroGeral();
+            $orgaoEmissor=$funcionario->getOrgaoEmissor();
+            $dataExpedicao=$funcionario->getDataExpedicao();
+            $dataAdmissao=$funcionario->getData_admissao();
+            $certificadoReservistaNumero=$funcionario->getCertificado_reservista_numero();
+            $certificadoReservistaSerie=$funcionario->getCertificado_reservista_serie();
+            $situacao=$funcionario->getId_situacao();
+            $cargo=$funcionario->getId_cargo();
+            $escala=$funcionario->getEscala();
+            $tipo=$funcionario->getTipo();
+
+
+            $stmt->bindParam(':nome',$nome);
+            $stmt->bindParam(':sobrenome',$sobrenome);
+            $stmt->bindParam(':id_cargo',$cargo);
+            $stmt->bindParam(':cpf',$cpf);
+            $stmt->bindParam(':sexo',$sexo);
+            $stmt->bindParam(':telefone',$telefone);
+            $stmt->bindParam(':data_nascimento',$nascimento);
+            $stmt->bindParam(':imagem',$imagem);
+            $stmt->bindParam(':registro_geral',$rg);
+            $stmt->bindParam(':orgao_emissor',$orgaoEmissor);
+            $stmt->bindParam(':data_admissao', $dataAdmissao);
+            $stmt->bindParam(':certificado_reservista_numero', $certificadoReservistaNumero);
+            $stmt->bindParam(':certificado_reservista_serie', $certificadoReservistaSerie);
+            $stmt->bindParam(':id_situacao', $situacao);
+            $stmt->bindParam(':data_expedicao',$dataExpedicao);
+            $stmt->bindParam(':tipo',$tipo);
+            $stmt->bindParam(':escala',$escala);
             $stmt->execute();
         } catch (PDOException $e) {
             echo 'Error: <b>  na tabela pessoas1 = ' . $sql . '</b> <br /><br />' . $e->getMessage();
@@ -446,25 +500,27 @@ class FuncionarioDAO
 
     public function listarPessoaExistente($cpf){
         try{
-        echo file_put_contents('ar.txt', 'l');
             
             $pdo = Conexao::connect();
-            $sql = "SELECT p.imagem,p.nome,p.sobrenome,p.cpf,p.sexo,p.telefone,p.data_nascimento,p.registro_geral,p.orgao_emissor,p.data_expedicao,f.data_admissao,s.id_situacao,c.id_cargo,qh.escala,qh.tipo
-            FROM pessoa p 
-            INNER JOIN funcionario f ON p.id_pessoa = f.id_pessoa 
-            LEFT JOIN quadro_horario_funcionario qh ON qh.id_funcionario = f.id_funcionario 
-            LEFT JOIN situacao s ON s.id_situacao = f.id_situacao 
-            LEFT JOIN cargo c ON c.id_cargo = f.id_cargo 
-            WHERE p.cpf = :cpf";
-
+            // $sql = "SELECT p.imagem,p.nome,p.sobrenome,p.cpf,p.sexo,p.telefone,p.data_nascimento,p.registro_geral,p.orgao_emissor,p.data_expedicao,f.data_admissao,s.id_situacao,c.id_cargo,qh.escala,qh.tipo
+            // FROM pessoa p 
+            // INNER JOIN funcionario f ON p.id_pessoa = f.id_pessoa 
+            // LEFT JOIN quadro_horario_funcionario qh ON qh.id_funcionario = f.id_funcionario 
+            // LEFT JOIN situacao s ON s.id_situacao = f.id_situacao 
+            // LEFT JOIN cargo c ON c.id_cargo = f.id_cargo 
+            // WHERE p.cpf = :cpf";
+            $sql = "SELECT id_pessoa,nome,sobrenome,sexo,telefone,data_nascimento,cpf,imagem,registro_geral,orgao_emissor,data_expedicao FROM `pessoa` WHERE cpf = :cpf";
+            // $cpf = '577.153.780-20';
+            // echo file_put_contents('ar.txt', $cpf);
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':cpf',$cpf);
+            // echo file_put_contents('ar.txt', $sql);
 
             $stmt->execute();
             $funcionario=array();
             
             while($linha = $stmt->fetch(PDO::FETCH_ASSOC)){
-                $funcionario[] = array('imagem'=>$linha['imagem'],'cpf'=>$linha['cpf'],'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'sexo'=>$linha['sexo'],'data_nascimento'=>$this->formatoDataDMY($linha['data_nascimento']),'registro_geral'=>$linha['registro_geral'],'orgao_emissor'=>$linha['orgao_emissor'],'data_expedicao'=>$this->formatoDataDMY($linha['data_expedicao']),'telefone'=>$linha['telefone'],'data_admissao'=>$this->formatoDataDMY($linha['data_admissao']),'id_situacao'=>$linha['id_situacao'],'escala'=>$linha['escala'],'tipo'=>$linha['tipo'],'id_cargo'=>$linha['id_cargo'],);
+                $funcionario[] = array('imagem'=>$linha['imagem'],'id_pessoa'=>$linha['id_pessoa'],'cpf'=>$linha['cpf'],'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'sexo'=>$linha['sexo'],'data_nascimento'=>$this->formatoDataDMY($linha['data_nascimento']),'registro_geral'=>$linha['registro_geral'],'orgao_emissor'=>$linha['orgao_emissor'],'data_expedicao'=>$this->formatoDataDMY($linha['data_expedicao']),'telefone'=>$linha['telefone']);
             }
 
         }catch (PDOExeption $e){
