@@ -777,7 +777,7 @@ session_start();
                       </div>
 
                       
-            <div class="panel-body">
+            <!--<div class="panel-body">
               <div class="form-group">
                 <table class="table table-bordered table-striped mb-none">
                   <thead>
@@ -810,14 +810,11 @@ session_start();
                  </tbody>
                </table>
               <br>
-             </div>
-              <input type="number" name="id_fichamedica" value="<?= $_GET['id_fichamedica']; ?>" style='display: none;'>
-              <input type="hidden" name="id_fichamedica" value=<?php echo $_GET['id_fichamedica'] ?>>
-              <input type="submit" class="btn btn-primary" value="Cadastrar">
+             </div>-->
+            
            </div>
            </section>
 
-      </form>
 
           <section class="panel" id="medicacao">
              <header class="panel-heading">
@@ -909,7 +906,15 @@ session_start();
                    <button type="button" class="btn btn-primary" id="botao">Inserir medicação</button>  
                  <br>
                  <br>
+                 <input type="number" name="id_fichamedica" value="<?= $_GET['id_fichamedica']; ?>" style='display: none;'>
+                <input type="hidden" name="acervo">
+                <!-- value=<?php echo $_GET['id_fichamedica'] ?>-->
+                <input type="submit" class="btn btn-primary" value="Cadastrar atendimento e medicação" id="salvar_bd">
+              <!-- id="salvar_bd" -->
             </div>
+      </form>
+
+            
          </section>
        </div>
       
@@ -1284,7 +1289,7 @@ session_start();
                 })
 
                   $("#salvar_bd").click(function(){
-                    $("input[name=id_fichamedica]").val(JSON.stringify(tabela_medicacao)).val();
+                    $("input[name=acervo]").val(JSON.stringify(tabela_medicacao)).val();
                   })
 
                 });
