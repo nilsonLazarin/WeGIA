@@ -13,8 +13,11 @@ if (!isset($_SESSION["usuario"])){
 
 if ($_POST){
     require_once "../../dao/Conexao.php";	
-    $pdo = Conexao::connect();
+    $banco = Conexao::connect();
     $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+
+    // require_once('conexao.php');
+	// $banco = new Conexao();
     
     $funcionario = $_POST["id_funcionario"];
 
@@ -29,9 +32,16 @@ if ($_POST){
     $registro_select_id_funcionario = mysqli_fetch_row($resultado_select_id_funcionario);
     $id_funcionario = $registro_select_id_funcionario[0];*/
 
-    /*$selectfunc = $mysqli->query("SELECT * FROM funcionario f JOIN pessoa p ON (f.id_pessoa = p.id_pessoa WHERE nome = '$funcionario'");
-    $t = mysqli_fetch_row($selectfunc);
-    $id_funcionario = $t[0];*/
+    $banco = $mysqli->querydados("SELECT * FROM funcionario f JOIN pessoa p ON (f.id_pessoa = p.id_pessoa WHERE p.nome = '$funcionario'");
+
+    // $banco->query("SELECT * FROM funcionario f JOIN pessoa p ON (f.id_pessoa = p.id_pessoa WHERE nome = '$funcionario'");
+	$dadoInicialCartao = $banco->result();
+	$dadosCartao = $banco->arraydados();
+	$linhas = $banco->rows();
+
+    $id_funcionario = $dadosCartao[0];
+    // $t = mysqli_fetch_row($selectfunc);
+    // $id_funcionario = $t[0];*/
     // // $a = $mysqli->query($selectfunc);
     // // $b = mysqli_fetch_row($pdo, $selectfunc);
     // // $id_funcionario = $b[0];
