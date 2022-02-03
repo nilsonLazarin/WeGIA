@@ -239,11 +239,24 @@ require_once ROOT."/html/personalizacao_display.php";
  
 
                         <section class="panel" >
-                       
+                        <?php
+									if(isset($_GET['msg_c'])){
+										$msg = $_GET['msg_c'];
+										echo('<div class="alert alert-success" role="alert">
+										'. $msg .'
+									  </div>');
+									}else if(isset($_GET['msg_e'])){
+										$msg = $_GET['msg_e'];
+										echo('<div class="alert alert-danger" role="alert">
+										'. $msg .'
+									  </div>');
+									}
+							?>
                             <header class="panel-heading">
                                 <h2 class="panel-title">Digite seu CPF</h2>
                             </header>
                             <div class="panel-body">
+                           
                                 <form method="GET" action="../../controle/control.php">
                                     <!-- <input type="text" id="assunto" name="assunto" required placeholder="Título do Novo Memorando" class="form-control">
                                     <input type="hidden" name="nomeClasse" value="MemorandoControle" id="memorandocontrole">

@@ -229,7 +229,7 @@ class FuncionarioControle
             header('Location: ../html/funcionario.html?msg='.$msg);
         }
         if((!isset($sobrenome)) || (empty($sobrenome))){
-            $msg = "obrenome do funcionario nÃ£o informado. Por favor, informe um sobrenome!";
+            $msg = "Sobrenome do funcionario nÃ£o informado. Por favor, informe um sobrenome!";
             header('Location: ../html/funcionario.html?msg='.$msg);
         }
         if((!isset($gender)) || (empty($gender))){
@@ -353,6 +353,138 @@ class FuncionarioControle
         $funcionario->setCertificado_reservista_serie($certificado_reservista_serie);
         $funcionario->setId_situacao($situacao);
         $funcionario->setId_cargo($cargo);
+        
+        return $funcionario;
+    }
+
+    public function verificarExistente(){
+        extract($_REQUEST);
+        if((!isset($nome)) || (empty($nome))){
+            $nome = '';
+        }
+        if((!isset($sobrenome)) || (empty($sobrenome))){
+            $sobrenome = '';
+        }
+        if((!isset($gender)) || (empty($gender))){
+            $gender = '';
+        }
+        if((!isset($cargo)) || (empty($cargo))){
+            $msg .= "Cargo do funcionario nÃ£o informado. Por favor, informe um cargo!";
+            header('Location: ../html/funcionario.html?msg='.$msg);
+        }
+        if((!isset($telefone)) || (empty($telefone))){
+            $telefone='null';
+        }
+        if((!isset($nascimento)) || (empty($nascimento))){
+            $nascimento = '';
+        }
+        if((!isset($nome_pai)) || (empty($nome_pai))){
+            $nome_pai = '';
+        }
+        if((!isset($nome_mae)) || (empty($nome_mae))){
+            $nome_mae = '';
+        }
+        if((!isset($sangue)) || (empty($sangue))){
+            $sangue = '';
+        }
+        if((!isset($cep)) || empty(($cep))){
+            $cep = '';
+        }
+        if((!isset($uf)) || empty(($uf))){
+            $uf = '';
+        }
+        if((!isset($cidade)) || empty(($cidade))){
+            $cidade = '';
+        }
+        if((!isset($bairro)) || empty(($bairro))){
+            $bairro = '';
+        }
+        if((!isset($rua)) || empty(($rua))){
+            $rua = '';
+        }
+        if((!isset($numero_residencia)) || empty(($numero_residencia))){
+            $numero_residencia = "";
+        }
+        if((!isset($complemento)) || (empty($complemento))){
+            $complemento='';
+        }
+        if((!isset($ibge)) || (empty($ibge))){
+            $ibge='';
+        }
+        if((!isset($rg)) || empty(($rg))){
+            $msg .= "RG do funcionario nÃ£o informado. Por favor, informe um rg!";
+            header('Location: ../html/funcionario.html?msg='.$msg);
+        }
+        if((!isset($orgao_emissor)) || empty(($orgao_emissor))){
+            $msg .= "Órgão emissor do funcionario nÃ£o informado. Por favor, informe o órgão emissor!";
+            header('Location: ../html/funcionario.html?msg='.$msg);
+        }
+        if((!isset($data_expedicao)) || (empty($data_expedicao))){
+            $msg .= "Data de expediÃ§Ã£o do rg do funcionario nÃ£o informado. Por favor, informe um data de expediÃ§Ã£o!";
+            header('Location: ../html/funcionario.html?msg='.$msg);
+        }
+        if((!isset($cpf)) || (empty($cpf))){
+            $cpf = '';
+        }
+        if((!isset($pis)) || (empty($pis))){
+            $pis = '';
+        }
+        if((!isset($ctps)) || (empty($ctps))){
+            $ctps = 'NULL';
+        }
+        if((!isset($uf_ctps)) || (empty($uf_ctps))){
+            $uf_ctps = '';
+        }
+        if((!isset($titulo_eleitor)) || (empty($titulo_eleitor))){
+            $titulo_eleitor = '';
+        }
+        if((!isset($zona_eleitoral)) || (empty($zona_eleitoral))){
+            $zona_eleitoral = '';
+        }
+        if((!isset($secao_titulo_eleitor)) || (empty($secao_titulo_eleitor))){
+            $secao_titulo_eleitor = '';
+        }
+        
+        if((!isset($data_admissao)) || (empty($data_admissao))){
+            $msg .= "Data de Admissao do funcionario nÃ£o informada. Por favor, informe a data de admissao!";
+            header('Location: ../html/funcionario.html?msg='.$msg);
+        }
+        if((!isset($situacao)) || (empty($situacao))){
+            $msg .= "Situação do funcionario nÃ£o informada. Por favor, informe a situação!";
+            header('Location: ../html/funcionario.html?msg='.$msg);
+        }
+        
+        if((!isset($certificado_reservista_numero)) || (empty($certificado_reservista_numero))){
+            $certificado_reservista_numero='';
+        }
+        if((!isset($certificado_reservista_serie)) || (empty($certificado_reservista_serie))){
+            $certificado_reservista_serie='';
+        }
+        session_start();
+        if((!isset($_SESSION['imagem'])) || (empty($_SESSION['imagem']))){
+            $imgperfil = '';
+        }else{
+            $imgperfil = base64_encode($_SESSION['imagem']);
+            unset($_SESSION['imagem']);
+        }
+       
+        // $cpf=str_replace(".", '', $cpf);
+        // $cpf=str_replace("-", "", $cpf);
+        $senha=$this->geraChave($cpf);
+        $funcionario =$funcionario = new Funcionario($cpf,$nome,$sobrenome,$gender,$nascimento,$rg,$orgao_emissor,$data_expedicao,$nome_mae,$nome_pai,$sangue,$senha,$telefone,$imgperfil,$cep,$uf,$cidade,$bairro,$rua,$numero_residencia,$complemento,$ibge);
+        $funcionario->setData_admissao($data_admissao);
+        $funcionario->setPis($pis);
+        $funcionario->setCtps($ctps);
+        $funcionario->setUf_ctps($uf_ctps);
+        $funcionario->setNumero_titulo($titulo_eleitor);
+        $funcionario->setZona($zona_eleitoral);
+        $funcionario->setSecao($secao_titulo_eleitor);
+        $funcionario->setCertificado_reservista_numero($certificado_reservista_numero);
+        $funcionario->setCertificado_reservista_serie($certificado_reservista_serie);
+        $funcionario->setId_situacao($situacao);
+        $funcionario->setId_cargo($cargo);
+
+        
         
         return $funcionario;
     }
@@ -547,6 +679,7 @@ class FuncionarioControle
     public function incluir(){
         $funcionario = $this->verificarFuncionario();
         $horario = $this->verificarHorario();
+        $cpf = $_GET['cpf'];
         //$beneficiados = $this->verificarBeneficiados();
         //$epi = $this->verificarEpi();
         $funcionarioDAO = new FuncionarioDAO();
@@ -555,7 +688,7 @@ class FuncionarioControle
         //$epiDAO = new Pessoa_epiDAO();
         
         try{
-            $funcionarioDAO->incluir($funcionario);
+            $funcionarioDAO->incluir($funcionario, $cpf);
             $horarioDAO->incluir($horario);
             //$beneficiadosDAO->incluir($beneficiados);
             //$epiDAO->incluir($epi);
@@ -569,6 +702,36 @@ class FuncionarioControle
             echo $msg;
         }
     }
+
+    public function incluirExistente(){
+        $funcionario = $this->verificarExistente();
+        $idPessoa = $_GET['id_pessoa'];
+        // echo $idPessoa;
+        // echo file_put_contents('arquivo.txt', $idPessoa);
+        // $horario = $this->verificarHorario();
+        //$beneficiados = $this->verificarBeneficiados();
+        //$epi = $this->verificarEpi();
+        $funcionarioDAO = new FuncionarioDAO();
+        // $horarioDAO = new QuadroHorarioDAO();
+        //$beneficiadosDAO = new BeneficiadosDAO();
+        //$epiDAO = new Pessoa_epiDAO();
+        
+        try{
+            $funcionarioDAO->incluirExistente($funcionario,$idPessoa);
+            // $horarioDAO->incluir($horario);
+            //$beneficiadosDAO->incluir($beneficiados);
+            //$epiDAO->incluir($epi);
+            $_SESSION['msg']="Funcionario cadastrado com sucesso";
+            $_SESSION['proxima']="Cadastrar outro funcionario";
+            $_SESSION['link']="../html/funcionario/cadastro_funcionario.php";
+            header("Location: ../html/funcionario/informacao_funcionario.php");
+
+        } catch (PDOException $e){
+            $msg= "NÃ£o foi possÃ­vel registrar o funcionário"."<br>".$e->getMessage();
+            echo $msg;
+        }
+    }
+
 
     /*public function incluirBeneficio(){
         $beneficiados = $this->verificarBeneficiados();

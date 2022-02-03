@@ -230,7 +230,7 @@
 
 				<div class="row ">
 					<div  id="pessoas" class="collapse">
-						<a href="../html/funcionario/cadastro_funcionario.php">
+						<a href="../html/funcionario/pre_cadastro_funcionario.php">
 							<div class="col-lg-2 col-md-8 i" >
 								<i  class="far fa-address-book"></i>
 								<h4>Cadastrar Funcionário</h4>

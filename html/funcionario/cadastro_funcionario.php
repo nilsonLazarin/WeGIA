@@ -53,6 +53,9 @@ $listaCPF->listarCpf();
 require_once ROOT . "/controle/AtendidoControle.php";
 $listaCPF2 = new AtendidoControle;
 $listaCPF2->listarCpf();
+$cpf = $_GET['cpf'];
+$funcionario = new FuncionarioDAO;
+$informacoesFunc = $funcionario->listarPessoaExistente($cpf);
 
 
 // Inclui display de Campos
@@ -88,6 +91,25 @@ require_once "../personalizacao_display.php";
 
   <!-- Theme Custom CSS -->
   <link rel="stylesheet" href="../../assets/stylesheets/theme-custom.css">
+
+
+  <!-- <script>
+
+    console.log("oi");
+    $(function(){
+
+      
+      
+      var funcionario = <?php echo $informacoesFunc ?>; 
+      console.log(funcionario);
+      console.log("oi");
+      $.each(funcionario, function(i, item) {
+        
+        $("#cpf").val(item.cpf).prop('disabled', true);
+        }
+    
+
+  </script> -->
 </head>
 
 <body>
@@ -238,7 +260,7 @@ require_once "../personalizacao_display.php";
                   <div class="form-group">
                     <label class="col-md-3 control-label" for="cpf">Número do CPF<sup class="obrig">*</sup></label>
                     <div class="col-md-6">
-                      <input type="text" class="form-control" id="cpf" id="cpf" name="cpf" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##',this,event)" required>
+                      <input type="text" class="form-control" id="cpf" id="cpf" name="cpf" placeholder="Ex: 222.222.222-22" maxlength="14" value= <?php echo $cpf ?> disabled>
                     </div>
                   </div>
                   <div class="form-group">
@@ -330,8 +352,9 @@ require_once "../personalizacao_display.php";
                     <div class="row">
                       <div class="col-md-9 col-md-offset-3">
                         <input type="hidden" name="nomeClasse" value="FuncionarioControle">
+                        <input type="hidden" name="cpf" value="<?php  echo $cpf ?>">
                         <input type="hidden" name="metodo" value="incluir">
-                        <input id="enviar" type="submit" class="btn btn-primary" disabled="true" value="Salvar" onclick="validarFuncionario()">
+                        <input id="enviar" type="submit" class="btn btn-primary"  value="Salvar" onclick="validarFuncionario()">
                         <input type="reset" class="btn btn-default">
                       </div>
                     </div>

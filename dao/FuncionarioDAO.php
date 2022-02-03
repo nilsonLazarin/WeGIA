@@ -32,6 +32,25 @@ class FuncionarioDAO
             return $pessoa;
     }
 
+    public function listarIdPessoa($cpf)
+    {
+        try{
+            $pessoa=array();
+            $pdo = Conexao::connect();
+            $consulta = $pdo->query("SELECT id_pessoa from pessoa WHERE cpf='$cpf'");
+            $linha = $consulta->fetch(PDO::FETCH_ASSOC);
+            // $x=0;
+            // while($linha = $consulta->fetch(PDO::FETCH_ASSOC)){
+            //     $pessoa[$x]=$linha['id_pessoa'];
+            //     $x++;
+            // }
+            } catch (PDOExeption $e){
+                echo 'Error:' . $e->getMessage;
+            }
+            // return $pessoa;
+            return $linha['id_pessoa'];
+    }
+
     public function formatoDataDMY($data)
     {
         if ($data){
@@ -47,24 +66,33 @@ class FuncionarioDAO
     public function selecionarCadastro($cpf){
         $pdo = Conexao::connect();
         $valor = 0;
-        $consultaCPF = $pdo->query("select cpf from pessoa;")->fetchAll(PDO::FETCH_ASSOC);
-        foreach ( $consultaCPF as $key => $value ){
-            if($cpf == $value['cpf']){
-                $valor++;
+        // if()
+        $consultaFunc = $pdo->query("select id_pessoa from funcionario where id_pessoa = (SELECT id_pessoa from pessoa where cpf = '$cpf')")->fetchAll(PDO::FETCH_ASSOC);
+        if($consultaFunc == null){
+            // echo file_put_contents('ar.txt', "oiiiiiiii");
+            $consultaCPF = $pdo->query("select cpf,id_pessoa from pessoa;")->fetchAll(PDO::FETCH_ASSOC);
+            foreach ( $consultaCPF as $key => $value ){
+                if($cpf == $value['cpf']){
+                    $valor++;
+                }
+            }
+            if($valor == 0){
+                header("Location: ../html/funcionario/cadastro_funcionario.php?cpf=$cpf");
+            }
+            else
+            {
+                header("Location: ../html/funcionario/cadastro_funcionario_pessoa_existente.php?cpf=$cpf");
+                // header("Location: ../controle/control.php?metodo=listarPessoaExistente($cpf)&nomeClasse=FuncionarioControle&nextPage=../html/funcionario/cadastro_funcionario_pessoa_existente.php?cpf=$cpf");
+            
             }
         }
-        if($valor == 0){
-            header("Location: ../html/funcionario/cadastro_funcionario.php?cpf=$cpf");
+        else{
+            header("Location: ../html/funcionario/pre_cadastro_funcionario.php?msg_e=Erro, Funcionário já cadastrado no sistema.");
         }
-        else
-        {
-            header("Location: ../html/funcionario/cadastro_funcionario_pessoa_existente.php?cpf=$cpf");
-            // header("Location: ../controle/control.php?metodo=listarPessoaExistente($cpf)&nomeClasse=FuncionarioControle&nextPage=../html/funcionario/cadastro_funcionario_pessoa_existente.php?cpf=$cpf");
-           
-        }
+        
     }
 
-    public function incluir($funcionario)
+    public function incluir($funcionario, $cpf)
     {
         try {
 
@@ -75,7 +103,7 @@ class FuncionarioDAO
             $stmt = $pdo->prepare($sql);
             $nome=$funcionario->getNome();
             $sobrenome=$funcionario->getSobrenome();
-            $cpf=$funcionario->getCpf();
+            // $cpf=$funcionario->getCpf();
             $senha=$funcionario->getSenha();
             $sexo=$funcionario->getSexo();
             $telefone=$funcionario->getTelefone();
@@ -163,15 +191,20 @@ class FuncionarioDAO
 
     // incluirExistente
 
-    public function incluirExistente($funcionario)
+    public function incluirExistente($funcionario,$idPessoa)
     {
         try {
-
-            $sql = 'UPDATE pessoa set orgao_emissor=:orgao_emissor,registro_geral=:registro_geral,data_expedicao=:data_expedicao WHERE id_pessoa=:id_pessoa';
+            $sql = "UPDATE pessoa set sobrenome=:sobrenome, sexo=:sexo,orgao_emissor=:orgao_emissor,registro_geral=:registro_geral,data_expedicao=:data_expedicao WHERE id_pessoa=:id_pessoa;";
+             
+            $sql2 = "INSERT INTO funcionario(id_pessoa,id_cargo,id_situacao,data_admissao,certificado_reservista_numero,certificado_reservista_serie, ctps)
+            values(:id_pessoa,:id_cargo,:id_situacao,:data_admissao,:certificado_reservista_numero,:certificado_reservista_serie, 'NULL')";
+-
             
-            $sql = str_replace("'", "\'", $sql);
+            // $sql = str_replace("'", "\'", $sql);
             $pdo = Conexao::connect();
             $stmt = $pdo->prepare($sql);
+            $stmt2 = $pdo->prepare($sql2);
+
             $nome=$funcionario->getNome();
             $sobrenome=$funcionario->getSobrenome();
             $cpf=$funcionario->getCpf();
@@ -180,35 +213,53 @@ class FuncionarioDAO
             $nascimento=$funcionario->getDataNascimento();
             $imagem=$funcionario->getImagem();
             $rg=$funcionario->getRegistroGeral();
-            $orgaoEmissor=$funcionario->getOrgaoEmissor();
-            $dataExpedicao=$funcionario->getDataExpedicao();
+            $orgao_emissor=$funcionario->getOrgaoEmissor();
+            $data_expedicao=$funcionario->getDataExpedicao();
             $dataAdmissao=$funcionario->getData_admissao();
             $certificadoReservistaNumero=$funcionario->getCertificado_reservista_numero();
             $certificadoReservistaSerie=$funcionario->getCertificado_reservista_serie();
             $situacao=$funcionario->getId_situacao();
             $cargo=$funcionario->getId_cargo();
-            $escala=$funcionario->getEscala();
-            $tipo=$funcionario->getTipo();
+            // $ctps=$funcionario->getCtps();
+            // $escala=$funcionario->getEscala();
+            // $tipo=$funcionario->gettTipo();
 
 
-            $stmt->bindParam(':nome',$nome);
-            $stmt->bindParam(':sobrenome',$sobrenome);
-            $stmt->bindParam(':id_cargo',$cargo);
-            $stmt->bindParam(':cpf',$cpf);
-            $stmt->bindParam(':sexo',$sexo);
-            $stmt->bindParam(':telefone',$telefone);
-            $stmt->bindParam(':data_nascimento',$nascimento);
-            $stmt->bindParam(':imagem',$imagem);
+            $stmt->bindParam(':id_pessoa',$idPessoa);
             $stmt->bindParam(':registro_geral',$rg);
-            $stmt->bindParam(':orgao_emissor',$orgaoEmissor);
-            $stmt->bindParam(':data_admissao', $dataAdmissao);
-            $stmt->bindParam(':certificado_reservista_numero', $certificadoReservistaNumero);
-            $stmt->bindParam(':certificado_reservista_serie', $certificadoReservistaSerie);
-            $stmt->bindParam(':id_situacao', $situacao);
-            $stmt->bindParam(':data_expedicao',$dataExpedicao);
-            $stmt->bindParam(':tipo',$tipo);
-            $stmt->bindParam(':escala',$escala);
+            $stmt->bindParam(':orgao_emissor',$orgao_emissor);
+            $stmt->bindParam(':data_expedicao',$data_expedicao);
+            $stmt->bindParam(':sobrenome',$sobrenome);
+            $stmt->bindParam(':sexo',$sexo);
+
+            $stmt2->bindParam(':id_pessoa',$idPessoa);
+            $stmt2->bindParam(':id_cargo',$cargo);
+            $stmt2->bindParam(':id_situacao',$situacao);
+            $stmt2->bindParam(':data_admissao',$dataAdmissao);
+            $stmt2->bindParam(':certificado_reservista_numero', $certificadoReservistaNumero);
+            $stmt2->bindParam(':certificado_reservista_serie', $certificadoReservistaSerie);
+            // $stmt2->bindParam(':ctps', $ctps);
+            
+            
+            // $stmt->bindParam(':nome',$nome);
+            // $stmt->bindParam(':sobrenome',$sobrenome);
+            // $stmt->bindParam(':id_cargo',$cargo);
+            // $stmt->bindParam(':cpf',$cpf);
+            // $stmt->bindParam(':sexo',$sexo);
+            // $stmt->bindParam(':telefone',$telefone);
+            // $stmt->bindParam(':data_nascimento',$nascimento);
+            // $stmt->bindParam(':imagem',$imagem);
+            
+            // $stmt->bindParam(':data_admissao', $dataAdmissao);
+            // $stmt->bindParam(':certificado_reservista_numero', $certificadoReservistaNumero);
+            // $stmt->bindParam(':certificado_reservista_serie', $certificadoReservistaSerie);
+            // $stmt->bindParam(':id_situacao', $situacao);
+            // $stmt->bindParam(':tipo',$tipo);
+            // $stmt->bindParam(':escala',$escala);
+
             $stmt->execute();
+            $stmt2->execute();
+
         } catch (PDOException $e) {
             echo 'Error: <b>  na tabela pessoas1 = ' . $sql . '</b> <br /><br />' . $e->getMessage();
         }

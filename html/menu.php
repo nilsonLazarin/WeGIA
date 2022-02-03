@@ -48,7 +48,7 @@
 							</li>
 
 							<li>
-								<a href="<?= WWW ?>html/funcionario/cadastro_funcionario.php">
+								<a href="<?= WWW ?>html/funcionario/pre_cadastro_funcionario.php">
 									 Cadastrar Funcionário
 								</a>
 
