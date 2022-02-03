@@ -20,12 +20,9 @@ class SaudeDAO
     {               
         try {
             $sql = "call saude_cad_fichamedica(:nome,:descricao)";
-            // ou codpessoa e resumomedico//
-            //$sql = str_replace("'", "\'", $sql); 
             $pdo = Conexao::connect();
             $stmt = $pdo->prepare($sql);
             $nome=$saude->getNome();
-            // $nome=$saude->getNome();
             $descricao=$saude->getTexto();
             $stmt->bindParam(':nome',$nome);
             $stmt->bindParam(':descricao',$descricao);

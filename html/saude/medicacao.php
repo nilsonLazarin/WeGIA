@@ -2,33 +2,32 @@
 
 // require "../../dao/Conexao.php";
 
-class DescricaoMedicaSaude {
-    private $id_atendimento; 
+class MedicacaoSaude {
+    private $id_medicacao; 
     private $extensao;
     private $exception = false;
 
     function __construct($id)
     {
         $id = (int) $id;
-        $this->setid_atendimento($id);
+        $this->setid_medicacao($id);
         try {
             $pdo = Conexao::connect();
-            $query = $pdo->query("SELECT id_atendimento, descricao FROM saude_atendimento WHERE id_atendimento = $id;");
-            // $query = strip_tags($sql, '<p>');
+            $query = $pdo->query("SELECT medicamento, dosagem, horario, duracao FROM saude_medicacao WHERE id_medicacao = $id;");            
 
         } catch (PDOException $e) {
             $this->setException("Houve um erro ao consultar o documento no banco de dados: $e");
         }
     }
     
-    public function getid_atendimento()
+    public function getid_medicacao()
     {
-        return $this->id_atendimento;
+        return $this->id_medicacao;
     }
      
-    public function setid_atendimento($id_atendimento)
+    public function setid_medicacao($id_medicacao)
     {
-        $this->id_atendimento = $id_atendimento;
+        $this->id_medicacao = $id_medicacao;
         return $this;
     }
     
@@ -61,7 +60,7 @@ class DescricaoMedicaSaude {
     function delete(){
         try {
             $pdo = Conexao::connect();
-            $query = $pdo->query("DELETE FROM saude_atendimento WHERE id_atendimento = ".$this->getid_atendimento()." ;");
+            $query = $pdo->query("DELETE FROM saude_medicacao WHERE id_medicacao = ".$this->getid_medicacao()." ;");
             $query = $query->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             $this->setException("Houve um erro ao remover o documento do banco de dados: $e");

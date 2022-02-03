@@ -14,15 +14,15 @@ require_once '../permissao/permissao.php';
 permissao($_SESSION['id_pessoa'], 11, 7);
 
 require_once "../../dao/Conexao.php";
-require_once "descricaomedica.php";
+require_once "medicacao.php";
 
 extract($_GET);
 
-$en = new DescricaoMedicaSaude($id_doc);
+$en = new MedicacaoSaude($id_doc);
 if (!$en->getException()){
     $en->delete();
-    
-    $sql = "SELECT id_atendimento, descricao FROM saude_atendimento WHERE id_fichamedica =" . $_GET['id_fichamedica'] . ";";
+
+    $sql = "SELECT nome, medicamento, dosagem, horario, duracao FROM saude_medicacao sm JOIN saude_atendimento sa ON (sm.id_atendimento = sa.id_atendimento) JOIN funcionario f ON (sa.id_funcionario = f.id_funcionario) JOIN pessoa p ON (p.id_pessoa = f.id_pessoa) WHERE id_fichamedica =" . $_GET['id_fichamedica'] . ";";
     $pdo = Conexao::connect();
     $desc = $pdo->query($sql);
     $desc = $desc->fetchAll(PDO::FETCH_ASSOC);
