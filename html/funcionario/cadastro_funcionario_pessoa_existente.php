@@ -193,65 +193,8 @@ $id_pessoaForm = $funcionario->listarIdPessoa($cpf);
           <a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
         </div>
       </header>
-      <!-- start: page -->
-      <div class="row" id="formulario">
-        <div class="col-md-4 col-lg-3">
-          <section class="panel">
-            <div class="panel-body">
-              <div class="thumb-info mb-md">
-                <?php
-                if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                  if (isset($_FILES['imgperfil'])) {
-                    $image = file_get_contents($_FILES['imgperfil']['tmp_name']);
-                    $_SESSION['imagem'] = $image;
-                    echo '<img src="data:image/gif;base64,' . base64_encode($image) . '" class="rounded img-responsive" alt="John Doe">';
-                  }
-                } else {
-                ?>
-                  <img src="../../img/semfoto.png" class="rounded img-responsive" alt="John Doe">
-                <?php
-                }
-                ?>
-                <i class="fas fa-camera-retro btn btn-info btn-lg" data-toggle="modal" data-target="#myModal"></i>
-                <div class="container">
-                  <div class="modal fade" id="myModal" role="dialog">
-                    <div class="modal-dialog">
-                      <!-- Modal content-->
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <button type="button" class="close" data-dismiss="modal">&times;</button>
-                          <h4 class="modal-title">Adicionar uma Foto</h4>
-                        </div>
-                        <div class="modal-body">
-                          <form action="#" method="POST" enctype="multipart/form-data">
-                            <div class="form-group">
-                              <label class="col-md-4 control-label" for="imgperfil">Carregue uma imagem de perfil:</label>
-                              <div class="col-md-8">
-                                <input type="file" name="imgperfil" size="60" id="imgform" class="form-control">
-                              </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                          <input type="submit" id="formsubmit" value="Ok">
-                        </div>
-                      </div>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="widget-toggle-expand mb-md">
-                <div class="widget-header">
-                  <div class="widget-content-expanded">
-                    <ul class="simple-todo-list">
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-        </div>
-        <div class="col-md-8 col-lg-8">
+    
+        <div class="col-md-8 col-lg-12">
           <div class="tabs">
             <ul class="nav nav-tabs tabs-primary">
               <li class="active">
