@@ -28,15 +28,36 @@ session_start();
       require_once($config_path);
     }
 
-    /*require_once "../permissao/permissao.php";
-    permissao($_SESSION['id_pessoa'], 5, 3);
+  
+require_once "../../dao/Conexao.php";
+$pdo = Conexao::connect();
 
-    require_once "../permissao/permissao.php";
-    permissao($_SESSION['id_pessoa'], 5, 4);*/
-
-  /*  $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-    $situacao = $mysqli->query("SELECT * FROM situacao");
-    $cargo = $mysqli->query("SELECT * FROM cargo");*/
+$conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+$id_pessoa = $_SESSION['id_pessoa'];
+$resultado = mysqli_query($conexao, "SELECT * FROM funcionario WHERE id_pessoa=$id_pessoa");
+if(!is_null($resultado)){
+    $id_cargo = mysqli_fetch_array($resultado);
+    if(!is_null($id_cargo)){
+    $id_cargo = $id_cargo['id_cargo'];
+    }
+    $resultado = mysqli_query($conexao, "SELECT * FROM permissao WHERE id_cargo=$id_cargo and id_recurso=5");
+    if(!is_bool($resultado) and mysqli_num_rows($resultado)){
+    $permissao = mysqli_fetch_array($resultado);
+    if($permissao['id_acao'] < 7){
+    $msg = "Você não tem as permissões necessárias para essa página.";
+    header("Location: ../home.php?msg_c=$msg");
+    }
+    $permissao = $permissao['id_acao'];
+    }else{
+        $permissao = 1;
+        $msg = "Você não tem as permissões necessárias para essa página.";
+        header("Location: ../home.php?msg_c=$msg");
+    }	
+}else{
+    $permissao = 1;
+$msg = "Você não tem as permissões necessárias para essa página.";
+header("Location: ../home.php?msg_c=$msg");
+}	
 
 
   include_once '../../classes/Cache.php';    
@@ -87,7 +108,10 @@ session_start();
   $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
   $tabelacid = $mysqli->query("SELECT * FROM saude_tabelacid");
   $tipoexame = $mysqli->query("SELECT * FROM saude_exame_tipos");
+  $medicamentoenfermeiro = $mysqli->query("SELECT * FROM saude_medicacao"); 
   $descparaenfermeiro = $mysqli->query("SELECT descricao FROM saude_fichamedica");
+
+
   
 ?>
     <!-- Vendor -->
@@ -887,12 +911,12 @@ session_start();
                         <br>
                       </div>
                     
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                       <label class="col-md-3 control-label" for="profileCompany">Laboratório:</label>
                       <div class="col-md-6">
-                        <input type="text" class="form-control" name="laboratorio" id="laboratorio" onkeypress="return Onlychars(event)">
+                        <input type="text" class="form-control" name="laboratorio" id="laboratorio">
                       </div>
-                    </div>
+                    </div> -->
 
                     <div class="form-group">
                       <label class="col-md-3 control-label" for="profileCompany">Dosagem:</label>
@@ -968,7 +992,7 @@ session_start();
               <div class="form-group">
                  <label class="col-md-3 control-label" for="profileCompany">Data do atendimento:</label>
                   <div class="col-md-6">
-                  <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" name="data_expedicao" id="data_expedicao" max=2021-06-11>
+                  <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" name="data_atendimento_enf" id="data_atendimento_enf" max=2021-06-11>
                 </div>
               </div>
 
@@ -981,7 +1005,7 @@ session_start();
                    <div class="form-group">
                         <label class="col-md-3 control-label" for="inputSuccess">Enfermeiro:</label>
                         <div class="col-md-6">
-                          <select class="form-control input-lg mb-md" name="id_funcionario" id="id_funcionario">
+                          <select class="form-control input-lg mb-md" name="id_enfermeiro" id="id_enfermeiro">
                             <option selected id="sangueSelect">Selecionar</option>
                             <option value=1>Rebeca</option>
                             <option value=2>Artur</option>
@@ -994,16 +1018,11 @@ session_start();
                    <div class="form-group">
                         <label class="col-md-3 control-label" for="profileFirstName">Descrição:</label>
                         <div class="col-md-6">
-                          <?php 
-                            $medicamentoenfermeiro = $pdo->query("SELECT * FROM saude_medicacao");
-                          ?>
-                          <input type="text" class="form-control" disabled name="sobrenome" id="sobrenome" value="<?php echo $GET_[$descparaenfermeiro] ?>">
+                          <input type="text" class="form-control" disabled name="sobrenome" id="sobrenome" value="<?php echo $_GET['$descparaenfermeiro'] ?>">
                         </div>
                       </div>
                 </section>
-           
-            
-                
+                           
                 <section class="panel">
                    <header class="panel-heading">
                     <div class="panel-actions">
@@ -1033,14 +1052,13 @@ session_start();
                 </div>
 
                   <div class="form-group">
-                     
                         <label class="col-md-3 control-label" for="inputSuccess">Medicamento:</label>
                         <div class="col-md-8">
-                          <select class="form-control input-lg mb-md" name="med" id="med" style="width:350px;" required>
+                          <select class="form-control input-lg mb-md" name="med" id="med" style="width:235px;" required>
                           <option selected disabled>Selecionar</option>
                             <?php
-                            while ($row = $tabelacid->fetch_array(MYSQLI_NUM)) {
-                            echo "<option value=" . $row[0] . ">" . $row[2] . "</option>";
+                            while ($row = $medicamentoenfermeiro->fetch_array(MYSQLI_NUM)) {
+                            echo "<option value=" . $row[2] . ">" . $row[2] . "</option>";
                             }
                             ?>
                           </select>
@@ -1049,13 +1067,13 @@ session_start();
                       <div class="form-group">
                       <label class="col-md-3 control-label" for="profileCompany">Horário de aplicação:</label>
                      <div class="col-md-6">
-                       <input type="number" class="form-control" name="horario_aplicacao" id="horario_aplicacao"">
+                       <input type="text" class="form-control" name="horario_aplicacao" id="horario_aplicacao"">
                      </div>
                      </div>
                     
                       
                      <br />
-                     <button type="button" class="btn btn-primary" id="botaoenferm">Aplicar medicação</button>
+                     <button type="button" class="btn btn-success" id="botaoenferm">Aplicar medicação</button>
 
                      <br />
                      <br />
@@ -1077,15 +1095,13 @@ session_start();
                     
                   <br>
                   <br>
-                  <br>
                   
                   <input type="hidden" name="a_enf">
                   <input id="salvar_enf" type="submit" class="btn btn-primary" value="Cadastrar aplicação desses medicamentos">
                  </form>
          </section>
        </div>  
-
-
+       
 
        
          <aside id="sidebar-right" class="sidebar-right">
@@ -1312,7 +1328,7 @@ session_start();
                     $(this).parents("#tabmed tr").remove();
                 })
 
-                  $("#salvar_enf").click(function(){
+                  $("#salvar_bd").click(function(){
                     $("input[name=acervo]").val(JSON.stringify(tabela_medicacao)).val();
                   })
 
@@ -1327,21 +1343,22 @@ session_start();
                   let horario_aplicacao = $("#horario_aplicacao").val();
                   let medicamento = $("#med").val();
 
-                  $("#enf").append($("<tr>").addClass("livro")
+                  $("#enf").append($("<tr>")
                       .append($("<td>") .text(medicamento) )
                       .append($("<td>") .text(horario_aplicacao) )
                       .append($("<td style='display: flex; justify-content: space-evenly;'>")
                       .append($("<button class='btn btn-danger'><i class='fas fa-trash-alt'></i></button>"))));
+                      
                       let tabela = {
                              "horario_aplicacao": horario_aplicacao,
-                             "medicamento":medicamento,
+                             "med":medicamento,
                        };
                       tabela_enfermeiro.push(tabela);
                       $("#horario_aplicacao").val(""); 
-                      $("#medicamento").val("");
+                      $("#med").val("");
                   })
 
-                  $("#enf").on("click", "img", function(){
+                  $("#enf").on("click", "td", function(){
 
                       let tamanho = tabela_enfermeiro.length;
                       let dados = tabela_enfermeiro[0].medicamento + tabela_enfermeiro[0].horario_aplicacao;
@@ -1364,7 +1381,7 @@ session_start();
                       }
                       $(this).parents("#enf tr").remove();
                   })
-                  $("#salvar_bd").click(function(){
+                  $("#salvar_enf").click(function(){
                       $("input[name=a_enf]").val(JSON.stringify(tabela_enfermeiro)).val();
                   })
                   });

@@ -9,8 +9,8 @@
 	if($_SERVER['REQUEST_METHOD']=="POST"){
 			session_start();
 			extract($_REQUEST);
-			$cpf=str_replace(".", '', $cpf);
-   			$cpf=str_replace("-", "", $cpf);
+			//$cpf=str_replace(".", '', $cpf);
+   			//$cpf=str_replace("-", "", $cpf);
    			
 			$pdo = Conexao::connect();
 			$consulta = $pdo->query('SELECT id_pessoa, cpf, senha, nome, adm_configurado, nivel_acesso from pessoa');
