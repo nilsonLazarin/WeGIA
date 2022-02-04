@@ -31,44 +31,86 @@ $(document).ready(function(){
                         var tabela = ``;
                         var dataV = data_inicial_br;
                         var dataV_formatada = data_inicial;
+
+                        var arrayDataSegmentsA = dataV_formatada.split('-');
+                        var mesAA = arrayDataSegmentsA[1]-1;              
                         var total = 0;
+                        console.log("dataInicial"+dataV_formatada);
                         for(i = 0; i < parcelas; i++){
                             tabela += `<tr><td>${i+1}/${parcelas}</td><td>${dataV}</td><td>R$ ${valor}</td></tr>`
-                            var arrayDataSegments = dataV_formatada.split('-');
-                            var novaData = new Date(arrayDataSegments[0], arrayDataSegments[1], arrayDataSegments[2]);
+                            // var arrayDataSegments = dataV_formatada.split('-');
+                            // var mes = arrayDataSegments[1]-1;
+                            console.log("mes"+mesAA);
+                            var novaData = new Date(arrayDataSegmentsA[0], mesAA, arrayDataSegmentsA[2]);
+                            console.log("dataNova"+novaData);
                             novaData.setMonth(novaData.getMonth() + periodicidade_socio);
                             dataV_formatada = `${novaData.getFullYear()}-${novaData.getMonth()}-${novaData.getDate()}`;
                             dataV = `${dataAtualFormatada(novaData)}`;
                             total += valor;
+                            console.log("dataBoleto"+dataV);
+                            mesAA += periodicidade_socio;
                         }
                         tabela += `<tr><td colspan='2'>Total: </td><td>R$ ${total}</td></tr>`;
                         $(".detalhes_unico").append(`
-                        <div class="accordion" id="accordionExample">
-                        <div class="card">
-                          <div class="card-header" id="headingThree">
-                            <h2 class="mb-0">
-                              <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse${referenciaAccordion}" aria-expanded="false" aria-controls="collapseThree">
-                                Detalhes parcelas sócio atual: ${nome_socio}
-                              </button>
-                            </h2>
-                          </div>
-                          <div id="collapse${referenciaAccordion}" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
-                            <div class="card-body">
+                        <br>
+                        <div class="card-body">
                             <table class="table table-striped table-hover">
-                            <thead>
-                                <tr>
-                                  <th>Parcela</th>
-                                  <th>Data de vencimento</th>
-                                  <th>Valor parcela</td>
-                              </tr>
-                          </thead>
-                          <tbody>${tabela}</tbody>
-                      </table>
-                            </div>
-                          </div>
+                                <thead>
+                                    <tr>
+                                        <th>Parcela</th>
+                                        <th>Data de vencimento</th>
+                                        <th>Valor parcela</td>
+                                    </tr>
+                                </thead>
+                                <tbody>${tabela}</tbody>
+                            </table>
                         </div>
-                      </div>
                         `)
+                    }
+
+                    function montaTabelaInicialAlterado(data_inicial, data_inicial_br, periodicidade_socio, parcelas, valor, nome_socio){
+                        
+                        function dataAtualFormatada(data_r){
+                            var data = new Date(data_r),
+                                dia  = data.getDate().toString(),
+                                diaF = (dia.length == 1) ? '0'+dia : dia,
+                                mes  = (data.getMonth()+1).toString(), //+1 pois no getMonth Janeiro começa com zero.
+                                mesF = (mes.length == 1) ? '0'+mes : mes,
+                                anoF = data.getFullYear();
+                            return diaF+"/"+mesF+"/"+anoF;
+                        }
+
+                        $(".detalhes_unico").html("");
+                        $("#btn_wpp").off();
+                        $("#btn_wpp").css("display", "none");
+                        $("#btn_geracao_unica").attr("disabled", false);
+                        $("#btn_geracao_unica").text("Confirmar geração");
+                        console.log(data_inicial, periodicidade_socio, parcelas, valor);
+                        console.log("parcelas:"+parcelas);
+                        referenciaAccordion = nome_socio.replace(/[^a-zA-Zs]/g, "") + Math.round(Math.random()*100000000);
+                        var tabela = ``;
+                        var dataV = data_inicial_br;
+                        var dataV_formatada = data_inicial;
+
+                        var arrayDataSegmentsA = dataV_formatada.split('-');
+                        var mesAA = arrayDataSegmentsA[1]-1;              
+                        var total = 0;
+                        console.log("dataInicial"+dataV_formatada);
+                        for(i = 0; i < parcelas; i++){
+                            tabela += `<tr><td>${i+1}/${parcelas}</td><td>${dataV}</td><td>R$ ${valor}</td></tr>`
+                            // var arrayDataSegments = dataV_formatada.split('-');
+                            // var mes = arrayDataSegments[1]-1;
+                            console.log("mes"+mesAA);
+                            var novaData = new Date(arrayDataSegmentsA[0], mesAA, arrayDataSegmentsA[2]);
+                            console.log("dataNova"+novaData);
+                            novaData.setMonth(novaData.getMonth() + periodicidade_socio);
+                            dataV_formatada = `${novaData.getFullYear()}-${novaData.getMonth()}-${novaData.getDate()}`;
+                            dataV = `${dataAtualFormatada(novaData)}`;
+                            total += valor;
+                            console.log("dataBoleto"+dataV);
+                            mesAA += periodicidade_socio;
+                        }
+                        tabela += `<tr><td colspan='2'>Total: </td><td>R$ ${total}</td></tr>`;
                     }
 
                     function gerarDataParcelas(Now, tipo, dia_preferencial){
@@ -172,63 +214,63 @@ $(document).ready(function(){
                     console.log(socios[0].id_sociotipo);
                     var tipo;
                     var periodicidade_socio;
-                    if(socios[0].id_sociotipo != 4 && socios[0].id_sociotipo != 5){
-                        switch(Number(socios[0].id_sociotipo)){
-                            case 0: case 1: 
-                                $("#tipo_geracao").val("1");
-                                console.log("tes1");
-                                tipo = 6;
-                                periodicidade_socio = 0;
-                            break;
-                            case 2: case 3:
-                                $("#tipo_geracao").val("2");
-                                tipo = 4;
-                                periodicidade_socio = 1;
-                            break;
-                            case 6: case 7:
-                                $("#tipo_geracao").val("3");
-                                tipo = 1;
-                                periodicidade_socio = 2;
-                            break;
-                            case 8: case 9:
-                                $("#tipo_geracao").val("4");
-                                tipo = 2;
-                                periodicidade_socio = 3;
-                            break;
-                            case 10: case 11:
-                                $("#tipo_geracao").val("5");
-                                tipo = 3;
-                                periodicidade_socio = 6;
-                            break;
-                            default:
-                                $("#tipo_geracao").val("1");
-                                tipo = 6;
-                                periodicidade_socio = 0;
-                            break;
-                        }
-                    }
-                    if(socios[0].valor_periodo != "" && socios[0].valor_periodo != null){
-                        // $("#valor_u").val(socios[0].valor_periodo);
-                    }
-                    // else $("#valor_u").val(30);
-                    var Now = new Date();
-                    var dataParcelas;
-                    var data;
-                    var num_parcelas;
-                    var dia_preferencial;
-                    if(socios[0].data_referencia != "0000-00-00" && socios[0].data_referencia != null){
-                        dia_preferencial = socios[0].data_referencia.split("-")[2];
-                        dataParcelas = gerarDataParcelas(Now, tipo, dia_preferencial);
-                        data_formatada = dataParcelas.dataV_formatada;
-                        data_formatada_br = dataParcelas.dataV;
-                        num_parcelas = dataParcelas.parcelas;
-                    }else{
-                        dia_preferencial = 10;
-                        dataParcelas = gerarDataParcelas(Now, tipo, dia_preferencial);
-                        data_formatada = dataParcelas.dataV_formatada;
-                        data_formatada_br = dataParcelas.dataV;
-                        num_parcelas = dataParcelas.parcelas;
-                    } 
+                    // if(socios[0].id_sociotipo != 4 && socios[0].id_sociotipo != 5){
+                    //     switch(Number(socios[0].id_sociotipo)){
+                    //         case 0: case 1: 
+                    //             $("#tipo_geracao").val("1");
+                    //             console.log("tes1");
+                    //             tipo = 6;
+                    //             periodicidade_socio = 0;
+                    //         break;
+                    //         case 2: case 3:
+                    //             $("#tipo_geracao").val("2");
+                    //             tipo = 4;
+                    //             periodicidade_socio = 1;
+                    //         break;
+                    //         case 6: case 7:
+                    //             $("#tipo_geracao").val("3");
+                    //             tipo = 1;
+                    //             periodicidade_socio = 2;
+                    //         break;
+                    //         case 8: case 9:
+                    //             $("#tipo_geracao").val("4");
+                    //             tipo = 2;
+                    //             periodicidade_socio = 3;
+                    //         break;
+                    //         case 10: case 11:
+                    //             $("#tipo_geracao").val("5");
+                    //             tipo = 3;
+                    //             periodicidade_socio = 6;
+                    //         break;
+                    //         default:
+                    //             $("#tipo_geracao").val("1");
+                    //             tipo = 6;
+                    //             periodicidade_socio = 0;
+                    //         break;
+                    //     }
+                    // }
+                    // if(socios[0].valor_periodo != "" && socios[0].valor_periodo != null){
+                    //     // $("#valor_u").val(socios[0].valor_periodo);
+                    // }
+                    // // else $("#valor_u").val(30);
+                    // var Now = new Date();
+                    // var dataParcelas;
+                    // var data;
+                    // var num_parcelas;
+                    // var dia_preferencial;
+                    // if(socios[0].data_referencia != "0000-00-00" && socios[0].data_referencia != null){
+                    //     dia_preferencial = socios[0].data_referencia.split("-")[2];
+                    //     dataParcelas = gerarDataParcelas(Now, tipo, dia_preferencial);
+                    //     data_formatada = dataParcelas.dataV_formatada;
+                    //     data_formatada_br = dataParcelas.dataV;
+                    //     num_parcelas = dataParcelas.parcelas;
+                    // }else{
+                    //     dia_preferencial = 10;
+                    //     dataParcelas = gerarDataParcelas(Now, tipo, dia_preferencial);
+                    //     data_formatada = dataParcelas.dataV_formatada;
+                    //     data_formatada_br = dataParcelas.dataV;
+                    //     num_parcelas = dataParcelas.parcelas;
+                    // } 
                     $("#tipo_geracao").change(function(){
                         if($(this).val() == 0){
                             $("#num_parcelas").val(1);
@@ -282,7 +324,13 @@ $(document).ready(function(){
                     // $("#data_vencimento").val(dataParcelas.dataV_formatada_v2);
                     
                     // $("#num_parcelas").val(`Número de parcelas: ${num_parcelas}`);
-                    montaTabelaInicial('', '', '', '', '' , socios[0].nome);
+                    
+                    
+                    montaTabelaInicialAlterado('', '', '', '', '' , socios[0].nome);
+
+
+
+
                     // console.log($("#tipo_geracao").val());
                     
                     $(".div_btn_gerar").css("display", "block");
@@ -439,6 +487,7 @@ $(document).ready(function(){
 
                                             var inputParcelas = $("#num_parcelas").val();
                                             var inputData = $("#data_vencimento").val();
+                                            
                                                                                  
                                             var teste = inputData.split('-');
                                             var dataTipoBr = teste[2]+"/"+teste[1]+"/"+teste[0];
@@ -446,6 +495,13 @@ $(document).ready(function(){
                                             var dataV = dataTipoBr;
                                             var dataV_formatada = inputData;
                                             var parcelas = inputParcelas; 
+
+                                            var arrayteste = dataV_formatada.split('-');
+                                            var meses = arrayteste[1]-1;
+                                            var datast = arrayteste[0]+"-"+meses+"-"+arrayteste[2];
+                                            
+                                            dataV_formatada = datast;
+                                            
                                             for(i = 0; i < parcelas; i++){
                                                 $.ajax({
                                                     type: "GET",
@@ -461,10 +517,12 @@ $(document).ready(function(){
                                                     }
                                                 });
                                                 var arrayDataSegments = dataV_formatada.split('-');
+                                                // var mesB = arrayDataSegments[1]-1; 
                                                 var novaData = new Date(arrayDataSegments[0], arrayDataSegments[1], arrayDataSegments[2]);
                                                 novaData.setMonth(novaData.getMonth() + 2);
                                                 dataV_formatada = `${novaData.getFullYear()}-${novaData.getMonth()}-${novaData.getDate()}`;
                                                 dataV = `${novaData.getDate()}/${novaData.getMonth()+1}/${novaData.getFullYear()}`;
+                                                // mesB+=periodicidade_socio;
                                             }
                                             montaTabela(socio.nome, carneBoletos, 'bimestral', socio.telefone);
                                             carneBoletos = [];
@@ -485,6 +543,13 @@ $(document).ready(function(){
                                             var dataV = dataTipoBr;
                                             var dataV_formatada = inputData;
                                             var parcelas = inputParcelas; 
+
+                                            var arrayteste = dataV_formatada.split('-');
+                                            var meses = arrayteste[1]-1;
+                                            var datast = arrayteste[0]+"-"+meses+"-"+arrayteste[2];
+                                            
+                                            dataV_formatada = datast;
+
                                             for(i = 0; i < parcelas; i++){
                                                 $.ajax({
                                                     type: "GET",
@@ -524,6 +589,13 @@ $(document).ready(function(){
                                             var dataV = dataTipoBr;
                                             var dataV_formatada = inputData;
                                             var parcelas = inputParcelas; 
+
+                                            var arrayteste = dataV_formatada.split('-');
+                                            var meses = arrayteste[1]-1;
+                                            var datast = arrayteste[0]+"-"+meses+"-"+arrayteste[2];
+                                            
+                                            dataV_formatada = datast;
+                                        
                                             for(i = 0; i < parcelas; i++){
                                                 $.ajax({
                                                     type: "GET",
@@ -575,7 +647,7 @@ $(document).ready(function(){
         $("#num_parcelas").val("");
         $("#data_vencimento").val("");
         $("#valor_u").val("");
-        $("#tipo_geracao").val("");
+        $("#tipo_geracao").val("7");
         $("#num_parcelas").prop('disabled', false);
     })
 })

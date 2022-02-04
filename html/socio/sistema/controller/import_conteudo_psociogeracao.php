@@ -86,7 +86,7 @@
 				<div class="form-group mb-2 col-xs-6 mt-2">
             <label for="pessoa">O que você deseja gerar?</label>
                 <select class="form-control" name="tipo_geracao" id="tipo_geracao">
-                    <option selected>Selecionar</option>
+                    <option selected value="7">Selecionar</option>
                     <option value="0">Boleto único</option>
                     <option value="1">Carnê mensal</option>
                     <option value="2">Carnê bimestral</option>
