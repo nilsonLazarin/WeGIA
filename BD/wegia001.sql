@@ -1366,6 +1366,14 @@ CREATE TABLE IF NOT EXISTS `wegia`.`saude_atendimento` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+-- -----------------------------------------------------
+-- Table `wegia`.`saude_medicacao_status`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `wegia`.`saude_medicacao_status` (
+  `idsaude_medicacao_status` INT NOT NULL AUTO_INCREMENT,
+  `descricao` VARCHAR(45) NULL,
+  PRIMARY KEY (`idsaude_medicacao_status`))
+ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `wegia`.`saude_medicacao`
@@ -1377,14 +1385,54 @@ CREATE TABLE IF NOT EXISTS `wegia`.`saude_medicacao` (
   `dosagem` VARCHAR(100) NULL,
   `horario` VARCHAR(100) NULL,
   `duracao` VARCHAR(100) NULL,
+  `saude_medicacao_status_idsaude_medicacao_status` INT NOT NULL,
   PRIMARY KEY (`id_medicacao`),
   INDEX `fk_saude_medicacao_saude_atendimento1_idx` (`id_atendimento` ASC),
+  INDEX `fk_saude_medicacao_saude_medicacao_status1_idx` (`saude_medicacao_status_idsaude_medicacao_status` ASC),
   CONSTRAINT `fk_saude_medicacao_saude_atendimento1`
     FOREIGN KEY (`id_atendimento`)
     REFERENCES `wegia`.`saude_atendimento` (`id_atendimento`)
     ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_saude_medicacao_saude_medicacao_status1`
+    FOREIGN KEY (`saude_medicacao_status_idsaude_medicacao_status`)
+    REFERENCES `wegia`.`saude_medicacao_status` (`idsaude_medicacao_status`)
+    ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `wegia`.`saude_medicamento_administracao`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `wegia`.`saude_medicamento_administracao` (
+  `idsaude_medicamento_administracao` INT NOT NULL AUTO_INCREMENT,
+  `aplicação` DATETIME NOT NULL,
+  `saude_medicacao_id_medicacao` INT NOT NULL,
+  `pessoa_id_pessoa` INT(11) NOT NULL,
+  `funcionario_id_funcionario` INT(11) NOT NULL,
+  PRIMARY KEY (`idsaude_medicamento_administracao`),
+  INDEX `fk_saude_medicamento_administracao_saude_medicacao1_idx` (`saude_medicacao_id_medicacao` ASC),
+  INDEX `fk_saude_medicamento_administracao_pessoa1_idx` (`pessoa_id_pessoa` ASC),
+  INDEX `fk_saude_medicamento_administracao_funcionario1_idx` (`funcionario_id_funcionario` ASC),
+  CONSTRAINT `fk_saude_medicamento_administracao_saude_medicacao1`
+    FOREIGN KEY (`saude_medicacao_id_medicacao`)
+    REFERENCES `wegia`.`saude_medicacao` (`id_medicacao`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_saude_medicamento_administracao_pessoa1`
+    FOREIGN KEY (`pessoa_id_pessoa`)
+    REFERENCES `wegia`.`pessoa` (`id_pessoa`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_saude_medicamento_administracao_funcionario1`
+    FOREIGN KEY (`funcionario_id_funcionario`)
+    REFERENCES `wegia`.`funcionario` (`id_funcionario`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
 
 
 -- ########################### PROCEDURES #################### --
