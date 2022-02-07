@@ -15,8 +15,10 @@ if ($_POST){
     require_once "../../dao/Conexao.php";	
     $query = new Conexao();
     $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-
-    $funcionario = $_POST["id_funcionario"];
+    $pdo = Conexao::connect();
+   
+    $teste = $pdo->query("SELECT id_funcionario FROM pessoa p JOIN funcionario f ON(p.id_pessoa = f.id_pessoa) WHERE f.id_pessoa = " .$_SESSION['id_pessoa'])->fetchAll(PDO::FETCH_ASSOC);
+    $funcionario = $teste[0]['id_funcionario'];
     
     try {
         $pdo = Conexao::connect();
@@ -54,8 +56,9 @@ if ($_POST){
             $dosagem = $obj[$i]["dosagem"];
             $horario_medicacao = $obj[$i]["horario"];
             $duracao_medicacao = $obj[$i]["tempo"];
+            $idsaude_medicacaostatus = 1;
 
-            $comando_insert_medicacao = "insert into saude_medicacao (id_atendimento,medicamento, dosagem,horario,duracao) values ('$id_atendimento','$medicamento','$dosagem','$horario_medicacao','$duracao_medicacao')";
+            $comando_insert_medicacao = "insert into saude_medicacao (id_atendimento,medicamento, dosagem,horario,duracao, saude_medicacao_status_idsaude_medicacao_status) values ('$id_atendimento','$medicamento','$dosagem','$horario_medicacao','$duracao_medicacao', '$idsaude_medicacaostatus')";
             $resultado_insert_medicacao = $mysqli->query($comando_insert_medicacao);
         }
 

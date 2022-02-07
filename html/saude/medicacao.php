@@ -13,7 +13,7 @@ class MedicacaoSaude {
         $this->setid_medicacao($id);
         try {
             $pdo = Conexao::connect();
-            $query = $pdo->query("SELECT medicamento, dosagem, horario, duracao FROM saude_medicacao WHERE id_medicacao = $id;");            
+            $query = $pdo->query("SELECT * FROM saude_medicacao WHERE id_medicacao = $id;");            
 
         } catch (PDOException $e) {
             $this->setException("Houve um erro ao consultar o documento no banco de dados: $e");

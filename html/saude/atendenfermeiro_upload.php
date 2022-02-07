@@ -53,7 +53,8 @@ if ($_POST){
             $registro_select_id_medicacao = mysqli_fetch_row($resultado_select_id_medicacao);
 
             $id_medicacao = $registro_select_id_medicacao[0];
-            $comando_at = "insert into atendimento_enfermeiro_medicacao (atendimento_enfermeiro_id,medicacao_id,horario_aplicacao) values ('$id_atendimento','$id_medicacao','$horario_aplicacao')";
+            
+            $comando_at = "INSERT INTO atendimento_enfermeiro_medicacao (atendimento_enfermeiro_id,medicacao_id,horario_aplicacao) values ('$id_atendimento','$id_medicacao','$horario_aplicacao')";
             $resultado_insert_atendimento_enfermeiro_medicacao = mysqli_query($conexao,$comando_at);
                
         }

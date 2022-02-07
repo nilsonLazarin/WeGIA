@@ -10,8 +10,8 @@ if (!isset($_SESSION["usuario"])){
 }
 
 // Verifica Permissão do Usuário
-require_once '../permissao/permissao.php';
-permissao($_SESSION['id_pessoa'], 11, 7);
+// require_once '../permissao/permissao.php';
+// permissao($_SESSION['id_pessoa'], 11, 7);
 
 require_once "../../dao/Conexao.php";
 require_once "medicacao.php";
