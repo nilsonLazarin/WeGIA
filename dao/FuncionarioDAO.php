@@ -51,6 +51,25 @@ class FuncionarioDAO
             return $linha['id_pessoa'];
     }
 
+    public function listarSobrenome($cpf)
+    {
+        try{
+            $pessoa=array();
+            $pdo = Conexao::connect();
+            $consulta = $pdo->query("SELECT sobrenome from pessoa WHERE cpf='$cpf'");
+            $linha = $consulta->fetch(PDO::FETCH_ASSOC);
+            // $x=0;
+            // while($linha = $consulta->fetch(PDO::FETCH_ASSOC)){
+            //     $pessoa[$x]=$linha['id_pessoa'];
+            //     $x++;
+            // }
+            } catch (PDOExeption $e){
+                echo 'Error:' . $e->getMessage;
+            }
+            // return $pessoa;
+            return $linha['sobrenome'];
+    }
+
     public function formatoDataDMY($data)
     {
         if ($data){
@@ -191,7 +210,7 @@ class FuncionarioDAO
 
     // incluirExistente
 
-    public function incluirExistente($funcionario,$idPessoa)
+    public function incluirExistente($funcionario,$idPessoa, $sobrenome)
     {
         try {
             $sql = "UPDATE pessoa set sobrenome=:sobrenome, sexo=:sexo,orgao_emissor=:orgao_emissor,registro_geral=:registro_geral,data_expedicao=:data_expedicao WHERE id_pessoa=:id_pessoa;";

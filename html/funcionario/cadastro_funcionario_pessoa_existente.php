@@ -67,6 +67,9 @@ $cpf = $_GET['cpf'];
 $funcionario = new FuncionarioDAO;
 $informacoesFunc = $funcionario->listarPessoaExistente($cpf);
 $id_pessoaForm = $funcionario->listarIdPessoa($cpf);
+$sobrenome = $funcionario->listarSobrenome($cpf);
+
+
 // echo $id_pessoaForm;
 
 
@@ -115,12 +118,13 @@ $id_pessoaForm = $funcionario->listarIdPessoa($cpf);
       $.each(funcionario, function(i, item) {
         
         $("#nome").val(item.nome).prop('disabled', true);
-        if (item.sobrenome==null) {
-                $("#sobrenome").prop('disabled',false);
-              }
-        else {
-          $("#sobrenome").val(item.sobrenome).prop('disabled',true);
-        }
+        $("#sobrenome").val(item.sobrenome).prop('disabled',true);
+        // if (item.sobrenome==null) {
+        //         $("#sobrenome").prop('disabled',false);
+        //       }
+        // else {
+        //   $("#sobrenome").val(item.sobrenome).prop('disabled',true);
+        // }
         // $("#sobrenome").val(item.sobrenome).prop('disabled', true);
         $("#telefone").val(item.telefone).prop('disabled', true);
         $("#orgao_emissor").val(item.orgao_emissor);
@@ -353,6 +357,7 @@ $id_pessoaForm = $funcionario->listarIdPessoa($cpf);
                       <div class="col-md-9 col-md-offset-3">
                         <input type="hidden" name="nomeClasse" value="FuncionarioControle">
                         <input type="hidden" name="id_pessoa" value="<?php  echo $id_pessoaForm ?>">
+                        <input type="hidden" name="sobrenome" value="<?php  echo $sobrenome ?>">
                         <input type="hidden" name="metodo" value="incluirExistente">
                         <input id="enviar" type="submit" class="btn btn-primary" value="Salvar" onclick="validarFuncionario()">
                         <input type="reset" class="btn btn-default">

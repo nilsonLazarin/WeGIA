@@ -706,6 +706,9 @@ class FuncionarioControle
     public function incluirExistente(){
         $funcionario = $this->verificarExistente();
         $idPessoa = $_GET['id_pessoa'];
+        $sobrenome = $_GET['sobrenome'];
+        
+
         // echo $idPessoa;
         // echo file_put_contents('arquivo.txt', $idPessoa);
         // $horario = $this->verificarHorario();
@@ -715,9 +718,9 @@ class FuncionarioControle
         // $horarioDAO = new QuadroHorarioDAO();
         //$beneficiadosDAO = new BeneficiadosDAO();
         //$epiDAO = new Pessoa_epiDAO();
-        
+    
         try{
-            $funcionarioDAO->incluirExistente($funcionario,$idPessoa);
+            $funcionarioDAO->incluirExistente($funcionario,$idPessoa, $sobrenome);
             // $horarioDAO->incluir($horario);
             //$beneficiadosDAO->incluir($beneficiados);
             //$epiDAO->incluir($epi);
