@@ -113,164 +113,11 @@ $(document).ready(function(){
                         tabela += `<tr><td colspan='2'>Total: </td><td>R$ ${total}</td></tr>`;
                     }
 
-                    function gerarDataParcelas(Now, tipo, dia_preferencial){
-                        var NovaData = new Date(Now);
-                        var fimDoAno = new Date(String(Now.getFullYear()), '11', '31');
-                        var proximoAno = new Date(String(Now.getFullYear() + 1), '11', '31');
-                        var retornoDatas = {
-                            dataV: null,
-                            dataV_formatada: null,
-                            parcelas: null
-                        };
-                        if(tipo == 1){
-                            var parcelas = 0;
-                            while((NovaData.getMonth() + 1) % 2 != 0){
-                                NovaData.setMonth(NovaData.getMonth() + 1);
-                            }
-                            
-                            if(Now.getMonth() == NovaData.getMonth() && dia_preferencial <= Now.getDate()){
-                                NovaData.setMonth(NovaData.getMonth() + 2);
-                            }
-                            var Mes = NovaData.getMonth() + 1;
-                            if(Mes <= 6){
-                                parcelas = 7 - Math.floor(Mes/2);
-                            }else{
-                                for(var dataHoje = new Date(NovaData); dataHoje < proximoAno; dataHoje.setMonth(dataHoje.getMonth() + 2)){
-                                    parcelas++;
-                                }
-                            }
-                        }else if(tipo == 2){
-                            var parcelas = 0;
-                            while((NovaData.getMonth() + 1) % 3 != 0){
-                                NovaData.setMonth(NovaData.getMonth() + 1);
-                            }
-                            
-                            if(Now.getMonth() == NovaData.getMonth() && dia_preferencial <= Now.getDate()){
-                                NovaData.setMonth(NovaData.getMonth() + 3);
-                            }
-                            var Mes = NovaData.getMonth() + 1;
-                            if(Mes <= 6){
-                                parcelas = 5 - Math.floor(Mes/3);
-                            }else{
-                                for(var dataHoje = new Date(NovaData); dataHoje < proximoAno; dataHoje.setMonth(dataHoje.getMonth() + 3)){
-                                    parcelas++;
-                                }
-                            }
-                        }else if(tipo == 3){
-                            var parcelas = 0;
-                            while((NovaData.getMonth() + 1) % 6 != 0){
-                                NovaData.setMonth(NovaData.getMonth() + 1);
-                            }
-                            
-                            if(Now.getMonth() == NovaData.getMonth() && dia_preferencial <= Now.getDate()){
-                                NovaData.setMonth(NovaData.getMonth() + 6);
-                            }
-                            var Mes = NovaData.getMonth() + 1;
-                            if(Mes <= 6){
-                                parcelas = 3 - Math.floor(Mes/6);
-                            }else{
-                                for(var dataHoje = new Date(NovaData); dataHoje < proximoAno; dataHoje.setMonth(dataHoje.getMonth() + 6)){
-                                    parcelas++;
-                                }
-                            }
-                        }else if(tipo == 6){
-                            var parcelas = 1;
-                            diaAtual = Now.getDate() + 3;
-                            if(diaAtual == 29 || diaAtual == 30 || diaAtual == 31)
-                            {
-                                diaAtual = 3;
-                                var Mes = NovaData.getMonth() + 2;
-                            }
-                            dia_preferencial = diaAtual;
-                            console.log(NovaData);
-                        }else{
-                            var parcelas = 0;
-                            if(dia_preferencial <= Now.getDate()){
-                                NovaData.setMonth(NovaData.getMonth() + 1);
-                            }
-                            Mes = NovaData.getMonth() + 1;
-                            if(Mes <= 6){
-                                parcelas = 13 - Mes;
-                            }else{
-                                for(var dataHoje = new Date(Now); dataHoje < proximoAno; dataHoje.setMonth(dataHoje.getMonth() + 1)){
-                                    parcelas++;
-                                }
-                            }
-                        }
-                        Number.prototype.zeroAntes = function() {
-                            return (this < 10 ? '0' : '') + this;
-                        }
-                        retornoDatas.dataV = (String(`${dia_preferencial}/${(NovaData.getMonth() + 1).zeroAntes()}/${NovaData.getFullYear()}`));
-                        retornoDatas.dataV_formatada = (String(`${NovaData.getFullYear()}-${(NovaData.getMonth()).zeroAntes()}-${dia_preferencial}`));
-                        retornoDatas.dataV_formatada_v2 = (String(`${NovaData.getFullYear()}-${(NovaData.getMonth() + 1).zeroAntes()}-${dia_preferencial}`));
-                        retornoDatas.parcelas = parcelas;
-                        console.log(retornoDatas);
-                        console.log(dia_preferencial);
-                        return retornoDatas;
-                    }
-
                     console.log(socios.length, socios);
                     $(".configs_unico").css("display", "block");
                     console.log(socios[0].id_sociotipo);
                     var tipo;
-                    var periodicidade_socio;
-                    // if(socios[0].id_sociotipo != 4 && socios[0].id_sociotipo != 5){
-                    //     switch(Number(socios[0].id_sociotipo)){
-                    //         case 0: case 1: 
-                    //             $("#tipo_geracao").val("1");
-                    //             console.log("tes1");
-                    //             tipo = 6;
-                    //             periodicidade_socio = 0;
-                    //         break;
-                    //         case 2: case 3:
-                    //             $("#tipo_geracao").val("2");
-                    //             tipo = 4;
-                    //             periodicidade_socio = 1;
-                    //         break;
-                    //         case 6: case 7:
-                    //             $("#tipo_geracao").val("3");
-                    //             tipo = 1;
-                    //             periodicidade_socio = 2;
-                    //         break;
-                    //         case 8: case 9:
-                    //             $("#tipo_geracao").val("4");
-                    //             tipo = 2;
-                    //             periodicidade_socio = 3;
-                    //         break;
-                    //         case 10: case 11:
-                    //             $("#tipo_geracao").val("5");
-                    //             tipo = 3;
-                    //             periodicidade_socio = 6;
-                    //         break;
-                    //         default:
-                    //             $("#tipo_geracao").val("1");
-                    //             tipo = 6;
-                    //             periodicidade_socio = 0;
-                    //         break;
-                    //     }
-                    // }
-                    // if(socios[0].valor_periodo != "" && socios[0].valor_periodo != null){
-                    //     // $("#valor_u").val(socios[0].valor_periodo);
-                    // }
-                    // // else $("#valor_u").val(30);
-                    // var Now = new Date();
-                    // var dataParcelas;
-                    // var data;
-                    // var num_parcelas;
-                    // var dia_preferencial;
-                    // if(socios[0].data_referencia != "0000-00-00" && socios[0].data_referencia != null){
-                    //     dia_preferencial = socios[0].data_referencia.split("-")[2];
-                    //     dataParcelas = gerarDataParcelas(Now, tipo, dia_preferencial);
-                    //     data_formatada = dataParcelas.dataV_formatada;
-                    //     data_formatada_br = dataParcelas.dataV;
-                    //     num_parcelas = dataParcelas.parcelas;
-                    // }else{
-                    //     dia_preferencial = 10;
-                    //     dataParcelas = gerarDataParcelas(Now, tipo, dia_preferencial);
-                    //     data_formatada = dataParcelas.dataV_formatada;
-                    //     data_formatada_br = dataParcelas.dataV;
-                    //     num_parcelas = dataParcelas.parcelas;
-                    // } 
+                    
                     $("#tipo_geracao").change(function(){
                         if($(this).val() == 0){
                             $("#num_parcelas").val(1);
@@ -284,17 +131,11 @@ $(document).ready(function(){
                     })
                     
                     $("#btn_confirma").click(function(){
-                            // $("#btn_confirma")// 
+                           
                             var inputParcelas = $("#num_parcelas").val();
                             var inputData = $("#data_vencimento").val();
                             var inputValor = $("#valor_u").val();
                             var tipo_boleto = $("#tipo_geracao").val();
-
-                            
-                            // console.log($inputParcelas);
-                            console.log("tipo"+tipo_boleto);
-                            // console.log($inputValor);
-                            console.log(inputData);
 
                             tipo = Number(tipo_boleto);
                             periodicidade_socio = 1;
@@ -302,36 +143,13 @@ $(document).ready(function(){
                             var teste = inputData.split('-');
                             var dataTipoBr = teste[2]+"/"+teste[1]+"/"+teste[0];
                             console.log("aaaa"+dataTipoBr);
-                            // $("#data_vencimento").val(inputData);
-                            // $("#num_parcelas").val(`Número de parcelas: ${inputParcelas}`);
                             if(inputParcelas <= 0 || inputParcelas == null || inputValor <= 0 || inputValor == null || inputData == '' ){
                                 alert("Dados inválidos, tente novamente!");
                             }
                             montaTabelaInicial(inputData, dataTipoBr, tipo, inputParcelas, Number($("#valor_u").val()), socios[0].nome);
-                    })
-
-                    // $("#valor_u").change(function(){
-                    //     montaTabelaInicial(data_formatada, data_formatada_br, periodicidade_socio, num_parcelas, Number($("#valor_u").val()), socios[0].nome);
-                    // })
-
-                    // $("#data_vencimento").change(function(){
-                    //     dataParcelas = gerarDataParcelas(Now, tipo, $(this).val().split("-")[2]);
-                    //     data = dataParcelas.dataV_formatada_v2;
-                    //     num_parcelas = dataParcelas.parcelas;
-                    //     montaTabelaInicial(data_formatada, data_formatada_br, periodicidade_socio, num_parcelas, Number($("#valor_u").val()), socios[0].nome);
-                    // })
-
-                    // $("#data_vencimento").val(dataParcelas.dataV_formatada_v2);
-                    
-                    // $("#num_parcelas").val(`Número de parcelas: ${num_parcelas}`);
-                    
+                    })                 
                     
                     montaTabelaInicialAlterado('', '', '', '', '' , socios[0].nome);
-
-
-
-
-                    // console.log($("#tipo_geracao").val());
                     
                     $(".div_btn_gerar").css("display", "block");
                     
@@ -405,20 +223,7 @@ $(document).ready(function(){
                                 for(socio of socios){
                                     switch(tipo){
                                         case 0:
-                                            // var Now = new Date();
-                                            // var dadosDataParcelas = gerarDataParcelas(Now, 6, $("#data_vencimento").val().split("-")[2]);
-                                            // var dataV = dadosDataParcelas['dataV'];
-                                            // var dataV_formatada = dadosDataParcelas['dataV_formatada'];
-                                            // var parcelas = dadosDataParcelas['parcelas']; 
-
-                                            // console.log("datav" + dataV); //br
-                                            // console.log("datav forma" + dataV_formatada); // 0000-00-00
-                                            // console.log("p" + parcelas);
-                                            // //aqui q tem q mudar as parcelas
-                                            // console.log("teste - "+parcelas);
-
-
-
+                                           
                                             var inputParcelas = $("#num_parcelas").val();
                                             var inputData = $("#data_vencimento").val();
                                                                                  
@@ -446,11 +251,6 @@ $(document).ready(function(){
                                             carneBoletos = [];
                                         break;
                                         case 1:
-                                            // var Now = new Date();
-                                            // var dadosDataParcelas = gerarDataParcelas(Now, 4, $("#data_vencimento").val().split("-")[2]);
-                                            // var dataV = dadosDataParcelas['dataV'];
-                                            // var dataV_formatada = dadosDataParcelas['dataV_formatada'];
-                                            // var parcelas = dadosDataParcelas['parcelas'];
 
                                             var inputParcelas = $("#num_parcelas").val();
                                             var inputData = $("#data_vencimento").val();
@@ -479,11 +279,6 @@ $(document).ready(function(){
                                             carneBoletos = [];
                                         break;
                                         case 2:
-                                            // var Now = new Date();
-                                            // var dadosDataParcelas = gerarDataParcelas(Now, 1, $("#data_vencimento").val().split("-")[2]);
-                                            // var dataV = dadosDataParcelas['dataV'];
-                                            // var dataV_formatada = dadosDataParcelas['dataV_formatada'];
-                                            // var parcelas = dadosDataParcelas['parcelas'];
 
                                             var inputParcelas = $("#num_parcelas").val();
                                             var inputData = $("#data_vencimento").val();
@@ -528,11 +323,6 @@ $(document).ready(function(){
                                             carneBoletos = [];
                                         break;
                                         case 3:
-                                            // var Now = new Date();
-                                            // var dadosDataParcelas = gerarDataParcelas(Now, 2, $("#data_vencimento").val().split("-")[2]);
-                                            // var dataV = dadosDataParcelas['dataV'];
-                                            // var dataV_formatada = dadosDataParcelas['dataV_formatada'];
-                                            // var parcelas = dadosDataParcelas['parcelas'];
 
                                             var inputParcelas = $("#num_parcelas").val();
                                             var inputData = $("#data_vencimento").val();
@@ -574,11 +364,6 @@ $(document).ready(function(){
                                             carneBoletos = [];
                                         break;
                                         case 6:
-                                            // var Now = new Date();
-                                            // var dadosDataParcelas = gerarDataParcelas(Now, 3, $("#data_vencimento").val().split("-")[2]);
-                                            // var dataV = dadosDataParcelas['dataV'];
-                                            // var dataV_formatada = dadosDataParcelas['dataV_formatada'];
-                                            // var parcelas = dadosDataParcelas['parcelas'];
 
                                             var inputParcelas = $("#num_parcelas").val();
                                             var inputData = $("#data_vencimento").val();

@@ -21,27 +21,6 @@
   background: #e0af26; 
 }
 	</style>
-
-	<script>
-		// mudar o maximo e o minimo da data de vencimento do boleto
-		$(document).ready(function(){
-			var data = new Date;
-			var dia = data.getDate();
-			var diaF = (dia.length == 1) ? '0'+dia : dia;
-			var mes = data.getMonth()+1;
-			var ano = data.getFullYear();
-			var anoM1 = data.getFullYear()+1;
-			var data_minima = ano+"-"+mes+"-"+diaF;
-			var data_maxima = anoM1+"-"+mes+"-"+diaF;
-			console.log(data_minima);
-			$("#data_vencimento").attr({
-				"max" : data_maxima,      
-				"min" : data_minima         
-			});
-
-		});
-	</script>
-
 		<!-- start: header -->
 		<header id="header" class="header">
 			
@@ -107,7 +86,7 @@
            
 		   <div class="data">
 		   <label for="data_vencimento">Data de vencimento (se não for boleto único será a data de vencimento da primeira parcela)</label>
-		   <input type="date" class="form-control" id="data_vencimento" name="data_vencimento" placeholder="Data vencimento" required>
+		   <input type="date" class="form-control" min=<?php echo date('Y-m-d'); ?> id="data_vencimento" name="data_vencimento" placeholder="Data vencimento" required>
 		   </div>
 
 		   </div>
