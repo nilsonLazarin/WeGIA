@@ -995,11 +995,11 @@ CREATE TABLE IF NOT EXISTS `wegia`.`atendido` (
   `idatendido` INT NOT NULL AUTO_INCREMENT,
   `pessoa_id_pessoa` INT(11) NOT NULL,
   `atendido_tipo_idatendido_tipo` INT NOT NULL,
-  `atentido_status_idatentido_status` INT NOT NULL,
+  `atendido_status_idatendido_status` INT NOT NULL,
   PRIMARY KEY (`idatendido`),
   INDEX `fk_atendido_pessoa1_idx` (`pessoa_id_pessoa` ASC),
   INDEX `fk_atendido_atendido_tipo1_idx` (`atendido_tipo_idatendido_tipo` ASC),
-  INDEX `fk_atendido_atentido_status1_idx` (`atentido_status_idatentido_status` ASC),
+  INDEX `fk_atendido_atentido_status1_idx` (`atendido_status_idatendido_status` ASC),
   CONSTRAINT `fk_atendido_pessoa1`
     FOREIGN KEY (`pessoa_id_pessoa`)
     REFERENCES `wegia`.`pessoa` (`id_pessoa`)
@@ -1011,12 +1011,11 @@ CREATE TABLE IF NOT EXISTS `wegia`.`atendido` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_atendido_atentido_status1`
-    FOREIGN KEY (`atentido_status_idatentido_status`)
+    FOREIGN KEY (`atendido_status_idatendido_status`)
     REFERENCES `wegia`.`atendido_status` (`idatendido_status`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
 
 -- -----------------------------------------------------
 -- Table `wegia`.`atendido_parentesco`
