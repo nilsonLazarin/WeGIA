@@ -107,8 +107,9 @@ setlocale(LC_ALL, $locale);
       </a>
       <a onclick="location.reload()" id="btn_atualizar" class="btn btn-app">
         <i class="fa fa-refresh"></i> Atualizar
-        <a id="btn_atualizar_pag" class="btn btn-app">
-        <i class="fa fa-refresh"></i> Atualizar Pagamentos
+        <!--		AGUARDANDO AJUSTES			-->
+	<!-- <a id="btn_atualizar_pag" class="btn btn-app"> 	-->
+     	<!-- <i class="fa fa-refresh"></i> Atualizar Pagamentos -->
       </a>
         </div>
      
