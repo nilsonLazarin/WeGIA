@@ -103,6 +103,9 @@ header("Location: ../home.php?msg_c=$msg");
   $exibimedparaenfermeiro = $exibimedparaenfermeiro->fetchAll(PDO::FETCH_ASSOC);
   $exibimedparaenfermeiro = json_encode($exibimedparaenfermeiro);
 
+  $medaplicadas = $pdo->query("SELECT medicamento, aplicação FROM saude_medicacao sm JOIN saude_medicamento_administracao sa ON (sm.id_medicacao = sa.saude_medicacao_id_medicacao)");
+  $medaplicadas = $medaplicadas->fetchAll(PDO::FETCH_ASSOC);
+  $medaplicadas = json_encode($medaplicadas);
 
   $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
   $tabelacid = $mysqli->query("SELECT * FROM saude_tabelacid");
@@ -402,7 +405,7 @@ header("Location: ../home.php?msg_c=$msg");
                       .append($("<td>").text(item.medicamento + ", " + item.dosagem + ", " + item.horario + ", " + item.duracao + "."))
                       .append($("<td>").text(item.descricao))
                       .append($("<td style='display: flex; justify-content: space-evenly;'>")
-                  .append($("<a onclick='removerDescricaoMedica("+item.id_atendimento+")' href='#' title='Excluir'><button class='btn btn-primary'><glyphicon glyphicon-pencil'></i></button></a>"))
+                  .append($("<a onclick='removerDescricaoMedica("+item.id_atendimento+")' href='#' title='Excluir'><button class='btn btn-primary'><i class='glyphicon glyphicon-pencil'></i></button></a>"))
                 )
               )
             });
@@ -452,25 +455,34 @@ header("Location: ../home.php?msg_c=$msg");
                 .append($("<td class='txt-center'>")
                   .text(item.duracao)
                 )
-                .append($("<td class='txt-center'>")
+                /*.append($("<td class='txt-center'>")
                   .append($("<div class='btn-container'>")
-                    .append($("<a href='#' onclick='confirmRestore(`"+item.nome+"`)'/>")
-                      .append($("<button class='btn btn-primary'/>")
-                        .html('<i class="fa fa-refresh" aria-hidden="true"></i>')
-                      )
-                    )
-                    .append($("<a href='#' onclick='confirmDelete(`"+item.nome+"`)'/>")
-                      .append($("<button class='btn btn-danger' />")
-                        .html('<i class="fa fa-trash-o" aria-hidden="true" style="font-family: FontAwesome;" />')
-                      )
-                    )
-                    .append($("<a href='#' onclick='confirmDownload(`"+item.nome+"`)'/>")
+                    .append($("<a href='#' onclick='confirmDownload(`"+item.id_medicacao+"`)'/>")
                       .append($("<button class='btn btn-success' />")
                         .html('<i class="fa fa-download" aria-hidden="true" style="font-family: FontAwesome;" />')
                       )
                     )
+                    
                   )
+                )*/
+                .append($("<td style='display: flex; justify-content: space-evenly;'>")
+                  
+                  .append($("<a onclick='aplicarMedicacao("+item.id_medicacao+")' href='#' title='Excluir'><button class='btn btn-primary bot click'><i class='glyphicon glyphicon-hand-up'></i></button></a>"))
+                  /*.append($("<a href='aplicacao_upload.php?id_doc=" + item.id_medicacao + "' title='Visualizar ou Baixar'><button class='btn btn-primary'><i class='glyphicon glyphicon-hand-up'></i></button></a>"))*/
+                 
                 )
+              )
+            });
+          });
+
+          // listar aplicacao enfermeiro
+          $(function() {
+          var medaplicadas = <?= $medaplicadas ?>;
+          $.each(medaplicadas, function(i, item) {
+            $("#exibiaplicacao")
+              .append($("<tr>")
+                .append($("<td>").text(item.medicamento))
+                .append($("<td>").text(item.aplicacao))
               )
             });
           });
@@ -1052,6 +1064,7 @@ header("Location: ../home.php?msg_c=$msg");
                    <h2 class="panel-title">Aplicar medicação</h2>
                 </header>
                    
+                <form action='aplicacao_upload.php' method='post' enctype='multipart/form-data' id='funcionarioDocForm'>
                    <div class="panel-body">
                    <hr class="dotted short">
                    
@@ -1117,12 +1130,11 @@ header("Location: ../home.php?msg_c=$msg");
                      <table class="table table-bordered table-striped mb-none" id="enf">
                       <thead>
                         <tr style="font-size:15px;">
-                          <th>Medicações</th>
+                          <th>Medicações aplicadas</th>
                           <th>Horário da aplicação</th>
-                          <th>Ação</th>
                         </tr>
                       </thead>
-                      <tbody id="d" style="font-size:15px">                
+                      <tbody id="exibiaplicacao" style="font-size:15px">                
                       
                     </tbody>
                   </table>
@@ -1131,7 +1143,7 @@ header("Location: ../home.php?msg_c=$msg");
                   <br>
                   
                   <input type="hidden" name="a_enf">
-                  <input id="salvar_enf" type="submit" class="btn btn-primary" value="Cadastrar aplicação desses medicamentos">
+                  <!--<input id="salvar_enf" type="submit" class="btn btn-primary" value="Cadastrar aplicação desses medicamentos">-->
                  </form>
          </section>
        </div>  
@@ -1297,13 +1309,24 @@ header("Location: ../home.php?msg_c=$msg");
                 post(url, data, listarEnfermidades);
                 console.log(listarEnfermidades);
             } 
-            function removerMedicacoes(id_doc) {
+            /*function removerMedicacoes(id_doc) {
                 if (!window.confirm("Tem certeza que deseja remover essa medicação?")){
                   return false;
                 }
                 let url = "medicacao_excluir.php?id_doc="+id_doc+"&id_fichamedica=<?= $_GET['id_fichamedica'] ?>";
                 let data = "";
                 post(url, data, listarMedicacoes);
+            } */
+            function aplicarMedicacao(id_doc) {
+                if (!window.confirm("Tem certeza que deseja aplicar essa medicação?")){
+                  return false;
+                }
+                //document.querySelector(".bot click").style.background = 'Red';
+                let url = "mudarcor.php?id_doc="+id_doc+"&id_fichamedica=<?= $_GET['id_fichamedica'] ?>";
+                let data = "";
+                post(url, data);
+                
+
             } 
 
             // codigo para inserir medicacao na tabela do medico

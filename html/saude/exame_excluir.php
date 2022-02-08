@@ -21,7 +21,6 @@ extract($_GET);
 $arquivo = new ExameSaude($id_doc);
 if (!$arquivo->getException()){
     $arquivo->delete();
-    // $sql = "SELECT f.id_fundocs, f.`data`, docf.nome_docfuncional FROM funcionario_docs f JOIN funcionario_docfuncional docf ON f.id_docfuncional = docf.id_docfuncional WHERE id_funcionario = " . $_GET['id_funcionario'] . ";";
     
     $sql = "SELECT se.id_exame, se.arquivo_nome, ada.descricao, se.`data` FROM saude_exames se JOIN saude_exame_tipos ada ON se.id_exame_tipos = ada.id_exame_tipo WHERE id_fichamedica =" . $_GET['id_fichamedica'] . ";";
     $pdo = Conexao::connect();
@@ -29,6 +28,7 @@ if (!$arquivo->getException()){
     $docfuncional = $docfuncional->fetchAll(PDO::FETCH_ASSOC);
     $docfuncional = json_encode($docfuncional);
     echo $docfuncional;
+    
 }else{
     echo $arquivo->getException();
 }
