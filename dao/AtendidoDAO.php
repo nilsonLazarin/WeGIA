@@ -24,7 +24,35 @@ class AtendidoDAO
         
         return $datad;
     }
-	public function incluir($atendido)
+
+    public function selecionarCadastro($cpf){
+        $pdo = Conexao::connect();
+        $valor = 0;
+        $consultaFunc = $pdo->query("select pessoa_id_pessoa from atendido where pessoa_id_pessoa = (SELECT id_pessoa from pessoa where cpf = '$cpf')")->fetchAll(PDO::FETCH_ASSOC);
+        if($consultaFunc == null){
+            $consultaCPF = $pdo->query("select cpf,id_pessoa from pessoa;")->fetchAll(PDO::FETCH_ASSOC);
+            foreach ( $consultaCPF as $key => $value ){
+                if($cpf == $value['cpf']){
+                    $valor++;
+                }
+            }
+            if($valor == 0){
+                header("Location: ../html/atendido/Cadastro_Atendido.php?cpf=$cpf");
+            }
+            else
+            {
+                header("Location: ../html/atendido/cadastro_atendido_pessoa_existente.php?cpf=$cpf");
+                // header("Location: ../controle/control.php?metodo=listarPessoaExistente($cpf)&nomeClasse=FuncionarioControle&nextPage=../html/funcionario/cadastro_funcionario_pessoa_existente.php?cpf=$cpf");
+            
+            }
+        }
+        else{
+            header("Location: ../html/atendido/pre_cadastro_atendido.php?msg_e=Erro, Atendido já cadastrado no sistema.");
+        }
+        
+    }
+
+	public function incluir($atendido, $cpf)
     {               
         try {
             $sql = "call cadatendido(:strNome,:strSobrenome,:strCpf,:strSexo,:strTelefone,:dateNascimento, :intStatus, :intTipo)";
@@ -62,9 +90,51 @@ class AtendidoDAO
         } catch (PDOException $e) {
             echo 'Error: <b>  na tabela pessoas = ' . $sql . '</b> <br /><br />' . $e->getMessage();
         }
-        
-        
     }
+     // incluirExistente
+
+     public function incluirExistente($atendido,$idPessoa, $sobrenome)
+     {
+         try {
+             $sql = "UPDATE pessoa set sobrenome=:sobrenome, sexo=:sexo WHERE id_pessoa=:id_pessoa;";
+              
+             $sql2 = "INSERT INTO atendido(pessoa_id_pessoa,atendido_tipo_idatendido_tipo,atendido_status_idatendido_status)
+             values(:id_pessoa,:intTipo,:intStatus)";
+ -
+             
+             // $sql = str_replace("'", "\'", $sql);
+             $pdo = Conexao::connect();
+             $stmt = $pdo->prepare($sql);
+             $stmt2 = $pdo->prepare($sql2);
+ 
+             $nome=$atendido->getNome();
+             $sobrenome=$atendido->getSobrenome();
+             $cpf=$atendido->getCpf();
+             $sexo=$atendido->getSexo();
+             $telefone=$atendido->getTelefone();
+             $nascimento=$atendido->getDataNascimento();
+             $tipo=$atendido->getIntTipo();
+             $status=$atendido->getIntStatus();
+ 
+             $stmt->bindParam(':id_pessoa',$idPessoa);
+             $stmt->bindParam(':sobrenome',$sobrenome);
+             $stmt->bindParam(':sexo',$sexo);
+ 
+             $stmt2->bindParam(':id_pessoa',$idPessoa);
+             $stmt2->bindParam(':intStatus',$status);
+             $stmt2->bindParam(':intTipo',$tipo);
+            
+ 
+             $stmt->execute();
+             $stmt2->execute();
+ 
+         } catch (PDOException $e) {
+             echo 'Error: <b>  na tabela pessoas1 = ' . $sql . '</b> <br /><br />' . $e->getMessage();
+         }
+     }
+
+   
+
     //excluir  
     public function excluir($id)
     {
@@ -363,6 +433,69 @@ class AtendidoDAO
         } catch (PDOException $e) {
             echo 'Error: <b>  na tabela pessoas = ' . $sql . '</b> <br /><br />' . $e->getMessage();
         }
+    }
+
+    public function listarSobrenome($cpf)
+    {
+        try{
+            $pessoa=array();
+            $pdo = Conexao::connect();
+            $consulta = $pdo->query("SELECT sobrenome from pessoa WHERE cpf='$cpf'");
+            $linha = $consulta->fetch(PDO::FETCH_ASSOC);
+            // $x=0;
+            // while($linha = $consulta->fetch(PDO::FETCH_ASSOC)){
+            //     $pessoa[$x]=$linha['id_pessoa'];
+            //     $x++;
+            // }
+            } catch (PDOExeption $e){
+                echo 'Error:' . $e->getMessage;
+            }
+            // return $pessoa;
+            return $linha['sobrenome'];
+    }
+
+
+    public function listarIdPessoa($cpf)
+    {
+        try{
+            $pessoa=array();
+            $pdo = Conexao::connect();
+            $consulta = $pdo->query("SELECT id_pessoa from pessoa WHERE cpf='$cpf'");
+            $linha = $consulta->fetch(PDO::FETCH_ASSOC);
+            // $x=0;
+            // while($linha = $consulta->fetch(PDO::FETCH_ASSOC)){
+            //     $pessoa[$x]=$linha['id_pessoa'];
+            //     $x++;
+            // }
+            } catch (PDOExeption $e){
+                echo 'Error:' . $e->getMessage;
+            }
+            // return $pessoa;
+            return $linha['id_pessoa'];
+    }
+
+    public function listarPessoaExistente($cpf){
+        try{
+            
+            $pdo = Conexao::connect();
+            $sql = "SELECT id_pessoa,nome,sobrenome,sexo,telefone,data_nascimento,cpf FROM `pessoa` WHERE cpf = :cpf";
+            // $cpf = '577.153.780-20';
+            // echo file_put_contents('ar.txt', $cpf);
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindParam(':cpf',$cpf);
+            // echo file_put_contents('ar.txt', $sql);
+
+            $stmt->execute();
+            $funcionario=array();
+            
+            while($linha = $stmt->fetch(PDO::FETCH_ASSOC)){
+                $funcionario[] = array('id_pessoa'=>$linha['id_pessoa'],'cpf'=>$linha['cpf'],'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'sexo'=>$linha['sexo'],'data_nascimento'=>$this->formatoDataDMY($linha['data_nascimento']),'telefone'=>$linha['telefone']);
+            }
+
+        }catch (PDOExeption $e){
+            echo 'Error: ' .  $e->getMessage();
+        }
+        return json_encode($funcionario);
     }
 
     

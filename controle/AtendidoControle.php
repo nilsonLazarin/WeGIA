@@ -25,7 +25,8 @@ include_once ROOT."/dao/Conexao.php";
 
 class AtendidoControle 
 {
-	    public function formatoDataYMD($data)
+	  
+        public function formatoDataYMD($data)
     	{
         	$data_arr = explode("/", $data);
         
@@ -33,6 +34,7 @@ class AtendidoControle
         
                return $datac;
     	}
+
         public function verificar(){
             extract($_REQUEST);
             if((!isset($cpf)) || (empty($cpf))){
@@ -40,12 +42,10 @@ class AtendidoControle
                 header('Location: ../html/atendido/Cadastro_Atendido.php?msg='.$msg);
             }
             if((!isset($nome)) || (empty($nome))){
-                $msg .= "Nome do atendido não informado. Por favor, informe o nome!";
-                header('Location: ../html/atendido/Cadastro_Atendido.php?msg='.$msg); 
+               $nome=""; 
             }
             if((!isset($sobrenome)) || (empty($sobrenome))){
-                $msg .= "Sobrenome do atendido não informada. Por favor, informe o Sobrenome!";
-                header('Location: ../html/atendido/Cadastro_Atendido.php?msg='.$msg);
+               $sobrenome="";
             }
             if((!isset($sexo)) || (empty($sexo))){
                 $msg .= "Sexo do atendido não informado. Por favor, informe o sexo!";
@@ -124,6 +124,95 @@ class AtendidoControle
             $atendido->setIntStatus($intStatus);
             return $atendido;
         }
+
+        public function verificarExistente(){
+            extract($_REQUEST);
+            if((!isset($cpf)) || (empty($cpf))){
+                $cpf= "";
+            }
+            if((!isset($nome)) || (empty($nome))){
+                $nome = '';
+            }
+            if((!isset($sobrenome)) || (empty($sobrenome))){
+                $sobrenome = '';
+            }
+            if((!isset($sexo)) || (empty($sexo))){
+                $sexo = '';
+            }
+            if((!isset($nascimento)) || (empty($nascimento))){
+                $nascimento = '';
+            }
+            if((!isset($registroGeral)) || (empty($registroGeral))){
+                $registroGeral= "";
+            }
+            if((!isset($orgaoEmissor)) || empty(($orgaoEmissor))){
+                $orgaoEmissor= "";
+            }
+            if((!isset($dataExpedicao)) || (empty($dataExpedicao))){
+                $dataExpedicao= "";
+            }
+            if((!isset($nomePai)) || (empty($nomePai))){
+                $nomePai = '';
+            }
+            if((!isset($nomeMae)) || (empty($nomeMae))){
+                $nomeMae = '';
+            }
+            if((!isset($tipoSanguineo)) || (empty($tipoSanguineo))){
+                $tipoSanguineo = '';
+            }
+            if((!isset($cep)) || empty(($cep))){
+                $cep = '';
+            }
+            if((!isset($uf)) || empty(($uf))){
+                $uf = '';
+            }
+            if((!isset($cidade)) || empty(($cidade))){
+                $cidade = '';
+            }
+            if((!isset($logradouro)) || empty(($logradouro))){
+                $logradouro = '';
+            }
+            if((!isset($numeroEndereco)) || empty(($numeroEndereco))){
+                $numeroEndereco = '';
+            }
+            if((!isset($bairro)) || empty(($bairro))){
+                $bairro = '';
+            }
+            if((!isset($rua)) || empty(($rua))){
+                $rua = '';
+            }
+            if((!isset($numero_residencia)) || empty(($numero_residencia))){
+                $numero_residencia = "";
+            }
+            if((!isset($complemento)) || (empty($complemento))){
+                $complemento='';
+            }
+            if((!isset($ibge)) || (empty($ibge))){
+                $ibge='';
+            }
+            if((!isset($telefone)) || (empty($telefone))){
+                $telefone='null';
+            }
+            session_start();
+            if((!isset($_SESSION['imagem'])) || (empty($_SESSION['imagem']))){
+                $imgperfil = '';
+            }else{
+                $imgperfil = base64_encode($_SESSION['imagem']);
+                unset($_SESSION['imagem']);
+            }
+
+            
+            // $cpf=str_replace(".", '', $cpf);
+            // $cpf=str_replace("-", "", $cpf);
+            //$nascimento=str_replace("-", "", $nascimento);
+            $senha='null';
+            $atendido = new Atendido($cpf,$nome,$sobrenome,$sexo,$nascimento,$registroGeral,$orgaoEmissor,$dataExpedicao,$nomeMae,$nomePai,$tipoSanguineo,$senha,$telefone,$imgperfil,$cep,$uf,$cidade,$bairro,$logradouro,$numeroEndereco,$complemento,$ibge);
+            $atendido->setIntTipo($intTipo);
+            $atendido->setIntStatus($intStatus);
+            return $atendido;
+        }
+
+        
         
     
     public function listarTodos(){
@@ -181,13 +270,21 @@ class AtendidoControle
 			$documento_zip = gzcompress($documParaCompressao);
 			return $documento_zip;
     }
+
+    public function selecionarCadastro(){
+        $cpf = $_GET['cpf'];
+        $atendido = new AtendidoDAO();
+        $atendido->selecionarCadastro($cpf);
+    }
+
         
     public function incluir(){
         $atendido = $this->verificar();
+        $cpf = $_GET['cpf'];
         $intDAO = new AtendidoDAO();
         $docDAO = new DocumentoDAO();
         try{
-            $idatendido=$intDAO->incluir($atendido);
+            $idatendido=$intDAO->incluir($atendido, $cpf);
             $_SESSION['msg']="Atendido cadastrado com sucesso";
             $_SESSION['proxima']="Cadastrar outro atendido";
             $_SESSION['link']="../html/atendido/Cadastro_Atendido.php";
@@ -198,6 +295,29 @@ class AtendidoControle
             echo $msg;
         }
     }
+
+    public function incluirExistente(){
+        $atendido = $this->verificarExistente();
+        $idPessoa = $_GET['id_pessoa'];
+        $sobrenome = $_GET['sobrenome'];
+        $atendidoDAO = new AtendidoDAO();
+    
+        try{
+            $atendidoDAO->incluirExistente($atendido,$idPessoa, $sobrenome);
+            // $horarioDAO->incluir($horario);
+            //$beneficiadosDAO->incluir($beneficiados);
+            //$epiDAO->incluir($epi);
+            $_SESSION['msg']="Atendido cadastrado com sucesso";
+            $_SESSION['proxima']="Cadastrar outro atendido";
+            $_SESSION['link']="../html/atendido/cadastro_atendido.php";
+            header("Location: ../html/atendido/Informacao_Atendido.php");
+
+        } catch (PDOException $e){
+            $msg= "NÃ£o foi possÃ­vel registrar o atendido"."<br>".$e->getMessage();
+            echo $msg;
+        }
+    }
+
     public function alterar()
     {
         extract($_REQUEST);

@@ -53,10 +53,22 @@
    $intTipo = $mysqli->query("SELECT * FROM atendido_tipo");
    $intStatus = $mysqli->query("SELECT * FROM atendido_status");
 
-   $cpf= $_GET['cpf'];
+    require_once ROOT . "/controle/AtendidoControle.php";
+    $listaCPF2 = new AtendidoControle;
+    $listaCPF2->listarCpf();
+
+    require_once "../../dao/Conexao.php";
+    $pdo = Conexao::connect();
+    $cpf = $_GET['cpf'];
+    $atendido = new AtendidoDAO;
+    $informacoesFunc = $atendido->listarPessoaExistente($cpf);
+    $id_pessoaForm = $atendido->listarIdPessoa($cpf);
+    $sobrenome = $atendido->listarSobrenome($cpf);
 ?>
 	<!doctype html>
 <html class="fixed">
+
+
 <head>
 
 	<!-- Basic -->
@@ -116,6 +128,58 @@
 	<script src="../../Functions/enviar_dados.js"></script>
 	<script src="../../Functions/mascara.js"></script>
 	<script src="../../Functions/lista.js"></script>
+
+    <script>
+$(function(){
+
+  var atendido = <?php echo $informacoesFunc ?>; 
+  console.log(atendido);
+  console.log("oi");
+  $.each(atendido, function(i, item) {
+    
+    $("#nome").val(item.nome).prop('disabled', true);
+    $("#sobrenome").val(item.sobrenome).prop('disabled',true);
+    $("#telefone").val(item.telefone).prop('disabled', true);
+    $("#nascimento").val(alterardate(item.data_nascimento)).prop('disabled', true);
+    $("#cpf").val(item.cpf).prop('disabled', true);
+    if(item.sexo=="m")
+    {
+      $("#sexo").html("Sexo: <i class='fa fa-male'></i>  Masculino");
+      $("#radio1").prop('checked',true);
+      $("#radio2").prop('disabled', true);
+
+    }
+    else if(item.sexo=="f")
+    {
+      $("#sexo").html("Sexo: <i class='fa fa-female'>  Feminino");
+      $("#radio2").prop('checked',true);
+      $("#radio1").prop('disabled', true);
+
+    }
+    else if(item.sexo = null){
+      $("#radio").prop('disabled', false);
+    }
+
+    // if (item.sexo == "m") {
+    //   $("#radioM").prop('checked', true).prop('disabled', true);
+    //   $("#radioF").prop('checked', false).prop('disabled', true);
+    //   $("#reservista1").show();
+    //   $("#reservista2").show();
+    // } else if (item.sexo == "f") {
+    //   $("#radioM").prop('checked', false).prop('disabled', true)
+    //   $("#radioF").prop('checked', true).prop('disabled', true);
+    // }
+  })
+
+  function alterardate(data) {
+    var date = data.split("/")
+    return date[2] + "-" + date[1] + "-" + date[0];
+  }
+
+});
+
+
+</script>
 
 	<!-- jquery functions -->
 	<script>
@@ -301,13 +365,13 @@
 										<div class="form-group">
 											<label class="col-md-3 control-label" for="profileFirstName">Nome<sup class="obrig">*</sup></label>
 											<div class="col-md-8">
-												<input type="text" class="form-control" name="nome" id="nome" id="profileFirstName" onkeypress="return Onlychars(event)">
+												<input type="text" class="form-control" name="nome" id="nome" id="profileFirstName" onkeypress="return Onlychars(event)"required>
 											</div>
 										</div>
 										<div class="form-group">
 											<label class="col-md-3 control-label">Sobrenome<sup class="obrig">*</sup></label>
 											<div class="col-md-8">
-												<input type="text" class="form-control" name="sobrenome" id="sobrenome" onkeypress="return Onlychars(event)">
+												<input type="text" class="form-control" name="sobrenome" id="sobrenome" onkeypress="return Onlychars(event)"required>
 											</div>
 										</div>
 										<div class="form-group">
@@ -328,14 +392,14 @@
 										<div class="form-group">
 											 <label class="col-md-3 control-label" for="profileCompany">Nascimento<sup class="obrig">*</sup></label>
 											<div class="col-md-8">
-												<input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" id="nascimento" max=<?php echo date('Y-m-d');?>> 
+												<input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" id="nascimento" max=<?php echo date('Y-m-d');?> required> 
 										    </div>
 										</div>
 										
 										<div class="form-group">
 										<label class="col-md-3 control-label" for="inputSuccess">Status<sup class="obrig">*</sup></label>
 										<div class="col-md-6">
-										<select class="form-control input-lg mb-md" name="intStatus" id="intStatus">
+										<select class="form-control input-lg mb-md" name="intStatus" id="intStatus" required>
 											<option selected disabled>Selecionar</option>
 											<?php
 											while ($row = $intStatus->fetch_array(MYSQLI_NUM)) {
@@ -348,7 +412,7 @@
 										<div class="form-group">
 										<label class="col-md-3 control-label" for="inputSuccess">Tipo<sup class="obrig">*</sup></label>
 										<div class="col-md-6">
-										<select class="form-control input-lg mb-md" name="intTipo" id="intTipo">
+										<select class="form-control input-lg mb-md" name="intTipo" id="intTipo" required>
 											<option selected disabled>Selecionar</option>
 											<?php
 											while ($row = $intTipo->fetch_array(MYSQLI_NUM)) {
@@ -361,13 +425,12 @@
 
 
 									<h4 class="mb-xlg doch4">Documentação</h4>
-										<div class="form-group">
-											 <label class="col-md-3 control-label" for="cpf">Número do CPF<sup class="obrig">*</sup></label>
-											<div class="col-md-4">
-												<input type="text" class="form-control" id="cpf" name="cpf" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##',this,event)" value="<?php echo $cpf?>" disabled >
-											</div>
-																							
-										</div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="cpf">Número do CPF<sup class="obrig">*</sup></label>
+                                            <div class="col-md-6">
+                                                <input type="text" class="form-control" id="cpf" id="cpf" name="cpf" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##',this,event)" >
+                                            </div>
+										</div>										
 
 										<div class="form-group">
 											<label class="col-md-3 control-label" for="profileCompany"></label>
@@ -379,9 +442,10 @@
 										 <div class="panel-footer">
 						                    <div class="row">
 						                      <div class="col-md-9 col-md-offset-3">
-						                        <input type="hidden" name="nomeClasse" value="AtendidoControle">
-												<input type="hidden" name="cpf" value="<?php  echo $cpf ?>">
-						                        <input type="hidden" name="metodo" value="incluir">
+                                              <input type="hidden" name="nomeClasse" value="AtendidoControle">
+                                                <input type="hidden" name="id_pessoa" value="<?php  echo $id_pessoaForm ?>">
+                                                <input type="hidden" name="sobrenome" value="<?php  echo $sobrenome ?>">
+                                                <input type="hidden" name="metodo" value="incluirExistente">
 						                        <input id="enviar" type="submit" class="btn btn-primary" value="Enviar" onclick="validarInterno()">
 						                      </div>
 						                    </div>

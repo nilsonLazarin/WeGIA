@@ -1539,7 +1539,7 @@ begin
 declare idP int;
 INSERT INTO pessoa(cpf,nome,sobrenome,sexo,telefone,data_nascimento) VALUES (strCpf,strNome,strSobrenome,strSexo,strTelefone,dateNascimento);
 select max(id_pessoa) into idP FROM pessoa;
-INSERT INTO atendido(pessoa_id_pessoa, atendido_tipo_idatendido_tipo, atentido_status_idatentido_status) VALUES (idP,intTipo,intStatus); 
+INSERT INTO atendido(pessoa_id_pessoa, atendido_tipo_idatendido_tipo, atendido_status_idatendido_status) VALUES (idP,intTipo,intStatus); 
 
 END$$
 

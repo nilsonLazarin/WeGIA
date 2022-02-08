@@ -331,18 +331,18 @@ $(function(){
 								console.log(certo);
 							}
 						}
-					else if(verifica_sexo == 0){
-						alert("Por favor, defina um sexo");
-						$("#radio1").focus();
-						var certo=0;
-						console.log(certo);
-					}
-					else if($("#sobrenome").val() == ""){
-						alert("Por favor, insira o sobrenome");
-						$("#sobrenome").focus();
-						var certo=0;
-						console.log(certo);
-					}
+					// else if(verifica_sexo == 0){
+					// 	alert("Por favor, defina um sexo");
+					// 	$("#radio1").focus();
+					// 	var certo=0;
+					// 	console.log(certo);
+					// }
+					// else if($("#sobrenome").val() == ""){
+					// 	alert("Por favor, insira o sobrenome");
+					// 	$("#sobrenome").focus();
+					// 	var certo=0;
+					// 	console.log(certo);
+					// }
 
 					/*else if(rg == 1 && $("#imgRg").value == null){
 						alert("Nenhum arquivo selecionado para uma Imagem de RG, favor selecionar um arquivo ou desmarcar a opção 'RG' de benefícios");

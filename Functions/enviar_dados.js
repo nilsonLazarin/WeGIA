@@ -264,18 +264,18 @@
 						var certo=0;
 						console.log(certo);
 					}
-					else if($("#sobrenome").val() == ""){
-						alert("Por favor, insira o sobrenome");
-						$("#sobrenome").focus();
-						var certo=0;
-						console.log(certo);
-					}
-					else if(verifica_sexo == 0){
-						alert("Por favor, defina um sexo");
-						$("#radio1").focus();
-						var certo=0;
-						console.log(certo);
-					}
+					// else if($("#sobrenome").val() == ""){
+					// 	alert("ra o sobrenome");
+					// 	$("#sobrenome").focus();
+					// 	var certo=0;
+					// 	console.log(certo);
+					// }
+					// else if(verifica_sexo == 0){
+					// 	alert("Por favor, defina um sexo");
+					// 	$("#radio1").focus();
+					// 	var certo=0;
+					// 	console.log(certo);
+					// }
 					else if($("#nascimento").val() == ""){
 						alert("Por favor, insira uma data de nascimento");
 						$("#nascimento").focus();

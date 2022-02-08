@@ -244,7 +244,7 @@
 							</div>
 						</a>
 
-						<a href="../html/atendido/Cadastro_Atendido.php">
+						<a href="../html/atendido/pre_cadastro_atendido.php">
 							<div class="col-lg-2 col-lg-offset-1 col-md-8 i" >
 								<i class="far fa-address-book"></i>
 								<h4>Cadastrar Atendido</h4>

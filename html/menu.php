@@ -67,7 +67,7 @@
 								</a>
 							</li>
 							<li>
-								<a href="<?= WWW ?>html/atendido/Cadastro_Atendido.php">
+								<a href="<?= WWW ?>html/atendido/pre_cadastro_atendido.php">
 									 Cadastrar Atendido
 								</a>
 							</li>
