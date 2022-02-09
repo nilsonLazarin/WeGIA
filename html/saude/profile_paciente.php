@@ -79,7 +79,6 @@ header("Location: ../home.php?msg_c=$msg");
   $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
   $intStatus = $mysqli->query("SELECT * FROM saude_enfermidades");
 
-
   $docfuncional = $pdo->query("SELECT * FROM saude_exames se JOIN saude_exame_tipos st ON se.id_exame_tipos  = st.id_exame_tipo WHERE id_fichamedica = " .$_GET['id_fichamedica']);
   $docfuncional = $docfuncional->fetchAll(PDO::FETCH_ASSOC);
   foreach ($docfuncional as $key => $value) {
@@ -99,11 +98,11 @@ header("Location: ../home.php?msg_c=$msg");
   $exibimed = $exibimed->fetchAll(PDO::FETCH_ASSOC);
   $exibimed = json_encode($exibimed);
 
-  $exibimedparaenfermeiro = $pdo->query("SELECT * FROM saude_medicacao");
+  $exibimedparaenfermeiro = $pdo->query("SELECT * FROM saude_medicacao sm join saude_atendimento sa on(sm.id_atendimento=sa.id_atendimento) join saude_fichamedica sf on(sf.id_fichamedica=sa.id_fichamedica) where sf.id_fichamedica = ".$_GET['id_fichamedica']);
   $exibimedparaenfermeiro = $exibimedparaenfermeiro->fetchAll(PDO::FETCH_ASSOC);
   $exibimedparaenfermeiro = json_encode($exibimedparaenfermeiro);
 
-  $medaplicadas = $pdo->query("SELECT medicamento, aplicação FROM saude_medicacao sm JOIN saude_medicamento_administracao sa ON (sm.id_medicacao = sa.saude_medicacao_id_medicacao)");
+  $medaplicadas = $pdo->query("SELECT medicamento, aplicação FROM saude_medicacao sm JOIN saude_medicamento_administracao sa ON (sm.id_medicacao = sa.saude_medicacao_id_medicacao) join saude_atendimento saa on(saa.id_atendimento=sm.id_atendimento) where saa.id_fichamedica=".$_GET['id_fichamedica']);
   $medaplicadas = $medaplicadas->fetchAll(PDO::FETCH_ASSOC);
   $medaplicadas = json_encode($medaplicadas);
 
@@ -390,7 +389,7 @@ header("Location: ../home.php?msg_c=$msg");
                 .append($("<td>").text(item.medicamento + ", " + item.dosagem + ", " + item.horario + ", " + item.duracao + "."))
                 .append($("<td>").text(item.descricao))
                 .append($("<td style='display: flex; justify-content: space-evenly;'>")
-                  .append($("<a onclick='removerDescricaoMedica("+item.id_atendimento+")' href='#' title='Excluir'><button class='btn btn-primary'><i class='glyphicon glyphicon-pencil'></i></button></a>"))
+                  .append($("<a onclick='removerDescricaoMedica("+item.id_atendimento+")' href='#' title='Editar'><button class='btn btn-primary'><i class='glyphicon glyphicon-pencil'></i></button></a>"))
                 )
               )
             });
@@ -405,7 +404,7 @@ header("Location: ../home.php?msg_c=$msg");
                       .append($("<td>").text(item.medicamento + ", " + item.dosagem + ", " + item.horario + ", " + item.duracao + "."))
                       .append($("<td>").text(item.descricao))
                       .append($("<td style='display: flex; justify-content: space-evenly;'>")
-                  .append($("<a onclick='removerDescricaoMedica("+item.id_atendimento+")' href='#' title='Excluir'><button class='btn btn-primary'><i class='glyphicon glyphicon-pencil'></i></button></a>"))
+                  .append($("<a onclick='removerDescricaoMedica("+item.id_atendimento+")' href='#' title='Editar'><button class='btn btn-primary'><i class='glyphicon glyphicon-pencil'></i></button></a>"))
                 )
               )
             });
@@ -428,24 +427,13 @@ header("Location: ../home.php?msg_c=$msg");
           // para diferente, aplicação do enfermeiro
           $(function(){
             var exibimedparaenfermeiro = <?= $exibimedparaenfermeiro ?>;
-            
+            console.log(exibimedparaenfermeiro);
             $.each(exibimedparaenfermeiro,function(i,item){
-              // let fSize = item.tamanho;
-              // if (fSize >= 1000000000){
-              //   fSize = (item.tamanho / 1000000000).toFixed(1) + " GB";
-              // } else if (fSize >= 1000000){
-              //   fSize = (item.tamanho / 1000000).toFixed(1) + " MB";
-              // } else {
-              //   fSize = (item.tamanho / 1000).toFixed(1) + " KB";
-              // }
               $("#tabela")
               .append($("<tr class='item "+item.medicamento+"'>")
                 .append($("<td class='txt-center'>")
                   .text(item.medicamento)
                 )
-                // .append($("<td class='txt-center'>")
-                //   .text(fSize)
-                // )
                 .append($("<td class='txt-center'>")
                   .text(item.dosagem)
                 )
@@ -455,23 +443,13 @@ header("Location: ../home.php?msg_c=$msg");
                 .append($("<td class='txt-center'>")
                   .text(item.duracao)
                 )
-                /*.append($("<td class='txt-center'>")
-                  .append($("<div class='btn-container'>")
-                    .append($("<a href='#' onclick='confirmDownload(`"+item.id_medicacao+"`)'/>")
-                      .append($("<button class='btn btn-success' />")
-                        .html('<i class="fa fa-download" aria-hidden="true" style="font-family: FontAwesome;" />')
-                      )
-                    )
-                    
-                  )
-                )*/
                 .append($("<td style='display: flex; justify-content: space-evenly;'>")
-                  
-                  .append($("<a onclick='aplicarMedicacao("+item.id_medicacao+")' href='#' title='Excluir'><button class='btn btn-primary bot click'><i class='glyphicon glyphicon-hand-up'></i></button></a>"))
-                  /*.append($("<a href='aplicacao_upload.php?id_doc=" + item.id_medicacao + "' title='Visualizar ou Baixar'><button class='btn btn-primary'><i class='glyphicon glyphicon-hand-up'></i></button></a>"))*/
+                  /*.append($("<a onclick='aplicarMedicacao("+item.id_medicacao+")' href='#' title='Aplicar'><button class='btn btn-primary bot click'><i class='glyphicon glyphicon-hand-up'></i></button></a>"))*/
+                  .append($("<a href='aplicacao_upload.php?id_medicacao=" + item.id_medicacao +"&id_pessoa="+item.id_pessoa+"&id_funcionario="+item.id_funcionario+"' title='Visualizar ou Baixar'><button class='btn btn-primary'><i class='glyphicon glyphicon-hand-up'></i></button></a>"))
                  
                 )
               )
+            
             });
           });
 
@@ -482,7 +460,7 @@ header("Location: ../home.php?msg_c=$msg");
             $("#exibiaplicacao")
               .append($("<tr>")
                 .append($("<td>").text(item.medicamento))
-                .append($("<td>").text(item.aplicacao))
+                .append($("<td>").text(item.aplicação))
               )
             });
           });
@@ -1064,10 +1042,19 @@ header("Location: ../home.php?msg_c=$msg");
                    <h2 class="panel-title">Aplicar medicação</h2>
                 </header>
                    
-                <form action='aplicacao_upload.php' method='post' enctype='multipart/form-data' id='funcionarioDocForm'>
+                <!--<form action='aplicacao_upload.php' method='post' enctype='multipart/form-data' id='funcionarioDocForm'>-->
                    <div class="panel-body">
                    <hr class="dotted short">
                    
+                   <!--<input type="hidden" name="id_medicacao" value="<?php echo $_GET['id_medicacao']?>">
+                   <input type="hidden" name="pessoa_id_pessoa" value="<?php echo $_GET['id_pessoa']?>">
+                   <input type="hidden" name="funcionario_id_funcionario" value="<?php echo $_GET['id_funcionario']?>">-->
+
+                  <!-- <?php
+                      $teste = "<script>document.write(</script>"
+                   ?>-->
+
+
                     <!-- <div class="form-group">
                     <table class="table table-bordered table-striped mb-none">
                       <thead>
@@ -1087,7 +1074,7 @@ header("Location: ../home.php?msg_c=$msg");
                 <table class="table table-bordered table-striped mb-none" id="datatable-default">
 							<thead>
 								<tr>
-									<th class='txt-center' width='30%'>Medicações</th>
+									<th class='txt-center' width='30%' id="id_medicacao">Medicações</th>
 									<th class='txt-center' width='15%'>Dosagem</th>
 									<th class='txt-center' width='15%'>Horário</th>
 									<th class='txt-center' width='15%'>Duração</th>
@@ -1097,6 +1084,7 @@ header("Location: ../home.php?msg_c=$msg");
 							<tbody id="tabela">
 							</tbody>
 						</table>
+            
 <!-- 
                   <div class="form-group">
                         <label class="col-md-3 control-label" for="inputSuccess">Medicamento:</label>
@@ -1144,7 +1132,7 @@ header("Location: ../home.php?msg_c=$msg");
                   
                   <input type="hidden" name="a_enf">
                   <!--<input id="salvar_enf" type="submit" class="btn btn-primary" value="Cadastrar aplicação desses medicamentos">-->
-                 </form>
+                 <!--</form>-->
          </section>
        </div>  
        
@@ -1309,14 +1297,7 @@ header("Location: ../home.php?msg_c=$msg");
                 post(url, data, listarEnfermidades);
                 console.log(listarEnfermidades);
             } 
-            /*function removerMedicacoes(id_doc) {
-                if (!window.confirm("Tem certeza que deseja remover essa medicação?")){
-                  return false;
-                }
-                let url = "medicacao_excluir.php?id_doc="+id_doc+"&id_fichamedica=<?= $_GET['id_fichamedica'] ?>";
-                let data = "";
-                post(url, data, listarMedicacoes);
-            } */
+            
             function aplicarMedicacao(id_doc) {
                 if (!window.confirm("Tem certeza que deseja aplicar essa medicação?")){
                   return false;
