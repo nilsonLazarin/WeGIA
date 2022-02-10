@@ -21,7 +21,6 @@ echo $funcionario_id_funcionario;
 // echo file_put_contents('id_pessoa.txt',$pessoa_id_pessoa);
 // echo file_put_contents('id_func.txt',$funcionario_id_funcionario);
 
-
 require_once "../../dao/Conexao.php";	 
     
 $aplicacao = date('Y-m-d H:i:s', time()); // a aplicação é a data e o horario

@@ -94,7 +94,7 @@ header("Location: ../home.php?msg_c=$msg");
   $descricao_medica = $descricao_medica->fetchAll(PDO::FETCH_ASSOC);
   $descricao_medica = json_encode($descricao_medica);
   
-  $exibimed = $pdo->query("SELECT data_atendimento, medicamento, dosagem, horario, duracao, st.descricao FROM saude_atendimento sa JOIN saude_medicacao sm ON (sa.id_atendimento=sm.id_atendimento) JOIN saude_medicacao_status st ON (sm.saude_medicacao_status_idsaude_medicacao_status = st.idsaude_medicacao_status)  WHERE id_fichamedica = " .$_GET['id_fichamedica']);
+  $exibimed = $pdo->query("SELECT id_medicacao, data_atendimento, medicamento, dosagem, horario, duracao, st.descricao FROM saude_atendimento sa JOIN saude_medicacao sm ON (sa.id_atendimento=sm.id_atendimento) JOIN saude_medicacao_status st ON (sm.saude_medicacao_status_idsaude_medicacao_status = st.idsaude_medicacao_status)  WHERE id_fichamedica = " .$_GET['id_fichamedica']);
   $exibimed = $exibimed->fetchAll(PDO::FETCH_ASSOC);
   $exibimed = json_encode($exibimed);
 
@@ -113,6 +113,7 @@ header("Location: ../home.php?msg_c=$msg");
   $tipoexame = $mysqli->query("SELECT * FROM saude_exame_tipos");
   $medicamentoenfermeiro = $mysqli->query("SELECT * FROM saude_medicacao"); 
   $descparaenfermeiro = $mysqli->query("SELECT descricao FROM saude_fichamedica");
+  $medstatus = $mysqli->query("SELECT * FROM saude_medicacao_status WHERE idsaude_medicacao_status!=1");
 
   $teste = $pdo->query("SELECT nome FROM pessoa p JOIN funcionario f ON(p.id_pessoa = f.id_pessoa) WHERE f.id_pessoa = " .$_SESSION['id_pessoa'])->fetchAll(PDO::FETCH_ASSOC);
   $id_funcionario = $teste[0]['nome'];
@@ -371,7 +372,7 @@ header("Location: ../home.php?msg_c=$msg");
           $.each(descricao_medica, function(i, item) {
             $("#de-tab")
               .append($("<tr>")
-                .append($("<td>").text(item.descricao))
+                .append($("<td>").html(item.descricao))
                 .append($("<td>").text(item.data_atendimento))
                 /*.append($("<td style='display: flex; justify-content: space-evenly;'>")
                   .append($("<a onclick='removerDescricaoMedica("+item.id_atendimento+")' href='#' title='Excluir'><button class='btn btn-danger'><i class='fas fa-trash-alt'></i></button></a>"))
@@ -389,40 +390,41 @@ header("Location: ../home.php?msg_c=$msg");
                 .append($("<td>").text(item.medicamento + ", " + item.dosagem + ", " + item.horario + ", " + item.duracao + "."))
                 .append($("<td>").text(item.descricao))
                 .append($("<td style='display: flex; justify-content: space-evenly;'>")
-                  .append($("<a onclick='removerDescricaoMedica("+item.id_atendimento+")' href='#' title='Editar'><button class='btn btn-primary'><i class='glyphicon glyphicon-pencil'></i></button></a>"))
+                  .append($("<a onclick='editarStatusMedico("+item.id_medicacao+")' href='#'title='Editar'><button class='btn btn-primary' id='teste'><i class='glyphicon glyphicon-pencil'></i></button></a>"))
                 )
+                // .append($("<a href='status_update.php?id_medicacao=" + item.id_medicacao +"' title='Visualizar ou Baixar'><button class='btn btn-primary'><i class='glyphicon glyphicon-hand-up'></i></button></a>"))
               )
             });
           });
 
-          function listarMedicacoes(exibimed){
-                  $("#exibimed").empty();
-                $.each(exibimed, function(i, item) {
-                  $("#exibimed")
-                    .append($("<tr>")
-                    .append($("<td>").text(item.data_atendimento))
-                      .append($("<td>").text(item.medicamento + ", " + item.dosagem + ", " + item.horario + ", " + item.duracao + "."))
-                      .append($("<td>").text(item.descricao))
-                      .append($("<td style='display: flex; justify-content: space-evenly;'>")
-                  .append($("<a onclick='removerDescricaoMedica("+item.id_atendimento+")' href='#' title='Editar'><button class='btn btn-primary'><i class='glyphicon glyphicon-pencil'></i></button></a>"))
-                )
-              )
-            });
-          }
+          // function listarMedicacoes(exibimed){
+          //         $("#exibimed").empty();
+          //       $.each(exibimed, function(i, item) {
+          //         $("#exibimed")
+          //           .append($("<tr>")
+          //           .append($("<td>").text(item.data_atendimento))
+          //             .append($("<td>").text(item.medicamento + ", " + item.dosagem + ", " + item.horario + ", " + item.duracao + "."))
+          //             .append($("<td>").text(item.descricao))
+          //             .append($("<td style='display: flex; justify-content: space-evenly;'>")
+          //         .append($("<a onclick='removerDescricaoMedica("+item.id_atendimento+")' href='#' title='Editar'><button class='btn btn-primary'><i class='glyphicon glyphicon-pencil'></i></button></a>"))
+          //       )
+          //     )
+          //   });
+          // }
 
-          $(function() {
-          var exibimedparaenfermeiro = <?= $exibimedparaenfermeiro ?>;
-          $.each(exibimedparaenfermeiro, function(i, item) {
-            $("#exibimedparaenfermeiro")
-              .append($("<tr>")
-                .append($("<td>").text(item.medicamento))
-                .append($("<td>").text(item.dosagem))
-                .append($("<td>").text(item.horario))
-                .append($("<td>").text(item.duracao))
+          // $(function() {
+          // var exibimedparaenfermeiro = <?= $exibimedparaenfermeiro ?>;
+          // $.each(exibimedparaenfermeiro, function(i, item) {
+          //   $("#exibimedparaenfermeiro")
+          //     .append($("<tr>")
+          //       .append($("<td>").text(item.medicamento))
+          //       .append($("<td>").text(item.dosagem))
+          //       .append($("<td>").text(item.horario))
+          //       .append($("<td>").text(item.duracao))
                 
-              )
-            });
-          });
+          //     )
+          //   });
+          // });
           
           // para diferente, aplicação do enfermeiro
           $(function(){
@@ -877,10 +879,12 @@ header("Location: ../home.php?msg_c=$msg");
                 <table class="table table-bordered table-striped mb-none">
                   <thead>
                     <tr style="font-size:15px;">
+                    
                       <th>Data do atendimento</th>
                       <th>Medicações</th>
                       <th>Status</th>
                       <th>Ação</th>
+                      
                     </tr>
                   </thead>
                   <tbody id="exibimed" style="font-size:15px">                
@@ -888,10 +892,55 @@ header("Location: ../home.php?msg_c=$msg");
                  </tbody>
                </table>
                 </div>
-              <br>
+                
+                
+                <div class="modal fade" id="testemed" tabindex="-1" role="dialog" aria-labelledby="docFormModalLabel" aria-hidden="true" style="display:none;">
+                  <div class="modal-dialog" role="document">
+                     <div class="modal-content">
+
+                        <div class="modal-header" style="display: flex;justify-content: space-between;">
+                          <h5 class="modal-title" id="exampleModalLabel">Alterar Status</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+
+                            <form action='status_update.php?id_medicacao = <?= $_GET['id_medicacao']?>' method='post' enctype='multipart/form-data' id='funcionarioDocForm'>
+                            <!-- let url = "status_update.php?id_medicacao="+id_medicacao+"&id_fichamedica=<?= $_GET['id_fichamedica'] ?>"; -->
+                              <div class="modal-body" style="padding: 15px 40px">
+                                <div class="form-group" style="display: grid;">
+                                   
+
+                                  <label class="my-1 mr-2" for="tipoDocumento">Status</label><br>
+                                  <div style="display: flex;">
+                                    <select class="form-control input-lg mb-md" name="id_status" id="id_status" style="width:170px;" required>
+                                    <option selected disabled>Selecionar</option>
+                                      <?php
+                                      while ($row = $medstatus->fetch_array(MYSQLI_NUM)) {
+                                      echo "<option value=" . $row[0] . ">" . $row[1] . "</option>";
+                                      }
+                                      ?>
+                                    </select>
+                                  </div>
+                                </div>
+                               
+                              <input type="number" name="id_fichamedica" value="<?= $_GET['id_fichamedica']; ?>" style='display: none;'>
+                                <!-- <input type="number" name="id_interno" value="" style='display: none;'> -->
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                <input type="submit" value="Enviar" class="btn btn-primary">
+                              </div>
+                            <!-- </form> -->
+                            </div>
+                          </div>
+                        </div>
+
             </div>
+            
           </section>
        </div>
+
 
       <!-- aba de cadastro médico -->
       <div id="atendimento_medico" class="tab-pane">
@@ -1041,36 +1090,10 @@ header("Location: ../home.php?msg_c=$msg");
                     </div>
                    <h2 class="panel-title">Aplicar medicação</h2>
                 </header>
-                   
-                <!--<form action='aplicacao_upload.php' method='post' enctype='multipart/form-data' id='funcionarioDocForm'>-->
+               
                    <div class="panel-body">
                    <hr class="dotted short">
-                   
-                   <!--<input type="hidden" name="id_medicacao" value="<?php echo $_GET['id_medicacao']?>">
-                   <input type="hidden" name="pessoa_id_pessoa" value="<?php echo $_GET['id_pessoa']?>">
-                   <input type="hidden" name="funcionario_id_funcionario" value="<?php echo $_GET['id_funcionario']?>">-->
-
-                  <!-- <?php
-                      $teste = "<script>document.write(</script>"
-                   ?>-->
-
-
-                    <!-- <div class="form-group">
-                    <table class="table table-bordered table-striped mb-none">
-                      <thead>
-                        <tr style="font-size:15px;">
-                          <th>Medicações</th>
-                          <th>Dosagem</th>
-                          <th>Horário</th>
-                          <th>Duração</th>
-                        </tr>
-                      </thead>
-                      <tbody id="exibimedparaenfermeiro" style="font-size:15px">                
-                      
-                    </tbody>
-                  </table>
-                  <br>
-                </div> -->
+                  
                 <table class="table table-bordered table-striped mb-none" id="datatable-default">
 							<thead>
 								<tr>
@@ -1084,38 +1107,11 @@ header("Location: ../home.php?msg_c=$msg");
 							<tbody id="tabela">
 							</tbody>
 						</table>
-            
-<!-- 
+
+                  <br>
+                  <br>
                   <div class="form-group">
-                        <label class="col-md-3 control-label" for="inputSuccess">Medicamento:</label>
-                        <div class="col-md-8">
-                          <select class="form-control input-lg mb-md" name="med" id="med" style="width:235px;" required>
-                          <option selected disabled>Selecionar</option>
-                            <?php
-                            while ($row = $medicamentoenfermeiro->fetch_array(MYSQLI_NUM)) {
-                            echo "<option value=" . $row[2] . ">" . $row[2] . "</option>";
-                            }
-                            ?>
-                          </select>
-                          </div>
-                      </div> -->
-                      <!-- <div class="form-group">
-                      <label class="col-md-3 control-label" for="profileCompany">Horário de aplicação:</label>
-                     <div class="col-md-6">
-                       <input type="text" class="form-control" name="horario_aplicacao" id="horario_aplicacao"">
-                     </div>
-                     </div> -->
-                    
-                      
-                     <br />
-                     <!-- <button type="button" class="btn btn-success" id="botaoenferm">Aplicar medicação</button>
-
-                     <br />
-                     <br /> -->
-
-                     <!-- <h2 class="panel-title">Aplicações efetuadas</h2> -->
-                     
-                     <table class="table table-bordered table-striped mb-none" id="enf">
+                  <table class="table table-bordered table-striped mb-none" id="enf">
                       <thead>
                         <tr style="font-size:15px;">
                           <th>Medicações aplicadas</th>
@@ -1126,9 +1122,7 @@ header("Location: ../home.php?msg_c=$msg");
                       
                     </tbody>
                   </table>
-                    
-                  <br>
-                  <br>
+                </div> 
                   
                   <input type="hidden" name="a_enf">
                   <!--<input id="salvar_enf" type="submit" class="btn btn-primary" value="Cadastrar aplicação desses medicamentos">-->
@@ -1306,7 +1300,16 @@ header("Location: ../home.php?msg_c=$msg");
                 let url = "mudarcor.php?id_doc="+id_doc+"&id_fichamedica=<?= $_GET['id_fichamedica'] ?>";
                 let data = "";
                 post(url, data);
-                
+            } 
+            function editarStatusMedico(id_medicacao) {
+              
+              $("#testemed").modal('show');
+
+              // let url = "status_update.php?id_medicacao="+id_medicacao+"&id_fichamedica=<?= $_GET['id_fichamedica'] ?>";
+
+              // $("#botaoSalvarIP").show();
+              // let data = "";
+                // post(url, data);
 
             } 
 
