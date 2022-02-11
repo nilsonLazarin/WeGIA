@@ -159,6 +159,12 @@ $(document).ready(function(){
                             "query": `SELECT * FROM doacao_boleto_info AS bi JOIN sistema_pagamento AS sp ON (bi.id_sistema = sp.id) JOIN doacao_boleto_regras AS br ON (br.id = bi.id_regras)  WHERE nome_sistema = 'BOLETOFACIL'`
                         })
                             .done(function(dados_api){
+                                $("#num_parcelas").prop('disabled', true);
+                                $("#data_vencimento").prop('disabled', true);
+                                $("#valor_u").prop('disabled', true);
+                                $("#tipo_geracao").prop('disabled', true);
+                                $("#num_parcelas").prop('disabled', true);
+                                $("#btn_confirma").css("display","none");
                                 carneBoletos = [];
                                 function montaTabela(nome_socio, carne, tipo_socio, telefone){
                                     console.log(telefone);
@@ -181,32 +187,20 @@ $(document).ready(function(){
                                     texto = window.encodeURIComponent(texto);
                                     link_wpp = `https://api.whatsapp.com/send?phone=55${telefone.replace(/\D/g, "")}&text=${texto}`;
                                     $(".detalhes_unico").append(`
-                                    <div class="accordion" id="accordionExample">
-                                    <div class="card">
-                                      <div class="card-header" id="headingThree">
-                                        <h2 class="mb-0">
-                                          <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse${referenciaAccordion}" aria-expanded="false" aria-controls="collapseThree">
-                                            ${nome_socio} - Sócio ${tipo_socio} [BOLETOS GERADOS!]
-                                          </button>
-                                        </h2>
-                                      </div>
-                                      <div id="collapse${referenciaAccordion}" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
-                                        <div class="card-body">
-                                        <table class="table table-striped table-hover">
+                                    <br>
+                                    <div class="card-body">
+                                    <table class="table table-striped table-hover">
                                         <thead>
                                             <tr>
-                                              <th>Parcela</th>
-                                              <th>Data de vencimento</th>
-                                              <th>Link parcela</th>
-                                              <th>Código de pagamento</th>
-                                          </tr>
-                                      </thead>
-                                      <tbody>${tabela}</tbody>
-                                  </table>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
+                                            <th>Parcela</th>
+                                            <th>Data de vencimento</th>
+                                            <th>Link parcela</th>
+                                            <th>Código de pagamento</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>${tabela}</tbody>
+                                    </table>
+                                </div>
                                     `)
                                     $("#btn_wpp").click(function(event){
                                         var win = window.open(link_wpp, '_blank');
@@ -429,10 +423,16 @@ $(document).ready(function(){
     $("#btn_gerar_unico").click(function(){
         var id_socio =  $("#id_pesquisa").val().split("|")[2];
         procurar_desejado(id_socio);
-        $("#num_parcelas").val("");
-        $("#data_vencimento").val("");
-        $("#valor_u").val("");
-        $("#tipo_geracao").val("7");
-        $("#num_parcelas").prop('disabled', false);
+
+        $("#btn_voltar").css("display","block");
+        $("#btn_gerar_unico").css("display","none");
+        $("#btn_voltar").click(function(){
+            location.reload();
+        })
+        // $("#num_parcelas").val("");
+        // $("#data_vencimento").val("");
+        // $("#valor_u").val("");
+        // $("#tipo_geracao").val("7");
+        // $("#num_parcelas").prop('disabled', false);
     })
 })

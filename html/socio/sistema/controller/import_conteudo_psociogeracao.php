@@ -138,8 +138,9 @@
 			            }
   			        });
                 </script>
-             <div style="margin-top: 2em" class="pull-right mt-2">
+             			<div style="margin-top: 2em" class="pull-right mt-2">
 							<button type="button" id="btn_gerar_unico" class="btn btn-primary">Próximo</button>
+							<button type="button" id="btn_voltar" class="btn btn-primary" style="display: none;" >Nova Geração</button>
 						</div>
 					  </form>
 
