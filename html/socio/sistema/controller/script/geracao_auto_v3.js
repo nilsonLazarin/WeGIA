@@ -3,7 +3,7 @@ $(document).ready(function(){
     // Geração para sócio único
     function procurar_desejado(id_socio){
         $.post("./controller/query_geracao_auto.php", {
-            "query": `SELECT * FROM socio s JOIN pessoa p ON p.id_pessoa = s.id_pessoa WHERE s.id_sociostatus NOT IN (1,2,3,4) AND s.id_socio = ${id_socio}`
+            "query": `SELECT * FROM socio s JOIN pessoa p ON p.id_pessoa = s.id_pessoa WHERE s.id_socio = ${id_socio}`
         })
             .done(function(dados){
                 var socios = JSON.parse(dados);
@@ -136,6 +136,7 @@ $(document).ready(function(){
                             var inputData = $("#data_vencimento").val();
                             var inputValor = $("#valor_u").val();
                             var tipo_boleto = $("#tipo_geracao").val();
+                            $("#btn_geracao_unica").css("display","inline");
 
                             tipo = Number(tipo_boleto);
                             periodicidade_socio = 1;
@@ -150,7 +151,7 @@ $(document).ready(function(){
                     })                 
                     
                     montaTabelaInicialAlterado('', '', '', '', '' , socios[0].nome);
-                    
+
                     $(".div_btn_gerar").css("display", "block");
                     
                     $("#btn_geracao_unica").click(function(event){
@@ -177,12 +178,12 @@ $(document).ready(function(){
                                     var link_wpp;
                                     var texto = `Olá ${nome_socio.split(" ")[0]}, obrigado por estar contribuindo com o LAJE, confira seus boletos:`;
                                     for(const [i, boleto] of carne.entries()){
-                                        tabela += `<tr><td>${i+1}/${qtd_parcelas}</td><td>${boleto.dueDate}</td><td><a target='_blank' href='${boleto.installmentLink}'>${boleto.installmentLink}</a></td><td>${boleto.payNumber}</td><tr>`;
-                                        texto += `\nParcela (${i+1}/${qtd_parcelas} - ${boleto.dueDate}): ${boleto.installmentLink}`;
+                                        tabela += `<tr><td>${i+1}/${qtd_parcelas}</td><td>${boleto.dueDate}</td><td><a target='_blank' href='${boleto.checkoutUrl}'>${boleto.checkoutUrl}</a></td><td>${boleto.payNumber}</td><tr>`;
+                                        texto += `\nParcela (${i+1}/${qtd_parcelas} - ${boleto.dueDate}): ${boleto.checkoutUrl}`;
                                     }
                                     if(tipo_socio == "mensal"){
                                         tabela += `<tr><td colspan='2'>Link carnê completo:</td><td colspan='2'><a target='_blank' href='${carne[0].link}'>${carne[0].link}</a></td></tr>`;
-                                        texto += `\nCarnê completo: ${boleto.installmentLink}`;
+                                        texto += `\nCarnê completo: ${boleto.checkoutUrl}`;
                                     }
                                     texto = window.encodeURIComponent(texto);
                                     link_wpp = `https://api.whatsapp.com/send?phone=55${telefone.replace(/\D/g, "")}&text=${texto}`;
@@ -200,12 +201,54 @@ $(document).ready(function(){
                                         </thead>
                                         <tbody>${tabela}</tbody>
                                     </table>
-                                </div>
+                                    </div>
                                     `)
                                     $("#btn_wpp").click(function(event){
                                         var win = window.open(link_wpp, '_blank');
                                         win.focus();
                                     })
+                                }
+
+                                function CadastraCobrancas(carneBoletos, id){
+                                    var valor = $("#valor_u").val();
+
+                                    var data = new Date;
+                                    console.log(data)
+                                    var dia = data.getDate();
+                                    var mes = data.getMonth()+1;
+                                    var ano = data.getFullYear();
+                                    var Databr = ano+"-"+mes+"-"+dia;
+
+                                    var arrayDataVencimento = boleto.dueDate.split('/');
+                                    var diaV = arrayDataVencimento[0];
+                                    var mesV = arrayDataVencimento[1];
+                                    var anoV = arrayDataVencimento[2];
+                                    var DataV = anoV+"-"+mesV+"-"+diaV;
+                                    console.log(DataV)
+
+                                    
+                                    for(const [i, boleto] of carneBoletos.entries()){
+                                        // tabela += `<tr><td>${i+1}/${qtd_parcelas}</td><td>${boleto.dueDate}</td><td><a target='_blank' href='${boleto.checkoutUrl}'>${boleto.checkoutUrl}</a></td><td>${boleto.payNumber}</td><tr>`;
+                                        // texto += `\nParcela (${i+1}/${qtd_parcelas} - ${boleto.dueDate}): ${boleto.checkoutUrl}`;
+                                        // console.log(boleto.checkoutUrl)
+                                        
+                                        
+                                        $.post("./cadastro_cobrancas_geracao.php",{
+                                            "codigo": boleto.code,
+                                            "descricao": "O Lar Abrigo Amor a Jesus, agradece sua contribuição ao Projeto Sócio  Amigos do Laje.Deus abençoe!",
+                                            "id_socio": id,
+                                            "data_vencimento": DataV,
+                                            "data_emissao": Databr,
+                                            "data_pagamento": '0000-00-00',
+                                            "valor": valor,
+                                            "valor_pago": 0.00,
+                                            "status": "Agurdando Pagamento",
+                                            "link_cobranca": boleto.checkoutUrl,
+                                            "link_boleto": boleto.installmentLink,
+                                            "linha_digitavel": boleto.billetDetails.barcodeNumber
+                                        })
+                                    }
+
                                 }
 
                                 function geraRef(socioNome){
@@ -241,6 +284,7 @@ $(document).ready(function(){
                                                     alert(`Houve um erro ao gerar o carnê de ${socio.nome}, verifique se os dados são válidos ou entre em contato com um administrador.`)
                                                 }
                                             });
+                                            CadastraCobrancas(carneBoletos, socio.id_socio);
                                             montaTabela(socio.nome, carneBoletos, 'casual (avulso)', socio.telefone);
                                             carneBoletos = [];
                                         break;
@@ -269,6 +313,7 @@ $(document).ready(function(){
                                                     alert(`Houve um erro ao gerar o carnê de ${socio.nome}, verifique se os dados são válidos ou entre em contato com um administrador.`)
                                                 }
                                             });
+                                            CadastraCobrancas(carneBoletos, socio.id_socio);
                                             montaTabela(socio.nome, carneBoletos, 'mensal', socio.telefone);
                                             carneBoletos = [];
                                         break;
@@ -313,6 +358,7 @@ $(document).ready(function(){
                                                 dataV = `${novaData.getDate()}/${novaData.getMonth()+1}/${novaData.getFullYear()}`;
                                                 // mesB+=periodicidade_socio;
                                             }
+                                            CadastraCobrancas(carneBoletos, socio.id_socio);
                                             montaTabela(socio.nome, carneBoletos, 'bimestral', socio.telefone);
                                             carneBoletos = [];
                                         break;
@@ -354,6 +400,7 @@ $(document).ready(function(){
                                                 dataV_formatada = `${novaData.getFullYear()}-${novaData.getMonth()}-${novaData.getDate()}`;
                                                 dataV = `${novaData.getDate()}/${novaData.getMonth()+1}/${novaData.getFullYear()}`;
                                             }
+                                            CadastraCobrancas(carneBoletos, socio.id_socio);
                                             montaTabela(socio.nome, carneBoletos, 'trimestral', socio.telefone);
                                             carneBoletos = [];
                                         break;
@@ -395,6 +442,7 @@ $(document).ready(function(){
                                                 dataV_formatada = `${novaData.getFullYear()}-${novaData.getMonth()}-${novaData.getDate()}`;
                                                 dataV = `${novaData.getDate()}/${novaData.getMonth()+1}/${novaData.getFullYear()}`;
                                             }
+                                            CadastraCobrancas(carneBoletos, socio.id_socio);
                                             montaTabela(socio.nome, carneBoletos, 'semestral', socio.telefone);
                                             carneBoletos = [];
                                         break;
