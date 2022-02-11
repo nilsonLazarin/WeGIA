@@ -102,7 +102,7 @@
                             $telefone = $resultado['telefone'];
                             $tipo_socio = $resultado['tipo'];
                             if($resultado['logradouro'] == ""){
-                              $endereco = "Endereço não informado.";
+                              $endereco = "Endereço não informado/incompleto.";
                             }else{
                               $endereco = $resultado['logradouro']." ".$resultado['numero_endereco'].", ".$resultado['bairro'].", ".$resultado['cidade']." - ".$resultado['estado'];
                             }
@@ -118,7 +118,13 @@
                               $pessoa = "juridica";
                               $juridica++;
                             } 
-                              
+                            
+                            if($email == "null"){
+                              $email = '';
+                            }
+                            if($telefone == "null"){
+                              $telefone = '';
+                            }
                             $del_json = json_encode(array("id"=>$id,"nome"=>$nome_s,"pessoa"=>$pessoa));
                             echo("<tr><td >$id</td><td onclick='detalhar_socio($id);' style='cursor: pointer' class='$class'>$nome_s</td><td><a href='mailto:$email'>$email</a></td><td>$telefone</td><td>$endereco</td><td>$cpf_cnpj</td><td>$tipo_socio</td><td><a href='editar_socio.php?socio=$id'><button type='button' class='btn btn-default btn-flat'><i class='fa fa-edit'></i></button></a></td><td><button onclick='deletar_socio_modal($del_json)' type='button' class='btn btn-default btn-flat'><i class='fa fa-remove text-red'></i></button></td></tr>");
                           }

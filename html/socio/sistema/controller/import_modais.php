@@ -33,7 +33,7 @@
             <form id="frm_novo_socio" method="POST">
         <div class="row">
         <div class="form-group mb-2 col-xs-5">
-                  <label for="nome_cliente">Nome sócio</label>
+                  <label for="nome_cliente">Nome sócio *</label>
                   <input type="text" class="form-control" id="socio_nome" name="socio_nome" placeholder="" required>
               </div>
         <div class="form-group col-xs-3">
@@ -44,7 +44,7 @@
           </select>
         </div>
         <div class="form-group col-xs-4 cpf_div">
-          <label id="label_cpf_cnpj" for="valor">CPF</label>
+          <label id="label_cpf_cnpj" for="valor">CPF *</label>
           <div class="form-check">
     <input type="checkbox" class="form-check-input" id="check_veri_cpf">
     <label class="form-check-label" for="exampleCheck1">Deslig. Verif. Cpf</label>
@@ -59,7 +59,7 @@
         </div>
         <div class="form-group col-xs-6">
           <label for="valor">Telefone</label>
-          <input type="tel" min="0"  class="form-control" id="telefone" name="telefone" required>
+          <input type="tel" min="0"  class="form-control" id="telefone" name="telefone">
         </div>
         </div>
         <div class="row">
@@ -138,7 +138,7 @@
               <label for="cep">CEP</label>
               <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-search"></i></span>
-                <input type="text" id="cep" class="form-control" placeholder="" required>
+                <input type="text" id="cep" class="form-control" placeholder="">
               </div>
               <div class="status_cep col-xs-12"></div>
               </div>
@@ -146,11 +146,11 @@
             <div class="row">
               <div class="form-group mb-2 col-xs-8">
                         <label for="nome_cliente">Rua</label>
-                        <input type="text" class="form-control" id="rua" name="nome" placeholder="" required>
+                        <input type="text" class="form-control" id="rua" name="nome" placeholder="">
                     </div>
               <div class="form-group col-xs-4">
                 <label for="data_corte">Número</label>
-                <input type="number" class="form-control" min="0" id="numero" name="numero" placeholder="" required>
+                <input type="number" class="form-control" min="0" id="numero" name="numero" placeholder="">
               </div>
             </div>
             <div class="row">
@@ -160,17 +160,17 @@
                     </div>
               <div class="form-group col-xs-6">
                 <label for="data_corte">Bairro</label>
-                <input type="text" class="form-control" id="bairro" name="bairro" placeholder="" required>
+                <input type="text" class="form-control" id="bairro" name="bairro" placeholder="">
               </div>
             </div>
             <div class="row">
             <div class="form-group mb-2 col-xs-6">
                         <label for="nome_cliente">Estado</label>
-                        <input type="text" class="form-control" id="estado" name="estado" placeholder="" required>
+                        <input type="text" class="form-control" id="estado" name="estado" placeholder="">
                     </div>
               <div class="form-group col-xs-6">
                 <label for="data_corte">Cidade</label>
-                <input type="text" class="form-control" id="cidade" name="cidade" placeholder="" required>
+                <input type="text" class="form-control" id="cidade" name="cidade" placeholder="">
               </div>
             </div>
             </div>
