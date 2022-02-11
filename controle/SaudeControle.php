@@ -21,15 +21,12 @@ include_once ROOT.'/classes/Cache.php';
 include_once ROOT."/dao/Conexao.php";
 
 class SaudeControle 
-
-
 {   
-    
     public function verificar(){
             extract($_REQUEST);
             
             if((!isset($texto)) || (empty($texto))){
-                $msg .= "Descricao do atendido não informado. Por favor, informe a descricao!";
+                $msg .= "Descricao do paciente não informado. Por favor, informe a descricao!";
                 header('Location: ../html/saude/cadastro_ficha_medica.php?msg='.$msg); 
             }
             if((!isset($cpf)) || (empty($cpf))){

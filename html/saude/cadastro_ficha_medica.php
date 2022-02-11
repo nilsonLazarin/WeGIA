@@ -21,8 +21,6 @@ if(file_exists($config_path)){
     require_once($config_path);
 }
 
-
-
 require_once "../../dao/Conexao.php";
 $pdo = Conexao::connect();
 

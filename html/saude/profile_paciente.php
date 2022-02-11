@@ -79,30 +79,32 @@ header("Location: ../home.php?msg_c=$msg");
   $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
   $intStatus = $mysqli->query("SELECT * FROM saude_enfermidades");
 
-  $docfuncional = $pdo->query("SELECT * FROM saude_exames se JOIN saude_exame_tipos st ON se.id_exame_tipos  = st.id_exame_tipo WHERE id_fichamedica = " .$_GET['id_fichamedica']);
+  $docfuncional = $pdo->query("SELECT * FROM saude_exames se JOIN saude_exame_tipos st ON se.id_exame_tipos  = st.id_exame_tipo WHERE id_fichamedica= ".$_GET['id_fichamedica']);
   $docfuncional = $docfuncional->fetchAll(PDO::FETCH_ASSOC);
   foreach ($docfuncional as $key => $value) {
     $docfuncional[$key]["arquivo"] = gzuncompress($value["arquivo"]);
   }
   $docfuncional = json_encode($docfuncional);
 
-  $enfermidades = $pdo->query("SELECT sf.id_CID, sf.data_diagnostico, sf.status, stc.descricao FROM saude_enfermidades sf JOIN saude_tabelacid stc ON sf.id_CID = stc.id_CID WHERE sf.status = 1 AND id_fichamedica = " .$_GET['id_fichamedica']);
+  $enfermidades = $pdo->query("SELECT sf.id_CID, sf.data_diagnostico, sf.status, stc.descricao FROM saude_enfermidades sf JOIN saude_tabelacid stc ON sf.id_CID = stc.id_CID WHERE sf.status = 1 AND id_fichamedica= ".$_GET['id_fichamedica']);
   $enfermidades = $enfermidades->fetchAll(PDO::FETCH_ASSOC);
   $enfermidades = json_encode($enfermidades);
 
-  $descricao_medica = $pdo->query("SELECT descricao, data_atendimento FROM saude_atendimento WHERE id_fichamedica = " .$_GET['id_fichamedica']);
+  $descricao_medica = $pdo->query("SELECT descricao, data_atendimento FROM saude_atendimento WHERE id_fichamedica= ".$_GET['id_fichamedica']);
   $descricao_medica = $descricao_medica->fetchAll(PDO::FETCH_ASSOC);
   $descricao_medica = json_encode($descricao_medica);
   
-  $exibimed = $pdo->query("SELECT id_medicacao, data_atendimento, medicamento, dosagem, horario, duracao, st.descricao FROM saude_atendimento sa JOIN saude_medicacao sm ON (sa.id_atendimento=sm.id_atendimento) JOIN saude_medicacao_status st ON (sm.saude_medicacao_status_idsaude_medicacao_status = st.idsaude_medicacao_status)  WHERE id_fichamedica = " .$_GET['id_fichamedica']);
+  $exibimed = $pdo->query("SELECT id_medicacao, data_atendimento, medicamento, dosagem, horario, duracao, st.descricao FROM saude_atendimento sa JOIN saude_medicacao sm ON (sa.id_atendimento=sm.id_atendimento) JOIN saude_medicacao_status st ON (sm.saude_medicacao_status_idsaude_medicacao_status = st.idsaude_medicacao_status)  WHERE id_fichamedica= ".$_GET['id_fichamedica']);
   $exibimed = $exibimed->fetchAll(PDO::FETCH_ASSOC);
   $exibimed = json_encode($exibimed);
 
-  $exibimedparaenfermeiro = $pdo->query("SELECT * FROM saude_medicacao sm join saude_atendimento sa on(sm.id_atendimento=sa.id_atendimento) join saude_fichamedica sf on(sf.id_fichamedica=sa.id_fichamedica) where sf.id_fichamedica = ".$_GET['id_fichamedica']);
+  $exibimedparaenfermeiro = $pdo->query("SELECT * FROM saude_medicacao sm JOIN saude_atendimento sa ON(sm.id_atendimento=sa.id_atendimento) JOIN saude_fichamedica sf ON(sf.id_fichamedica=sa.id_fichamedica) WHERE sf.id_fichamedica= ".$_GET['id_fichamedica']);
   $exibimedparaenfermeiro = $exibimedparaenfermeiro->fetchAll(PDO::FETCH_ASSOC);
   $exibimedparaenfermeiro = json_encode($exibimedparaenfermeiro);
 
-  $medaplicadas = $pdo->query("SELECT medicamento, aplicação FROM saude_medicacao sm JOIN saude_medicamento_administracao sa ON (sm.id_medicacao = sa.saude_medicacao_id_medicacao) join saude_atendimento saa on(saa.id_atendimento=sm.id_atendimento) where saa.id_fichamedica=".$_GET['id_fichamedica']);
+  $a = $_GET['id_fichamedica'];
+
+  $medaplicadas = $pdo->query("SELECT medicamento, aplicação FROM saude_medicacao sm JOIN saude_medicamento_administracao sa ON (sm.id_medicacao = sa.saude_medicacao_id_medicacao) join saude_atendimento saa on(saa.id_atendimento=sm.id_atendimento) WHERE saa.id_fichamedica= '$a' ORDER BY id_medicacao DESC");
   $medaplicadas = $medaplicadas->fetchAll(PDO::FETCH_ASSOC);
   $medaplicadas = json_encode($medaplicadas);
 
@@ -152,10 +154,7 @@ header("Location: ../home.php?msg_c=$msg");
     <!-- Specific Page Vendor CSS -->
 	  <link rel="stylesheet" href="../../assets/vendor/select2/select2.css" />
 	  <link rel="stylesheet" href="../../assets/vendor/jquery-datatables-bs3/assets/css/datatables.css" />
-    
-	
 
-    <!-- jquery functions -->
 
     <script>
         $(function(){
@@ -166,7 +165,6 @@ header("Location: ../home.php?msg_c=$msg");
         });
     </script>
     
-
     <style type="text/css">
         .select{
             position: absolute;
@@ -255,18 +253,16 @@ header("Location: ../home.php?msg_c=$msg");
             }
         
          $(function(){
-          // pega no SaudeControle, listarUm
+          // pega no SaudeControle, listarUm //
             var interno = <?php echo $_SESSION['id_fichamedica']; ?>;
-            console.log(interno);
 
          	  $.each(interno,function(i,item){
               if(i=1)
               {
                 $("#formulario").append($("<input type='hidden' name='id_fichamedica' value='"+item.id+"'>"));
-                //var cpf=item.cpf;
                 $("#nome").text("Nome: "+item.nome+' '+item.sobrenome);
                 $("#nome").val(item.nome + " " + item.sobrenome);
-                // $("#sobrenome").val(item.sobrenome);
+
                 if(item.imagem!=""){
                       $("#imagem").attr("src","data:image/gif;base64,"+item.imagem);
                     }else{
@@ -296,7 +292,6 @@ header("Location: ../home.php?msg_c=$msg");
                   $("#sangue").text("Sangue: "+item.tipo_sanguineo);
                   $("#sangue").val(item.tipo_sanguineo);
                 }
-          
               }
             });
           });
@@ -317,7 +312,7 @@ header("Location: ../home.php?msg_c=$msg");
               )
             });
           });
-          // importante para remover //
+          // importante para remover exame //
           function listarFunDocs(docfuncional){
                   $("#dep-tab").empty();
                 $.each(docfuncional, function(i, item) {
@@ -374,9 +369,6 @@ header("Location: ../home.php?msg_c=$msg");
               .append($("<tr>")
                 .append($("<td>").html(item.descricao))
                 .append($("<td>").text(item.data_atendimento))
-                /*.append($("<td style='display: flex; justify-content: space-evenly;'>")
-                  .append($("<a onclick='removerDescricaoMedica("+item.id_atendimento+")' href='#' title='Excluir'><button class='btn btn-danger'><i class='fas fa-trash-alt'></i></button></a>"))
-                )*/
               )
             });
           });
@@ -396,35 +388,6 @@ header("Location: ../home.php?msg_c=$msg");
               )
             });
           });
-
-          // function listarMedicacoes(exibimed){
-          //         $("#exibimed").empty();
-          //       $.each(exibimed, function(i, item) {
-          //         $("#exibimed")
-          //           .append($("<tr>")
-          //           .append($("<td>").text(item.data_atendimento))
-          //             .append($("<td>").text(item.medicamento + ", " + item.dosagem + ", " + item.horario + ", " + item.duracao + "."))
-          //             .append($("<td>").text(item.descricao))
-          //             .append($("<td style='display: flex; justify-content: space-evenly;'>")
-          //         .append($("<a onclick='removerDescricaoMedica("+item.id_atendimento+")' href='#' title='Editar'><button class='btn btn-primary'><i class='glyphicon glyphicon-pencil'></i></button></a>"))
-          //       )
-          //     )
-          //   });
-          // }
-
-          // $(function() {
-          // var exibimedparaenfermeiro = <?= $exibimedparaenfermeiro ?>;
-          // $.each(exibimedparaenfermeiro, function(i, item) {
-          //   $("#exibimedparaenfermeiro")
-          //     .append($("<tr>")
-          //       .append($("<td>").text(item.medicamento))
-          //       .append($("<td>").text(item.dosagem))
-          //       .append($("<td>").text(item.horario))
-          //       .append($("<td>").text(item.duracao))
-                
-          //     )
-          //   });
-          // });
           
           // para diferente, aplicação do enfermeiro
           $(function(){
@@ -467,13 +430,13 @@ header("Location: ../home.php?msg_c=$msg");
             });
           });
 
-                $(function() {
-                  $('#datatable-docfuncional').DataTable({
-                    "order": [
-                      [0, "asc"]
-                    ]
-                  });
+          $(function() {
+              $('#datatable-docfuncional').DataTable({
+                  "order": [
+                  [0, "asc"]
+                  ]
                 });
+            });
           
           function digitarmedicacao()
           {
@@ -489,11 +452,10 @@ header("Location: ../home.php?msg_c=$msg");
             $("#Inputremedio").hide();
           }
 
-
-         $(function () {
-            $("#header").load("../header.php");
-            $(".menuu").load("../menu.php");
-         });
+        //  $(function () {
+        //     $("#header").load("../header.php");
+        //     $(".menuu").load("../menu.php");
+        //  });
        
       </script>
       <style type="text/css">
@@ -627,7 +589,7 @@ header("Location: ../home.php?msg_c=$msg");
                     <div class="form-group">
                         <label class="col-md-3 control-label" for="profileFirstName">Nome</label>
                         <div class="col-md-8">
-                          <input type="text" class="form-control" disabled name="nome" id="nome" onkeypress="return Onlychars(event)">
+                          <input type="text" class="form-control" disabled name="nome" id="nome">
                         </div>
                     </div>
 
@@ -717,7 +679,7 @@ header("Location: ../home.php?msg_c=$msg");
                   <h5 class="obrig">Campos Obrigatórios(*)</h5>
                     <div class="modal-body" style="padding: 15px 40px">
                       <div class="form-group">
-                        <label class="col-md-3 control-label" for="inputSuccess">Enfermidades</label>
+                        <label class="col-md-3 control-label" for="inputSuccess">Enfermidades<sup class="obrig">*</label>
                           <div class="col-md-8">
                           <select class="form-control input-lg mb-md" name="id_CID" id="id_CID" style="width:350px;" required>
                           <option selected disabled>Selecionar</option>
@@ -729,18 +691,18 @@ header("Location: ../home.php?msg_c=$msg");
                           </select>
                           </div>
                         </div>
+                       
+                       <div class="form-group">
+                        <label class="col-md-3 control-label" for="profileCompany" id="data_diagnostico">Data do diagnóstico<sup class="obrig">*</sup></label>
+                        <div class="col-md-6">
+                        <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data_diagnostico" id="data_diagnostico" max=<?php echo date('Y-m-d'); ?> required>
+                      </div>
+                     </div>
 
                         <div class="form-group">
-                          <label class="col-md-3 control-label" for="inputSuccess" id="data_diagnostico">Data do diagnóstico</label>
+                          <label class="col-md-3 control-label" for="inputSuccess">Status<sup class="obrig">*</sup></label>
                           <div class="col-md-6">
-                            <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" name="data_diagnostico" id="data_diagnostico" max=2021-06-11>
-                          </div>
-                        </div>
-
-                        <div class="form-group">
-                          <label class="col-md-3 control-label" for="inputSuccess">Status</label>
-                          <div class="col-md-6">
-                          <select class="form-control input-lg mb-md" name="intStatus" id="intStatus"> <!-- tinha um required aq de obrigatorio -->
+                          <select class="form-control input-lg mb-md" name="intStatus" id="intStatus" required> 
                             <option selected disabled>Selecionar</option>
                             <!-- <?php
                               while ($row = $intStatus->fetch_array(MYSQLI_NUM)) {
@@ -827,12 +789,12 @@ header("Location: ../home.php?msg_c=$msg");
                                   </div>
                                 </div>
                                
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                 <label>Data do exame</label>
                                 <div style="display: flex;">
                                   <input type="date" class="form-control"  maxlength="10" placeholder="dd/mm/aaaa" name="data_diagnostico" id="data_diagnostico" max=2021-06-11>
                                 </div>
-                              </div>
+                              </div> -->
                               <input type="number" name="id_fichamedica" value="<?= $_GET['id_fichamedica']; ?>" style='display: none;'>
                                 <!-- <input type="number" name="id_interno" value="" style='display: none;'> -->
                               </div>
@@ -879,12 +841,10 @@ header("Location: ../home.php?msg_c=$msg");
                 <table class="table table-bordered table-striped mb-none">
                   <thead>
                     <tr style="font-size:15px;">
-                    
                       <th>Data do atendimento</th>
                       <th>Medicações</th>
                       <th>Status</th>
                       <th>Ação</th>
-                      
                     </tr>
                   </thead>
                   <tbody id="exibimed" style="font-size:15px">                
@@ -892,8 +852,7 @@ header("Location: ../home.php?msg_c=$msg");
                  </tbody>
                </table>
                 </div>
-                
-                
+              
                 <div class="modal fade" id="testemed" tabindex="-1" role="dialog" aria-labelledby="docFormModalLabel" aria-hidden="true" style="display:none;">
                   <div class="modal-dialog" role="document">
                      <div class="modal-content">
@@ -903,9 +862,10 @@ header("Location: ../home.php?msg_c=$msg");
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                             </button>
-                            </div>
+                        </div>
 
-                            <form action='status_update.php?id_medicacao = <?= $_GET['id_medicacao']?>' method='post' enctype='multipart/form-data' id='funcionarioDocForm'>
+                        <form action='status_update.php' method='post' enctype='multipart/form-data' id='funcionarioDocForm'>
+                            <!-- <form action='status_update.php?id_medicacao = <?= $_GET['id_medicacao']?>' method='post' enctype='multipart/form-data' id='funcionarioDocForm'> -->
                             <!-- let url = "status_update.php?id_medicacao="+id_medicacao+"&id_fichamedica=<?= $_GET['id_fichamedica'] ?>"; -->
                               <div class="modal-body" style="padding: 15px 40px">
                                 <div class="form-group" style="display: grid;">
@@ -924,23 +884,23 @@ header("Location: ../home.php?msg_c=$msg");
                                   </div>
                                 </div>
                                
-                              <input type="number" name="id_fichamedica" value="<?= $_GET['id_fichamedica']; ?>" style='display: none;'>
+                              <!-- <input type="number" name="id_fichamedica" value="<?= $_GET['id_fichamedica']; ?>" style='display: none;'> -->
                                 <!-- <input type="number" name="id_interno" value="" style='display: none;'> -->
                               </div>
                               <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                <input type="hidden" name="id_fichamedica" value="<?php echo $_GET['id_medicacao']?>">
                                 <input type="submit" value="Enviar" class="btn btn-primary">
                               </div>
-                            <!-- </form> -->
+                            </form>
                             </div>
                           </div>
                         </div>
+              
 
             </div>
-            
           </section>
        </div>
-
 
       <!-- aba de cadastro médico -->
       <div id="atendimento_medico" class="tab-pane">
@@ -960,9 +920,9 @@ header("Location: ../home.php?msg_c=$msg");
               <hr class="dotted short">
               
                    <div class="form-group">
-                     <label class="col-md-3 control-label" for="profileCompany" id="data_atendimento">Data do atendimento:</label>
+                     <label class="col-md-3 control-label" for="profileCompany" id="data_atendimento">Data do atendimento:<sup class="obrig">*</sup></label>
                      <div class="col-md-6">
-                     <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" name="data_atendimento" id="data_atendimento" max=2021-06-11>
+                     <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" name="data_atendimento" id="data_atendimento" max=2021-06-11 required>
                      </div>
                     
                    </div>
@@ -985,7 +945,7 @@ header("Location: ../home.php?msg_c=$msg");
                    <div class="form-group">
                      <label class="col-md-3 control-label" for="profileCompany">Descrição:</label>
                        <div class='col-md-6' id='div_texto' style="height: 499px;">
-                        <textarea cols='30' rows='3' id='despacho' name='texto' required class='form-control'></textarea>
+                        <textarea cols='30' rows='3' id='despacho' name='texto' class='form-control' required></textarea>
                         </div>
                       </div>
 
@@ -1090,10 +1050,36 @@ header("Location: ../home.php?msg_c=$msg");
                     </div>
                    <h2 class="panel-title">Aplicar medicação</h2>
                 </header>
-               
+                   
+                <!--<form action='aplicacao_upload.php' method='post' enctype='multipart/form-data' id='funcionarioDocForm'>-->
                    <div class="panel-body">
                    <hr class="dotted short">
-                  
+                   
+                   <!--<input type="hidden" name="id_medicacao" value="<?php echo $_GET['id_medicacao']?>">
+                   <input type="hidden" name="pessoa_id_pessoa" value="<?php echo $_GET['id_pessoa']?>">
+                   <input type="hidden" name="funcionario_id_funcionario" value="<?php echo $_GET['id_funcionario']?>">-->
+
+                  <!-- <?php
+                      $teste = "<script>document.write(</script>"
+                   ?>-->
+
+
+                    <!-- <div class="form-group">
+                    <table class="table table-bordered table-striped mb-none">
+                      <thead>
+                        <tr style="font-size:15px;">
+                          <th>Medicações</th>
+                          <th>Dosagem</th>
+                          <th>Horário</th>
+                          <th>Duração</th>
+                        </tr>
+                      </thead>
+                      <tbody id="exibimedparaenfermeiro" style="font-size:15px">                
+                      
+                    </tbody>
+                  </table>
+                  <br>
+                </div> -->
                 <table class="table table-bordered table-striped mb-none" id="datatable-default">
 							<thead>
 								<tr>
@@ -1107,11 +1093,38 @@ header("Location: ../home.php?msg_c=$msg");
 							<tbody id="tabela">
 							</tbody>
 						</table>
-
-                  <br>
-                  <br>
+            
+<!-- 
                   <div class="form-group">
-                  <table class="table table-bordered table-striped mb-none" id="enf">
+                        <label class="col-md-3 control-label" for="inputSuccess">Medicamento:</label>
+                        <div class="col-md-8">
+                          <select class="form-control input-lg mb-md" name="med" id="med" style="width:235px;" required>
+                          <option selected disabled>Selecionar</option>
+                            <?php
+                            while ($row = $medicamentoenfermeiro->fetch_array(MYSQLI_NUM)) {
+                            echo "<option value=" . $row[2] . ">" . $row[2] . "</option>";
+                            }
+                            ?>
+                          </select>
+                          </div>
+                      </div> -->
+                      <!-- <div class="form-group">
+                      <label class="col-md-3 control-label" for="profileCompany">Horário de aplicação:</label>
+                     <div class="col-md-6">
+                       <input type="text" class="form-control" name="horario_aplicacao" id="horario_aplicacao"">
+                     </div>
+                     </div> -->
+                    
+                      
+                     <br />
+                     <!-- <button type="button" class="btn btn-success" id="botaoenferm">Aplicar medicação</button>
+
+                     <br />
+                     <br /> -->
+
+                     <!-- <h2 class="panel-title">Aplicações efetuadas</h2> -->
+                     
+                     <table class="table table-bordered table-striped mb-none" id="enf">
                       <thead>
                         <tr style="font-size:15px;">
                           <th>Medicações aplicadas</th>
@@ -1122,7 +1135,9 @@ header("Location: ../home.php?msg_c=$msg");
                       
                     </tbody>
                   </table>
-                </div> 
+                    
+                  <br>
+                  <br>
                   
                   <input type="hidden" name="a_enf">
                   <!--<input id="salvar_enf" type="submit" class="btn btn-primary" value="Cadastrar aplicação desses medicamentos">-->
@@ -1291,7 +1306,10 @@ header("Location: ../home.php?msg_c=$msg");
                 post(url, data, listarEnfermidades);
                 console.log(listarEnfermidades);
             } 
-            
+            function editarStatusMedico(id_medicacao)
+            {
+              $("#testemed").modal('show');
+            }            
             function aplicarMedicacao(id_doc) {
                 if (!window.confirm("Tem certeza que deseja aplicar essa medicação?")){
                   return false;
@@ -1300,16 +1318,7 @@ header("Location: ../home.php?msg_c=$msg");
                 let url = "mudarcor.php?id_doc="+id_doc+"&id_fichamedica=<?= $_GET['id_fichamedica'] ?>";
                 let data = "";
                 post(url, data);
-            } 
-            function editarStatusMedico(id_medicacao) {
-              
-              $("#testemed").modal('show');
-
-              // let url = "status_update.php?id_medicacao="+id_medicacao+"&id_fichamedica=<?= $_GET['id_fichamedica'] ?>";
-
-              // $("#botaoSalvarIP").show();
-              // let data = "";
-                // post(url, data);
+                
 
             } 
 
