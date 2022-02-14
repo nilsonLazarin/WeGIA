@@ -338,12 +338,10 @@ header("Location: ../home.php?msg_c=$msg");
                 .append($("<td>").text(item.descricao))
                 .append($("<td>").text(item.data_diagnostico))
                 .append($("<td style='display: flex; justify-content: space-evenly;'>")
-                  .append($("<a onclick='removerEnfermidade("+item.id_CID+")' href='#' title='Excluir'><button class='btn btn-danger'><i class='fas fa-trash-alt'></i></button></a>"))
+                  .append($("<a onclick='removerEnfermidade("+item.id_CID+")' href='#' title='Inativar'><button class='btn btn-dark'><i class='glyphicon glyphicon-remove'></i></button></a>"))
                  
                 )
               )
-              console.log(item.id_CID);
-                  console.log(item.descricao);
             });
           });
         
@@ -355,7 +353,7 @@ header("Location: ../home.php?msg_c=$msg");
                       .append($("<td>").text(item.descricao))
                       .append($("<td>").text(item.data_diagnostico))
                       .append($("<td style='display: flex; justify-content: space-evenly;'>")
-                  .append($("<a onclick='removerEnfermidade("+item.id_CID+")' href='#' title='Excluir'><button class='btn btn-danger'><i class='fas fa-trash-alt'></i></button></a>"))
+                  .append($("<a onclick='removerEnfermidade("+item.id_CID+")' href='#' title='Inativar'><button class='btn btn-primary'><i class='glyphicon glyphicon-remove'></i></button></a>"))
                 )
               )
             });
@@ -438,24 +436,32 @@ header("Location: ../home.php?msg_c=$msg");
                 });
             });
           
-          function digitarmedicacao()
-          {
-            $("#AAA").remove();
-            $("#Inputremedio").show();
-          }
-          function aparecermedicacao()
-          {
-            $("#botaoSalvarIP").show();
-          }
-          function esconderoutro()
-          {
-            $("#Inputremedio").hide();
-          }
+          // function digitarmedicacao()
+          // {
+          //   $("#AAA").remove();
+          //   $("#Inputremedio").show();
+          // }
+          // function aparecermedicacao()
+          // {
+          //   $("#botaoSalvarIP").show();
+          // }
+          // function esconderoutro()
+          // {
+          //   $("#Inputremedio").hide();
+          // }
 
         //  $(function () {
         //     $("#header").load("../header.php");
         //     $(".menuu").load("../menu.php");
         //  });
+
+        function escrevermed() {
+           
+          let nome_medicacao = window.prompt("Informe a medicação:");
+          $("#primeira_medicacao").remove();
+          $("#mais_medicacoes").show();
+          $(".meddisabled").val(nome_medicacao);
+        }
        
       </script>
       <style type="text/css">
@@ -464,7 +470,6 @@ header("Location: ../home.php?msg_c=$msg");
       }
       </style>
         
-    <!-- <script src="controller/script/valida_cpf_cnpj.js"></script> -->
    </head>
    <body>
       <section class="body">
@@ -666,18 +671,23 @@ header("Location: ../home.php?msg_c=$msg");
                     <tr style="font-size:15px;">
                         <th>Enfermidade</th>
                         <th>Data</th>
-                        <th>Ação</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
-                    <!-- id="doc tab" -->
                     <tbody id="doc-tab">
                             
                     </tbody>
             </table>
                <br> 
                 <form action='enfermidade_upload.php' method='post' enctype='multipart/form-data' id='funcionarioDocForm'>
-                  <h5 class="obrig">Campos Obrigatórios(*)</h5>
-                    <div class="modal-body" style="padding: 15px 40px">
+                  <!-- <h5 class="obrig">Campos Obrigatórios(*)</h5> -->
+                  <div class="form-group">
+                  <div class="col-md-6">
+                   <h5 class="obrig">Campos Obrigatórios(*)</h5>
+                  </div>
+                 </div>
+                 
+                    <!-- <div class="modal-body" style="padding: 15px 40px"> -->
                       <div class="form-group">
                         <label class="col-md-3 control-label" for="inputSuccess">Enfermidades<sup class="obrig">*</label>
                           <div class="col-md-8">
@@ -715,10 +725,13 @@ header("Location: ../home.php?msg_c=$msg");
                         </div>
                         </div>
                         
+                        <div class="form-group">
+                        <div class="col-md-6">
                         <input type="number" name="id_fichamedica" value="<?= $_GET['id_fichamedica']; ?>" style='display: none;'>
                           <input type="hidden" name="id_fichamedica" value=<?php echo $_GET['id_fichamedica'] ?>>
                           <input type="submit" class="btn btn-primary" value="Cadastrar" id="botaoSalvarIP">
-                      <div> 
+                            </div> 
+                            </div>
                     </form>
                   </div>
             </section>
@@ -865,8 +878,6 @@ header("Location: ../home.php?msg_c=$msg");
                         </div>
 
                         <form action='status_update.php' method='post' enctype='multipart/form-data' id='funcionarioDocForm'>
-                            <!-- <form action='status_update.php?id_medicacao = <?= $_GET['id_medicacao']?>' method='post' enctype='multipart/form-data' id='funcionarioDocForm'> -->
-                            <!-- let url = "status_update.php?id_medicacao="+id_medicacao+"&id_fichamedica=<?= $_GET['id_fichamedica'] ?>"; -->
                               <div class="modal-body" style="padding: 15px 40px">
                                 <div class="form-group" style="display: grid;">
                                    
@@ -910,14 +921,18 @@ header("Location: ../home.php?msg_c=$msg");
                     <a href="#" class="fa fa-caret-down"></a>
                 </div>
 
-             <h2 class="panel-title">Cadastro</h2>
+             <h2 class="panel-title">Cadastro médico</h2>
              </header>
              <div class="panel-body">
              <div class="form-group" id="escondermedicacao">
 
              <form action='atendmedico_upload.php' method='post' enctype='multipart/form-data' id='funcionarioDocForm'>
-
-              <hr class="dotted short">
+               <hr class="dotted short">
+                 <div class="form-group">
+                  <div class="col-md-6">
+                   <h5 class="obrig">Campos Obrigatórios(*)</h5>
+                  </div>
+                 </div>
               
                    <div class="form-group">
                      <label class="col-md-3 control-label" for="profileCompany" id="data_atendimento">Data do atendimento:<sup class="obrig">*</sup></label>
@@ -926,14 +941,7 @@ header("Location: ../home.php?msg_c=$msg");
                      </div>
                     
                    </div>
-                   <div class="form-group">
-                     <label class="col-md-3 control-label" for="profileCompany"></label>
-                     <div class="col-md-6">
-                       <p id="cpfInvalido" style="display: none; color: #b30000">CPF INVÁLIDO!</p>
-                     </div>
-                   </div>
-
-
+                   
                    <!-- listar o funcionario, pessoa nome onde cargo = 3 -->
                    <div class="form-group">
                         <label class="col-md-3 control-label" for="inputSuccess">Médico:</label>
@@ -951,8 +959,10 @@ header("Location: ../home.php?msg_c=$msg");
 
                       <br>
 
-                      <div class="form-group" id="AAA">
-                        <label class="col-md-3 control-label" for="inputSuccess">Medicação:</label>
+                      <div class="form-group" id="primeira_medicacao">
+                        <label class="col-md-3 control-label" for="inputSuccess">Medicação:<sup class="obrig">*</sup></label>
+                        <a onclick="escrevermed()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
+
                         <div class="col-md-6">
                           <select class="form-control input-lg mb-md" name="nome_medicacao" id="nome_medicacao">
                             <option selected disabled>Selecionar</option>
@@ -963,18 +973,19 @@ header("Location: ../home.php?msg_c=$msg");
                             <option value="Puran">Puran</option>
                             <option value="Ibuprofeno">Ibuprofeno</option>
                             <option value="Amoxicilina">Amoxicilina</option>
-                            <option value="outro" onclick="digitarmedicacao();" id="outro">Outro</option>
                           </select>
                         </div>
                       </div>
-                                    </div>
+                      </div>
 
+                                    
                       <!-- caso não tenha a medicacao no select -->
-                      <div id="Inputremedio" style="display:none;">
+                      <div id="mais_medicacoes" style="display:none;">
                         <div class="form-group">
-                        <label class="col-md-3 control-label" for="profileCompany">Nome da medicação:</label>
+                        <label class="col-md-3 control-label" for="profileCompany">Medicação:<sup class="obrig">*</sup></label>
+                        <a onclick="escrevermed()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
                         <div class="col-md-6">
-                          <input type="text" class="form-control" name="nome_medicacao" id="nome_medicacao" placeholder="informe a medicação">
+                          <input type="text" class="form-control meddisabled" name="nome_medicacao" id="nome_medicacao" disabled>
                         </div>
                         </div>
                         <br>
@@ -988,21 +999,21 @@ header("Location: ../home.php?msg_c=$msg");
                     </div> -->
 
                     <div class="form-group">
-                      <label class="col-md-3 control-label" for="profileCompany">Dosagem:</label>
+                      <label class="col-md-3 control-label" for="profileCompany">Dosagem:<sup class="obrig">*</sup></label>
                       <div class="col-md-6">
                         <input type="text" class="form-control" name="dosagem" id="dosagem">
                       </div>
                      </div>
 
                      <div class="form-group">
-                      <label class="col-md-3 control-label" for="profileCompany">Horário:</label>
+                      <label class="col-md-3 control-label" for="profileCompany">Horário:<sup class="obrig">*</sup></label>
                       <div class="col-md-6">
                         <input type="text" class="form-control" name="horario_medicacao" id="horario_medicacao">
                       </div>
                    </div>
 
                    <div class="form-group">
-                      <label class="col-md-3 control-label" for="profileCompany">Duração:</label>
+                      <label class="col-md-3 control-label" for="profileCompany">Duração:<sup class="obrig">*</sup></label>
                      <div class="col-md-6">
                        <input type="text" class="form-control" name="duracao_medicacao" id="duracao_medicacao">
                      </div>
@@ -1298,7 +1309,7 @@ header("Location: ../home.php?msg_c=$msg");
                 console.log(listarFunDocs);
             } 
             function removerEnfermidade(id_doc) {
-                if (!window.confirm("Tem certeza que deseja remover essa enfermidade?")){
+                if (!window.confirm("Tem certeza que deseja inativar essa enfermidade?")){
                   return false;
                 }
                 let url = "enfermidade_excluir.php?id_doc="+id_doc+"&id_fichamedica=<?= $_GET['id_fichamedica'] ?>";
@@ -1336,6 +1347,13 @@ header("Location: ../home.php?msg_c=$msg");
                 let dose = $("#dosagem").val();
                 let horario = $("#horario_medicacao").val();
                 let duracao =  $("#duracao_medicacao").val();
+
+                if(medicamento == "" || medicamento == null || dose == "" || horario == "" || duracao =="")
+                {
+                  alert("Por favor, informe a medicação corretamente!");
+                
+                }
+                else{
                     
                 $("#tabmed").append($("<tr>").addClass("tabmed")
                   .append($("<td>") .text(medicamento) )
@@ -1355,6 +1373,7 @@ header("Location: ../home.php?msg_c=$msg");
                         $("#dosagem").val("");
                         $("#horario_medicacao").val(""); 
                         $("#duracao_medicacao").val("");
+                }
                 })
                 $("#tabmed").on("click", "td", function(){
 
