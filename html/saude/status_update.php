@@ -14,16 +14,15 @@ if (!isset($_SESSION["usuario"])){
 // if ($_POST){
     require_once "../../dao/Conexao.php";
 
-
     $saude_medicacao_status_idsaude_medicacao_status = $_POST["id_status"];
-    var_dump($saude_medicacao_status_idsaude_medicacao_status);
+    // var_dump($saude_medicacao_status_idsaude_medicacao_status);
 
-    $id_medicacao = $_GET['id_medicacao'];
+    $id_medicacao = $_POST['id_medicacao'];
     echo $id_medicacao;
 
     try {
         $pdo = Conexao::connect();
-        $prep = $pdo->prepare("UPDATE saude_medicacao SET saude_medicacao_status_idsaude_meicacao_status = $saude_medicacao_status_idsaude_medicacao_status WHERE id_medicacao = '$id_medicacao'");
+        $prep = $pdo->prepare("UPDATE saude_medicacao SET saude_medicacao_status_idsaude_medicacao_status = $saude_medicacao_status_idsaude_medicacao_status WHERE id_medicacao = '$id_medicacao'");
 
         // UPDATE saude_enfermidades SET status = 0 WHERE id_CID = ".$this->getid_CID()." ;"
 

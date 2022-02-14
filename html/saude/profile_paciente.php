@@ -98,7 +98,7 @@ header("Location: ../home.php?msg_c=$msg");
   $exibimed = $exibimed->fetchAll(PDO::FETCH_ASSOC);
   $exibimed = json_encode($exibimed);
 
-  $exibimedparaenfermeiro = $pdo->query("SELECT * FROM saude_medicacao sm JOIN saude_atendimento sa ON(sm.id_atendimento=sa.id_atendimento) JOIN saude_fichamedica sf ON(sf.id_fichamedica=sa.id_fichamedica) WHERE sf.id_fichamedica= ".$_GET['id_fichamedica']);
+  $exibimedparaenfermeiro = $pdo->query("SELECT * FROM saude_medicacao sm JOIN saude_atendimento sa ON(sm.id_atendimento=sa.id_atendimento) JOIN saude_fichamedica sf ON(sf.id_fichamedica=sa.id_fichamedica) WHERE sm.saude_medicacao_status_idsaude_medicacao_status = 1 and sf.id_fichamedica=".$_GET['id_fichamedica']);
   $exibimedparaenfermeiro = $exibimedparaenfermeiro->fetchAll(PDO::FETCH_ASSOC);
   $exibimedparaenfermeiro = json_encode($exibimedparaenfermeiro);
 
@@ -115,7 +115,7 @@ header("Location: ../home.php?msg_c=$msg");
   $tipoexame = $mysqli->query("SELECT * FROM saude_exame_tipos");
   $medicamentoenfermeiro = $mysqli->query("SELECT * FROM saude_medicacao"); 
   $descparaenfermeiro = $mysqli->query("SELECT descricao FROM saude_fichamedica");
-  $medstatus = $mysqli->query("SELECT * FROM saude_medicacao_status WHERE idsaude_medicacao_status!=1");
+  $medstatus = $mysqli->query("SELECT * FROM saude_medicacao_status");
 
   $teste = $pdo->query("SELECT nome FROM pessoa p JOIN funcionario f ON(p.id_pessoa = f.id_pessoa) WHERE f.id_pessoa = " .$_SESSION['id_pessoa'])->fetchAll(PDO::FETCH_ASSOC);
   $id_funcionario = $teste[0]['nome'];
@@ -889,7 +889,7 @@ header("Location: ../home.php?msg_c=$msg");
                               </div>
                               <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                <input type="hidden" name="id_fichamedica" value="<?php echo $_GET['id_medicacao']?>">
+                                <input type="hidden" class="statusDoenca" name="id_medicacao">
                                 <input type="submit" value="Enviar" class="btn btn-primary">
                               </div>
                             </form>
@@ -922,7 +922,7 @@ header("Location: ../home.php?msg_c=$msg");
                    <div class="form-group">
                      <label class="col-md-3 control-label" for="profileCompany" id="data_atendimento">Data do atendimento:<sup class="obrig">*</sup></label>
                      <div class="col-md-6">
-                     <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" name="data_atendimento" id="data_atendimento" max=2021-06-11 required>
+                     <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" name="data_atendimento" id="data_atendimento" required>
                      </div>
                     
                    </div>
@@ -990,21 +990,21 @@ header("Location: ../home.php?msg_c=$msg");
                     <div class="form-group">
                       <label class="col-md-3 control-label" for="profileCompany">Dosagem:</label>
                       <div class="col-md-6">
-                        <input type="text" class="form-control" name="dosagem" id="dosagem" onkeypress="return Onlychars(event)">
+                        <input type="text" class="form-control" name="dosagem" id="dosagem">
                       </div>
                      </div>
 
                      <div class="form-group">
                       <label class="col-md-3 control-label" for="profileCompany">Horário:</label>
                       <div class="col-md-6">
-                        <input type="text" class="form-control" name="horario_medicacao" id="horario_medicacao" onkeypress="return Onlychars(event)">
+                        <input type="text" class="form-control" name="horario_medicacao" id="horario_medicacao">
                       </div>
                    </div>
 
                    <div class="form-group">
                       <label class="col-md-3 control-label" for="profileCompany">Duração:</label>
                      <div class="col-md-6">
-                       <input type="text" class="form-control" name="duracao_medicacao" id="duracao_medicacao" onkeypress="return Onlychars(event)">
+                       <input type="text" class="form-control" name="duracao_medicacao" id="duracao_medicacao">
                      </div>
                    </div>
                   
@@ -1309,6 +1309,9 @@ header("Location: ../home.php?msg_c=$msg");
             function editarStatusMedico(id_medicacao)
             {
               $("#testemed").modal('show');
+              // $(".statusDoenca").append("<input type='hidden' value="+id_medicacao+">");
+              $(".statusDoenca").val(id_medicacao);
+
             }            
             function aplicarMedicacao(id_doc) {
                 if (!window.confirm("Tem certeza que deseja aplicar essa medicação?")){
