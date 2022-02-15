@@ -201,15 +201,18 @@
 					<li class="nav-parent nav-active">
 						<a>
 							<i class="fa fa-ambulance" aria-hidden="true"></i>
-							<span>Saúde (em breve)</span>
+							<span>Saúde</span>
 						</a>
 						<ul class="nav nav-children">
 							<li id="31">
 								<a href="<?= WWW ?>html/saude/cadastro_ficha_medica.php">
-									 Cadastrar ficha médica
+									 Criar ficha médica
 								</a>
-								<a href="<?= WWW ?>html/saude/profile_paciente.php">
-									 Informações paciente
+								<a href="<?= WWW ?>html/saude/saude.php">
+									 Ficha do paciente
+								</a>
+								<a href="<?= WWW ?>html/saude/administrar_medicamento.php">
+									 Administrar medicamento
 								</a>
 							</li>
 						</ul>

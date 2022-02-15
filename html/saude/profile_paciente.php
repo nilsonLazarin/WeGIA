@@ -6,9 +6,6 @@ error_reporting(E_ALL);
 extract($_REQUEST);
 session_start();
 
-    // if(!isset($_SESSION['saude_id'])){
-    //     header ("Location: profile_paciente.php?idsaude=$id");
-    // }
    	if(!isset($_SESSION['usuario'])){
    		header ("Location: ../index.php");
    	}
@@ -40,7 +37,7 @@ if(!is_null($resultado)){
     if(!is_null($id_cargo)){
     $id_cargo = $id_cargo['id_cargo'];
     }
-    $resultado = mysqli_query($conexao, "SELECT * FROM permissao WHERE id_cargo=$id_cargo and id_recurso=5");
+    $resultado = mysqli_query($conexao, "SELECT * FROM permissao p JOIN acao a ON(p.id_acao=a.id_acao) JOIN recurso r ON(p.id_recurso=r.id_recurso) WHERE id_cargo=$id_cargo AND a.descricao = 'LER, GRAVAR E EXECUTAR' AND r.descricao='Módulo Saúde'");
     if(!is_bool($resultado) and mysqli_num_rows($resultado)){
     $permissao = mysqli_fetch_array($resultado);
     if($permissao['id_acao'] < 7){
@@ -499,53 +496,15 @@ header("Location: ../home.php?msg_c=$msg");
             <div class="col-md-4 col-lg-3">
                <section class="panel">
                         <div class="panel-body">
-                          <div class="alert alert-warning" style="font-size: 15px;">
-                          <i class="fas fa-check mr-md"></i>O endereço da instituição não está cadastrado no sistema<br><a href=https://demo.wegia.org/html/personalizacao.php>Cadastrar endereço da instituição</a>
-                        </div>
+                         
 
                             <div class="thumb-info mb-md">
                                   <img id="imagem" alt="John Doe">
-                                <i class="fas fa-camera-retro btn btn-info btn-lg" data-toggle="modal" data-target="#myModal"></i>
+                               
+                            </div>
 
-                              <div class="container">
-                                 <div class="modal fade" id="myModal" role="dialog">
-                                    <div class="modal-dialog">
-                                       <!-- Modal content-->
-                                       <div class="modal-content">
-                                          <div class="modal-header">
-                                             <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
-                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                             <h4 class="modal-title">Adicionar uma Foto</h4>
-                                          </div>
-                                          <div class="modal-body">
-                                             <form class="form-horizontal" method="POST" action="../../controle/control.php" enctype="multipart/form-data">
-                                                <input type="hidden" name="nomeClasse" value="SaudeControle">
-                                                <input type="hidden" name="metodo" value="alterarImagem">
-                                                <div class="form-group">
-                                                   <label class="col-md-4 control-label" for="imgperfil">Carregue nova imagem de perfil:</label>
-                                                   <div class="col-md-8">
-                                                      <input type="file" name="imgperfil" size="60" id="imgform" class="form-control">
-                                                   </div>
-                                                </div>
-                                          </div>
-                                          <div class="modal-footer">
-                                          <input type="hidden" name="id_fichamedica" value="<?php echo $_GET['id_fichamedica']?>">
-                                          <input type="submit" id="formsubmit" value="alterarImagem">
-                                          </div>
-                                       </div>
-                                       </form>
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="widget-toggle-expand mb-md">
-                              <div class="widget-header">
-                                 <div class="widget-content-expanded">
-                                    <ul class="simple-todo-list">
-                                    </ul>
-                                 </div>
-                              </div>
-                           </div>
+                              
+                           
                         </div>
                </section>
             </div>
@@ -566,10 +525,10 @@ header("Location: ../home.php?msg_c=$msg");
                </li>
                <li>
                <li>
-                  <a href="#atendimento_medico" data-toggle="tab">Cadastro médico</a>
+                  <a href="#atendimento_medico" data-toggle="tab">Atendimento médico</a>
                </li>
                <li>
-                  <a href="#atendimento_enfermeiro" data-toggle="tab">Aplicações enfermeiro</a>
+                  <a href="#medicacoes_aplicadas" data-toggle="tab">Medicações aplicadas</a>
                </li>
             </ul>
           
@@ -921,7 +880,7 @@ header("Location: ../home.php?msg_c=$msg");
                     <a href="#" class="fa fa-caret-down"></a>
                 </div>
 
-             <h2 class="panel-title">Cadastro médico</h2>
+             <h2 class="panel-title">Atendimento médico</h2>
              </header>
              <div class="panel-body">
              <div class="form-group" id="escondermedicacao">
@@ -1051,89 +1010,18 @@ header("Location: ../home.php?msg_c=$msg");
           </section>
        </div>
       
-       
-       <!-- aba de atendimento enfermeiro -->
-       <div id="atendimento_enfermeiro" class="tab-pane">                           
+       <!-- Aba de medicações aplicadas -->
+       <div id="medicacoes_aplicadas" class="tab-pane">                           
                 <section class="panel">
                    <header class="panel-heading">
                     <div class="panel-actions">
                         <a href="#" class="fa fa-caret-down"></a>
                     </div>
-                   <h2 class="panel-title">Aplicar medicação</h2>
+                   <h2 class="panel-title">Medicações aplicadas</h2>
                 </header>
                    
-                <!--<form action='aplicacao_upload.php' method='post' enctype='multipart/form-data' id='funcionarioDocForm'>-->
                    <div class="panel-body">
                    <hr class="dotted short">
-                   
-                   <!--<input type="hidden" name="id_medicacao" value="<?php echo $_GET['id_medicacao']?>">
-                   <input type="hidden" name="pessoa_id_pessoa" value="<?php echo $_GET['id_pessoa']?>">
-                   <input type="hidden" name="funcionario_id_funcionario" value="<?php echo $_GET['id_funcionario']?>">-->
-
-                  <!-- <?php
-                      $teste = "<script>document.write(</script>"
-                   ?>-->
-
-
-                    <!-- <div class="form-group">
-                    <table class="table table-bordered table-striped mb-none">
-                      <thead>
-                        <tr style="font-size:15px;">
-                          <th>Medicações</th>
-                          <th>Dosagem</th>
-                          <th>Horário</th>
-                          <th>Duração</th>
-                        </tr>
-                      </thead>
-                      <tbody id="exibimedparaenfermeiro" style="font-size:15px">                
-                      
-                    </tbody>
-                  </table>
-                  <br>
-                </div> -->
-                <table class="table table-bordered table-striped mb-none" id="datatable-default">
-							<thead>
-								<tr>
-									<th class='txt-center' width='30%' id="id_medicacao">Medicações</th>
-									<th class='txt-center' width='15%'>Dosagem</th>
-									<th class='txt-center' width='15%'>Horário</th>
-									<th class='txt-center' width='15%'>Duração</th>
-									<th class='txt-center'>Aplicar</th>
-								</tr>
-							</thead>
-							<tbody id="tabela">
-							</tbody>
-						</table>
-            
-<!-- 
-                  <div class="form-group">
-                        <label class="col-md-3 control-label" for="inputSuccess">Medicamento:</label>
-                        <div class="col-md-8">
-                          <select class="form-control input-lg mb-md" name="med" id="med" style="width:235px;" required>
-                          <option selected disabled>Selecionar</option>
-                            <?php
-                            while ($row = $medicamentoenfermeiro->fetch_array(MYSQLI_NUM)) {
-                            echo "<option value=" . $row[2] . ">" . $row[2] . "</option>";
-                            }
-                            ?>
-                          </select>
-                          </div>
-                      </div> -->
-                      <!-- <div class="form-group">
-                      <label class="col-md-3 control-label" for="profileCompany">Horário de aplicação:</label>
-                     <div class="col-md-6">
-                       <input type="text" class="form-control" name="horario_aplicacao" id="horario_aplicacao"">
-                     </div>
-                     </div> -->
-                    
-                      
-                     <br />
-                     <!-- <button type="button" class="btn btn-success" id="botaoenferm">Aplicar medicação</button>
-
-                     <br />
-                     <br /> -->
-
-                     <!-- <h2 class="panel-title">Aplicações efetuadas</h2> -->
                      
                      <table class="table table-bordered table-striped mb-none" id="enf">
                       <thead>
@@ -1151,10 +1039,10 @@ header("Location: ../home.php?msg_c=$msg");
                   <br>
                   
                   <input type="hidden" name="a_enf">
-                  <!--<input id="salvar_enf" type="submit" class="btn btn-primary" value="Cadastrar aplicação desses medicamentos">-->
-                 <!--</form>-->
          </section>
        </div>  
+       
+      
        
 
        

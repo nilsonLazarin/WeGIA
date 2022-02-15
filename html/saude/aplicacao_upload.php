@@ -33,7 +33,7 @@ try {
 
     $prep->execute();
     
-    header("Location: saude.php?id_fichamedica=$id_fichamedica");
+    header("Location: administrar_medicamento.php?id_fichamedica=$id_fichamedica");
 } catch (PDOException $e) {
     echo("Houve um erro ao realizar o upload das aplicações:<br><br>$e");
 }

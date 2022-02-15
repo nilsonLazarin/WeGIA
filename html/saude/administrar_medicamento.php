@@ -10,7 +10,7 @@
 	}
 
 	if(!isset($_SESSION['saude']))	{
-		header('Location: ../../controle/control.php?metodo=listarTodos&nomeClasse=SaudeControle&nextPage=../html/saude/saude.php');
+		header('Location: ../../controle/control.php?metodo=listarTodos&nomeClasse=SaudeControle&nextPage=../html/saude/administrar_medicamento.php');
 	}
 	$config_path = "config.php";
 	if(file_exists($config_path)){
@@ -29,8 +29,8 @@
 		$id_cargo = mysqli_fetch_array($resultado);
 		if(!is_null($id_cargo)){
 			$id_cargo = $id_cargo['id_cargo'];
-		}
-		$resultado = mysqli_query($conexao, "SELECT * FROM permissao p JOIN acao a ON(p.id_acao=a.id_acao) JOIN recurso r ON(p.id_recurso=r.id_recurso) WHERE id_cargo=$id_cargo AND a.descricao = 'LER, GRAVAR E EXECUTAR' AND r.descricao='Módulo Saúde'");
+		} 
+		$resultado = mysqli_query($conexao, "SELECT * FROM permissao p JOIN acao a ON(p.id_acao=a.id_acao) JOIN recurso r ON(p.id_recurso=r.id_recurso) WHERE id_cargo=$id_cargo AND a.descricao = 'LER E EXECUTAR' AND r.descricao='Módulo Saúde'");
 		if(!is_bool($resultado) and mysqli_num_rows($resultado)){
 			$permissao = mysqli_fetch_array($resultado);
 			if($permissao['id_acao'] < 5){
@@ -120,7 +120,7 @@
 	<!-- jquery functions -->
 	<script>
 		function clicar(id) {
-			window.location.href = "profile_paciente.php?id_fichamedica="+id;
+			window.location.href = "aplicar_medicamento.php?id_fichamedica="+id;
 		}
 		$(function() {
 
@@ -159,22 +159,19 @@
 			<!-- end: sidebar -->
 			<section role="main" class="content-body">
 				<header class="page-header">
-					<h2>Informações</h2>
+					<h2>Administrar medicamento</h2>
 
 					<div class="right-wrapper pull-right">
 						<ol class="breadcrumbs">
 							<li><a href="../index.php"> <i class="fa fa-home"></i>
 							</a></li>
-							<li><span>Informações Paciente</span></li>
+							<li><span>Administrar medicamento</span></li>
 						</ol>
 
 						<a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
 					</div>
 				</header>
 
-				<!-- start: page -->
-
-				</header>
 
 				<!-- start: page -->
 				<section class="panel">

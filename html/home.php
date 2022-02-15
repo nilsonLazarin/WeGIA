@@ -168,7 +168,7 @@
 					<a href="#">
 					<div class="col-lg-2 col-md-8 i" data-toggle="collapse" href="#saude">
 							<i  class="fa fa-ambulance"></i>
-							<h4>Saúde <br>(em breve)</h4>
+							<h4>Saúde</h4>
 						</div>
 					</a>
 
@@ -216,13 +216,19 @@
 						<a href="../html/saude/cadastro_ficha_medica.php">
 							<div class="col-lg-2 col-md-8 i" >
 								<i  class="far fa-address-book"></i>
-								<h4>Cadastro ficha médica</h4>
+								<h4>Criar ficha médica</h4>
 							</div>
 						</a>	
 						<a href="../html/saude/saude.php">
 							<div class="col-lg-2 col-md-8 i" >
 								<i  class="far fa-address-card"></i>
-								<h4>Informações paciente</h4>
+								<h4>Ficha do paciente</h4>
+							</div>
+						</a>
+						<a href="../html/saude/administrar_medicamento.php">
+							<div class="col-lg-2 col-md-8 i" >
+								<i  class="far fa-address-card"></i>
+								<h4>Administrar medicamento</h4>
 							</div>
 						</a>				
 					</div>
