@@ -1,4 +1,4 @@
-<?php
+ <?php
     require("../conexao.php");
     if(!isset($_POST) or empty($_POST)){
         $data = file_get_contents( "php://input" );

@@ -4,6 +4,7 @@
   $_SERVER['HTTP_ACCEPT_LANGUAGE'];
 setlocale(LC_ALL, $locale);
 ?>
+
 <section class="body">
 
 <!-- start: header -->
@@ -63,6 +64,7 @@ setlocale(LC_ALL, $locale);
 									  </div>');
 									}
 							?>
+              
               <div class='alert alert-info'>
                   Você pode clicar no nome do sócio para mais detalhes.
               </div>
@@ -105,11 +107,8 @@ setlocale(LC_ALL, $locale);
       <a id="btn_importar_xlsx_cobranca" class="btn btn-app">
         <i class="fa fa-upload"></i> Importar Cobranças
       </a>
-      <a onclick="location.reload()" id="btn_atualizar" class="btn btn-app">
-        <i class="fa fa-refresh"></i> Atualizar
-        <!--		AGUARDANDO AJUSTES			-->
-	<!-- <a id="btn_atualizar_pag" class="btn btn-app"> 	-->
-     	<!-- <i class="fa fa-refresh"></i> Atualizar Pagamentos -->
+      <a id="btn_atualizar_pag" class="btn btn-app"> 
+        <i class="fa fa-refresh"></i> Atualizar 
       </a>
         </div>
      
@@ -205,18 +204,35 @@ $("#cargo").change(function(){
 });
 });
 </script>
+<?php
 
+    require_once "../../../dao/Conexao.php";
+    $pdo = Conexao::connect();
+       
+    $teste = $pdo->query("SELECT token_api FROM doacao_boleto_info")->fetchAll(PDO::FETCH_ASSOC);
+    $teste = json_encode($teste);
+?>
 <script>
     
     $("#btn_atualizar_pag").click(function(){
+      
+        console.log("oi");
+        var tokenAPI = <?= $teste ?>;
+        var token = "";
+        $.each(tokenAPI,function(i,item){
+            //  console.log(item.nome);
+             token = item.token_api;
+        });
+        console.log(token);
+        
         var data = new Date;
-        var dia = data.getDate()-1;
+        var dia = data.getDate()-4;
         var mes = data.getMonth()+1;
         var ano = data.getFullYear();
         var dataBR = dia + "/" + mes + "/" + ano;
         // console.log(dataBR);
-        // url = 'https://sandbox.boletobancario.com/boletofacil/integration/api/v1/list-charges?token=7CD0760508334868E262E175AE9680D24471D3267A146CD4748B360FCB861780&beginPaymentDate=02/02/2022';
-        url = 'https://sandbox.boletobancario.com/boletofacil/integration/api/v1/list-charges?token=7CD0760508334868E262E175AE9680D24471D3267A146CD4748B360FCB861780&beginPaymentDate='+dataBR;
+
+        var url = 'https://sandbox.boletobancario.com/boletofacil/integration/api/v1/list-charges?token='+token+'&beginPaymentDate='+dataBR;
         console.log(url);
         $.ajax({
           data: '',
@@ -224,12 +240,17 @@ $("#cargo").change(function(){
           url: url,
           success: function(response){
             var cargo = response;
-            console.log(cargo);
-            // $('#cargo').empty();
-            // $('#cargo').append('<option selected disabled>Selecionar</option>');
-            // $.each(cargo,function(i,item){
-            //   $('#cargo').append('<option value="' + item.id_cargo + '">' + item.cargo + '</option>');
-            // });
+            // console.log(cargo.code);
+            $.each(cargo,function(i,item){
+              // console.log(item.charges)
+              $.each(item.charges, function(i1,item1){
+                  console.log(item1)
+                  $.post("./atualiza_pagamentos.php",{
+                      "codigo": item1.code,
+                  })
+              });
+            });
+            location.reload();
           },
           dataType: 'json'
         });

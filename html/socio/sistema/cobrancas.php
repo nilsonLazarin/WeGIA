@@ -52,6 +52,12 @@
 	}	
 	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
     require_once ROOT."/html/personalizacao_display.php";
+
+    // require_once "../../../dao/Conexao.php";
+    // $pdo = Conexao::connect();
+       
+    // $teste = $pdo->query("SELECT * FROM pessoa where id_pessoa=1")->fetchAll(PDO::FETCH_ASSOC);
+    // $teste = json_encode($teste);
 ?>
 <!DOCTYPE html>
 <html class="fixed">
