@@ -19,7 +19,11 @@
     // $link_boleto = "'$link_boleto'";
     // $linha_digitavel = "'$linha_digitavel'";
     // $status = "'$status'";
-
+    $cadastrado = false;
     // mysqli_query($conexao, "INSERT INTO cobrancas (`codigo`, `descricao`, `data_emissao`, `data_vencimento`, `data_pagamento`, `valor`, `valor_pago`, `status`, `link_cobranca`, `link_boleto`, `linha_digitavel`, `id_socio`) VALUES ($codigo,$descricao,$data_emissao, $data_vencimento,$data_pagamento,$valor,$valor_pago,$status,$link_cobranca,$link_boleto,$linha_digitavel,$id_socio)");
     mysqli_query($conexao, "UPDATE cobrancas set status='BOLETO PAGO' where codigo = $codigo");
+
+    if(mysqli_affected_rows($conexao)) $cadastrado = true;
+
+    echo(json_encode($cadastrado));
 ?>

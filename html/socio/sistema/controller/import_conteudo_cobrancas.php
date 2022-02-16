@@ -107,8 +107,11 @@ setlocale(LC_ALL, $locale);
       <a id="btn_importar_xlsx_cobranca" class="btn btn-app">
         <i class="fa fa-upload"></i> Importar Cobranças
       </a>
-      <a id="btn_atualizar_pag" class="btn btn-app"> 
+      <a onclick=location.reload() class="btn btn-app"> 
         <i class="fa fa-refresh"></i> Atualizar 
+      </a>
+      <a id="btn_atualizar_pag" class="btn btn-app"> 
+        <i class="fa fa-refresh"></i> Atualizar Pagamentos 
       </a>
         </div>
      
@@ -209,48 +212,57 @@ $("#cargo").change(function(){
     require_once "../../../dao/Conexao.php";
     $pdo = Conexao::connect();
        
-    $teste = $pdo->query("SELECT token_api FROM doacao_boleto_info")->fetchAll(PDO::FETCH_ASSOC);
-    $teste = json_encode($teste);
+    $token = $pdo->query("SELECT token_api FROM doacao_boleto_info")->fetchAll(PDO::FETCH_ASSOC);
+    $token = json_encode($token);
+    $url = $pdo->query("SELECT api FROM doacao_boleto_info")->fetchAll(PDO::FETCH_ASSOC);
+    $url = json_encode($url);
 ?>
 <script>
     
     $("#btn_atualizar_pag").click(function(){
-      
-        console.log("oi");
-        var tokenAPI = <?= $teste ?>;
+        
+        var tokenAPI = <?= $token ?>;
+        var urlAPI = <?= $url ?>;
         var token = "";
+        var url = "";
+
         $.each(tokenAPI,function(i,item){
-            //  console.log(item.nome);
              token = item.token_api;
         });
-        console.log(token);
+        $.each(urlAPI,function(i,item){
+             url = item.api;
+        });
         
         var data = new Date;
         var dia = data.getDate()-4;
         var mes = data.getMonth()+1;
         var ano = data.getFullYear();
         var dataBR = dia + "/" + mes + "/" + ano;
-        // console.log(dataBR);
 
-        var url = 'https://sandbox.boletobancario.com/boletofacil/integration/api/v1/list-charges?token='+token+'&beginPaymentDate='+dataBR;
-        console.log(url);
+        var urlMod = url.replace("issue","list");
+        var urlModificado = urlMod.replace("charge","charges");
+        urlModificado = urlModificado+'token='+token+'&beginPaymentDate='+dataBR;
+        
+        // var teste = 'https://sandbox.boletobancario.com/boletofacil/integration/api/v1/list-charges?token='+token+'&beginPaymentDate='+dataBR;
+        // console.log(teste);
+       
         $.ajax({
           data: '',
           type: "POST",
-          url: url,
+          url: urlModificado,
           success: function(response){
-            var cargo = response;
-            // console.log(cargo.code);
-            $.each(cargo,function(i,item){
-              // console.log(item.charges)
+            var resposta = response;
+            $.each(resposta,function(i,item){
               $.each(item.charges, function(i1,item1){
-                  console.log(item1)
                   $.post("./atualiza_pagamentos.php",{
                       "codigo": item1.code,
-                  })
+                  }).done(function(resultadoCadastro){
+                    if(resultadoCadastro){
+                       window.location="cobrancas.php?msg_c=Status de Pagamentos Atualizados!";
+                    }
+                  });
               });
             });
-            location.reload();
           },
           dataType: 'json'
         });
