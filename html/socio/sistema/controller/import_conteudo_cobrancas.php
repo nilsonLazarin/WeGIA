@@ -105,7 +105,7 @@ setlocale(LC_ALL, $locale);
         <i class="fa fa-upload"></i> Importar Cobranças
       </a> 
       <a id="btn_atualizar_pag" class="btn btn-app"> 
-        <i class="fa fa-download"></i> Atualizar Pagamentos 
+        <i class="fa fa-download"></i> Importar Pagamentos 
       </a>
         <a id="btn_cadastro_cobranca" class="btn btn-app">
         <i class="fa fa-plus-square"></i> Novo recebimento de cobrança
