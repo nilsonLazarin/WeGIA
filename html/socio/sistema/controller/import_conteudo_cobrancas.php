@@ -260,9 +260,13 @@ $("#cargo").change(function(){
                 $.each(item1.payments, function(i2,item2){
                     console.log(item2.amount)
                     console.log(item1.code)
+                    var dataE = item2.date;
+                    var AdataArray = dataE.split("/");
+                    var data = AdataArray[2] + "-" + AdataArray[1] + "-" + AdataArray[0];
+                    console.log(data)
                     $.post("./atualiza_pagamentos.php",{
                       "codigo": item1.code,
-                      "data": dataAtual,
+                      "data": data,
                       "valor": item2.amount,
                     }).done(function(resultadoCadastro){
                         if(resultadoCadastro){
