@@ -235,16 +235,18 @@ $("#cargo").change(function(){
         
         var data = new Date;
         var dia = data.getDate()-4;
+        var diaA = data.getDate();
         var mes = data.getMonth()+1;
         var ano = data.getFullYear();
         var dataBR = dia + "/" + mes + "/" + ano;
+        var dataAtual = ano + "-" + mes + "-" + diaA;
 
         var urlMod = url.replace("issue","list");
         var urlModificado = urlMod.replace("charge","charges");
         urlModificado = urlModificado+'token='+token+'&beginPaymentDate='+dataBR;
         
-        // var teste = 'https://sandbox.boletobancario.com/boletofacil/integration/api/v1/list-charges?token='+token+'&beginPaymentDate='+dataBR;
-        // console.log(teste);
+        var teste = 'https://sandbox.boletobancario.com/boletofacil/integration/api/v1/list-charges?token='+token+'&beginPaymentDate='+dataBR;
+        console.log(teste);
        
         $.ajax({
           data: '',
@@ -254,13 +256,20 @@ $("#cargo").change(function(){
             var resposta = response;
             $.each(resposta,function(i,item){
               $.each(item.charges, function(i1,item1){
-                  $.post("./atualiza_pagamentos.php",{
+                console.log(item1.payments)
+                $.each(item1.payments, function(i2,item2){
+                    console.log(item2.amount)
+                    console.log(item1.code)
+                    $.post("./atualiza_pagamentos.php",{
                       "codigo": item1.code,
-                  }).done(function(resultadoCadastro){
-                    if(resultadoCadastro){
-                       window.location="cobrancas.php?msg_c=Status de Pagamentos Atualizados!";
-                    }
-                  });
+                      "data": dataAtual,
+                      "valor": item2.amount,
+                    }).done(function(resultadoCadastro){
+                        if(resultadoCadastro){
+                           window.location="cobrancas.php?msg_c=Status de Pagamentos Atualizados!";
+                        }
+                    });
+                });
               });
             });
           },

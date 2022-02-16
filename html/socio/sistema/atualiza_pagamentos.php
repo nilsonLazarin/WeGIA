@@ -21,7 +21,9 @@
     // $status = "'$status'";
     $cadastrado = false;
     // mysqli_query($conexao, "INSERT INTO cobrancas (`codigo`, `descricao`, `data_emissao`, `data_vencimento`, `data_pagamento`, `valor`, `valor_pago`, `status`, `link_cobranca`, `link_boleto`, `linha_digitavel`, `id_socio`) VALUES ($codigo,$descricao,$data_emissao, $data_vencimento,$data_pagamento,$valor,$valor_pago,$status,$link_cobranca,$link_boleto,$linha_digitavel,$id_socio)");
-    mysqli_query($conexao, "UPDATE cobrancas set status='BOLETO PAGO' where codigo = $codigo");
+    mysqli_query($conexao, "UPDATE cobrancas set status='BOLETO PAGO', data_pagamento='$data', valor_pago=$valor where codigo = $codigo");
+
+    echo file_put_contents("ar.txt",$valor." ".$data." ".$codigo);
 
     if(mysqli_affected_rows($conexao)) $cadastrado = true;
 
