@@ -74,7 +74,6 @@ header("Location: ../home.php?msg_c=$msg");
    		header('Location: ../../controle/control.php?metodo=listarUm&nomeClasse=SaudeControle&nextPage=../html/saude/saude.php?id_fichamedica='.$id.'&id='.$id);
   }
   $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-  $intStatus = $mysqli->query("SELECT * FROM saude_enfermidades");
 
   $docfuncional = $pdo->query("SELECT * FROM saude_exames se JOIN saude_exame_tipos st ON se.id_exame_tipos  = st.id_exame_tipo WHERE id_fichamedica= ".$_GET['id_fichamedica']);
   $docfuncional = $docfuncional->fetchAll(PDO::FETCH_ASSOC);
@@ -95,10 +94,6 @@ header("Location: ../home.php?msg_c=$msg");
   $exibimed = $exibimed->fetchAll(PDO::FETCH_ASSOC);
   $exibimed = json_encode($exibimed);
 
-  $exibimedparaenfermeiro = $pdo->query("SELECT * FROM saude_medicacao sm JOIN saude_atendimento sa ON(sm.id_atendimento=sa.id_atendimento) JOIN saude_fichamedica sf ON(sf.id_fichamedica=sa.id_fichamedica) WHERE sm.saude_medicacao_status_idsaude_medicacao_status = 1 and sf.id_fichamedica=".$_GET['id_fichamedica']);
-  $exibimedparaenfermeiro = $exibimedparaenfermeiro->fetchAll(PDO::FETCH_ASSOC);
-  $exibimedparaenfermeiro = json_encode($exibimedparaenfermeiro);
-
   $a = $_GET['id_fichamedica'];
 
   $medaplicadas = $pdo->query("SELECT medicamento, aplicação FROM saude_medicacao sm JOIN saude_medicamento_administracao sa ON (sm.id_medicacao = sa.saude_medicacao_id_medicacao) join saude_atendimento saa on(saa.id_atendimento=sm.id_atendimento) WHERE saa.id_fichamedica= '$a' ORDER BY id_medicacao DESC");
@@ -116,7 +111,6 @@ header("Location: ../home.php?msg_c=$msg");
 
   $teste = $pdo->query("SELECT nome FROM pessoa p JOIN funcionario f ON(p.id_pessoa = f.id_pessoa) WHERE f.id_pessoa = " .$_SESSION['id_pessoa'])->fetchAll(PDO::FETCH_ASSOC);
   $id_funcionario = $teste[0]['nome'];
-
   
 ?>
     <!-- Vendor -->
@@ -379,37 +373,7 @@ header("Location: ../home.php?msg_c=$msg");
                 .append($("<td style='display: flex; justify-content: space-evenly;'>")
                   .append($("<a onclick='editarStatusMedico("+item.id_medicacao+")' href='#'title='Editar'><button class='btn btn-primary' id='teste'><i class='glyphicon glyphicon-pencil'></i></button></a>"))
                 )
-                // .append($("<a href='status_update.php?id_medicacao=" + item.id_medicacao +"' title='Visualizar ou Baixar'><button class='btn btn-primary'><i class='glyphicon glyphicon-hand-up'></i></button></a>"))
               )
-            });
-          });
-          
-          // para diferente, aplicação do enfermeiro
-          $(function(){
-            var exibimedparaenfermeiro = <?= $exibimedparaenfermeiro ?>;
-            console.log(exibimedparaenfermeiro);
-            $.each(exibimedparaenfermeiro,function(i,item){
-              $("#tabela")
-              .append($("<tr class='item "+item.medicamento+"'>")
-                .append($("<td class='txt-center'>")
-                  .text(item.medicamento)
-                )
-                .append($("<td class='txt-center'>")
-                  .text(item.dosagem)
-                )
-                .append($("<td class='txt-center'>")
-                  .text(item.horario)
-                )
-                .append($("<td class='txt-center'>")
-                  .text(item.duracao)
-                )
-                .append($("<td style='display: flex; justify-content: space-evenly;'>")
-                  /*.append($("<a onclick='aplicarMedicacao("+item.id_medicacao+")' href='#' title='Aplicar'><button class='btn btn-primary bot click'><i class='glyphicon glyphicon-hand-up'></i></button></a>"))*/
-                  .append($("<a href='aplicacao_upload.php?id_medicacao=" + item.id_medicacao +"&id_pessoa="+item.id_pessoa+"&id_funcionario="+item.id_funcionario+"' title='Visualizar ou Baixar'><button class='btn btn-primary'><i class='glyphicon glyphicon-hand-up'></i></button></a>"))
-                 
-                )
-              )
-            
             });
           });
 
@@ -433,24 +397,6 @@ header("Location: ../home.php?msg_c=$msg");
                 });
             });
           
-          // function digitarmedicacao()
-          // {
-          //   $("#AAA").remove();
-          //   $("#Inputremedio").show();
-          // }
-          // function aparecermedicacao()
-          // {
-          //   $("#botaoSalvarIP").show();
-          // }
-          // function esconderoutro()
-          // {
-          //   $("#Inputremedio").hide();
-          // }
-
-        //  $(function () {
-        //     $("#header").load("../header.php");
-        //     $(".menuu").load("../menu.php");
-        //  });
 
         function escrevermed() {
            
@@ -496,15 +442,9 @@ header("Location: ../home.php?msg_c=$msg");
             <div class="col-md-4 col-lg-3">
                <section class="panel">
                         <div class="panel-body">
-                         
-
                             <div class="thumb-info mb-md">
                                   <img id="imagem" alt="John Doe">
-                               
                             </div>
-
-                              
-                           
                         </div>
                </section>
             </div>
@@ -516,8 +456,8 @@ header("Location: ../home.php?msg_c=$msg");
                </li>
                <li>
                   <a href="#cadastro_comorbidades" data-toggle="tab">Cadastro de comorbidades</a>
-                </li>
-                <li>
+               </li>
+               <li>
                   <a href="#arquivo" data-toggle="tab">Cadastro de exames</a>
                </li>
                <li>
@@ -580,7 +520,6 @@ header("Location: ../home.php?msg_c=$msg");
                         </div>
                       </div> 
 
-
                       <!-- caso o paciente não tenha o tipo sanguineo definido -->
                       <div id="adicionartipo" style="display:none;" class="form-group">
                       <input type="hidden" name="metodo" value="alterarInfPessoal">
@@ -614,16 +553,15 @@ header("Location: ../home.php?msg_c=$msg");
                     
     <!-- Aba  de  comorbidades -->
     <div id="cadastro_comorbidades" class="tab-pane">
-        <section class="panel">
-            <header class="panel-heading">
-              <div class="panel-actions">
+      <section class="panel">
+        <header class="panel-heading">
+            <div class="panel-actions">
                   <a href="#" class="fa fa-caret-down"></a>
-              </div>
-                <h2 class="panel-title">Cadastro de comorbidades</h2>
-            </header>
-            <div class="panel-body">
-
-            <hr class="dotted short">
+            </div>
+            <h2 class="panel-title">Cadastro de comorbidades</h2>
+        </header>
+        <div class="panel-body">
+          <hr class="dotted short">
             
             <table class="table table-bordered table-striped mb-none" id="datatable-dependente">
                 <thead>
@@ -637,29 +575,28 @@ header("Location: ../home.php?msg_c=$msg");
                             
                     </tbody>
             </table>
-               <br> 
-                <form action='enfermidade_upload.php' method='post' enctype='multipart/form-data' id='funcionarioDocForm'>
-                  <!-- <h5 class="obrig">Campos Obrigatórios(*)</h5> -->
-                  <div class="form-group">
-                  <div class="col-md-6">
+
+            <br> 
+            <form action='enfermidade_upload.php' method='post' enctype='multipart/form-data' id='funcionarioDocForm'>
+              <div class="form-group">
+                <div class="col-md-6">
                    <h5 class="obrig">Campos Obrigatórios(*)</h5>
-                  </div>
-                 </div>
+                </div>
+              </div>
                  
-                    <!-- <div class="modal-body" style="padding: 15px 40px"> -->
-                      <div class="form-group">
-                        <label class="col-md-3 control-label" for="inputSuccess">Enfermidades<sup class="obrig">*</label>
-                          <div class="col-md-8">
-                          <select class="form-control input-lg mb-md" name="id_CID" id="id_CID" style="width:350px;" required>
-                          <option selected disabled>Selecionar</option>
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="inputSuccess">Enfermidades<sup class="obrig">*</label>
+                    <div class="col-md-8">
+                      <select class="form-control input-lg mb-md" name="id_CID" id="id_CID" style="width:350px;" required>
+                        <option selected disabled>Selecionar</option>
                             <?php
                             while ($row = $tabelacid->fetch_array(MYSQLI_NUM)) {
                             echo "<option value=" . $row[0] . ">" . $row[2] . "</option>";
                             }
                             ?>
-                          </select>
-                          </div>
-                        </div>
+                        </select>
+                      </div>
+                    </div>
                        
                        <div class="form-group">
                         <label class="col-md-3 control-label" for="profileCompany" id="data_diagnostico">Data do diagnóstico<sup class="obrig">*</sup></label>
@@ -673,11 +610,6 @@ header("Location: ../home.php?msg_c=$msg");
                           <div class="col-md-6">
                           <select class="form-control input-lg mb-md" name="intStatus" id="intStatus" required> 
                             <option selected disabled>Selecionar</option>
-                            <!-- <?php
-                              while ($row = $intStatus->fetch_array(MYSQLI_NUM)) {
-                              echo "<option value=" . $row[0] . ">" . $row[1] . "</option>";
-                              }
-                            ?> -->
                             <option value="1">Ativo</option>
                             <option value="0">Inativo</option>
                           </select>
@@ -689,15 +621,12 @@ header("Location: ../home.php?msg_c=$msg");
                         <input type="number" name="id_fichamedica" value="<?= $_GET['id_fichamedica']; ?>" style='display: none;'>
                           <input type="hidden" name="id_fichamedica" value=<?php echo $_GET['id_fichamedica'] ?>>
                           <input type="submit" class="btn btn-primary" value="Cadastrar" id="botaoSalvarIP">
-                            </div> 
-                            </div>
+                        </div> 
+                        </div>
                     </form>
                   </div>
-            </section>
-            
+              </section>
          </div>
-
-
 
         <!-- Aba de exames -->
           <div id="arquivo" class="tab-pane">
@@ -761,14 +690,7 @@ header("Location: ../home.php?msg_c=$msg");
                                   </div>
                                 </div>
                                
-                                <!-- <div class="form-group">
-                                <label>Data do exame</label>
-                                <div style="display: flex;">
-                                  <input type="date" class="form-control"  maxlength="10" placeholder="dd/mm/aaaa" name="data_diagnostico" id="data_diagnostico" max=2021-06-11>
-                                </div>
-                              </div> -->
                               <input type="number" name="id_fichamedica" value="<?= $_GET['id_fichamedica']; ?>" style='display: none;'>
-                                <!-- <input type="number" name="id_interno" value="" style='display: none;'> -->
                               </div>
                               <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
@@ -779,8 +701,8 @@ header("Location: ../home.php?msg_c=$msg");
                           </div>
                         </div>
                     <br/>
-         </section>
-         </div>
+                </section>
+           </div>
        
       <!-- aba de atendimento médico -->
        <div id="historico_medico" class="tab-pane">
@@ -1294,57 +1216,6 @@ header("Location: ../home.php?msg_c=$msg");
 
                 });
 
-                // insercao das meds no enfermeiro 
-                $(function(){
-
-                  let tabela_enfermeiro = new Array();
-
-                  $("#botaoenferm").click(function(){
-                  let horario_aplicacao = $("#horario_aplicacao").val();
-                  let medicamento = $("#med").val();
-
-                  $("#enf").append($("<tr>")
-                      .append($("<td>") .text(medicamento) )
-                      .append($("<td>") .text(horario_aplicacao) )
-                      .append($("<td style='display: flex; justify-content: space-evenly;'>")
-                      .append($("<button class='btn btn-danger'><i class='fas fa-trash-alt'></i></button>"))));
-                      
-                      let tabela = {
-                             "horario_aplicacao": horario_aplicacao,
-                             "med":medicamento,
-                       };
-                      tabela_enfermeiro.push(tabela);
-                      $("#horario_aplicacao").val(""); 
-                      $("#med").val("");
-                  })
-
-                  $("#enf").on("click", "td", function(){
-
-                      let tamanho = tabela_enfermeiro.length;
-                      let dados = tabela_enfermeiro[0].medicamento + tabela_enfermeiro[0].horario_aplicacao;
-                      let dados_existentes = $(this).parents("#enf tr").text();
-                      if(dados == dados_existentes)
-                      {
-                          tabela_enfermeiro.splice(0,1);
-                      }
-                      else
-                      {
-                          let i;
-                          for(i=1;i<tamanho;i++)
-                          {
-                              let dd = tabela_enfermeiro[i].medicamento + tabela_enfermeiro[i].horario_aplicacao;
-                              if(dd == dados_existentes)
-                              {   
-                                  tabela_enfermeiro.splice(i,1);
-                              }
-                          }
-                      }
-                      $(this).parents("#enf tr").remove();
-                  })
-                  $("#salvar_enf").click(function(){
-                      $("input[name=a_enf]").val(JSON.stringify(tabela_enfermeiro)).val();
-                  })
-                  });
            
         </script>
         

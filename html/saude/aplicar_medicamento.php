@@ -410,7 +410,7 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
                     <div class="panel-actions">
                         <a href="#" class="fa fa-caret-down"></a>
                     </div>
-                   <h2 class="panel-title">Aplicar medicação</h2>
+                   <h2 class="panel-title">Aplicar medicamento</h2>
                 </header>
                    
                 <div class="panel-body">

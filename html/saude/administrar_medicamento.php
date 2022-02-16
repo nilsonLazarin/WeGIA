@@ -198,9 +198,9 @@
 					</div>
 					<br>
 				</section>
-				<!-- end: page -->
+		<!-- end: page -->
 
-				<!-- Vendor -->
+		<!-- Vendor -->
 		<script src="../../assets/vendor/select2/select2.js"></script>
 		<script src="../../assets/vendor/jquery-datatables/media/js/jquery.dataTables.js"></script>
 		<script src="../../assets/vendor/jquery-datatables/extras/TableTools/js/dataTables.tableTools.min.js"></script>
@@ -214,7 +214,6 @@
 		
 		<!-- Theme Initialization Files -->
 		<script src="../../assets/javascripts/theme.init.js"></script>
-
 
 		<!-- Examples -->
 		<script src="../../assets/javascripts/tables/examples.datatables.default.js"></script>
