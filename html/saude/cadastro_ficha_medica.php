@@ -32,7 +32,7 @@ if(!is_null($resultado)){
     if(!is_null($id_cargo)){
     $id_cargo = $id_cargo['id_cargo'];
     }
-    $resultado = mysqli_query($conexao, "SELECT * FROM permissao WHERE id_cargo=$id_cargo and id_recurso=5");
+    $resultado = mysqli_query($conexao, "SELECT * FROM permissao p JOIN acao a ON(p.id_acao=a.id_acao) JOIN recurso r ON(p.id_recurso=r.id_recurso) WHERE id_cargo=$id_cargo AND a.descricao = 'LER, GRAVAR E EXECUTAR' AND r.descricao='Módulo Saúde'");
     if(!is_bool($resultado) and mysqli_num_rows($resultado)){
     $permissao = mysqli_fetch_array($resultado);
     if($permissao['id_acao'] < 7){
@@ -128,8 +128,6 @@ foreach($nome_funcionario as $va2)
 }
 
 require_once ROOT."/controle/SaudeControle.php";
-
-// Adiciona a Função display_campo($nome_campo, $tipo_campo)
 require_once ROOT."/html/personalizacao_display.php";
 ?>
 
@@ -332,7 +330,7 @@ require_once ROOT."/html/personalizacao_display.php";
                                             <div class="form-group">
                                                 <div class='col-md-6' id='div_texto' style="height: 499px;">
                                                     <label for="texto" id="etiqueta_despacho" style="padding-left: 15px;">Descrição médica</label>
-                                                    <textarea cols='30' rows='5' id='despacho' name='texto' class='form-control' onkeypress="return Onlychars(event)"required></textarea>
+                                                    <textarea cols='30' rows='5' id='despacho' name='texto' class='form-control' required></textarea>
                                                 </div>
                                             </div>
                                             <br>

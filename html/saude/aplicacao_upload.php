@@ -10,15 +10,18 @@ extract($_REQUEST);
 if (!isset($_SESSION["usuario"])){
     header("Location: ../../index.php");
 }
+require_once "../../dao/Conexao.php";
 
+$pdo = Conexao::connect();
 $id_medicacao = $_GET['id_medicacao'];
 $pessoa_id_pessoa = $_GET['id_pessoa'];
-$funcionario_id_funcionario = $_GET['id_funcionario'];
+
+// $funcionario_id_funcionario = $_GET['id_funcionario'];
+$teste = $pdo->query("SELECT id_funcionario FROM pessoa p JOIN funcionario f ON(p.id_pessoa = f.id_pessoa) WHERE f.id_pessoa = " .$_SESSION['id_pessoa'])->fetchAll(PDO::FETCH_ASSOC);
+$funcionario_id_funcionario = $teste[0]['id_funcionario'];
 
 // echo file_put_contents('id_pessoa.txt',$pessoa_id_pessoa);
 // echo file_put_contents('id_func.txt',$funcionario_id_funcionario);
-
-require_once "../../dao/Conexao.php";	 
     
 $aplicacao = date('Y-m-d H:i:s', time()); 
 
