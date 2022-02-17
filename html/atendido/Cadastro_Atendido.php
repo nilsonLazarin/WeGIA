@@ -300,19 +300,19 @@
 									<h5 class="obrig">Campos Obrigatórios(*)</h5>
 										<div class="form-group">
 											<label class="col-md-3 control-label" for="profileFirstName">Nome<sup class="obrig">*</sup></label>
-											<div class="col-md-8">
+											<div class="col-md-6">
 												<input type="text" class="form-control" name="nome" id="nome" id="profileFirstName" onkeypress="return Onlychars(event)">
 											</div>
 										</div>
 										<div class="form-group">
 											<label class="col-md-3 control-label">Sobrenome<sup class="obrig">*</sup></label>
-											<div class="col-md-8">
+											<div class="col-md-6">
 												<input type="text" class="form-control" name="sobrenome" id="sobrenome" onkeypress="return Onlychars(event)">
 											</div>
 										</div>
 										<div class="form-group">
 											<label class="col-md-3 control-label" for="profileLastName">Sexo<sup class="obrig">*</sup></label>
-											<div class="col-md-8">
+											<div class="col-md-6">
 												<input type="radio" name="sexo" id="radio1" value="m" style="margin-top: 10px margin-left: 15px;" required><i class="fa fa-male" style="font-size: 20px;" ></i>
 												<input type="radio" name="sexo" id="radio2"  value="f" style="margin-top: 10px; margin-left: 15px;"><i class="fa fa-female" style="font-size: 20px;"></i> 
 											</div>
@@ -320,14 +320,14 @@
 										</div>
 										<div class="form-group">
 											<label class="col-md-3 control-label" for="profileCompany">Telefone</label>
-											<div class="col-md-8">
+											<div class="col-md-6">
 												<input type="text" class="form-control" maxlength="14" minlength="14" name="telefone" id="telefone" id="profileCompany" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeyup="mascara('(##)#####-####',this,event)" >
 											</div>
 										</div>
 										
 										<div class="form-group">
 											 <label class="col-md-3 control-label" for="profileCompany">Nascimento<sup class="obrig">*</sup></label>
-											<div class="col-md-8">
+											<div class="col-md-6">
 												<input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" id="nascimento" max=<?php echo date('Y-m-d');?>> 
 										    </div>
 										</div>
