@@ -246,9 +246,6 @@ $("#cargo").change(function(){
         var urlMod = url.replace("issue","list");
         var urlModificado = urlMod.replace("charge","charges");
         urlModificado = urlModificado+'token='+token+'&beginPaymentDate='+dataBR;
-        
-        var teste = 'https://sandbox.boletobancario.com/boletofacil/integration/api/v1/list-charges?token='+token+'&beginPaymentDate='+dataBR;
-        console.log(teste);
        
         $.ajax({
           data: '',

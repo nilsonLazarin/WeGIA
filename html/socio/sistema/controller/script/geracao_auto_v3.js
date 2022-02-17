@@ -165,7 +165,16 @@ $(document).ready(function(){
                                 $("#valor_u").prop('disabled', true);
                                 $("#tipo_geracao").prop('disabled', true);
                                 $("#num_parcelas").prop('disabled', true);
+                                $("#id_pesquisa").prop('disabled',true);
                                 $("#btn_confirma").css("display","none");
+                                $("#btn_voltar").css("display","block");
+                                $("#btn_voltar").click(function(){
+                                    location.reload();
+                                    $("#num_parcelas").val();
+                                    $("#data_vencimento").val();
+                                    $("#valor_u").val();
+                                    $("#tipo_geracao").val(0);
+                                })
                                 carneBoletos = [];
                                 function montaTabela(nome_socio, carne, tipo_socio, telefone){
                                     console.log(telefone);
@@ -228,11 +237,7 @@ $(document).ready(function(){
 
                                     
                                     for(const [i, boleto] of carneBoletos.entries()){
-                                        // tabela += `<tr><td>${i+1}/${qtd_parcelas}</td><td>${boleto.dueDate}</td><td><a target='_blank' href='${boleto.checkoutUrl}'>${boleto.checkoutUrl}</a></td><td>${boleto.payNumber}</td><tr>`;
-                                        // texto += `\nParcela (${i+1}/${qtd_parcelas} - ${boleto.dueDate}): ${boleto.checkoutUrl}`;
-                                        // console.log(boleto.checkoutUrl)
-                                        
-                                        
+                                    
                                         $.post("./cadastro_cobrancas_geracao.php",{
                                             "codigo": boleto.code,
                                             "descricao": "O Lar Abrigo Amor a Jesus, agradece sua contribuição ao Projeto Sócio  Amigos do Laje.Deus abençoe!",
@@ -472,11 +477,8 @@ $(document).ready(function(){
         var id_socio =  $("#id_pesquisa").val().split("|")[2];
         procurar_desejado(id_socio);
 
-        $("#btn_voltar").css("display","block");
         $("#btn_gerar_unico").css("display","none");
-        $("#btn_voltar").click(function(){
-            location.reload();
-        })
+        
         // $("#num_parcelas").val("");
         // $("#data_vencimento").val("");
         // $("#valor_u").val("");

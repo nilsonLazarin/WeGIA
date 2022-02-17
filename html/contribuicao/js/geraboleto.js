@@ -1,9 +1,48 @@
 
+function CadastraCobrancas(carneBoletos, id,valor){
+    
+    var data = new Date;
+    console.log(data)
+    var dia = data.getDate();
+    var mes = data.getMonth()+1;
+    var ano = data.getFullYear();
+    var Databr = ano+"-"+mes+"-"+dia;
+
+    for(const [i, boleto] of carneBoletos.entries()){
+        
+        var arrayDataVencimento = boleto.dueDate.split('/');
+        var diaV = arrayDataVencimento[0];
+        var mesV = arrayDataVencimento[1];
+        var anoV = arrayDataVencimento[2];
+        var DataV = anoV+"-"+mesV+"-"+diaV;
+        console.log(valor);
+        
+        $.post("../socio/sistema/cadastro_cobrancas_geracao.php",{
+            "codigo": boleto.code,
+            "descricao": "O Lar Abrigo Amor a Jesus, agradece sua contribuição ao Projeto Sócio  Amigos do Laje.Deus abençoe!",
+            "id_socio": id,
+            "data_vencimento": DataV,
+            "data_emissao": Databr,
+            "data_pagamento": '0000-00-00',
+            "valor": valor,
+            "valor_pago": 0.00,
+            "status": "Agurdando Pagamento",
+            "link_cobranca": boleto.checkoutUrl,
+            "link_boleto": boleto.installmentLink,
+            "linha_digitavel": boleto.billetDetails.barcodeNumber,
+        }).done(function(r){
+            console.log("k");
+        });
+    }
+
+}   
+
 function geraBoleto()
 {
     $.post("./php/infoBoletoFacil.php").done(function(data)
     {
         var dado = JSON.parse(data);
+        console.log(dado)
         var api = dado.api;
         var token = dado.token_api;
         var agradecimento = dado.agradecimento;
@@ -41,36 +80,51 @@ function geraBoleto()
             console.log(parcelas);
         
         var check;
-      
+        var id_socio;
+        $.post("./php/buscaIdSocio.php",{
+            "cpf": doc,
+        }).done(function(resposta){
+            var respostas = JSON.parse(resposta);
+            id_socio = respostas['id_socio'];
+
+        })
+        carneBoletos = [];
             if($("#tipo2").prop("checked"))
             { 
                 
                 $.get(api+"token="+token+"&description='"+agradecimento+"'&amount="+valor+"&dueDate="+dataV+"&maxOverdueDays="+dias_venc_unico+"&payerName="+nome+"&payerCpfCnpj="+doc+"&payerEmail="+email+"&payerPhone="+telefone+"&billingAddressStreet="+rua+"&billingAddressNumber="+numero+"&billingAddressComplement="+complemento+"&billingAddressNeighborhood="+bairro+"&billingAddressCity="+cidade+"&billingAddressState="+uf+"&billingAddressPostcode="+cep+"&fine="+multa+"&interest="+juros+"&paymentTypes=BOLETO&notifyPayer=TRUE&reference="+nomerefer+numeroRandom)
                 .done(function(dados){
                     cad_log(socioTipo,reference);
-                    for(var link of dados.data.charges)
+                    for(var boleto of dados.data.charges)
                     {
-                        
-                        var check = link.checkoutUrl;
+                        carneBoletos.push(boleto);
+                        var check = boleto.checkoutUrl;
                     
                     }
+                    CadastraCobrancas(carneBoletos,id_socio,valor);
+                    carneBoletos = [];
+
+
                     $("form").html('<div><h3>Gerado com sucesso!</h3><br><br><br><button class="mala"><a class = "botao" target="_blank" href='+check+'>EMITA SEU BOLETO AQUI</a></button> <button class="mala"><a class="botao" href="../contribuicao/index.php">VOLTAR À PÁGINA INICIAL</a></button></div>');
                     
                 })
                 .fail(function(){
                     alert("ERRO NO MÓDULO CONTRIBUIÇÃO: Houve um erro na requisição do boleto, entre em contato com o administrador do sistema.");
                 })
+                
             }
             else{
                 $.get(api+"token="+token+"&description='"+agradecimento+"'&amount="+valor+"&dueDate="+dataV+"&maxOverdueDays="+dias_venc_mensal+"&installments="+parcelas+"&payerName="+nome+"&payerCpfCnpj="+doc+"&payerEmail="+email+"&payerPhone="+telefone+"&billingAddressStreet="+rua+"&billingAddressNumber="+numero+"&billingAddressComplement="+complemento+"&billingAddressNeighborhood="+bairro+"&billingAddressCity="+cidade+"&billingAddressState="+uf+"&billingAddressPostcode="+cep+"&fine="+multa+"&interest="+juros+"&paymentTypes=BOLETO&notifyPayer=TRUE&reference="+nomerefer+numeroRandom)
                 .done(function(dados){
                     cad_log(socioTipo, reference);
-                    for(var link of dados.data.charges)
+                    for(var boleto of dados.data.charges)
                     {
-                        
-                        var check = link.checkoutUrl; 
+                        carneBoletos.push(boleto);
+                        var check = boleto.checkoutUrl; 
     
                     }
+                    CadastraCobrancas(carneBoletos,id_socio,valor);
+
                     $("form").html('<div><h3>Gerado com sucesso!</h3><br><br><br><button class="mala"><a class="botao" target="_blank" href='+check+'>EMITA SEU BOLETO AQUI</a></button> <button class="mala"><a class = "botao" href="../contribuicao/index.php">VOLTAR À PÁGINA INICIAL</a></button></div>');
                     
                 })
@@ -78,6 +132,8 @@ function geraBoleto()
                     alert("ERRO NO MÓDULO CONTRIBUIÇÃO: Houve um erro na requisição do boleto, entre em contato com o administrador do sistema.");
                 })
             }
+            
+
     });
 }
 
