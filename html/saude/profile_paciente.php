@@ -94,6 +94,10 @@ header("Location: ../home.php?msg_c=$msg");
   $exibimed = $exibimed->fetchAll(PDO::FETCH_ASSOC);
   $exibimed = json_encode($exibimed);
 
+  $prontuariopublico = $pdo->query("SELECT descricao FROM saude_fichamedica WHERE id_fichamedica= ".$_GET['id_fichamedica']);
+  $prontuariopublico = $prontuariopublico->fetchAll(PDO::FETCH_ASSOC);
+  $prontuariopublico = json_encode($prontuariopublico);
+
   $a = $_GET['id_fichamedica'];
 
   $medaplicadas = $pdo->query("SELECT medicamento, aplicação FROM saude_medicacao sm JOIN saude_medicamento_administracao sa ON (sm.id_medicacao = sa.saude_medicacao_id_medicacao) join saude_atendimento saa on(saa.id_atendimento=sm.id_atendimento) WHERE saa.id_fichamedica= '$a' ORDER BY id_medicacao DESC");
@@ -111,6 +115,7 @@ header("Location: ../home.php?msg_c=$msg");
 
   $teste = $pdo->query("SELECT nome FROM pessoa p JOIN funcionario f ON(p.id_pessoa = f.id_pessoa) WHERE f.id_pessoa = " .$_SESSION['id_pessoa'])->fetchAll(PDO::FETCH_ASSOC);
   $id_funcionario = $teste[0]['nome'];
+ 
   
 ?>
     <!-- Vendor -->
@@ -152,7 +157,27 @@ header("Location: ../home.php?msg_c=$msg");
            
             $("#header").load("../header.php");
             $(".menuu").load("../menu.php");
-            CKEDITOR.replace('despacho');
+            //CKEDITOR.replace('despacho');
+
+            var editor = CKEDITOR.replace('despacho');
+            editor.on('required', function(e){
+                alert("Por favor, informe a descrição!");
+                e.cancel();
+            });
+            //var editor = CKEDITOR.replace( 'despacho', {
+            // 	extraPlugins: 'placeholder',
+            // 	toolbar: [ [ 'Source', 'Bold' ], ['CreatePlaceholder'] ]
+            // });
+            // CKEDITOR.replace( 'despacho', {
+            // extraPlugins: 'editorplaceholder',
+            // editorplaceholder: 'Start typing here...',
+            // removeButtons: 'PasteFromWord'
+            // } );
+          
+            // var config = { extraPlugins : 'confighelper'};
+            // // config.placeholder = 'some value';
+            // CKEDITOR.replace('teste', config);
+
         });
     </script>
     
@@ -190,6 +215,7 @@ header("Location: ../home.php?msg_c=$msg");
         .col-md-3 {
             width: 10%;
         }
+
     </style>
 
 
@@ -396,7 +422,16 @@ header("Location: ../home.php?msg_c=$msg");
                   ]
                 });
             });
-          
+        
+          $(function() {
+          var prontuariopublico = <?= $prontuariopublico ?>;
+          $.each(prontuariopublico, function(i, item) {
+            $("#prontuario_publico")
+              .append($("<tr>")
+                .append($("<td>").html(item.descricao))
+              )
+            });
+          });
 
         function escrevermed() {
            
@@ -538,13 +573,31 @@ header("Location: ../home.php?msg_c=$msg");
                             <option value="AB-">AB-</option>
                           </select>
                         </div>
-
+                      
                       <!-- </div> -->
                       <input type="hidden" name="id_fichamedica" value=<?php echo $_GET['id_fichamedica'] ?>>
-                     <div class="col-md-9 col-md-offset-3">
+                     <!-- <div class="col-md-9 col-md-offset-3"> -->
                         <input type="submit" class="btn btn-primary" value="Salvar" id="botaoSalvarIP">
-                      </div> 
+                     <!-- </div>  -->
+
+                      <br>
+                      <br>
+                      <!-- <div class="form-group"> -->
+                      <!-- </div>   -->
+                      
                      </div>
+                     <div class="col-md-12">
+                        <table class="table table-bordered table-striped mb-none">
+                        <thead>
+                          <tr style="font-size:15px;">
+                            <th>Prontuário público</th>
+                          </tr>
+                        </thead>
+                        <tbody id="prontuario_publico" style="font-size:15px">
+                          
+                        </tbody>
+                      </table>
+                    </div>
                     </div>
                     </section>
                   </form>
@@ -584,19 +637,22 @@ header("Location: ../home.php?msg_c=$msg");
                 </div>
               </div>
                  
-              <div class="form-group">
-                <label class="col-md-3 control-label" for="inputSuccess">Enfermidades<sup class="obrig">*</label>
-                    <div class="col-md-8">
-                      <select class="form-control input-lg mb-md" name="id_CID" id="id_CID" style="width:350px;" required>
+             
+
+                    <div class="form-group">
+                    <label class="col-md-3 control-label" for="inputSuccess">Enfermidades<sup class="obrig">*</sup></label>
+                    <a onclick="adicionar_enfermidade()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
+                    <div class="col-md-6">
+                      <select class="form-control input-lg mb-md" name="id_CID" id="id_CID" required>
                         <option selected disabled>Selecionar</option>
-                            <?php
-                            while ($row = $tabelacid->fetch_array(MYSQLI_NUM)) {
-                            echo "<option value=" . $row[0] . ">" . $row[2] . "</option>";
-                            }
-                            ?>
-                        </select>
-                      </div>
+                        <?php
+                        while ($row = $tabelacid->fetch_array(MYSQLI_NUM)) {
+                          echo "<option value=" . $row[0] . ">" . $row[2] . "</option>";
+                        }                            ?>
+                      </select>
                     </div>
+                  </div>
+                    
                        
                        <div class="form-group">
                         <label class="col-md-3 control-label" for="profileCompany" id="data_diagnostico">Data do diagnóstico<sup class="obrig">*</sup></label>
@@ -677,18 +733,26 @@ header("Location: ../home.php?msg_c=$msg");
                                     <input name="arquivo" type="file" class="form-control-file" id="id_documento" accept="png;jpeg;jpg;pdf;docx;doc;odp" required>
                                   </div>
 
-                                  <label class="my-1 mr-2" for="tipoDocumento">Tipo de exame</label><br>
-                                  <div style="display: flex;">
-                                    <select class="form-control input-lg mb-md" name="id_docfuncional" id="tipoDocumento" style="width:170px;" required>
-                                    <option selected disabled>Selecionar</option>
-                                      <?php
-                                      while ($row = $tipoexame->fetch_array(MYSQLI_NUM)) {
-                                      echo "<option value=" . $row[0] . ">" . $row[1] . "</option>";
-                                      }
-                                      ?>
-                                    </select>
+                              <div class="form-group">
+
+                                      <label for="arquivoDocumento">Tipo de exame</label>
+                                      
+                                    <div style="display: flex;">
+                                    
+                                        <select class="form-control input-lg mb-md" name="id_docfuncional" id="tipoDocumento" style="width:170px;" required> 
+                                        <option selected disabled>Selecionar</option>
+                                          <?php
+                                          while ($row = $tipoexame->fetch_array(MYSQLI_NUM)) {
+                                          echo "<option value=" . $row[0] . ">" . $row[1] . "</option>";
+                                          }
+                                          ?>
+                                        </select>
+                                        <a onclick="adicionar_exame()"><i class="fas fa-plus w3-xlarge" style="margin: 15px 15px 15px 15px;"></i></a>
                                   </div>
+                                  
                                 </div>
+
+                                
                                
                               <input type="number" name="id_fichamedica" value="<?= $_GET['id_fichamedica']; ?>" style='display: none;'>
                               </div>
@@ -832,16 +896,23 @@ header("Location: ../home.php?msg_c=$msg");
                       </div>
 
                    <div class="form-group">
-                     <label class="col-md-3 control-label" for="profileCompany">Descrição:</label>
+                     <label class="col-md-3 control-label" for="profileCompany" for="texto">Descrição:<sup class="obrig">*</sup></label>
                        <div class='col-md-6' id='div_texto' style="height: 499px;">
-                        <textarea cols='30' rows='3' id='despacho' name='texto' class='form-control' required></textarea>
+                        <textarea cols='30' rows='3' id='despacho' name='texto' class='form-control' value="teste" placeholder="teste" required></textarea>
+                        <!-- <script>
+
+				                CKEDITOR.replace( 'texto', {
+                        extraPlugins: 'placeholder'
+                        });
+
+		                	</script> -->
                         </div>
                       </div>
 
                       <br>
 
                       <div class="form-group" id="primeira_medicacao">
-                        <label class="col-md-3 control-label" for="inputSuccess">Medicação:<sup class="obrig">*</sup></label>
+                        <label class="col-md-3 control-label" for="inputSuccess">Medicamento:<sup class="obrig">*</sup></label>
                         <a onclick="escrevermed()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
 
                         <div class="col-md-6">
@@ -863,10 +934,10 @@ header("Location: ../home.php?msg_c=$msg");
                       <!-- caso não tenha a medicacao no select -->
                       <div id="mais_medicacoes" style="display:none;">
                         <div class="form-group">
-                        <label class="col-md-3 control-label" for="profileCompany">Medicação:<sup class="obrig">*</sup></label>
-                        <a onclick="escrevermed()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
+                        <label class="col-md-3 control-label" for="profileCompany">Medicamento:<sup class="obrig">*</sup></label>
+                        <!-- <a onclick="escrevermed()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a> -->
                         <div class="col-md-6">
-                          <input type="text" class="form-control meddisabled" name="nome_medicacao" id="nome_medicacao" disabled>
+                          <input type="text" class="form-control meddisabled" name="nome_medicacao" id="nome_medicacao">
                         </div>
                         </div>
                         <br>
@@ -925,7 +996,7 @@ header("Location: ../home.php?msg_c=$msg");
                  <input type="number" name="id_fichamedica" value="<?= $_GET['id_fichamedica']; ?>" style='display: none;'>
                 <input type="hidden" name="acervo">
                 <!-- value=<?php echo $_GET['id_fichamedica'] ?>-->
-                <input type="submit" class="btn btn-primary" value="Cadastrar atendimento e medicação" id="salvar_bd">
+                <input type="submit" class="btn btn-primary" value="Cadastrar" id="salvar_bd">
               <!-- id="salvar_bd" -->
             </div>
           </form>
@@ -1145,6 +1216,98 @@ header("Location: ../home.php?msg_c=$msg");
                 
 
             } 
+
+            function gerarExame() {
+            url = 'exibir_exame.php';
+            $.ajax({
+              data: '',
+              type: "POST",
+              url: url,
+              async: true,
+              success: function(response) {
+                var situacoes = response;
+                $('#tipoDocumento').empty();
+                $('#tipoDocumento').append('<option selected disabled>Selecionar</option>');
+                $.each(situacoes, function(i, item) {
+                  $('#tipoDocumento').append('<option value="' + item.id_exame_tipo + '">' + item.descricao + '</option>');
+                });
+              },
+              dataType: 'json'
+            });
+          }
+
+          function adicionar_exame() {
+            url = 'adicionar_exame.php';
+            var situacao = window.prompt("Cadastre uma novo exame:");
+            if (!situacao) {
+              return
+            }
+            situacao = situacao.trim();
+            if (situacao == '') {
+              return
+            }
+
+            data = 'situacao=' + situacao;
+
+            console.log(data);
+            $.ajax({
+              type: "POST",
+              url: url,
+              data: data,
+              success: function(response) {
+                gerarExame();
+              },
+              dataType: 'text'
+            })
+          }
+
+
+          function gerarEnfermidade() {
+            url = 'exibir_enfermidade.php';
+            $.ajax({
+              data: '',
+              type: "POST",
+              url: url,
+              async: true,
+              success: function(response) {
+                var situacoes = response;
+                $('#id_CID').empty();
+                $('#id_CID').append('<option selected disabled>Selecionar</option>');
+                $.each(situacoes, function(i, item) {
+                  $('#id_CID').append('<option value="' + item.id_CID + '">' + item.descricao + '</option>');
+                });
+              },
+              dataType: 'json'
+            });
+          }
+
+          function adicionar_enfermidade() {
+            url = 'adicionar_enfermidade.php';
+            var situacao = window.prompt("Cadastre uma enfermidade:");
+            
+            if (!situacao) {
+              return
+            }
+            situacao = situacao.trim();
+            if (situacao == '') {
+              return
+            }
+
+            data = 'situacao=' + situacao;
+
+            console.log(data);
+            $.ajax({
+              type: "POST",
+              url: url,
+              data: data,
+              success: function(response) {
+                gerarEnfermidade();
+              },
+              dataType: 'text'
+            })
+          }
+          
+
 
             // codigo para inserir medicacao na tabela do medico
             $(function(){

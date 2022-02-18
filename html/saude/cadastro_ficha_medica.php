@@ -216,7 +216,13 @@ require_once ROOT."/html/personalizacao_display.php";
             $("#header").load("../header.php");
             $(".menuu").load("../menu.php");
 
-            CKEDITOR.replace('despacho');
+
+            var editor = CKEDITOR.replace('despacho');
+            editor.on('required', function(e){
+                alert("Por favor, informe o prontuário público!");
+                e.cancel();
+            });
+            
         });
     </script>    
     
@@ -310,8 +316,8 @@ require_once ROOT."/html/personalizacao_display.php";
                                             <div class="form-group" id="teste">
                                                 <label class="col-md-3 control-label" for="profileLastName" style="padding-left:29px;">Selecione:<sup class="obrig">*</sup></label> 
                                                 <div class="col-md-8">
-                                                <label><input type="radio" name="gender" id="bolinha_atendido" value="atendido" style="margin-top: 10px; margin-left: 15px;" onclick="return exibirAtendido()">  Atendido</label>
-                                                <label><input type="radio" name="gender" id="bolinha_funcionario" value="f" style="margin-top: 10px; margin-left: 15px;" onclick="return exibirFuncionario()">  Funcionário </label>
+                                                <label><input type="radio" name="gender" id="bolinha_atendido" value="atendido" style="margin-top: 10px; margin-left: 15px;" onclick="return exibirAtendido()" required>  Atendido</label>
+                                                <label><input type="radio" name="gender" id="bolinha_funcionario" value="f" style="margin-top: 10px; margin-left: 15px;" onclick="return exibirFuncionario()" required>  Funcionário </label>
                                                 </div>
                                             </div>
                                 
@@ -329,8 +335,8 @@ require_once ROOT."/html/personalizacao_display.php";
 
                                             <div class="form-group">
                                                 <div class='col-md-6' id='div_texto' style="height: 499px;">
-                                                    <label for="texto" id="etiqueta_despacho" style="padding-left: 15px;">Descrição médica</label>
-                                                    <textarea cols='30' rows='5' id='despacho' name='texto' class='form-control' required></textarea>
+                                                    <label for="texto" id="etiqueta_despacho" style="padding-left: 15px;">Prontuário público:<sup class="obrig">*</sup></label>
+                                                    <textarea cols='30' rows='5' required id='despacho' name='texto' class='form-control'></textarea>
                                                 </div>
                                             </div>
                                             <br>

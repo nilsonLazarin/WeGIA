@@ -38,7 +38,7 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 		if(!is_null($id_cargo)){
 			$id_cargo = $id_cargo['id_cargo'];
 		} 
-		$resultado = mysqli_query($conexao, "SELECT * FROM permissao p JOIN acao a ON(p.id_acao=a.id_acao) JOIN recurso r ON(p.id_recurso=r.id_recurso) WHERE id_cargo=$id_cargo AND a.descricao = 'LER E EXECUTAR' AND r.descricao='Módulo Saúde'");
+		$resultado = mysqli_query($conexao, "SELECT * FROM permissao p JOIN recurso r ON(p.id_recurso=r.id_recurso) WHERE id_cargo=$id_cargo AND r.descricao='Módulo Saúde'");
 		if(!is_bool($resultado) and mysqli_num_rows($resultado)){
 			$permissao = mysqli_fetch_array($resultado);
 			if($permissao['id_acao'] < 5){
@@ -92,6 +92,10 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
   $teste = $pdo->query("SELECT nome FROM pessoa p JOIN funcionario f ON(p.id_pessoa = f.id_pessoa) WHERE f.id_pessoa = " .$_SESSION['id_pessoa'])->fetchAll(PDO::FETCH_ASSOC);
   $id_funcionario = $teste[0]['nome'];
+
+  $prontuariopublico = $pdo->query("SELECT descricao FROM saude_fichamedica WHERE id_fichamedica= ".$_GET['id_fichamedica']);
+  $prontuariopublico = $prontuariopublico->fetchAll(PDO::FETCH_ASSOC);
+  $prontuariopublico = json_encode($prontuariopublico);
 
   
 ?>
@@ -297,6 +301,15 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
                 });
             });
           
+         $(function() {
+          var prontuariopublico = <?= $prontuariopublico ?>;
+          $.each(prontuariopublico, function(i, item) {
+            $("#prontuario_publico")
+              .append($("<tr>")
+                .append($("<td>").html(item.descricao))
+              )
+            });
+          });
        
       </script>
       <style type="text/css">
@@ -396,6 +409,19 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
                           <input class="form-control input-lg mb-md" name="tipoSanguineo" disabled id="sangue">
                         </div>
                       </div> 
+
+                      <div class="col-md-12">
+                        <table class="table table-bordered table-striped mb-none">
+                        <thead>
+                          <tr style="font-size:15px;">
+                            <th>Prontuário público</th>
+                          </tr>
+                        </thead>
+                        <tbody id="prontuario_publico" style="font-size:15px">
+                          
+                        </tbody>
+                      </table>
+                    </div>
                       
                      </div>
                     </section>
