@@ -275,7 +275,7 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
                   .text(item.duracao)
                 )
                 .append($("<td style='display: flex; justify-content: space-evenly;'>")
-                  .append($("<a href='aplicacao_upload.php?id_medicacao=" + item.id_medicacao +"&id_pessoa="+item.id_pessoa+"&id_funcionario="+item.id_funcionario+"' title='Visualizar ou Baixar'><button class='btn btn-primary' id='aaaa' onclick='variosMed();'><i class='glyphicon glyphicon-hand-up'></i></button></a>"))
+                  .append($("<a href='aplicacao_upload.php?id_medicacao=" + item.id_medicacao +"&id_pessoa="+item.id_pessoa+"&id_funcionario="+item.id_funcionario+"' title='Aplicar medicamento'><button class='btn btn-primary' id='aaaa' onclick='variosMed();'><i class='glyphicon glyphicon-hand-up'></i></button></a>"))
                  
                 )
               )

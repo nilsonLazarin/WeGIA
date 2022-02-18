@@ -641,7 +641,7 @@ header("Location: ../home.php?msg_c=$msg");
 
                     <div class="form-group">
                     <label class="col-md-3 control-label" for="inputSuccess">Enfermidades<sup class="obrig">*</sup></label>
-                    <a onclick="adicionar_enfermidade()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
+                    <!-- <a onclick="adicionar_enfermidade()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a> -->
                     <div class="col-md-6">
                       <select class="form-control input-lg mb-md" name="id_CID" id="id_CID" required>
                         <option selected disabled>Selecionar</option>
@@ -913,35 +913,26 @@ header("Location: ../home.php?msg_c=$msg");
 
                       <div class="form-group" id="primeira_medicacao">
                         <label class="col-md-3 control-label" for="inputSuccess">Medicamento:<sup class="obrig">*</sup></label>
-                        <a onclick="escrevermed()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
-
+                        <!-- <a onclick="escrevermed()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a> -->
                         <div class="col-md-6">
-                          <select class="form-control input-lg mb-md" name="nome_medicacao" id="nome_medicacao">
-                            <option selected disabled>Selecionar</option>
-                            <option value="Dipirona">Dipirona</option>
-                            <option value="Neosaldina">Neosaldina</option>
-                            <option value="Benegripe">Benegripe</option>
-                            <option value="Torsilax">Torsilax</option>
-                            <option value="Puran">Puran</option>
-                            <option value="Ibuprofeno">Ibuprofeno</option>
-                            <option value="Amoxicilina">Amoxicilina</option>
-                          </select>
+                          <input type="text" class="form-control meddisabled" name="nome_medicacao" id="nome_medicacao">
                         </div>
+                        
                       </div>
                       </div>
 
-                                    
-                      <!-- caso não tenha a medicacao no select -->
+                      <!--                                     
+                      caso não tenha a medicacao no select
                       <div id="mais_medicacoes" style="display:none;">
                         <div class="form-group">
                         <label class="col-md-3 control-label" for="profileCompany">Medicamento:<sup class="obrig">*</sup></label>
-                        <!-- <a onclick="escrevermed()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a> -->
+                        <a onclick="escrevermed()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
                         <div class="col-md-6">
                           <input type="text" class="form-control meddisabled" name="nome_medicacao" id="nome_medicacao">
                         </div>
                         </div>
                         <br>
-                      </div>
+                      </div> -->
                     
                     <!-- <div class="form-group">
                       <label class="col-md-3 control-label" for="profileCompany">Laboratório:</label>
@@ -1343,6 +1334,7 @@ header("Location: ../home.php?msg_c=$msg");
                                 "tempo": duracao
                             };
                         tabela_medicacao.push(tabela);
+                        $("#nome_medicacao").val("");
                         $("#dosagem").val("");
                         $("#horario_medicacao").val(""); 
                         $("#duracao_medicacao").val("");
