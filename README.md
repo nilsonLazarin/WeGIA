@@ -15,6 +15,9 @@ A versão atual do sistema conta com os módulos:
 Para testar o software acesse: http://demo.wegia.org
 
 Contato:
+
 Prof Nilson Mori Lazarin
+
 Cefet/RJ Campus Nova Friburgo
+
 nilson.lazarin@cefet-rj.br
