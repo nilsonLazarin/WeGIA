@@ -235,3 +235,5 @@ INSERT INTO `saude_exame_tipos` (`id_exame_tipo`, `descricao`) VALUES
 
 
 INSERT INTO `saude_medicacao_status` (`descricao`) VALUES ('Em tratamento'), ('Concluído') , ('Substituído'), ('Cancelado');
+
+INSERT INTO `saude_tabelacid` (`CID`, `descricao`) VALUES ('B34.2', 'Infecção por coronavírus de localização não especificada');
