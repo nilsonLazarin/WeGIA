@@ -2,6 +2,7 @@
 WeGIA: Web gerenciador institucional
 
 Segundo pesquisa Ipea, cada residente em uma ILPI (Instituição de Longa Permanência para Idosos)  custa  menos  de  mil  reais/mês,  entretanto  o  estudo  ressalta  que  o  valor  apresentado  é  uma estimativa aproximada,  dada  a  dificuldade  de se quantificar  diversos  itens  (roupas,  alimentos  e medicamentos) recebidos via doações pelas ILPI filantrópicas, grande parte no Brasil.
+
 Este projeto desenvolve/mantém um sistema integrado de gestão licenciado sob a GNU GPL v3.0, que concede as liberdades de executar, modificar e redistribuir cópias do software. Ele pode ser utilizado para melhorar a gestão, controle e transparência de entidades que prestam serviços de utilidade pública para a sociedade. 
 
 A versão atual do sistema conta com os módulos: 
