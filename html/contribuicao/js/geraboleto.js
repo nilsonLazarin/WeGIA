@@ -26,7 +26,7 @@ function CadastraCobrancas(carneBoletos, id,valor){
             "data_pagamento": '0000-00-00',
             "valor": valor,
             "valor_pago": 0.00,
-            "status": "Agurdando Pagamento",
+            "status": "Aguardando Pagamento",
             "link_cobranca": boleto.checkoutUrl,
             "link_boleto": boleto.installmentLink,
             "linha_digitavel": boleto.billetDetails.barcodeNumber,
