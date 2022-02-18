@@ -271,7 +271,7 @@ require_once "../personalizacao_display.php";
                   </div>
                   <div class="form-group">
                     <label class="col-md-3 control-label" for="profileCompany">Data de Admissão<sup class="obrig">*</sup></label>
-                    <div class="col-md-8">
+                    <div class="col-md-6">
                       <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data_admissao" id="profileCompany" id="data_admissao" max=<?php echo date('Y-m-d'); ?> required>
                     </div>
                   </div>
