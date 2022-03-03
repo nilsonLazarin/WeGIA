@@ -41,13 +41,11 @@ Select the appropriate number [1-2] then [enter] (press 'c' to cancel): 2
 
 systemctl reload apache2
 
-
 mysql -u root
 CREATE USER 'wegiauser'@'localhost' IDENTIFIED BY 'senha';
 CREATE DATABASE wegia;
 GRANT ALL PRIVILEGES ON wegia.* TO 'wegiauser'@'localhost' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
 quit;
-
 
 https://wegia.instituicao.org/instalador/
