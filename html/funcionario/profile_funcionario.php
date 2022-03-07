@@ -266,7 +266,8 @@ $dependente = json_encode($dependente);
       $("#rg").prop('disabled', false);
       $("#orgao_emissor").prop('disabled', false);
       $("#data_expedicao").prop('disabled', false);
-      $("#cpf").prop('disabled', false);
+      $("#cpf").prop('disabled', true);
+      alert ("O cpf não pode ser editado!");
       $("#data_admissao").prop('disabled', false);
 
       $("#botaoEditarDocumentacao").html('Cancelar');
