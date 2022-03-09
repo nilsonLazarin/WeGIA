@@ -1,4 +1,3 @@
-
 function listarInterno()
 {
 	document.getElementById("listarInterno").submit();

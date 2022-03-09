@@ -6,10 +6,7 @@ PHP: 7.3
 MariaDB: 10.2.3
 Git: 2.20.1
 
-
-
 apt install apache2 mariadb-server git python-certbot-apache php7.3 php7.3-cli php7.3-common php7.3-curl php7.3-gd php7.3-intl php7.3-json php7.3-mbstring php7.3-mysql php7.3-opcache php7.3-readline php7.3-soap php7.3-xml php7.3-xmlrpc php7.3-zip
-
 
 nano /etc/apache2/sites-available/wegia.conf
 <VirtualHost *:80>
@@ -26,7 +23,6 @@ mv /tmp/WeGIA /var/www/
 
 mkdir /var/www/bkpWeGIA
 chmod 777 /var/www/bkpWeGIA -R
-
 
 certbot --apache -d wegia.instituicao.org
 

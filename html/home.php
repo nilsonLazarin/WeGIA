@@ -61,12 +61,22 @@
 		$(function () {
 	      $("#header").load("header.php");
 	      $(".menuu").load("menu.php");
-	    });	
+		  $(".category-item").on( "click", function() {
+			$("#category-row").addClass("hidden");
+			$(".back-container").removeClass("hidden");
+		});
+		$(".back-container").on( "click", function() {
+			$("#category-row").removeClass("hidden");
+			$(".collapse").removeClass("in");
+			$(".back-container").addClass("hidden");
+		});	
+	    });
+		
 	</script>
 	<script>
 
 		var itemState = {}
-
+		
 		function getState(id){
 			let state = itemState[id];
 			if (state)
@@ -118,7 +128,7 @@
 				</header>
 
 				<!-- start: page -->
-				<div class="row" >
+				<div class="row" id="category-row" >
 
 				<!-- Recebe mensagem se houver -->
 				<?php displayMsg(); sessionMsg();?>
@@ -132,49 +142,56 @@
 					}
 				?>
 					<a href="">
-						<div class="col-lg-2 col-md-8 i" data-toggle="collapse" href="#pessoas" >
+						<div class="col-lg-2 col-md-8 i category-item" data-toggle="collapse" href="#pessoas" >
 							<i  class="far fa-address-book"></i>
 							<h4>Pessoas</h4>
 						</div>
 					</a>
 
 					<a href="#">
-						<div class="col-lg-2 col-md-8 i" data-toggle="collapse" href="#material">
+						<div class="col-lg-2 col-md-8 i category-item" data-toggle="collapse" href="#material">
 							<i  class="fa fa-cubes"></i>
 							<h4>Material e Patrimônio</h4>
 						</div>
 					</a>
 					<!--onclick="window.location.href = '../memorando/envio.php'"-->
 					<a href="#">
-						<div class="col-lg-2 col-md-8 i" data-toggle="collapse" href="#memorando">
+						<div class="col-lg-2 col-md-8 i category-item" data-toggle="collapse" href="#memorando">
 							<i  class="fa fa-book"></i>
 							<h4>Memorando
 							</h4>
 						</div>
 					</a>
 					<a href="#">
-						<div class="col-lg-2 col-md-8 i" data-toggle="collapse" href="#socios">
+						<div class="col-lg-2 col-md-8 i category-item" data-toggle="collapse" href="#socios">
 							<i  class="fa fa-users"></i>
 							<h4>Sócios
 							</h4>
 						</div>
 					</a>
 					<a href="#">
-						<div class="col-lg-2 col-md-8 i" data-toggle="collapse" href="#configuracao">
+						<div class="col-lg-2 col-md-8 i category-item" data-toggle="collapse" href="#configuracao">
 							<i  class="fa fa-cogs"></i>
 							<h4>Configurações</h4>
 						</div>
 					</a>
 					<a href="#">
-					<div class="col-lg-2 col-md-8 i" data-toggle="collapse" href="#saude">
+					<div class="col-lg-2 col-md-8 i category-item" data-toggle="collapse" href="#saude">
 							<i  class="fa fa-ambulance"></i>
-							<h4>Saúde</h4>
+							<h4>Saúde <br>(em breve)</h4>
 						</div>
 					</a>
 
 				</div>
+				<div class="back-container hidden">
+				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="left-arrow-icon">
+					<path d="M19 12H5" stroke="#888888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+					<path d="M12 19L5 12L12 5" stroke="#888888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+				</svg>
+				<span class="back">Voltar</span>
+				</div>
 				<hr class="mobile-only">
-				<div class="row ">
+				<div class="row">
 					<div  id="configuracao" class="collapse">
 						<a href="../html/personalizacao.php">
 							<div class="col-lg-2 col-md-8 i" >
@@ -216,19 +233,13 @@
 						<a href="../html/saude/cadastro_ficha_medica.php">
 							<div class="col-lg-2 col-md-8 i" >
 								<i  class="far fa-address-book"></i>
-								<h4>Criar ficha médica</h4>
+								<h4>Cadastro ficha médica</h4>
 							</div>
 						</a>	
 						<a href="../html/saude/saude.php">
 							<div class="col-lg-2 col-md-8 i" >
 								<i  class="far fa-address-card"></i>
-								<h4>Ficha do paciente</h4>
-							</div>
-						</a>
-						<a href="../html/saude/administrar_medicamento.php">
-							<div class="col-lg-2 col-md-8 i" >
-								<i  class="far fa-address-card"></i>
-								<h4>Administrar medicamento</h4>
+								<h4>Informações paciente</h4>
 							</div>
 						</a>				
 					</div>
@@ -439,7 +450,6 @@
 							<h4>Cadastrar Eventos</h4>
 						</div>
 					</a>
-
 					<a href="">
 						<div class="col-lg-2 col-lg-offset-1 col-md-8 i">
 							<i class="far fa-folder-open"></i>
