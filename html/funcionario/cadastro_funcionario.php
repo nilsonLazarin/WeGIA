@@ -92,7 +92,6 @@ require_once "../personalizacao_display.php";
   <!-- Theme Custom CSS -->
   <link rel="stylesheet" href="../../assets/stylesheets/theme-custom.css">
 
-
   <!-- <script>
 
     console.log("oi");
@@ -138,62 +137,30 @@ require_once "../personalizacao_display.php";
       </header>
       <!-- start: page -->
       <div class="row" id="formulario">
+      <form action="#" method="POST" id="formsubmit" enctype="multipart/form-data" target="frame">
         <div class="col-md-4 col-lg-3">
           <section class="panel">
             <div class="panel-body">
               <div class="thumb-info mb-md">
-                <?php
+              <?php
                 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                   if (isset($_FILES['imgperfil'])) {
                     $image = file_get_contents($_FILES['imgperfil']['tmp_name']);
                     $_SESSION['imagem'] = $image;
                     echo '<img src="data:image/gif;base64,' . base64_encode($image) . '" class="rounded img-responsive" alt="John Doe">';
                   }
-                } else {
-                ?>
-                  <img src="../../img/semfoto.png" class="rounded img-responsive" alt="John Doe">
-                <?php
                 }
                 ?>
-                <i class="fas fa-camera-retro btn btn-info btn-lg" data-toggle="modal" data-target="#myModal"></i>
-                <div class="container">
-                  <div class="modal fade" id="myModal" role="dialog">
-                    <div class="modal-dialog">
-                      <!-- Modal content-->
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <button type="button" class="close" data-dismiss="modal">&times;</button>
-                          <h4 class="modal-title">Adicionar uma Foto</h4>
-                        </div>
-                        <div class="modal-body">
-                          <form action="#" method="POST" enctype="multipart/form-data">
-                            <div class="form-group">
-                              <label class="col-md-4 control-label" for="imgperfil">Carregue uma imagem de perfil:</label>
-                              <div class="col-md-8">
-                                <input type="file" name="imgperfil" size="60" id="imgform" class="form-control">
-                              </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                          <input type="submit" id="formsubmit" value="Ok">
-                        </div>
-                      </div>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="widget-toggle-expand mb-md">
-                <div class="widget-header">
-                  <div class="widget-content-expanded">
-                    <ul class="simple-todo-list">
-                    </ul>
-                  </div>
-                </div>
+
+              <input type="file" class="image_input form-control" name="imgperfil"  id="imgform">
+              <div id="display_image"></div>
+              <input type="submit" class="btn btn-primary stylebutton" onclick="submitButtonStyle(this)" id="formsubmit" value="Ok"> 
+
               </div>
             </div>
           </section>
         </div>
+      </form>
         <div class="col-md-8 col-lg-8">
           <div class="tabs">
             <ul class="nav nav-tabs tabs-primary">
@@ -203,7 +170,7 @@ require_once "../personalizacao_display.php";
             </ul>
             <div class="tab-content">
               <div id="overview" class="tab-pane active">
-                <form class="form-horizontal" method="GET" action="../../controle/control.php">
+              <form class="form-horizontal" method="GET" action="../../controle/control.php">
                   <h4 class="mb-xlg">Informações Pessoais</h4>
                   <h5 class="obrig">Campos Obrigatórios(*)</h5>
                   <div class="form-group">
@@ -317,7 +284,7 @@ require_once "../personalizacao_display.php";
                         ?>
                       </select>
                     </div>
-                    <a href="../../quadro_horario/adicionar_escala.php"><i class="fas fa-plus w3-xlarge"></i></a>
+                    <a href="../quadro_horario/adicionar_escala.php"><i class="fas fa-plus w3-xlarge"></i></a>
                   </div>
                   <div class="form-group">
                     <label class="col-md-3 control-label">Tipo<sup class="obrig">*</sup></label>
@@ -333,7 +300,7 @@ require_once "../personalizacao_display.php";
                         ?>
                       </select>
                     </div>
-                    <a href="../../quadro_horario/adicionar_tipo_quadro_horario.php"><i class="fas fa-plus w3-xlarge"></i></a>
+                    <a href="../quadro_horario/adicionar_tipo_quadro_horario.php"><i class="fas fa-plus w3-xlarge"></i></a>
                   </div>
                   <div class="form-group" id="reservista1" style="display: none">
                     <label class="col-md-3 control-label">Número do certificado reservista</label>
@@ -360,6 +327,7 @@ require_once "../personalizacao_display.php";
                     </div>
                   </div>
                 </form>
+                <iframe name="frame"></iframe>
               <!-- end: page -->
     </section>
   </div>
@@ -383,6 +351,19 @@ require_once "../personalizacao_display.php";
 
     .obrig {
       color: rgb(255, 0, 0);
+    }
+
+    iframe{
+      display: none;
+    }
+
+    #display_image{
+      width: 170px;
+      height: 170px;
+      border: 1px solid black;
+      background-position: center;
+      background-size: cover;
+      background-image: url("../../img/semfoto.png")
     }
   </style>
   <script type="text/javascript">
@@ -411,7 +392,7 @@ require_once "../personalizacao_display.php";
 
     function validarFuncionario(){
       var btn = $("#enviar");
-      /*var cpf_cadastrado = (<?php echo $_SESSION['cpf_funcionario']; ?>).concat(<?php echo $_SESSION['cpf_interno']; ?>);*/
+      /var cpf_cadastrado = (<?php echo $_SESSION['cpf_funcionario']; ?>).concat(<?php echo $_SESSION['cpf_interno']; ?>);/
       var cpf_cadastrado = (<?php echo $_SESSION['cpf_funcionario']; ?>);
       var cpf = (($("#cpf").val()).replaceAll(".", "")).replaceAll("-", "");
       console.log(this);
@@ -648,6 +629,10 @@ require_once "../personalizacao_display.php";
       $("#header").load("../header.php");
       $(".menuu").load("../menu.php");
     });
+
+    function submitButtonStyle(_this) {
+      _this.style.backgroundColor = "#5cb85c";
+    }
   </script>
   <!-- Head Libs -->
   <script src="../../assets/vendor/modernizr/modernizr.js"></script>
@@ -690,7 +675,21 @@ require_once "../personalizacao_display.php";
   <script src="../../assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
   <script src="../../assets/vendor/magnific-popup/magnific-popup.js"></script>
   <script src="../../assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
+
+  <!-- img form -->
+  <script>
+    const image_input = document.querySelector(".image_input");
+    var uploaded_image;
+
+    image_input.addEventListener('change', function() {
+      const reader = new FileReader();
+      reader.addEventListener('load', () => {
+        uploaded_image = reader.result;
+        document.querySelector("#display_image").style.backgroundImage = `url(${uploaded_image})`;
+      });
+      reader.readAsDataURL(this.files[0]);
+    });
+  </script>
 </body>
 
 </html>
-  
