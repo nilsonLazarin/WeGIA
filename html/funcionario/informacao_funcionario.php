@@ -1,18 +1,22 @@
 <?php
-
 	session_start();
-	if(!isset($_SESSION['usuario'])){
+	if(!isset($_SESSION['usuario']))
+	{
 		header ("Location: ../index.php");
 	}
-
-	if(!isset($_SESSION['funcionarios']))	{
+	if(!isset($_SESSION['funcionarios']))
+	{
 		header('Location: ../../controle/control.php?metodo=listartodos&nomeClasse=FuncionarioControle&nextPage=../html/funcionario/informacao_funcionario.php');
 	}
 	$config_path = "config.php";
-	if(file_exists($config_path)){
+	if(file_exists($config_path))
+	{
 		require_once($config_path);
-	}else{
-		while(true){
+	}
+	else
+	{
+		while(true)
+		{
 			$config_path = "../" . $config_path;
 			if(file_exists($config_path)) break;
 		}
@@ -22,39 +26,44 @@
 	$conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 	$id_pessoa = $_SESSION['id_pessoa'];
 	$resultado = mysqli_query($conexao, "SELECT * FROM funcionario WHERE id_pessoa=$id_pessoa");
-	if(!is_null($resultado)){
+	if(!is_null($resultado))
+	{
 		$id_cargo = mysqli_fetch_array($resultado);
-		if(!is_null($id_cargo)){
+		if(!is_null($id_cargo))
+		{
 			$id_cargo = $id_cargo['id_cargo'];
 		}
 		$resultado = mysqli_query($conexao, "SELECT * FROM permissao WHERE id_cargo=$id_cargo and id_recurso=11");
-		if(!is_bool($resultado) and mysqli_num_rows($resultado)){
+		if(!is_bool($resultado) and mysqli_num_rows($resultado))
+		{
 			$permissao = mysqli_fetch_array($resultado);
-			if($permissao['id_acao'] < 5){
-        $msg = "Você não tem as permissões necessárias para essa página.";
-        header("Location: ../home.php?msg_c=$msg");
+			if($permissao['id_acao'] < 5)
+			{
+        		$msg = "Você não tem as permissões necessárias para essa página.";
+        		header("Location: ../home.php?msg_c=$msg");
 			}
 			$permissao = $permissao['id_acao'];
-		}else{
+		}
+		else
+		{
         	$permissao = 1;
-          $msg = "Você não tem as permissões necessárias para essa página.";
-          header("Location: ../home.php?msg_c=$msg");
+          	$msg = "Você não tem as permissões necessárias para essa página.";
+          	header("Location: ../home.php?msg_c=$msg");
 		}	
-	}else{
+	}
+	else
+	{
 		$permissao = 1;
-    $msg = "Você não tem as permissões necessárias para essa página.";
-    header("Location: ../../home.php?msg_c=$msg");
+    	$msg = "Você não tem as permissões necessárias para essa página.";
+    	header("Location: ../../home.php?msg_c=$msg");
 	}	
-
 	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
 	require_once ROOT."/controle/FuncionarioControle.php";
 	require_once "../personalizacao_display.php";
-
 ?>
 <!doctype html>
 <html class="fixed">
 	<head>
-
 		<!-- Basic -->
 		<meta charset="UTF-8">
 
@@ -160,24 +169,29 @@
 		    <div class="inner-wrapper">
 	        <!-- start: sidebar -->
 	        <aside id="sidebar-left" class="sidebar-left menuu"></aside>
-				
-				<!-- end: sidebar -->
-				<section role="main" class="content-body">
-					<header class="page-header">
-						<h2>Informações</h2>
-					
-						<div class="right-wrapper pull-right">
-							<ol class="breadcrumbs">
-								<li>
-									<a href="../home.php">
-										<i class="fa fa-home"></i>
-									</a>
-								</li>
-								<li><span>Informações Funcionário</span></li>
-							</ol>
-					
-							<a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
+			<!-- end: sidebar -->
+			<section role="main" class="content-body">
+				<header class="page-header">
+					<h2>Informações</h2>
+					<div class="right-wrapper pull-right">
+						<ol class="breadcrumbs">
+							<li>
+								<a href="../home.php">
+									<i class="fa fa-home"></i>
+								</a>
+							</li>
+							<li><span>Informações Funcionário</span></li>
+						</ol>
+						<a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
+					</div>
+				</header>
+				<!-- start: page -->
+				<section class="panel">
+					<header class="panel-heading">
+						<div class="panel-actions">
+							<a href="#" class="fa fa-caret-down"></a>
 						</div>
+						<h2 class="panel-title">Funcionário</h2>
 					</header>
 
 					<!-- start: page -->
