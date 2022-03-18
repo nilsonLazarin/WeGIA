@@ -18,6 +18,7 @@
 		}
 		require_once($config_path);
 	}
+	
 	$conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 	$id_pessoa = $_SESSION['id_pessoa'];
 	$resultado = mysqli_query($conexao, "SELECT * FROM funcionario WHERE id_pessoa=$id_pessoa");
@@ -46,6 +47,7 @@
 	}	
 
 	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
+	require_once ROOT."/controle/FuncionarioControle.php";
 	require_once "../personalizacao_display.php";
 
 ?>
@@ -111,18 +113,23 @@
 	<script src="../../Functions/onlyChars.js"></script>
 	<script src="../../Functions/enviar_dados.js"></script>
 	<script src="../../Functions/mascara.js"></script>
+
 	<!-- jquery functions -->
    <script>
+	   
 	function clicar(id)
 	{
 		window.location.href = "profile_funcionario.php?id_funcionario="+id;
 	}
+	
 	$(function(){
-		var funcionarios=<?php echo $_SESSION['funcionarios'];?> ;
-		console.log(funcionarios);
-		<?php unset($_SESSION['funcionarios']); ?>
+		
+		var funcionarios=<?php
+			$response = new FuncionarioControle;
+			$response->ListarTodos();
+			echo $_SESSION['funcionarios'];?> ;
+			console.log(funcionarios);
 
-		console.log(funcionarios);
 		$.each(funcionarios,function(i,item){
 			$("#tabela")
 				.append($("<tr>")
@@ -175,7 +182,7 @@
 
 					<!-- start: page -->
 					
-					</header>
+                                          
 
 					<!-- start: page -->
 						<section class="panel">
@@ -183,8 +190,21 @@
 								<div class="panel-actions">
 									<a href="#" class="fa fa-caret-down"></a>
 								</div>
-						
-								<h2 class="panel-title">Funcionário</h2>
+								<h2 class="panel-title">Selecione a situação:</h2><br>
+                                <form method="GET" action="#" id="select_situacao" name="select_situacao">
+									<select name="select_situacao" id="situacao">
+										<?php
+											$result_situacao = "SELECT * FROM situacao ORDER BY id_situacao";
+											$resultado_situacao = mysqli_query($conexao, $result_situacao);
+											while($row_situacao = mysqli_fetch_assoc($resultado_situacao)){?>
+												<option value = "<?php echo $row_situacao['id_situacao']; ?>">
+													<?php echo $row_situacao['situacoes'];?>
+												</option> <?php 
+											}
+											?>
+									</select>
+									<br> <input type="submit"  value='Listar' name='listar' id='listar' class='mb-xs mt-xs mr-xs btn btn-primary'/>
+							</form>
 							</header>
 							<div class="panel-body">
 								<table class="table table-bordered table-striped mb-none" id="datatable-default">
@@ -226,4 +246,3 @@
 		<script src="../../assets/javascripts/tables/examples.datatables.tabletools.js"></script>
 	</body>
 </html>
-

@@ -70,6 +70,25 @@ class FuncionarioDAO
             return $linha['sobrenome'];
     }
 
+    public function listarSituacao($cpf)
+    {
+        try{
+            $pessoa=array();
+            $pdo = Conexao::connect();
+            $consulta = $pdo->query("SELECT situacao from pessoa WHERE cpf='$cpf'");
+            $linha = $consulta->fetch(PDO::FETCH_ASSOC);
+            // $x=0;
+            // while($linha = $consulta->fetch(PDO::FETCH_ASSOC)){
+            //     $pessoa[$x]=$linha['id_pessoa'];
+            //     $x++;
+            // }
+            } catch (PDOExeption $e){
+                echo 'Error:' . $e->getMessage;
+            }
+            // return $pessoa;
+            return $linha['situacao'];
+    }
+
     public function formatoDataDMY($data)
     {
         if ($data){
@@ -483,23 +502,38 @@ class FuncionarioDAO
         }
     }
 
-    public function listarTodos(){
-
+   
+    public function listarTodos($situacao){
         try{
+            if(!isset($situacao))
+                $situacao_selecionada = 1;
+            
+            else
+                $situacao_selecionada = $situacao;
             $funcionarios=array();
             $pdo = Conexao::connect();
-            $consulta = $pdo->query("SELECT f.id_funcionario, p.nome, p.sobrenome,p.cpf, c.cargo FROM pessoa p JOIN funcionario f ON p.id_pessoa = f.id_pessoa JOIN cargo c ON c.id_cargo=f.id_cargo JOIN situacao s ON f.id_situacao=s.id_situacao where s.situacoes = 'Ativo'");
+            
+            /*if(!isset($situacao_selecionada))
+                $situacao_selecionada = 1;*/
+
+            $consulta = $pdo->prepare("SELECT f.id_funcionario, p.nome, p.sobrenome,p.cpf, c.cargo FROM pessoa p 
+            JOIN funcionario f ON p.id_pessoa = f.id_pessoa JOIN cargo c ON c.id_cargo=f.id_cargo JOIN situacao s 
+            ON f.id_situacao=s.id_situacao where s.id_situacao = ?");
+            $consulta->bindParam(1,$situacao_selecionada);
+            $consulta->execute();
+            /****** */
             $produtos = Array();
             $x=0;
             while($linha = $consulta->fetch(PDO::FETCH_ASSOC)){
-                $funcionarios[$x]=array('id_funcionario'=>$linha['id_funcionario'],'cpf'=>$linha['cpf'],'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'] , 'cargo'=>$linha['cargo']);
+                $funcionarios[$x]=array('id_funcionario'=>$linha['id_funcionario'],'cpf'=>$linha['cpf'],'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'] ,'situacao'=>$linha['situacao'], 'cargo'=>$linha['cargo']);
                 $x++;
             }
             } catch (PDOExeption $e){
-                echo 'Error:' . $e->getMessage;
+                echo 'Error:' . $e->getMessage();
             }
             return json_encode($funcionarios);
-    }
+            var_dump($situacao_selecionada);
+  }
 
     public function listarTodos2(){
         try{

@@ -22,6 +22,7 @@ include_once ROOT.'/dao/PermissaoDAO.php';
 
 class FuncionarioControle
 {
+    
     public function formatoDataYMD($data)
     {
         $data_arr = explode("/", $data);
@@ -592,8 +593,9 @@ class FuncionarioControle
 
     public function listarTodos(){
         extract($_REQUEST);
+        $situacao = $_GET['select_situacao'];
         $funcionariosDAO = new FuncionarioDAO();
-        $funcionarios = $funcionariosDAO->listarTodos();
+        $funcionarios = $funcionariosDAO->listarTodos($situacao);
         session_start();
         $_SESSION['funcionarios']=$funcionarios;
         header('Location: '.$nextPage);
