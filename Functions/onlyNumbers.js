@@ -1,17 +1,10 @@
  function Onlynumbers(e)
 	{
-		var tecla=new Number();
-		if(window.event) {
-			tecla = e.keyCode;
-		}
-		else if(e.which) {
-			tecla = e.which;
-		}
-		else {
-			return true;
-		}
-		if((tecla >= "97") && (tecla <= "122")){
-			return false;
-		}
+		evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        return false;
+    }
+    return true;
 	}
 
