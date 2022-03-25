@@ -334,6 +334,7 @@
 										
 										<div class="form-group">
 										<label class="col-md-3 control-label" for="inputSuccess">Status<sup class="obrig">*</sup></label>
+										<a onclick="adicionar_status()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
 										<div class="col-md-6">
 										<select class="form-control input-lg mb-md" name="intStatus" id="intStatus">
 											<option selected disabled>Selecionar</option>
@@ -345,8 +346,9 @@
 										</select>
 										</div>
 									</div>
-										<div class="form-group">
+									<div class="form-group">
 										<label class="col-md-3 control-label" for="inputSuccess">Tipo<sup class="obrig">*</sup></label>
+										<a onclick="adicionar_tipo()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
 										<div class="col-md-6">
 										<select class="form-control input-lg mb-md" name="intTipo" id="intTipo">
 											<option selected disabled>Selecionar</option>
@@ -358,6 +360,7 @@
 										</select>
 										</div>
 									</div>
+										
 
 
 									<h4 class="mb-xlg doch4">Documentação</h4>
@@ -490,8 +493,93 @@
       }
 	  )};
       
-      
+      function gerarTipo() {
+      url = '../../dao/exibir_tipo_atendido.php';
+      $.ajax({
+        data: '',
+        type: "POST",
+        url: url,
+        async: true,
+        success: function(response) {
+          var descricao = response;
+          $('#intTipo').empty();
+          $('#intTipo').append('<option selected disabled>Selecionar</option>');
+          $.each(descricao, function(i, item) {
+            $('#intTipo').append('<option value="' + item.id_tipo + '">' + item.descricao + '</option>');
+          });
+        },
+        dataType: 'json'
+      });
+    }
+
+    function adicionar_tipo() {
+      url = '../../dao/adicionar_tipo_atendido.php';
+      var tipo = window.prompt("Cadastre um Novo Tipo:");
+      if (!tipo) {
+        return
+      }
+      tipo = tipo.trim();
+      if (tipo == '') {
+        return
+      }
+
+      data = 'tipo=' + tipo;
+
+      console.log(data);
+      $.ajax({
+        type: "POST",
+        url: url,
+        data: data,
+        success: function(response) {
+          gerarTipo();
+        },
+        dataType: 'text'
+      })
+    }
     
+	function gerarStatus() {
+      url = '../../dao/exibir_status_atendido.php';
+      $.ajax({
+        data: '',
+        type: "POST",
+        url: url,
+        async: true,
+        success: function(response) {
+          var status = response;
+          $('#intStatus').empty();
+          $('#intStatus').append('<option selected disabled>Selecionar</option>');
+          $.each(status, function(i, item) {
+            $('#intStatus').append('<option value="' + item.id_status + '">' + item.status + '</option>');
+          });
+        },
+        dataType: 'json'
+      });
+    }
+
+    function adicionar_status() {
+      url = '../../dao/adicionar_status_atendido.php';
+      var status = window.prompt("Cadastre um Novo Status:");
+      if (!status) {
+        return
+      }
+      status = status.trim();
+      if (status == '') {
+        return
+      }
+
+      data = 'status=' + status;
+
+      console.log(data);
+      $.ajax({
+        type: "POST",
+        url: url,
+        data: data,
+        success: function(response) {
+          gerarStatus();
+        },
+        dataType: 'text'
+      })
+    }
 </script>
 </body>
 </html>
