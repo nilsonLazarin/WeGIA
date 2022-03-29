@@ -239,7 +239,7 @@ session_start();
          			$("#nome").text("Nome: "+item.nome+' '+item.sobrenome);
          			$("#nome").val(item.nome);
                   $("#sobrenome").val(item.sobrenome);
-         			if(item.imagem!=""){
+         			if(item.imagem){
                      $("#imagem").attr("src","data:image/gif;base64,"+item.imagem);
                   }else{
                      $("#imagem").attr("src","../../img/semfoto.png");
