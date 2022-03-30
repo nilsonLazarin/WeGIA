@@ -239,7 +239,7 @@ session_start();
          			$("#nome").text("Nome: "+item.nome+' '+item.sobrenome);
          			$("#nome").val(item.nome);
                   $("#sobrenome").val(item.sobrenome);
-         			if(item.imagem!=""){
+         			if(item.imagem){
                      $("#imagem").attr("src","data:image/gif;base64,"+item.imagem);
                   }else{
                      $("#imagem").attr("src","../../img/semfoto.png");
@@ -603,7 +603,7 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                       .append($("<td>").text(item.descricao))
                       .append($("<td>").text(item.data))
                       .append($("<td style='display: flex; justify-content: space-evenly;'>")
-                        .append($("<a href='documento_download.php?id_doc=" + item.idatendido_documentacao + "' title='Visualizar ou Baixar'><button class='btn btn-primary'><i class='fas fa-download'></i></button></a>"))
+                        .append($("<a href='documento_download.php?id_doc=" + item.idatendido_documentacao + "' target='_tab' title='Visualizar ou Baixar'><button class='btn btn-primary'><i class='fas fa-download'></i></button></a>"))
                         .append($("<a onclick='removerFuncionarioDocs("+item.idatendido_documentacao+")' href='#' title='Excluir'><button class='btn btn-danger'><i class='fas fa-trash-alt'></i></button></a>"))
                       )
                     )
@@ -618,7 +618,7 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                       .append($("<td>").text(item.descricao))
                       .append($("<td>").text(item.data))
                       .append($("<td style='display: flex; justify-content: space-evenly;'>")
-                        .append($("<a href='documento_download.php?id_doc=" + item.idatendido_documentacao + "' title='Visualizar ou Baixar'><button class='btn btn-primary'><i class='fas fa-download'></i></button></a>"))
+                        .append($("<a href='documento_download.php?id_doc=" + item.idatendido_documentacao + " '  target='_' title='Visualizar ou Baixar' ><button class='btn btn-primary'><i class='fas fa-download'></i></button></a>"))
                         .append($("<a onclick='removerFuncionarioDocs("+item.idatendido_documentacao+")' href='#' title='Excluir'><button class='btn btn-danger'><i class='fas fa-trash-alt'></i></button></a>"))
                       )
                     )
@@ -665,7 +665,8 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
             <div class="col-md-4 col-lg-3">
                <section class="panel">
                         <div class="panel-body">
-                                                            <div class="alert alert-warning" style="font-size: 15px;"><i class="fas fa-check mr-md"></i>O endereço da instituição não está cadastrado no sistema<br><a href=https://demo.wegia.org/html/personalizacao.php>Cadastrar endereço da instituição</a></div>
+                                                                                                                                                                                                                        <!-- https://demo.wegia.org/html/personalizacao.php -->
+                                                            <div class="alert alert-warning" style="font-size: 15px;"><i class="fas fa-check mr-md"></i>O endereço da instituição não está cadastrado no sistema<br><a href='../personalizacao.php'>Cadastrar endereço da instituição</a></div>    
                                                       <div class="thumb-info mb-md">
                                                             <img id="imagem" alt="John Doe">
                                                             <i class="fas fa-camera-retro btn btn-info btn-lg" data-toggle="modal" data-target="#myModal"></i>
@@ -948,7 +949,7 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                      <div class="form-group">
                      <label class="col-md-3 control-label" for="profileCompany">Número do CPF</label>
                      <div class="col-md-6">
-                       <input type="text" class="form-control" id="cpf" name="cpf" disabled placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##',this,event)">
+                       <input type="text" class="form-control" id="cpf" name="cpf" disabled placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##',this,event)" readonly>
                      </div>
                      </div>
                      <div class="form-group">
@@ -1158,9 +1159,10 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                                           ");
                                       }
                                       ?>
-                     
+
                                     </select>
                                    <!-- <a onclick="adicionarDocFuncional()" style="margin: 0 20px;"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a> -->
+                                   <a onclick="adicionar_tipo()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
                                   </div>
                                 </div>
                                 <div class="form-group">
@@ -1457,6 +1459,52 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
         return false;
       }
       listarDependentes(response);
+    }
+    
+    function gerarTipo() {
+      url = '../../dao/exibir_tipo_docs_atendido.php';
+      $.ajax({
+        data: '',
+        type: "POST",
+        url: url,
+        async: true,
+        success: function(response) {
+          var descricao = response;
+          $('#tipoDocumento').empty();
+          $('#tipoDocumento').append('<option selected disabled>Selecionar</option>');
+          $.each(descricao, function(i, item) {
+            $('#tipoDocumento').append('<option value="' + item.id_tipo + '">' + item.descricao + '</option>');
+          });
+        },
+        dataType: 'json'
+      });
+    }
+
+   
+
+    function adicionar_tipo() {
+      url = '../../dao/adicionar_tipo_docs_atendido.php';
+      var tipo = window.prompt("Cadastre um Novo Tipo:");
+      if (!tipo) {
+        return
+      }
+      tipo = tipo.trim();
+      if (tipo == '') {
+        return
+      }
+
+      data = 'tipo=' + tipo;
+
+      console.log(data);
+      $.ajax({
+        type: "POST",
+        url: url,
+        data: data,
+        success: function(response) {
+          gerarTipo();
+        },
+        dataType: 'text'
+      })
     }
 </script>
   

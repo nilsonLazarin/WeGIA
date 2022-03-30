@@ -225,14 +225,14 @@ $sobrenome = $funcionario->listarSobrenome($cpf);
                   <div class="form-group">
                     <label class="col-md-3 control-label" for="profileLastName">Sexo<sup class="obrig">*</sup></label>
                     <div class="col-md-6">
-                      <label><input type="radio" name="gender" id="radioM" id="M" value="m" style="margin-top: 10px; margin-left: 15px;" onclick="return exibir_reservista()"><i class="fa fa-male" style="font-size: 20px;"></i></label>
-                      <label><input type="radio" name="gender" id="radioF" id="F" value="f" style="margin-top: 10px; margin-left: 15px;" onclick="return esconder_reservista()"><i class="fa fa-female" style="font-size: 20px;"></i> </label>
+                      <label><input type="radio" name="gender" id="radio" id="radioM" id="M" value="m" style="margin-top: 10px; margin-left: 15px;" onclick="return exibir_reservista()"><i class="fa fa-male" style="font-size: 20px;"></i></label>
+                      <label><input type="radio" name="gender" id="radio" id="radioF" id="F" value="f" style="margin-top: 10px; margin-left: 15px;" onclick="return esconder_reservista()"><i class="fa fa-female" style="font-size: 20px;"></i> </label>
                     </div>
                   </div>
                   <div class="form-group">
                     <label class="col-md-3 control-label" for="telefone">Telefone<sup class="obrig">*</sup></label>
                     <div class="col-md-6">
-                      <input type="text" class="form-control" maxlength="14" minlength="14" name="telefone" id="telefone" id="telefone" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeyup="mascara('(##)#####-####',this,event)">
+                      <input type="text" class="form-control" maxlength="14" minlength="14" name="telefone" id="telefone" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeyup="mascara('(##)#####-####',this,event)">
                     </div>
                   </div>
                   <div class="form-group">
@@ -246,7 +246,7 @@ $sobrenome = $funcionario->listarSobrenome($cpf);
                   <div class="form-group">
                     <label class="col-md-3 control-label" for="cpf">Número do CPF<sup class="obrig">*</sup></label>
                     <div class="col-md-6">
-                      <input type="text" class="form-control" id="cpf" id="cpf" name="cpf" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##',this,event)" >
+                      <input type="text" class="form-control" id="cpf" name="cpf" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##',this,event)" >
                     </div>
                   </div>
                   <div class="form-group">
@@ -276,7 +276,7 @@ $sobrenome = $funcionario->listarSobrenome($cpf);
                   <div class="form-group">
                     <label class="col-md-3 control-label" for="profileCompany">Data de Admissão<sup class="obrig">*</sup></label>
                     <div class="col-md-6">
-                      <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data_admissao" id="profileCompany" id="data_admissao" max=<?php echo date('Y-m-d'); ?> required>
+                      <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data_admissao" id="data_admissao" id="profileCompany" max=<?php echo date('Y-m-d'); ?> required>
                     </div>
                   </div>
                   <div class="form-group">
@@ -321,7 +321,7 @@ $sobrenome = $funcionario->listarSobrenome($cpf);
                         ?>
                       </select>
                     </div>
-                    <a href="../../quadro_horario/adicionar_escala.php"><i class="fas fa-plus w3-xlarge"></i></a>
+                    <a href="../quadro_horario/adicionar_escala.php"><i class="fas fa-plus w3-xlarge"></i></a>
                   </div>
                   <div class="form-group">
                     <label class="col-md-3 control-label">Tipo<sup class="obrig">*</sup></label>
@@ -337,7 +337,7 @@ $sobrenome = $funcionario->listarSobrenome($cpf);
                         ?>
                       </select>
                     </div>
-                    <a href="../../quadro_horario/adicionar_tipo_quadro_horario.php"><i class="fas fa-plus w3-xlarge"></i></a>
+                    <a href="../quadro_horario/adicionar_tipo_quadro_horario.php"><i class="fas fa-plus w3-xlarge"></i></a>
                   </div>
                   <div class="form-group" id="reservista1" style="display: none">
                     <label class="col-md-3 control-label">Número do certificado reservista</label>
@@ -416,7 +416,7 @@ $sobrenome = $funcionario->listarSobrenome($cpf);
 
     function validarFuncionario(){
       var btn = $("#enviar");
-      /*var cpf_cadastrado = (<?php echo $_SESSION['cpf_funcionario']; ?>).concat(<?php echo $_SESSION['cpf_interno']; ?>);*/
+      var cpf_cadastrado = (<?php echo $_SESSION['cpf_funcionario']; ?>).concat(<?php echo $_SESSION['cpf_interno']; ?>);
       var cpf_cadastrado = (<?php echo $_SESSION['cpf_funcionario']; ?>);
       var cpf = (($("#cpf").val()).replaceAll(".", "")).replaceAll("-", "");
       console.log(this);
@@ -427,7 +427,32 @@ $sobrenome = $funcionario->listarSobrenome($cpf);
           return false;
         }
       });
-      alert("Cadastrado com sucesso!");
+
+        var sexo = document.querySelector('input[name="gender"]:checked').value;
+
+        var rg = document.getElementById('rg').value;
+
+        var orgao_emissor = document.getElementById('orgao_emissor').value;
+
+        var dt_expedicao = document.getElementById('data_expedicao').value;
+
+        var dt_admissao = document.getElementById('data_admissao').value;
+
+        var a = document.getElementById('situacao');
+        var situacao = a.options[a.selectedIndex].text;
+
+        var b = document.getElementById('cargo');
+        var cargo = b.options[b.selectedIndex].text;
+
+        var c = document.getElementById('escala_input');
+        var escala = c.options[c.selectedIndex].text;
+
+        var d = document.getElementById('tipoCargaHoraria_input');
+        var tipo = d.options[d.selectedIndex].text;
+
+      if(sexo && rg && orgao_emissor && dt_expedicao && dt_admissao && situacao && cargo && escala && tipo){
+        alert("Cadastrado com sucesso!");
+      }
     }
 
     function numero_residencial() {

@@ -1,4 +1,8 @@
 <?php
+    ini_set('display_errors',1);
+    ini_set('display_startup_erros',1);
+    error_reporting(E_ALL);
+    extract($_REQUEST);
     session_start();
     require_once "../../dao/Conexao.php";
     $pdo = Conexao::connect();
@@ -44,7 +48,7 @@
     $cpf1 = new AtendidoControle;
     $cpf1->listarCPF();
     require_once "../geral/msg.php";
-    $dependente = $pdo->query("SELECT *, par.descricao AS parentesco FROM funcionario_dependentes fdep LEFT JOIN pessoa p ON p.id_pessoa = fdep.id_pessoa LEFT JOIN funcionario_dependente_parentesco par ON par.id_parentesco = fdep.id_parentesco WHERE fdep.id_dependente = " . $_GET['id_dependente'] ?? null);
+    $dependente = $pdo->query("SELECT *, par.descricao AS parentesco FROM funcionario_dependentes fdep LEFT JOIN pessoa p ON p.id_pessoa = fdep.id_pessoa LEFT JOIN funcionario_dependente_parentesco par ON par.id_parentesco = fdep.id_parentesco WHERE fdep.id_dependente = " . $_GET['id_dependente']);
     $dependente = $dependente->fetch(PDO::FETCH_ASSOC);
     $dependente["nome_funcionario"] = ($pdo->query("SELECT p.nome FROM funcionario f LEFT JOIN pessoa p ON f.id_pessoa = p.id_pessoa WHERE f.id_funcionario = ".$dependente["id_funcionario"].";")->fetch(PDO::FETCH_ASSOC))["nome"];
     $dependente["sobrenome_funcionario"] = ($pdo->query("SELECT p.sobrenome FROM funcionario f LEFT JOIN pessoa p ON f.id_pessoa = p.id_pessoa WHERE f.id_funcionario = ".$dependente["id_funcionario"].";")->fetch(PDO::FETCH_ASSOC))["sobrenome"];
@@ -114,7 +118,6 @@
         <script src="../geral/formulario.js"></script>
         <script>
             var dependente = <?= $JSON_dependente; ?>;
-            console.log(dependente);
             var url = "dependente_listar_um.php",
             data = "id_dependente=<?= $_GET["id_dependente"] ?>";
             var formState = [],
@@ -279,7 +282,7 @@
                 {
                     getInfoDependente();
                 }
-                post("./funcionario/dependente_documento.php", "id_dependente=" + dependente.id_dependente, function(response)
+                post("./dependente_documento.php", "id_dependente=" + dependente.id_dependente, function(response)
                 {
                     listarDocDependente(response)
                     $('#datatable-documentos').DataTable(
@@ -490,17 +493,17 @@
                     dataType: 'text'
                 })
             }
-            function listarDocDependente(doc) 
+            function listarDocDependente(docdependentes) 
             {
                 $("#doc-tab").empty();
-                $.each(doc, function(i, item) 
+                $.each(docdependentes, function(i, item) 
                 {
                     $("#doc-tab")
                         .append($("<tr>")
                             .append($("<td>").text(item.descricao))
                             .append($("<td>").text(item.data))
                             .append($("<td style='display: flex; justify-content: space-evenly;'>")
-                                .append($("<a href='./funcionario/dependente_docdependente.php?action=download&id_doc="+item.id_doc+"' title='Visualizar ou Baixar'><button class='btn btn-primary'><i class='fas fa-download'></i></button></a>"))
+                                .append($("<a href='dependente_docdependente.php?action=download&id_doc="+item.id_doc+"' title='Visualizar ou Baixar'><button class='btn btn-primary'><i class='fas fa-download'></i></button></a>"))
                                 .append($("<a href='#' onclick='excluir_docdependente(" + item.id_doc + ")' title='Excluir'><button class='btn btn-danger'><i class='fas fa-trash-alt'></i></button></a>"))
                             )
                         )
@@ -508,7 +511,7 @@
             }
             function excluir_docdependente(id_doc) 
             {
-                post('./funcionario/dependente_docdependente.php', "action=excluir&id_doc=" + id_doc + "&id_dependente=" + dependente.id_dependente, listarDocDependente);
+                post('dependente_docdependente.php', "action=excluir&id_doc=" + id_doc + "&id_dependente=" + dependente.id_dependente, listarDocDependente);
             }
             function gerarDocFuncional(response) 
             {
@@ -522,7 +525,7 @@
             }
             function adicionarDocDependente() 
             {
-                url = './funcionario/dependente_docdependente.php';
+                url = 'dependente_docdependente.php';
                 var nome_docdependente = window.prompt("Cadastre um novo tipo de Documento:");
                 if (!nome_docdependente) 
                 {
