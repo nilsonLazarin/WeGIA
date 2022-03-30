@@ -19,6 +19,7 @@ require_once 'DocumentoControle.php';
 include_once ROOT.'/classes/Cache.php';
 
 include_once ROOT."/dao/Conexao.php";
+
 //require_once ROOT."/controle/AtendidoControle.php";
 //$listaAtendidos = new AtendidoControle();
 //$listaAtendidos->listarTodos2();
@@ -217,8 +218,9 @@ class AtendidoControle
     
     public function listarTodos(){
         extract($_REQUEST);
+        $status = $_GET['select_status'];
         $AtendidoDAO= new AtendidoDAO();
-        $atendidos = $AtendidoDAO->listarTodos();
+        $atendidos = $AtendidoDAO->listarTodos($status);
         session_start();
         $_SESSION['atendidos']=$atendidos;
         header('Location: '.$nextPage);

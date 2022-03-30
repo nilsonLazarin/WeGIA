@@ -1,8 +1,8 @@
 <?php
 
-	ini_set('display_errors',1);
+	/*ini_set('display_errors',1);
 	ini_set('display_startup_erros',1);
-	error_reporting(E_ALL);
+	error_reporting(E_ALL);*/
 
 	session_start();
 	if(!isset($_SESSION['usuario'])){
@@ -48,7 +48,7 @@
     $msg = "Você não tem as permissões necessárias para essa página.";
     header("Location: ../../home.php?msg_c=$msg");
 	}	
-
+	require_once ROOT."/controle/AtendidoControle.php";
 	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
 	require_once "../personalizacao_display.php";
 
@@ -142,9 +142,12 @@
 				}
 			});*/
 
-			var atendidos = <?php echo $_SESSION['atendidos'];?> ;
-			<?php unset($_SESSION['atendidos']); ?>;
-			console.log(atendidos);
+			var atendidos =<?php 
+				$response = new AtendidoControle;
+				$response->ListarTodos();
+				echo $_SESSION['atendidos'];?>;
+				<?php //unset($_SESSION['atendidos']);?>; 
+				console.log(atendidos);
 			$.each(atendidos, function(i, item) {
 				$("#tabela")
 				.append($("<tr>")
@@ -201,13 +204,26 @@
 
 				<!-- start: page -->
 				<section class="panel">
-					<header class="panel-heading">
-						<div class="panel-actions">
-							<a href="#" class="fa fa-caret-down"></a>
-						</div>
-
-						<h2 class="panel-title">Atendidos</h2>
-					</header>
+							<header class="panel-heading">
+								<div class="panel-actions">
+									<a href="#" class="fa fa-caret-down"></a>
+								</div>
+								<h2 class="panel-title">Selecione o status:</h2><br>
+                                <form method="GET" action="#" id="select_status" name="select_status">
+									<select name="select_status" id="status">
+										<?php
+											$result_status = "SELECT * FROM atendido_status ORDER BY idatendido_status";
+											$resultado_status = mysqli_query($conexao, $result_status);
+											while($row_status = mysqli_fetch_assoc($resultado_status)){?>
+												<option value = "<?php echo $row_status['idatendido_status']; ?>">
+													<?php echo $row_status['status'];?>
+												</option> <?php 
+											}
+											?>
+									</select>
+									<br> <input type="submit"  value='Listar' name='listar' id='listar' class='mb-xs mt-xs mr-xs btn btn-primary'/>
+							</form>
+							</header>
 					<div class="panel-body">
 						<table class="table table-bordered table-striped mb-none"
 							id="datatable-default">

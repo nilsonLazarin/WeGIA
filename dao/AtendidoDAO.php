@@ -212,12 +212,21 @@ class AtendidoDAO
             echo 'Error: <b>  na tabela pessoas = ' . $sql . '</b> <br /><br />' . $e->getMessage();
         }
     }
-    public function listarTodos(){
+    public function listarTodos($status){
 
         try{
+            if(!isset($status))
+                $status_selecionado = 1;
+            
+            else
+                $status_selecionado = $status;
             $atendidos=array();
             $pdo = Conexao::connect();
-            $consulta = $pdo->query("SELECT p.nome,p.sobrenome,p.cpf,a.idatendido FROM pessoa p INNER JOIN atendido a ON p.id_pessoa = a.pessoa_id_pessoa");
+
+            $consulta = $pdo->prepare("SELECT p.nome,p.sobrenome,p.cpf,a.idatendido FROM pessoa p INNER JOIN atendido a 
+            ON p.id_pessoa = a.pessoa_id_pessoa WHERE a.atendido_status_idatendido_status = ?");
+             $consulta->bindParam(1,$status_selecionado);
+             $consulta->execute();
             //$produtos = Array();
             $x=0;
             while($linha = $consulta->fetch(PDO::FETCH_ASSOC)){
@@ -232,9 +241,10 @@ class AtendidoDAO
            // $pdo->commit();
             //$pdo->close();
             } catch (PDOExeption $e){
-                echo 'Error:' . $e->getMessage;
+                echo 'Error:' . $e->getMessage();
             }
             return json_encode($atendidos);
+            var_dump($status_selecionado);
         }
 
 
