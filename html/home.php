@@ -178,7 +178,7 @@
 					<a href="#">
 					<div class="col-lg-2 col-md-8 i category-item" data-toggle="collapse" href="#saude">
 							<i  class="fa fa-ambulance"></i>
-							<h4>Saúde <br>(em breve)</h4>
+							<h4>Saúde</h4>
 						</div>
 					</a>
 
