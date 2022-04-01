@@ -666,9 +666,9 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                <section class="panel">
                         <div class="panel-body">
                                                                                                                                                                                                                         <!-- https://demo.wegia.org/html/personalizacao.php -->
-                                                            <div class="alert alert-warning" style="font-size: 15px;"><i class="fas fa-check mr-md"></i>O endereço da instituição não está cadastrado no sistema<br><a href='../personalizacao.php'>Cadastrar endereço da instituição</a></div>    
+                                                            <div class="alert alert-warning" id="cadastro_instituicao" style="font-size: 15px;"><i class="fas fa-check mr-md"></i>O endereço da instituição não está cadastrado no sistema<br><a href='../personalizacao.php'>Cadastrar endereço da instituição</a></div>    
                                                       <div class="thumb-info mb-md">
-                                                            <img id="imagem" alt="John Doe">
+                                                            <img id="imagem" alt="">
                                                             <i class="fas fa-camera-retro btn btn-info btn-lg" data-toggle="modal" data-target="#myModal"></i>
                               <div class="container">
                                  <div class="modal fade" id="myModal" role="dialog">
@@ -1506,6 +1506,8 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
         dataType: 'text'
       })
     }
+    
+    
 </script>
   
 
