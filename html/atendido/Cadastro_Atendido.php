@@ -491,7 +491,10 @@
           return false;
         }
       }
-	  )};
+	  )
+	  if($("#telefone") = null){
+      $("#telefone") = "";
+	  };
       
       function gerarTipo() {
       url = '../../dao/exibir_tipo_atendido.php';
