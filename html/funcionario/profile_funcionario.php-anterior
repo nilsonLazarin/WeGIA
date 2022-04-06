@@ -14,7 +14,7 @@
   {
     $id_funcionario = $_GET['id_funcionario'];
     header('Location: ../../controle/control.php?metodo=listarUm&nomeClasse=FuncionarioControle&nextPage=../html/funcionario/profile_funcionario.php?id_funcionario=' . $id_funcionario . '&id_funcionario=' . $id_funcionario);
-  } 
+  }
   else 
   {
     $func = $_SESSION['funcionario'];
@@ -142,19 +142,19 @@
       {
         opacity: 1;
       }
-      #frame
+      #frame 
       {
         width: 100%;
       }
-      .obrig
+      .obrig 
       {
         color: rgb(255, 0, 0);
       }
-      .form-control
+      .form-control 
       {
         padding: 0 12px;
       }
-      .btn i
+      .btn i 
       {
         color: white;
       }
@@ -177,7 +177,7 @@
         $("#botaoEditarIP").removeAttr('onclick');
         $("#botaoEditarIP").attr('onclick', "return cancelar_informacoes_pessoais()");
       }
-      function cancelar_informacoes_pessoais() 
+      function cancelar_informacoes_pessoais()
       {
         $("#nomeForm").prop('disabled', true);
         $("#sobrenomeForm").prop('disabled', true);
@@ -206,7 +206,7 @@
         if ($('#numResidencial').is(':checked')) 
         {
           $("#numero_residencia").prop('disabled', true);
-        }
+        } 
         else 
         {
           $("#numero_residencia").prop('disabled', false);
@@ -298,7 +298,7 @@
       }
       $(function() 
       {
-        var funcionario = <?= $func ?>;
+        var funcionario = <?= $func ?>; 
         console.log(funcionario);
         $.each(funcionario, function(i, item) 
         {
@@ -581,14 +581,14 @@
         if (Resto != parseInt(strCPF.substring(9, 10))) return false;
         Soma = 0;
         for (i = 1; i <= 10; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (12 - i);
-          Resto = (Soma * 10) % 11;
+        Resto = (Soma * 10) % 11;
         if ((Resto == 10) || (Resto == 11)) Resto = 0;
         if (Resto != parseInt(strCPF.substring(10, 11))) return false;
         return true;
       }
       function validarCPF(strCPF) 
       {
-        if (!testaCPF(strCPF))
+        if (!testaCPF(strCPF)) 
         {
           $('#cpfInvalido').show();
           document.getElementById("enviarEditar").disabled = true;
@@ -668,6 +668,7 @@
           return
         }
         data = 'situacao=' + situacao;
+        // console.log(data);
         $.ajax(
         {
           type: "POST",
@@ -772,13 +773,8 @@
                       {
                         $foto = $pessoa['imagem'];
                         if ($foto != null and $foto != "")
-                        {
-                          $foto = 'data:image;base64,' . $foto;
-                        }
-                        else 
-                        {
-                          $foto = WWW . "img/semfoto.png";
-                        }
+                        $foto = 'data:image;base64,' . $foto;
+                        else $foto = WWW . "img/semfoto.png";
                       }
                       echo "<img src='$foto' id='imagem' class='rounded img-responsive' alt='John Doe'>";
                     ?>
@@ -803,20 +799,19 @@
                                   </div>
                                 </div>
                               </form>
+                              <div class="modal-footer">
+                                <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
+                                <input type="submit" id="formsubmit" value="Alterar imagem">
+                              </div>
                             </div>
-                            <div class="modal-footer">
-                              <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
-                              <input type="submit" id="formsubmit" value="Alterar imagem">
-                            </div>
-                          </div> 
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="widget-toggle-expand mb-md">
-                    <div class="widget-header">
-                      <div class="widget-content-expanded">
-                        <ul class="simple-todo-list"></ul>
+                    <div class="widget-toggle-expand mb-md">
+                      <div class="widget-header">
+                        <div class="widget-content-expanded">
+                          <ul class="simple-todo-list"></ul>
                       </div>
                     </div>
                   </div>
@@ -921,8 +916,7 @@
                         <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
                         <button type="button" class="btn btn-primary" id="botaoEditarIP" onclick="return editar_informacoes_pessoais()">Editar</button>
                         <input type="submit" class="btn btn-primary" disabled="true" value="Salvar" id="botaoSalvarIP">
-                      </fieldset>
-                    </form><br>
+                      </fieldset><br>
                     <div class="panel-footer">
                       <div class="row">
                         <div class="col-md-9 col-md-offset-3">
@@ -946,154 +940,154 @@
                         </div>
                       </div>
                     </div>
+                  </div>  
+                  <!-- Aba de remuneração do funcionário -->
+                    <div id="beneficio" class="tab-pane">
+                      <section class="panel">
+                        <header class="panel-heading">
+                          <div class="panel-actions">
+                            <a href="#" class="fa fa-caret-down"></a>
+                          </div>
+                          <h2 class="panel-title">Remuneração</h2>
+                        </header>
+                        <div class="panel-body">
+                          <h5 class="mb-xlg">Remuneração: R$ <b class="total"></b></h5>
+                          <table class="table table-bordered table-striped mb-none" id="datatable-default">
+                            <thead>
+                              <tr>
+                                <th>Remuneração</th>
+                                <th>Data Início</th>
+                                <th>Data Fim</th>
+                                <th>Valor</th>
+                                <th>Ação</th>
+                              </tr>
+                            </thead>
+                            <tbody id="tabela_remuneracao"></tbody>
+                          </table>
+                          <button id="excluir" type="button" class="btn btn-success" data-toggle="modal" data-target="#adicionar">Adicionar</button>
+                        </div><br>
+                        <div class="modal fade" id="adicionar" role="dialog">
+                          <div class="modal-dialog">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" id="closeRemuneracaoModal">×</button>
+                                <h3>Adicionar Remuneração</h3>
+                              </div>
+                              <div class="modal-body">
+                              <fieldset id="formRemuneracao">
+                                <div class="form-group">
+                                  <label class="col-md-3 control-label" for="tipo_remuneracao">Tipo</label>
+                                  <div class="col-md-6" style="display: flex;">
+                                    <select class="form-control input-lg mb-md" name="id_tipo" id="tipo_remuneracao" required>
+                                      <option selected disabled>Selecionar</option>
+                                    <?php
+                                      $tipos = ($pdo->query("SELECT idfuncionario_remuneracao_tipo as id, descricao FROM funcionario_remuneracao_tipo;"))->fetchAll(PDO::FETCH_ASSOC);
+                                      foreach ($tipos as $key => $tipo) 
+                                      {
+                                        echo "<option value='" . $tipo["id"] . "'>" . $tipo["descricao"] . "</option>";
+                                      }
+                                    ?>
+                                  </select>
+                                  <a onclick="adicionarTipoRemuneracao()" style="margin: 0 20px;" id="btn_adicionar_tipo_remuneracao"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
+                                </div>
+                              </div>
+                              <div class="form-group">
+                                <label class="col-md-3 control-label" for="valor_remuneracao">Valor</label>
+                                <div class="col-md-8">
+                                  <input type="number" class="form-control" name="valor" id="valor_remuneracao" onkeypress="return Onlynumbers(event)" required>
+                                </div>
+                              </div>
+                              <div class="form-group">
+                                <label class="col-md-3 control-label" for="inicio_remuneracao">Data Inicio</label>
+                                <div class="col-md-8">
+                                  <input type="date" name="inicio" id="inicio_remuneracao" class="form-control">
+                                </div>
+                              </div>
+                              <div class="form-group">
+                                <label class="col-md-3 control-label" for="fim_remuneracao">Data Fim</label>
+                                <div class="col-md-8">
+                                  <input type="date" name="fim" id="fim_remuneracao" class="form-control">
+                                </div>
+                              </div>
+                              <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
+                              <input type="hidden" name="action" value="remuneracao_adicionar">
+                              <button class="btn btn-primary" id="botaoSalvarRemuneracao" onclick="adicionarRemuneracao('formRemuneracao', console.log)">Salvar</button>
+                            </fieldset>
+                          </div>
+                        </div>
+                      </div>
+                    </section>
                   </div>
-                <!-- Aba de remuneração do funcionário -->
-                <div id="beneficio" class="tab-pane">
-                  <section class="panel">
-                    <header class="panel-heading">
-                      <div class="panel-actions">
-                        <a href="#" class="fa fa-caret-down"></a>
-                      </div>
-                      <h2 class="panel-title">Remuneração</h2>
-                    </header>
-                    <div class="panel-body">
-                      <h5 class="mb-xlg">Remuneração: R$ <b class="total"></b></h5>
-                      <table class="table table-bordered table-striped mb-none" id="datatable-default">
-                        <thead>
-                          <tr>
-                            <th>Remuneração</th>
-                            <th>Data Início</th>
-                            <th>Data Fim</th>
-                            <th>Valor</th>
-                            <th>Ação</th>
-                          </tr>
-                        </thead>
-                        <tbody id="tabela_remuneracao"></tbody>
-                      </table>
-                      <button id="excluir" type="button" class="btn btn-success" data-toggle="modal" data-target="#adicionar">Adicionar</button>
-                    </div><br>
-                    <div class="modal fade" id="adicionar" role="dialog">
-                      <div class="modal-dialog">
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" id="closeRemuneracaoModal">×</button>
-                            <h3>Adicionar Remuneração</h3>
-                          </div>
-                          <div class="modal-body">
-                          <fieldset id="formRemuneracao">
-                            <div class="form-group">
-                              <label class="col-md-3 control-label" for="tipo_remuneracao">Tipo</label>
-                              <div class="col-md-6" style="display: flex;">
-                                <select class="form-control input-lg mb-md" name="id_tipo" id="tipo_remuneracao" required>
-                                  <option selected disabled>Selecionar</option>
-                                  <?php
-                                    $tipos = ($pdo->query("SELECT idfuncionario_remuneracao_tipo as id, descricao FROM funcionario_remuneracao_tipo;"))->fetchAll(PDO::FETCH_ASSOC);
-                                    foreach ($tipos as $key => $tipo) 
-                                    {
-                                      echo "<option value='" . $tipo["id"] . "'>" . $tipo["descricao"] . "</option>";
-                                    }
-                                  ?>
-                                </select>
-                                <a onclick="adicionarTipoRemuneracao()" style="margin: 0 20px;" id="btn_adicionar_tipo_remuneracao"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
-                              </div>
+                  <!--Outros-->
+                  <div id="outros" class="tab-pane">
+                    <section class="panel">
+                      <header class="panel-heading">
+                        <div class="panel-actions">
+                          <a href="#" class="fa fa-caret-down"></a>
+                        </div>
+                        <h2 class="panel-title">Outros</h2>
+                      </header>
+                      <div class="panel-body">
+                        <form class="form-horizontal" method="POST" action="../../controle/control.php">
+                          <input type="hidden" name="nomeClasse" value="FuncionarioControle">
+                          <input type="hidden" name="metodo" value="alterarOutros">
+                          <div class="form-group">
+                            <label class="col-md-3 control-label">PIS</label>
+                            <div class="col-md-6">
+                              <input type="text" id="pis" name="pis" class="form-control">
                             </div>
-                            <div class="form-group">
-                              <label class="col-md-3 control-label" for="valor_remuneracao">Valor</label>
-                              <div class="col-md-8">
-                                <input type="number" class="form-control" name="valor" id="valor_remuneracao" onkeypress="return Onlynumbers(event)" required>
-                              </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="col-md-3 control-label">CTPS</label>
+                            <div class="col-md-6">
+                              <input type="text" id="ctps" name="ctps" class="form-control">
                             </div>
-                            <div class="form-group">
-                              <label class="col-md-3 control-label" for="inicio_remuneracao">Data Inicio</label>
-                              <div class="col-md-8">
-                                <input type="date" name="inicio" id="inicio_remuneracao" class="form-control">
-                              </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="col-md-3 control-label" for="uf">Estado CTPS</label>
+                            <div class="col-md-6">
+                              <input type="text" name="uf_ctps" size="60" class="form-control" id="uf_ctps">
                             </div>
-                            <div class="form-group">
-                              <label class="col-md-3 control-label" for="fim_remuneracao">Data Fim</label>
-                              <div class="col-md-8">
-                                <input type="date" name="fim" id="fim_remuneracao" class="form-control">
-                              </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="col-md-3 control-label">Título de eleitor</label>
+                            <div class="col-md-6">
+                              <input type="text" name="titulo_eleitor" id="titulo_eleitor" class="form-control">
                             </div>
-                            <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
-                            <input type="hidden" name="action" value="remuneracao_adicionar">
-                            <button class="btn btn-primary" id="botaoSalvarRemuneracao" onclick="adicionarRemuneracao('formRemuneracao', console.log)">Salvar</button>
-                          </fieldset>
-                        </div>
-                      </div>
-                    </div>
-                  </section>
-                </div>
-                <!--Outros-->
-                <div id="outros" class="tab-pane">
-                  <section class="panel">
-                    <header class="panel-heading">
-                      <div class="panel-actions">
-                        <a href="#" class="fa fa-caret-down"></a>
-                      </div>
-                      <h2 class="panel-title">Outros</h2>
-                    </header>
-                    <div class="panel-body">
-                      <form class="form-horizontal" method="POST" action="../../controle/control.php">
-                        <input type="hidden" name="nomeClasse" value="FuncionarioControle">
-                        <input type="hidden" name="metodo" value="alterarOutros">
-                        <div class="form-group">
-                          <label class="col-md-3 control-label">PIS</label>
+                          </div>
+                          <div class="form-group">
+                            <label class="col-md-3 control-label">Zona eleitoral</label>
+                            <div class="col-md-6">
+                              <input type="text" name="zona_eleitoral" id="zona_eleitoral" class="form-control">
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="col-md-3 control-label">Seção do título de eleitor</label>
+                            <div class="col-md-6">
+                              <input type="text" name="secao_titulo_eleitor" id="secao_titulo_eleitor" class="form-control">
+                            </div>
+                          </div>
+                          <div class="form-group" id="reservista1" style="display: none">
+                            <label class="col-md-3 control-label">Número do certificado reservista</label>
+                            <div class="col-md-6">
+                              <input type="text" id="certificado_reservista_numero" name="certificado_reservista_numero" class="form-control num_reservista">
+                            </div>
+                          </div>
+                          <div class="form-group" id="reservista2" style="display: none">
+                            <label class="col-md-3 control-label">Série do certificado reservista</label>
+                            <div class="col-md-6">
+                              <input type="text" id="certificado_reservista_serie" name="certificado_reservista_serie" class="form-control serie_reservista">
+                            </div>
+                          </div>
+                          <div class="form-group">
+                          <label class="col-md-3 control-label" for="profileCompany">Data de Admissão</label>
                           <div class="col-md-6">
-                            <input type="text" id="pis" name="pis" class="form-control">
+                            <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data_admissao" id="data_admissao" max=<?php echo date('Y-m-d'); ?>>
                           </div>
                         </div>
                         <div class="form-group">
-                          <label class="col-md-3 control-label">CTPS</label>
-                          <div class="col-md-6">
-                            <input type="text" id="ctps" name="ctps" class="form-control">
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <label class="col-md-3 control-label" for="uf">Estado CTPS</label>
-                          <div class="col-md-6">
-                            <input type="text" name="uf_ctps" size="60" class="form-control" id="uf_ctps">
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <label class="col-md-3 control-label">Título de eleitor</label>
-                          <div class="col-md-6">
-                            <input type="text" name="titulo_eleitor" id="titulo_eleitor" class="form-control">
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <label class="col-md-3 control-label">Zona eleitoral</label>
-                          <div class="col-md-6">
-                            <input type="text" name="zona_eleitoral" id="zona_eleitoral" class="form-control">
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <label class="col-md-3 control-label">Seção do título de eleitor</label>
-                          <div class="col-md-6">
-                            <input type="text" name="secao_titulo_eleitor" id="secao_titulo_eleitor" class="form-control">
-                          </div>
-                        </div>
-                        <div class="form-group" id="reservista1" style="display: none">
-                          <label class="col-md-3 control-label">Número do certificado reservista</label>
-                          <div class="col-md-6">
-                            <input type="text" id="certificado_reservista_numero" name="certificado_reservista_numero" class="form-control num_reservista">
-                          </div>
-                        </div>
-                        <div class="form-group" id="reservista2" style="display: none">
-                          <label class="col-md-3 control-label">Série do certificado reservista</label>
-                          <div class="col-md-6">
-                            <input type="text" id="certificado_reservista_serie" name="certificado_reservista_serie" class="form-control serie_reservista">
-                          </div>
-                        </div>
-                        <div class="form-group">
-                        <label class="col-md-3 control-label" for="profileCompany">Data de Admissão</label>
-                        <div class="col-md-6">
-                          <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data_admissao" id="data_admissao" max=<?php echo date('Y-m-d'); ?>>
-                        </div>
-                      </form>
-                      <div class="form-group">
-                        <label class="col-md-3 control-label" for="inputSuccess">Situação</label>
+                          <label class="col-md-3 control-label" for="inputSuccess">Situação</label>
                           <a onclick="adicionar_situacao()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
                           <div class="col-md-6">
                             <select class="form-control input-lg mb-md" name="situacao" id="situacao">
@@ -1106,9 +1100,9 @@
                               ?>
                             </select>
                           </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="col-md-3 control-label" for="inputSuccess">Cargo</label>
+                        </div>
+                        <div class="form-group">
+                          <label class="col-md-3 control-label" for="inputSuccess">Cargo</label>
                           <a onclick="adicionar_cargo()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
                           <div class="col-md-6">
                             <select class="form-control input-lg mb-md" name="cargo" id="cargo">
@@ -1117,37 +1111,37 @@
                                 while ($row = $cargo->fetch_array(MYSQLI_NUM)) 
                                 {
                                   echo "<option value=" . $row[0] . ">" . $row[1] . "</option>";
-                                }                            
-                              ?>
-                            </select>
+                                }                            ?>
+                              </select>
+                            </div>
                           </div>
-                      </div>
-                      <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
-                      <button type="button" class="btn btn-primary" id="botaoEditarOutros" onclick="return editar_outros()">Editar</button>
-                      <input type="submit" class="btn btn-primary" disabled="true" value="Salvar" id="botaoSalvarOutros" disabled="true">
-                      <h4>Informações Adicionais</h4>
-                      <table class="table table-bordered table-striped mb-none" id="datatable-addInfo">
-                        <thead>
-                          <tr>
-                            <th>Descrição</th>
-                            <th>Dados</th>
-                            <th>Ação</th>
-                          </tr>
-                        </thead>
-                        <tbody id="addInfo-tab">
-                          <?php
-                            $id_funcionario = $_GET['id_funcionario'];
-                            $infoAdd = $pdo->query("SELECT * FROM funcionario_outrasinfo WHERE funcionario_id_funcionario = '$id_funcionario';")->fetchAll(PDO::FETCH_ASSOC);
-                            $tam = count($infoAdd);
-                            for($i=0;$i<$tam;$i++)
-                            {
+                          <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
+                          <button type="button" class="btn btn-primary" id="botaoEditarOutros" onclick="return editar_outros()">Editar</button>
+                          <input type="submit" class="btn btn-primary" disabled="true" value="Salvar" id="botaoSalvarOutros" disabled="true">
+                        </div>
+                        <h4>Informações Adicionais</h4>
+                        <table class="table table-bordered table-striped mb-none" id="datatable-addInfo">
+                          <thead>
+                            <tr>
+                              <th>Descrição</th>
+                              <th>Dados</th>
+                              <th>Ação</th>
+                            </tr>
+                          </thead>
+                          <tbody id="addInfo-tab">
+                            <?php
+                              $id_funcionario = $_GET['id_funcionario'];
+                              $infoAdd = $pdo->query("SELECT * FROM funcionario_outrasinfo WHERE funcionario_id_funcionario = '$id_funcionario';")->fetchAll(PDO::FETCH_ASSOC);
+                              $tam = count($infoAdd);
+                              for($i=0;$i<$tam;$i++)
+                              {
                                 $dado = $infoAdd[$i]['dado'];
                                 $desc_id = $infoAdd[$i]
                                 ['funcionario_listainfo_idfuncionario_listainfo'];
                                 $idInfoAdicional = $infoAdd[$i]['idfunncionario_outrasinfo'];
                                 $descricao = $pdo->query("SELECT descricao FROM funcionario_listainfo WHERE idfuncionario_listainfo = '$desc_id';")->fetchAll(PDO::FETCH_ASSOC);
                                 $nome_desc = $descricao[0]['descricao'];
-                                echo
+                                echo 
                                 "
                                   <tr id='$idInfoAdicional'>
                                     <td>$nome_desc</td>
@@ -1157,56 +1151,56 @@
                                     </td>
                                   </tr>
                                 ";  
-                            }
-                          ?>
-                        </tbody>
-                      </table><br>
-                      <!-- Button trigger modal -->
-                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addInfoModal">
-                        Adicionar Informação
-                      </button>
-                      <div class="modal fade" id="addInfoModal" tabindex="-1" role="dialog" aria-labelledby="addInfoModal" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                          <div class="modal-content">
-                            <div class="modal-header" style="display: block ruby;">
-                              <h5 class="modal-title" id="addInfoModalLabel">Adicionar informação adicional</h5>
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close_addInfoModal">
-                                <span aria-hidden="true">&times;</span>
-                              </button>
-                            </div>
-                            <div class="modal-body">
-                              <form id="formInfoAdicional">
-                                <div class="form-group">
-                                  <label for="descricao_addInfo" class="col-form-label">Descrição</label>
-                                  <div style="display: block ruby;">
-                                    <select name="id_descricao" id="descricao_addInfo" class="form-control" style="width: 300px;" required>
-                                      <option selected disabled>Selecionar</option>
-                                      <?php
-                                        $descricao = $pdo->query("SELECT * FROM funcionario_listainfo;")->fetchAll(PDO::FETCH_ASSOC);
-                                        foreach ($descricao as $key => $value) 
-                                        {
-                                          echo ("<option id='desc' value=".$value["idfuncionario_listainfo"].">" . $value["descricao"] . "</option>");
-                                        }
-                                      ?>
-                                    </select>
-                                    <a onclick="adicionar_addInfoDescricao()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw; margin-left: 10px;"></i></a>
+                              }
+                            ?>
+                          </tbody>
+                        </table><br>
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addInfoModal">
+                          Adicionar Informação
+                        </button>
+                        <div class="modal fade" id="addInfoModal" tabindex="-1" role="dialog" aria-labelledby="addInfoModal" aria-hidden="true">
+                          <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header" style="display: block ruby;">
+                                <h5 class="modal-title" id="addInfoModalLabel">Adicionar informação adicional</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close_addInfoModal">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body">
+                                <form id="formInfoAdicional">
+                                  <div class="form-group">
+                                    <label for="descricao_addInfo" class="col-form-label">Descrição</label>
+                                    <div style="display: block ruby;">
+                                      <select name="id_descricao" id="descricao_addInfo" class="form-control" style="width: 300px;" required>
+                                        <option selected disabled>Selecionar</option>
+                                        <?php
+                                          $descricao = $pdo->query("SELECT * FROM funcionario_listainfo;")->fetchAll(PDO::FETCH_ASSOC);
+                                          foreach ($descricao as $key => $value) 
+                                          {
+                                            echo ("<option id='desc' value=".$value["idfuncionario_listainfo"].">" . $value["descricao"] . "</option>");
+                                          }
+                                        ?>
+                                      </select>
+                                      <a onclick="adicionar_addInfoDescricao()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw; margin-left: 10px;"></i></a>
+                                    </div>
                                   </div>
-                                </div>
-                                <div class="form-group">
-                                  <label for="dados_addInfo" class="col-form-label">Dados</label>
-                                  <textarea class="form-control" id="dados_addInfo" style="padding: 6px 12px; height: 120px;" name="dados" maxlength="255" required></textarea>
-                                </div>
-                                <input type="text" name="action" value="adicionar" hidden>
-                                <input type="text" name="id_funcionario" value="<?= $_GET['id_funcionario'];?>" hidden>
-                              </form>
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                              <button type="button" class="btn btn-primary" onclick="adicionarAddInfo()">Enviar</button>
-                              <script>
-                                $(function() 
-                                {
-                                  $('#datatable-addInfo').DataTable(
+                                  <div class="form-group">
+                                    <label for="dados_addInfo" class="col-form-label">Dados</label>
+                                    <textarea class="form-control" id="dados_addInfo" style="padding: 6px 12px; height: 120px;" name="dados" maxlength="255" required></textarea>
+                                  </div>
+                                  <input type="text" name="action" value="adicionar" hidden>
+                                  <input type="text" name="id_funcionario" value="<?= $_GET['id_funcionario'];?>" hidden>
+                                </form>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                <button type="button" class="btn btn-primary" onclick="adicionarAddInfo()">Enviar</button>
+                                <script>
+                                  $(function() 
+                                  {
+                                    $('#datatable-addInfo').DataTable(
                                     {
                                       "order": 
                                       [
@@ -1214,68 +1208,67 @@
                                       ]
                                     });
                                     post("informacao_adicional.php", "action=listar&id_funcionario<?= $_GET['id_funcionario']?>", listarInfoAdicional)
-                                });
-                                function adicionar_addInfoDescricao()
-                                {
-                                  url = 'informacao_adicional.php';
-                                  var situacao = window.prompt("Cadastrar nova descrição:");
-                                  if (!situacao) 
-                                  {
-                                    return
-                                  }
-                                  situacao = situacao.trim();
-                                  if (situacao == '') 
-                                  
-                                  {
-                                    return
-                                  }
-                                  post(url, "action=adicionar_descricao&descricao="+situacao, listarInfoDescricao);
-                                }
-                                function listarInfoDescricao(lista)
-                                {
-                                  if (lista["aviso"] || lista["errorInfo"])
-                                  {
-                                    return false;
-                                  }
-                                  $('#descricao_addInfo').empty();
-                                  $('#descricao_addInfo').append('<option selected disabled>Selecionar</option>');
-                                  $.each(lista, function(i, item) 
-                                  {
-                                      $('#descricao_addInfo').append('<option value="' + item.idfuncionario_listainfo + '">' + item.descricao + '</option>');
                                   });
-                                }
-                                function adicionarAddInfo()
-                                {
-                                  if (submitForm("formInfoAdicional", listarInfoAdicional))
+                                  function adicionar_addInfoDescricao()
                                   {
-                                    $("#close_addInfoModal").click();
-                                  }
-                                }
-                                function removerDescricao(id_descricao)
-                                {
-                                  let url = "informacao_adicional.php";
-                                  let data = "action=remover&id_descricao="+id_descricao;
-                                  post(url, data, listarInfoAdicional);
-                                  $("#"+id_descricao+"").remove();
-                                }
-                                function listarInfoAdicional(lista)
-                                {
-                                  var argsAdicional = "action=idInfoAdicional";
-                                  var argsdesc = "action=selectDescricao";
-                                  console.log(lista[0]);
-                                  var vetor = new Array;
-                                  $.ajax(
-                                  {
-                                    type: "POST",
-                                    url: "informacao_adicional.php",
-                                    data: argsdesc,
-                                    dataType: 'json',
-                                    success: function(resp)
+                                    url = 'informacao_adicional.php';
+                                    var situacao = window.prompt("Cadastrar nova descrição:");
+                                    if (!situacao) 
                                     {
+                                      return
+                                    }
+                                    situacao = situacao.trim();
+                                    if (situacao == '') 
+                                    {
+                                      return
+                                    }
+                                    post(url, "action=adicionar_descricao&descricao="+situacao, listarInfoDescricao);
+                                  }
+                                  function listarInfoDescricao(lista)
+                                  {
+                                    if (lista["aviso"] || lista["errorInfo"])
+                                    {
+                                      return false;
+                                    }
+                                    $('#descricao_addInfo').empty();
+                                    $('#descricao_addInfo').append('<option selected disabled>Selecionar</option>');
+                                    $.each(lista, function(i, item) 
+                                    {
+                                      $('#descricao_addInfo').append('<option value="' + item.idfuncionario_listainfo + '">' + item.descricao + '</option>');
+                                    });
+                                  }
+                                  function adicionarAddInfo()
+                                  {
+                                    if (submitForm("formInfoAdicional", listarInfoAdicional))
+                                    {
+                                      $("#close_addInfoModal").click();
+                                    }
+                                  }
+                                  function removerDescricao(id_descricao)
+                                  {
+                                    let url = "informacao_adicional.php";
+                                    let data = "action=remover&id_descricao="+id_descricao;
+                                    post(url, data, listarInfoAdicional);
+                                    $("#"+id_descricao+"").remove();
+                                  }
+                                  function listarInfoAdicional(lista)
+                                  {
+                                    var argsAdicional = "action=idInfoAdicional";
+                                    var argsdesc = "action=selectDescricao";
+                                    console.log(lista[0]);
+                                    var vetor = new Array;
+                                    $.ajax(
+                                    {
+                                      type: "POST",
+                                      url: "informacao_adicional.php",
+                                      data: argsdesc,
+                                      dataType: 'json',
+                                      success: function(resp)
+                                      {
                                         console.log(resp);
                                         $.each(resp,function(idx,obj)
                                         {
-                                            vetor.push(obj.descricao);
+                                          vetor.push(obj.descricao);
                                         })
                                         console.log(vetor);
                                         $.ajax(
@@ -1286,505 +1279,505 @@
                                           dataType: 'json',
                                           success: function(res)
                                           {
-                                              var id = res['max(idfunncionario_outrasinfo)'];
-                                              $("#addInfo-tab")
-                                                .append($("<tr id="+ id +">")
-                                                  .append($("<td>").text(vetor[lista[0]-1]))
-                                                  .append($("<td>").text(lista[1]))  
-                                                  .append($("<td style='display: flex; justify-content: space-evenly;'>")
-                                                    .append($("<button onclick='removerDescricao("+ id +")' title='Excluir' class='btn btn-danger'><i class='fas fa-trash-alt'></i></button>"))
-                                                  )
+                                            var id = res['max(idfunncionario_outrasinfo)'];
+                                            $("#addInfo-tab")
+                                              .append($("<tr id="+ id +">")
+                                                .append($("<td>").text(vetor[lista[0]-1]))
+                                                .append($("<td>").text(lista[1]))  
+                                                .append($("<td style='display: flex; justify-content: space-evenly;'>")
+                                                  .append($("<button onclick='removerDescricao("+ id +")' title='Excluir' class='btn btn-danger'><i class='fas fa-trash-alt'></i></button>"))
                                                 )
-                                          },
+                                              )
+                                          }
                                         });
-                                    },
+                                      }
+                                    });
+                                  }
+                                </script>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                  <!-- Aba de carga horária do funcionário -->
+                  <div id="editar_cargaHoraria" class="tab-pane">
+                    <section class="panel">
+                      <header class="panel-heading">
+                        <div class="panel-actions">
+                          <a href="#" class="fa fa-caret-down"></a>
+                        </div>
+                        <h2 class="panel-title">Carga Horária</h2>
+                      </header>
+                      <div class="panel-body">
+                        <form class="form-horizontal" method="post" action="../../controle/control.php">
+                          <div class="form-group">
+                            <label class="col-md-3 control-label">Escala</label>
+                            <div class="col-md-6">
+                              <select class="form-control input-lg mb-md" name="escala" id="escala_input">
+                                <option id="escala_default" selected disabled value="">Selecionar</option>
+                                <?php
+                                  $pdo = Conexao::connect();
+                                  $escala = $pdo->query("SELECT * FROM escala_quadro_horario;")->fetchAll(PDO::FETCH_ASSOC);
+                                  foreach ($escala as $key => $value) 
+                                  {
+                                    echo ("<option id='escala_" . $value["id_escala"] . "' value=" . $value["id_escala"] . ">" . $value["descricao"] . "</option>");
+                                  }
+                                ?>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="col-md-3 control-label">Tipo</label>
+                            <div class="col-md-6">
+                              <select class="form-control input-lg mb-md" name="tipoCargaHoraria" id="tipoCargaHoraria_input">
+                                <option selected disabled value="">Selecionar</option>
+                                <option value="1"> Segunda à Sexta, folga Sábado e Domingo</option>
+                                <option value="2"> Dias Alternados</option>
+                              </select>
+                              <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+                              <script>
+                                $(document).ready(function()
+                                {
+                                  $("#tipoCargaHoraria_input").on('change',function()
+                                  {
+                                    var selectValor = $(this).val();
+                                    if(selectValor==1)
+                                    {
+                                      $("#diaTrabalhado").hide();
+                                    }
+                                    else if(selectValor==2)
+                                    {
+                                      $("#diaTrabalhado").show();
+                                    }
                                   });
-                                }
+                                });
                               </script>
                             </div>
                           </div>
-                        </div>
-                      </div>
-                    </div>
-                  </section>
-                </div>
-                <!-- Aba de carga horária do funcionário -->
-                <div id="editar_cargaHoraria" class="tab-pane">
-                  <section class="panel">
-                    <header class="panel-heading">
-                      <div class="panel-actions">
-                        <a href="#" class="fa fa-caret-down"></a>
-                      </div>
-                      <h2 class="panel-title">Carga Horária</h2>
-                    </header>
-                    <div class="panel-body">
-                      <form class="form-horizontal" method="post" action="../../controle/control.php">
-                        <div class="form-group">
-                          <label class="col-md-3 control-label">Escala</label>
-                          <div class="col-md-6">
-                            <select class="form-control input-lg mb-md" name="escala" id="escala_input">
-                              <option id="escala_default" selected disabled value="">Selecionar</option>
-                              <?php
-                                $pdo = Conexao::connect();
-                                $escala = $pdo->query("SELECT * FROM escala_quadro_horario;")->fetchAll(PDO::FETCH_ASSOC);
-                                foreach ($escala as $key => $value) 
-                                {
-                                  echo ("<option id='escala_" . $value["id_escala"] . "' value=" . $value["id_escala"] . ">" . $value["descricao"] . "</option>");
-                                }
-                              ?>
-                            </select>
+                          <div class="form-group">
+                            <label class="col-md-3 control-label">Primeira entrada</label>
+                            <div class="col-md-3">
+                              <input type="time" placeholder="07:25" class="form-control" name="entrada1" id="entrada1_input">
+                            </div>
                           </div>
-                        </div>
-                        <div class="form-group">
-                          <label class="col-md-3 control-label">Tipo</label>
-                          <div class="col-md-6">
-                            <select class="form-control input-lg mb-md" name="tipoCargaHoraria" id="tipoCargaHoraria_input">
-                              <option selected disabled value="">Selecionar</option>
-                              <option value="1"> Segunda à Sexta, folga Sábado e Domingo</option>
-                              <option value="2"> Dias Alternados</option>
-                            </select>
-                            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-                            <script>
-                              $(document).ready(function()
-                              {
-                                $("#tipoCargaHoraria_input").on('change',function()
-                                {
-                                  var selectValor = $(this).val();
-                                  if(selectValor==1)
-                                  {
-                                    $("#diaTrabalhado").hide();
-                                  }
-                                  else if(selectValor==2)
-                                  {
-                                    $("#diaTrabalhado").show();
-                                  }
-                                });
-                              });
-                            </script>
+                          <div class="form-group">
+                            <label class="col-md-3 control-label">Primeira saída</label>
+                            <div class="col-md-3">
+                              <input type="time" placeholder="07:25" class="form-control" name="saida1" id="saida1_input">
+                            </div>
                           </div>
-                        </div>
-                        <div class="form-group">
-                          <label class="col-md-3 control-label">Primeira entrada</label>
-                          <div class="col-md-3">
-                            <input type="time" placeholder="07:25" class="form-control" name="entrada1" id="entrada1_input">
+                          <div class="form-group">
+                            <label class="col-md-3 control-label">Segunda entrada</label>
+                            <div class="col-md-3">
+                              <input type="time" placeholder="07:25" class="form-control" name="entrada2" id="entrada2_input">
+                            </div>
                           </div>
-                        </div>
-                        <div class="form-group">
-                          <label class="col-md-3 control-label">Primeira saída</label>
-                          <div class="col-md-3">
-                            <input type="time" placeholder="07:25" class="form-control" name="saida1" id="saida1_input">
+                          <div class="form-group">
+                            <label class="col-md-3 control-label">Segunda saída</label>
+                            <div class="col-md-3">
+                              <input type="time" placeholder="07:25" class="form-control" name="saida2" id="saida2_input">
+                            </div>
                           </div>
-                        </div>
-                        <div class="form-group">
-                          <label class="col-md-3 control-label">Segunda entrada</label>
-                          <div class="col-md-3">
-                            <input type="time" placeholder="07:25" class="form-control" name="entrada2" id="entrada2_input">
+                          <div id="diaTrabalhado">
+                            <div class="text-center">
+                              <h3 class="col-md-12">Dias Trabalhados</h3>
+                              <div class="btn-group">
+                                <label class="btn btn-primary ">
+                                  <input type="checkbox" id="diaTrabalhado_Seg" name="trabSeg" value="Seg">Seg
+                                  <span class="fa fa-check"></span>
+                                </label>
+                                <label class="btn btn-primary">
+                                  <input type="checkbox" id="diaTrabalhado_Ter" name="trabTer" value="Ter"> Ter
+                                  <span class="fa fa-check"></span>
+                                </label>
+                                <label class="btn btn-primary">
+                                  <input type="checkbox" id="diaTrabalhado_Qua" name="trabQua" value="Qua"> Qua
+                                  <span class="fa fa-check"></span>
+                                </label>
+                                <label class="btn btn-primary">
+                                  <input type="checkbox" id="diaTrabalhado_Qui" name="trabQui" value="Qui"> Qui
+                                  <span class="fa fa-check"></span>
+                                </label>
+                                <label class="btn btn-primary">
+                                  <input type="checkbox" id="diaTrabalhado_Sex" name="trabSex" value="Sex"> Sex
+                                  <span class="fa fa-check"></span>
+                                </label>
+                                <label class="btn btn-primary">
+                                  <input type="checkbox" id="diaTrabalhado_Sab" name="trabSab" value="Sab"> Sab
+                                  <span class="fa fa-check"></span>
+                                </label>
+                                <label class="btn btn-primary">
+                                  <input type="checkbox" id="diaTrabalhado_Dom" name="trabDom" value="Dom"> Dom
+                                  <span class="fa fa-check"></span>
+                                </label>
+                                <label class="btn btn-primary">
+                                  <input type="checkbox" id="diaTrabalhado_Plantão" name="plantao" value="Plantão"> Plantão 12/36
+                                  <span class="fa fa-check"></span>
+                                  /label>
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                        <div class="form-group">
-                          <label class="col-md-3 control-label">Segunda saída</label>
-                          <div class="col-md-3">
-                            <input type="time" placeholder="07:25" class="form-control" name="saida2" id="saida2_input">
-                          </div>
-                        </div>
-                        <div id="diaTrabalhado">
                           <div class="text-center">
-                            <h3 class="col-md-12">Dias Trabalhados</h3>
-                            <div class="btn-group">
+                            <h3 class="col-md-12">Dias de Folga</h3>
+                            <div class="btn-group ">
                               <label class="btn btn-primary ">
-                                <input type="checkbox" id="diaTrabalhado_Seg" name="trabSeg" value="Seg">Seg
+                                <input type="checkbox" id="diaFolga_Seg" name="folgaSeg" value="Seg">Seg
                                 <span class="fa fa-check"></span>
                               </label>
                               <label class="btn btn-primary">
-                                <input type="checkbox" id="diaTrabalhado_Ter" name="trabTer" value="Ter"> Ter
+                                <input type="checkbox" id="diaFolga_Ter" name="folgaTer" value="Ter"> Ter
                                 <span class="fa fa-check"></span>
                               </label>
                               <label class="btn btn-primary">
-                                <input type="checkbox" id="diaTrabalhado_Qua" name="trabQua" value="Qua"> Qua
+                                <input type="checkbox" id="diaFolga_Qua" name="folgaQua" value="Qua"> Qua
                                 <span class="fa fa-check"></span>
                               </label>
                               <label class="btn btn-primary">
-                                <input type="checkbox" id="diaTrabalhado_Qui" name="trabQui" value="Qui"> Qui
+                                <input type="checkbox" id="diaFolga_Qui" name="folgaQui" value="Qui"> Qui
                                 <span class="fa fa-check"></span>
                               </label>
                               <label class="btn btn-primary">
-                                <input type="checkbox" id="diaTrabalhado_Sex" name="trabSex" value="Sex"> Sex
+                                <input type="checkbox" id="diaFolga_Sex" name="folgaSex" value="Sex"> Sex
                                 <span class="fa fa-check"></span>
                               </label>
                               <label class="btn btn-primary">
-                                <input type="checkbox" id="diaTrabalhado_Sab" name="trabSab" value="Sab"> Sab
+                                <input type="checkbox" id="diaFolga_Sab" name="folgaSab" value="Sab"> Sab
                                 <span class="fa fa-check"></span>
                               </label>
                               <label class="btn btn-primary">
-                                <input type="checkbox" id="diaTrabalhado_Dom" name="trabDom" value="Dom"> Dom
+                                <input type="checkbox" id="diaFolga_Dom" name="folgaDom" value="Dom"> Dom
                                 <span class="fa fa-check"></span>
                               </label>
                               <label class="btn btn-primary">
-                                <input type="checkbox" id="diaTrabalhado_Plantão" name="plantao" value="Plantão"> Plantão 12/36
+                                <input type="checkbox" id="diaTrabalhado" name="folgaAlternado" value="Alternado"> Alternado
                                 <span class="fa fa-check"></span>
                               </label>
                             </div>
                           </div>
-                        </div>
-                        <div class="text-center">
-                          <h3 class="col-md-12">Dias de Folga</h3>
-                          <div class="btn-group ">
-                            <label class="btn btn-primary ">
-                              <input type="checkbox" id="diaFolga_Seg" name="folgaSeg" value="Seg">Seg
-                              <span class="fa fa-check"></span>
-                            </label>
-                            <label class="btn btn-primary">
-                              <input type="checkbox" id="diaFolga_Ter" name="folgaTer" value="Ter"> Ter
-                              <span class="fa fa-check"></span>
-                            </label>
-                            <label class="btn btn-primary">
-                              <input type="checkbox" id="diaFolga_Qua" name="folgaQua" value="Qua"> Qua
-                              <span class="fa fa-check"></span>
-                            </label>
-                            <label class="btn btn-primary">
-                              <input type="checkbox" id="diaFolga_Qui" name="folgaQui" value="Qui"> Qui
-                              <span class="fa fa-check"></span>
-                            </label>
-                            <label class="btn btn-primary">
-                              <input type="checkbox" id="diaFolga_Sex" name="folgaSex" value="Sex"> Sex
-                              <span class="fa fa-check"></span>
-                            </label>
-                            <label class="btn btn-primary">
-                              <input type="checkbox" id="diaFolga_Sab" name="folgaSab" value="Sab"> Sab
-                              <span class="fa fa-check"></span>
-                            </label>
-                            <label class="btn btn-primary">
-                              <input type="checkbox" id="diaFolga_Dom" name="folgaDom" value="Dom"> Dom
-                              <span class="fa fa-check"></span>
-                            </label>
-                            <label class="btn btn-primary">
-                              <input type="checkbox" id="diaTrabalhado" name="folgaAlternado" value="Alternado"> Alternado
-                              <span class="fa fa-check"></span>
-                            </label>
+                          <div class="">
+                            <h3 class="text-center col-md-12">Carga Horária</h3>
+                            <ul class="nav nav-children" id="info">
+                              <li id="total"> Carga horária diária:</br></li>
+                              <li id="carga_horaria_mensal">Carga horária mensal:</li>
+                            </ul>
                           </div>
+                          <hr class="dotted short">
+                          <input type="hidden" name="nomeClasse" value="FuncionarioControle">
+                          <input type="hidden" name="metodo" value="alterarCargaHoraria">
+                          <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
+                          <div class="form-group center">
+                            <button type="button" class="btn btn-primary" id="botaoEditar_editar_cargaHoraria" onclick="switchForm('editar_cargaHoraria')">Editar</button>
+                            <input id="enviarCarga" type="submit" class="btn btn-primary" value="Alterar carga">
+                            <input type="reset" class="btn btn-default">
+                          </div>
+                        </form>
+                      </div>
+                    </section>
+                  </div>
+                  <!-- Aba de documentos do funcionário -->
+                  <div id="documentos" class="tab-pane">
+                    <section class="panel">
+                      <header class="panel-heading">
+                        <div class="panel-actions">
+                          <a href="#" class="fa fa-caret-down"></a>
                         </div>
-                        <div class="">
-                          <h3 class="text-center col-md-12">Carga Horária</h3>
-                          <ul class="nav nav-children" id="info">
-                            <li id="total"> Carga horária diária:</br></li>
-                            <li id="carga_horaria_mensal">Carga horária mensal:</li>
-                          </ul>
-                        </div>
+                        <h2 class="panel-title">Documentos</h2>
+                      </header>
+                      <div class="panel-body">
+                        <!--Documentação-->
                         <hr class="dotted short">
-                        <input type="hidden" name="nomeClasse" value="FuncionarioControle">
-                        <input type="hidden" name="metodo" value="alterarCargaHoraria">
-                        <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
-                        <div class="form-group center">
-                          <button type="button" class="btn btn-primary" id="botaoEditar_editar_cargaHoraria" onclick="switchForm('editar_cargaHoraria')">Editar</button>
-                          <input id="enviarCarga" type="submit" class="btn btn-primary" value="Alterar carga">
-                          <input type="reset" class="btn btn-default">
-                        </div>
-                      </form>
-                    </div>
-                  </section>
-                </div>
-                <!-- Aba de documentos do funcionário -->
-                <div id="documentos" class="tab-pane">
-                  <section class="panel">
-                    <header class="panel-heading">
-                      <div class="panel-actions">
-                        <a href="#" class="fa fa-caret-down"></a>
+                        <form class="form-horizontal" method="post" action="../../controle/control.php">
+                          <input type="hidden" name="nomeClasse" value="FuncionarioControle">
+                          <input type="hidden" name="metodo" value="alterarDocumentacao">
+                          <div class="form-group">
+                            <label class="col-md-3 control-label" for="profileCompany">Número do RG</label>
+                            <div class="col-md-6">
+                              <input type="text" class="form-control" name="rg" id="rg" onkeypress="return Onlynumbers(event)" placeholder="Ex: 22.222.222-2" onkeyup="mascara('##.###.###-#',this,event)">
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="col-md-3 control-label" for="profileCompany">Órgão Emissor</label>
+                            <div class="col-md-6">
+                              <input type="text" class="form-control" name="orgao_emissor" id="orgao_emissor" onkeypress="return Onlychars(event)">
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="col-md-3 control-label" for="profileCompany">Data de expedição</label>
+                            <div class="col-md-6">
+                              <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" name="data_expedicao" id="data_expedicao" max=<?php echo date('Y-m-d'); ?>>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="col-md-3 control-label" for="profileCompany">Número do CPF</label>
+                            <div class="col-md-6">
+                              <input type="text" class="form-control" id="cpf" name="cpf" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##',this,event)">
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="col-md-3 control-label" for="profileCompany"></label>
+                            <div class="col-md-6">
+                              <p id="cpfInvalido" style="display: none; color: #b30000">CPF INVÁLIDO!</p>
+                            </div>
+                          </div>
+                          <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
+                          <button type="button" class="btn btn-primary" id="botaoEditarDocumentacao" onclick="return editar_documentacao()">Editar</button>
+                          <input id="botaoSalvarDocumentacao" type="submit" class="btn btn-primary" disabled="true" value="Salvar" onclick="funcao3()">
+                        </form>
                       </div>
-                      <h2 class="panel-title">Documentos</h2>
-                    </header>
-                    <div class="panel-body">
-                      <!--Documentação-->
-                      <hr class="dotted short">
-                      <form class="form-horizontal" method="post" action="../../controle/control.php">
-                        <input type="hidden" name="nomeClasse" value="FuncionarioControle">
-                        <input type="hidden" name="metodo" value="alterarDocumentacao">
-                        <div class="form-group">
-                          <label class="col-md-3 control-label" for="profileCompany">Número do RG</label>
-                          <div class="col-md-6">
-                            <input type="text" class="form-control" name="rg" id="rg" onkeypress="return Onlynumbers(event)" placeholder="Ex: 22.222.222-2" onkeyup="mascara('##.###.###-#',this,event)">
+                    </section>
+                  </div>
+                  <!-- Aba de arquivos -->
+                  <div id="arquivo" class="tab-pane">
+                    <section class="panel">
+                      <header class="panel-heading">
+                        <div class="panel-actions">
+                          <a href="#" class="fa fa-caret-down"></a>
+                        </div>
+                        <h2 class="panel-title">Arquivos</h2>
+                      </header>
+                      <div class="panel-body">
+                        <table class="table table-bordered table-striped mb-none" id="datatable-docfuncional">
+                          <thead>
+                            <tr>
+                              <th>Arquivo</th>
+                              <th>Data</th>
+                              <th>Ação</th>
+                            </tr>
+                          </thead>
+                          <tbody id="doc-tab"></tbody>
+                        </table><br>
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#docFormModal">
+                          Adicionar
+                        </button>
+                        <!-- Modal Form Documentos -->
+                        <div class="modal fade" id="docFormModal" tabindex="-1" role="dialog" aria-labelledby="docFormModalLabel" aria-hidden="true">
+                          <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header" style="display: flex;justify-content: space-between;">
+                                <h5 class="modal-title" id="exampleModalLabel">Adicionar Arquivo</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <form action='documento_upload.php' method='post' enctype='multipart/form-data' id='funcionarioDocForm'>
+                                <div class="modal-body" style="padding: 15px 40px">
+                                  <div class="form-group" style="display: grid;">
+                                    <label class="my-1 mr-2" for="tipoDocumento">Tipo de Arquivo</label><br>
+                                    <div style="display: flex;">
+                                      <select name="id_docfuncional" class="custom-select my-1 mr-sm-2" id="tipoDocumento" required>
+                                        <option selected disabled>Selecionar...</option>
+                                        <?php
+                                          foreach ($pdo->query("SELECT * FROM funcionario_docfuncional ORDER BY nome_docfuncional ASC;")->fetchAll(PDO::FETCH_ASSOC) as $item) 
+                                          {
+                                            echo ("<option value='" . $item["id_docfuncional"] . "' >" . $item["nome_docfuncional"] . "</option>");
+                                          }
+                                        ?>
+                                      </select>
+                                      <a onclick="adicionarDocFuncional()" style="margin: 0 20px;"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
+                                    </div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="arquivoDocumento">Arquivo</label>
+                                    <input name="arquivo" type="file" class="form-control-file" id="arquivoDocumento" accept="png;jpeg;jpg;pdf;docx;doc;odp" required>
+                                  </div>
+                                  <input type="number" name="id_funcionario" value="<?= $_GET['id_funcionario']; ?>" style='display: none;'>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                  <input type="submit" value="Enviar" class="btn btn-primary">
+                                </div>
+                              </form>
+                            </div>
                           </div>
                         </div>
-                        <div class="form-group">
-                          <label class="col-md-3 control-label" for="profileCompany">Órgão Emissor</label>
-                          <div class="col-md-6">
-                            <input type="text" class="form-control" name="orgao_emissor" id="orgao_emissor" onkeypress="return Onlychars(event)">
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <label class="col-md-3 control-label" for="profileCompany">Data de expedição</label>
-                          <div class="col-md-6">
-                            <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" name="data_expedicao" id="data_expedicao" max=<?php echo date('Y-m-d'); ?>>
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <label class="col-md-3 control-label" for="profileCompany">Número do CPF</label>
-                          <div class="col-md-6">
-                            <input type="text" class="form-control" id="cpf" name="cpf" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##',this,event)">
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <label class="col-md-3 control-label" for="profileCompany"></label>
-                          <div class="col-md-6">
-                            <p id="cpfInvalido" style="display: none; color: #b30000">CPF INVÁLIDO!</p>
-                          </div>
-                        </div>
-                        <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
-                        <button type="button" class="btn btn-primary" id="botaoEditarDocumentacao" onclick="return editar_documentacao()">Editar</button>
-                        <input id="botaoSalvarDocumentacao" type="submit" class="btn btn-primary" disabled="true" value="Salvar" onclick="funcao3()">
-                      </form>
-                    </div>
-                  </section>
-                </div>
-                <!-- Aba de arquivos -->
-                <div id="arquivo" class="tab-pane">
-                  <section class="panel">
-                    <header class="panel-heading">
-                      <div class="panel-actions">
-                        <a href="#" class="fa fa-caret-down"></a>
                       </div>
-                      <h2 class="panel-title">Arquivos</h2>
-                    </header>
-                    <div class="panel-body">
-                      <table class="table table-bordered table-striped mb-none" id="datatable-docfuncional">
-                        <thead>
-                          <tr>
-                            <th>Arquivo</th>
-                            <th>Data</th>
-                            <th>Ação</th>
-                          </tr>
-                        </thead>
-                        <tbody id="doc-tab"></tbody>
-                      </table><br>
-                      <!-- Button trigger modal -->
-                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#docFormModal">
-                        Adicionar
-                      </button>
-                      <!-- Modal Form Documentos -->
-                      <div class="modal fade" id="docFormModal" tabindex="-1" role="dialog" aria-labelledby="docFormModalLabel" aria-hidden="true">
+                    </section>
+                  </div>
+                  <!-- Aba dependentes -->
+                  <div id="dependentes" class="tab-pane">
+                    <section class="panel">
+                      <header class="panel-heading">
+                        <div class="panel-actions">
+                          <a href="#" class="fa fa-caret-down"></a>
+                        </div>
+                        <h2 class="panel-title">Dependentes</h2>
+                      </header>
+                      <div class="panel-body">
+                        <table class="table table-bordered table-striped mb-none" id="datatable-dependente">
+                          <thead>
+                            <tr>
+                              <th>Nome</th>
+                              <th>CPF</th>
+                              <th>Parentesco</th>
+                              <th>Ação</th>
+                            </tr>
+                          </thead>
+                          <tbody id="dep-tab"></tbody>
+                        </table><br>
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#depFormModal">
+                          Adicionar Dependente
+                        </button>
+                      </div>
+                      <!-- Modal Form Dependentes -->
+                      <div class="modal fade" id="depFormModal" tabindex="-1" role="dialog" aria-labelledby="depFormModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                           <div class="modal-content">
                             <div class="modal-header" style="display: flex;justify-content: space-between;">
-                              <h5 class="modal-title" id="exampleModalLabel">Adicionar Arquivo</h5>
+                              <h5 class="modal-title" id="exampleModalLabel">Adicionar Dependente</h5>
                               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                               </button>
                             </div>
-                            <form action='documento_upload.php' method='post' enctype='multipart/form-data' id='funcionarioDocForm'>
+                            <form action='dependente_cadastrar.php' method='post' id='funcionarioDepForm'>
                               <div class="modal-body" style="padding: 15px 40px">
                                 <div class="form-group" style="display: grid;">
-                                  <label class="my-1 mr-2" for="tipoDocumento">Tipo de Arquivo</label><br>
-                                  <div style="display: flex;">
-                                    <select name="id_docfuncional" class="custom-select my-1 mr-sm-2" id="tipoDocumento" required>
-                                      <option selected disabled>Selecionar...</option>
-                                      <?php
-                                        foreach ($pdo->query("SELECT * FROM funcionario_docfuncional ORDER BY nome_docfuncional ASC;")->fetchAll(PDO::FETCH_ASSOC) as $item) 
-                                        {
-                                          echo ("<option value='" . $item["id_docfuncional"] . "' >" . $item["nome_docfuncional"] . "</option>");
-                                        }
-                                      ?>
-                                    </select>
-                                    <a onclick="adicionarDocFuncional()" style="margin: 0 20px;"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
+                                  <h4 class="mb-xlg">Informações Pessoais</h4>
+                                  <h5 class="obrig">Campos Obrigatórios(*)</h5>
+                                  <div class="form-group">
+                                    <label class="col-md-3 control-label" for="profileFirstName">Nome<sup class="obrig">*</sup></label>
+                                    <div class="col-md-8">
+                                      <input type="text" class="form-control" name="nome" id="profileFirstName" id="nome" onkeypress="return Onlychars(event)" required>
+                                    </div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label class="col-md-3 control-label">Sobrenome<sup class="obrig">*</sup></label>
+                                    <div class="col-md-8">
+                                      <input type="text" class="form-control" name="sobrenome" id="sobrenome" onkeypress="return Onlychars(event)" required>
+                                    </div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label class="col-md-3 control-label" for="profileLastName">Sexo<sup class="obrig">*</sup></label>
+                                    <div class="col-md-8">
+                                      <label><input type="radio" name="sexo" id="radio" id="M" value="m" style="margin-top: 10px; margin-left: 15px;" onclick="return exibir_reservista()" required><i class="fa fa-male" style="font-size: 20px;"></i></label>
+                                      <label><input type="radio" name="sexo" id="radio" id="F" value="f" style="margin-top: 10px; margin-left: 15px;" onclick="return esconder_reservista()"><i class="fa fa-female" style="font-size: 20px;"></i> </label>
+                                    </div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label class="col-md-3 control-label" for="telefone">Telefone</label>
+                                    <div class="col-md-8">
+                                      <input type="text" class="form-control" maxlength="14" minlength="14" name="telefone" id="telefone" id="telefone" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeyup="mascara('(##)#####-####',this,event)">
+                                    </div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label class="col-md-3 control-label" for="profileCompany">Nascimento<sup class="obrig">*</sup></label>
+                                    <div class="col-md-8">
+                                      <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" id="nascimento" max=<?php echo date('Y-m-d'); ?> required>
+                                    </div>
+                                  </div>
+                                  <hr class="dotted short">
+                                  <h4 class="mb-xlg doch4">Documentação</h4>
+                                  <div class="form-group">
+                                    <label class="col-md-3 control-label" for="cpf">Número do CPF<sup class="obrig">*</sup></label>
+                                    <div class="col-md-6">
+                                      <input type="text" class="form-control" id="cpf" id="cpf" name="cpf" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##',this,event)" required>
+                                    </div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label class="col-md-3 control-label" for="profileCompany"></label>
+                                    <div class="col-md-6">
+                                      <p id="cpfInvalido" style="display: none; color: #b30000">CPF INVÁLIDO!</p>
+                                    </div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label class="col-md-3 control-label" for="parentesco">Parentesco<sup class="obrig">*</sup></label>
+                                    <div class="col-md-6" style="display: flex;">
+                                      <select name="id_parentesco" id="parentesco">
+                                        <option selected disabled>Selecionar...</option>
+                                        <?php
+                                          foreach ($pdo->query("SELECT * FROM funcionario_dependente_parentesco ORDER BY descricao ASC;")->fetchAll(PDO::FETCH_ASSOC) as $item) 
+                                          {
+                                            echo ("<option value='" . $item["id_parentesco"] . "' >" . $item["descricao"] . "</option>");
+                                          }
+                                        ?>
+                                      </select>
+                                      <a onclick="adicionarParentesco()" style="margin: 0 20px;"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
+                                    </div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label class="col-md-3 control-label" for="profileCompany">Número do RG</label>
+                                    <div class="col-md-6">
+                                      <input type="text" class="form-control" name="rg" id="rg" onkeypress="return Onlynumbers(event)" placeholder="Ex: 22.222.222-2" onkeyup="mascara('##.###.###-#',this,event)">
+                                    </div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label class="col-md-3 control-label" for="profileCompany">Órgão Emissor</label>
+                                    <div class="col-md-6">
+                                      <input type="text" class="form-control" name="orgao_emissor" id="profileCompany" id="orgao_emissor" onkeypress="return Onlychars(event)">
+                                    </div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label class="col-md-3 control-label" for="profileCompany">Data de expedição</label>
+                                    <div class="col-md-6">
+                                      <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" id="profileCompany" name="data_expedicao" id="data_expedicao" max=<?php echo date('Y-m-d'); ?>>
+                                    </div>
+                                  </div>
+                                  <input type="hidden" name="id_funcionario" value=<?= $_GET['id_funcionario']; ?> readonly>
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                    <input type="submit" value="Enviar" class="btn btn-primary">
                                   </div>
                                 </div>
-                                <div class="form-group">
-                                  <label for="arquivoDocumento">Arquivo</label>
-                                  <input name="arquivo" type="file" class="form-control-file" id="arquivoDocumento" accept="png;jpeg;jpg;pdf;docx;doc;odp" required>
-                                </div>
-                                <input type="number" name="id_funcionario" value="<?= $_GET['id_funcionario']; ?>" style='display: none;'>
-                              </div>
-                              <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                <input type="submit" value="Enviar" class="btn btn-primary">
                               </div>
                             </form>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </section>
-                </div>
-                <!-- Aba dependentes -->
-                <div id="dependentes" class="tab-pane">
-                  <section class="panel">
-                    <header class="panel-heading">
-                      <div class="panel-actions">
-                        <a href="#" class="fa fa-caret-down"></a>
-                      </div>
-                      <h2 class="panel-title">Dependentes</h2>
-                    </header>
-                    <div class="panel-body">
-                      <table class="table table-bordered table-striped mb-none" id="datatable-dependente">
-                        <thead>
-                          <tr>
-                            <th>Nome</th>
-                            <th>CPF</th>
-                            <th>Parentesco</th>
-                            <th>Ação</th>
-                          </tr>
-                        </thead>
-                        <tbody id="dep-tab"></tbody>
-                      </table><br>
-                      <!-- Button trigger modal -->
-                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#depFormModal">
-                        Adicionar Dependente
-                      </button>
-                    </div>
-                    <!-- Modal Form Dependentes -->
-                    <div class="modal fade" id="depFormModal" tabindex="-1" role="dialog" aria-labelledby="depFormModalLabel" aria-hidden="true">
-                      <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                          <div class="modal-header" style="display: flex;justify-content: space-between;">
-                            <h5 class="modal-title" id="exampleModalLabel">Adicionar Dependente</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                              <span aria-hidden="true">&times;</span>
-                            </button>
-                          </div>
-                          <form action='dependente_cadastrar.php' method='post' id='funcionarioDepForm'>
-                            <div class="modal-body" style="padding: 15px 40px">
-                              <div class="form-group" style="display: grid;">
-                                <h4 class="mb-xlg">Informações Pessoais</h4>
-                                <h5 class="obrig">Campos Obrigatórios(*)</h5>
-                                <div class="form-group">
-                                  <label class="col-md-3 control-label" for="profileFirstName">Nome<sup class="obrig">*</sup></label>
-                                  <div class="col-md-8">
-                                    <input type="text" class="form-control" name="nome" id="profileFirstName" id="nome" onkeypress="return Onlychars(event)" required>
-                                  </div>
-                                </div>
-                                <div class="form-group">
-                                  <label class="col-md-3 control-label">Sobrenome<sup class="obrig">*</sup></label>
-                                  <div class="col-md-8">
-                                    <input type="text" class="form-control" name="sobrenome" id="sobrenome" onkeypress="return Onlychars(event)" required>
-                                  </div>
-                                </div>
-                                <div class="form-group">
-                                  <label class="col-md-3 control-label" for="profileLastName">Sexo<sup class="obrig">*</sup></label>
-                                  <div class="col-md-8">
-                                    <label><input type="radio" name="sexo" id="radio" id="M" value="m" style="margin-top: 10px; margin-left: 15px;" onclick="return exibir_reservista()" required><i class="fa fa-male" style="font-size: 20px;"></i></label>
-                                    <label><input type="radio" name="sexo" id="radio" id="F" value="f" style="margin-top: 10px; margin-left: 15px;" onclick="return esconder_reservista()"><i class="fa fa-female" style="font-size: 20px;"></i> </label>
-                                  </div>
-                                </div>
-                                <div class="form-group">
-                                  <label class="col-md-3 control-label" for="telefone">Telefone</label>
-                                  <div class="col-md-8">
-                                    <input type="text" class="form-control" maxlength="14" minlength="14" name="telefone" id="telefone" id="telefone" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeyup="mascara('(##)#####-####',this,event)">
-                                  </div>
-                                </div>
-                                <div class="form-group">
-                                  <label class="col-md-3 control-label" for="profileCompany">Nascimento<sup class="obrig">*</sup></label>
-                                  <div class="col-md-8">
-                                    <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" id="nascimento" max=<?php echo date('Y-m-d'); ?> required>
-                                  </div>
-                                </div>
-                                <hr class="dotted short">
-                                <h4 class="mb-xlg doch4">Documentação</h4>
-                                <div class="form-group">
-                                  <label class="col-md-3 control-label" for="cpf">Número do CPF<sup class="obrig">*</sup></label>
-                                  <div class="col-md-6">
-                                    <input type="text" class="form-control" id="cpf" id="cpf" name="cpf" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##',this,event)" required>
-                                  </div>
-                                </div>
-                                <div class="form-group">
-                                  <label class="col-md-3 control-label" for="profileCompany"></label>
-                                  <div class="col-md-6">
-                                    <p id="cpfInvalido" style="display: none; color: #b30000">CPF INVÁLIDO!</p>
-                                  </div>
-                                </div>
-                                <div class="form-group">
-                                  <label class="col-md-3 control-label" for="parentesco">Parentesco<sup class="obrig">*</sup></label>
-                                  <div class="col-md-6" style="display: flex;">
-                                    <select name="id_parentesco" id="parentesco">
-                                      <option selected disabled>Selecionar...</option>
-                                      <?php
-                                        foreach ($pdo->query("SELECT * FROM funcionario_dependente_parentesco ORDER BY descricao ASC;")->fetchAll(PDO::FETCH_ASSOC) as $item) 
-                                        {
-                                          echo ("<option value='" . $item["id_parentesco"] . "' >" . $item["descricao"] . "</option>");
-                                        }
-                                      ?>
-                                    </select>
-                                    <a onclick="adicionarParentesco()" style="margin: 0 20px;"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
-                                  </div>
-                                </div>
-                                <div class="form-group">
-                                  <label class="col-md-3 control-label" for="profileCompany">Número do RG</label>
-                                  <div class="col-md-6">
-                                    <input type="text" class="form-control" name="rg" id="rg" onkeypress="return Onlynumbers(event)" placeholder="Ex: 22.222.222-2" onkeyup="mascara('##.###.###-#',this,event)">
-                                  </div>
-                                </div>
-                                <div class="form-group">
-                                  <label class="col-md-3 control-label" for="profileCompany">Órgão Emissor</label>
-                                  <div class="col-md-6">
-                                    <input type="text" class="form-control" name="orgao_emissor" id="profileCompany" id="orgao_emissor" onkeypress="return Onlychars(event)">
-                                  </div>
-                                </div>
-                                <div class="form-group">
-                                  <label class="col-md-3 control-label" for="profileCompany">Data de expedição</label>
-                                  <div class="col-md-6">
-                                    <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" id="profileCompany" name="data_expedicao" id="data_expedicao" max=<?php echo date('Y-m-d'); ?>>
-                                  </div>
-                                </div>
-                                <input type="hidden" name="id_funcionario" value=<?= $_GET['id_funcionario']; ?> readonly>
-                                <div class="modal-footer">
-                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                  <input type="submit" value="Enviar" class="btn btn-primary">
-                                </div>
-                              </div>
+                    </section>
+                  </div>
+                  <!-- Aba endereço -->
+                  <div id="endereco" class="tab-pane">
+                    <section class="panel">
+                      <header class="panel-heading">
+                        <div class="panel-actions">
+                          <a href="#" class="fa fa-caret-down"></a>
+                        </div>
+                        <h2 class="panel-title">Endereço</h2>
+                      </header>
+                      <div class="panel-body">
+                        <!--Endereço-->
+                        <hr class="dotted short">
+                        <form class="form-horizontal" method="post" action="../../controle/control.php">
+                          <input type="hidden" name="nomeClasse" value="FuncionarioControle">
+                          <input type="hidden" name="metodo" value="alterarEndereco">
+                          <div class="form-group">
+                            <label class="col-md-3 control-label" for="cep">CEP</label>
+                            <div class="col-md-8">
+                              <input type="text" name="cep" value="" size="10" onblur="pesquisacep(this.value);" class="form-control" id="cep" maxlength="9" placeholder="Ex: 22222-222" onkeydown="return Onlynumbers(event)" onkeyup="mascara('#####-###',this,event)">
                             </div>
-                          </form>
-                        </div>
-                      </div>
-                    </div>
-                  </section>
-                </div>
-                <!-- Aba endereço -->
-                <div id="endereco" class="tab-pane">
-                  <section class="panel">
-                    <header class="panel-heading">
-                      <div class="panel-actions">
-                        <a href="#" class="fa fa-caret-down"></a>
-                      </div>
-                      <h2 class="panel-title">Endereço</h2>
-                    </header>
-                    <div class="panel-body">
-                      <!--Endereço-->
-                      <hr class="dotted short">
-                      <form class="form-horizontal" method="post" action="../../controle/control.php">
-                        <input type="hidden" name="nomeClasse" value="FuncionarioControle">
-                        <input type="hidden" name="metodo" value="alterarEndereco">
-                        <div class="form-group">
-                          <label class="col-md-3 control-label" for="cep">CEP</label>
-                          <div class="col-md-8">
-                            <input type="text" name="cep" value="" size="10" onblur="pesquisacep(this.value);" class="form-control" id="cep" maxlength="9" placeholder="Ex: 22222-222" onkeydown="return Onlynumbers(event)" onkeyup="mascara('#####-###',this,event)">
                           </div>
-                        </div>
-                        <div class="form-group">
-                          <label class="col-md-3 control-label" for="uf">Estado</label>
-                          <div class="col-md-8">
-                            <input type="text" name="uf" size="60" class="form-control" id="uf">
+                          <div class="form-group">
+                            <label class="col-md-3 control-label" for="uf">Estado</label>
+                              <div class="col-md-8">
+                                <input type="text" name="uf" size="60" class="form-control" id="uf">
+                              </div>
                           </div>
-                        </div>
-                        <div class="form-group">
-                          <label class="col-md-3 control-label" for="cidade">Cidade</label>
-                          <div class="col-md-8">
-                            <input type="text" size="40" class="form-control" name="cidade" id="cidade">
+                          <div class="form-group">
+                            <label class="col-md-3 control-label" for="cidade">Cidade</label>
+                              <div class="col-md-8">
+                                <input type="text" size="40" class="form-control" name="cidade" id="cidade">
+                              </div>
                           </div>
-                        </div>
-                        <div class="form-group">
-                          <label class="col-md-3 control-label" for="bairro">Bairro</label>
-                          <div class="col-md-8">
-                            <input type="text" name="bairro" size="40" class="form-control" id="bairro">
-                          </div>
+                          <div class="form-group">
+                            <label class="col-md-3 control-label" for="bairro">Bairro</label>
+                              <div class="col-md-8">
+                                <input type="text" name="bairro" size="40" class="form-control" id="bairro">
+                              </div>
                           </div>
                           <div class="form-group">
                             <label class="col-md-3 control-label" for="rua">Logradouro</label>
-                            <div class="col-md-8">
-                              <input type="text" name="rua" size="2" class="form-control" id="rua">
-                            </div>
+                              <div class="col-md-8">
+                                <input type="text" name="rua" size="2" class="form-control" id="rua">
+                              </div>
                           </div>
                           <div class="form-group">
                             <label class="col-md-3 control-label" for="profileCompany">Número residencial</label>
-                            <div class="col-md-4">
-                              <input type="number" min="0" oninput="this.value = Math.abs(this.value)" class="form-control" name="numero_residencia" id="numero_residencia">
-                            </div>
+                              <div class="col-md-4">
+                                <input type="number" min="0" oninput="this.value = Math.abs(this.value)" class="form-control" name="numero_residencia" id="numero_residencia">
+                              </div>
                             <div class="col-md-3">
                               <label>Não possuo número
                                 <input type="checkbox" id="numResidencial" name="naoPossuiNumeroResidencial" style="margin-left: 4px" onclick="return numero_residencial()">
@@ -1793,29 +1786,29 @@
                           </div>
                           <div class="form-group">
                             <label class="col-md-3 control-label" for="profileCompany">Complemento</label>
-                              <div class="col-md-8">
-                                <input type="text" class="form-control" name="complemento" id="complemento" id="profileCompany">
-                              </div>
+                            <div class="col-md-8">
+                              <input type="text" class="form-control" name="complemento" id="complemento" id="profileCompany">
+                            </div>
                           </div>
                           <div class="form-group">
                             <label class="col-md-3 control-label" for="ibge">IBGE</label>
-                            <div class="col-md-8">
-                              <input type="text" size="8" name="ibge" class="form-control" id="ibge">
-                            </div>
+                              <div class="col-md-8">
+                                <input type="text" size="8" name="ibge" class="form-control" id="ibge">
+                              </div>
                           </div>
                           <div class="form-group center">
                             <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
                             <button type="button" class="btn btn-primary" id="botaoEditarEndereco" onclick="return editar_endereco()">Editar</button>
                             <input id="botaoSalvarEndereco" type="submit" class="btn btn-primary" disabled="true" value="Salvar" onclick="funcao3()">
                           </div>
-                        </div>
-                      </form>
-                    </div>
-                  </section>
+                        </form>
+                      </div>
+                    </section>
+                  </div>
                 </div>
-                <!-- end: page -->
               </div>
             </div>
+            <!-- end: page -->
           </div>
         </section>
       </div>
@@ -1840,7 +1833,7 @@
     <script>
       function submitForm(idForm, callback = function(){return true;}) 
       {
-        var data = getFormPostParams(idForm);
+        ar data = getFormPostParams(idForm);
         console.log(data);
         var url;
         var data_nova;
@@ -1865,7 +1858,7 @@
           window.alert("Preencha todos os campos obrigatórios antes de prosseguir!");
           return false;
         }
-        post(url, data_nova, callback);
+        post(url, data_nova, callback); 
         console.log(idForm + " => " + data + " | ", callback);
         return true;
       }
@@ -1902,7 +1895,7 @@
           document.getElementById("closeRemuneracaoModal").click();
         }
       }
-      function adicionarTipoRemuneracao() 
+      function adicionarTipoRemuneracao()
       {
         url = 'remuneracao.php';
         var descricao = window.prompt("Cadastre um novo tipo de Remuneração:");
@@ -1936,7 +1929,7 @@
         $('#tipo_remuneracao').append('<option selected disabled>Selecionar</option>');
         $.each(documento, function(i, item) 
         {
-          $('#tipo_remuneracao').append('<option value="' + item.id + '">' + item.descricao + '</option>');
+            $('#tipo_remuneracao').append('<option value="' + item.id + '">' + item.descricao + '</option>');
         });
       }
       $(function() 
@@ -2032,7 +2025,7 @@
           type: "POST",
           url: url,
           async: true,
-          success: function(response) 
+          success: function(response)
           {
             var parentesco = response;
             $('#parentesco').empty();
@@ -2141,8 +2134,5 @@
       }
       switchForm("editar_cargaHoraria", false)
     </script>
-    <div align="right">
-	  <iframe src="https://www.wegia.org/software/footer/funcionario.html" width="200" height="60" style="border:none;"></iframe>
-    </div>
   </body>
 </html>

@@ -401,7 +401,7 @@ $(function(){
 										<a onclick="adicionar_status()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
 										<div class="col-md-6">
 										<select class="form-control input-lg mb-md" name="intStatus" id="intStatus" required>
-											<option selected disabled>Selecionar</option>
+											<option selected disabled value="">Selecionar</option>
 											<?php
 											while ($row = $intStatus->fetch_array(MYSQLI_NUM)) {
 											echo "<option value=" . $row[0] . ">" . $row[1] . "</option>";
@@ -415,7 +415,7 @@ $(function(){
 										<a onclick="adicionar_tipo()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
 										<div class="col-md-6">
 										<select class="form-control input-lg mb-md" name="intTipo" id="intTipo" required>
-											<option selected disabled>Selecionar</option>
+											<option selected disabled value="">Selecionar</option>
 											<?php
 											while ($row = $intTipo->fetch_array(MYSQLI_NUM)) {
 											echo "<option value=" . $row[0] . ">" . $row[1] . "</option>";
@@ -541,7 +541,7 @@ $(function(){
         alert("Cadastrado com sucesso!");
       }
     }
-
+	
     function validarInterno(){
       var btn = $("#enviar");
       var cpf_cadastrado = ([{"cpf":"admin","id":"1"}]);
