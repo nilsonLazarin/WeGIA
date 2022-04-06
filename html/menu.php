@@ -208,7 +208,7 @@
 								<a href="<?= WWW ?>html/saude/cadastro_ficha_medica.php">
 									 Criar ficha médica
 								</a>
-								<a href="<?= WWW ?>html/saude/saude.php">
+								<a href="<?= WWW ?>html/saude/informacao_saude.php">
 									 Ficha do paciente
 								</a>
 								<a href="<?= WWW ?>html/saude/administrar_medicamento.php">

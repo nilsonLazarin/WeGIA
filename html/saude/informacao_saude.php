@@ -10,7 +10,7 @@
 	}
 
 	if(!isset($_SESSION['saude']))	{
-		header('Location: ../../controle/control.php?metodo=listarTodos&nomeClasse=SaudeControle&nextPage=../html/saude/saude.php');
+		header('Location: ../../controle/control.php?metodo=listarTodos&nomeClasse=SaudeControle&nextPage=../html/saude/informacao_saude.php');
 	}
 	$config_path = "config.php";
 	if(file_exists($config_path)){
@@ -120,22 +120,35 @@
 	<!-- jquery functions -->
 	<script>
 		function clicar(id) {
-			window.location.href = "profile_paciente.php?id_fichamedica="+id;
+			console.log("id aqui",id);
+			event.preventDefault();
+			event.stopPropagation();
+			//window.location.href = "profile_paciente.php?id_fichamedica="+id;
 		}
 		$(function() {
+			$(function () {
+			$('.tabble-row').on("click", function (evt) {
+				let teste = $(this).attr('id')
+				//window.open("profile_paciente.php?id_fichamedica="+teste,"_blank");
+				localStorage.setItem('id_ficha_medica',teste)
+				console.log("id aqui",teste);
+				window.location.href = "profile_paciente.php?id_fichamedica="+teste;
+				
+			});
+	    });
 
+			if(localStorage.getItem("id_ficha_medica") && localStorage.getItem("id_ficha_medica") !== 'null') {
+				
+				window.location.href = "profile_paciente.php?id_fichamedica="+localStorage.getItem("id_ficha_medica");
+			}
 			var pacientes = <?php echo $_SESSION['saude'];?> ;
-			console.log(pacientes);
 			<?php unset($_SESSION['saude']); ?>;
 			$.each(pacientes, function(i, item) {
 				$("#tabela")
-				.append($("<tr>")
-					.attr("onclick", "clicar('" + item.id_fichamedica + "')")
-					.attr("class", "teste")
+				.append($("<tr id='"+item.id_fichamedica+"' class='tabble-row'>")
 					.append($("<td>")
 						.text(item.nome+' '+item.sobrenome))
 					.append($("<td />")
-						.attr('onclick','clicar("'+item.id_fichamedica+'")')
 					.html('<i class="glyphicon glyphicon-pencil"></i>')));
 				});
 			});
@@ -145,6 +158,8 @@
 	      $("#header").load("../header.php");
 	      $(".menuu").load("../menu.php");
 	    });
+
+		
 	</script>
 </head>
 <body>
