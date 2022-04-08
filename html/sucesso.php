@@ -164,6 +164,6 @@
 
 
 		<!-- Examples -->
-		<script src="../assets/javascripts/dashboard/examples.dashboard.js"></script>
+		<!--script src="../assets/javascripts/dashboard/examples.dashboard.js"></script-->
 	</body>
 </html>

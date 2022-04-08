@@ -1213,7 +1213,7 @@
                                         [0, "asc"]
                                       ]
                                     });
-                                    post("informacao_adicional.php", "action=listar&id_funcionario<?= $_GET['id_funcionario']?>", listarInfoAdicional)
+                                    post("informacao_adicional.php", "action=listar&id_funcionario=<?= $_GET['id_funcionario']?>", listarInfoAdicional)
                                 });
                                 function adicionar_addInfoDescricao()
                                 {
@@ -1825,6 +1825,7 @@
     <script src="../../assets/vendor/jquery-datatables/media/js/jquery.dataTables.js"></script>
     <script src="../../assets/vendor/jquery-datatables/extras/TableTools/js/dataTables.tableTools.min.js"></script>
     <script src="../../assets/vendor/jquery-datatables-bs3/assets/js/datatables.js"></script>
+    <script src="../../assets/vendor/nanoscroller/nanoscroller.js"></script>
     <!-- Theme Base, Components and Settings -->
     <script src="../../assets/javascripts/theme.js"></script>
     <!-- Theme Custom -->
