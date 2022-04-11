@@ -802,14 +802,14 @@
                                     <input type="file" name="imgperfil" size="60" id="imgform" class="form-control">
                                   </div>
                                 </div>
-                              </form>
                             </div>
                             <div class="modal-footer">
                               <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
                               <input type="submit" id="formsubmit" value="Alterar imagem">
                             </div>
                           </div> 
-                        </div>
+                        </form>
+                      </div>
                       </div>
                     </div>
                   </div>
