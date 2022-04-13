@@ -236,12 +236,15 @@ $("#cargo").change(function(){
         });
         
         var data = new Date;
-        var dia = data.getDate()-4;
-        var diaA = data.getDate();
-        var mes = data.getMonth()+1;
-        var ano = data.getFullYear();
-        var dataBR = dia + "/" + mes + "/" + ano;
-        var dataAtual = ano + "-" + mes + "-" + diaA;
+        var diaAtual = data.getDate();
+        var mesAtual = data.getMonth()+1;
+        var anoAtual = data.getFullYear();
+        data.setDate(data.getDate()-4);
+        var diaAnterior = data.getDate();
+        var mesAnterior = data.getMonth()+1;
+        var anoAnterior = data.getFullYear();
+        var dataBR = diaAnterior + "/" + mesAnterior + "/" + anoAnterior;
+        var dataAtual = anoAtual + "-" + mesAtual + "-" + diaAtual;
 
         var urlMod = url.replace("issue","list");
         var urlModificado = urlMod.replace("charge","charges");
