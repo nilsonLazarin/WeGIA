@@ -29,7 +29,7 @@ if (!isset($_SESSION["usuario"])){
 
         $prep->execute();
         
-        header("Location: saude.php?id_fichamedica=$id_fichamedica");
+        header("Location: informacao_saude.php?id_fichamedica=$id_fichamedica");
     } catch (PDOException $e) {
         echo("Houve um erro ao realizar o upload do exame:<br><br>$e");
     }

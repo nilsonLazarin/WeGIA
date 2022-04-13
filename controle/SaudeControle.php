@@ -165,7 +165,7 @@ class SaudeControle
             $_SESSION['msg']="Ficha médica cadastrada com sucesso!";
             $_SESSION['proxima']="Cadastrar outra ficha.";
             $_SESSION['link']="../html/saude/cadastro_ficha_medica.php";
-            header("Location: ../html/saude/profile_paciente.php");
+            header("Location: ../html/saude/informacao_saude.php");
             // header("Location: ../dao/AtendidoDAO.php");
         } catch (PDOException $e){
             $msg= "Não foi possível registrar o paciente <form> <input type='button' value='Voltar' onClick='history.go(-1)'> </form>"."<br>".$e->getMessage();

@@ -24,7 +24,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
 	<!-- Web Fonts  -->
-	<link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">
 
 	<!-- Vendor CSS -->
 	<link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css" />
@@ -178,7 +178,7 @@
 					<a href="#">
 					<div class="col-lg-2 col-md-8 i category-item" data-toggle="collapse" href="#saude">
 							<i  class="fa fa-ambulance"></i>
-							<h4>Saúde <br>(em breve)</h4>
+							<h4>Saúde</h4>
 						</div>
 					</a>
 
@@ -236,7 +236,7 @@
 								<h4>Cadastro ficha médica</h4>
 							</div>
 						</a>	
-						<a href="../html/saude/saude.php">
+						<a href="../html/saude/informacao_saude.php">
 							<div class="col-lg-2 col-md-8 i" >
 								<i  class="far fa-address-card"></i>
 								<h4>Informações paciente</h4>

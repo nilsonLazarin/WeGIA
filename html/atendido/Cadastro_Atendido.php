@@ -301,13 +301,13 @@
 										<div class="form-group">
 											<label class="col-md-3 control-label" for="profileFirstName">Nome<sup class="obrig">*</sup></label>
 											<div class="col-md-6">
-												<input type="text" class="form-control" name="nome" id="nome" id="profileFirstName" onkeypress="return Onlychars(event)">
+												<input type="text" class="form-control" name="nome" id="nome" id="profileFirstName" onkeypress="return Onlychars(event)" required>
 											</div>
 										</div>
 										<div class="form-group">
 											<label class="col-md-3 control-label">Sobrenome<sup class="obrig">*</sup></label>
 											<div class="col-md-6">
-												<input type="text" class="form-control" name="sobrenome" id="sobrenome" onkeypress="return Onlychars(event)">
+												<input type="text" class="form-control" name="sobrenome" id="sobrenome" onkeypress="return Onlychars(event)" required>
 											</div>
 										</div>
 										<div class="form-group">
@@ -328,7 +328,7 @@
 										<div class="form-group">
 											 <label class="col-md-3 control-label" for="profileCompany">Nascimento<sup class="obrig">*</sup></label>
 											<div class="col-md-6">
-												<input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" id="nascimento" max=<?php echo date('Y-m-d');?>> 
+												<input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" id="nascimento" max=<?php echo date('Y-m-d');?> required> 
 										    </div>
 										</div>
 										
@@ -336,8 +336,8 @@
 										<label class="col-md-3 control-label" for="inputSuccess">Status<sup class="obrig">*</sup></label>
 										<a onclick="adicionar_status()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
 										<div class="col-md-6">
-										<select class="form-control input-lg mb-md" name="intStatus" id="intStatus">
-											<option selected disabled>Selecionar</option>
+										<select required class="form-control input-lg mb-md" name="intStatus" id="intStatus" > 
+											<option selected disabled value="">Selecionar</option>
 											<?php
 											while ($row = $intStatus->fetch_array(MYSQLI_NUM)) {
 											echo "<option value=" . $row[0] . ">" . $row[1] . "</option>";
@@ -350,11 +350,11 @@
 										<label class="col-md-3 control-label" for="inputSuccess">Tipo<sup class="obrig">*</sup></label>
 										<a onclick="adicionar_tipo()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
 										<div class="col-md-6">
-										<select class="form-control input-lg mb-md" name="intTipo" id="intTipo">
-											<option selected disabled>Selecionar</option>
+										<select required class="form-control input-lg mb-md" name="intTipo" id="intTipo" >
+											<option selected disabled value="">Selecionar</option>
 											<?php
 											while ($row = $intTipo->fetch_array(MYSQLI_NUM)) {
-											echo "<option value=" . $row[0] . ">" . $row[1] . "</option>";
+											echo "<option value=" . $row[0] . " required>" . $row[1] . "</option>";
 											}
 											?>
 										</select>
@@ -491,7 +491,10 @@
           return false;
         }
       }
-	  )};
+	  )
+	  if($("#telefone") = null){
+      $("#telefone") = "";
+	  };
       
       function gerarTipo() {
       url = '../../dao/exibir_tipo_atendido.php';

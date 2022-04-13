@@ -20,7 +20,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 		<!-- Web Fonts  -->
-		<link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">
 		<!-- font inter -->
 		<link rel="preconnect" href="https://fonts.gstatic.com">
 		<link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet"> 
@@ -60,11 +60,13 @@
 			}			
 		?>
 		<script>
-			var erro = <?php echo $erro;?>;
+			var erro = <?= $erro;?>;
 		 	if (erro!='erro') 
 			{
 				alert('Senha e/ou cpf inválido');
 			}
+		</script>
+		<script>
 			$(document).ready
 			(function() 
 				{
@@ -81,6 +83,7 @@
 				}
 			);
 		</script>
+		
 	</head>
 	<body>
 		<div class="container-fluid">
@@ -184,6 +187,7 @@
 		<script src="./assets/vendor/jquery-datatables/media/js/jquery.dataTables.js"></script>
 		<script src="./assets/vendor/jquery-datatables/extras/TableTools/js/dataTables.tableTools.min.js"></script>
 		<script src="./assets/vendor/jquery-datatables-bs3/assets/js/datatables.js"></script>
+		<script src="./assets/vendor/nanoscroller/nanoscroller.js"></script>
 		<!-- Theme Base, Components and Settings -->
 		<script src="./assets/javascripts/theme.js"></script>
 		<!-- Theme Custom -->

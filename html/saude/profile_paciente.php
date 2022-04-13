@@ -71,7 +71,7 @@ header("Location: ../home.php?msg_c=$msg");
    
   if (!isset($teste)) 
   {
-   		header('Location: ../../controle/control.php?metodo=listarUm&nomeClasse=SaudeControle&nextPage=../html/saude/saude.php?id_fichamedica='.$id.'&id='.$id);
+   		header('Location: ../../controle/control.php?metodo=listarUm&nomeClasse=SaudeControle&nextPage=../html/saude/profile_paciente.php?id_fichamedica='.$id.'&id='.$id);
   }
   $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
@@ -113,8 +113,8 @@ header("Location: ../home.php?msg_c=$msg");
   $descparaenfermeiro = $mysqli->query("SELECT descricao FROM saude_fichamedica");
   $medstatus = $mysqli->query("SELECT * FROM saude_medicacao_status");
 
-  $teste = $pdo->query("SELECT nome FROM pessoa p JOIN funcionario f ON(p.id_pessoa = f.id_pessoa) WHERE f.id_pessoa = " .$_SESSION['id_pessoa'])->fetchAll(PDO::FETCH_ASSOC);
-  $id_funcionario = $teste[0]['nome'];
+  $teste1 = $pdo->query("SELECT nome FROM pessoa p JOIN funcionario f ON(p.id_pessoa = f.id_pessoa) WHERE f.id_pessoa = " .$_SESSION['id_pessoa'])->fetchAll(PDO::FETCH_ASSOC);
+  $id_funcionario = $teste1[0]['nome'];
  
   
 ?>
@@ -154,6 +154,8 @@ header("Location: ../home.php?msg_c=$msg");
 
     <script>
         $(function(){
+
+          localStorage.setItem("id_ficha_medica",'null')
            
             $("#header").load("../header.php");
             $(".menuu").load("../menu.php");

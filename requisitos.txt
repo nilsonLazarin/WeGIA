@@ -1,12 +1,12 @@
 Requisitos de software para funcionamento
 
-Sistema Operacional: Debian 10
+Sistema Operacional: Debian 11
 Servidor Web: Apache 2.4
-PHP: 7.3
-MariaDB: 10.2.3
-Git: 2.20.1
+PHP: 7.4
+MariaDB: > 10.2.3
+Git: > 2.20.1
 
-apt install apache2 mariadb-server git python-certbot-apache php7.3 php7.3-cli php7.3-common php7.3-curl php7.3-gd php7.3-intl php7.3-json php7.3-mbstring php7.3-mysql php7.3-opcache php7.3-readline php7.3-soap php7.3-xml php7.3-xmlrpc php7.3-zip
+apt install apache2 mariadb-server git python3-certbot-apache php7.4 php7.4-cli php7.4-common php7.4-curl php7.4-gd php7.4-intl php7.4-json php7.4-mbstring php7.4-mysql php7.4-opcache php7.4-readline php7.4-soap php7.4-xml php7.4-xmlrpc php7.4-zip
 
 nano /etc/apache2/sites-available/wegia.conf
 <VirtualHost *:80>
@@ -25,15 +25,6 @@ mkdir /var/www/bkpWeGIA
 chmod 777 /var/www/bkpWeGIA -R
 
 certbot --apache -d wegia.instituicao.org
-
-Please choose whether or not to redirect HTTP traffic to HTTPS, removing HTTP access.
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-1: No redirect - Make no further changes to the webserver configuration.
-2: Redirect - Make all requests redirect to secure HTTPS access. Choose this for
-new sites, or if you're confident your site works on HTTPS. You can undo this
-change by editing your web server's configuration.
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Select the appropriate number [1-2] then [enter] (press 'c' to cancel): 2
 
 systemctl reload apache2
 

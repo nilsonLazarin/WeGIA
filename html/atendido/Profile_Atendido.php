@@ -123,7 +123,7 @@ session_start();
       <!-- Mobile Metas -->
       <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
       <!-- Web Fonts  -->
-      <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">
       <!-- Vendor CSS -->
       <link rel="stylesheet" href="../../assets/vendor/bootstrap/css/bootstrap.css" />
       <link rel="stylesheet" href="../../assets/vendor/font-awesome/css/font-awesome.css" />
@@ -665,11 +665,17 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
             <div class="col-md-4 col-lg-3">
                <section class="panel">
                         <div class="panel-body">
-                                                                                                                                                                                                                        <!-- https://demo.wegia.org/html/personalizacao.php -->
-                                                            <div class="alert alert-warning" style="font-size: 15px;"><i class="fas fa-check mr-md"></i>O endereço da instituição não está cadastrado no sistema<br><a href='../personalizacao.php'>Cadastrar endereço da instituição</a></div>    
-                                                      <div class="thumb-info mb-md">
-                                                            <img id="imagem" alt="John Doe">
-                                                            <i class="fas fa-camera-retro btn btn-info btn-lg" data-toggle="modal" data-target="#myModal"></i>
+                              <?php
+                                $pdo = Conexao::connect();
+                                $resultado = $pdo->query("SELECT COUNT(*) FROM endereco_instituicao;")->fetchColumn();
+                                  if(!$resultado){
+                                    echo "<div class='alert alert-warning' id='cadastro_instituicao' style='font-size: 15px;'><i class='fas fa-check mr-md'></i>O endereço da instituição não está cadastrado no sistema<br><a href='../personalizacao.php'>Cadastrar endereço da instituição</a></div>";
+                                  } 
+                              ?>
+
+                              <div class="thumb-info mb-md">
+                                  <img id="imagem" alt="">
+                                  <i class="fas fa-camera-retro btn btn-info btn-lg" data-toggle="modal" data-target="#myModal"></i>
                               <div class="container">
                                  <div class="modal fade" id="myModal" role="dialog">
                                     <div class="modal-dialog">
@@ -943,7 +949,7 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                      <div class="form-group">
                      <label class="col-md-3 control-label" for="profileCompany">Data de expedição</label>
                      <div class="col-md-6">
-                       <input type="date" class="form-control" disabled maxlength="10" placeholder="dd/mm/aaaa" name="dataExpedicao" id="dataExpedicao" max=2021-06-11>
+                       <input type="date" class="form-control" disabled maxlength="10" placeholder="dd/mm/aaaa" name="dataExpedicao" id="dataExpedicao">
                      </div>
                      </div>
                      <div class="form-group">
@@ -1506,6 +1512,8 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
         dataType: 'text'
       })
     }
+    
+    
 </script>
   
 
