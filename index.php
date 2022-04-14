@@ -60,8 +60,8 @@
 			}			
 		?>
 		<script>
-			var erro = <?= $erro;?>;
-		 	if (erro!='erro') 
+			var erro = '<?= $erro;?>';
+		 	if (erro=='erro') 
 			{
 				alert('Senha e/ou cpf inválido');
 			}
@@ -100,7 +100,7 @@
 					</div>
 				</div>
 				<div class="col col-md-3 formulario">
-				<form action="./html/login.php" method="POST" enctype="multipart/form-data" class="login">
+				<form action="./html/login.php" method="POST" enctype="multipart/form-data" class="login" >
 					<div class="form-group mb-lg form-group-login"><!--login-->
 						<div class="input-group input-group-icon"><!--icone-->
 							<input id="login" name="cpf" type="text" class="form-control input-lg" placeholder="Usuário"  />
