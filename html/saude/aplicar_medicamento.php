@@ -65,7 +65,7 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
   $id=$_GET['id_fichamedica']; 
   $cache = new Cache();
   $teste = $cache->read($id);
-
+  $_SESSION['id_upload_med'] = $id;
   require_once "../../dao/Conexao.php";
   $pdo = Conexao::connect();
    
@@ -220,6 +220,15 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
         
          $(function(){
           // pega no SaudeControle, listarUm //
+
+            if(localStorage.getItem("currentTab") === "2") {
+              $("#tab1").removeClass("active");
+              $("#tab2").addClass("active");
+              $("#overview").removeClass("active");
+              $("#atendimento_enfermeiro").addClass("active");
+
+            }
+
             var interno = <?php echo $_SESSION['id_fichamedica']; ?>;
 
          	  $.each(interno,function(i,item){
@@ -275,7 +284,7 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
                   .text(item.duracao)
                 )
                 .append($("<td style='display: flex; justify-content: space-evenly;'>")
-                  .append($("<a href='aplicacao_upload.php?id_medicacao=" + item.id_medicacao +"&id_pessoa="+item.id_pessoa+"&id_funcionario="+item.id_funcionario+"' title='Aplicar medicamento'><button class='btn btn-primary' id='aaaa' onclick='variosMed();'><i class='glyphicon glyphicon-hand-up'></i></button></a>"))
+                  .append($("<a href='aplicacao_upload.php?id_medicacao=" + item.id_medicacao +"&id_pessoa="+item.id_pessoa+"&id_funcionario="+item.id_funcionario+"' title='Aplicar medicamento'><button class='btn btn-primary' onclick='variosMed();'><i class='glyphicon glyphicon-hand-up'></i></button></a>"))
                  
                 )
               )
@@ -357,10 +366,10 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
             <div class="col-md-8 col-lg-8">
             <div class="tabs">
             <ul class="nav nav-tabs tabs-primary">
-               <li class="active">
+               <li class="active" id="tab1">
                   <a href="#overview" data-toggle="tab">Informações Pessoais</a>
                </li>
-               <li>
+               <li id="tab2">
                   <a href="#atendimento_enfermeiro" data-toggle="tab">Aplicações enfermeiro</a>
                </li>
             </ul>
@@ -620,7 +629,7 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
          
       <script>
                   
-            function aplicarMedicacao(id_doc) {
+            function aplicarMedicacao() {
                 if (!window.confirm("Tem certeza que deseja aplicar essa medicação?")){
                   return false;
                 }
@@ -628,6 +637,7 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
            
             function variosMed()
             {
+                localStorage.setItem("currentTab","2");
                 alert("Medicamento aplicado com sucesso!");
             }
 

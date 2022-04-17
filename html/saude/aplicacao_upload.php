@@ -14,6 +14,7 @@ require_once "../../dao/Conexao.php";
 
 $pdo = Conexao::connect();
 $id_medicacao = $_GET['id_medicacao'];
+
 $pessoa_id_pessoa = $_GET['id_pessoa'];
 
 // $funcionario_id_funcionario = $_GET['id_funcionario'];
@@ -25,6 +26,8 @@ $funcionario_id_funcionario = $teste[0]['id_funcionario'];
     
 $aplicacao = date('Y-m-d H:i:s', time()); 
 
+$id_fichamedica = $_SESSION['id_upload_med'];
+
 try {
     $pdo = Conexao::connect();
     $prep = $pdo->prepare("INSERT INTO saude_medicamento_administracao(aplicação, saude_medicacao_id_medicacao, pessoa_id_pessoa, funcionario_id_funcionario) VALUES (:aplicacao, :saude_medicacao_id_medicacao, :pessoa_id_pessoa, :funcionario_id_funcionario)");
@@ -35,8 +38,9 @@ try {
     $prep->bindValue(":funcionario_id_funcionario", $funcionario_id_funcionario);
 
     $prep->execute();
-    
-    header("Location: administrar_medicamento.php?id_fichamedica=$id_fichamedica");
+
+    if(isset($id_fichamedica))
+        header("Location: aplicar_medicamento.php?id_fichamedica=$id_fichamedica");
 } catch (PDOException $e) {
     echo("Houve um erro ao realizar o upload das aplicações:<br><br>$e");
 }

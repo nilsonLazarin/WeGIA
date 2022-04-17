@@ -123,6 +123,7 @@
 		}
 		$(function() {
 
+			localStorage.setItem("currentTab","null");
 			var pacientes = <?php echo $_SESSION['saude'];?> ;
 			console.log(pacientes);
 			<?php unset($_SESSION['saude']); ?>;
