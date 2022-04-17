@@ -442,7 +442,27 @@ header("Location: ../home.php?msg_c=$msg");
           $("#mais_medicacoes").show();
           $(".meddisabled").val(nome_medicacao);
         }
-       
+        $(function() {
+        var selects = $('select#tipoDocumento');
+        for(let n = 0; n < selects.length; n++){
+          var options = $('select#tipoDocumento:eq('+n+') option')
+          var arr = options.map(function(_, o) {
+            return {
+                t: $(o).text().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ""),
+                tf: $(o).text(),
+                v: o.value
+            };
+            }).get();
+            arr.sort(function(o1, o2) {
+                if(o1.t !== 'selecionar')
+                  return o1.t > o2.t ? 1 : o1.t < o2.t ? -1 : 0;
+            });
+            options.each(function(i, o) {
+                o.value = arr[i].v;
+                $(o).text(arr[i].tf);
+            });
+          }
+      });
       </script>
       <style type="text/css">
       .obrig {
@@ -617,11 +637,10 @@ header("Location: ../home.php?msg_c=$msg");
         </header>
         <div class="panel-body">
           <hr class="dotted short">
-            
+
             <table class="table table-bordered table-striped mb-none" id="datatable-dependente">
                 <thead>
                     <tr style="font-size:15px;">
-                        <th>Enfermidade</th>
                         <th>Data</th>
                         <th>Status</th>
                     </tr>
@@ -645,6 +664,7 @@ header("Location: ../home.php?msg_c=$msg");
                     <label class="col-md-3 control-label" for="inputSuccess">Enfermidades<sup class="obrig">*</sup></label>
                     <!-- <a onclick="adicionar_enfermidade()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a> -->
                     <div class="col-md-6">
+                    
                       <select class="form-control input-lg mb-md" name="id_CID" id="id_CID" required>
                         <option selected disabled>Selecionar</option>
                         <?php
@@ -653,6 +673,7 @@ header("Location: ../home.php?msg_c=$msg");
                         }                            ?>
                       </select>
                     </div>
+                    <a onclick="adicionar_enfermidade()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
                   </div>
                     
                        
@@ -1231,7 +1252,7 @@ header("Location: ../home.php?msg_c=$msg");
 
           function adicionar_exame() {
             url = 'adicionar_exame.php';
-            var situacao = window.prompt("Cadastre uma novo exame:");
+            let situacao = window.prompt("Cadastre uma novo exame:");
             if (!situacao) {
               return
             }
@@ -1256,6 +1277,7 @@ header("Location: ../home.php?msg_c=$msg");
 
 
           function gerarEnfermidade() {
+            console.log("entrou")
             url = 'exibir_enfermidade.php';
             $.ajax({
               data: '',
@@ -1263,7 +1285,9 @@ header("Location: ../home.php?msg_c=$msg");
               url: url,
               async: true,
               success: function(response) {
+                
                 var situacoes = response;
+                console.log("situacoes",situacoes)
                 $('#id_CID').empty();
                 $('#id_CID').append('<option selected disabled>Selecionar</option>');
                 $.each(situacoes, function(i, item) {
@@ -1276,18 +1300,18 @@ header("Location: ../home.php?msg_c=$msg");
 
           function adicionar_enfermidade() {
             url = 'adicionar_enfermidade.php';
-            var situacao = window.prompt("Cadastre uma enfermidade:");
-            
-            if (!situacao) {
+            let nome_enfermidade = window.prompt("Insira o nome da enfermidade:");
+            let cid_enfermidade = window.prompt("Insira o CID da enfermidade:");
+            let situacao = [cid_enfermidade, nome_enfermidade] 
+
+            if (!nome_enfermidade || !cid_enfermidade) {
               return
             }
-            situacao = situacao.trim();
-            if (situacao == '') {
+            if (nome_enfermidade == '' || cid_enfermidade == '') {
               return
             }
 
-            data = 'situacao=' + situacao;
-
+            data = {cid:cid_enfermidade,nome:nome_enfermidade};
             console.log(data);
             $.ajax({
               type: "POST",
@@ -1296,7 +1320,6 @@ header("Location: ../home.php?msg_c=$msg");
               success: function(response) {
                 gerarEnfermidade();
               },
-              dataType: 'text'
             })
           }
           
