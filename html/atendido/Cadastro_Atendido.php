@@ -247,7 +247,7 @@
 									<div class="container">
 										<div class="modal fade" id="myModal" role="dialog">
 										    <div class="modal-dialog">
-											    <!-- Modal content-->
+											    <-- Modal content-->
 											    <!-- <div class="modal-content"> 
 											        <div class="modal-header">
 											         	<button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -409,27 +409,27 @@
 	</section>
 	<!-- Vendor -->
 	
-	  <script src="../assets/vendor/jquery/jquery.js"></script>
-	  <script src="../assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
-	  <script src="../assets/vendor/bootstrap/js/bootstrap.js"></script>
-	  <script src="../assets/vendor/nanoscroller/nanoscroller.js"></script>
-	  <script src="../assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-	  <script src="../assets/vendor/magnific-popup/magnific-popup.js"></script>
-	  <script src="../assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
+	  <script src="../../assets/vendor/jquery/jquery.js"></script>
+	  <script src="../../assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
+	  <script src="../../assets/vendor/bootstrap/js/bootstrap.js"></script>
+	  <script src="../../assets/vendor/nanoscroller/nanoscroller.js"></script>
+	  <script src="../../assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+	  <script src="../../assets/vendor/magnific-popup/magnific-popup.js"></script>
+	  <script src="../../assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
 	  <!-- Specific Page Vendor -->
-	  <script src="../assets/vendor/jquery-autosize/jquery.autosize.js"></script>
+	  <script src="../../assets/vendor/jquery-autosize/jquery.autosize.js"></script>
 	  <!-- Theme Base, Components and Settings -->
-	  <script src="../assets/javascripts/theme.js"></script>
+	  <script src="../../assets/javascripts/theme.js"></script>
 	  <!-- Theme Custom -->
-	  <script src="../assets/javascripts/theme.custom.js"></script>
+	  <script src="../../assets/javascripts/theme.custom.js"></script>
 	  <!-- Theme Initialization Files -->
-	  <script src="../assets/javascripts/theme.init.js"></script>
+	  <script src="../../assets/javascripts/theme.init.js"></script>
 	  <style type="text/css">
 	  .obrig {
       color: rgb(255, 0, 0);
     }
   </style>
-  <script type="text/javascript">
+  <script>
     // Exibe a imagem selecionada no input file:
     function readURL(input) {
       if (input.files && input.files[0]) {
@@ -496,6 +496,7 @@
       $("#telefone") = "";
 	  };
       
+	}
       function gerarTipo() {
       url = '../../dao/exibir_tipo_atendido.php';
       $.ajax({
