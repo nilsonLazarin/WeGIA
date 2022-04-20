@@ -104,6 +104,8 @@ INSERT INTO `recurso` (`id_recurso`, `descricao`) VALUES
 ('3', 'Módulo Memorando'),
 ('4', 'Módulo Sócio'),
 ('5', 'Módulo Saúde'),
+('51', 'Criar ficha médica'),
+('52', 'Ficha do paciente'),
 ('9', 'Configurações'),
 ('91', 'Permissões');
 
