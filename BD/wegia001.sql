@@ -735,6 +735,21 @@ CREATE TABLE IF NOT EXISTS `wegia`.`doacao_cartao_mensal` (
 ENGINE = InnoDB;
 
 
+CREATE TABLE IF NOT EXISTS doacao_pix_tipos(
+ID INT PRIMARY KEY AUTO_INCREMENT,
+TIPO VARCHAR(50) NOT NULL)
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS doacao_pix(
+ID INT PRIMARY KEY AUTO_INCREMENT,
+CHAVE VARCHAR(50),
+TIPO_CHAVE INT,
+ID_SISTEMA INT,
+FOREIGN KEY (TIPO_CHAVE) REFERENCES doacao_pix_tipos(ID),
+FOREIGN KEY (ID_SISTEMA) REFERENCES sistema_pagamento(ID))
+ENGINE = InnoDB;
+
+
 -- -----------------------------------------------------
 -- Table `wegia`.`socio_status`
 -- -----------------------------------------------------
