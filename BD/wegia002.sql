@@ -133,6 +133,12 @@ INSERT INTO `sistema_pagamento` (`id`, `nome_sistema`) VALUES
 (4, 'WIDEPAY'),
 (5, 'PIX');
 
+INSERT INTO `doacao_pix_tipos` (`ID`, `TIPO`) VALUES
+(1, 'CNPJ'),
+(2, 'e-mail'),
+(3, 'telefone'),
+(4, 'aleatória');
+
 INSERT INTO `doacao_boleto_regras` (`id`, `min_boleto_uni`, `max_dias_venc`, `juros`, `multa`, `max_parcela`, `min_parcela`, `agradecimento`, `dias_boleto_a_vista`, `dias_venc_carne_op1`, `dias_venc_carne_op2`, `dias_venc_carne_op3`, `dias_venc_carne_op4`, `dias_venc_carne_op5`, `dias_venc_carne_op6`) VALUES 
 ('1', '10.00', '29', '0', '0', '1000.00', '30.00', 'Agradecemos sua ajuda financeira!', '3', '1', '5', '10', '15', '20', '25');
 
