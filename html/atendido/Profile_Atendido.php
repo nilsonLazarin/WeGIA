@@ -124,6 +124,7 @@ session_start();
       <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
       <!-- Web Fonts  -->
       <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">
+      <link rel="icon" href="<?php display_campo("Logo", 'file'); ?>" type="image/x-icon" id="logo-icon">
       <!-- Vendor CSS -->
       <link rel="stylesheet" href="../../assets/vendor/bootstrap/css/bootstrap.css" />
       <link rel="stylesheet" href="../../assets/vendor/font-awesome/css/font-awesome.css" />
@@ -408,8 +409,8 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
 
 }
       $(function () {
-         $("#header").load("header.php");
-         $(".menuu").load("menu.php");
+         $("#header").load("../header.php");
+         $(".menuu").load("../menu.php");
           $("#cep").prop('disabled', true);
           $("#estado").prop('disabled', true);
           $("#cidade").prop('disabled', true);
@@ -634,7 +635,7 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
              });
     </script>  
 
-    <script src="controller/script/valida_cpf_cnpj.js"></script>
+    <script src="../contribuicao/js/validacpfcnpj.js"></script>
    </head>
    <body>
       <section class="body">

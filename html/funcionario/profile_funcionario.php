@@ -1213,7 +1213,7 @@
                                         [0, "asc"]
                                       ]
                                     });
-                                    post("informacao_adicional.php", "action=listar&id_funcionario=<?= $_GET['id_funcionario']?>", listarInfoAdicional)
+                                    post("informacao_adicional.php", "action='listar'&id_funcionario=<?= $_GET['id_funcionario']?>", listarInfoAdicional)
                                 });
                                 function adicionar_addInfoDescricao()
                                 {
@@ -1528,7 +1528,7 @@
                             <p id="cpfInvalido" style="display: none; color: #b30000">CPF INVÁLIDO!</p>
                           </div>
                         </div>
-                        <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
+                        <input type="hidden" id="id_funcionario" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
                         <button type="button" class="btn btn-primary" id="botaoEditarDocumentacao" onclick="return editar_documentacao()">Editar</button>
                         <input id="botaoSalvarDocumentacao" type="submit" class="btn btn-primary" disabled="true" value="Salvar" onclick="funcao3()">
                       </form>
