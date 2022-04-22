@@ -269,8 +269,7 @@ require_once ROOT."/html/personalizacao_display.php";
 												<div class="col-md-9 col-md-offset-3">
 													<button id="enviar" class="btn btn-primary" type="submit">Enviar</button>
 					
-													<a href="listar_permissoes.php" style="color: white; text-decoration:none;">
-														<button class="btn btn-success" type="button">Listar permissões</button></a>
+													
 												</div>
 											</div>
 											<?php
@@ -324,7 +323,10 @@ require_once ROOT."/html/personalizacao_display.php";
 						<div class="card-body">
 							<h5 class="card-title">Permissões para novo funcionário</h5>
 							<p class="card-text">Crie uma senha para um novo funcionário entrar no sistema.</p>
-							<a href="configurar_senhas.php" class="btn btn-primary">Configurar senhas</a>
+							<a href="configurar_senhas.php" class="btn btn-primary">Configurar senhas</a><br><br>
+							<p class="card-text">Liste as permissões configuradas para cada funcionário no sistema.</p>
+							<a href="listar_permissoes.php" style="color: white; text-decoration:none;">
+								<button class="btn btn-success" type="button">Listar permissões</button></a>
 						</div>
 					</div>
 				</div>
