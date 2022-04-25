@@ -990,7 +990,7 @@ class FuncionarioControle
         $cpf=str_replace(".", '', $cpf);
         $cpf=str_replace("-", "", $cpf);
 
-        $funcionario = new Funcionario($cpf,'','','','',$rg,$orgao_emissor,$data_expedicao,'','','','','','','','','','','','','','');
+        $funcionario = new Funcionario($cpf,'','','','',$registro_geral,$orgao_emissor,$data_expedicao,'','','','','','','','','','','','','','');
             
         $funcionario->setData_admissao($data_admissao);
         $funcionario->setId_funcionario($id_funcionario);

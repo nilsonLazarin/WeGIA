@@ -67,7 +67,8 @@
   <link rel="stylesheet" href="controller/bower_components/font-awesome/css/font-awesome.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="controller/bower_components/Ionicons/css/ionicons.min.css">
-  <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+  <script type="module" src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule="" src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons/ionicons.js"></script>
   <!-- Theme style -->
   <link rel="stylesheet" href="controller/dist/css/AdminLTE.min.css">
   <!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -107,7 +108,7 @@
 
     <!-- Theme CSS -->
     <link rel="stylesheet" href="<?php echo WWW;?>assets/stylesheets/theme.css" />
-
+    
     <!-- Skin CSS -->
     <link rel="stylesheet" href="<?php echo WWW;?>assets/stylesheets/skins/default.css" />
 
@@ -140,11 +141,11 @@
 
 
     <!-- javascript functions -->
-    <script src="<?php echo WWW;?>Functions/onlyNumbers.js"></script>
-    <script src="<?php echo WWW;?>Functions/onlyChars.js"></script>
-    <script src="<?php echo WWW;?>Functions/mascara.js"></script>
-    <script src="<?php echo WWW;?>html/contribuicao/js/geraboleto.js"></script>
-    <script src="<?php echo WWW;?>html/socio/sistema/controller/script/relatorios_socios.js"></script>
+    <script src="../../../Functions/onlyNumbers.js"></script>
+    <script src="../../../Functions/onlyChars.js"></script>
+    <script src="../../../Functions/mascara.js"></script>
+    <script src="../../contribuicao/js/geraboleto.js"></script>
+    <script src="/html/socio/sistema/controller/script/relatorios_socios.js"></script>
 
 	<script type="text/javascript">
 		$(function () {

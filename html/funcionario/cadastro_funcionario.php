@@ -152,10 +152,12 @@ require_once "../personalizacao_display.php";
                 }
                 ?>
 
-              <input type="file" class="image_input form-control" name="imgperfil"  id="imgform">
-              <div id="display_image"></div>
-              <input type="submit" class="btn btn-primary stylebutton" onclick="submitButtonStyle(this)" id="formsubmit" value="Ok"> 
-
+              <input type="file" class="image_input form-control" onclick="okDisplay()" name="imgperfil"  id="imgform">
+              <div id="display_image" class="thumb-info mb-md"></div>
+              <div id="botima">
+              <h5 id="okText"></h5>
+              <input type="submit" class="btn btn-primary stylebutton" onclick="submitButtonStyle(this)" id="okButton" id="botima" value="Ok"> 
+              </div>
               </div>
             </div>
           </section>
@@ -188,8 +190,8 @@ require_once "../personalizacao_display.php";
                   <div class="form-group">
                     <label class="col-md-3 control-label" for="profileLastName">Sexo<sup class="obrig">*</sup></label>
                     <div class="col-md-8">
-                      <label><input type="radio" name="gender" id="radio" id="M" value="m" style="margin-top: 10px; margin-left: 15px;" onclick="return exibir_reservista()" required><i class="fa fa-male" style="font-size: 20px;"></i></label>
-                      <label><input type="radio" name="gender" id="radio" id="F" value="f" style="margin-top: 10px; margin-left: 15px;" onclick="return esconder_reservista()"><i class="fa fa-female" style="font-size: 20px;"></i> </label>
+                      <label><input type="radio" name="gender" id="radioM" id="M" value="m" style="margin-top: 10px; margin-left: 15px;" onclick="return exibir_reservista()" required><i class="fa fa-male" style="font-size: 20px;"></i></label>
+                      <label><input type="radio" name="gender" id="radioF" id="F" value="f" style="margin-top: 10px; margin-left: 15px;" onclick="return esconder_reservista()"><i class="fa fa-female" style="font-size: 20px;"></i> </label>
                     </div>
                   </div>
                   <div class="form-group">
@@ -358,15 +360,74 @@ require_once "../personalizacao_display.php";
     }
 
     #display_image{
-      width: 170px;
-      height: 170px;
+      
+      min-height: 250px;
+      margin: 0 auto;
       border: 1px solid black;
       background-position: center;
       background-size: cover;
       background-image: url("../../img/semfoto.png")
     }
+
+
+    #display_image:after{
+      
+      content: "";
+      display: block;
+      padding-bottom: 100%;
+    }
+
+
   </style>
   <script type="text/javascript">
+
+    var clickcont = 0;
+    $("#botima").toggle();
+    $("#imgform").click(function(e){ 
+      if(clickcont == 0){
+        $("#botima").toggle();
+      }
+      clickcont = clickcont + 1;
+    });
+    
+    function okDisplay(){
+      document.getElementById("okButton").style.backgroundColor = "#0275d8"; //azul
+      document.getElementById("okText").textContent = "Confirme o arquivo selecionado";
+      $("#profileFirstName").prop('disabled', true);
+      $("#sobrenome").prop('disabled', true);
+      $("#radioM").prop('disabled', true);
+      $("#radioF").prop('disabled', true);
+      $("#telefone").prop('disabled', true);
+      $("#nascimento").prop('disabled', true);
+      $("#rg").prop('disabled', true);
+      $("#orgao_emissor").prop('disabled', true);
+      $("#data_expedicao").prop('disabled', true);
+      $("#data_admissao").prop('disabled', true);
+      $("#situacao").prop('disabled', true);
+      $("#cargo").prop('disabled', true);
+      $("#escala_input").prop('disabled', true);
+      $("#tipoCargaHoraria_input").prop('disabled', true);
+    }
+
+    function submitButtonStyle(_this) {
+      _this.style.backgroundColor = "#5cb85c"; //verde
+      document.getElementById("okText").textContent = "Arquivo confirmado";
+      $("#profileFirstName").prop('disabled', false);
+      $("#sobrenome").prop('disabled', false);
+      $("#radioM").prop('disabled', false);
+      $("#radioF").prop('disabled', false);
+      $("#telefone").prop('disabled', false);
+      $("#nascimento").prop('disabled', false);
+      $("#rg").prop('disabled', false);
+      $("#orgao_emissor").prop('disabled', false);
+      $("#data_expedicao").prop('disabled', false);
+      $("#data_admissao").prop('disabled', false);
+      $("#situacao").prop('disabled', false);
+      $("#cargo").prop('disabled', false);
+      $("#escala_input").prop('disabled', false);
+      $("#tipoCargaHoraria_input").prop('disabled', false);
+    }
+
     function funcao1() {
       var send = $("#enviar");
       var cpfs = <?php echo $_SESSION['cpf_funcionario']; ?>;
@@ -665,9 +726,10 @@ require_once "../personalizacao_display.php";
       $(".menuu").load("../menu.php");
     });
 
-    function submitButtonStyle(_this) {
-      _this.style.backgroundColor = "#5cb85c";
-    }
+    
+
+
+    
   </script>
   <!-- Head Libs -->
   <script src="../../assets/vendor/modernizr/modernizr.js"></script>
