@@ -694,7 +694,7 @@ class FuncionarioControle
             $horarioDAO->incluir($horario);
             //$beneficiadosDAO->incluir($beneficiados);
             //$epiDAO->incluir($epi);
-            $_SESSION['msg']="Funcionario cadastrado com sucesso";
+            //$_SESSION['msg']="Funcionario cadastrado com sucesso";
             $_SESSION['proxima']="Cadastrar outro funcionario";
             $_SESSION['link']="../html/funcionario/cadastro_funcionario.php";
             header("Location: ../html/funcionario/informacao_funcionario.php");
@@ -726,7 +726,7 @@ class FuncionarioControle
             // $horarioDAO->incluir($horario);
             //$beneficiadosDAO->incluir($beneficiados);
             //$epiDAO->incluir($epi);
-            $_SESSION['msg']="Funcionario cadastrado com sucesso";
+            //$_SESSION['msg']="Funcionario cadastrado com sucesso";
             $_SESSION['proxima']="Cadastrar outro funcionario";
             $_SESSION['link']="../html/funcionario/cadastro_funcionario.php";
             header("Location: ../html/funcionario/informacao_funcionario.php");

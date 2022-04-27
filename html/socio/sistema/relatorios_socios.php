@@ -98,48 +98,48 @@
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
   <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="<?php echo WWW;?>assets/vendor/font-awesome/css/font-awesome.css" />
+    <link rel="stylesheet" href="../../../assets/vendor/font-awesome/css/font-awesome.css" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
-    <link rel="stylesheet" href="<?php echo WWW;?>assets/vendor/magnific-popup/magnific-popup.css" />
-    <link rel="stylesheet" href="<?php echo WWW;?>assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
+    <link rel="stylesheet" href="../../../assets/vendor/magnific-popup/magnific-popup.css" />
+    <link rel="stylesheet" href="../../../assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
     <link rel="icon" href="" type="image/x-icon" id="logo-icon">
 
     <!-- Specific Page Vendor CSS -->
-    <link rel="stylesheet" href="<?php echo WWW;?>assets/vendor/select2/select2.css" />
-    <link rel="stylesheet" href="<?php echo WWW;?>assets/vendor/jquery-datatables-bs3/assets/css/datatables.css" />
+    <link rel="stylesheet" href="../../../assets/vendor/select2/select2.css" />
+    <link rel="stylesheet" href="../../../assets/vendor/jquery-datatables-bs3/assets/css/datatables.css" />
 
     <!-- Theme CSS -->
-    <link rel="stylesheet" href="<?php echo WWW;?>assets/stylesheets/theme.css" />
+    <link rel="stylesheet" href="../../../assets/stylesheets/theme.css" />
 
     <!-- Skin CSS -->
-    <link rel="stylesheet" href="<?php echo WWW;?>assets/stylesheets/skins/default.css" />
+    <link rel="stylesheet" href="../../../assets/stylesheets/skins/default.css" />
 
     <!-- Theme Custom CSS -->
-    <link rel="stylesheet" href="<?php echo WWW;?>assets/stylesheets/theme-custom.css">
+    <link rel="stylesheet" href="../../../assets/stylesheets/theme-custom.css">
 
     <!-- Head Libs -->
-    <script src="<?php echo WWW;?>assets/vendor/modernizr/modernizr.js"></script>
+    <script src="../../../assets/vendor/modernizr/modernizr.js"></script>
         
     <!-- Vendor -->
-    <script src="<?php echo WWW;?>assets/vendor/jquery/jquery.min.js"></script>
-    <script src="<?php echo WWW;?>assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
+    <script src="../../../assets/vendor/jquery/jquery.min.js"></script>
+    <script src="../../../assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
-    <script src="<?php echo WWW;?>assets/vendor/nanoscroller/nanoscroller.js"></script>
-    <script src="<?php echo WWW;?>assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-    <script src="<?php echo WWW;?>assets/vendor/magnific-popup/magnific-popup.js"></script>
-    <script src="<?php echo WWW;?>assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
+    <script src="../../../assets/vendor/nanoscroller/nanoscroller.js"></script>
+    <script src="../../../assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <script src="../../../assets/vendor/magnific-popup/magnific-popup.js"></script>
+    <script src="../../../assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
         
     <!-- Specific Page Vendor -->
-    <script src="<?php echo WWW;?>assets/vendor/jquery-autosize/jquery.autosize.js"></script>
+    <script src="../../../assets/vendor/jquery-autosize/jquery.autosize.js"></script>
         
     <!-- Theme Base, Components and Settings -->
-    <script src="<?php echo WWW;?>assets/javascripts/theme.js"></script>
+    <script src="../../../assets/javascripts/theme.js"></script>
         
     <!-- Theme Custom -->
-    <script src="<?php echo WWW;?>assets/javascripts/theme.custom.js"></script>
+    <script src="../../../assets/javascripts/theme.custom.js"></script>
         
     <!-- Theme Initialization Files -->
-    <script src="<?php echo WWW;?>assets/javascripts/theme.init.js"></script>
+    <script src="../../../assets/javascripts/theme.init.js"></script>
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
