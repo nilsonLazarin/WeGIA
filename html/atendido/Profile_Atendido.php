@@ -173,6 +173,8 @@ session_start();
       <!-- JavaScript Functions -->
 	   <script src="../../Functions/enviar_dados.js"></script>
       <script src="../../Functions/mascara.js"></script>
+      <script src="../../Functions/onlyNumbers.js"></script>
+      <script src="../../Functions/onlyChars.js"></script>
       <script>
         // $(document).ready(function(){
         //  	$('#doc').on("submit", function(event){

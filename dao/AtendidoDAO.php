@@ -378,9 +378,9 @@ class AtendidoDAO
             $orgao_emissor=$atendido->getOrgaoEmissor();
             $data_expedicao=$atendido->getDataExpedicao();
 
-            if(count($data_expedicao) <10){
+            /*if(count($data_expedicao) <10){
                 $data_expedicao= null;
-            }
+            }*/
 
            /* $cpf='065.123.587-16';
             $idatendido=1;
