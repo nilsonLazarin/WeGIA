@@ -14,6 +14,8 @@ session_start();
       header('Location: ../../controle/control.php?metodo=listarUm&nomeClasse=SaudeControle&nextPage=../html/saude/profile_paciente.php');
     }
 
+
+
     $config_path = "config.php";
     if (file_exists($config_path)) {
       require_once($config_path);
@@ -65,14 +67,14 @@ header("Location: ../home.php?msg_c=$msg");
   $id=$_GET['id_fichamedica']; 
   $cache = new Cache();
   $teste = $cache->read($id);
-
   require_once "../../dao/Conexao.php";
   $pdo = Conexao::connect();
-   
+
   if (!isset($teste)) 
   {
    		header('Location: ../../controle/control.php?metodo=listarUm&nomeClasse=SaudeControle&nextPage=../html/saude/profile_paciente.php?id_fichamedica='.$id.'&id='.$id);
   }
+
   $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
   $docfuncional = $pdo->query("SELECT * FROM saude_exames se JOIN saude_exame_tipos st ON se.id_exame_tipos  = st.id_exame_tipo WHERE id_fichamedica= ".$_GET['id_fichamedica']);
@@ -116,7 +118,6 @@ header("Location: ../home.php?msg_c=$msg");
   $teste1 = $pdo->query("SELECT nome FROM pessoa p JOIN funcionario f ON(p.id_pessoa = f.id_pessoa) WHERE f.id_pessoa = " .$_SESSION['id_pessoa'])->fetchAll(PDO::FETCH_ASSOC);
   $id_funcionario = $teste1[0]['nome'];
  
-  
 ?>
     <!-- Vendor -->
     <script src="<?php echo WWW;?>assets/vendor/jquery/jquery.min.js"></script>
@@ -153,8 +154,8 @@ header("Location: ../home.php?msg_c=$msg");
 
 
     <script>
+      
         $(function(){
-
           localStorage.setItem("id_ficha_medica",'null')
            
             $("#header").load("../header.php");
@@ -300,13 +301,14 @@ header("Location: ../home.php?msg_c=$msg");
               
                 $("#nascimento").text("Data de nascimento: "+item.data_nascimento);
                 $("#nascimento").val(item.data_nascimento);
-
-                if(item.tipo_sanguineo==null || item.tipo_sanguineo == "")
+                $("#adicionartipo").show(); 
+                /*if(item.tipo_sanguineo==null || item.tipo_sanguineo == "")
                 {
                     $("#adicionartipo").show(); 
-                }
+                }*/
                 if(item.tipo_sanguineo !=null && item.tipo_sanguineo != "")
                 {
+                  
                   $("#exibirtipo").show();
                   $("#sangue").text("Sangue: "+item.tipo_sanguineo);
                   $("#sangue").val(item.tipo_sanguineo);
@@ -595,11 +597,12 @@ header("Location: ../home.php?msg_c=$msg");
                             <option value="AB-">AB-</option>
                           </select>
                         </div>
-                      
+
+
                       <!-- </div> -->
                       <input type="hidden" name="id_fichamedica" value=<?php echo $_GET['id_fichamedica'] ?>>
                      <!-- <div class="col-md-9 col-md-offset-3"> -->
-                        <input type="submit" class="btn btn-primary" value="Salvar" id="botaoSalvarIP">
+                        <input type="submit" class="btn btn-primary" value="Salvar" id="botaoSalvarTipoSanguineo">
                      <!-- </div>  -->
 
                       <br>

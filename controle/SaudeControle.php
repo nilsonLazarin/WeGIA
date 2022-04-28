@@ -130,7 +130,7 @@ class SaudeControle
                 $infSaude=$SaudeDAO->listar($id);
                 session_start();
                 $_SESSION['id_fichamedica']=$infSaude;
-                $cache->save($id, $infSaude, '15 seconds');
+                $cache->save($id, $infSaude, '1 seconds');
                 header('Location:'.$nextPage);
             } catch (PDOException $e) {
                 echo $e->getMessage();
@@ -188,4 +188,5 @@ class SaudeControle
         }
         
     }
+   
 }
