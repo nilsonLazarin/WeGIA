@@ -18,7 +18,8 @@ function socio_cadastrado(doc)
     var doc = doc;
     doc = formata_cpf_cnpj(doc);
         $.post("./php/socioCadastrado.php", {'doc':doc}).done(function(data){
-                if(data == 0)
+            console.log("Data agora: ", typeof(data));
+                if(data == 0 || data.includes("false"))
                 {
                     $("#verifica_socio_btn").hide();
                     $("#verifica_socio").hide();
@@ -56,7 +57,7 @@ function socio_cadastrado(doc)
                         $("#bairro").val(dados.bairro);
                         $("#localidade").val(dados.cidade);
                         $("#uf").val(dados.estado);
-
+                        console.log("Dados1 : ", dados);
                         $("#verifica_socio").hide();
                         $("#pag2").hide();
                         $("#pag3").hide();
@@ -99,6 +100,7 @@ function editar_informacoes()
     if(nome == ''){
         nome = cnpj_nome;
     }
+    console.log("Dados2 : ", dados);
         $.post("./php/editaSocio.php",{'nome':nome, 'telefone':tel, 'email':email, 'doc':doc, 'datanascimento':data_n, 'cep': cep, 'log':rua, 'numero':numero, 'comp':compl, 'bairro':bairro, 'cidade':cidade, 'uf':uf}).done(function(data){
                 $("#form2").fadeIn();
                 $("#form2").html('<h3> Dados atualizados com sucesso!</h3><br><br><div class="container-contact100-form-btn"><span class="contact100-form-btn" id = "dados_atualizados"><i style="margin-right: 15px; " class="fa fa-long-arrow m-l-7"aria-hidden="true"></i>OK</span></div>')
