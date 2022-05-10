@@ -36,3 +36,5 @@ FLUSH PRIVILEGES;
 quit;
 
 https://wegia.instituicao.org/instalador/
+
+teste
