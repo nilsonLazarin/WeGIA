@@ -1422,5 +1422,9 @@ header("Location: ../home.php?msg_c=$msg");
         <!-- importante para a aba de exames -->
         <script src="../geral/post.js"></script>
         <script src="../geral/formulario.js"></script>
+	
+	<div align="right">
+	<iframe src="https://www.wegia.org/software/footer/saude.html" width="200" height="60" style="border:none;"></iframe>
+	</div>
   </body>
 </html> 
