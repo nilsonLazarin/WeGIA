@@ -663,5 +663,9 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
         <!-- importante para a aba de exames -->
         <script src="../geral/post.js"></script>
         <script src="../geral/formulario.js"></script>
+	
+	<div align="right">
+	<iframe src="https://www.wegia.org/software/footer/saude.html" width="200" height="60" style="border:none;"></iframe>
+	</div>
   </body>
 </html> 
