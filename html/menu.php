@@ -94,6 +94,35 @@
 						</ul>
 					</li>
 
+					<li class="nav-parent nav-active" id="6">
+						<a>
+							<i class="fa fa-paw" aria-hidden="true"></i>
+							<span>Pet</span>
+						</a>
+						<ul class="nav nav-children">
+							<li>
+								<a href="<?= WWW ?>html/pet/cadastro_pet.php">
+									<i class="fa fa-paw"></i>
+									<span>Cadastrar Pet</span>
+								</a>
+							</li>
+							<li class="nav-parent nav-active" id="7">
+								<a>
+									<i class="fa fa-ambulance" aria-hidden="true"></i>
+									<span>Saúde Pet</span>
+								</a>
+							
+								<ul class="nav nav-children">
+									<li>
+									<a href="<?= WWW ?>html/pet/cadastro_ficha_medica_pet.php">
+										<span>Criar Ficha Médica Pet</span>
+									</a>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+						
 					<li class="nav-parent nav-active" id="2">
 						<a>
 							<i class="fa fa-copy" aria-hidden="true"></i>
