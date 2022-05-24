@@ -141,10 +141,18 @@
 					  </div>');
 					}
 				?>
-					<a href="">
+					<a href="#">
 						<div class="col-lg-2 col-md-8 i category-item" data-toggle="collapse" href="#pessoas" >
 							<i  class="far fa-address-book"></i>
 							<h4>Pessoas</h4>
+						</div>
+					</a>
+
+					<a href="#">
+						<div class="col-lg-2 col-md-8 i category-item" data-toggle="collapse" href="#pet">
+							<i  class="fa fa-paw"></i>
+							<h4>Pet</h4>
+							<h6 style="color:red">Em desenvolvimento</h6>
 						</div>
 					</a>
 
@@ -300,6 +308,35 @@
 						</a>
 					</div>
 				</div><br>
+
+				<div class="row">
+					<div id="pet" class="collapse">
+						<a href="../html/pet/cadastro_pet.php">
+							<div class="col-lg-2 col-md-8 i">
+								<i  class="fa fa-paw"></i>
+								<h4>Cadastrar Pet</h4>
+							</div>
+						</a>
+						<a href="#">
+							<div class="col-lg-2 col-md-8 i category-item" data-toggle="collapse" href="#saudePet">
+								<i class="fa fa-ambulance"></i>
+								<h4>Saúde Pet</h4>
+							</div>
+						</a>
+					</div>
+				</div><br>
+
+				<div class="row">
+					<div  id="saudePet" class="collapse">
+						<a href="../html/pet/cadastro_ficha_medica_pet.php">	
+							<div class="col-lg-2 col-md-8 i">
+								<i  class="fa fa-address-book"></i>
+								<h4>Cadastro Ficha Médica Pet</h4>
+							</div>
+						</a>
+					</div>
+				</div><br>
+
 				<div class="row">
 					<div  id="material" class="collapse">
 						<a href="../html/cadastro_entrada.php">	
