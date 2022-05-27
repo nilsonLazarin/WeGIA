@@ -61,17 +61,34 @@
 		$(function () {
 	      $("#header").load("header.php");
 	      $(".menuu").load("menu.php");
+
 		  $(".category-item").on( "click", function() {
 			$("#category-row").addClass("hidden");
 			$(".back-container").removeClass("hidden");
 		});
+
 		$(".back-container").on( "click", function() {
-			$("#category-row").removeClass("hidden");
-			$(".collapse").removeClass("in");
-			$(".back-container").addClass("hidden");
-		});	
-	    });
+			if(document.getElementById("back-container")){
+				$("#category-row").removeClass("hidden");
+				$(".collapse").removeClass("in");
+				$(".back-container").addClass("hidden");
+			}
+
+			if(document.getElementById("back-container-pet")){
+				$("#category-row-pet").removeClass("hidden");
+				$("#saudePet").removeClass("in");
+				$(".back-container").attr("id", "back-container");
+			}
+			
+		});
 		
+		$(".category-item-pet").on("click", function() {
+			$("#category-row-pet").addClass("hidden");
+			$(".back-container").attr("id", "back-container-pet");
+			$("#category-row-pet-2").removeClass("hidden");
+			$(".category-item-pet").attr("aria-expanded", "true");
+		});
+		});
 	</script>
 	<script>
 
@@ -170,6 +187,7 @@
 							</h4>
 						</div>
 					</a>
+
 					<a href="#">
 						<div class="col-lg-2 col-md-8 i category-item" data-toggle="collapse" href="#socios">
 							<i  class="fa fa-users"></i>
@@ -177,27 +195,31 @@
 							</h4>
 						</div>
 					</a>
+
+					<a href="#">
+					<div class="col-lg-2 col-md-8 i category-item" data-toggle="collapse" href="#saude">
+							<i class="fas fa-hospital"></i>
+							<h4>Saúde</h4>
+						</div>
+					</a>
+
 					<a href="#">
 						<div class="col-lg-2 col-md-8 i category-item" data-toggle="collapse" href="#configuracao">
 							<i  class="fa fa-cogs"></i>
 							<h4>Configurações</h4>
 						</div>
 					</a>
-					<a href="#">
-					<div class="col-lg-2 col-md-8 i category-item" data-toggle="collapse" href="#saude">
-							<i  class="fa fa-ambulance"></i>
-							<h4>Saúde</h4>
-						</div>
-					</a>
 
 				</div>
-				<div class="back-container hidden">
+
+				<div class="back-container hidden" id="back-container">
 				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="left-arrow-icon">
 					<path d="M19 12H5" stroke="#888888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 					<path d="M12 19L5 12L12 5" stroke="#888888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 				</svg>
 				<span class="back">Voltar</span>
 				</div>
+				
 				<hr class="mobile-only">
 				<div class="row">
 					<div  id="configuracao" class="collapse">
@@ -237,7 +259,7 @@
 				</div><br>
 
 				<div class="row ">
-					<div  id="saude" class="collapse">
+					<div  id="saude" class="collapse" >
 						<a href="../html/saude/cadastro_ficha_medica.php">
 							<div class="col-lg-2 col-md-8 i" >
 								<i  class="far fa-address-book"></i>
@@ -249,11 +271,17 @@
 								<i  class="far fa-address-card"></i>
 								<h4>Informações paciente</h4>
 							</div>
-						</a>				
+						</a>
+						<a href="../html/saude/administrar_medicamento.php">
+							<div class="col-lg-2 col-md-8 i" >
+								<i  class="fa fa-pills"></i>
+								<h4>Administrar medicamentos</h4>
+							</div>
+						</a>			
 					</div>
 				</div><br>
 
-				<div class="row ">
+				<div class="row">
 					<div  id="pessoas" class="collapse">
 						<a href="../html/funcionario/pre_cadastro_funcionario.php">
 							<div class="col-lg-2 col-md-8 i" >
@@ -309,7 +337,7 @@
 					</div>
 				</div><br>
 
-				<div class="row">
+				<div class="row" id="category-row-pet">
 					<div id="pet" class="collapse">
 						<a href="../html/pet/cadastro_pet.php">
 							<div class="col-lg-2 col-md-8 i">
@@ -318,7 +346,7 @@
 							</div>
 						</a>
 						<a href="#">
-							<div class="col-lg-2 col-md-8 i category-item" data-toggle="collapse" href="#saudePet">
+							<div class="col-lg-2 col-md-8 i category-item-pet" data-toggle="collapse" href="#saudePet">
 								<i class="fa fa-ambulance"></i>
 								<h4>Saúde Pet</h4>
 							</div>
@@ -326,7 +354,7 @@
 					</div>
 				</div><br>
 
-				<div class="row">
+				<div class="row" id="category-row-pet-2">
 					<div  id="saudePet" class="collapse">
 						<a href="../html/pet/cadastro_ficha_medica_pet.php">	
 							<div class="col-lg-2 col-md-8 i">

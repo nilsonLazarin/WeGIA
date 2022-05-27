@@ -229,7 +229,7 @@
 					</li>
 					<li class="nav-parent nav-active">
 						<a>
-							<i class="fa fa-ambulance" aria-hidden="true"></i>
+							<i class="fa fa-hospital" aria-hidden="true"></i>
 							<span>Saúde</span>
 						</a>
 						<ul class="nav nav-children">
