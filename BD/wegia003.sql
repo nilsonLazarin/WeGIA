@@ -5,9 +5,9 @@ use wegia;
 -- -------------------------------------------------------
 CREATE TABLE IF NOT EXISTS `wegia`.`pet_foto` (
     `id_pet_foto` INT NOT NULL AUTO_INCREMENT,
-    `arquivo_foto_pet` LONGBLOB NULL,
-    `arquivo_foto_pet_nome` varchar(200) NULL,
-    `arquivo_foto_pet_extensao` varchar(50) NULL, 
+    `arquivo_foto_pet` LONGBLOB NOT NULL,
+    `arquivo_foto_pet_nome` varchar(200) NOT NULL,
+    `arquivo_foto_pet_extensao` varchar(50) NOT NULL, 
     PRIMARY KEY (`id_pet_foto`)
 )ENGINE = InnoDB;
 
