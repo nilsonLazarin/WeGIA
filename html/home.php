@@ -11,6 +11,7 @@
 	// Funções de display de mensagens
 	require_once "./geral/msg.php";
 ?>
+
 <!doctype html>
 <html class="fixed">
 <head>
@@ -57,6 +58,7 @@
 	<!-- Vendor -->
 	<script src="../assets/vendor/jquery/jquery.min.js"></script>
 
+
 	<script type="text/javascript">
 		$(function () {
 	      $("#header").load("header.php");
@@ -66,7 +68,7 @@
 			$("#category-row").addClass("hidden");
 			$(".back-container").removeClass("hidden");
 		});
-
+		//Quando o back-container for clicado, verifica se está na segunda ou na terceira camada
 		$(".back-container").on( "click", function() {
 			if(document.getElementById("back-container")){
 				$("#category-row").removeClass("hidden");
@@ -74,19 +76,17 @@
 				$(".back-container").addClass("hidden");
 			}
 
-			if(document.getElementById("back-container-pet")){
-				$("#category-row-pet").removeClass("hidden");
-				$("#saudePet").removeClass("in");
+			if(document.getElementsByClassName("back-container-second")){
+				$(".category-row-second").removeClass("hidden");
+				$(".second").removeClass("in");
 				$(".back-container").attr("id", "back-container");
 			}
-			
 		});
 		
-		$(".category-item-pet").on("click", function() {
-			$("#category-row-pet").addClass("hidden");
-			$(".back-container").attr("id", "back-container-pet");
-			$("#category-row-pet-2").removeClass("hidden");
-			$(".category-item-pet").attr("aria-expanded", "true");
+		$(".category-item-second").on("click", function() {
+			$(".category-row-second").addClass("hidden");
+			$(".back-container").attr("id", "back-container-second");
+			$(".category-row-third").removeClass("hidden");
 		});
 		});
 	</script>
@@ -209,7 +209,6 @@
 							<h4>Configurações</h4>
 						</div>
 					</a>
-
 				</div>
 
 				<div class="back-container hidden" id="back-container">
@@ -256,7 +255,7 @@
 
 					
 					</div>
-				</div><br>
+				</div>
 
 				<div class="row ">
 					<div  id="saude" class="collapse" >
@@ -279,53 +278,77 @@
 							</div>
 						</a>			
 					</div>
-				</div><br>
+				</div>
 
-				<div class="row">
-					<div  id="pessoas" class="collapse">
-						<a href="../html/funcionario/pre_cadastro_funcionario.php">
-							<div class="col-lg-2 col-md-8 i" >
-								<i  class="far fa-address-book"></i>
-								<h4>Cadastrar Funcionário</h4>
+				<!--Parte interna de #pessoas-->
+				<div class="row category-row-second">
+					<div id="pessoas" class="collapse">
+						<a href="#">
+							<div class="col-lg-2 col-md-8 i category-item-second" data-toggle="collapse" href="#funcionarios">
+								<i class="fa fa-briefcase"></i>
+								<h4>Funcionários</h4>
 							</div>
 						</a>
+						<a href="#">
+							<div class="col-lg-2 col-md-8 i category-item-second" data-toggle="collapse" href="#atendidos">
+								<i class="fa fa-user"></i>
+								<h4>Atendidos</h4>
+							</div>
+						</a>
+						<a href="#">
+							<div class="col-lg-2 col-md-8 i category-item-second" data-toggle="collapse" href="#ocorrencias">
+								<i class="fas fa-address-book"></i>
+								<h4>Ocorrências</h4>
+							</div>
+						</a>
+					</div>
+				</div>
 
-						<a href="../controle/control.php?metodo=listarTodos&nomeClasse=FuncionarioControle&nextPage=../html/funcionario/informacao_funcionario.php">
+				<div class="row category-row-third">
+					<div  id="funcionarios" class="second collapse">
+						<a href="../html/funcionario/pre_cadastro_funcionario.php">	
 							<div class="col-lg-2 col-md-8 i">
-									<i  class="far fa-address-card" id="listarFuncionario"></i>
-									<h4>Informação funcionários</h4>
+								<i  class="fa fa-address-book"></i>
+								<h4>Cadastro Funcionário</h4>
 							</div>
 						</a>
-
-						<a href="../html/atendido/pre_cadastro_atendido.php">
-							<div class="col-lg-2 col-lg-offset-1 col-md-8 i" >
-								<i class="far fa-address-book"></i>
-								<h4>Cadastrar Atendido</h4>
+						<a href="../controle/control.php?metodo=listarTodos&nomeClasse=FuncionarioControle&nextPage=../html/funcionario/informacao_funcionario.php">	
+							<div class="col-lg-2 col-md-8 i">
+								<i  class="far fa-address-card"></i>
+								<h4>Informações Funcionários</h4>
 							</div>
 						</a>
+					</div>
+				</div>
 
-					
-
-
+				<div class="row category-row-third">
+					<div  id="atendidos" class="second collapse">
+						<a href="../html/atendido/pre_cadastro_atendido.php">	
+							<div class="col-lg-2 col-md-8 i">
+								<i  class="fa fa-address-book"></i>
+								<h4>Cadastro Atendido</h4>
+							</div>
+						</a>
 						<a href="../controle/control.php?metodo=listarTodos&nomeClasse=AtendidoControle&nextPage=../html/atendido/Informacao_Atendido.php">
 							<div class="col-lg-2 col-md-8 i">
 								<form id="listarAtendido" method="POST" action="../controle/control.php">
 									<i  class="far fa-address-card" id="listarAtendido"></i>
-									<h4>Informação Atendidos</h4>
+									<h4>Informações Atendidos</h4>
 								</form>
 							</div>
 						</a>
-
-
-						<a href="../controle/control.php?metodo=listarTodos&nomeClasse=AtendidoControle&nextPage=../html/atendido/cadastro_ocorrencia.php">
+					</div>
+				</div>
+				<div class="row category-row-third">
+					<div  id="ocorrencias" class="second collapse">
+					<a href="../controle/control.php?metodo=listarTodos&nomeClasse=AtendidoControle&nextPage=../html/atendido/cadastro_ocorrencia.php">
 							<div class="col-lg-2 col-md-8 i">
 								<form id="listarAtendido" method="POST" action="../controle/control.php">
-									<i  class="far fa-address-book" id="listarAtendido"></i>
+									<i  class="fa fa-address-book" id="listarAtendido"></i>
 									<h4>Cadastrar Ocorrência</h4>
 								</form>
 							</div>
 						</a>
-
 						<a href="../controle/control.php?metodo=listarTodos&nomeClasse=AtendidoControle&nextPage=../html/atendido/listar_ocorrencias_ativas.php">
 							<div class="col-lg-2 col-md-8 i">
 								<form id="listarAtendido" method="POST" action="../controle/control.php">
@@ -335,9 +358,11 @@
 							</div>
 						</a>
 					</div>
-				</div><br>
+				</div>
 
-				<div class="row" id="category-row-pet">
+
+
+				<div class="row category-row-second">
 					<div id="pet" class="collapse">
 						<a href="../html/pet/cadastro_pet.php">
 							<div class="col-lg-2 col-md-8 i">
@@ -346,16 +371,16 @@
 							</div>
 						</a>
 						<a href="#">
-							<div class="col-lg-2 col-md-8 i category-item-pet" data-toggle="collapse" href="#saudePet">
+							<div class="col-lg-2 col-md-8 i category-item-second" data-toggle="collapse" href="#saudePet">
 								<i class="fa fa-ambulance"></i>
 								<h4>Saúde Pet</h4>
 							</div>
 						</a>
 					</div>
-				</div><br>
+				</div>
 
-				<div class="row" id="category-row-pet-2">
-					<div  id="saudePet" class="collapse">
+				<div class="row category-row-third">
+					<div  id="saudePet" class="second collapse">
 						<a href="../html/pet/cadastro_ficha_medica_pet.php">	
 							<div class="col-lg-2 col-md-8 i">
 								<i  class="fa fa-address-book"></i>
@@ -363,7 +388,7 @@
 							</div>
 						</a>
 					</div>
-				</div><br>
+				</div>
 
 				<div class="row">
 					<div  id="material" class="collapse">
@@ -429,11 +454,9 @@
 								<h4>Adicionar Almoxarifado</h4>
 							</div>
 						</a>
-
-						
-						<!--</a>-->
 					</div>
-				</div><br>
+				</div>
+
 
 				<div class="row">
 					<div id="memorando" class="collapse">
@@ -460,7 +483,7 @@
 							</div>
 						</a>
 					</div>
-				</div><br>
+				</div>
 
 				<div class="row">
 					<div id="socios" class="collapse">
@@ -492,7 +515,7 @@
 							</div>
 						</a>
 					</div>
-				</div><br>
+				</div>
 				<!--
 				<div class="row">
 					<a href="">

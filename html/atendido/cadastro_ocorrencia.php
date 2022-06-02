@@ -409,7 +409,7 @@ $id_funcionario = $recupera_id_funcionario[0]['id_funcionario'];
                     <div class="right-wrapper pull-right">
                         <ol class="breadcrumbs">
                             <li>
-                                <a href="home.php">
+                                <a href="../home.php">
                                     <i class="fa fa-home"></i>
                                 </a>
                             </li>

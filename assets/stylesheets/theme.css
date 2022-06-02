@@ -74,10 +74,6 @@ a:active {
     transition:all .26s ease-in-out;
 }
 
-.content-body > .row + .row {
-	padding-top: 10px;
-}
-
 /* Layout Base - Page Header */
 .page-header {
 	background: #171717;
@@ -412,7 +408,6 @@ a:active {
 		top: 0;
 		z-index: 98 !important;
 	}
-
 	.sidebar-right {
 		bottom: 0;
 		left: auto;
@@ -939,7 +934,7 @@ BOOTSTRAP EXTEND
 html.scroll,
 html.fixed {
 	/* UNDO original bootrap LG helper classes*/
-	/* Helper classes for XL */;
+	/* Helper classes for XL */
 }
 
 @media (min-width: 1600px) {
@@ -4486,11 +4481,7 @@ html.dark .inner-toolbar > ul > li {
 	position: relative;
 }
 
-body {
-	/* Button Basic */
-	/* Buttons - Social */
-	/* Buttons - States */;
-}
+
 
 body .btn:focus,
 body .btn:active:focus,
@@ -12238,7 +12229,7 @@ html.dark {
 	/* Simple Post List */
 	/* Simple User List */
 	/* Simple Bullet List */
-	/* Simple Compose Box */;
+	/* Simple Compose Box */
 }
 
 html.dark .widget-summary .summary .title,

@@ -31,66 +31,68 @@
 							<span>Início</span>
 						</a>
 					</li>
-					<li class="nav-parent nav-active">
+					
+					<li class="nav-parent nav-active" id="1">
 						<a>
 							<i class="far fa-address-book"></i>
 							<span>Pessoas</span>
 						</a>
 						
 						<ul class="nav nav-children">
-							<li>
-
+							<li class="nav-parent nav-active">
 								<a>
-								<i class="far fa-address-book"></i>
-								<span>RH</span>
+									<i class="fa fa-briefcase" aria-hidden="true"></i>
+									<span>Funcionários</span>
 								</a>
-
+								<ul class="nav nav-children" id="11">
+									<li>
+										<a href="<?= WWW ?>html/funcionario/pre_cadastro_funcionario.php">
+											<span>Cadastrar Funcionário</span>
+										</a>
+									</li>
+									<li>
+										<a href="<?= WWW ?>controle/control.php?metodo=listarTodos&nomeClasse=FuncionarioControle&nextPage=<?= WWW ?>html/funcionario/informacao_funcionario.php">
+											<span>Informações Funcionários</span>
+										</a>
+									</li>
+								</ul>
 							</li>
-
-							<li>
-								<a href="<?= WWW ?>html/funcionario/pre_cadastro_funcionario.php">
-									 Cadastrar Funcionário
-								</a>
-
-							</li>
-							<li>
-								<a href="<?= WWW ?>controle/control.php?metodo=listarTodos&nomeClasse=FuncionarioControle&nextPage=<?= WWW ?>html/funcionario/informacao_funcionario.php">
-									 Informações Funcionários
-								</a>
-							</li>
-							<li>
-
+							<li class="nav-parent nav-active">
 								<a>
-								<i class="far fa-address-book"></i>
-								<span>Atendidos</span>
-
+									<i class="fa fa-user" aria-hidden="true"></i>
+									<span>Atendidos</span>
 								</a>
+								<ul class="nav nav-children" id="12">
+									<li>
+										<a href="<?= WWW ?>html/atendido/pre_cadastro_atendido.php">
+											<span>Cadastrar Atendido</span>
+										</a>
+									</li>
+									<li>
+										<a href="<?= WWW ?>controle/control.php?metodo=listarTodos&nomeClasse=AtendidoControle&nextPage=<?= WWW ?>html/atendido/Informacao_Atendido.php">
+											<span>Informações Atendidos</span>
+										</a>
+									</li>
+								</ul>
 							</li>
-							<li>
-								<a href="<?= WWW ?>html/atendido/pre_cadastro_atendido.php">
-									 Cadastrar Atendido
+							<li class="nav-parent nav-active">
+								<a>
+									<i class="fa fa-address-book" aria-hidden="true"></i>
+									<span>Ocorrências</span>
 								</a>
+								<ul class="nav nav-children" id="13">
+									<li>
+										<a href="<?= WWW ?>controle/control.php?metodo=listarTodos&nomeClasse=AtendidoControle&nextPage=<?= WWW ?>html/atendido/cadastro_ocorrencia.php">
+											<span>Cadastrar Ocorrências</span>
+										</a>
+									</li>
+									<li>
+										<a href="<?= WWW ?>controle/control.php?metodo=listarTodos&nomeClasse=Atendido_ocorrenciaControle&nextPage=<?= WWW ?>html/atendido/listar_ocorrencias_ativas.php">
+											<span>Ocorrências Ativas</span>
+										</a>
+									</li>
+								</ul>
 							</li>
-
-						
-							<li>
-							<a href="<?= WWW ?>controle/control.php?metodo=listarTodos&nomeClasse=AtendidoControle&nextPage=<?= WWW ?>html/atendido/Informacao_Atendido.php">
-									 Informações Atendido
-								</a>
-							</li>
-
-							<li>
-							<a href="<?= WWW ?>controle/control.php?metodo=listarTodos&nomeClasse=AtendidoControle&nextPage=<?= WWW ?>html/atendido/cadastro_ocorrencia.php">
-									 Cadastrar Ocorrência
-								</a>
-							</li>
-
-							<li>
-							<a href="<?= WWW ?>controle/control.php?metodo=listarTodos&nomeClasse=Atendido_ocorrenciaControle&nextPage=<?= WWW ?>html/atendido/listar_ocorrencias_ativas.php">
-									 Ocorrências Ativas
-								</a>
-							</li>
-
 						</ul>
 					</li>
 
