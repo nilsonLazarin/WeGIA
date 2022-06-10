@@ -63,32 +63,88 @@
 		$(function () {
 	      $("#header").load("header.php");
 	      $(".menuu").load("menu.php");
-
 		  $(".category-item").on( "click", function() {
-			$("#category-row").addClass("hidden");
-			$(".back-container").removeClass("hidden");
+			avancarCamada("first", "first", "second", true);
 		});
-		//Quando o back-container for clicado, verifica se está na segunda ou na terceira camada
+
+		//Quando o back-container for clicado, verifica em qual camada está
 		$(".back-container").on( "click", function() {
 			if(document.getElementById("back-container")){
-				$("#category-row").removeClass("hidden");
-				$(".collapse").removeClass("in");
-				$(".back-container").addClass("hidden");
+				voltarCamada("first", 0, 0, true);
 			}
 
-			if(document.getElementsByClassName("back-container-second")){
-				$(".category-row-second").removeClass("hidden");
-				$(".second").removeClass("in");
-				$(".back-container").attr("id", "back-container");
+			if(document.getElementById("back-container-second")){
+				voltarCamada("second", "1", "first", false);
+			}
+
+			if(document.getElementById("back-container-third")){
+				voltarCamada("third", "2", "second", false);
 			}
 		});
 		
 		$(".category-item-second").on("click", function() {
-			$(".category-row-second").addClass("hidden");
-			$(".back-container").attr("id", "back-container-second");
-			$(".category-row-third").removeClass("hidden");
+			avancarCamada("second", "second", "third", false);
 		});
+
+		$(".category-item-third").on("click", function() {
+			avancarCamada("third", "third", "fourth", false);
 		});
+
+		function voltarCamada (numCamada, numRemoveIn, proxBackCont, primCam){
+			//Verifica se será direcionado para a primeira camada (home)
+			if(primCam){
+				$("#category-row").removeClass("hidden");
+				$(".collapse").removeClass("in");
+				$(".back-container").addClass("hidden");
+			}
+			else{
+				//numCamada diz qual será próxima camada
+				camada = ".category-row-"+numCamada;
+				$(camada).removeClass("hidden");
+
+				//numRemoveIn diz qual removeIn deve ser executado
+				if(numRemoveIn !== "1" && numRemoveIn !== 0){
+					removeIn = ".removeIn-"+numRemoveIn;
+					$(removeIn).removeClass("in");
+				}
+				else{
+					$(".removeIn").removeClass("in");
+				}
+				//proxBackCont diz qual deve ser o próximo id do back container
+				if(proxBackCont != "first" && proxBackCont != 0){
+					backContainer = "back-container-"+proxBackCont;
+					$(".back-container").attr("id", backContainer);	
+				}
+				else{
+					$(".back-container").attr("id", "back-container");
+				}
+			}
+		}
+
+		function avancarCamada (rowAtual, proxBackCont, proximaRow, primIcon){
+			//primIcon verifica se o ícone é da primeira camada (home)
+			if(primIcon){
+				$("#category-row").addClass("hidden");
+				$(".back-container").removeClass("hidden");
+			}
+			else{
+				//esconde a row atual
+				atual = ".category-row-"+rowAtual;
+				$(atual).addClass("hidden");
+
+				//muda o id do back-container
+				proxBC = "back-container-"+proxBackCont;
+				$(".back-container").attr("id", proxBC);
+
+				//faz aparecer a próxima row
+				proxima = ".category-row-"+proximaRow;
+				$(proxima).removeClass("hidden");
+			}
+		}
+		/*Exemplo sobre as camadas: o usuário está na home e clica no botão de pessoas. Os botões
+		que aparecerem em seguida farão parte da segunda camada (category-row-second). Caso o usuário clique em outro
+		botão que não seja um link para outra página, ele irá para a terceira camada (category-row-third).*/
+	});
 	</script>
 	<script>
 
@@ -220,6 +276,368 @@
 				</div>
 				
 				<hr class="mobile-only">
+				
+
+
+				<!--Parte interna de #pessoas-->
+				<div class="row category-row-second">
+					<div id="pessoas" class="collapse">
+						<a href="#">
+							<div class="col-lg-2 col-md-8 i category-item-second" data-toggle="collapse" href="#funcionarios">
+								<i class="fa fa-briefcase"></i>
+								<h4>Funcionários</h4>
+							</div>
+						</a>
+						<a href="#">
+							<div class="col-lg-2 col-md-8 i category-item-second" data-toggle="collapse" href="#atendidos">
+								<i class="fa fa-user"></i>
+								<h4>Atendidos</h4>
+							</div>
+						</a>
+						<a href="#">
+							<div class="col-lg-2 col-md-8 i category-item-second" data-toggle="collapse" href="#ocorrencias">
+								<i class="fas fa-address-book"></i>
+								<h4>Ocorrências</h4>
+							</div>
+						</a>
+					</div>
+				</div>
+
+				<div class="row category-row-third">
+					<div  id="funcionarios" class="removeIn collapse">
+						<a href="../html/funcionario/pre_cadastro_funcionario.php">	
+							<div class="col-lg-2 col-md-8 i">
+								<i  class="fa fa-address-book"></i>
+								<h4>Cadastrar Funcionário</h4>
+							</div>
+						</a>
+						<a href="../controle/control.php?metodo=listarTodos&nomeClasse=FuncionarioControle&nextPage=../html/funcionario/informacao_funcionario.php">	
+							<div class="col-lg-2 col-md-8 i">
+								<i  class="far fa-address-card"></i>
+								<h4>Informações Funcionários</h4>
+							</div>
+						</a>
+					</div>
+				</div>
+
+				<div class="row category-row-third">
+					<div  id="atendidos" class="removeIn collapse">
+						<a href="../html/atendido/pre_cadastro_atendido.php">	
+							<div class="col-lg-2 col-md-8 i">
+								<i  class="fa fa-address-book"></i>
+								<h4>Cadastrar Atendido</h4>
+							</div>
+						</a>
+						<a href="../controle/control.php?metodo=listarTodos&nomeClasse=AtendidoControle&nextPage=../html/atendido/Informacao_Atendido.php">
+							<div class="col-lg-2 col-md-8 i">
+								<form id="listarAtendido" method="POST" action="../controle/control.php">
+									<i  class="far fa-address-card" id="listarAtendido"></i>
+									<h4>Informações Atendidos</h4>
+								</form>
+							</div>
+						</a>
+					</div>
+				</div>
+
+				<div class="row category-row-third">
+					<div  id="ocorrencias" class="removeIn collapse">
+					<a href="../controle/control.php?metodo=listarTodos&nomeClasse=AtendidoControle&nextPage=../html/atendido/cadastro_ocorrencia.php">
+							<div class="col-lg-2 col-md-8 i">
+								<form id="listarAtendido" method="POST" action="../controle/control.php">
+									<i  class="fa fa-address-book" id="listarAtendido"></i>
+									<h4>Cadastrar Ocorrência</h4>
+								</form>
+							</div>
+						</a>
+						<a href="../controle/control.php?metodo=listarTodos&nomeClasse=AtendidoControle&nextPage=../html/atendido/listar_ocorrencias_ativas.php">
+							<div class="col-lg-2 col-md-8 i">
+								<form id="listarAtendido" method="POST" action="../controle/control.php">
+									<i  class="far fa-address-card" id="listarAtendido"></i>
+									<h4>Ocorrências Ativas</h4>
+								</form>
+							</div>
+						</a>
+					</div>
+				</div>
+				<!--fim da parte interna de #pessoas-->
+
+				<!--parte interna de #pet-->
+				<div class="row category-row-second">
+					<div id="pet" class="collapse">
+						<a href="../html/pet/cadastro_pet.php">
+							<div class="col-lg-2 col-md-8 i">
+								<i  class="fa fa-paw"></i>
+								<h4>Cadastrar Pet</h4>
+							</div>
+						</a>
+						<a href="#">
+							<div class="col-lg-2 col-md-8 i category-item-second" data-toggle="collapse" href="#saudePet">
+								<i class="fa fa-ambulance"></i>
+								<h4>Saúde Pet</h4>
+							</div>
+						</a>
+					</div>
+				</div>
+
+				<div class="row category-row-third">
+					<div  id="saudePet" class="removeIn collapse">
+						<a href="../html/pet/cadastro_ficha_medica_pet.php">	
+							<div class="col-lg-2 col-md-8 i">
+								<i  class="fa fa-address-book"></i>
+								<h4>Cadastrar Ficha Médica Pet</h4>
+							</div>
+						</a>
+					</div>
+				</div>
+				<!--fim da parte interna de #pet-->
+
+				<!--Parte interna de #material-->
+				<div class="row category-row-second">
+					<div  id="material" class="collapse">
+						<a href="#">
+							<div class="col-lg-2 col-md-8 i category-item-second" data-toggle="collapse" href="#entrada">
+								<i class="fas fa-clipboard"></i>
+								<h4>Entrada</h4>
+							</div>
+						</a>
+						<a href="#">
+							<div class="col-lg-2 col-md-8 i category-item-second" data-toggle="collapse" href="#saida">
+								<i class="fas fa-clipboard"></i>
+								<h4>Saída</h4>
+							</div>
+						</a>
+						<a href="#">
+							<div class="col-lg-2 col-md-8 i category-item-second" data-toggle="collapse" href="#estoque">
+								<i class="fa fa-boxes"></i>
+								<h4>Estoque</h4>
+							</div>
+						</a>
+					</div>
+				</div>
+
+
+				<div class="row category-row-third">
+					<div  id="entrada" class="removeIn collapse">
+						<a href="../html/cadastro_entrada.php">	
+							<div class="col-lg-2 col-md-8 i">
+								<i  class="far fa-clipboard"></i>
+								<h4>Registrar Entrada</h4>
+							</div>
+						</a>
+						<a href="../html/listar_entrada.php">
+							<div class="col-lg-2 col-md-8 i">
+								<i  class="fa fa-barcode"></i>
+								<h4>Informações Entradas</h4>
+							</div>
+						</a>
+					</div>
+				</div>
+				
+				<div class="row category-row-third">
+					<div  id="saida" class="removeIn collapse">
+						<a href="../html/cadastro_saida.php">	
+							<div class="col-lg-2 col-md-8 i">
+								<i  class="far fa-clipboard"></i>
+								<h4>Registrar Saída</h4>
+							</div>
+						</a>
+						<a href="../html/listar_saida.php">
+							<div class="col-lg-2 col-md-8 i">
+								<i  class="fa fa-barcode"></i>
+								<h4>Informações Saídas</h4>
+							</div>
+						</a>
+					</div>
+				</div>
+				
+				<div class="row category-row-third">
+					<div  id="estoque" class="removeIn collapse">
+						<a href="../html/relatorio.php">
+							<div class="col-lg-2 col-md-8 i">
+								<i  class="far fa-clipboard"></i>
+								<h4>Gerar Relatório</h4>
+							</div>
+						</a>
+						<a href="#">
+							<div class="col-lg-2 col-md-8 i category-item-third" data-toggle="collapse" href="#produtos">
+								<i class="fa fa-box"></i>
+								<h4>Produtos</h4>
+							</div>
+						</a>
+						<a href="#">
+							<div class="col-lg-2 col-md-8 i category-item-third" data-toggle="collapse" href="#almoxarifados">
+								<i class="fa fa-warehouse"></i>
+								<h4>Almoxarifados</h4>
+							</div>
+						</a>
+					</div>
+				</div>
+
+				<div class="row category-row-fourth">
+					<div  id="produtos" class="removeIn-2 collapse">
+						<a href="../html/cadastro_produto.php">
+							<div class="col-lg-2 col-md-8 i">
+								<i class="fa fa-barcode"></i>
+								<h4>Cadastrar Produto</h4>
+							</div>
+						</a>
+					</div>
+				</div>
+
+				<div class="row category-row-fourth">
+					<div  id="almoxarifados" class="removeIn-2 collapse">
+						<a href="../html/adicionar_almoxarifado.php">
+							<div class="col-lg-2 col-md-8 i">
+								<i  class="far fa-clipboard"></i>
+								<h4>Adicionar Almoxarifado</h4>
+							</div>
+						</a>
+						<a href="../html/listar_almox.php">
+							<div class="col-lg-2 col-md-8 i">
+								<i  class="fa fa-clipboard-list"></i>
+								<h4>Listar Almoxarifados</h4>
+							</div>
+						</a>
+					</div>
+				</div>
+				<!--fim da parte interna de #material-->
+
+				<!--parte interna de memorando-->
+				<div class="row">
+					<div id="memorando" class="collapse">
+						<a href="../html/memorando/listar_memorandos_ativos.php">	
+							<div class="col-lg-2 col-md-8 i">
+								<i  class="fa fa-envelope"></i>
+								<h4>Caixa de Entrada</h4>
+
+
+							</div>
+						</a>
+						<a href="../html/memorando/novo_memorandoo.php">	
+							<div class="col-lg-2 col-md-8 i">
+								<i  class="fa fa-edit"></i>
+								<h4>Novo Memorando</h4>
+							</div>
+						</a>
+
+
+						<a href="../html/memorando/listar_memorandos_antigos.php">	
+							<div class="col-lg-2 col-md-8 i">
+								<i  class="fa fa-mail-forward"></i>
+								<h4>Memorandos despachados</h4>
+							</div>
+						</a>
+					</div>
+				</div>
+				<!--fim da parte interna de memorando-->
+
+				<!--parte interna de #socios-->
+				<div class="row category-row-second">
+					<div id="socios" class="collapse">
+						<a href="../html/socio/sistema/">
+							<div class="col-lg-2 col-md-8 i">
+								<i  class="fa fa-users"></i>
+								<h4>Listar Sócios</h4>
+							</div>
+						</a>
+						<a href="../html/socio/sistema/relatorios_socios.php">	
+							<div class="col-lg-2 col-md-8 i">
+								<i  class="far fa-clipboard"></i>
+								<h4>Relatórios</h4>
+							</div>
+						</a>
+						<a href="#">
+							<div class="col-lg-2 col-md-8 i category-item-second" data-toggle="collapse" href="#cobrancas">
+								<i class="fa fa-money-bill"></i>
+								<h4>Cobranças</h4>
+							</div>
+						</a>
+						<a href="#">
+							<div class="col-lg-2 col-md-8 i category-item-second" data-toggle="collapse" href="#extra">
+								<i class="far fa-plus-square"></i>
+								<h4>Extra</h4>
+							</div>
+						</a>
+					</div>
+				</div>
+				
+				<div class="row category-row-third">
+					<div  id="cobrancas" class="removeIn collapse">
+						<a href="../html/socio/sistema/cobrancas.php">
+							<div class="col-lg-2 col-md-8 i">
+								<i  class="far fa-chart-bar"></i>
+								<h4>Controle Cobranças</h4>
+							</div>
+						</a>
+						<a href="../html/socio/sistema/psocio_geracao.php">	
+							<div class="col-lg-2 col-md-8 i">
+								<i  class="fas fa-hand-holding-usd"></i>
+								<h4>Gerar Boleto</h4>
+							</div>
+						</a>
+					</div>
+				</div>
+				<div class="row category-row-third">
+					<div  id="extra" class="removeIn collapse">
+						<a href="../html/socio/sistema/tags.php">	
+							<div class="col-lg-2 col-md-8 i">
+								<i  class="fa fa-tag"></i>
+								<h4>Tags (grupos)</h4>
+							</div>
+						</a>
+					</div>
+				</div>
+				<!--fim da parte interna de #socios-->
+
+				<!--parte interna de #saude-->
+				<div class="row category-row-second">
+					<div  id="saude" class="collapse" >
+						<a href="#">
+							<div class="col-lg-2 col-md-8 i category-item-second" data-toggle="collapse" href="#paciente">
+								<i class="fa fa-user"></i>
+								<h4>Paciente</h4>
+							</div>
+						</a>
+						<a href="#">
+							<div class="col-lg-2 col-md-8 i category-item-second" data-toggle="collapse" href="#enfermaria">
+								<i class="fa fa-user-md"></i>
+								<h4>Enfermaria</h4>
+							</div>
+						</a>
+					</div>
+				</div>
+				
+				<div class="row category-row-third">
+					<div  id="paciente" class="removeIn collapse">
+						<a href="../html/saude/cadastro_ficha_medica.php">	
+							<div class="col-lg-2 col-md-8 i">
+								<i  class="fa fa-address-book"></i>
+								<h4>Cadastrar Ficha Médica</h4>
+							</div>
+						</a>
+						<a href="../html/saude/informacao_saude.php">	
+							<div class="col-lg-2 col-md-8 i">
+								<i  class="far fa-address-card"></i>
+								<h4>Informações Pacientes</h4>
+							</div>
+						</a>
+					</div>
+				</div>
+				
+				<div class="row category-row-third">
+					<div  id="enfermaria" class="removeIn collapse">
+						<a href="../html/saude/administrar_medicamento.php">	
+							<div class="col-lg-2 col-md-8 i">
+								<i  class="fa fa-pills"></i>
+								<h4>Administrar Medicamentos</h4>
+							</div>
+						</a>
+					</div>
+				</div>		
+
+				<!--fim da parte interna de #saude-->
+
+				<!--parte interna de #configuracao-->
 				<div class="row">
 					<div  id="configuracao" class="collapse">
 						<a href="../html/personalizacao.php">
@@ -251,300 +669,10 @@
 								<i  class="fa fa-key"></i>
 								<h4>Permissões</h4>
 							</div>
-						</a>
-
-					
+						</a>					
 					</div>
 				</div>
-
-				<div class="row ">
-					<div  id="saude" class="collapse" >
-						<a href="../html/saude/cadastro_ficha_medica.php">
-							<div class="col-lg-2 col-md-8 i" >
-								<i  class="far fa-address-book"></i>
-								<h4>Cadastro ficha médica</h4>
-							</div>
-						</a>	
-						<a href="../html/saude/informacao_saude.php">
-							<div class="col-lg-2 col-md-8 i" >
-								<i  class="far fa-address-card"></i>
-								<h4>Informações paciente</h4>
-							</div>
-						</a>
-						<a href="../html/saude/administrar_medicamento.php">
-							<div class="col-lg-2 col-md-8 i" >
-								<i  class="fa fa-pills"></i>
-								<h4>Administrar medicamentos</h4>
-							</div>
-						</a>			
-					</div>
-				</div>
-
-				<!--Parte interna de #pessoas-->
-				<div class="row category-row-second">
-					<div id="pessoas" class="collapse">
-						<a href="#">
-							<div class="col-lg-2 col-md-8 i category-item-second" data-toggle="collapse" href="#funcionarios">
-								<i class="fa fa-briefcase"></i>
-								<h4>Funcionários</h4>
-							</div>
-						</a>
-						<a href="#">
-							<div class="col-lg-2 col-md-8 i category-item-second" data-toggle="collapse" href="#atendidos">
-								<i class="fa fa-user"></i>
-								<h4>Atendidos</h4>
-							</div>
-						</a>
-						<a href="#">
-							<div class="col-lg-2 col-md-8 i category-item-second" data-toggle="collapse" href="#ocorrencias">
-								<i class="fas fa-address-book"></i>
-								<h4>Ocorrências</h4>
-							</div>
-						</a>
-					</div>
-				</div>
-
-				<div class="row category-row-third">
-					<div  id="funcionarios" class="second collapse">
-						<a href="../html/funcionario/pre_cadastro_funcionario.php">	
-							<div class="col-lg-2 col-md-8 i">
-								<i  class="fa fa-address-book"></i>
-								<h4>Cadastro Funcionário</h4>
-							</div>
-						</a>
-						<a href="../controle/control.php?metodo=listarTodos&nomeClasse=FuncionarioControle&nextPage=../html/funcionario/informacao_funcionario.php">	
-							<div class="col-lg-2 col-md-8 i">
-								<i  class="far fa-address-card"></i>
-								<h4>Informações Funcionários</h4>
-							</div>
-						</a>
-					</div>
-				</div>
-
-				<div class="row category-row-third">
-					<div  id="atendidos" class="second collapse">
-						<a href="../html/atendido/pre_cadastro_atendido.php">	
-							<div class="col-lg-2 col-md-8 i">
-								<i  class="fa fa-address-book"></i>
-								<h4>Cadastro Atendido</h4>
-							</div>
-						</a>
-						<a href="../controle/control.php?metodo=listarTodos&nomeClasse=AtendidoControle&nextPage=../html/atendido/Informacao_Atendido.php">
-							<div class="col-lg-2 col-md-8 i">
-								<form id="listarAtendido" method="POST" action="../controle/control.php">
-									<i  class="far fa-address-card" id="listarAtendido"></i>
-									<h4>Informações Atendidos</h4>
-								</form>
-							</div>
-						</a>
-					</div>
-				</div>
-				<div class="row category-row-third">
-					<div  id="ocorrencias" class="second collapse">
-					<a href="../controle/control.php?metodo=listarTodos&nomeClasse=AtendidoControle&nextPage=../html/atendido/cadastro_ocorrencia.php">
-							<div class="col-lg-2 col-md-8 i">
-								<form id="listarAtendido" method="POST" action="../controle/control.php">
-									<i  class="fa fa-address-book" id="listarAtendido"></i>
-									<h4>Cadastrar Ocorrência</h4>
-								</form>
-							</div>
-						</a>
-						<a href="../controle/control.php?metodo=listarTodos&nomeClasse=AtendidoControle&nextPage=../html/atendido/listar_ocorrencias_ativas.php">
-							<div class="col-lg-2 col-md-8 i">
-								<form id="listarAtendido" method="POST" action="../controle/control.php">
-									<i  class="far fa-address-card" id="listarAtendido"></i>
-									<h4>Ocorrências Ativas</h4>
-								</form>
-							</div>
-						</a>
-					</div>
-				</div>
-
-
-
-				<div class="row category-row-second">
-					<div id="pet" class="collapse">
-						<a href="../html/pet/cadastro_pet.php">
-							<div class="col-lg-2 col-md-8 i">
-								<i  class="fa fa-paw"></i>
-								<h4>Cadastrar Pet</h4>
-							</div>
-						</a>
-						<a href="#">
-							<div class="col-lg-2 col-md-8 i category-item-second" data-toggle="collapse" href="#saudePet">
-								<i class="fa fa-ambulance"></i>
-								<h4>Saúde Pet</h4>
-							</div>
-						</a>
-					</div>
-				</div>
-
-				<div class="row category-row-third">
-					<div  id="saudePet" class="second collapse">
-						<a href="../html/pet/cadastro_ficha_medica_pet.php">	
-							<div class="col-lg-2 col-md-8 i">
-								<i  class="fa fa-address-book"></i>
-								<h4>Cadastro Ficha Médica Pet</h4>
-							</div>
-						</a>
-					</div>
-				</div>
-
-				<div class="row">
-					<div  id="material" class="collapse">
-						<a href="../html/cadastro_entrada.php">	
-							<div class="col-lg-2 col-md-8 i">
-								<i  class="far fa-clipboard"></i>
-								<h4>Entrada</h4>
-							</div>
-						</a>
-
-						<a href="../html/cadastro_saida.php">	
-							<div class="col-lg-2 col-md-8 i">
-								<i  class="far fa-clipboard"></i>
-								<h4>Saida</h4>
-							</div>
-						</a>
-						
-						<a href="../html/estoque.php">	
-							<div class="col-lg-2 col-md-8 i">
-								<i  class="fa fa-barcode"></i>
-								<h4>Estoque</h4>
-							</div>
-						</a>	
-						
-						<a href="../html/listar_almox.php">	
-							<div class="col-lg-2 col-md-8 i">
-								<i  class="fa fa-barcode"></i>
-								<h4>Almoxarifados</h4>
-							</div>
-						</a>
-						
-						<a href="../html/cadastro_produto.php">	
-							<div class="col-lg-2 col-md-8 i">
-								<i  class="far fa-clipboard"></i>
-								<h4>Produtos</h4>
-							</div>
-						</a>
-
-						<a href="../html/relatorio.php">	
-							<div class="col-lg-2 col-md-8 i">
-								<i  class="far fa-clipboard"></i>
-								<h4>Relatórios</h4>
-							</div>
-						</a>
-						
-						<a href="../html/listar_entrada.php">
-							<div class="col-lg-2 col-md-8 i">
-								<i  class="fa fa-barcode"></i>
-								<h4>Informação entrada</h4>
-							</div>
-						</a>
-						
-						<a href="../html/listar_saida.php">
-							<div class="col-lg-2 col-lg-offset-1 col-md-8 i">
-								<i  class="fa fa-barcode"></i>
-								<h4>Informação saida</h4>
-							</div>
-						</a>
-					
-						<a href="../html/adicionar_almoxarifado.php">	
-							<div class="col-lg-2 col-md-8 i">
-								<i  class="far fa-clipboard"></i>
-								<h4>Adicionar Almoxarifado</h4>
-							</div>
-						</a>
-					</div>
-				</div>
-
-
-				<div class="row">
-					<div id="memorando" class="collapse">
-						<a href="../html/memorando/listar_memorandos_ativos.php">	
-							<div class="col-lg-2 col-md-8 i">
-								<i  class="fa fa-envelope"></i>
-								<h4>Caixa de Entrada</h4>
-
-
-							</div>
-						</a>
-						<a href="../html/memorando/novo_memorandoo.php">	
-							<div class="col-lg-2 col-md-8 i">
-								<i  class="fa fa-edit"></i>
-								<h4>Novo Memorando</h4>
-							</div>
-						</a>
-
-
-						<a href="../html/memorando/listar_memorandos_antigos.php">	
-							<div class="col-lg-2 col-md-8 i">
-								<i  class="fa fa-mail-forward"></i>
-								<h4>Memorandos despachados</h4>
-							</div>
-						</a>
-					</div>
-				</div>
-
-				<div class="row">
-					<div id="socios" class="collapse">
-						<a href="../html/socio/sistema/">	
-							<div class="col-lg-2 col-md-8 i">
-								<i  class="fa fa-users"></i>
-								<h4>Listar Sócios</h4>
-							</div>
-						</a>
-
-						<a href="../html/socio/sistema/psocio_geracao.php">	
-							<div class="col-lg-2 col-md-8 i">
-							<i class="fas fa-hand-holding-usd"></i>
-								<h4>Gerar Boleto</h4>
-							</div>
-						</a>
-
-						<a href="../html/socio/sistema/relatorios_socios.php">	
-							<div class="col-lg-2 col-md-8 i">
-								<i  class="far fa-clipboard"></i>
-								<h4>Relatórios</h4>
-							</div>
-						</a>
-
-						<a href="../html/socio/sistema/cobrancas.php">	
-							<div class="col-lg-2 col-md-8 i">
-							<i class="fas fa-chart-bar"></i>
-								<h4>Cobranças</h4>
-							</div>
-						</a>
-					</div>
-				</div>
-				<!--
-				<div class="row">
-					<a href="">
-						<div class="col-lg-2 col-md-8 i">
-								<i class="fas fa-dollar-sign"></i>
-							<h4>Cadastrar Funcionário</h4>
-						</div>
-					</a>
-					
-					<a href="">
-						<div class="col-lg-2 col-md-8 i">
-							<i  class="far fa-address-card"></i>
-							<h4>Cadastrar cargo</h4>
-						</div>
-					</a>
-					
-					<a href="">
-						<div class="col-lg-2 col-md-8 i">
-							<i class="far fa-calendar-alt"></i>
-							<h4>Cadastrar Eventos</h4>
-						</div>
-					</a>
-					<a href="">
-						<div class="col-lg-2 col-lg-offset-1 col-md-8 i">
-							<i class="far fa-folder-open"></i>
-							<h4>Gerenciar Documentação</h4>
-						</div>
-					</a>
-				</div><br>-->
+				<!--fim da parte interna de #configuracao-->
 			<!-- end: page -->
 			</section>
 		</div>

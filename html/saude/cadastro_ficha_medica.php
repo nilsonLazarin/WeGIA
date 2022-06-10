@@ -149,7 +149,7 @@ require_once ROOT."/html/personalizacao_display.php";
     <link rel="stylesheet" href="<?php echo WWW;?>assets/vendor/magnific-popup/magnific-popup.css" />
     <link rel="stylesheet" href="<?php echo WWW;?>assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
     <link rel="icon" href="<?php display_campo("Logo",'file');?>" type="image/x-icon" id="logo-icon">
-
+ 
     <!-- Specific Page Vendor CSS -->
     <link rel="stylesheet" href="<?php echo WWW;?>assets/vendor/select2/select2.css" />
     <link rel="stylesheet" href="<?php echo WWW;?>assets/vendor/jquery-datatables-bs3/assets/css/datatables.css" />
@@ -280,7 +280,7 @@ require_once ROOT."/html/personalizacao_display.php";
                     <div class="right-wrapper pull-right">
                         <ol class="breadcrumbs">
                             <li>
-                                <a href="home.php">
+                                <a href="../home.php">
                                     <i class="fa fa-home"></i>
                                 </a>
                             </li>

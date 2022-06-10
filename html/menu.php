@@ -31,7 +31,7 @@
 							<span>Início</span>
 						</a>
 					</li>
-					
+
 					<li class="nav-parent nav-active" id="1">
 						<a>
 							<i class="far fa-address-book"></i>
@@ -130,6 +130,99 @@
 							<i class="fa fa-copy" aria-hidden="true"></i>
 							<span>Material e Patrimônio</span>
 						</a>
+
+						<ul class="nav nav-children">
+							<li class="nav-parent nav-active" id="21">
+								<a>
+									<i class="far fa-clipboard" aria-hidden="true"></i>
+									<span>Entrada</span>
+								</a>
+							
+								<ul class="nav nav-children">
+									<li>
+										<a href="<?= WWW ?>html/cadastro_entrada.php">
+											<span>Registrar Entrada</span>
+										</a>
+									</li>
+									<li>
+										<a href="<?= WWW ?>html/listar_entrada.php">
+											<span>Informações de Entradas</span>
+										</a>
+									</li>
+								</ul>
+							</li>
+
+							<li class="nav-parent nav-active" id="22">
+								<a>
+									<i class="far fa-clipboard" aria-hidden="true"></i>
+									<span>Saída</span>
+								</a>
+							
+								<ul class="nav nav-children">
+									<li>
+										<a href="<?= WWW ?>html/cadastro_saida.php">
+											<span>Registrar Saída</span>
+										</a>
+									</li>
+									<li>
+										<a href="<?= WWW ?>html/listar_saida.php">
+											<span>Informações de Saídas</span>
+										</a>
+									</li>
+								</ul>
+							</li>
+
+							<li class="nav-parent nav-active" id="23">
+								<a>
+									<i class="fa fa-boxes" aria-hidden="true"></i>
+									<span>Estoque</span>
+								</a>
+							
+								<ul class="nav nav-children">
+									<li>
+										<a href="<?= WWW ?>html/relatorio.php">
+											<i class="fa fa-clipboard"></i>
+											<span>Gerar Relatório</span>
+										</a>
+									</li>
+									<li class="nav-parent nav-active" id="24">
+										<a>
+											<i class="fa fa-box" aria-hidden="true"></i>
+											<span>Produtos</span>
+										</a>
+										<ul class="nav nav-children">
+											<li>
+												<a href="<?= WWW ?>html/cadastro_produto.php">
+													<span>Cadastrar Produto</span>
+												</a>
+											</li>
+										</ul>
+									</li>
+									<li class="nav-parent nav-active" id="25">
+										<a>
+											<i class="fa fa-warehouse" aria-hidden="true"></i>
+											<span>Almoxarifados</span>
+										</a>
+										<ul class="nav nav-children">
+											<li>
+												<a href="<?= WWW ?>html/adicionar_almoxarifado.php">
+													<span>Adicionar Almoxarifado</span>
+												</a>
+											</li>
+											<li>
+												<a href="<?= WWW ?>html/listar_almox.php">
+													<span>Listar Almoxarifados</span>
+												</a>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+						</li>
+					</ul>
+					
+
+						<!--
 						<ul class="nav nav-children">
 							<li id="23">
 								<a href="<?= WWW ?>html/cadastro_entrada.php">
@@ -177,6 +270,7 @@
 								</a>
 							</li>
 						</ul>
+-->
 					</li>
 					<li class="nav-parent nav-active">
 						<a>
@@ -204,6 +298,7 @@
 							</li>
 						</ul>
 					</li>
+					
 					<li class="nav-parent nav-active">
 						<a>
 							<i class="fa fa-users" aria-hidden="true"></i>
@@ -212,20 +307,45 @@
 						<ul class="nav nav-children">
 							<li id="31">
 								<a href="<?= WWW ?>html/socio/">
-									 Lista de sócios
-								</a>
-								<a href="<?= WWW ?>html/socio/sistema/psocio_geracao.php">
-									 Gerar carnê/boleto para sócio
-								</a>
-								<a href="<?= WWW ?>html/socio/sistema/cobrancas.php">
-									 Cobranças
-								</a>
-								<a href="<?= WWW ?>html/socio/sistema/tags.php">
-									 Tags (grupos)
+									<i class="fa fa-users"></i>
+									<span>Lista de Sócios</span>
 								</a>
 								<a href="<?= WWW ?>html/socio/sistema/relatorios_socios.php">
-									 Relatórios Sócios
+									<i class="fa fa-clipboard"></i>
+									<span>Relatórios Sócios</span>
 								</a>
+							</li>
+							<li class="nav-parent nav-active" id="32">
+								<a>
+									<i class="fa fa-money-bill" aria-hidden="true"></i>
+									<span>Cobranças</span>
+								</a>
+							
+								<ul class="nav nav-children">
+									<li>
+										<a href="<?= WWW ?>html/socio/sistema/psocio_geracao.php">
+											<span>Gerar carnê/boleto para sócio</span>
+										</a>
+									</li>
+									<li>
+										<a href="<?= WWW ?>html/socio/sistema/cobrancas.php">
+											<span>Controle de Cobranças</span>
+										</a>
+									</li>
+								</ul>
+							</li>
+							<li class="nav-parent nav-active" id="33">
+								<a>
+									<i class="far fa-plus-square" aria-hidden="true"></i>
+									<span>Extra</span>
+								</a>
+								<ul class="nav nav-children">
+									<li>
+										<a href="<?= WWW ?>html/socio/sistema/tags.php">
+											<span>Tags</span>
+										</a>
+									</li>
+								</ul>
 							</li>
 						</ul>
 					</li>
