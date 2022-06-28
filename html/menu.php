@@ -108,7 +108,7 @@
 									<span>Cadastrar Pet</span>
 								</a>
 							</li>
-							<li class="nav-parent nav-active" id="7">
+							<li class="nav-parent nav-active" id="61">
 								<a>
 									<i class="fa fa-ambulance" aria-hidden="true"></i>
 									<span>Saúde Pet</span>
@@ -220,57 +220,7 @@
 							</li>
 						</li>
 					</ul>
-					
 
-						<!--
-						<ul class="nav nav-children">
-							<li id="23">
-								<a href="<?= WWW ?>html/cadastro_entrada.php">
-									Entrada
-								</a>
-							</li>
-							<li id="25">
-								<a href="<?= WWW ?>html/cadastro_saida.php">
-									Saida
-								</a>
-							</li>
-							<li id="24">
-								<a href="<?= WWW ?>html/estoque.php">
-									Estoque
-								</a>
-							</li>
-							<li id="21">
-								<a href="<?= WWW ?>html/listar_almox.php">
-									Almoxarifados
-								</a>
-							</li>
-							<li id="22">
-								<a href="<?= WWW ?>html/cadastro_produto.php">
-									Produtos
-								</a>
-							</li>
-							<li id="26">
-								<a href="<?= WWW ?>html/relatorio.php">
-									Relatórios
-								</a>
-							</li>
-							<li id="21">
-								<a href="<?= WWW ?>html/listar_entrada.php">
-									Informações Entrada
-								</a>
-							</li>
-							<li id="22">
-								<a href="<?= WWW ?>html/listar_saida.php">
-									Informações Saída
-								</a>
-							</li>
-							<li id="26">
-								<a href="<?= WWW ?>html/adicionar_almoxarifado.php">
-									Adicionar Almoxarifado
-								</a>
-							</li>
-						</ul>
--->
 					</li>
 					<li class="nav-parent nav-active">
 						<a>
@@ -349,25 +299,49 @@
 							</li>
 						</ul>
 					</li>
-					<li class="nav-parent nav-active">
+
+					<li class="nav-parent nav-active" id="4">
 						<a>
 							<i class="fa fa-hospital" aria-hidden="true"></i>
 							<span>Saúde</span>
 						</a>
+
 						<ul class="nav nav-children">
-							<li id="31">
-								<a href="<?= WWW ?>html/saude/cadastro_ficha_medica.php">
-									 Criar ficha médica
+							<li class="nav-parent nav-active" id="41">
+								<a>
+									<i class="fa fa-user" aria-hidden="true"></i>
+									<span>Paciente</span>
 								</a>
-								<a href="<?= WWW ?>html/saude/informacao_saude.php">
-									 Ficha do paciente
+								<ul class="nav nav-children">
+									<li>
+										<a href="<?= WWW ?>html/saude/cadastro_ficha_medica.php">
+											<span>Cadastrar Ficha Médica</span>
+										</a>
+									</li>
+									<li>
+										<a href="<?= WWW ?>html/saude/informacao_saude.php">
+											<span>Informações Pacientes</span>
+										</a>
+									</li>
+								</ul>
+							</li>
+
+							<li class="nav-parent nav-active" id="42">
+								<a>
+									<i class="fa fa-user-md" aria-hidden="true"></i>
+									<span>Enfermaria</span>
 								</a>
-								<a href="<?= WWW ?>html/saude/administrar_medicamento.php">
-									 Administrar medicamento
-								</a>
+								<ul class="nav nav-children">
+									<li>
+										<a href="<?= WWW ?>html/saude/administrar_medicamento.php">
+											<span>Administrar Medicamentos</span>
+										</a>
+									</li>
+								</ul>
 							</li>
 						</ul>
 					</li>
+
 					<li class="nav-parent nav-active">
 						<a>
 							<i class="fa fa-cog" aria-hidden="true"></i>
