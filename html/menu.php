@@ -134,7 +134,7 @@
 						<ul class="nav nav-children">
 							<li class="nav-parent nav-active" id="21">
 								<a>
-									<i class="far fa-clipboard" aria-hidden="true"></i>
+									<i class="fas fa-circle-arrow-down" aria-hidden="true"></i>
 									<span>Entrada</span>
 								</a>
 							
@@ -154,7 +154,7 @@
 
 							<li class="nav-parent nav-active" id="22">
 								<a>
-									<i class="far fa-clipboard" aria-hidden="true"></i>
+									<i class="fas fa-circle-arrow-up" aria-hidden="true"></i>
 									<span>Saída</span>
 								</a>
 							
@@ -302,7 +302,7 @@
 
 					<li class="nav-parent nav-active" id="4">
 						<a>
-							<i class="fa fa-hospital" aria-hidden="true"></i>
+							<i class="fa fa-hospital-user" aria-hidden="true"></i>
 							<span>Saúde</span>
 						</a>
 

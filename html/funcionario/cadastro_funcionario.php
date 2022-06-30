@@ -78,8 +78,7 @@ require_once "../personalizacao_display.php";
   <!-- Vendor CSS -->
   <link rel="stylesheet" href="../../assets/vendor/bootstrap/css/bootstrap.css" />
   <link rel="stylesheet" href="../../assets/vendor/font-awesome/css/font-awesome.css" />
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
-  <link rel="stylesheet" href="../../assets/vendor/magnific-popup/magnific-popup.css" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.1.1/css/all.css">
   <link rel="stylesheet" href="../../assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
 <link rel="icon" href="<?php display_campo("Logo",'file');?>" type="image/x-icon">
 
@@ -770,8 +769,7 @@ require_once "../personalizacao_display.php";
   <script src="../../assets/vendor/bootstrap/js/bootstrap.js"></script>
   <script src="../../assets/vendor/nanoscroller/nanoscroller.js"></script>
   <script src="../../assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-  <script src="../../assets/veVoltar
-ndor/magnific-popup/magnific-popup.js"></script>
+  <script src="../../assets/vendor/magnific-popup/magnific-popup.js"></script>
   <script src="../../assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
 
   <!-- img form -->

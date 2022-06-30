@@ -54,7 +54,7 @@
 
 	<!-- Head Libs -->
 	<script src="../assets/vendor/modernizr/modernizr.js"></script>
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.1.1/css/all.css">
 		
 	<!-- Vendor -->
 	<script src="../assets/vendor/jquery/jquery.min.js"></script>

@@ -30,7 +30,7 @@
 	<!-- Vendor CSS -->
 	<link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css" />
 	<link rel="stylesheet" href="../assets/vendor/font-awesome/css/font-awesome.css" />
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.1.1/css/all.css"><!--integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">-->
 	<link rel="stylesheet" href="../assets/vendor/magnific-popup/magnific-popup.css" />
 	<link rel="stylesheet" href="../assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
 
@@ -216,7 +216,7 @@
 				?>
 					<a href="#">
 						<div class="col-lg-2 col-md-8 i category-item" data-toggle="collapse" href="#pessoas" >
-							<i  class="far fa-address-book"></i>
+							<i class="far fa-address-book"></i>
 							<h4>Pessoas</h4>
 						</div>
 					</a>
@@ -254,7 +254,7 @@
 
 					<a href="#">
 					<div class="col-lg-2 col-md-8 i category-item" data-toggle="collapse" href="#saude">
-							<i class="fas fa-hospital"></i>
+							<i class="fas fa-hospital-user"></i>
 							<h4>Saúde</h4>
 						</div>
 					</a>
@@ -396,13 +396,13 @@
 					<div  id="material" class="collapse">
 						<a href="#">
 							<div class="col-lg-2 col-md-8 i category-item-second" data-toggle="collapse" href="#entrada">
-								<i class="fas fa-clipboard"></i>
+							<i class="fa-solid fa-circle-arrow-down"></i>
 								<h4>Entrada</h4>
 							</div>
 						</a>
 						<a href="#">
 							<div class="col-lg-2 col-md-8 i category-item-second" data-toggle="collapse" href="#saida">
-								<i class="fas fa-clipboard"></i>
+							<i class="fa-solid fa-circle-arrow-up"></i>
 								<h4>Saída</h4>
 							</div>
 						</a>
