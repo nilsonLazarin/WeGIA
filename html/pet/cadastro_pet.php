@@ -61,6 +61,13 @@ $informacoesFunc = $funcionario->listarPessoaExistente($cpf);
 // Inclui display de Campos
 require_once "../personalizacao_display.php";
 
+/** selecionando elementos pet */
+
+$cor = $mysqli->query("select * from pet_cor");
+$especie = $mysqli->query("select * from pet_especie");
+$raca = $mysqli->query("select * from pet_raca");
+
+/* fim */
 ?>
 <!DOCTYPE html>
 <html class="fixed">
@@ -78,7 +85,7 @@ require_once "../personalizacao_display.php";
   <!-- Vendor CSS -->
   <link rel="stylesheet" href="../../assets/vendor/bootstrap/css/bootstrap.css" />
   <link rel="stylesheet" href="../../assets/vendor/font-awesome/css/font-awesome.css" />
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.1.1/css/all.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
   <link rel="stylesheet" href="../../assets/vendor/magnific-popup/magnific-popup.css" />
   <link rel="stylesheet" href="../../assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
 <link rel="icon" href="<?php display_campo("Logo",'file');?>" type="image/x-icon">
@@ -146,6 +153,7 @@ require_once "../personalizacao_display.php";
                 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                   if (isset($_FILES['imgperfil'])) {
                     $image = file_get_contents($_FILES['imgperfil']['tmp_name']);
+                    $_SESSION['nome_imagem'] = $_FILES['imgperfil']['name'];
                     $_SESSION['imagem'] = $image;
                     echo '<img src="data:image/gif;base64,' . base64_encode($image) . '" class="rounded img-responsive" alt="John Doe">';
                   }
@@ -171,7 +179,7 @@ require_once "../personalizacao_display.php";
             </ul>
             <div class="tab-content">
               <div id="overview" class="tab-pane active">
-              <form class="form-horizontal" method="GET" action="../../controle/control.php">
+              <form class="form-horizontal" method="POST" action="../../controle/pet/controlPet.php" onsubmit="verificarDataAcolhimento()">
                 <span style="color: red">Formulário em desenvolvimento</span>
                   <h4 class="mb-xlg">Informações do Pet</h4>
                   <h5 class="obrig">Campos Obrigatórios(*)</h5>
@@ -183,20 +191,52 @@ require_once "../personalizacao_display.php";
                   </div>
                   <div class="form-group">
                     <label class="col-md-3 control-label" for="cor">Cor<sup class="obrig">*</sup></label>
+                    <a onclick="adicionar_cor()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
                     <div class="col-md-8">
-                      <input type="text" class="form-control" name="cor" id="cor" onkeypress="return Onlychars(event)" required>
+                      <!-- <input type="text" class="form-control" name="cor" id="cor" onkeypress="return Onlychars(event)" required> -->
+                      <select class="form-control input-lg mb-md" name="cor" id="cor" required>
+                        <option selected disabled>Selecionar</option>
+                        <?php
+                          while ($row = $cor->fetch_array(MYSQLI_NUM)) {
+                            echo "<option value=" . $row[0] . ">" . $row[1] . "</option>";
+                          }  
+                        ?>
+                        <!-- <option value=1>cor1</option>
+                        <option value=2>cor2</option>
+                        <option value=3>cor3</option> -->
+                      </select>
+                      <?php 
+                      ?>
                     </div>
                   </div>
                   <div class="form-group">
                     <label class="col-md-3 control-label" for="especie">Espécie<sup class="obrig">*</sup></label>
+                    <a onclick="adicionar_especie()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
                     <div class="col-md-8">
-                      <input type="text" class="form-control" name="especie" id="especie" required>
+                      <!-- <input type="text" class="form-control" name="especie" id="especie" required> -->
+                      <select class="form-control input-lg mb-md" name="especie" id="especie" required>
+                        <option selected disabled>Selecionar</option>
+                        <?php
+                          while ($row = $especie->fetch_array(MYSQLI_NUM)) {
+                            echo "<option value=" . $row[0] . ">" . $row[1] . "</option>";
+                          }  
+                        ?>
+                      </select>
                     </div>
                   </div>
                   <div class="form-group">
                     <label class="col-md-3 control-label" for="raca">Raça<sup class="obrig">*</sup></label>
+                    <a onclick="adicionar_raca()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
                     <div class="col-md-8">
-                      <input type="text" class="form-control" name="raca" id="raca" required>
+                      <!-- <input type="text" class="form-control" name="raca" id="raca" required> -->
+                      <select class="form-control input-lg mb-md" name="raca" id="raca" required>
+                        <option selected disabled>Selecionar</option>
+                        <?php
+                          while ($row = $raca->fetch_array(MYSQLI_NUM)) {
+                            echo "<option value=" . $row[0] . ">" . $row[1] . "</option>";
+                          }  
+                        ?>
+                      </select>
                     </div>
                   </div>
                   <div class="form-group">
@@ -209,7 +249,13 @@ require_once "../personalizacao_display.php";
                   <div class="form-group">
                     <label class="col-md-3 control-label" for="nascimento">Data de Nascimento Aproximada<sup class="obrig">*</sup></label>
                     <div class="col-md-8">
-                      <input type="date" class="form-control" name="nascimento" id="nascimento" required>
+                      <input type="date" class="form-control" maxlength="10" name="nascimento" id="nascimento" max=<?php echo date('Y-m-d'); ?> required>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-3 control-label" for="acolhimento">Data de Acolhimento<sup class="obrig">*</sup></label>
+                    <div class="col-md-8">
+                      <input type="date" class="form-control" maxlength="10" name="acolhimento" id="acolhimento" max=<?php echo date('Y-m-d'); ?> required>
                     </div>
                   </div>
                   <div class="form-group">
@@ -218,27 +264,17 @@ require_once "../personalizacao_display.php";
                       <input type="text" class="form-control" name="caracEsp" id="caracEsp">
                     </div>
                   </div>
-                  <div class="form-group">
-                    <label class="col-md-3 control-label" for="vacinacao">Vacinação<sup class="obrig">*</sup></label>
-                    <div class="col-md-8">
-                      <input type="text" class="form-control" name="vacinacao"  id="vacinacao" required>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-md-3 control-label" for="necEsp">Necessidades Especiais</label>
-                    <div class="col-md-8">
-                      <input type="text" class="form-control" name="necEsp" id="necEsp">
-                    </div>
-                  </div>
                   <hr class="dotted short">
 
                   <div class="panel-footer">
                     <div class="row">
                       <div class="col-md-9 col-md-offset-3">
-                        <input type="hidden" name="nomeClasse" value="FuncionarioControle">
-                        <input type="hidden" name="cpf" value="<?php  echo $cpf ?>">
+                        <input type="hidden" name="nomeClasse" value="PetControle">
+                        <!--<input type="hidden" name="nomeClasse" value="FuncionarioControle">-->
+                        <!--<input type="hidden" name="cpf" value="<?php  echo $cpf ?>">-->
                         <input type="hidden" name="metodo" value="incluir">
-                        <input id="enviar" type="submit" class="btn btn-primary"  value="Salvar" onclick="validarFuncionario()">
+                        <!--<input type="hidden" name="nomeFoto" value="<?php echo $imagem ?>">-->
+                        <input id="enviar" type="submit" class="btn btn-primary"  value="Salvar" onclick="validarFuncionario()" >
                         <input type="reset" class="btn btn-default">
                       </div>
                     </div>
@@ -295,6 +331,199 @@ require_once "../personalizacao_display.php";
 
   </style>
   <script type="text/javascript">
+
+    /** Aqui começa a implementação das funções relacionada a "PET" */
+
+    // funções relacionadas a datas
+    function verificarDataAcolhimento(){
+      let nasc = document.querySelector("#nascimento").value;
+      let acol = document.querySelector("#acolhimento").value;
+
+      nasc = nasc.split('-');
+      nasc = nasc.join('');
+
+      acol = acol.split('-');
+      acol = acol.join('');
+
+      if( acol < nasc ){
+        alert("Data de acolhimento não pode ser anterior a data de nascimento!");
+        event.preventDefault();
+      }
+    }
+    
+    /*
+    function noType(){
+      event.preventDefault();
+    }
+    */
+    /** Função adicionar_raca */
+    function gerarRaca() {
+      url = '../../../dao/pet/exibir_raca.php';
+      $.ajax({
+        data: '',
+        type: "POST",
+        url: url,
+        success: function(response) {
+          var raca = response;
+          $('#raca').empty();
+          $('#raca').append('<option selected disabled>Selecionar</option>');
+          $.each(raca, function(i, item) {
+            $('#raca').append('<option value="' + item.id_raca + '">' + item.raca + '</option>');
+          });
+        },
+        dataType: 'json'
+      });
+
+    }
+
+    function adicionar_raca() {
+      url = '../../dao/pet/adicionar_raca.php';
+      var raca = window.prompt("Cadastre uma Nova Raça:");
+      if (!raca) {
+        return
+      }
+      situacao = raca.trim();
+      if (raca == '') {
+        return
+      }
+      //=============================
+      let r = raca.replace(/[A-ZÁÉÍÓÚáéíóúâêîôûàèìòùÇç ]/gi, '');
+      r = r.replaceAll('-', '');
+
+      if(r.length != 0){
+        alert("Caracteres inválidos encontrados. Tente novamente.");
+        adicionar_raca();
+        return;
+      }
+      //=============================
+      data = 'raca=' + raca;
+      console.log(data);
+      $.ajax({
+        type: "POST",
+        url: url,
+        data: data,
+        success: function(response) {
+          gerarRaca();
+        },
+        dataType: 'text'
+      })
+    }
+
+    /** Função adicionar_especie */
+
+    function gerarEspecie() {
+      url = '../../../dao/pet/exibir_especie.php';
+      $.ajax({
+        data: '',
+        type: "POST",
+        url: url,
+        success: function(response) {
+          var especie = response;
+          $('#especie').empty();
+          $('#especie').append('<option selected disabled>Selecionar</option>');
+          $.each(especie, function(i, item) {
+            $('#especie').append('<option value="' + item.id_especie + '">' + item.especie + '</option>');
+          });
+        },
+        dataType: 'json'
+      });
+
+    }
+
+    function adicionar_especie() {
+      url = '../../dao/pet/adicionar_especie.php';
+      var especie = window.prompt("Cadastre uma Nova Espécie:");
+      if (!especie) {
+        return
+      }
+      situacao = especie.trim();
+      if (especie == '') {
+        return
+      }
+      //===========================
+      let e = especie.replace(/[A-ZÁÉÍÓÚáéíóúâêîôûàèìòùÇç ]/gi, '');
+      e = e.replaceAll('-', '');
+
+      if(e.length != 0){
+        alert("Caracteres inválidos encontrados. Tente novamente.");
+        adicionar_especie();
+        return;
+      }
+      //============================
+
+      data = 'especie=' + especie;
+      console.log(data);
+      $.ajax({
+        type: "POST",
+        url: url,
+        data: data,
+        success: function(response) {
+          gerarEspecie();
+        },
+        dataType: 'text'
+      })
+    }
+
+    /** Função adicionar_cor */
+
+    function gerarCor() {
+      url = '../../../dao/pet/exibir_cor.php';
+      $.ajax({
+        data: '',
+        type: "POST",
+        url: url,
+        success: function(response) {
+          var cor = response;
+          $('#cor').empty();
+          $('#cor').append('<option selected disabled>Selecionar</option>');
+          $.each(cor, function(i, item) {
+            $('#cor').append('<option value="' + item.id_cor + '">' + item.cor + '</option>');
+          });
+        },
+        dataType: 'json'
+      });
+
+    }
+
+    function adicionar_cor() {
+      url = '../../dao/pet/adicionar_cor.php';
+      var cor = window.prompt("Cadastre uma Nova Cor:");
+      if (!cor) {
+        return
+      }
+      situacao = cor.trim();
+      if (cor == '') {
+        return
+      }
+
+      //====================================
+      let c = cor.replace(/[A-ZÁÉÍÓÚáéíóúâêîôûàèìòùÇç ]/gi, '');
+      c = c.replaceAll('-', '');
+
+      if(c.length != 0){
+        alert("Caracteres inválidos encontrados. Tente novamente.");
+        alert(c);
+        adicionar_cor();
+        return;
+      }
+      //====================================
+
+      data = 'cor=' + cor;
+      console.log(data);
+      $.ajax({
+        type: "POST",
+        url: url,
+        data: data,
+        success: function(response) {
+          gerarCor();
+        },
+        dataType: 'text'
+      })
+    }
+
+
+    /** Aqui termina a implementação das funções relacionada a "PET" */
+    
 
     var clickcont = 0;
     $("#botima").toggle();
