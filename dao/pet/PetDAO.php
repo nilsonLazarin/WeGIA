@@ -1,5 +1,15 @@
 <?php
-require_once '../../dao/Conexao.php';
+$Conexao_path = "dao/Conexao.php";
+if(file_exists($Conexao_path)){
+    require_once($Conexao_path);
+}else{
+    while(true){
+        $Conexao_path = "../" . $Conexao_path;
+        if(file_exists($Conexao_path)) break;
+    }
+    require_once($Conexao_path);
+}
+//require_once '../../dao/Conexao.php';
 
 class PetDAO{
 
@@ -46,14 +56,13 @@ class PetDAO{
         header('Location: ../../html/pet/informacao_pet.php');
     }
     
-    public function listAllPets(){
+    public function listarTodos(){
         $pdo = Conexao::connect();
         $pd = $pdo->prepare("SELECT p.nome AS 'nome', pr.descricao AS 'raca', pe.descricao AS 'especie',
          pc.descricao AS 'cor' FROM pet p JOIN pet_raca pr ON p.id_pet_raca = pr.id_pet_raca JOIN pet_especie pe 
          ON p.id_pet_especie = pe.id_pet_especie JOIN pet_cor pc ON p.id_pet_cor = pc.id_pet_cor");
         $pd->execute();
         $p = $pd->fetchAll();
-
         return $p;
     }
 

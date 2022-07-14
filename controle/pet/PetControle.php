@@ -1,6 +1,27 @@
 <?php
-require_once '../../dao/pet/PetDAO.php';
-require_once '../../classes/pet/Pet.php';
+$PetDAO_path = "dao/pet/PetDAO.php";
+if(file_exists($PetDAO_path)){
+    require_once($PetDAO_path);
+}else{
+    while(true){
+        $PetDAO_path = "../" . $PetDAO_path;
+        if(file_exists($PetDAO_path)) break;
+    }
+    require_once($PetDAO_path);
+}
+//require_once '../../dao/pet/PetDAO.php';
+
+$Pet_path = "classes/pet/Pet.php";
+if(file_exists($Pet_path)){
+    require_once($Pet_path);
+}else{
+    while(true){
+        $Pet_path = "../" . $Pet_path;
+        if(file_exists($Pet_path)) break;
+    }
+    require_once($Pet_path);
+}
+//require_once '../../classes/pet/Pet.php';
 
 class PetControle{
     private $petDAO;
@@ -101,13 +122,14 @@ class PetControle{
         
     }
 
-    /*public function listarTodos(){
-        $d = $this->petDAO->listAllPets();
-        foreach ($d as $valor) {
-            echo 'nome: ' . $valor['nome'] .' raca: '. $valor['descricao'] . "<br>";
-        }
-
-    }*/
+    public function listarTodos(){
+        extract($_REQUEST);
+        $PetDAO= new PetDAO();
+        $pets = $PetDAO->listarTodos();
+        session_start();
+        $_SESSION['pet']=$pets;
+        header('Location: '.$nextPage);
+    }
 
     public function atualizar(){
 
