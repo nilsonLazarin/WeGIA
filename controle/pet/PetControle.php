@@ -12,6 +12,7 @@ class PetControle{
     }
 
     public function incluir(){
+        
         extract($_REQUEST);
         $imgperfil = base64_encode($_SESSION['imagem']);
         $nomeImagem = $_SESSION['nome_imagem'];
@@ -99,5 +100,24 @@ class PetControle{
         );
         
     }
+
+    /*public function listarTodos(){
+        $d = $this->petDAO->listAllPets();
+        foreach ($d as $valor) {
+            echo 'nome: ' . $valor['nome'] .' raca: '. $valor['descricao'] . "<br>";
+        }
+
+    }*/
+
+    public function atualizar(){
+
+    }
+
+    public function deletar(){
+
+    }
 }
+
+/*$c = new PetControle();
+$c->listarTodos();*/
 ?>

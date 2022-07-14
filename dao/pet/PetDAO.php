@@ -2,10 +2,13 @@
 require_once '../../dao/Conexao.php';
 
 class PetDAO{
+
+    private $pdo;
+
     /** $nImagem -> nome original da imagem  */
     public function adicionarPet( $nome, $nascimento, $acolhimento, $sexo, $caracEsp, $especie, 
         $raca, $cor, $imgperfil, $nImagem){
-
+            
         $idFoto;        
         $pdo = Conexao::connect();
         if( $imgperfil != ''){
@@ -40,11 +43,59 @@ class PetDAO{
         $pd->bindValue(':id_cor', $cor);
         $pd->execute();
 
-        /*print_r($nImagem);*/
-        echo "feito!";
+        header('Location: ../../html/pet/informacao_pet.php');
+    }
+    
+    public function listAllPets(){
+        $pdo = Conexao::connect();
+        $pd = $pdo->prepare("SELECT p.nome AS 'nome', pr.descricao AS 'raca', pe.descricao AS 'especie',
+         pc.descricao AS 'cor' FROM pet p JOIN pet_raca pr ON p.id_pet_raca = pr.id_pet_raca JOIN pet_especie pe 
+         ON p.id_pet_especie = pe.id_pet_especie JOIN pet_cor pc ON p.id_pet_cor = pc.id_pet_cor");
+        $pd->execute();
+        $p = $pd->fetchAll();
+
+        return $p;
     }
 
+    /*public function alterarPet($nome, $nascimento, $acolhimento, $sexo, $caracEsp, $especie, 
+        $raca, $cor, $id_pet){
+        $pdo = Conexao::connect();
+
+        $pd = $pdo->prepare("UPDATE pet SET nome = :nome, data_nascimento = :nascimento, 
+              data_acolhimento = :acolhimento, sexo = :sexo,
+              caracteristicas_especificas = :especificas, id_pet_especie = :id_especie,
+              id_pet_raca = :id_raca, id_pet_cor = :id_cor WHERE id_pet = :id_pet");
+        $pd->bindValue(':nome', $nome);
+        $pd->bindValue(':nascimento', $nascimento);
+        $pd->bindValue(':acolhimento', $acolhimento);
+        $pd->bindValue(':sexo', $sexo);
+        $pd->bindValue(':especificas', $caracEsp);
+        $pd->bindValue(':id_especie', $especie);
+        $pd->bindValue(':id_raca', $raca);
+        $pd->bindValue(':id_cor', $cor);
+        $pd->bindValue(':id_pet', $id_pet);
+        $pd->execute();
+
+        header('Location: ');
+    }
+        echo 'feito';
+    
+    public function alterarFotoPet(){
+        $pdo = Conexao::connect();
+
+        $pd = $pdo->prepare("UPDATE pet_foto set arquivo_foto_pet = :arquivo, 
+              arquivo_foto_pet_nome = :nome, arquivo_foto_pet_extensao = :extensao WHERE 
+              id_foto_pet = :id_foto");
+        $pd->bindValue(':arquivo', $);
+        $pd->bindValue(':nome', $);
+        $pd->bindValue(':extensao', $);
+        $pd->bindValue(':id_foto', $);
+        $pd->execute();
+
+        header('Location: ');
+    }
+    */
     
 }
-
 ?>
+
