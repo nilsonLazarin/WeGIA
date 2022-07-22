@@ -131,8 +131,49 @@ class PetControle{
         header('Location: '.$nextPage);
     }
 
-    public function atualizar(){
+    public function listarUm(){
+        extract($_REQUEST);
+        try {
+            $petDAO = new PetDAO();
+            $pet=$petDAO->listarUm($id_pet);
+            session_start();
+            $_SESSION['pet']=$pet;
+            header('Location:'.$nextPage);
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
 
+    public function alterarImagem(){
+        extract($_REQUEST);
+        $imgPet = base64_encode(file_get_contents($_FILES['imgperfil']['tmp_name']));
+        $imgNome = $_FILES['imgperfil']['name'];
+        $imgNome = explode('.', $imgNome);  
+        
+        try{
+            $petDAO = new PetDAO();
+            $petDAO->alterarFotoPet($imgPet, $imgNome[0], $imgNome[1], $id_foto, $id_pet);
+            header('Location: ../../html/pet/profile_pet.php?id_pet='.$id_pet);            
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
+    }
+
+    public function alterarPetDados(){
+        /* ["nome"]=> string(12) "Coala Alegre" ["gender"]=> string(1) "m" 
+        ["nascimento"]=> string(10) "2022-06-26" ["acolhimento"]=> string(10) "2022-07-01" 
+        ["cor"]=> string(2) "31" ["especie"]=> string(1) "7" ["raca"]=> string(1) "1" 
+        ["especificas"]=> string(7) "Risonho" ["id_pet"]=> string(2) "37"*/
+        extract($_REQUEST);
+
+        $sexo = strtoupper($gender);
+        try{
+            $petDAO = new PetDAO();
+            $petDAO->alterarPet($nome, $nascimento, $acolhimento, $sexo, $especificas, $especie, $raca, $cor, $id_pet);
+            header('Location: ../../html/pet/profile_pet.php?id_pet='.$id_pet);   
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
     }
 
     public function deletar(){
@@ -141,5 +182,5 @@ class PetControle{
 }
 
 /*$c = new PetControle();
-$c->listarTodos();*/
+$c->listarUm();*/
 ?>
