@@ -370,6 +370,12 @@
 								<h4>Cadastrar Pet</h4>
 							</div>
 						</a>
+						<a href="../html/pet/informacao_pet.php">
+							<div class="col-lg-2 col-md-8 i">
+								<i  class="fa fa-clipboard-list"></i>
+								<h4>Informações Pets</h4>
+							</div>
+						</a>
 						<a href="#">
 							<div class="col-lg-2 col-md-8 i category-item-second" data-toggle="collapse" href="#saudePet">
 								<i class="fa fa-ambulance"></i>

@@ -72,13 +72,22 @@ class PetDAO{
     }
     
     public function listarTodos(){
-        $pdo = Conexao::connect();
-        $pd = $pdo->prepare("SELECT p.nome AS 'nome', pr.descricao AS 'raca', pe.descricao AS 'especie',
-         pc.descricao AS 'cor' FROM pet p JOIN pet_raca pr ON p.id_pet_raca = pr.id_pet_raca JOIN pet_especie pe 
-         ON p.id_pet_especie = pe.id_pet_especie JOIN pet_cor pc ON p.id_pet_cor = pc.id_pet_cor");
-        $pd->execute();
-        $p = $pd->fetchAll();
-        return $p;
+        try{
+            $pets = array();
+            $pdo = Conexao::connect();
+            $pd = $pdo->prepare("SELECT p.id_pet AS 'id', p.nome AS 'nome', pr.descricao AS 'raca', pe.descricao AS 'especie',
+            pc.descricao AS 'cor' FROM pet p JOIN pet_raca pr ON p.id_pet_raca = pr.id_pet_raca JOIN pet_especie pe 
+            ON p.id_pet_especie = pe.id_pet_especie JOIN pet_cor pc ON p.id_pet_cor = pc.id_pet_cor");
+            $pd->execute();
+            $x=0;
+            while ($linha = $pd->fetch(PDO::FETCH_ASSOC)) {
+                $pets[$x]=array('id'=> $linha['id'], 'nome'=>$linha['nome'],'raca'=>$linha['raca'],'cor'=>$linha['cor']);
+                $x++;
+            }
+        }catch (PDOExeption $e){
+            echo 'Error: ' .  $e->getMessage();
+        }
+        return json_encode($pets);
     }
     //===========================================================================================
     // funcao de alterar foto

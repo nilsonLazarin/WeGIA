@@ -314,31 +314,31 @@ require_once ROOT."/html/personalizacao_display.php";
                                             <br>
 
                                             <div class="form-group">
-                                                <div id="clicado" style="display:none;">
-                                                    <label class="col-md-3 control-label" for="inputSuccess" style="padding-left:29px;">Paciente:<sup class="obrig">*</sup></label> 
+                                                <div id="clicado">
+                                                    <label class="col-md-3 control-label" for="inputSuccess" style="padding-left:29px;">Pet atendido:<sup class="obrig">*</sup></label> 
                                                     <div class="col-md-6">
                                                         <select class="form-control input-lg mb-md" name="nome" id="nome" required>
                                                             <option selected disabled>Selecionar</option>
                                                             
-                                                        </select><br>
+                                                        </select>
                                                     </div>
                                                 </div>
                                             </div>
                                                 <div class="form-group">
                                                 <label class="col-md-3 control-label" for="peso">Peso (kg)<sup class="obrig">*</sup></label>
                                                 <div class="col-md-8">
-                                                <input type="number" class="form-control" name="peso" id="peso" required>
+                                                <input type="number" min='0' class="form-control" name="peso" id="peso" required>
                                                 </div>
                                             </div>
                                              
                                             <div class="form-group">
                                                 <label class="col-md-3 control-label" for="castrado">Animal Castrado<sup class="obrig">*</sup></label>
                                                 <div class="col-md-8">
-                                                    <label><input type="radio" name="castrado" id="radioS" id="S" value="sim" style="margin-top: 10px; margin-left: 15px;margin-right: 5px;" onclick="return exibir_reservista()" required><i class="fa fa" style="font-size: 18px;">Sim</i></label>
-                                                    <label><input type="radio" name="castrado" id="radioN" id="N" value="nao" style="margin-top: 10px; margin-left: 15px;margin-right: 5px;" onclick="return esconder_reservista()"><i class="fa fa" style="font-size: 18px;">Não</i></label>
+                                                    <label><input type="radio" name="castrado" id="radioS" id="S" value="sim" style="margin-top: 10px; margin-left: 15px;margin-right: 5px;" required><i class="fa fa" style="font-size: 18px;">Sim</i></label>
+                                                    <label><input type="radio" name="castrado" id="radioN" id="N" value="nao" style="margin-top: 10px; margin-left: 15px;margin-right: 5px;"><i class="fa fa" style="font-size: 18px;">Não</i></label>
                                                 </div>
                                             </div>
-                                                <div class="form-group">
+                                           <!--     <div class="form-group">
                                                 <label class="col-md-3 control-label" for="testeFiv">Teste FIV<sup class="obrig">*</sup></label>
                                                     <div class="col-md-8">
                                                         <label><input type="radio" name="testeFiv" id="PFiv" value="p" style="margin-top: 10px; margin-left: 15px;margin-right: 5px;" onclick="return exibir_reservista()" required><i class="fa fa-plus" style="font-size: 18px;"></i></label>
@@ -352,7 +352,7 @@ require_once ROOT."/html/personalizacao_display.php";
                                                     <label><input type="radio" name="testeFelv" id="NFelv" value="n" style="margin-top: 10px; margin-left: 15px; margin-right: 5px;" onclick="return esconder_reservista()"><i class="fa fa-minus" style="font-size: 18px;"></i></label>
                                                     </div>
                                                     
-                                                </div>
+                                                </div>-->
                                                 <div class="form-group">
                                                 <div class='col-md-6' id='div_texto' style="height: 499px;">
                                                     <label for="texto" id="etiqueta_despacho" style="padding-left: 15px;">Prontuário público:<sup class="obrig">*</sup></label>
@@ -388,38 +388,6 @@ require_once ROOT."/html/personalizacao_display.php";
           $nomesCertos = json_encode($nomesCertos);
           $nomesCertos2 = json_encode($nomesCertos2);
     ?>
-    <script>
-       
-        function exibirAtendido(){
-
-            var atendido = <?= $nomesCertos ?>;
-            $("#nome").empty();
-            $.each(atendido, function(i, item){
-                $("#nome").append($("<option value="+item.id_pessoa +">").text(item.nome + " " + item.sobrenome));
-            })
-            $("#clicado").show(); 
-        }
-
-        function exibirFuncionario(){
-            
-            var funcionario = <?= $nomesCertos2 ?>;
-            $("#nome").empty();
-            $.each(funcionario, function(i, item){
-                $("#nome").append($("<option value="+item.id_pessoa +">").text(item.nome + " " + item.sobrenome));
-            })
-            $("#clicado").show();
-
-            // var aparecer_funcionario = document.getElementById("clicado2");
-            // var bolinha_funcionario = document.getElementById("bolinha_funcionario");
-            // if(aparecer_funcionario.style.display === "none"){
-            //     aparecer_funcionario.style.display = "block";
-            // }
-            // else{
-            //     aparecer_funcionario.style.display = "none";
-            // }
-        }
-
-    </script>
         
     <!-- end: page -->
     <!-- Vendor -->
