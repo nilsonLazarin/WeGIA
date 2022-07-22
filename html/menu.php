@@ -108,6 +108,12 @@
 									<span>Cadastrar Pet</span>
 								</a>
 							</li>
+							<li>
+								<a href="<?= WWW ?>html/pet/informacao_pet.php">
+									<i class="fa fa-clipboard-list"></i>
+									<span>Informações Pets</span>
+								</a>
+							</li>
 							<li class="nav-parent nav-active" id="61">
 								<a>
 									<i class="fa fa-ambulance" aria-hidden="true"></i>

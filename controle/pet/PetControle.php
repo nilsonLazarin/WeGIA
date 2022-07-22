@@ -23,6 +23,8 @@ if(file_exists($Pet_path)){
 }
 //require_once '../../classes/pet/Pet.php';
 
+include_once ROOT."/dao/Conexao.php";
+
 class PetControle{
     private $petDAO;
     private $petClasse;
@@ -126,9 +128,8 @@ class PetControle{
         extract($_REQUEST);
         $PetDAO= new PetDAO();
         $pets = $PetDAO->listarTodos();
-        session_start();
-        $_SESSION['pet']=$pets;
-        header('Location: '.$nextPage);
+        $_SESSION['pet'] = $pets;
+       //header('Location: ' . $nextPage);
     }
 
     public function atualizar(){
@@ -140,6 +141,4 @@ class PetControle{
     }
 }
 
-/*$c = new PetControle();
-$c->listarTodos();*/
 ?>
