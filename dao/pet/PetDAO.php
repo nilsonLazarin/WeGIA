@@ -55,6 +55,21 @@ class PetDAO{
 
         header('Location: ../../html/pet/informacao_pet.php');
     }
+
+    public function listarUm($id_pet){
+        $pdo = Conexao::connect();
+        $pd = $pdo->prepare("SELECT * FROM pet WHERE id_pet=:id");
+        $pd->bindValue(":id", $id_pet);
+        $pd->execute();
+        $p = $pd->fetchAll();
+        foreach( $p as $valor){
+            $array[] = array('nome' => $valor['nome'], 'sexo' => $valor['sexo'], 
+            'acolhimento' => $valor['data_acolhimento'], 'nascimento' => $valor['data_nascimento'], 
+            'especificas' => $valor['caracteristicas_especificas'], 'raca' => $valor['id_pet_raca'], 
+            'especie' => $valor['id_pet_especie'], 'cor' => $valor['id_pet_cor']);
+        }
+        return $array;
+    }
     
     public function listarTodos(){
         try{
@@ -74,8 +89,54 @@ class PetDAO{
         }
         return json_encode($pets);
     }
+    //===========================================================================================
+    // funcao de alterar foto
+    //===========================================================================================
+    public function alterarFotoPet($arkivo, $nome, $extensao, $id_foto, $id_pet){
+        $pdo = Conexao::connect();
+        $pd = $pdo->prepare("SELECT id_pet_foto FROM pet WHERE id_pet =:id_pet");
+        $pd->bindValue(":id_pet", $id_pet);
+        $pd->execute();
+        $p = $pd->fetch();
 
-    /*public function alterarPet($nome, $nascimento, $acolhimento, $sexo, $caracEsp, $especie, 
+        if($p['id_pet_foto'] == NULL){
+            try{
+            $pd = $pdo->prepare("INSERT INTO pet_foto( arquivo_foto_pet, arquivo_foto_pet_nome, 
+                arquivo_foto_pet_extensao) VALUES( :conteudo, :nome_foto, :extensao)");
+            $pd->bindValue(':conteudo', $arkivo);
+            $pd->bindValue(':nome_foto', $nome);
+            $pd->bindValue(':extensao', $extensao);
+            $pd->execute();
+
+            $id = $pdo->query("SELECT id_pet_foto FROM pet_foto");
+            foreach( $id as $valor){
+                $idNovaFoto = $valor['id_pet_foto'];
+            }
+
+            $pd = $pdo->prepare("UPDATE pet SET id_pet_foto = :id_pet_foto WHERE pet.id_pet =:id_pet");
+            $pd->bindValue(":id_pet_foto", $idNovaFoto);
+            $pd->bindValue(":id_pet", $id_pet);
+            $pd->execute();
+            }catch(PDOException $e){
+                echo $e->getMessage();
+            }
+        }else{
+            try{
+                $pd = $pdo->prepare("UPDATE pet_foto set arquivo_foto_pet = :arquivo, 
+                    arquivo_foto_pet_nome = :nome, arquivo_foto_pet_extensao = :extensao WHERE 
+                    id_pet_foto = :id_foto");
+                $pd->bindValue(':arquivo', $arkivo);
+                $pd->bindValue(':nome', $nome);
+                $pd->bindValue(':extensao', $extensao);
+                $pd->bindValue(':id_foto', $id_foto);
+                $pd->execute();
+            }catch(PDOException $e){
+                echo $e->getMessage();
+            }
+        }
+    }
+
+    public function alterarPet($nome, $nascimento, $acolhimento, $sexo, $caracEsp, $especie, 
         $raca, $cor, $id_pet){
         $pdo = Conexao::connect();
 
@@ -93,27 +154,10 @@ class PetDAO{
         $pd->bindValue(':id_cor', $cor);
         $pd->bindValue(':id_pet', $id_pet);
         $pd->execute();
-
-        header('Location: ');
     }
-        echo 'feito';
-    
-    public function alterarFotoPet(){
-        $pdo = Conexao::connect();
-
-        $pd = $pdo->prepare("UPDATE pet_foto set arquivo_foto_pet = :arquivo, 
-              arquivo_foto_pet_nome = :nome, arquivo_foto_pet_extensao = :extensao WHERE 
-              id_foto_pet = :id_foto");
-        $pd->bindValue(':arquivo', $);
-        $pd->bindValue(':nome', $);
-        $pd->bindValue(':extensao', $);
-        $pd->bindValue(':id_foto', $);
-        $pd->execute();
-
-        header('Location: ');
-    }
-    */
-    
 }
+
+/*$c = new PetDAO();
+var_dump($c->listarUm(37));*/
 ?>
 

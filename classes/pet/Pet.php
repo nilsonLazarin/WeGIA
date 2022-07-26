@@ -12,6 +12,7 @@
  */
 
 class PetClasse{
+    private $id;
     private $nome;
     private $nascimento;
     private $acolhimento;
@@ -22,6 +23,10 @@ class PetClasse{
     private $cor;
     private $imgperfil;
     private $nomeImagem;
+
+    public function getId(){
+        return $this->id;
+    }
 
     public function getNome(){
         return $this->nome;
@@ -61,6 +66,10 @@ class PetClasse{
 
     public function getNomeImagem(){
         return $this->nomeImagem;
+    }
+
+    public function setId($id){
+        $this->id = $id;
     }
 
     public function setNome($nome){
