@@ -126,9 +126,7 @@ class PetControle{
         extract($_REQUEST);
         $PetDAO= new PetDAO();
         $pets = $PetDAO->listarTodos();
-        session_start();
         $_SESSION['pet']=$pets;
-        header('Location: '.$nextPage);
     }
 
     public function listarUm(){

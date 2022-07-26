@@ -130,7 +130,7 @@
 			$('.tabble-row').on("click", function (evt) {
 				let idPet = $(this).attr('id');
 				localStorage.setItem('id_pet',idPet);
-				window.location.href = "../saude/profile_paciente.php?id_fichamedica="+idPet;
+				window.location.href = "../pet/profile_pet.php?id_pet="+idPet;
 				
 			});
 	    });
