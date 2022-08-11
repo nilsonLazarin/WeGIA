@@ -250,6 +250,7 @@ require_once ROOT."/html/personalizacao_display.php";
                                     <i class="fa fa-home"></i>
                                 </a>
                             </li>
+                            <li><span>Pet</span></li>
                             <li><span>Cadastro ficha médica pets</span></li>
                         </ol>
                         <a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
@@ -290,18 +291,11 @@ require_once ROOT."/html/personalizacao_display.php";
                                                     </div>
                                                 </div>
                                             </div>
-                                                <div class="form-group">
-                                                <label class="col-md-3 control-label" for="peso">Peso (kg)<sup class="obrig">*</sup></label>
-                                                <div class="col-md-8">
-                                                <input type="number" min='0' class="form-control" name="peso" id="peso" required>
-                                                </div>
-                                            </div>
-                                             
                                             <div class="form-group">
                                                 <label class="col-md-3 control-label" for="castrado">Animal Castrado<sup class="obrig">*</sup></label>
                                                 <div class="col-md-8">
-                                                    <label><input type="radio" name="castrado" id="radioS" id="S" value="sim" style="margin-top: 10px; margin-left: 15px;margin-right: 5px;" required><i class="fa fa" style="font-size: 18px;">Sim</i></label>
-                                                    <label><input type="radio" name="castrado" id="radioN" id="N" value="nao" style="margin-top: 10px; margin-left: 15px;margin-right: 5px;"><i class="fa fa" style="font-size: 18px;">Não</i></label>
+                                                    <label><input type="radio" name="castrado" id="radioS" id="S" value="s" style="margin-top: 10px; margin-left: 15px;margin-right: 5px;" required><i class="fa fa" style="font-size: 18px;">Sim</i></label>
+                                                    <label><input type="radio" name="castrado" id="radioN" id="N" value="n" style="margin-top: 10px; margin-left: 15px;margin-right: 5px;"><i class="fa fa" style="font-size: 18px;">Não</i></label>
                                                 </div>
                                             </div>
                                                 <div class="form-group">
@@ -311,12 +305,12 @@ require_once ROOT."/html/personalizacao_display.php";
                                                 </div>
                                             </div>
                                             <br>
-                                            </div>
-                                            
+                                        </div> 
                                             <div class="panel-footer">
                                                 <div class='row'>
                                                     <div class="col-md-9 col-md-offset-3">
-                                                        <input type="hidden" name="nomeClasse" value="SaudeControle">
+                                                        <input type="hidden" name="nomeClasse" value="controleSaudePet">
+                                                        <input type="hidden" name="modulo" value="pet">
                                                         <input type="hidden" name="metodo" value="incluir">
                                                         <input id="enviar" type="submit" class="btn btn-primary" value="Enviar">
                                                     </div>
