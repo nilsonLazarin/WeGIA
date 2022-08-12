@@ -127,24 +127,18 @@
 		$(function() {
 			$(function () {
 			$('.tabble-row').on("click", function (evt) {
-				let teste = $(this).attr('id')
+				let teste = $(this).attr('id');
 				//window.open("profile_paciente.php?id_fichamedica="+teste,"_blank");
-				localStorage.setItem('id_ficha_medica_pet',teste)
-				console.log("id aqui",teste);
-				//window.location.href = "profile_paciente.php?id_fichamedica="+teste;
+				localStorage.setItem('id_pet',teste);
+				window.location.href = "profile_pet.php?id_pet="+teste;
 				
 			});
 	    });
-
-			if(localStorage.getItem("id_ficha_medica_pet") && localStorage.getItem("id_ficha_medica_pet") !== 'null') {
-				
-				//window.location.href = "profile_paciente.php?id_fichamedica="+localStorage.getItem("id_ficha_medica_pet");
-			}
 			var pacientes = <?php echo $_SESSION['saudepet'];?> ;
 			<?php unset($_SESSION['saudepet']); ?>;
 			$.each(pacientes, function(i, item) {
 				$("#tabela")
-				.append($("<tr id='"+item.id_ficha_medica+"' class='tabble-row'>")
+				.append($("<tr id='"+item.id_pet+"' class='tabble-row'>")
 					.append($("<td>")
 						.text(item.nome))
 					.append($("<td>")
