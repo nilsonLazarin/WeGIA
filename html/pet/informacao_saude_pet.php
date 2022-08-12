@@ -8,10 +8,9 @@
 	if(!isset($_SESSION['usuario'])){
 		header ("Location: ../index.php");
 	}
-	
-	//if(!isset($_SESSION['pet'])){
-		//header('Location: ../../controle/control.php?metodo=listarTodos&nomeClasse=PetControle&/////modulo=pet&nextPage=../html/pet/informacao_pet.php');
-	//}
+    if(!isset($_SESSION['saudepet'])){
+		header('Location: ../../controle/control.php?metodo=listarTodos&modulo=pet&nomeClasse=controleSaudePet&nextPage=../html/pet/informacao_saude_pet.php');
+	}
 	$config_path = "config.php";
 	if(file_exists($config_path)){
 		require_once($config_path);
@@ -45,13 +44,12 @@
 		}	
 	}else{
 		$permissao = 1;
-		$msg = "Você não tem as permissões necessárias para essa página.";
-		header("Location: ../../home.php?msg_c=$msg");
+    $msg = "Você não tem as permissões necessárias para essa página.";
+    header("Location: ../../home.php?msg_c=$msg");
 	}	
 
 	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
 	require_once "../personalizacao_display.php";
-	require_once ROOT."/controle/pet/PetControle.php";
 
 ?>
 
@@ -63,7 +61,7 @@
 	<!-- Basic -->
 	<meta charset="UTF-8">
 
-	<title>Informações Pets</title>
+	<title>Informações Saúde Pet</title>
 
 	<!-- Mobile Metas -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -86,7 +84,7 @@
 	<link rel="stylesheet" href="../../assets/stylesheets/skins/default.css" />
 
 	<!-- Theme Custom CSS -->
-	<link rel="stylesheet" href="../../assets/stylesheets/theme-custom.css" />
+	<link rel="stylesheet" href="../../assets/stylesheets/theme-custom.css">
 
 	<!-- Head Libs -->
 	<script src="../../assets/vendor/modernizr/modernizr.js"></script>
@@ -124,28 +122,29 @@
 			console.log("id aqui",id);
 			event.preventDefault();
 			event.stopPropagation();
+			//window.location.href = "profile_paciente.php?id_fichamedica="+id;
 		}
 		$(function() {
 			$(function () {
 			$('.tabble-row').on("click", function (evt) {
-				let idPet = $(this).attr('id');
-				localStorage.setItem('id_pet',idPet);
-<<<<<<< HEAD
-				window.location.href = "./profile_pet.php?id_pet="+idPet;				
-=======
-				window.location.href = "../pet/profile_pet.php?id_pet="+idPet;
+				let teste = $(this).attr('id')
+				//window.open("profile_paciente.php?id_fichamedica="+teste,"_blank");
+				localStorage.setItem('id_ficha_medica_pet',teste)
+				console.log("id aqui",teste);
+				//window.location.href = "profile_paciente.php?id_fichamedica="+teste;
 				
->>>>>>> 58e6b474ad1a923251387475ec26f207974112f2
 			});
 	    });
-		
-		var pet =<?php
-			$response = new PetControle;
-			$response->listarTodos();
-			echo $_SESSION['pets'];?>;
-		$.each(pet, function(i, item) {
-			$("#tabela")
-				.append($("<tr id='"+item.id+"' class='tabble-row'>")
+
+			if(localStorage.getItem("id_ficha_medica_pet") && localStorage.getItem("id_ficha_medica_pet") !== 'null') {
+				
+				//window.location.href = "profile_paciente.php?id_fichamedica="+localStorage.getItem("id_ficha_medica_pet");
+			}
+			var pacientes = <?php echo $_SESSION['saudepet'];?> ;
+			<?php unset($_SESSION['saudepet']); ?>;
+			$.each(pacientes, function(i, item) {
+				$("#tabela")
+				.append($("<tr id='"+item.id_ficha_medica+"' class='tabble-row'>")
 					.append($("<td>")
 						.text(item.nome))
 					.append($("<td>")
@@ -156,8 +155,6 @@
 					.html('<i class="glyphicon glyphicon-pencil"></i>')));
 			});
 		});
-		
-
 		$(function () {
 	      $("#header").load("../header.php");
 	      $(".menuu").load("../menu.php");
@@ -184,8 +181,9 @@
 						<ol class="breadcrumbs">
 							<li><a href="../index.php"> <i class="fa fa-home"></i>
 							</a></li>
-							<li><span>Informações Pets</span></li>
+							<li><span>Informações Saúde Pet</span></li>
 						</ol>
+
 						<a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
 					</div>
 				</header>
@@ -201,7 +199,7 @@
 							<a href="#" class="fa fa-caret-down"></a>
 						</div>
 
-						<h2 class="panel-title">Pets</h2>
+						<h2 class="panel-title">Pets Cadastrados</h2>
 					</header>
 					<div class="panel-body">
 						<table class="table table-bordered table-striped mb-none"

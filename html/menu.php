@@ -122,9 +122,14 @@
 							
 								<ul class="nav nav-children">
 									<li>
-									<a href="<?= WWW ?>html/pet/cadastro_ficha_medica_pet.php">
-										<span>Criar Ficha Médica Pet</span>
-									</a>
+										<a href="<?= WWW ?>html/pet/cadastro_ficha_medica_pet.php">
+											<span>Criar Ficha Médica Pet</span>
+										</a>
+									</li>
+									<li>
+										<a href="<?= WWW ?>html/pet/informacao_saude_pet.php">
+											<span>Informações Saúde Pet</span>
+										</a>
 									</li>
 								</ul>
 							</li>

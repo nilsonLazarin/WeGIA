@@ -141,9 +141,9 @@
 				$(proxima).removeClass("hidden");
 			}
 		}
-		/*Exemplo sobre as camadas: o usuário está na home e clica no botão de pessoas. Os botões
-		que aparecerem em seguida farão parte da segunda camada (category-row-second). Caso o usuário clique em outro
-		botão que não seja um link para outra página, ele irá para a terceira camada (category-row-third).*/
+		/*Exemplo sobre as camadas: o usuário está na home e clica no botão de sócios. Os botões
+		que aparecerem em seguida farão parte da segunda camada (category-row-second).
+		Caso o usuário clique em outro botão que não seja um link para outra página, ele irá para a terceira camada (category-row-third).*/
 	});
 	</script>
 	<script>
@@ -389,8 +389,14 @@
 					<div  id="saudePet" class="removeIn collapse">
 						<a href="../html/pet/cadastro_ficha_medica_pet.php">	
 							<div class="col-lg-2 col-md-8 i">
-								<i  class="fa fa-address-book"></i>
+								<i class="fa-solid fa-book-medical"></i>
 								<h4>Cadastrar Ficha Médica Pet</h4>
+							</div>
+						</a>
+						<a href="../html/pet/informacao_saude_pet.php">	
+							<div class="col-lg-2 col-md-8 i">
+								<i class="fa-solid fa-clipboard-list"></i>
+								<h4>Informações Saúde Pet</h4>
 							</div>
 						</a>
 					</div>

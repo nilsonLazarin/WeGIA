@@ -52,78 +52,42 @@ header("Location: ../home.php?msg_c=$msg");
 }	
       
 
-// caso paciente ser atendido //
-$nome = $pdo->query("SELECT p.id_pessoa, p.nome, p.sobrenome FROM pessoa p JOIN atendido a ON(p.id_pessoa=a.pessoa_id_pessoa)")->fetchAll(PDO::FETCH_ASSOC);
 
-$idsPessoas = $pdo->query("SELECT p.id_pessoa FROM pessoa p JOIN atendido a ON(p.id_pessoa=a.pessoa_id_pessoa)")->fetchAll(PDO::FETCH_ASSOC);
+$nome = $pdo->query("SELECT p.id_pet, p.nome FROM pet p")->fetchAll(PDO::FETCH_ASSOC);
 
-$idsPessoasFichasMedicas = $pdo->query("SELECT id_pessoa FROM saude_fichamedica")->fetchAll(PDO::FETCH_ASSOC);
+$idsPets = $pdo->query("SELECT p.id_pet FROM pet p")->fetchAll(PDO::FETCH_ASSOC);
 
-$idPes = array();
-$idPesCadastradas = array();
+$idsPetsFichaMedica = $pdo->query("SELECT id_pet FROM pet_ficha_medica")->fetchAll(PDO::FETCH_ASSOC);
+
+$idPet = array();
+$idPetsCadastrados = array();
 $idsVerificados = array();
 $nomesCertos = array();
 
-// add o id pessoa da pessoa em um array//
-foreach($idsPessoas as $valor){
-    array_push($idPes, $valor['id_pessoa']);
+foreach($idsPets as $valor){
+    array_push($idPet, $valor['id_pet']);
 }
 
-// add o id da saude num array//
-foreach($idsPessoasFichasMedicas as $value){
-    array_push($idPesCadastradas, $value['id_pessoa']);
+// adiciona o id do saudePet a um array
+foreach($idsPetsFichaMedica as $value){
+    array_push($idPetsCadastrados, $value['id_pet']);
 }
 
 //pego um array e se não tiver no array cadastrado, add no verificado//
-foreach($idPes as $val){
-    if(!in_array($val, $idPesCadastradas))
+foreach($idPet as $val){
+    if(!in_array($val, $idPetsCadastrados))
      {
          array_push($idsVerificados, $val);
      }
 }
 
-// pego o id, nome e sobrenome e se o tiver dentro do verificado, add ele aos nomes
+// pego o id e nome e se estiver tiver dentro do verificado, add ele aos nomes
 //certos
 foreach($nome as $va)
 {
-    if(in_array($va["id_pessoa"], $idsVerificados))
+    if(in_array($va["id_pet"], $idsVerificados))
     {
         array_push($nomesCertos, $va);
-    }
-}
-
-// caso o paciente seja funcionario //
-$nome_funcionario = $pdo->query("SELECT p.id_pessoa, p.nome, p.sobrenome FROM pessoa p JOIN funcionario f ON(p.id_pessoa=f.id_pessoa) where p.id_pessoa != 1")->fetchAll(PDO::FETCH_ASSOC);
-
-$idsPessoas2 = $pdo->query("SELECT p.id_pessoa FROM pessoa p JOIN funcionario f ON(p.id_pessoa=f.id_pessoa)")->fetchAll(PDO::FETCH_ASSOC);
-
-$idsPessoasFichasMedicas2 = $pdo->query("SELECT id_pessoa FROM saude_fichamedica")->fetchAll(PDO::FETCH_ASSOC);
-
-$idFun = array();
-$idPesCadastradas2 = array();
-$idsVerificados2 = array();
-$nomesCertos2 = array();
-
-foreach($idsPessoas2 as $valor2){
-    array_push($idFun, $valor2['id_pessoa']);
-}
-
-foreach($idsPessoasFichasMedicas2 as $value2){
-    array_push($idPesCadastradas2, $value2['id_pessoa']);
-}
-
-foreach($idFun as $val2){
-    if(!in_array($val2, $idPesCadastradas2))
-     {
-         array_push($idsVerificados2, $val2);
-     }
-}
-
-foreach($nome_funcionario as $va2)
-{
-    if(in_array($va2["id_pessoa"], $idsVerificados2))
-    {
-        array_push($nomesCertos2, $va2);
     }
 }
 
@@ -208,10 +172,12 @@ require_once ROOT."/html/personalizacao_display.php";
     <script>
 
         $(function(){
-            var funcionario=[];
-            $.each(funcionario,function(i,item){
+            var pet=[];
+            $.each(pet,function(i,item){
+                console.log("ID: " . item.id_pet);
+                console.log("NOME: " . item.nome);
                 $("#destinatario")
-                    .append($("<option id="+item.id_pessoa+" value="+item.id_pessoa+" name="+item.id_pessoa+">"+item.nome+" "+item.sobrenome+"</option>"));
+                    .append($("<option id="+item.id_pet+" value="+item.id_pet+" name="+item.id_pet+">"+item.nome+"</option>"));
             });
             $("#header").load("../header.php");
             $(".menuu").load("../menu.php");
@@ -284,6 +250,7 @@ require_once ROOT."/html/personalizacao_display.php";
                                     <i class="fa fa-home"></i>
                                 </a>
                             </li>
+                            <li><span>Pet</span></li>
                             <li><span>Cadastro ficha médica pets</span></li>
                         </ol>
                         <a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
@@ -317,42 +284,20 @@ require_once ROOT."/html/personalizacao_display.php";
                                                 <div id="clicado">
                                                     <label class="col-md-3 control-label" for="inputSuccess" style="padding-left:29px;">Pet atendido:<sup class="obrig">*</sup></label> 
                                                     <div class="col-md-6">
-                                                        <select class="form-control input-lg mb-md" name="nome" id="nome" required>
+                                                        <select class="form-control input-lg mb-md" name="nome" id="nome"  required>
                                                             <option selected disabled>Selecionar</option>
                                                             
                                                         </select>
                                                     </div>
                                                 </div>
                                             </div>
-                                                <div class="form-group">
-                                                <label class="col-md-3 control-label" for="peso">Peso (kg)<sup class="obrig">*</sup></label>
-                                                <div class="col-md-8">
-                                                <input type="number" min='0' class="form-control" name="peso" id="peso" required>
-                                                </div>
-                                            </div>
-                                             
                                             <div class="form-group">
                                                 <label class="col-md-3 control-label" for="castrado">Animal Castrado<sup class="obrig">*</sup></label>
                                                 <div class="col-md-8">
-                                                    <label><input type="radio" name="castrado" id="radioS" id="S" value="sim" style="margin-top: 10px; margin-left: 15px;margin-right: 5px;" required><i class="fa fa" style="font-size: 18px;">Sim</i></label>
-                                                    <label><input type="radio" name="castrado" id="radioN" id="N" value="nao" style="margin-top: 10px; margin-left: 15px;margin-right: 5px;"><i class="fa fa" style="font-size: 18px;">Não</i></label>
+                                                    <label><input type="radio" name="castrado" id="radioS" id="S" value="s" style="margin-top: 10px; margin-left: 15px;margin-right: 5px;" required><i class="fa fa" style="font-size: 18px;">Sim</i></label>
+                                                    <label><input type="radio" name="castrado" id="radioN" id="N" value="n" style="margin-top: 10px; margin-left: 15px;margin-right: 5px;"><i class="fa fa" style="font-size: 18px;">Não</i></label>
                                                 </div>
                                             </div>
-                                           <!--     <div class="form-group">
-                                                <label class="col-md-3 control-label" for="testeFiv">Teste FIV<sup class="obrig">*</sup></label>
-                                                    <div class="col-md-8">
-                                                        <label><input type="radio" name="testeFiv" id="PFiv" value="p" style="margin-top: 10px; margin-left: 15px;margin-right: 5px;" onclick="return exibir_reservista()" required><i class="fa fa-plus" style="font-size: 18px;"></i></label>
-                                                        <label><input type="radio" name="testeFiv" id="NFiv" value="n" style="margin-top: 10px; margin-left: 15px; margin-right: 5px;" onclick="return esconder_reservista()"><i class="fa fa-minus" style="font-size: 18px;"></i></label>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                <label class="col-md-3 control-label" for="testeFelv">Teste FeLv<sup class="obrig">*</sup></label>
-                                                    <div class="col-md-8">
-                                                    <label><input type="radio" name="testeFelv" id="PFelv" value="p" style="margin-top: 10px; margin-left: 15px;margin-right: 5px;" onclick="return exibir_reservista()" required><i class="fa fa-plus" style="font-size: 18px;"></i></label>
-                                                    <label><input type="radio" name="testeFelv" id="NFelv" value="n" style="margin-top: 10px; margin-left: 15px; margin-right: 5px;" onclick="return esconder_reservista()"><i class="fa fa-minus" style="font-size: 18px;"></i></label>
-                                                    </div>
-                                                    
-                                                </div>-->
                                                 <div class="form-group">
                                                 <div class='col-md-6' id='div_texto' style="height: 499px;">
                                                     <label for="texto" id="etiqueta_despacho" style="padding-left: 15px;">Prontuário público:<sup class="obrig">*</sup></label>
@@ -360,12 +305,12 @@ require_once ROOT."/html/personalizacao_display.php";
                                                 </div>
                                             </div>
                                             <br>
-                                            </div>
-                                            <br>
+                                        </div> 
                                             <div class="panel-footer">
                                                 <div class='row'>
                                                     <div class="col-md-9 col-md-offset-3">
-                                                        <input type="hidden" name="nomeClasse" value="SaudeControle">
+                                                        <input type="hidden" name="nomeClasse" value="controleSaudePet">
+                                                        <input type="hidden" name="modulo" value="pet">
                                                         <input type="hidden" name="metodo" value="incluir">
                                                         <input id="enviar" type="submit" class="btn btn-primary" value="Enviar">
                                                     </div>
@@ -386,9 +331,14 @@ require_once ROOT."/html/personalizacao_display.php";
     </section><!--section do body-->
     <?php
           $nomesCertos = json_encode($nomesCertos);
-          $nomesCertos2 = json_encode($nomesCertos2);
     ?>
-        
+    
+    <script>
+        let pets = <?= $nomesCertos ?>;
+            $.each(pets, function(i, item){
+                $("#nome").append($("<option value="+item.id_pet +">").text(item.nome));
+            })
+    </script>
     <!-- end: page -->
     <!-- Vendor -->
         <script src="<?php echo WWW;?>assets/vendor/select2/select2.js"></script>
