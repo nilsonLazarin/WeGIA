@@ -99,23 +99,6 @@ $raca = $mysqli->query("select * from pet_raca");
   <!-- Theme Custom CSS -->
   <link rel="stylesheet" href="../../assets/stylesheets/theme-custom.css">
 
-  <!-- <script>
-
-    console.log("oi");
-    $(function(){
-
-      
-      
-      var funcionario = <?php echo $informacoesFunc ?>; 
-      console.log(funcionario);
-      console.log("oi");
-      $.each(funcionario, function(i, item) {
-        
-        $("#cpf").val(item.cpf).prop('disabled', true);
-        }
-    
-
-  </script> -->
 </head>
 
 <body>

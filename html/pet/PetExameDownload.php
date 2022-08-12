@@ -34,8 +34,8 @@ header("Content-Disposition: attachment; filename=".$query["arquivo_nome"].".".$
 ob_clean();
 flush();
     
-echo base64_decode($query["arquivo_exame"]);
-//echo base64_decode(gzuncompress($query["arquivo_exame"]));
+//echo base64_decode($query["arquivo_exame"]);
+echo base64_decode(gzuncompress($query["arquivo_exame"]));
 //echo base64_decode(gzuncompress($query["arquivo_exame"]));
 
 //die();

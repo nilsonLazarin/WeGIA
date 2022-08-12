@@ -130,12 +130,7 @@
 			$('.tabble-row').on("click", function (evt) {
 				let idPet = $(this).attr('id');
 				localStorage.setItem('id_pet',idPet);
-<<<<<<< HEAD
 				window.location.href = "./profile_pet.php?id_pet="+idPet;				
-=======
-				window.location.href = "../pet/profile_pet.php?id_pet="+idPet;
-				
->>>>>>> 58e6b474ad1a923251387475ec26f207974112f2
 			});
 	    });
 		

@@ -21,24 +21,7 @@
     $petDados = $_SESSION['pet'];
     unset($_SESSION['pet']);
     $pet = json_encode($petDados);
-    //echo "<script> let d = " . $pet . "[0]</script>";
-    // echo "<script> console.log(d.raca)</script>";
-    
-    // Adiciona Descrição de escala e tipo
-    //$func = json_decode($func);
-    /*if ($func) 
-    {
-      $func = $func[0];
-      if ($func->tipo) 
-      {
-        $func->tipo_descricao = $pdo->query("SELECT descricao FROM tipo_quadro_horario WHERE id_tipo=" . $func->tipo)->fetch(PDO::FETCH_ASSOC)['descricao'];
-      }
-      if ($func->escala) 
-      {
-        $func->escala_descricao = $pdo->query("SELECT descricao FROM escala_quadro_horario WHERE id_escala=" . $func->escala)->fetch(PDO::FETCH_ASSOC)['descricao'];
-      }
-      $func = json_encode([$func]);
-    }*/
+ 
   }
   $config_path = "config.php";
   if (file_exists($config_path)) 
@@ -56,10 +39,6 @@
   }
   require_once "../permissao/permissao.php";
   permissao($_SESSION['id_pessoa'], 11, 7);
-  /*$mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-  $situacao = $mysqli->query("SELECT * FROM situacao");
-  $cargo = $mysqli->query("SELECT * FROM cargo");*/
-  // Adiciona a Função display_campo($nome_campo, $tipo_campo)
   require_once "../personalizacao_display.php";
   require_once "../../dao/Conexao.php";
   require_once ROOT . "/controle/FuncionarioControle.php";
@@ -67,16 +46,7 @@
   $cpf1 = new AtendidoControle;
   $cpf1->listarCPF();
   require_once "../geral/msg.php";
-  /*$docfuncional = $pdo->query("SELECT * FROM funcionario_docs f JOIN funcionario_docfuncional docf ON f.id_docfuncional = docf.id_docfuncional WHERE id_pet = " . $_GET['id_pet']);
-  $docfuncional = $docfuncional->fetchAll(PDO::FETCH_ASSOC);
-  foreach ($docfuncional as $key => $value) 
-  {
-    $docfuncional[$key]["arquivo"] = gzuncompress($value["arquivo"]);
-  }
-  $docfuncional = json_encode($docfuncional);
-  /*$dependente = $pdo->query("SELECT fdep.id_dependente AS id_dependente, p.nome AS nome, p.cpf AS cpf, par.descricao AS parentesco FROM funcionario_dependentes fdep LEFT JOIN funcionario f ON f.id_pet = fdep.id_pet LEFT JOIN pessoa p ON p.id_pessoa = fdep.id_pessoa LEFT JOIN funcionario_dependente_parentesco par ON par.id_parentesco = fdep.id_parentesco WHERE fdep.id_pet = " . $_GET['id_pet']);
-  $dependente = $dependente->fetchAll(PDO::FETCH_ASSOC);
-  $dependente = json_encode($dependente);*/
+ 
   
 ?>
 <!doctype html>
@@ -199,8 +169,6 @@
             {
               $("#radioM").prop('checked', true).prop('disabled', true);
               $("#radioF").prop('checked', false).prop('disabled', true);
-              $("#reservista1").show();
-              $("#reservista2").show();
             } 
           else if (item.sexo == "F") 
             {
@@ -220,13 +188,10 @@
       }
 
       
-   
-
       $(function() 
       {
         $.each(pet, function(i, item) 
         {
-          //console.log(item);
           //Informações pet
           $("#nomeForm").val(item.nome).prop('disabled', true);
           if (item.sexo == "M") 
@@ -379,7 +344,7 @@
                     <a href="#arquivosPet" data-toggle="tab">Exames do Pet</a>
                   </li>
                   <!--<li>
-                    <a href="#beneficio" data-toggle="tab">Vacinação?</a>
+                    <a href="#atendimento" data-toggle="tab">Atendimento</a>
                   </li>-->
                   <!--<li>
                     <a href="#editar_cargaHoraria" data-toggle="tab">Carga horaria</a>
@@ -520,7 +485,7 @@
                                       <td>$data</td>
                                       <td style="display: flex; justify-content: space-evenly;">
                                       
-                                        <a href="data:application/pdf;base64,$valor[arquivo_exame]" title="Baixar" download="$valor[arquivo_nome].$valor[arquivo_extensao]">
+                                        <a href="data:application/pdf;base64,$valor[arquivo_exame]" title="Baixar" download="$valor[descricao_exame].$valor[arquivo_extensao]">
                                         <!--<a href="./PetExameDownload.php?id_exame=$valor[id_exame]" title="Baixar">-->
                                           <button class="btn btn-primary">
                                             <i class="fas fa-download"></i>
@@ -627,15 +592,11 @@
     <script type="text/javascript">
       //============pedro
 
-      /*let url = "dependente_remover.php";
-        let data = "id_pet=<?= $_GET['id_pet']; ?>&id_dependente=" + id_dep;
-        post(url, data, verificaSucesso);*/
-
       function excluirArquivo(dado){
         let trId = document.querySelector("#tr"+dado);
         let arkivo = document.querySelector("#ark"+dado).innerHTML;
         let response = window.confirm('Deseja realmente excluir o arquivo "' + arkivo + '"?');
-        //alert(dado);
+        
         if(response === true){
             fetch('../../controle/pet/PetExameControle.php', {
             method: 'POST',
@@ -708,113 +669,6 @@
     <script src="../../assets/javascripts/tables/examples.datatables.row.with.details.js"></script>
     <script src="../../assets/javascripts/tables/examples.datatables.tabletools.js"></script>
 
-    <script>
-      // function gerarDocFuncional() 
-      // {
-      //   url = 'documento_listar.php';
-      //   $.ajax(
-      //   {
-      //     data: '',
-      //     type: "POST",
-      //     url: url,
-      //     async: true,
-      //     success: function(response) 
-      //     {
-      //       var documento = response;
-      //       $('#tipoDocumento').empty();
-      //       $('#tipoDocumento').append('<option selected disabled>Selecionar...</option>');
-      //       $.each(documento, function(i, item) 
-      //       {
-      //         $('#tipoDocumento').append('<option value="' + item.id_docfuncional + '">' + item.nome_docfuncional + '</option>');
-      //       });
-      //     },
-      //     dataType: 'json'
-      //   });
-      // }
-
-     
-      
-      function gerarParentesco() 
-      {
-        url = 'dependente_parentesco_listar.php';
-        $.ajax(
-        {
-          data: '',
-          type: "POST",
-          url: url,
-          async: true,
-          success: function(response) 
-          {
-            var parentesco = response;
-            $('#parentesco').empty();
-            $('#parentesco').append('<option selected disabled>Selecionar...</option>');
-            $.each(parentesco, function(i, item) 
-            {
-              $('#parentesco').append('<option value="' + item.id_parentesco + '">' + item.descricao + '</option>');
-            });
-          },
-          dataType: 'json'
-        });
-      }
-      function adicionarParentesco() 
-      {
-        url = 'dependente_parentesco_adicionar.php';
-        var descricao = window.prompt("Cadastre um novo tipo de Parentesco:");
-        if (!descricao) 
-        {
-          return
-        }
-        descricao = descricao.trim();
-        if (descricao == '') 
-        {
-          return
-        }
-        data = 'descricao=' + descricao;
-        $.ajax(
-        {
-          type: "POST",
-          url: url,
-          data: data,
-          success: function(response) 
-          {
-            gerarParentesco();
-          },
-          dataType: 'text'
-        })
-      }
-      function verificaSucesso(response)
-      {
-        if (response.errorInfo)
-        {
-          if (response.errorInfo[1] == 1451)
-          {
-            window.alert("O dependente possui documentos cadastrados em seu nome. Retire-os do bando de dados antes de remover o dependente.");
-          }
-          else
-          {
-            window.alert("Houve um erro ao retirar o dependente. Verifique se todos os documentos referentes a ele foram removidos antes de prosseguir.");
-          }
-          return false;
-        }
-        listarDependentes(response);
-      }
-      function removerDependente(id_dep) 
-      {
-        let url = "dependente_remover.php";
-        let data = "id_pet=<?= $_GET['id_pet']; ?>&id_dependente=" + id_dep;
-        post(url, data, verificaSucesso);
-      }
-      function removerFuncionarioDocs(id_doc) 
-      {
-        if (!window.confirm("Tem certeza que deseja remover esse documento?"))
-        {
-          return false;
-        }
-        let url = "documento_excluir.php?id_doc="+id_doc+"&id_pet=<?= $_GET["id_pet"] ?>";
-        let data = "";
-        post(url, data, listarFunDocs);
-      }
-    </script>
     <!-- JavaScript Custom -->
     <script src="../geral/post.js"></script>
     <script src="../geral/formulario.js"></script>

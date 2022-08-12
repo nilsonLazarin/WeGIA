@@ -175,7 +175,7 @@ class PetControle{
         extract($_REQUEST);
         $nameFile = explode(".", $_FILES['arquivo']['name']);
         $arquivoExame = base64_encode(file_get_contents($_FILES['arquivo']['tmp_name']));
-        //$arquivoExame = base64_encode(gzcompress($_FILES['arquivo']['tmp_name']));
+        //$arquivoExame = base64_encode(gzcompress(file_get_contents($_FILES['arquivo']['tmp_name'])));
         $dataExame = date("y-m-d");
         var_dump($_POST, $_FILES);
 
