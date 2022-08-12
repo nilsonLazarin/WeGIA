@@ -3,7 +3,7 @@
   ini_set('display_errors',1);
   ini_set('display_startup_erros',1);
   error_reporting(E_ALL);
-  extract($_REQUEST);
+  //extract($_REQUEST);
   session_start();
   require_once "../../dao/Conexao.php";
   $pdo = Conexao::connect();
@@ -67,14 +67,14 @@
   $cpf1 = new AtendidoControle;
   $cpf1->listarCPF();
   require_once "../geral/msg.php";
-  /*$docfuncional = $pdo->query("SELECT * FROM funcionario_docs f JOIN funcionario_docfuncional docf ON f.id_docfuncional = docf.id_docfuncional WHERE id_funcionario = " . $_GET['id_funcionario']);
+  /*$docfuncional = $pdo->query("SELECT * FROM funcionario_docs f JOIN funcionario_docfuncional docf ON f.id_docfuncional = docf.id_docfuncional WHERE id_pet = " . $_GET['id_pet']);
   $docfuncional = $docfuncional->fetchAll(PDO::FETCH_ASSOC);
   foreach ($docfuncional as $key => $value) 
   {
     $docfuncional[$key]["arquivo"] = gzuncompress($value["arquivo"]);
   }
   $docfuncional = json_encode($docfuncional);
-  /*$dependente = $pdo->query("SELECT fdep.id_dependente AS id_dependente, p.nome AS nome, p.cpf AS cpf, par.descricao AS parentesco FROM funcionario_dependentes fdep LEFT JOIN funcionario f ON f.id_funcionario = fdep.id_funcionario LEFT JOIN pessoa p ON p.id_pessoa = fdep.id_pessoa LEFT JOIN funcionario_dependente_parentesco par ON par.id_parentesco = fdep.id_parentesco WHERE fdep.id_funcionario = " . $_GET['id_funcionario']);
+  /*$dependente = $pdo->query("SELECT fdep.id_dependente AS id_dependente, p.nome AS nome, p.cpf AS cpf, par.descricao AS parentesco FROM funcionario_dependentes fdep LEFT JOIN funcionario f ON f.id_pet = fdep.id_pet LEFT JOIN pessoa p ON p.id_pessoa = fdep.id_pessoa LEFT JOIN funcionario_dependente_parentesco par ON par.id_parentesco = fdep.id_parentesco WHERE fdep.id_pet = " . $_GET['id_pet']);
   $dependente = $dependente->fetchAll(PDO::FETCH_ASSOC);
   $dependente = json_encode($dependente);*/
   
@@ -170,6 +170,8 @@
       let iNascimento;
       let iAcolhimento;
       
+
+      //Informações Pet
       function editar_informacoes_pet() 
       {
         $("#nomeForm").prop('disabled', false);
@@ -216,116 +218,15 @@
           $("#editarPet").attr('onclick', "return editar_informacoes_pet()");
         })
       }
-      function editar_endereco() 
-      {
-        $("#cep").prop('disabled', false);
-        $("#uf").prop('disabled', false);
-        $("#cidade").prop('disabled', false);
-        $("#bairro").prop('disabled', false);
-        $("#rua").prop('disabled', false);
-        $("#complemento").prop('disabled', false);
-        $("#ibge").prop('disabled', false);
-        $("#numResidencial").prop('disabled', false);
-        if ($('#numResidencial').is(':checked')) 
-        {
-          $("#numero_residencia").prop('disabled', true);
-        }
-        else 
-        {
-          $("#numero_residencia").prop('disabled', false);
-        }
-        $("#botaoEditarEndereco").html('Cancelar');
-        $("#botaoSalvarEndereco").prop('disabled', false);
-        $("#botaoEditarEndereco").removeAttr('onclick');
-        $("#botaoEditarEndereco").attr('onclick', "return cancelar_endereco()");
-      }
-      function cancelar_endereco() 
-      {
-        $("#cep").prop('disabled', true);
-        $("#uf").prop('disabled', true);
-        $("#cidade").prop('disabled', true);
-        $("#bairro").prop('disabled', true);
-        $("#rua").prop('disabled', true);
-        $("#complemento").prop('disabled', true);
-        $("#ibge").prop('disabled', true);
-        $("#numResidencial").prop('disabled', true);
-        $("#numero_residencia").prop('disabled', true);
-        $("#botaoEditarEndereco").html('Editar');
-        $("#botaoSalvarEndereco").prop('disabled', true);
-        $("#botaoEditarEndereco").removeAttr('onclick');
-        $("#botaoEditarEndereco").attr('onclick', "return editar_endereco()");
-      }
-      function editar_documentacao() 
-      {
-        $("#rg").prop('disabled', false);
-        $("#orgao_emissor").prop('disabled', false);
-        $("#data_expedicao").prop('disabled', false);
-        $("#cpf").prop('disabled', true);
-        alert ("O cpf não pode ser editado!");
-        $("#data_admissao").prop('disabled', false);
-        $("#botaoEditarDocumentacao").html('Cancelar');
-        $("#botaoSalvarDocumentacao").prop('disabled', false);
-        $("#botaoEditarDocumentacao").removeAttr('onclick');
-        $("#botaoEditarDocumentacao").attr('onclick', "return cancelar_documentacao()");
-      }
-      function cancelar_documentacao() 
-      {
-        $("#rg").prop('disabled', true);
-        $("#orgao_emissor").prop('disabled', true);
-        $("#data_expedicao").prop('disabled', true);
-        $("#cpf").prop('disabled', true);
-        $("#data_admissao").prop('disabled', true);
-        $("#botaoEditarDocumentacao").html('Editar');
-        $("#botaoSalvarDocumentacao").prop('disabled', true);
-        $("#botaoEditarDocumentacao").removeAttr('onclick');
-        $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
-      }
-      function editar_outros() 
-      {
-        $("#pis").prop('disabled', false);
-        $("#ctps").prop('disabled', false);
-        $("#uf_ctps").prop('disabled', false);
-        $("#zona_eleitoral").prop('disabled', false);
-        $("#titulo_eleitor").prop('disabled', false);
-        $("#secao_titulo_eleitor").prop('disabled', false);
-        $("#certificado_reservista_numero").prop('disabled', false);
-        $("#certificado_reservista_serie").prop('disabled', false);
-        $("#situacao").prop('disabled', false);
-        $("#cargo").prop('disabled', false);
-        $("#botaoEditarOutros").html('Cancelar');
-        $("#botaoSalvarOutros").prop('disabled', false);
-        $("#botaoEditarOutros").removeAttr('onclick');
-        $("#botaoEditarOutros").attr('onclick', "return cancelar_outros()");
-      }
-      function cancelar_outros() 
-      {
-        $("#pis").prop('disabled', true);
-        $("#ctps").prop('disabled', true);
-        $("#uf_ctps").prop('disabled', true);
-        $("#zona_eleitoral").prop('disabled', true);
-        $("#titulo_eleitor").prop('disabled', true);
-        $("#secao_titulo_eleitor").prop('disabled', true);
-        $("#certificado_reservista_numero").prop('disabled', true);
-        $("#certificado_reservista_serie").prop('disabled', true);
-        $("#situacao").prop('disabled', true);
-        $("#cargo").prop('disabled', true);
-        $("#botaoEditarOutros").html('Editar');
-        $("#botaoSalvarOutros").prop('disabled', true);
-        $("#botaoEditarOutros").removeAttr('onclick');
-        $("#botaoEditarOutros").attr('onclick', "return editar_outros()");
-      }
-      function alterardate(data) 
-      {
-        var date = data.split("-");
-        alert(date);
-        return data;//e[2] + "-" + date[1] + "-" + date[0];
-      }
+
+      
+   
 
       $(function() 
-      {        
-        console.log(pet[0]['nome']);
+      {
         $.each(pet, function(i, item) 
         {
+          //console.log(item);
           //Informações pet
           $("#nomeForm").val(item.nome).prop('disabled', true);
           if (item.sexo == "M") 
@@ -352,269 +253,23 @@
         })
       });
 
-      //Código Pedro=======
-       /*function dia(){
-          let nasc = document.querySelector("#nascimento");
-          let acol = document.querySelector("#acolhimento");
+         // Ajuste de data
+         function alterardate(data) 
+      {
+        var date = data.split("-");
+        alert(date);
+        return data;
+      }
 
-          if(acol.value < nasc.value){
-            alert("O dia do acolhimento não pode ser menor que o dia do nascimento!!!");
-            nasc.value = iNascimento;
-            acol.value = iAcolhimento;
-          }
-       }*/
-      //=======
       
-    </script>
-    <script type="text/javascript">
-      function numero_residencial() 
-      {
-        if ($("#numResidencial").prop('checked')) 
-        {
-          $("#numero_residencia").val('');
-          document.getElementById("numero_residencia").disabled = true;
-        } 
-        else 
-        {
-          document.getElementById("numero_residencia").disabled = false;
-        }
-      }
-      function exibir_reservista() 
-      {
-        $("#reservista1").show();
-        $("#reservista2").show();
-      }
-      function esconder_reservista() 
-      {
-        $("#reservista1").hide();
-        $("#reservista2").hide();
-      }
-      function limpa_formulário_cep() 
-      {
-        //Limpa valores do formulário de cep.
-        document.getElementById('rua').value = ("");
-        document.getElementById('bairro').value = ("");
-        document.getElementById('cidade').value = ("");
-        document.getElementById('uf').value = ("");
-        document.getElementById('ibge').value = ("");
-      }
-      function meu_callback(conteudo) 
-      {
-        if (!("erro" in conteudo)) 
-        {
-          //Atualiza os campos com os valores.
-          document.getElementById('rua').value = (conteudo.logradouro);
-          document.getElementById('bairro').value = (conteudo.bairro);
-          document.getElementById('cidade').value = (conteudo.localidade);
-          document.getElementById('uf').value = (conteudo.uf);
-          document.getElementById('ibge').value = (conteudo.ibge);
-        } //end if.
-        else 
-        {
-          //CEP não Encontrado.
-          limpa_formulário_cep();
-          alert("CEP não encontrado.");
-        }
-      }
-      function pesquisacep(valor) 
-      {
-        //Nova variável "cep" somente com dígitos.
-        var cep = valor.replace(/\D/g, '');
-        //Verifica se campo cep possui valor informado.
-        if (cep != "") 
-        {
-          //Expressão regular para validar o CEP.
-          var validacep = /^[0-9]{8}$/;
-          //Valida o formato do CEP.
-          if (validacep.test(cep)) 
-          {
-            //Preenche os campos com "..." enquanto consulta webservice.
-            document.getElementById('rua').value = "...";
-            document.getElementById('bairro').value = "...";
-            document.getElementById('cidade').value = "...";
-            document.getElementById('uf').value = "...";
-            document.getElementById('ibge').value = "...";
-            //Cria um elemento javascript.
-            var script = document.createElement('script');
-            //Sincroniza com o callback.
-            script.src = 'https://viacep.com.br/ws/' + cep + '/json/?callback=meu_callback';
-            //Insere script no documento e carrega o conteúdo.
-            document.body.appendChild(script);
-          } //end if.
-          else 
-          {
-            //cep é inválido.
-            limpa_formulário_cep();
-            alert("Formato de CEP inválido.");
-          }
-        } //end if.
-        else 
-        {
-          //cep sem valor, limpa formulário.
-          limpa_formulário_cep();
-        }
-      };
-      function testaCPF(strCPF) 
-      { 
-        //strCPF é o cpf que será validado. Ele deve vir em formato string e sem nenhum tipo de pontuação.
-        var strCPF = strCPF.replace(/[^\d]+/g, ''); // Limpa a string do CPF removendo espaços em branco e caracteres especiais.
-        // PODE SER QUE NÃO ESTEJA LIMPANDO COMPLETAMENTE. FAVOR FAZER O TESTE!!!!
-        var Soma;
-        var Resto;
-        Soma = 0;
-        if (strCPF == "00000000000") return false;
-        for (i = 1; i <= 9; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (11 - i);
-        Resto = (Soma * 10) % 11;
-        if ((Resto == 10) || (Resto == 11)) Resto = 0;
-        if (Resto != parseInt(strCPF.substring(9, 10))) return false;
-        Soma = 0;
-        for (i = 1; i <= 10; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (12 - i);
-          Resto = (Soma * 10) % 11;
-        if ((Resto == 10) || (Resto == 11)) Resto = 0;
-        if (Resto != parseInt(strCPF.substring(10, 11))) return false;
-        return true;
-      }
-      function validarCPF(strCPF) 
-      {
-        if (!testaCPF(strCPF))
-        {
-          $('#cpfInvalido').show();
-          document.getElementById("enviarEditar").disabled = true;
-        } 
-        else 
-        {
-          $('#cpfInvalido').hide();
-          document.getElementById("enviarEditar").disabled = false;
-        }
-      }
-    </script>
-    <script language="JavaScript">
-      var numValidos = "0123456789-()";
-      var num1invalido = "78";
-      var i;
-      function validarTelefone() 
-      {
-        //Verificando quantos dígitos existem no campo, para controlarmos o looping;
-        digitos = document.form1.telefone.value.length;
-        for (i = 0; i < digitos; i++) 
-        {
-          if (numValidos.indexOf(document.form1.telefone.value.charAt(i), 0) == -1) 
-          {
-            alert("Apenas números são permitidos no campo Telefone!");
-            document.form1.telefone.select();
-            return false;
-          }
-          if (i == 0) 
-          {
-            if (num1invalido.indexOf(document.form1.telefone.value.charAt(i), 0) != -1) 
-            {
-              alert("Número de telefone inválido!");
-              document.form1.telefone.select();
-              return false;
-            }
-          }
-        }
-      }
+      
       $(function() 
       {
         $("#header").load("../header.php");
         $(".menuu").load("../menu.php");
       });
-      function gerarSituacao() 
-      {
-        url = '../../dao/exibir_situacao.php';
-        $.ajax(
-        {
-          data: '',
-          type: "POST",
-          url: url,
-          async: true,
-          success: function(response) 
-          {
-            var situacoes = response;
-            $('#situacao').empty();
-            $('#situacao').append('<option selected disabled>Selecionar</option>');
-            $.each(situacoes, function(i, item) 
-            {
-              $('#situacao').append('<option value="' + item.id_situacao + '">' + item.situacoes + '</option>');
-            });
-          },
-          dataType: 'json'
-        });
-      }
-      function adicionar_situacao() 
-      {
-        url = '../../dao/adicionar_situacao.php';
-        var situacao = window.prompt("Cadastre uma Nova Situação:");
-        if (!situacao) 
-        {
-          return
-        }
-        situacao = situacao.trim();
-        if (situacao == '') 
-        {
-          return
-        }
-        data = 'situacao=' + situacao;
-        $.ajax(
-        {
-          type: "POST",
-          url: url,
-          data: data,
-          success: function(response) 
-          {
-            gerarSituacao();
-          },
-          dataType: 'text'
-        })
-      }
-      function gerarCargo() 
-      {
-        url = '../dao/exibir_cargo.php';
-        $.ajax(
-        {
-          data: '',
-          type: "POST",
-          url: url,
-          success: function(response) 
-          {
-            var cargo = response;
-            $('#cargo').empty();
-            $('#cargo').append('<option selected disabled>Selecionar</option>');
-            $.each(cargo, function(i, item) 
-            {
-              $('#cargo').append('<option value="' + item.id_cargo + '">' + item.cargo + '</option>');
-            });
-          },
-          dataType: 'json'
-        });
-      }
-      function adicionar_cargo() 
-      {
-        url = '../../dao/adicionar_cargo.php';
-        var cargo = window.prompt("Cadastre um Novo Cargo:");
-        if (!cargo) 
-        {
-          return
-        }
-        situacao = cargo.trim();
-        if (cargo == '') 
-        {
-          return
-        }
-        data = 'cargo=' + cargo;
-        $.ajax(
-        {
-          type: "POST",
-          url: url,
-          data: data,
-          success: function(response) 
-          {
-            gerarCargo();
-          },
-          dataType: 'text'
-        })
-      }
+
+      
     </script>
   </head>
   <body>
@@ -721,27 +376,16 @@
                     <a href="#overview" data-toggle="tab">Informações do Pet</a>
                   </li>
                   <li>
-                    <a href="#endereco" data-toggle="tab">Endereço</a>
+                    <a href="#arquivosPet" data-toggle="tab">Exames do Pet</a>
                   </li>
-                  <li>
-                    <a href="#documentos" data-toggle="tab">Documentação</a>
-                  </li>
-                  <li>
-                    <a href="#arquivo" data-toggle="tab">Arquivos</a>
-                  </li>
-                  <li>
-                    <a href="#outros" data-toggle="tab">Outros</a>
-                  </li>
-                  <li>
-                    <a href="#beneficio" data-toggle="tab">Remuneração</a>
-                  </li>
-                  <li>
-                    <a href="#editar_cargaHoraria" data-toggle="tab">Carga Horária</a>
-                  </li>
-                  <li>
-                    <a href="#dependentes" data-toggle="tab">Dependentes</a>
-                  </li>
+                  <!--<li>
+                    <a href="#beneficio" data-toggle="tab">Vacinação?</a>
+                  </li>-->
+                  <!--<li>
+                    <a href="#editar_cargaHoraria" data-toggle="tab">Carga horaria</a>
+                  </li>-->
                 </ul>
+
                 <div class="tab-content">
                   <!--Aba de Informações Pessoais-->
                   <div id="overview" class="tab-pane active">
@@ -762,8 +406,8 @@
                         <div class="form-group">
                           <label class="col-md-3 control-label" for="profileLastName">Sexo</label>
                           <div class="col-md-8">
-                            <label><input type="radio" name="gender" id="radioM" id="M" value="m" style="margin-top: 10px; margin-left: 15px;" onclick="return exibir_reservista()"> <i class="fa fa-male" style="font-size: 20px;"> Masculino</i></label>
-                            <label><input type="radio" name="gender" id="radioF" id="F" value="f" style="margin-top: 10px; margin-left: 15px;" onclick="return esconder_reservista()"> <i class="fa fa-female" style="font-size: 20px;"> Feminino</i> </label>
+                            <label><input type="radio" name="gender" id="radioM" id="M" value="M" style="margin-top: 10px; margin-left: 15px;" onclick="return exibir_reservista()"> <i class="fa fa-male" style="font-size: 20px;"> Masculino</i></label>
+                            <label><input type="radio" name="gender" id="radioF" id="F" value="F" style="margin-top: 10px; margin-left: 15px;" onclick="return esconder_reservista()"> <i class="fa fa-female" style="font-size: 20px;"> Feminino</i> </label>
                           </div>
                         </div>
                         
@@ -829,915 +473,222 @@
                             <input type="text" class="form-control" name="especificas" id="especificas" >
                           </div>
                         </div>
-
+                        </br>
                         <input type="hidden" name="id_pet" value=<?php echo $_GET['id_pet'] ?>>
                         <button type="button" class="btn btn-primary" id="editarPet" onclick="return editar_informacoes_pet()">Editar</button>
                         <input type="submit" class="btn btn-primary" disabled="true" value="Salvar" id="salvarPet">
                       </fieldset>
-                    </form><br>
-                    <div class="panel-footer">
-                      <div class="row">
-                        <div class="col-md-9 col-md-offset-3">
-                          <!-- <button id="excluir" type="button" class="btn btn-danger" data-toggle="modal" data-target="#exclusao">Demitir</button> -->
-                        </div>
-                      </div>
-                    </div>
-                    <div class="modal fade" id="exclusao" role="dialog">
-                      <div class="modal-dialog">
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <button type="button" class="close" aba-dismiss="modal">×</button>
-                            <h3>Demitir um Funcionário</h3>
-                          </div>
-                          <div class="modal-body">
-                            <p> Tem certeza que deseja demitir esse funcionário? Essa ação não poderá ser desfeita e todas as informações referentes a esse funcionário serão perdidas!</p>
-                            <a href="../../controle/control.php?metodo=excluir&nomeClasse=FuncionarioControle&id_funcionario=<?php echo $_GET['id_funcionario']; ?>"><button button type="button" class="btn btn-success">Confirmar</button></a>
-                            <button button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    </form>
+                    <br>
                   </div>
-                <!-- Aba de remuneração do funcionário -->
-                <div id="beneficio" class="tab-pane">
+                <!--Arquivos-->
+                <div id="arquivosPet" class="tab-pane">
                   <section class="panel">
-                    <header class="panel-heading">
-                      <div class="panel-actions">
-                        <a href="#" class="fa fa-caret-down"></a>
-                      </div>
-                      <h2 class="panel-title">Remuneração</h2>
-                    </header>
-                    <div class="panel-body">
-                      <h5 class="mb-xlg">Remuneração: R$ <b class="total"></b></h5>
-                      <table class="table table-bordered table-striped mb-none" id="datatable-default">
-                        <thead>
-                          <tr>
-                            <th>Remuneração</th>
-                            <th>Data Início</th>
-                            <th>Data Fim</th>
-                            <th>Valor</th>
-                            <th>Ação</th>
-                          </tr>
-                        </thead>
-                        <tbody id="tabela_remuneracao"></tbody>
-                      </table>
-                      <button id="excluir" type="button" class="btn btn-success" data-toggle="modal" data-target="#adicionar">Adicionar</button>
-                    </div><br>
-                    <div class="modal fade" id="adicionar" role="dialog">
-                      <div class="modal-dialog">
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" id="closeRemuneracaoModal">×</button>
-                            <h3>Adicionar Remuneração</h3>
-                          </div>
-                          <div class="modal-body">
-                          <fieldset id="formRemuneracao">
-                            <div class="form-group">
-                              <label class="col-md-3 control-label" for="tipo_remuneracao">Tipo</label>
-                              <div class="col-md-6" style="display: flex;">
-                                <select class="form-control input-lg mb-md" name="id_tipo" id="tipo_remuneracao" required>
-                                  <option selected disabled>Selecionar</option>
-                                  <?php
-                                    $tipos = ($pdo->query("SELECT idfuncionario_remuneracao_tipo as id, descricao FROM funcionario_remuneracao_tipo;"))->fetchAll(PDO::FETCH_ASSOC);
-                                    foreach ($tipos as $key => $tipo) 
-                                    {
-                                      echo "<option value='" . $tipo["id"] . "'>" . $tipo["descricao"] . "</option>";
-                                    }
-                                  ?>
-                                </select>
-                                <a onclick="adicionarTipoRemuneracao()" style="margin: 0 20px;" id="btn_adicionar_tipo_remuneracao"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
-                              </div>
-                            </div>
-                            <div class="form-group">
-                              <label class="col-md-3 control-label" for="valor_remuneracao">Valor</label>
-                              <div class="col-md-8">
-                                <input type="number" class="form-control" name="valor" id="valor_remuneracao" onkeypress="return Onlynumbers(event)" required>
-                              </div>
-                            </div>
-                            <div class="form-group">
-                              <label class="col-md-3 control-label" for="inicio_remuneracao">Data Inicio</label>
-                              <div class="col-md-8">
-                                <input type="date" name="inicio" id="inicio_remuneracao" class="form-control">
-                              </div>
-                            </div>
-                            <div class="form-group">
-                              <label class="col-md-3 control-label" for="fim_remuneracao">Data Fim</label>
-                              <div class="col-md-8">
-                                <input type="date" name="fim" id="fim_remuneracao" class="form-control">
-                              </div>
-                            </div>
-                            <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
-                            <input type="hidden" name="action" value="remuneracao_adicionar">
-                            <button class="btn btn-primary" id="botaoSalvarRemuneracao" onclick="adicionarRemuneracao('formRemuneracao', console.log)">Salvar</button>
-                          </fieldset>
+                      <header class="panel-heading">
+                        <div class="panel-actions">
+                          <a href="#" class="fa fa-caret-down"></a>
                         </div>
-                      </div>
-                    </div>
-                  </section>
-                </div>
-                <!--Outros-->
-                <div id="outros" class="tab-pane">
-                  <section class="panel">
-                    <header class="panel-heading">
-                      <div class="panel-actions">
-                        <a href="#" class="fa fa-caret-down"></a>
-                      </div>
-                      <h2 class="panel-title">Outros</h2>
-                    </header>
-                    <div class="panel-body">
-                      <form class="form-horizontal" method="POST" action="../../controle/control.php">
-                        <input type="hidden" name="nomeClasse" value="FuncionarioControle">
-                        <input type="hidden" name="metodo" value="alterarOutros">
-                        <div class="form-group">
-                          <label class="col-md-3 control-label">PIS</label>
-                          <div class="col-md-6">
-                            <input type="text" id="pis" name="pis" class="form-control">
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <label class="col-md-3 control-label">CTPS</label>
-                          <div class="col-md-6">
-                            <input type="text" id="ctps" name="ctps" class="form-control">
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <label class="col-md-3 control-label" for="uf">Estado CTPS</label>
-                          <div class="col-md-6">
-                            <input type="text" name="uf_ctps" size="60" class="form-control" id="uf_ctps">
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <label class="col-md-3 control-label">Título de eleitor</label>
-                          <div class="col-md-6">
-                            <input type="text" name="titulo_eleitor" id="titulo_eleitor" class="form-control">
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <label class="col-md-3 control-label">Zona eleitoral</label>
-                          <div class="col-md-6">
-                            <input type="text" name="zona_eleitoral" id="zona_eleitoral" class="form-control">
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <label class="col-md-3 control-label">Seção do título de eleitor</label>
-                          <div class="col-md-6">
-                            <input type="text" name="secao_titulo_eleitor" id="secao_titulo_eleitor" class="form-control">
-                          </div>
-                        </div>
-                        <div class="form-group" id="reservista1" style="display: none">
-                          <label class="col-md-3 control-label">Número do certificado reservista</label>
-                          <div class="col-md-6">
-                            <input type="text" id="certificado_reservista_numero" name="certificado_reservista_numero" class="form-control num_reservista">
-                          </div>
-                        </div>
-                        <div class="form-group" id="reservista2" style="display: none">
-                          <label class="col-md-3 control-label">Série do certificado reservista</label>
-                          <div class="col-md-6">
-                            <input type="text" id="certificado_reservista_serie" name="certificado_reservista_serie" class="form-control serie_reservista">
-                          </div>
-                        </div>
-                        <div class="form-group">
-                        <label class="col-md-3 control-label" for="profileCompany">Data de Admissão</label>
-                        <div class="col-md-6">
-                          <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data_admissao" id="data_admissao" max=<?php echo date('Y-m-d'); ?>>
-                        </div>
-                      </form>
-                      <div class="form-group">
-                        <label class="col-md-3 control-label" for="inputSuccess">Situação</label>
-                          <a onclick="adicionar_situacao()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
-                          <div class="col-md-6">
-                            <select class="form-control input-lg mb-md" name="situacao" id="situacao">
-                              <option selected disabled>Selecionar</option>
-                              <?php
-                                while ($row = $situacao->fetch_array(MYSQLI_NUM)) 
-                                {
-                                  echo "<option value=" . $row[0] . ">" . $row[1] . "</option>";
-                                }                            
-                              ?>
-                            </select>
-                          </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="col-md-3 control-label" for="inputSuccess">Cargo</label>
-                          <a onclick="adicionar_cargo()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
-                          <div class="col-md-6">
-                            <select class="form-control input-lg mb-md" name="cargo" id="cargo">
-                              <option selected disabled>Selecionar</option>
-                              <?php
-                                while ($row = $cargo->fetch_array(MYSQLI_NUM)) 
-                                {
-                                  echo "<option value=" . $row[0] . ">" . $row[1] . "</option>";
-                                }                            
-                              ?>
-                            </select>
-                          </div>
-                      </div>
-                      <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
-                      <button type="button" class="btn btn-primary" id="botaoEditarOutros" onclick="return editar_outros()">Editar</button>
-                      <input type="submit" class="btn btn-primary" disabled="true" value="Salvar" id="botaoSalvarOutros" disabled="true">
-                      <h4>Informações Adicionais</h4>
-                      <table class="table table-bordered table-striped mb-none" id="datatable-addInfo">
-                        <thead>
-                          <tr>
-                            <th>Descrição</th>
-                            <th>Dados</th>
-                            <th>Ação</th>
-                          </tr>
-                        </thead>
-                        <tbody id="addInfo-tab">
-                          <?php
-                            $id_funcionario = $_GET['id_funcionario'];
-                            $infoAdd = $pdo->query("SELECT * FROM funcionario_outrasinfo WHERE funcionario_id_funcionario = '$id_funcionario';")->fetchAll(PDO::FETCH_ASSOC);
-                            $tam = count($infoAdd);
-                            for($i=0;$i<$tam;$i++)
-                            {
-                                $dado = $infoAdd[$i]['dado'];
-                                $desc_id = $infoAdd[$i]
-                                ['funcionario_listainfo_idfuncionario_listainfo'];
-                                $idInfoAdicional = $infoAdd[$i]['idfunncionario_outrasinfo'];
-                                $descricao = $pdo->query("SELECT descricao FROM funcionario_listainfo WHERE idfuncionario_listainfo = '$desc_id';")->fetchAll(PDO::FETCH_ASSOC);
-                                $nome_desc = $descricao[0]['descricao'];
-                                echo
-                                "
-                                  <tr id='$idInfoAdicional'>
-                                    <td>$nome_desc</td>
-                                    <td>$dado</td>
-                                    <td style='display: flex; justify-content: space-evenly;'>
-                                      <button onclick='removerDescricao($idInfoAdicional)' title='Excluir' class='btn btn-danger'><i class='fas fa-trash-alt'></i></button>
-                                    </td>
-                                  </tr>
-                                ";  
+                        <h2 class="panel-title">Arquivos do Pet</h2>
+                      </header>
+                      <div class="panel-body">
+                        <table class="table table-bordered table-striped mb-none" id="datatable-docfuncional">
+                          <thead>
+                            <tr>
+                              <th>Arquivo</th>
+                              <th>Data</th>
+                              <th>Ação</th>
+                            </tr>
+                          </thead>
+                          <tbody id="doc-tab">
+                            <?php
+                            $idPet = $_GET['id_pet'];
+                            $pd = $pdo->query("SELECT id_ficha_medica FROM pet_ficha_medica WHERE id_pet =".$idPet);
+                            $p = $pd->fetch();
+                            if($p['id_ficha_medica']){
+                              $id_ficha_medica = $p['id_ficha_medica'];
+                              $exames = $pdo->query("SELECT *, pte.descricao_exame AS 'arkivo' FROM pet_exame pe JOIN pet_tipo_exame pte ON 
+                              pe.id_tipo_exame = pte.id_tipo_exame WHERE pe.id_ficha_medica = ".$p['id_ficha_medica']);
+                              $exame = $exames->fetchAll();
+                              if($exame){
+                                forEach($exame as $valor){
+                                  $data = explode('-',$valor['data_exame']);
+                                  $data = $data[2].'-'.$data[1].'-'.$data[0];
+                                  $arkivo = $valor['arkivo'];
+                                  echo <<<HTML
+                                    <tr id="tr$valor[id_exame]">
+                                      <td><p id="ark$valor[id_exame]">$arkivo</p></td>
+                                      <td>$data</td>
+                                      <td style="display: flex; justify-content: space-evenly;">
+                                      
+                                        <a href="data:application/pdf;base64,$valor[arquivo_exame]" title="Baixar" download="$valor[arquivo_nome].$valor[arquivo_extensao]">
+                                        <!--<a href="./PetExameDownload.php?id_exame=$valor[id_exame]" title="Baixar">-->
+                                          <button class="btn btn-primary">
+                                            <i class="fas fa-download"></i>
+                                          </button>
+                                        </a>
+                                        <a onclick="excluirArquivo($valor[id_exame])" href="#" title="Excluir">
+                                          <button class="btn btn-danger">
+                                            <i class="fas fa-trash-alt"></i>
+                                          </button>
+                                        </a>
+                                      </td>
+                                    </tr>
+                                  HTML;
+                                }
+                              }
                             }
-                          ?>
-                        </tbody>
-                      </table><br>
-                      <!-- Button trigger modal -->
-                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addInfoModal">
-                        Adicionar Informação
-                      </button>
-                      <div class="modal fade" id="addInfoModal" tabindex="-1" role="dialog" aria-labelledby="addInfoModal" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                          <div class="modal-content">
-                            <div class="modal-header" style="display: block ruby;">
-                              <h5 class="modal-title" id="addInfoModalLabel">Adicionar informação adicional</h5>
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close_addInfoModal">
-                                <span aria-hidden="true">&times;</span>
+                            ?>
+                          </tbody>
+                        </table><br>
+                        <!-- Button trigger modal -->
+                        
+                        <?php
+                          if($p['id_ficha_medica']){
+                            echo <<<HTML
+                              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#docFormModal">
+                                Adicionar
                               </button>
-                            </div>
-                            <div class="modal-body">
-                              <form id="formInfoAdicional">
-                                <div class="form-group">
-                                  <label for="descricao_addInfo" class="col-form-label">Descrição</label>
-                                  <div style="display: block ruby;">
-                                    <select name="id_descricao" id="descricao_addInfo" class="form-control" style="width: 300px;" required>
-                                      <option selected disabled>Selecionar</option>
-                                      <?php
-                                        $descricao = $pdo->query("SELECT * FROM funcionario_listainfo;")->fetchAll(PDO::FETCH_ASSOC);
-                                        foreach ($descricao as $key => $value) 
-                                        {
-                                          echo ("<option id='desc' value=".$value["idfuncionario_listainfo"].">" . $value["descricao"] . "</option>");
-                                        }
-                                      ?>
-                                    </select>
-                                    <a onclick="adicionar_addInfoDescricao()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw; margin-left: 10px;"></i></a>
-                                  </div>
-                                </div>
-                                <div class="form-group">
-                                  <label for="dados_addInfo" class="col-form-label">Dados</label>
-                                  <textarea class="form-control" id="dados_addInfo" style="padding: 6px 12px; height: 120px;" name="dados" maxlength="255" required></textarea>
-                                </div>
-                                <input type="text" name="action" value="adicionar" hidden>
-                                <input type="text" name="id_funcionario" value="<?= $_GET['id_funcionario'];?>" hidden>
-                              </form>
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                              <button type="button" class="btn btn-primary" onclick="adicionarAddInfo()">Enviar</button>
-                              <script>
-                                $(function() 
-                                {
-                                  $('#datatable-addInfo').DataTable(
-                                    {
-                                      "order": 
-                                      [
-                                        [0, "asc"]
-                                      ]
-                                    });
-                                    post("informacao_adicional.php", "action='listar'&id_funcionario=<?= $_GET['id_funcionario']?>", listarInfoAdicional)
-                                });
-                                function adicionar_addInfoDescricao()
-                                {
-                                  url = 'informacao_adicional.php';
-                                  var situacao = window.prompt("Cadastrar nova descrição:");
-                                  if (!situacao) 
-                                  {
-                                    return
-                                  }
-                                  situacao = situacao.trim();
-                                  if (situacao == '') 
-                                  
-                                  {
-                                    return
-                                  }
-                                  post(url, "action=adicionar_descricao&descricao="+situacao, listarInfoDescricao);
-                                }
-                                function listarInfoDescricao(lista)
-                                {
-                                  if (lista["aviso"] || lista["errorInfo"])
-                                  {
-                                    return false;
-                                  }
-                                  $('#descricao_addInfo').empty();
-                                  $('#descricao_addInfo').append('<option selected disabled>Selecionar</option>');
-                                  $.each(lista, function(i, item) 
-                                  {
-                                      $('#descricao_addInfo').append('<option value="' + item.idfuncionario_listainfo + '">' + item.descricao + '</option>');
-                                  });
-                                }
-                                function adicionarAddInfo()
-                                {
-                                  if (submitForm("formInfoAdicional", listarInfoAdicional))
-                                  {
-                                    $("#close_addInfoModal").click();
-                                  }
-                                }
-                                function removerDescricao(id_descricao)
-                                {
-                                  let url = "informacao_adicional.php";
-                                  let data = "action=remover&id_descricao="+id_descricao;
-                                  post(url, data, listarInfoAdicional);
-                                  $("#"+id_descricao+"").remove();
-                                }
-                                function listarInfoAdicional(lista)
-                                {
-                                  var argsAdicional = "action=idInfoAdicional";
-                                  var argsdesc = "action=selectDescricao";
-                                  console.log(lista[0]);
-                                  var vetor = new Array;
-                                  $.ajax(
-                                  {
-                                    type: "POST",
-                                    url: "informacao_adicional.php",
-                                    data: argsdesc,
-                                    dataType: 'json',
-                                    success: function(resp)
-                                    {
-                                        console.log(resp);
-                                        $.each(resp,function(idx,obj)
-                                        {
-                                            vetor.push(obj.descricao);
-                                        })
-                                        console.log(vetor);
-                                        $.ajax(
-                                        {
-                                          type: "POST",
-                                          url: "informacao_adicional.php",
-                                          data: argsAdicional,
-                                          dataType: 'json',
-                                          success: function(res)
+                            HTML;
+                          }else{
+                            echo <<<HTML
+                              <p>É necessário que o animal possua uma ficha médica para poder resgistrar os exames!</p>
+                            HTML;
+                          }
+                        ?>
+                        <!-- Modal Form Documentos -->
+                        <div class="modal fade" id="docFormModal" tabindex="-1" role="dialog" aria-labelledby="docFormModalLabel" aria-hidden="true">
+                          <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header" style="display: flex;justify-content: space-between;">
+                                <h5 class="modal-title" id="exampleModalLabel">Adicionar Arquivo</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <form action='../../controle/control.php' method='post' enctype='multipart/form-data' id='funcionarioDocForm'>
+                                <div class="modal-body" style="padding: 15px 40px">
+                                  <div class="form-group" style="display: grid;">
+                                    <label class="my-1 mr-2" for="tipoDocumento">Tipo de Arquivo</label><br>
+                                    <div style="display: flex;">
+                                      <select name="id_tipo_exame" class="custom-select my-1 mr-sm-2" id="tipoExame" required>
+                                        <option selected disabled>Selecionar Tipo</option>
+                                        <?php
+                                          foreach ($pdo->query("SELECT * FROM pet_tipo_exame ORDER BY descricao_exame ASC;")->fetchAll(PDO::FETCH_ASSOC) as $item) 
                                           {
-                                              var id = res['max(idfunncionario_outrasinfo)'];
-                                              $("#addInfo-tab")
-                                                .append($("<tr id="+ id +">")
-                                                  .append($("<td>").text(vetor[lista[0]-1]))
-                                                  .append($("<td>").text(lista[1]))  
-                                                  .append($("<td style='display: flex; justify-content: space-evenly;'>")
-                                                    .append($("<button onclick='removerDescricao("+ id +")' title='Excluir' class='btn btn-danger'><i class='fas fa-trash-alt'></i></button>"))
-                                                  )
-                                                )
-                                          },
-                                        });
-                                    },
-                                  });
-                                }
-                              </script>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </section>
-                </div>
-                <!-- Aba de carga horária do funcionário -->
-                <div id="editar_cargaHoraria" class="tab-pane">
-                  <section class="panel">
-                    <header class="panel-heading">
-                      <div class="panel-actions">
-                        <a href="#" class="fa fa-caret-down"></a>
-                      </div>
-                      <h2 class="panel-title">Carga Horária</h2>
-                    </header>
-                    <div class="panel-body">
-                      <form class="form-horizontal" method="post" action="../../controle/control.php">
-                        <div class="form-group">
-                          <label class="col-md-3 control-label">Escala</label>
-                          <div class="col-md-6">
-                            <select class="form-control input-lg mb-md" name="escala" id="escala_input">
-                              <option id="escala_default" selected disabled value="">Selecionar</option>
-                              <?php
-                                $pdo = Conexao::connect();
-                                $escala = $pdo->query("SELECT * FROM escala_quadro_horario;")->fetchAll(PDO::FETCH_ASSOC);
-                                foreach ($escala as $key => $value) 
-                                {
-                                  echo ("<option id='escala_" . $value["id_escala"] . "' value=" . $value["id_escala"] . ">" . $value["descricao"] . "</option>");
-                                }
-                              ?>
-                            </select>
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <label class="col-md-3 control-label">Tipo</label>
-                          <div class="col-md-6">
-                            <select class="form-control input-lg mb-md" name="tipoCargaHoraria" id="tipoCargaHoraria_input">
-                              <option selected disabled value="">Selecionar</option>
-                              <option value="1"> Segunda à Sexta, folga Sábado e Domingo</option>
-                              <option value="2"> Dias Alternados</option>
-                            </select>
-                            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-                            <script>
-                              $(document).ready(function()
-                              {
-                                $("#tipoCargaHoraria_input").on('change',function()
-                                {
-                                  var selectValor = $(this).val();
-                                  if(selectValor==1)
-                                  {
-                                    $("#diaTrabalhado").hide();
-                                  }
-                                  else if(selectValor==2)
-                                  {
-                                    $("#diaTrabalhado").show();
-                                  }
-                                });
-                              });
-                            </script>
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <label class="col-md-3 control-label">Primeira entrada</label>
-                          <div class="col-md-3">
-                            <input type="time" placeholder="07:25" class="form-control" name="entrada1" id="entrada1_input">
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <label class="col-md-3 control-label">Primeira saída</label>
-                          <div class="col-md-3">
-                            <input type="time" placeholder="07:25" class="form-control" name="saida1" id="saida1_input">
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <label class="col-md-3 control-label">Segunda entrada</label>
-                          <div class="col-md-3">
-                            <input type="time" placeholder="07:25" class="form-control" name="entrada2" id="entrada2_input">
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <label class="col-md-3 control-label">Segunda saída</label>
-                          <div class="col-md-3">
-                            <input type="time" placeholder="07:25" class="form-control" name="saida2" id="saida2_input">
-                          </div>
-                        </div>
-                        <div id="diaTrabalhado">
-                          <div class="text-center">
-                            <h3 class="col-md-12">Dias Trabalhados</h3>
-                            <div class="btn-group">
-                              <label class="btn btn-primary ">
-                                <input type="checkbox" id="diaTrabalhado_Seg" name="trabSeg" value="Seg">Seg
-                                <span class="fa fa-check"></span>
-                              </label>
-                              <label class="btn btn-primary">
-                                <input type="checkbox" id="diaTrabalhado_Ter" name="trabTer" value="Ter"> Ter
-                                <span class="fa fa-check"></span>
-                              </label>
-                              <label class="btn btn-primary">
-                                <input type="checkbox" id="diaTrabalhado_Qua" name="trabQua" value="Qua"> Qua
-                                <span class="fa fa-check"></span>
-                              </label>
-                              <label class="btn btn-primary">
-                                <input type="checkbox" id="diaTrabalhado_Qui" name="trabQui" value="Qui"> Qui
-                                <span class="fa fa-check"></span>
-                              </label>
-                              <label class="btn btn-primary">
-                                <input type="checkbox" id="diaTrabalhado_Sex" name="trabSex" value="Sex"> Sex
-                                <span class="fa fa-check"></span>
-                              </label>
-                              <label class="btn btn-primary">
-                                <input type="checkbox" id="diaTrabalhado_Sab" name="trabSab" value="Sab"> Sab
-                                <span class="fa fa-check"></span>
-                              </label>
-                              <label class="btn btn-primary">
-                                <input type="checkbox" id="diaTrabalhado_Dom" name="trabDom" value="Dom"> Dom
-                                <span class="fa fa-check"></span>
-                              </label>
-                              <label class="btn btn-primary">
-                                <input type="checkbox" id="diaTrabalhado_Plantão" name="plantao" value="Plantão"> Plantão 12/36
-                                <span class="fa fa-check"></span>
-                              </label>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="text-center">
-                          <h3 class="col-md-12">Dias de Folga</h3>
-                          <div class="btn-group ">
-                            <label class="btn btn-primary ">
-                              <input type="checkbox" id="diaFolga_Seg" name="folgaSeg" value="Seg">Seg
-                              <span class="fa fa-check"></span>
-                            </label>
-                            <label class="btn btn-primary">
-                              <input type="checkbox" id="diaFolga_Ter" name="folgaTer" value="Ter"> Ter
-                              <span class="fa fa-check"></span>
-                            </label>
-                            <label class="btn btn-primary">
-                              <input type="checkbox" id="diaFolga_Qua" name="folgaQua" value="Qua"> Qua
-                              <span class="fa fa-check"></span>
-                            </label>
-                            <label class="btn btn-primary">
-                              <input type="checkbox" id="diaFolga_Qui" name="folgaQui" value="Qui"> Qui
-                              <span class="fa fa-check"></span>
-                            </label>
-                            <label class="btn btn-primary">
-                              <input type="checkbox" id="diaFolga_Sex" name="folgaSex" value="Sex"> Sex
-                              <span class="fa fa-check"></span>
-                            </label>
-                            <label class="btn btn-primary">
-                              <input type="checkbox" id="diaFolga_Sab" name="folgaSab" value="Sab"> Sab
-                              <span class="fa fa-check"></span>
-                            </label>
-                            <label class="btn btn-primary">
-                              <input type="checkbox" id="diaFolga_Dom" name="folgaDom" value="Dom"> Dom
-                              <span class="fa fa-check"></span>
-                            </label>
-                            <label class="btn btn-primary">
-                              <input type="checkbox" id="diaTrabalhado" name="folgaAlternado" value="Alternado"> Alternado
-                              <span class="fa fa-check"></span>
-                            </label>
-                          </div>
-                        </div>
-                        <div class="">
-                          <h3 class="text-center col-md-12">Carga Horária</h3>
-                          <ul class="nav nav-children" id="info">
-                            <li id="total"> Carga horária diária:</br></li>
-                            <li id="carga_horaria_mensal">Carga horária mensal:</li>
-                          </ul>
-                        </div>
-                        <hr class="dotted short">
-                        <input type="hidden" name="nomeClasse" value="FuncionarioControle">
-                        <input type="hidden" name="metodo" value="alterarCargaHoraria">
-                        <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
-                        <div class="form-group center">
-                          <button type="button" class="btn btn-primary" id="botaoEditar_editar_cargaHoraria" onclick="switchForm('editar_cargaHoraria')">Editar</button>
-                          <input id="enviarCarga" type="submit" class="btn btn-primary" value="Alterar carga">
-                          <input type="reset" class="btn btn-default">
-                        </div>
-                      </form>
-                    </div>
-                  </section>
-                </div>
-                <!-- Aba de documentos do funcionário -->
-                <div id="documentos" class="tab-pane">
-                  <section class="panel">
-                    <header class="panel-heading">
-                      <div class="panel-actions">
-                        <a href="#" class="fa fa-caret-down"></a>
-                      </div>
-                      <h2 class="panel-title">Documentos</h2>
-                    </header>
-                    <div class="panel-body">
-                      <!--Documentação-->
-                      <hr class="dotted short">
-                      <form class="form-horizontal" method="post" action="../../controle/control.php">
-                        <input type="hidden" name="nomeClasse" value="FuncionarioControle">
-                        <input type="hidden" name="metodo" value="alterarDocumentacao">
-                        <div class="form-group">
-                          <label class="col-md-3 control-label" for="profileCompany">Número do RG</label>
-                          <div class="col-md-6">
-                            <input type="text" class="form-control" name="rg" id="rg" onkeypress="return Onlynumbers(event)" placeholder="Ex: 22.222.222-2" onkeyup="mascara('##.###.###-#',this,event)">
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <label class="col-md-3 control-label" for="profileCompany">Órgão Emissor</label>
-                          <div class="col-md-6">
-                            <input type="text" class="form-control" name="orgao_emissor" id="orgao_emissor" onkeypress="return Onlychars(event)">
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <label class="col-md-3 control-label" for="profileCompany">Data de expedição</label>
-                          <div class="col-md-6">
-                            <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" name="data_expedicao" id="data_expedicao" max=<?php echo date('Y-m-d'); ?>>
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <label class="col-md-3 control-label" for="profileCompany">Número do CPF</label>
-                          <div class="col-md-6">
-                            <input type="text" class="form-control" id="cpf" name="cpf" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##',this,event)">
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <label class="col-md-3 control-label" for="profileCompany"></label>
-                          <div class="col-md-6">
-                            <p id="cpfInvalido" style="display: none; color: #b30000">CPF INVÁLIDO!</p>
-                          </div>
-                        </div>
-                        <input type="hidden" id="id_funcionario" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
-                        <button type="button" class="btn btn-primary" id="botaoEditarDocumentacao" onclick="return editar_documentacao()">Editar</button>
-                        <input id="botaoSalvarDocumentacao" type="submit" class="btn btn-primary" disabled="true" value="Salvar" onclick="funcao3()">
-                      </form>
-                    </div>
-                  </section>
-                </div>
-                <!-- Aba de arquivos -->
-                <div id="arquivo" class="tab-pane">
-                  <section class="panel">
-                    <header class="panel-heading">
-                      <div class="panel-actions">
-                        <a href="#" class="fa fa-caret-down"></a>
-                      </div>
-                      <h2 class="panel-title">Arquivos</h2>
-                    </header>
-                    <div class="panel-body">
-                      <table class="table table-bordered table-striped mb-none" id="datatable-docfuncional">
-                        <thead>
-                          <tr>
-                            <th>Arquivo</th>
-                            <th>Data</th>
-                            <th>Ação</th>
-                          </tr>
-                        </thead>
-                        <tbody id="doc-tab"></tbody>
-                      </table><br>
-                      <!-- Button trigger modal -->
-                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#docFormModal">
-                        Adicionar
-                      </button>
-                      <!-- Modal Form Documentos -->
-                      <div class="modal fade" id="docFormModal" tabindex="-1" role="dialog" aria-labelledby="docFormModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                          <div class="modal-content">
-                            <div class="modal-header" style="display: flex;justify-content: space-between;">
-                              <h5 class="modal-title" id="exampleModalLabel">Adicionar Arquivo</h5>
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                              </button>
-                            </div>
-                            <form action='documento_upload.php' method='post' enctype='multipart/form-data' id='funcionarioDocForm'>
-                              <div class="modal-body" style="padding: 15px 40px">
-                                <div class="form-group" style="display: grid;">
-                                  <label class="my-1 mr-2" for="tipoDocumento">Tipo de Arquivo</label><br>
-                                  <div style="display: flex;">
-                                    <select name="id_docfuncional" class="custom-select my-1 mr-sm-2" id="tipoDocumento" required>
-                                      <option selected disabled>Selecionar...</option>
-                                      <?php
-                                        foreach ($pdo->query("SELECT * FROM funcionario_docfuncional ORDER BY nome_docfuncional ASC;")->fetchAll(PDO::FETCH_ASSOC) as $item) 
-                                        {
-                                          echo ("<option value='" . $item["id_docfuncional"] . "' >" . $item["nome_docfuncional"] . "</option>");
-                                        }
-                                      ?>
-                                    </select>
-                                    <a onclick="adicionarDocFuncional()" style="margin: 0 20px;"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
+                                            echo ("<option value=" . $item["id_tipo_exame"] . ">" . $item["descricao_exame"] . "</option>");
+                                          }
+                                        ?>
+                                      </select>
+                                      <a onclick="addTipoExame()" style="margin: 0 20px;" id="btn_adicionar_tipo_remuneracao"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
+                                    </div>
                                   </div>
-                                </div>
-                                <div class="form-group">
-                                  <label for="arquivoDocumento">Arquivo</label>
-                                  <input name="arquivo" type="file" class="form-control-file" id="arquivoDocumento" accept="png;jpeg;jpg;pdf;docx;doc;odp" required>
-                                </div>
-                                <input type="number" name="id_funcionario" value="<?= $_GET['id_funcionario']; ?>" style='display: none;'>
-                              </div>
-                              <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                <input type="submit" value="Enviar" class="btn btn-primary">
-                              </div>
-                            </form>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </section>
-                </div>
-                <!-- Aba dependentes -->
-                <div id="dependentes" class="tab-pane">
-                  <section class="panel">
-                    <header class="panel-heading">
-                      <div class="panel-actions">
-                        <a href="#" class="fa fa-caret-down"></a>
-                      </div>
-                      <h2 class="panel-title">Dependentes</h2>
-                    </header>
-                    <div class="panel-body">
-                      <table class="table table-bordered table-striped mb-none" id="datatable-dependente">
-                        <thead>
-                          <tr>
-                            <th>Nome</th>
-                            <th>CPF</th>
-                            <th>Parentesco</th>
-                            <th>Ação</th>
-                          </tr>
-                        </thead>
-                        <tbody id="dep-tab"></tbody>
-                      </table><br>
-                      <!-- Button trigger modal -->
-                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#depFormModal">
-                        Adicionar Dependente
-                      </button>
-                    </div>
-                    <!-- Modal Form Dependentes -->
-                    <div class="modal fade" id="depFormModal" tabindex="-1" role="dialog" aria-labelledby="depFormModalLabel" aria-hidden="true">
-                      <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                          <div class="modal-header" style="display: flex;justify-content: space-between;">
-                            <h5 class="modal-title" id="exampleModalLabel">Adicionar Dependente</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                              <span aria-hidden="true">&times;</span>
-                            </button>
-                          </div>
-                          <form action='dependente_cadastrar.php' method='post' id='funcionarioDepForm'>
-                            <div class="modal-body" style="padding: 15px 40px">
-                              <div class="form-group" style="display: grid;">
-                                <h4 class="mb-xlg">Informações Pessoais</h4>
-                                <h5 class="obrig">Campos Obrigatórios(*)</h5>
-                                <div class="form-group">
-                                  <label class="col-md-3 control-label" for="profileFirstName">Nome<sup class="obrig">*</sup></label>
-                                  <div class="col-md-8">
-                                    <input type="text" class="form-control" name="nome" id="profileFirstName" id="nome" onkeypress="return Onlychars(event)" required>
+                                  <div class="form-group">
+                                    <label for="arquivoDocumento">Arquivo</label>
+                                    <input name="arquivo" type="file" class="form-control-file" id="arquivoDocumento" accept="png;jpeg;jpg;pdf;docx;doc;odp" required>
                                   </div>
+                                  <input type="hidden" name="modulo" value="pet">
+                                  <input type="hidden" name="nomeClasse" value="PetControle">
+                                  <input type="hidden" name="metodo" value="incluirExamePet">
+                                  <input type="hidden" name="id_ficha_medica" value="<?= $id_ficha_medica ?>">
+                                  <input type="hidden" name="id_pet" value="<?= $_GET['id_pet'] ?>">
                                 </div>
-                                <div class="form-group">
-                                  <label class="col-md-3 control-label">Sobrenome<sup class="obrig">*</sup></label>
-                                  <div class="col-md-8">
-                                    <input type="text" class="form-control" name="sobrenome" id="sobrenome" onkeypress="return Onlychars(event)" required>
-                                  </div>
-                                </div>
-                                <div class="form-group">
-                                  <label class="col-md-3 control-label" for="profileLastName">Sexo<sup class="obrig">*</sup></label>
-                                  <div class="col-md-8">
-                                    <label><input type="radio" name="sexo" id="radio" id="M" value="m" style="margin-top: 10px; margin-left: 15px;" onclick="return exibir_reservista()" required><i class="fa fa-male" style="font-size: 20px;"></i></label>
-                                    <label><input type="radio" name="sexo" id="radio" id="F" value="f" style="margin-top: 10px; margin-left: 15px;" onclick="return esconder_reservista()"><i class="fa fa-female" style="font-size: 20px;"></i> </label>
-                                  </div>
-                                </div>
-                                <div class="form-group">
-                                  <label class="col-md-3 control-label" for="telefone">Telefone</label>
-                                  <div class="col-md-8">
-                                    <input type="text" class="form-control" maxlength="14" minlength="14" name="telefone" id="telefone" id="telefone" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeyup="mascara('(##)#####-####',this,event)">
-                                  </div>
-                                </div>
-                                <div class="form-group">
-                                  <label class="col-md-3 control-label" for="profileCompany">Nascimento<sup class="obrig">*</sup></label>
-                                  <div class="col-md-8">
-                                    <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" id="nascimento" max=<?php echo date('Y-m-d'); ?> required>
-                                  </div>
-                                </div>
-                                <div class="form-group">
-                                  <label class="col-md-3 control-label" for="profileCompany">Nascimento<sup class="obrig">*</sup></label>
-                                  <div class="col-md-8">
-                                    <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="acolhimento" id="acolhimento" max=<?php echo date('Y-m-d'); ?> required>
-                                  </div>
-                                </div>
-                                <hr class="dotted short">
-                                <h4 class="mb-xlg doch4">Documentação</h4>
-                                <div class="form-group">
-                                  <label class="col-md-3 control-label" for="cpf">Número do CPF<sup class="obrig">*</sup></label>
-                                  <div class="col-md-6">
-                                    <input type="text" class="form-control" id="cpf" id="cpf" name="cpf" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##',this,event)" required>
-                                  </div>
-                                </div>
-                                <div class="form-group">
-                                  <label class="col-md-3 control-label" for="profileCompany"></label>
-                                  <div class="col-md-6">
-                                    <p id="cpfInvalido" style="display: none; color: #b30000">CPF INVÁLIDO!</p>
-                                  </div>
-                                </div>
-                                <div class="form-group">
-                                  <label class="col-md-3 control-label" for="parentesco">Parentesco<sup class="obrig">*</sup></label>
-                                  <div class="col-md-6" style="display: flex;">
-                                    <select name="id_parentesco" id="parentesco">
-                                      <option selected disabled>Selecionar...</option>
-                                      <?php
-                                        foreach ($pdo->query("SELECT * FROM funcionario_dependente_parentesco ORDER BY descricao ASC;")->fetchAll(PDO::FETCH_ASSOC) as $item) 
-                                        {
-                                          echo ("<option value='" . $item["id_parentesco"] . "' >" . $item["descricao"] . "</option>");
-                                        }
-                                      ?>
-                                    </select>
-                                    <a onclick="adicionarParentesco()" style="margin: 0 20px;"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
-                                  </div>
-                                </div>
-                                <div class="form-group">
-                                  <label class="col-md-3 control-label" for="profileCompany">Número do RG</label>
-                                  <div class="col-md-6">
-                                    <input type="text" class="form-control" name="rg" id="rg" onkeypress="return Onlynumbers(event)" placeholder="Ex: 22.222.222-2" onkeyup="mascara('##.###.###-#',this,event)">
-                                  </div>
-                                </div>
-                                <div class="form-group">
-                                  <label class="col-md-3 control-label" for="profileCompany">Órgão Emissor</label>
-                                  <div class="col-md-6">
-                                    <input type="text" class="form-control" name="orgao_emissor" id="profileCompany" id="orgao_emissor" onkeypress="return Onlychars(event)">
-                                  </div>
-                                </div>
-                                <div class="form-group">
-                                  <label class="col-md-3 control-label" for="profileCompany">Data de expedição</label>
-                                  <div class="col-md-6">
-                                    <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" id="profileCompany" name="data_expedicao" id="data_expedicao" max=<?php echo date('Y-m-d'); ?>>
-                                  </div>
-                                </div>
-                                <input type="hidden" name="id_funcionario" value=<?= $_GET['id_funcionario']; ?> readonly>
                                 <div class="modal-footer">
                                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                                   <input type="submit" value="Enviar" class="btn btn-primary">
                                 </div>
-                              </div>
+                              </form>
                             </div>
-                          </form>
+                          </div>
                         </div>
                       </div>
-                    </div>
                   </section>
+                  
                 </div>
-                <!-- Aba endereço -->
-                <div id="endereco" class="tab-pane">
-                  <section class="panel">
-                    <header class="panel-heading">
-                      <div class="panel-actions">
-                        <a href="#" class="fa fa-caret-down"></a>
-                      </div>
-                      <h2 class="panel-title">Endereço</h2>
-                    </header>
-                    <div class="panel-body">
-                      <!--Endereço-->
-                      <hr class="dotted short">
-                      <form class="form-horizontal" method="post" action="../../controle/control.php">
-                        <input type="hidden" name="nomeClasse" value="FuncionarioControle">
-                        <input type="hidden" name="metodo" value="alterarEndereco">
-                        <div class="form-group">
-                          <label class="col-md-3 control-label" for="cep">CEP</label>
-                          <div class="col-md-8">
-                            <input type="text" name="cep" value="" size="10" onblur="pesquisacep(this.value);" class="form-control" id="cep" maxlength="9" placeholder="Ex: 22222-222" onkeydown="return Onlynumbers(event)" onkeyup="mascara('#####-###',this,event)">
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <label class="col-md-3 control-label" for="uf">Estado</label>
-                          <div class="col-md-8">
-                            <input type="text" name="uf" size="60" class="form-control" id="uf">
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <label class="col-md-3 control-label" for="cidade">Cidade</label>
-                          <div class="col-md-8">
-                            <input type="text" size="40" class="form-control" name="cidade" id="cidade">
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <label class="col-md-3 control-label" for="bairro">Bairro</label>
-                          <div class="col-md-8">
-                            <input type="text" name="bairro" size="40" class="form-control" id="bairro">
-                          </div>
-                          </div>
-                          <div class="form-group">
-                            <label class="col-md-3 control-label" for="rua">Logradouro</label>
-                            <div class="col-md-8">
-                              <input type="text" name="rua" size="2" class="form-control" id="rua">
-                            </div>
-                          </div>
-                          <div class="form-group">
-                            <label class="col-md-3 control-label" for="profileCompany">Número residencial</label>
-                            <div class="col-md-4">
-                              <input type="number" min="0" oninput="this.value = Math.abs(this.value)" class="form-control" name="numero_residencia" id="numero_residencia">
-                            </div>
-                            <div class="col-md-3">
-                              <label>Não possuo número
-                                <input type="checkbox" id="numResidencial" name="naoPossuiNumeroResidencial" style="margin-left: 4px" onclick="return numero_residencial()">
-                              </label>
-                            </div>
-                          </div>
-                          <div class="form-group">
-                            <label class="col-md-3 control-label" for="profileCompany">Complemento</label>
-                              <div class="col-md-8">
-                                <input type="text" class="form-control" name="complemento" id="complemento" id="profileCompany">
-                              </div>
-                          </div>
-                          <div class="form-group">
-                            <label class="col-md-3 control-label" for="ibge">IBGE</label>
-                            <div class="col-md-8">
-                              <input type="text" size="8" name="ibge" class="form-control" id="ibge">
-                            </div>
-                          </div>
-                          <div class="form-group center">
-                            <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
-                            <button type="button" class="btn btn-primary" id="botaoEditarEndereco" onclick="return editar_endereco()">Editar</button>
-                            <input id="botaoSalvarEndereco" type="submit" class="btn btn-primary" disabled="true" value="Salvar" onclick="funcao3()">
-                          </div>
-                        </div>
-                      </form>
-                    </div>
+
+                
+              <!-- Aba de arquivos -->
+
+              <div id="outros2" class="tab-pane">
+                <section class="panel">
+                   
+                    
                   </section>
-                </div>
-                <!-- end: page -->
               </div>
+                <!-- Aba endereço -->
+                                
+                <!-- end: page -->
+              </div> 
             </div>
           </div>
         </section>
       </div>
     </section>
+    <!--script pedro-->
+    <script type="text/javascript">
+      //============pedro
+
+      /*let url = "dependente_remover.php";
+        let data = "id_pet=<?= $_GET['id_pet']; ?>&id_dependente=" + id_dep;
+        post(url, data, verificaSucesso);*/
+
+      function excluirArquivo(dado){
+        let trId = document.querySelector("#tr"+dado);
+        let arkivo = document.querySelector("#ark"+dado).innerHTML;
+        let response = window.confirm('Deseja realmente excluir o arquivo "' + arkivo + '"?');
+        //alert(dado);
+        if(response === true){
+            fetch('../../controle/pet/PetExameControle.php', {
+            method: 'POST',
+            body: JSON.stringify({"idExamePet":dado, "metodo":"excluir"})
+          }).then(
+            (resp) =>{ return resp.json() }
+          ).then(
+            (resp) =>{
+              alert(resp);
+              trId.remove();
+            }
+          )
+        }
+      } 
+     
+      function addTipoExame()
+      {
+        url = '../../dao/pet/adicionar_tipo_exame.php';
+        var tipo_exame = window.prompt("Cadastre um novo tipo de exame:");
+        if (!tipo_exame) 
+        {
+          return
+        }
+        tipo_exame = tipo_exame.trim();
+        if (tipo_exame == '') 
+        {
+          return
+        }
+        data = 'tipo_exame=' + tipo_exame;
+        $.ajax(
+        {
+          type: "POST",
+          url: url,
+          data: data,
+          success: function(response) 
+          {
+            gerarTipoExamePet(response);
+          },
+          dataType: 'text'
+        })
+      }
+
+      function gerarTipoExamePet(response)
+      {
+        var tipoExame = JSON.parse(response);
+        $('#tipoExame').empty();
+        $('#tipoExame').append('<option selected disabled>Selecionar...</option>');
+        $.each(tipoExame, function(i, item) 
+        {
+          $('#tipoExame').append('<option value="' + item.id_tipo_exame + '">' + item.descricao_exame + '</option>');
+        });
+      }
+    </script>
     <!-- Vendor -->
     <script src="../../assets/vendor/select2/select2.js"></script>
     <script src="../../assets/vendor/jquery-datatables/media/js/jquery.dataTables.js"></script>
@@ -1756,192 +707,33 @@
     <script src="../../assets/javascripts/tables/examples.datatables.default.js"></script>
     <script src="../../assets/javascripts/tables/examples.datatables.row.with.details.js"></script>
     <script src="../../assets/javascripts/tables/examples.datatables.tabletools.js"></script>
+
     <script>
-      function submitForm(idForm, callback = function(){return true;}) 
-      {
-        var data = getFormPostParams(idForm);
-        console.log(data);
-        var url;
-        var data_nova;
-        switch (idForm) 
-        {
-          case "formRemuneracao":
-            url = "remuneracao.php";
-            data_nova = "id_tipo=" + data[0] + "&valor=" + data[1] + "&inicio=" + data[2] + "&fim=" + data[3] + "&action=remuneracao_adicionar&id_funcionario=" + data[4];
-            break;
-          case "formInfoAdicional":
-            url = "informacao_adicional.php";
-            data_nova = "id_descricao=" + data[0] + "&dados=" + data[1] + "&action=adicionar&id_funcionario=" + data[3];
-            listarInfoAdicional(data);
-            break;
-          default:
-            console.warn("Não existe nenhuma URL registrada para o formulário com o seguinte id: " + idForm);
-            return false;
-            break;
-        }
-        if (!data) 
-        {
-          window.alert("Preencha todos os campos obrigatórios antes de prosseguir!");
-          return false;
-        }
-        post(url, data_nova, callback);
-        console.log(idForm + " => " + data + " | ", callback);
-        return true;
-      }
-      function listar_remuneracao(lista)
-      {
-        $("#tabela_remuneracao").empty();
-        $.each(lista, function(i, item) 
-        {
-          $("#tabela_remuneracao")
-            .append($("<tr>")
-              .append($("<td>").text(item.descricao))
-              .append($("<td>").text(item.inicio))
-              .append($("<td>").text(item.fim))
-              .append($("<td class='tabela'>").text(item.valor))
-              .append($("<td style='display: flex; justify-content: space-evenly;'>")
-                .append($("<button onclick='removerRemuneracao("+item.id_remuneracao+")' title='Excluir' class='btn btn-danger'><i class='fas fa-trash-alt'></i></button>"))
-              )
-            )
-          $(function()
-          {
-            var total = 0;
-            $('.tabela').each(function()
-            {
-              total += parseInt(jQuery(this).text());
-            });
-            $('.total').html(total);
-          });
-        });
-      }
-      function adicionarRemuneracao() 
-      {
-        if (submitForm('formRemuneracao', listar_remuneracao))
-        {
-          document.getElementById("closeRemuneracaoModal").click();
-        }
-      }
-      function adicionarTipoRemuneracao() 
-      {
-        url = 'remuneracao.php';
-        var descricao = window.prompt("Cadastre um novo tipo de Remuneração:");
-        if (!descricao) 
-        {
-          return
-        }
-        descricao = descricao.trim();
-        if (descricao == '') 
-        {
-          return
-        }
-        data = "action=tipo_adicionar&descricao=" + descricao;
-        console.log(url + "?" + data);
-        post(url, data, gerarTipoRemuneracao);
-      }
-      function removerRemuneracao(id)
-      {
-        var url = "remuneracao.php";
-        var data = "action=remover&id_remuneracao=" + id + "&id_funcionario=<?= $_GET['id_funcionario']?>";
-        post(url, data, listar_remuneracao);
-      }
-      function gerarTipoRemuneracao(response) 
-      {
-        var documento = response;
-        if (response["aviso"] || response["errorInfo"])
-        {
-          return false;
-        }
-        $('#tipo_remuneracao').empty();
-        $('#tipo_remuneracao').append('<option selected disabled>Selecionar</option>');
-        $.each(documento, function(i, item) 
-        {
-          $('#tipo_remuneracao').append('<option value="' + item.id + '">' + item.descricao + '</option>');
-        });
-      }
-      $(function() 
-      {
-        post("remuneracao.php", "action=listar&id_funcionario=<?= $_GET['id_funcionario']?>", listar_remuneracao);
-      })
-      function funcao3() 
-      {
-        /*var idfunc = <?php echo $_GET['id_funcionario']; ?>;
-        var cpfs = <?php echo $_SESSION['cpf_funcionario']; ?>;
-        var cpf_funcionario = $("#cpf").val();
-        var cpf_funcionario_correto = cpf_funcionario.replace(".", "");
-        var cpf_funcionario_correto1 = cpf_funcionario_correto.replace(".", "");
-        var cpf_funcionario_correto2 = cpf_funcionario_correto1.replace(".", "");
-        var cpf_funcionario_correto3 = cpf_funcionario_correto2.replace("-", "");
-        var apoio = 0;
-        var cpfs1 = <?php echo $_SESSION['cpf_atendido']; ?>;
-        $.each(cpfs, function(i, item) 
-        {
-          if (item.cpf == cpf_funcionario_correto3 && item.id != idfunc) 
-          {
-            alert("Alteração não realizada! O CPF informado já está cadastrado no sistema");
-            apoio = 1;
-          }
-        });
-        $.each(cpfs1, function(i, item) 
-        {
-          if (item.cpf == cpf_funcionario_correto3) 
-          {
-            alert("Cadastro não realizado! O CPF informado já está cadastrado no sistema");
-            apoio = 1;
-          }
-        });
-        if (apoio == 0) 
-        {
-          alert("Editado com sucesso!");
-        }*/
-      }
-      function gerarDocFuncional() 
-      {
-        url = 'documento_listar.php';
-        $.ajax(
-        {
-          data: '',
-          type: "POST",
-          url: url,
-          async: true,
-          success: function(response) 
-          {
-            var documento = response;
-            $('#tipoDocumento').empty();
-            $('#tipoDocumento').append('<option selected disabled>Selecionar...</option>');
-            $.each(documento, function(i, item) 
-            {
-              $('#tipoDocumento').append('<option value="' + item.id_docfuncional + '">' + item.nome_docfuncional + '</option>');
-            });
-          },
-          dataType: 'json'
-        });
-      }
-      function adicionarDocFuncional() 
-      {
-        url = 'documento_adicionar.php';
-        var nome_docfuncional = window.prompt("Cadastre um novo tipo de Documento:");
-        if (!nome_docfuncional) 
-        {
-          return
-        }
-        nome_docfuncional = nome_docfuncional.trim();
-        if (nome_docfuncional == '') 
-        {
-          return
-        }
-        data = 'nome_docfuncional=' + nome_docfuncional;
-        $.ajax(
-        {
-          type: "POST",
-          url: url,
-          data: data,
-          success: function(response) 
-          {
-            gerarDocFuncional();
-          },
-          dataType: 'text'
-        })
-      }
+      // function gerarDocFuncional() 
+      // {
+      //   url = 'documento_listar.php';
+      //   $.ajax(
+      //   {
+      //     data: '',
+      //     type: "POST",
+      //     url: url,
+      //     async: true,
+      //     success: function(response) 
+      //     {
+      //       var documento = response;
+      //       $('#tipoDocumento').empty();
+      //       $('#tipoDocumento').append('<option selected disabled>Selecionar...</option>');
+      //       $.each(documento, function(i, item) 
+      //       {
+      //         $('#tipoDocumento').append('<option value="' + item.id_docfuncional + '">' + item.nome_docfuncional + '</option>');
+      //       });
+      //     },
+      //     dataType: 'json'
+      //   });
+      // }
+
+     
+      
       function gerarParentesco() 
       {
         url = 'dependente_parentesco_listar.php';
@@ -1992,7 +784,6 @@
       }
       function verificaSucesso(response)
       {
-        console.log(response);
         if (response.errorInfo)
         {
           if (response.errorInfo[1] == 1451)
@@ -2010,7 +801,7 @@
       function removerDependente(id_dep) 
       {
         let url = "dependente_remover.php";
-        let data = "id_funcionario=<?= $_GET['id_funcionario']; ?>&id_dependente=" + id_dep;
+        let data = "id_pet=<?= $_GET['id_pet']; ?>&id_dependente=" + id_dep;
         post(url, data, verificaSucesso);
       }
       function removerFuncionarioDocs(id_doc) 
@@ -2019,7 +810,7 @@
         {
           return false;
         }
-        let url = "documento_excluir.php?id_doc="+id_doc+"&id_funcionario=<?= $_GET["id_funcionario"] ?>";
+        let url = "documento_excluir.php?id_doc="+id_doc+"&id_pet=<?= $_GET["id_pet"] ?>";
         let data = "";
         post(url, data, listarFunDocs);
       }

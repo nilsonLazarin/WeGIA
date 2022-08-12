@@ -126,9 +126,8 @@ class PetControle{
         extract($_REQUEST);
         $PetDAO= new PetDAO();
         $pets = $PetDAO->listarTodos();
-        session_start();
-        $_SESSION['pet']=$pets;
-        header('Location: '.$nextPage);
+        $_SESSION['pets']=$pets;
+        //header('Location: '.$nextPage);
     }
 
     public function listarUm(){
@@ -160,10 +159,6 @@ class PetControle{
     }
 
     public function alterarPetDados(){
-        /* ["nome"]=> string(12) "Coala Alegre" ["gender"]=> string(1) "m" 
-        ["nascimento"]=> string(10) "2022-06-26" ["acolhimento"]=> string(10) "2022-07-01" 
-        ["cor"]=> string(2) "31" ["especie"]=> string(1) "7" ["raca"]=> string(1) "1" 
-        ["especificas"]=> string(7) "Risonho" ["id_pet"]=> string(2) "37"*/
         extract($_REQUEST);
 
         $sexo = strtoupper($gender);
@@ -176,11 +171,22 @@ class PetControle{
         }
     }
 
-    public function deletar(){
+    public function incluirExamePet(){
+        extract($_REQUEST);
+        $nameFile = explode(".", $_FILES['arquivo']['name']);
+        $arquivoExame = base64_encode(file_get_contents($_FILES['arquivo']['tmp_name']));
+        //$arquivoExame = base64_encode(gzcompress($_FILES['arquivo']['tmp_name']));
+        $dataExame = date("y-m-d");
+        var_dump($_POST, $_FILES);
 
+        try{
+            $petDAO = new PetDAO();
+            $petDAO->incluirExamePet( $id_ficha_medica, $id_tipo_exame, $dataExame, $arquivoExame, $nameFile);
+            header("location: ../../html/pet/profile_pet.php?id_pet=".$id_pet);
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
     }
 }
 
-/*$c = new PetControle();
-$c->listarUm();*/
 ?>

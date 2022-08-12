@@ -1,4 +1,5 @@
 <?php
+
 $Conexao_path = "dao/Conexao.php";
 if(file_exists($Conexao_path)){
     require_once($Conexao_path);
@@ -9,7 +10,6 @@ if(file_exists($Conexao_path)){
     }
     require_once($Conexao_path);
 }
-//require_once '../../dao/Conexao.php';
 
 class PetDAO{
 
@@ -155,9 +155,58 @@ class PetDAO{
         $pd->bindValue(':id_pet', $id_pet);
         $pd->execute();
     }
+
+    public function incluirExamePet($id_ficha_medica, $id_tipo_exame, $data_exame, $arquivo_exame, 
+    $nameFile){
+        $pdo = Conexao::connect();
+        $pd = $pdo->prepare("INSERT INTO pet_exame(id_ficha_medica, id_tipo_exame, data_exame, 
+        arquivo_exame, arquivo_nome, arquivo_extensao) VALUES(:id_ficha_medica, :id_tipo_exame, 
+        :data_exame, :arquivo_exame, :arquivo_nome, :arquivo_extensao)");
+        $pd->bindValue(":id_ficha_medica", $id_ficha_medica);
+        $pd->bindValue(":id_tipo_exame", $id_tipo_exame);
+        $pd->bindValue(":data_exame", $data_exame);
+        $pd->bindValue(":arquivo_exame", $arquivo_exame);
+        $pd->bindValue(":arquivo_nome", $nameFile[0]);
+        $pd->bindValue(":arquivo_extensao", $nameFile[1]);
+        $pd->execute();
+    }
+
+    public function excluirExamePet($id_exame){
+        $pdo = Conexao::connect();
+        $pd = $pdo->prepare("DELETE FROM pet_exame WHERE id_exame = :id_exame");
+        $pd->bindValue(":id_exame", $id_exame);
+        $pd->execute();
+    }
+
+    /*public function listarExames($idPet){
+        $pdo = Conexao::connect();
+
+        $pd = $pdo->prepare("SELECT id_ficha_medica FROM pet_ficha_medica WHERE id_pet = :idPet");
+        $pd->bindValue("idPet", $idPet);
+        $pd->execute();
+        $idFichaMedica = $pd->fetchAll();
+
+        foreach($idFichaMedica as $valor){
+            $idMedica = $valor['id_ficha_medica'];
+        }
+        
+        $pd = $pdo->prepare("SELECT * FROM pet_exame WHERE id_ficha_medica = :idMedica");
+        $pd->bindValue("idMedica", $idMedica);
+        $pd->execute();
+        $p = $pd->fetchAll();
+
+        return $p;
+    }*/
 }
 
-/*$c = new PetDAO();
-var_dump($c->listarUm(37));*/
+// $c = new PetDAO();
+// var_dump($c->listarExames(39));
+/*$dado = file_get_contents("php://input");
+foreach (json_decode($dado) as $valor) {
+   $nome = $valor;
+}
+if( $nome == 'Pedro'){
+    echo json_encode($nome);
+}*/
 ?>
 

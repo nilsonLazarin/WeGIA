@@ -130,15 +130,14 @@
 			$('.tabble-row').on("click", function (evt) {
 				let idPet = $(this).attr('id');
 				localStorage.setItem('id_pet',idPet);
-				window.location.href = "../saude/profile_paciente.php?id_fichamedica="+idPet;
-				
+				window.location.href = "./profile_pet.php?id_pet="+idPet;				
 			});
 	    });
 		
 		var pet =<?php
 			$response = new PetControle;
 			$response->listarTodos();
-			echo $_SESSION['pet'];?>;
+			echo $_SESSION['pets'];?>;
 		$.each(pet, function(i, item) {
 			$("#tabela")
 				.append($("<tr id='"+item.id+"' class='tabble-row'>")
