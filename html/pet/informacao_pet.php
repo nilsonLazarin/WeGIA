@@ -120,27 +120,14 @@
 	<script src="../../Functions/mascara.js"></script>
 	<!-- jquery functions -->
 	<script>
-		function clicar(id) {
-			console.log("id aqui",id);
-			event.preventDefault();
-			event.stopPropagation();
-		}
 		$(function() {
-			$(function () {
-			$('.tabble-row').on("click", function (evt) {
-				let idPet = $(this).attr('id');
-				localStorage.setItem('id_pet',idPet);
-				window.location.href = "./profile_pet.php?id_pet="+idPet;				
-			});
-	    });
-		
 		var pet =<?php
 			$response = new PetControle;
 			$response->listarTodos();
 			echo $_SESSION['pets'];?>;
 		$.each(pet, function(i, item) {
 			$("#tabela")
-				.append($("<tr id='"+item.id+"' class='tabble-row'>")
+				.append($("<tr onclick=irPg('"+item.id+"') id='"+item.id+"' class='tabble-row'>")
 					.append($("<td>")
 						.text(item.nome))
 					.append($("<td>")
@@ -150,9 +137,13 @@
 					.append($("<td/>")
 					.html('<i class="glyphicon glyphicon-pencil"></i>')));
 			});
-		});
-		
+		});		
 
+		function irPg(idPet){
+			localStorage.setItem('id_pet',idPet);
+			window.location.href = "./profile_pet.php?id_pet="+idPet;
+		}
+		
 		$(function () {
 	      $("#header").load("../header.php");
 	      $(".menuu").load("../menu.php");
