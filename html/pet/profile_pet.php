@@ -41,10 +41,6 @@
   permissao($_SESSION['id_pessoa'], 11, 7);
   require_once "../personalizacao_display.php";
   require_once "../../dao/Conexao.php";
-  require_once ROOT . "/controle/FuncionarioControle.php";
-  require_once ROOT . "/controle/AtendidoControle.php";
-  $cpf1 = new AtendidoControle;
-  $cpf1->listarCPF();
   require_once "../geral/msg.php";
  
   
@@ -273,7 +269,6 @@
                       $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
                       $id_pessoa = $_SESSION['id_pessoa'];
                       $donoimagem = $_GET['id_pet'];
-                      //$resultado = mysqli_query($conexao, "SELECT `imagem`, `nome` FROM `pessoa` WHERE id_pessoa=$id_pessoa");
                       $resultado = mysqli_query($conexao, "SELECT p.id_pet_foto AS id_foto, pf.arquivo_foto_pet AS 'imagem' FROM pet p, pet_foto pf WHERE p.id_pet_foto=pf.id_pet_foto and p.id_pet=$donoimagem");
                       $petImagem = mysqli_fetch_array($resultado);
                       if (isset($_SESSION['id_pessoa']) and !empty($_SESSION['id_pessoa'])) 
@@ -343,12 +338,6 @@
                   <li>
                     <a href="#arquivosPet" data-toggle="tab">Exames do Pet</a>
                   </li>
-                  <!--<li>
-                    <a href="#atendimento" data-toggle="tab">Atendimento</a>
-                  </li>-->
-                  <!--<li>
-                    <a href="#editar_cargaHoraria" data-toggle="tab">Carga horaria</a>
-                  </li>-->
                 </ul>
 
                 <div class="tab-content">
@@ -456,7 +445,7 @@
                         <h2 class="panel-title">Arquivos do Pet</h2>
                       </header>
                       <div class="panel-body">
-                        <table class="table table-bordered table-striped mb-none" id="datatable-docfuncional">
+                        <table class="table table-bordered table-striped mb-none">
                           <thead>
                             <tr>
                               <th>Arquivo</th>
@@ -484,9 +473,8 @@
                                       <td><p id="ark$valor[id_exame]">$arkivo</p></td>
                                       <td>$data</td>
                                       <td style="display: flex; justify-content: space-evenly;">
-                                      
-                                        <a href="data:application/pdf;base64,$valor[arquivo_exame]" title="Baixar" download="$valor[descricao_exame].$valor[arquivo_extensao]">
-                                        <!--<a href="./PetExameDownload.php?id_exame=$valor[id_exame]" title="Baixar">-->
+                                        <a href="data:$valor[arquivo_extensao];base64,$valor[arquivo_exame]" title="Baixar" download="$valor[descricao_exame].$valor[arquivo_extensao]">
+                                        <!--<a href="data:application/pdf;base64,$valor[arquivo_exame]" title="Baixar" download="$valor[descricao_exame].$valor[arquivo_extensao]">-->
                                           <button class="btn btn-primary">
                                             <i class="fas fa-download"></i>
                                           </button>
@@ -516,7 +504,9 @@
                             HTML;
                           }else{
                             echo <<<HTML
-                              <p>É necessário que o animal possua uma ficha médica para poder resgistrar os exames!</p>
+                              <p>É necessário que o animal possua uma ficha médica para poder registrar os exames!</p>
+                              <a href="./cadastro_ficha_medica_pet.php?id_pet=$_GET[id_pet]"><input class ="btn btn-primary" 
+                              type="button" value='Cadastrar Ficha médica'></a>
                             HTML;
                           }
                         ?>
@@ -530,7 +520,7 @@
                                   <span aria-hidden="true">&times;</span>
                                 </button>
                               </div>
-                              <form action='../../controle/control.php' method='post' enctype='multipart/form-data' id='funcionarioDocForm'>
+                              <form action='../../controle/control.php' method='post' enctype='multipart/form-data'>
                                 <div class="modal-body" style="padding: 15px 40px">
                                   <div class="form-group" style="display: grid;">
                                     <label class="my-1 mr-2" for="tipoDocumento">Tipo de Arquivo</label><br>
@@ -573,12 +563,6 @@
                 
               <!-- Aba de arquivos -->
 
-              <div id="outros2" class="tab-pane">
-                <section class="panel">
-                   
-                    
-                  </section>
-              </div>
                 <!-- Aba endereço -->
                                 
                 <!-- end: page -->

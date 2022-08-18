@@ -68,6 +68,16 @@ $especie = $mysqli->query("select * from pet_especie");
 $raca = $mysqli->query("select * from pet_raca");
 
 /* fim */
+//Pedro
+if($_GET['msg']){
+  echo <<<HTML
+      <script>
+        alert('$_GET[msg]');
+        window.location.href = "../..//html/pet/cadastro_pet.php";
+      </script>
+    HTML;
+}
+//============================
 ?>
 <!DOCTYPE html>
 <html class="fixed">
@@ -169,7 +179,7 @@ $raca = $mysqli->query("select * from pet_raca");
                   <div class="form-group">
                     <label class="col-md-3 control-label" for="nome">Nome<sup class="obrig">*</sup></label>
                     <div class="col-md-8">
-                      <input type="text" class="form-control" name="nome" id="nome" onkeypress="return Onlychars(event)" required>
+                      <input type="text" class="form-control" name="nome" id="nome" onkeypress="return Onlychars(event)" required="required">
                     </div>
                   </div>
                   <div class="form-group">
@@ -177,7 +187,7 @@ $raca = $mysqli->query("select * from pet_raca");
                     <a onclick="adicionar_cor()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
                     <div class="col-md-8">
                       <!-- <input type="text" class="form-control" name="cor" id="cor" onkeypress="return Onlychars(event)" required> -->
-                      <select class="form-control input-lg mb-md" name="cor" id="cor" required>
+                      <select class="form-control input-lg mb-md" name="cor" id="cor" required="required">
                         <option selected disabled>Selecionar</option>
                         <?php
                           while ($row = $cor->fetch_array(MYSQLI_NUM)) {
@@ -197,7 +207,7 @@ $raca = $mysqli->query("select * from pet_raca");
                     <a onclick="adicionar_especie()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
                     <div class="col-md-8">
                       <!-- <input type="text" class="form-control" name="especie" id="especie" required> -->
-                      <select class="form-control input-lg mb-md" name="especie" id="especie" required>
+                      <select class="form-control input-lg mb-md" name="especie" id="especie" required="required">
                         <option selected disabled>Selecionar</option>
                         <?php
                           while ($row = $especie->fetch_array(MYSQLI_NUM)) {
@@ -212,7 +222,7 @@ $raca = $mysqli->query("select * from pet_raca");
                     <a onclick="adicionar_raca()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
                     <div class="col-md-8">
                       <!-- <input type="text" class="form-control" name="raca" id="raca" required> -->
-                      <select class="form-control input-lg mb-md" name="raca" id="raca" required>
+                      <select class="form-control input-lg mb-md" name="raca" id="raca" required="required">
                         <option selected disabled>Selecionar</option>
                         <?php
                           while ($row = $raca->fetch_array(MYSQLI_NUM)) {
@@ -225,8 +235,8 @@ $raca = $mysqli->query("select * from pet_raca");
                   <div class="form-group">
                     <label class="col-md-3 control-label" for="gender">Sexo<sup class="obrig">*</sup></label>
                     <div class="col-md-8">
-                      <label><input type="radio" name="gender" id="radioM" value="m" style="margin-top: 10px; margin-left: 15px;margin-right: 5px;" onclick="return exibir_reservista()" required><i class="fa fa-mars" style="font-size: 20px;"></i></label>
-                      <label><input type="radio" name="gender" id="radioF" id="F" value="f" style="margin-top: 10px; margin-left: 15px;margin-right: 5px;" onclick="return esconder_reservista()"><i class="fa fa-venus" style="font-size: 20px;"></i> </label>
+                      <label><input type="radio" name="gender" id="radioM" value="m" style="margin-top: 10px; margin-left: 15px;margin-right: 5px;" required><i class="fa fa-mars" style="font-size: 20px;"></i></label>
+                      <label><input type="radio" name="gender" id="radioF" id="F" value="f" style="margin-top: 10px; margin-left: 15px;margin-right: 5px;" ><i class="fa fa-venus" style="font-size: 20px;"></i> </label>
                     </div>
                   </div>
                   <div class="form-group">
@@ -314,7 +324,7 @@ $raca = $mysqli->query("select * from pet_raca");
 
   </style>
   <script type="text/javascript">
-
+    //Pedro
     /** Aqui começa a implementação das funções relacionada a "PET" */
 
     // funções relacionadas a datas

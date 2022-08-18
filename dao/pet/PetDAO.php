@@ -19,56 +19,63 @@ class PetDAO{
     public function adicionarPet( $nome, $nascimento, $acolhimento, $sexo, $caracEsp, $especie, 
         $raca, $cor, $imgperfil, $nImagem){
             
-        $idFoto;        
-        $pdo = Conexao::connect();
-        if( $imgperfil != ''){
-            $pd = $pdo->prepare("INSERT INTO pet_foto( arquivo_foto_pet, arquivo_foto_pet_nome, 
-                arquivo_foto_pet_extensao) VALUES( :conteudo, :nome_foto, :extensao)");
-            $pd->bindValue(':conteudo', $imgperfil);
-            $pd->bindValue(':nome_foto', $nImagem[0]);
-            $pd->bindValue(':extensao', $nImagem[1]);
+        //$idFoto;        
+        try{
+            $pdo = Conexao::connect();
+            if( $imgperfil != ''){
+                $pd = $pdo->prepare("INSERT INTO pet_foto( arquivo_foto_pet, arquivo_foto_pet_nome, 
+                    arquivo_foto_pet_extensao) VALUES( :conteudo, :nome_foto, :extensao)");
+                $pd->bindValue(':conteudo', $imgperfil);
+                $pd->bindValue(':nome_foto', $nImagem[0]);
+                $pd->bindValue(':extensao', $nImagem[1]);
+                $pd->execute();
+
+                $id = $pdo->query("SELECT id_pet_foto FROM pet_foto");
+                foreach( $id as $valor){
+                    $idFoto = $valor['id_pet_foto'];
+                }
+            }else{
+                $idFoto = NULL;
+            }
+
+            $pd = $pdo->prepare("INSERT INTO pet(nome, data_nascimento, data_acolhimento, sexo,
+                caracteristicas_especificas, id_pet_foto, id_pet_especie, id_pet_raca, id_pet_cor) 
+                VALUES(:nome, :nascimento, :acolhimento, :sexo, :especificas, :id_foto, 
+                :id_especie, :id_raca, :id_cor)");
+            $pd->bindValue(':nome', $nome);
+            $pd->bindValue(':nascimento', $nascimento);
+            $pd->bindValue(':acolhimento', $acolhimento);
+            $pd->bindValue(':sexo', $sexo);
+            $pd->bindValue(':especificas', $caracEsp);
+            $pd->bindValue(':id_foto', $idFoto);
+            $pd->bindValue(':id_especie', $especie);
+            $pd->bindValue(':id_raca', $raca);
+            $pd->bindValue(':id_cor', $cor);
             $pd->execute();
 
-            $id = $pdo->query("SELECT id_pet_foto FROM pet_foto");
-            foreach( $id as $valor){
-                $idFoto = $valor['id_pet_foto'];
-            }
-        }else{
-            $idFoto = NULL;
+            header('Location: ../../html/pet/informacao_pet.php');
+        }catch(PDOException $e){
+            echo $e->getMessage();
         }
-        
-
-        $pd = $pdo->prepare("INSERT INTO pet(nome, data_nascimento, data_acolhimento, sexo,
-            caracteristicas_especificas, id_pet_foto, id_pet_especie, id_pet_raca, id_pet_cor) 
-            VALUES(:nome, :nascimento, :acolhimento, :sexo, :especificas, :id_foto, 
-            :id_especie, :id_raca, :id_cor)");
-        $pd->bindValue(':nome', $nome);
-        $pd->bindValue(':nascimento', $nascimento);
-        $pd->bindValue(':acolhimento', $acolhimento);
-        $pd->bindValue(':sexo', $sexo);
-        $pd->bindValue(':especificas', $caracEsp);
-        $pd->bindValue(':id_foto', $idFoto);
-        $pd->bindValue(':id_especie', $especie);
-        $pd->bindValue(':id_raca', $raca);
-        $pd->bindValue(':id_cor', $cor);
-        $pd->execute();
-
-        header('Location: ../../html/pet/informacao_pet.php');
     }
 
     public function listarUm($id_pet){
-        $pdo = Conexao::connect();
-        $pd = $pdo->prepare("SELECT * FROM pet WHERE id_pet=:id");
-        $pd->bindValue(":id", $id_pet);
-        $pd->execute();
-        $p = $pd->fetchAll();
-        foreach( $p as $valor){
-            $array[] = array('nome' => $valor['nome'], 'sexo' => $valor['sexo'], 
-            'acolhimento' => $valor['data_acolhimento'], 'nascimento' => $valor['data_nascimento'], 
-            'especificas' => $valor['caracteristicas_especificas'], 'raca' => $valor['id_pet_raca'], 
-            'especie' => $valor['id_pet_especie'], 'cor' => $valor['id_pet_cor']);
+        try{
+            $pdo = Conexao::connect();
+            $pd = $pdo->prepare("SELECT * FROM pet WHERE id_pet=:id");
+            $pd->bindValue(":id", $id_pet);
+            $pd->execute();
+            $p = $pd->fetchAll();
+            foreach( $p as $valor){
+                $array[] = array('nome' => $valor['nome'], 'sexo' => $valor['sexo'], 
+                'acolhimento' => $valor['data_acolhimento'], 'nascimento' => $valor['data_nascimento'], 
+                'especificas' => $valor['caracteristicas_especificas'], 'raca' => $valor['id_pet_raca'], 
+                'especie' => $valor['id_pet_especie'], 'cor' => $valor['id_pet_cor']);
+            }
+            return $array;
+        }catch(PDOException $e){
+            echo $e->getMessage();
         }
-        return $array;
     }
     
     public function listarTodos(){
@@ -140,42 +147,54 @@ class PetDAO{
         $raca, $cor, $id_pet){
         $pdo = Conexao::connect();
 
-        $pd = $pdo->prepare("UPDATE pet SET nome = :nome, data_nascimento = :nascimento, 
-              data_acolhimento = :acolhimento, sexo = :sexo,
-              caracteristicas_especificas = :especificas, id_pet_especie = :id_especie,
-              id_pet_raca = :id_raca, id_pet_cor = :id_cor WHERE id_pet = :id_pet");
-        $pd->bindValue(':nome', $nome);
-        $pd->bindValue(':nascimento', $nascimento);
-        $pd->bindValue(':acolhimento', $acolhimento);
-        $pd->bindValue(':sexo', $sexo);
-        $pd->bindValue(':especificas', $caracEsp);
-        $pd->bindValue(':id_especie', $especie);
-        $pd->bindValue(':id_raca', $raca);
-        $pd->bindValue(':id_cor', $cor);
-        $pd->bindValue(':id_pet', $id_pet);
-        $pd->execute();
+        try{
+            $pd = $pdo->prepare("UPDATE pet SET nome = :nome, data_nascimento = :nascimento, 
+                data_acolhimento = :acolhimento, sexo = :sexo,
+                caracteristicas_especificas = :especificas, id_pet_especie = :id_especie,
+                id_pet_raca = :id_raca, id_pet_cor = :id_cor WHERE id_pet = :id_pet");
+            $pd->bindValue(':nome', $nome);
+            $pd->bindValue(':nascimento', $nascimento);
+            $pd->bindValue(':acolhimento', $acolhimento);
+            $pd->bindValue(':sexo', $sexo);
+            $pd->bindValue(':especificas', $caracEsp);
+            $pd->bindValue(':id_especie', $especie);
+            $pd->bindValue(':id_raca', $raca);
+            $pd->bindValue(':id_cor', $cor);
+            $pd->bindValue(':id_pet', $id_pet);
+            $pd->execute();
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
     }
 
     public function incluirExamePet($id_ficha_medica, $id_tipo_exame, $data_exame, $arquivo_exame, 
     $nameFile){
-        $pdo = Conexao::connect();
-        $pd = $pdo->prepare("INSERT INTO pet_exame(id_ficha_medica, id_tipo_exame, data_exame, 
-        arquivo_exame, arquivo_nome, arquivo_extensao) VALUES(:id_ficha_medica, :id_tipo_exame, 
-        :data_exame, :arquivo_exame, :arquivo_nome, :arquivo_extensao)");
-        $pd->bindValue(":id_ficha_medica", $id_ficha_medica);
-        $pd->bindValue(":id_tipo_exame", $id_tipo_exame);
-        $pd->bindValue(":data_exame", $data_exame);
-        $pd->bindValue(":arquivo_exame", $arquivo_exame);
-        $pd->bindValue(":arquivo_nome", $nameFile[0]);
-        $pd->bindValue(":arquivo_extensao", $nameFile[1]);
-        $pd->execute();
+        try{
+            $pdo = Conexao::connect();
+            $pd = $pdo->prepare("INSERT INTO pet_exame(id_ficha_medica, id_tipo_exame, data_exame, 
+            arquivo_exame, arquivo_nome, arquivo_extensao) VALUES(:id_ficha_medica, :id_tipo_exame, 
+            :data_exame, :arquivo_exame, :arquivo_nome, :arquivo_extensao)");
+            $pd->bindValue(":id_ficha_medica", $id_ficha_medica);
+            $pd->bindValue(":id_tipo_exame", $id_tipo_exame);
+            $pd->bindValue(":data_exame", $data_exame);
+            $pd->bindValue(":arquivo_exame", $arquivo_exame);
+            $pd->bindValue(":arquivo_nome", $nameFile[0]);
+            $pd->bindValue(":arquivo_extensao", $nameFile[1]);
+            $pd->execute();
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
     }
 
     public function excluirExamePet($id_exame){
-        $pdo = Conexao::connect();
-        $pd = $pdo->prepare("DELETE FROM pet_exame WHERE id_exame = :id_exame");
-        $pd->bindValue(":id_exame", $id_exame);
-        $pd->execute();
+        try{
+            $pdo = Conexao::connect();
+            $pd = $pdo->prepare("DELETE FROM pet_exame WHERE id_exame = :id_exame");
+            $pd->bindValue(":id_exame", $id_exame);
+            $pd->execute();
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
     }
 
     /*public function listarExames($idPet){

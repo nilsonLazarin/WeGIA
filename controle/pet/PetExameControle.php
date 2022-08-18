@@ -50,7 +50,7 @@ $petExameControle = new PetExameControle($dado['idExamePet']);
 $metodo = $dado['metodo'];
 $petExameControle->$metodo();
 
-echo json_encode("Excluido com Sucesso");
+echo json_encode("Excluído com Sucesso");
 
 //require_once("");
 

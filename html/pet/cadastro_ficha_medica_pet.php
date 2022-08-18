@@ -93,6 +93,7 @@ foreach($nome as $va)
 
 require_once ROOT."/controle/SaudeControle.php";
 require_once ROOT."/html/personalizacao_display.php";
+
 ?>
 
 <!DOCTYPE html>
@@ -360,3 +361,20 @@ require_once ROOT."/html/personalizacao_display.php";
         <script src="<?php echo WWW;?>assets/javascripts/tables/examples.datatables.tabletools.js"></script>
     </body>
 </html>
+<?php
+//Pedro
+if($_GET['id_pet']){
+    echo <<<HTML
+        <script>
+            let opcao = document.querySelectorAll("option");
+            let id = $_GET[id_pet];
+            opcao.forEach(valor=>{
+                if(valor.value == id){
+                    valor.selected = true;
+                }
+            })
+        </script>
+    HTML;
+}
+//===========================
+?>
