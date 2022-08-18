@@ -119,11 +119,9 @@
 	<script src="../../Functions/mascara.js"></script>
 	<!-- jquery functions -->
 	<script>
-		function clicar(id) {
-			console.log("id aqui",id);
-			event.preventDefault();
-			event.stopPropagation();
-			//window.location.href = "profile_paciente.php?id_fichamedica="+id;
+		function irPg(id_fichamedica){
+			localStorage.setItem('id_fichamedica',id_fichamedica);
+			window.location.href = "./profile_paciente.php?id_fichamedica="+id_fichamedica;
 		}
 		$(function() {
 			$(function () {
@@ -145,7 +143,7 @@
 			<?php unset($_SESSION['saude']); ?>;
 			$.each(pacientes, function(i, item) {
 				$("#tabela")
-				.append($("<tr id='"+item.id_fichamedica+"' class='tabble-row'>")
+				.append($("<tr <tr onclick=irPg('"+item.id_fichamedica+"') id='"+item.id_fichamedica+"' class='tabble-row'>")
 					.append($("<td>")
 						.text(item.nome+' '+item.sobrenome))
 					.append($("<td />")

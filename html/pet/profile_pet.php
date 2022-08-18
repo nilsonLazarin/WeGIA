@@ -248,7 +248,7 @@
               <ol class="breadcrumbs">
                 <li>
                   <a href="../home.php">
-                    <i class="fa fa-home"></i>
+                    <i class="fa-solid fa-home"></i>
                   </a>
                 </li>
                 <li><span>Páginas</span></li>

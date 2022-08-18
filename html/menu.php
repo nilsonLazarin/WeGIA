@@ -27,7 +27,7 @@
 				<ul class="nav nav-main">
 					<li>
 						<a href="<?= WWW ?>html/home.php">
-							<i class="fa fa-home" aria-hidden="true"></i>
+							<i class="fa-solid fa-home" aria-hidden="true"></i>
 							<span>Início</span>
 						</a>
 					</li>
