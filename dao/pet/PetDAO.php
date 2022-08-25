@@ -60,7 +60,7 @@ class PetDAO{
     }
 
     public function listarUm($id_pet){
-        try{
+        //try{
             $pdo = Conexao::connect();
             $pd = $pdo->prepare("SELECT * FROM pet WHERE id_pet=:id");
             $pd->bindValue(":id", $id_pet);
@@ -73,9 +73,9 @@ class PetDAO{
                 'especie' => $valor['id_pet_especie'], 'cor' => $valor['id_pet_cor']);
             }
             return $array;
-        }catch(PDOException $e){
-            echo $e->getMessage();
-        }
+        //}catch(PDOException $e){
+        //    echo $e->getMessage();
+        //}
     }
     
     public function listarTodos(){

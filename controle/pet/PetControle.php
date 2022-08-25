@@ -132,15 +132,15 @@ class PetControle{
 
     public function listarUm(){
         extract($_REQUEST);
-        try {
+        //try {
             $petDAO = new PetDAO();
             $pet=$petDAO->listarUm($id_pet);
             session_start();
             $_SESSION['pet']=$pet;
             header('Location:'.$nextPage);
-        } catch (PDOException $e) {
-            echo $e->getMessage();
-        }
+        //} catch (PDOException $e) {
+        //    echo $e->getMessage();
+        //}
     }
 
     public function alterarImagem(){
