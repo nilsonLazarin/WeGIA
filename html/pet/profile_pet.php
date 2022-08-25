@@ -270,7 +270,8 @@
                       $id_pessoa = $_SESSION['id_pessoa'];
                       $donoimagem = $_GET['id_pet'];
                       $resultado = mysqli_query($conexao, "SELECT p.id_pet_foto AS id_foto, pf.arquivo_foto_pet AS 'imagem' FROM pet p, pet_foto pf WHERE p.id_pet_foto=pf.id_pet_foto and p.id_pet=$donoimagem");
-                      $petImagem = mysqli_fetch_array($resultado);
+                      if($resultado)
+                        $petImagem = mysqli_fetch_array($resultado);
                       if (isset($_SESSION['id_pessoa']) and !empty($_SESSION['id_pessoa'])) 
                       {
                         if($petImagem['imagem']){
@@ -280,9 +281,9 @@
                           {
                             $foto = 'data:image;base64,' . $foto;
                           }
-                        }
-                        else 
-                        {
+                          }
+                          else 
+                          {
                           $foto = WWW . "img/semfoto.png";
                         }
                       }
