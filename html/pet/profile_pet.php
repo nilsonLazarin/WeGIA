@@ -266,11 +266,12 @@
                 <div class="panel-body">
                   <div class="thumb-info mb-md">
                     <?php
-                      $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+                    require_once "./foto.php";
+                      /*$conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
                       $id_pessoa = $_SESSION['id_pessoa'];
                       $donoimagem = $_GET['id_pet'];
                       $resultado = mysqli_query($conexao, "SELECT p.id_pet_foto AS id_foto, pf.arquivo_foto_pet AS 'imagem' FROM pet p, pet_foto pf WHERE p.id_pet_foto=pf.id_pet_foto and p.id_pet=$donoimagem");
-                      $petImagem = mysqli_fetch_array($resultado);
+                      $petImagem = mysqli_fetch_array($resultado);*/
                       if (isset($_SESSION['id_pessoa']) and !empty($_SESSION['id_pessoa'])) 
                       {
                         $foto = $petImagem['imagem'];
