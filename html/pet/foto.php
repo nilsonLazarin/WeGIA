@@ -9,4 +9,6 @@ $petImagem = mysqli_fetch_array($resultado);*/
 $pdo = new PDO('mysql:host='.DB_HOST.'; dbname='.DB_NAME.'; charset=utf8',DB_USER,DB_PASSWORD);
 $resultado = $pdo->query("SELECT p.id_pet_foto AS id_foto, pf.arquivo_foto_pet AS 'imagem' FROM pet p, 
 pet_foto pf WHERE p.id_pet_foto=pf.id_pet_foto and p.id_pet=$donoimagem");
-$petImagem = $resultado->fetch();
+if($resultado){
+    $petImagem = $resultado->fetch();
+}
