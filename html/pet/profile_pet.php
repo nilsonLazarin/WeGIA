@@ -266,15 +266,61 @@
                 <div class="panel-body">
                   <div class="thumb-info mb-md">
                     <?php
-                      $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+                    echo "<img  id='imagem' class='rounded img-responsive' alt='John Doe'>";
+                    
+                      //Pedro
                       $id_pessoa = $_SESSION['id_pessoa'];
                       $donoimagem = $_GET['id_pet'];
-                      $resultado = mysqli_query($conexao, "SELECT p.id_pet_foto AS id_foto, pf.arquivo_foto_pet AS 'imagem' FROM pet p, pet_foto pf WHERE p.id_pet_foto=pf.id_pet_foto and p.id_pet=$donoimagem");
-                      if($resultado)
-                        $petImagem = mysqli_fetch_array($resultado);
+
+                      /*echo <<<HTML
+                        <script>
+                        fetch("./foto.php",{
+                          method: "POST",
+                          body: JSON.stringify({"id":$donoimagem})
+                        }).then((resp)=>{
+                          return resp.json()
+                        }).then((resp)=>{
+                          console.log(resp)
+                          petImagem = resp;
+                          console.log(petImagem);
+
+                        });
+                        </script>
+                      HTML;*/
+                      //
+                      $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+                      /*$id_pessoa = $_SESSION['id_pessoa'];
+                      $donoimagem = $_GET['id_pet'];*/
+                      //$resultado = mysqli_query($conexao, "SELECT p.id_pet_foto AS id_foto, pf.arquivo_foto_pet AS 'imagem' FROM pet p, pet_foto pf WHERE p.id_pet_foto=pf.id_pet_foto and p.id_pet=$donoimagem");
+                      //$petImagem = mysqli_fetch_array($resultado);
                       if (isset($_SESSION['id_pessoa']) and !empty($_SESSION['id_pessoa'])) 
                       {
-                        if($petImagem['imagem']){
+                        echo <<<HTML
+                        <script>
+                          let img = document.querySelector("#imagem");
+                          fetch("./foto.php",{
+                            method: "POST",
+                            body: JSON.stringify({"id":$donoimagem})
+                          }).then((resp)=>{
+                            return resp.json()
+                          }).then((resp)=>{
+                            let petImagem = resp;
+                            let foto, id_foto;
+                            console.log(petImagem);
+                            if(petImagem){
+                              foto = petImagem['imagem'];
+                              id_foto = petImagem['id_foto'];
+                              if(foto != null && foto != ""){
+                                foto = 'data:image;base64,'+foto;
+                              }
+                            }else{
+                              foto = "../../img/semfoto.png";
+                            }
+                            img.src = foto;
+                          });
+                        </script>
+                      HTML;
+                        /*if($petImagem['imagem']){
                           $foto = $petImagem['imagem'];
                           $id_foto = $petImagem['id_foto'];
                           if ($foto != null and $foto != "")
@@ -285,10 +331,10 @@
                           else 
                           {
                           $foto = WWW . "img/semfoto.png";
-                        }
+                        }*/
                       }
-                      echo "<img src='$foto' id='imagem' class='rounded img-responsive' alt='John Doe'>";
-                    ?>
+                      ?>
+                    <!--<img  id='imagem' class='rounded img-responsive' alt='John Doe'>-->
                     <i class="fas fa-camera-retro btn btn-info btn-lg" data-toggle="modal" data-target="#myModal"></i>
                     <div class="container">
                       <div class="modal fade" id="myModal" role="dialog">
