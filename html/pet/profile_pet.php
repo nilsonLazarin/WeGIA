@@ -275,7 +275,7 @@
                       {
                         $foto = $petImagem['imagem'];
                         $id_foto = $petImagem['id_foto'];
-                        if ($foto != null and $foto != "")
+                        if ($foto)// != null and $foto != "")
                         {
                           $foto = 'data:image;base64,' . $foto;
                         }
