@@ -260,13 +260,49 @@
           <!-- start: page -->
           <!-- Mensagem -->
           <?php getMsgSession("msg", "tipo"); ?>
+          <!----pedro-->
+          <div class="container">
+                      <div class="modal fade" id="myModal" role="dialog">
+                        <div class="modal-dialog">
+                          <!-- Modal content-->
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal">&times;</button>
+                              <h4 class="modal-title">Adicionar uma Foto</h4>
+                            </div>
+                            <div class="modal-body">
+                              <form class="form-horizontal" method="POST" action="../../controle/control.php" enctype="multipart/form-data">
+                                <input type="hidden" name="nomeClasse" value="PetControle">
+                                <input type="hidden" name="metodo" value="alterarImagem">
+                                <input type="hidden" name="modulo" value="pet">
+                                <div class="form-group">
+                                  <label class="col-md-4 control-label" for="imgperfil">Carregue nova imagem de perfil:</label>
+                                  <div class="col-md-8">
+                                    <input type="file" name="imgperfil" size="60" id="imgform" class="form-control">
+                                  </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                              <input type="hidden" name="id_pet" value=<?php echo $_GET['id_pet'] ?>>
+                              <input type="hidden" name="id_foto" id="id_foto" >
+                              <input type="submit" id="formsubmit" value="Alterar imagem">
+                            </div>
+                          </div> 
+                        </form>
+                      </div>
+                      </div>
+                    </div>
+        <!----pedrofim-->
+
           <div class="row">
             <div class="col-md-4 col-lg-3">
               <section class="panel">
                 <div class="panel-body">
                   <div class="thumb-info mb-md">
+                    
                     <?php
                     echo "<img  id='imagem' class='rounded img-responsive' alt='John Doe'>";
+                    
                     
                       //Pedro
                       $id_pessoa = $_SESSION['id_pessoa'];
@@ -295,51 +331,40 @@
                       //$petImagem = mysqli_fetch_array($resultado);
                       if (isset($_SESSION['id_pessoa']) and !empty($_SESSION['id_pessoa'])) 
                       {
-                        echo <<<HTML
+                        echo "
                         <script>
-                          let img = document.querySelector("#imagem");
-                          fetch("./foto.php",{
-                            method: "POST",
-                            body: JSON.stringify({"id":$donoimagem})
+                          let id_foto = document.querySelector('#id_foto');
+                          let img = document.querySelector('#imagem');
+                          fetch('./foto.php',{
+                            method: 'POST',
+                            body: JSON.stringify({'id':".$donoimagem."})
                           }).then((resp)=>{
                             return resp.json()
                           }).then((resp)=>{
                             let petImagem = resp;
-                            let foto, id_foto;
-                            console.log(petImagem);
+                            let foto;
+                            //console.log(petImagem);
                             if(petImagem){
                               foto = petImagem['imagem'];
-                              id_foto = petImagem['id_foto'];
-                              if(foto != null && foto != ""){
+                              id_foto.value = petImagem['id_foto'];
+                              if(foto != null && foto != ''){
                                 foto = 'data:image;base64,'+foto;
                               }
                             }else{
-                              foto = "../../img/semfoto.png";
+                              foto = '../../img/semfoto.png';
                             }
                             img.src = foto;
                           });
                         </script>
-                      HTML;
-                        /*if($petImagem['imagem']){
-                          $foto = $petImagem['imagem'];
-                          $id_foto = $petImagem['id_foto'];
-                          if ($foto != null and $foto != "")
-                          {
-                            $foto = 'data:image;base64,' . $foto;
-                          }
-                          }
-                          else 
-                          {
-                          $foto = WWW . "img/semfoto.png";
-                        }*/
+                      ";
                       }
                       ?>
                     <!--<img  id='imagem' class='rounded img-responsive' alt='John Doe'>-->
                     <i class="fas fa-camera-retro btn btn-info btn-lg" data-toggle="modal" data-target="#myModal"></i>
-                    <div class="container">
+                    <!--<div class="container">
                       <div class="modal fade" id="myModal" role="dialog">
                         <div class="modal-dialog">
-                          <!-- Modal content-->
+                          <!-- Modal content-
                           <div class="modal-content">
                             <div class="modal-header">
                               <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -359,14 +384,14 @@
                             </div>
                             <div class="modal-footer">
                               <input type="hidden" name="id_pet" value=<?php echo $_GET['id_pet'] ?>>
-                              <input type="hidden" name="id_foto" value=<?php echo $id_foto ?>>
+                              <input type="hidden" name="id_foto" id="id_foto" value=>
                               <input type="submit" id="formsubmit" value="Alterar imagem">
                             </div>
                           </div> 
                         </form>
                       </div>
                       </div>
-                    </div>
+                    </div>-->
                   </div>
                   <div class="widget-toggle-expand mb-md">
                     <div class="widget-header">
