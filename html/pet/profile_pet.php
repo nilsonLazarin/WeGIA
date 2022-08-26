@@ -570,7 +570,7 @@
                         <!-- Button trigger modal -->
                         
                         <?php
-                          if($p['id_ficha_medica']){
+                          if($p != false){
                             echo <<<HTML
                               <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#docFormModal">
                                 Adicionar
