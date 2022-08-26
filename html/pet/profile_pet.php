@@ -532,7 +532,7 @@
                             $idPet = $_GET['id_pet'];
                             $pd = $pdo->query("SELECT id_ficha_medica FROM pet_ficha_medica WHERE id_pet =".$idPet);
                             $p = $pd->fetch();
-                            if($p['id_ficha_medica']){
+                            if($p != false){
                               $id_ficha_medica = $p['id_ficha_medica'];
                               $exames = $pdo->query("SELECT *, pte.descricao_exame AS 'arkivo' FROM pet_exame pe JOIN pet_tipo_exame pte ON 
                               pe.id_tipo_exame = pte.id_tipo_exame WHERE pe.id_ficha_medica = ".$p['id_ficha_medica']);
