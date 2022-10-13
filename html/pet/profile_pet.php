@@ -302,33 +302,12 @@
                     
                     <?php
                     echo "<img  id='imagem' class='rounded img-responsive' alt='John Doe'>";
-                    
-                    
                       //Pedro
                       $id_pessoa = $_SESSION['id_pessoa'];
                       $donoimagem = $_GET['id_pet'];
 
-                      /*echo <<<HTML
-                        <script>
-                        fetch("./foto.php",{
-                          method: "POST",
-                          body: JSON.stringify({"id":$donoimagem})
-                        }).then((resp)=>{
-                          return resp.json()
-                        }).then((resp)=>{
-                          console.log(resp)
-                          petImagem = resp;
-                          console.log(petImagem);
-
-                        });
-                        </script>
-                      HTML;*/
                       //
                       $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-                      /*$id_pessoa = $_SESSION['id_pessoa'];
-                      $donoimagem = $_GET['id_pet'];*/
-                      //$resultado = mysqli_query($conexao, "SELECT p.id_pet_foto AS id_foto, pf.arquivo_foto_pet AS 'imagem' FROM pet p, pet_foto pf WHERE p.id_pet_foto=pf.id_pet_foto and p.id_pet=$donoimagem");
-                      //$petImagem = mysqli_fetch_array($resultado);
                       if (isset($_SESSION['id_pessoa']) and !empty($_SESSION['id_pessoa'])) 
                       {
                         echo "
@@ -343,7 +322,7 @@
                           }).then((resp)=>{
                             let petImagem = resp;
                             let foto;
-                            //console.log(petImagem);
+                            
                             if(petImagem){
                               foto = petImagem['imagem'];
                               id_foto.value = petImagem['id_foto'];
@@ -359,39 +338,8 @@
                       ";
                       }
                       ?>
-                    <!--<img  id='imagem' class='rounded img-responsive' alt='John Doe'>-->
                     <i class="fas fa-camera-retro btn btn-info btn-lg" data-toggle="modal" data-target="#myModal"></i>
-                    <!--<div class="container">
-                      <div class="modal fade" id="myModal" role="dialog">
-                        <div class="modal-dialog">
-                          <!-- Modal content-
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <button type="button" class="close" data-dismiss="modal">&times;</button>
-                              <h4 class="modal-title">Adicionar uma Foto</h4>
-                            </div>
-                            <div class="modal-body">
-                              <form class="form-horizontal" method="POST" action="../../controle/control.php" enctype="multipart/form-data">
-                                <input type="hidden" name="nomeClasse" value="PetControle">
-                                <input type="hidden" name="metodo" value="alterarImagem">
-                                <input type="hidden" name="modulo" value="pet">
-                                <div class="form-group">
-                                  <label class="col-md-4 control-label" for="imgperfil">Carregue nova imagem de perfil:</label>
-                                  <div class="col-md-8">
-                                    <input type="file" name="imgperfil" size="60" id="imgform" class="form-control">
-                                  </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                              <input type="hidden" name="id_pet" value=<?php echo $_GET['id_pet'] ?>>
-                              <input type="hidden" name="id_foto" id="id_foto" value=>
-                              <input type="submit" id="formsubmit" value="Alterar imagem">
-                            </div>
-                          </div> 
-                        </form>
-                      </div>
-                      </div>
-                    </div>-->
+                    
                   </div>
                   <div class="widget-toggle-expand mb-md">
                     <div class="widget-header">
@@ -410,7 +358,13 @@
                     <a href="#overview" data-toggle="tab">Informações do Pet</a>
                   </li>
                   <li>
+                    <a href="#ficha_medica" data-toggle="tab">Ficha Médica</a>
+                  </li>
+                  <li>
                     <a href="#arquivosPet" data-toggle="tab">Exames do Pet</a>
+                  </li>
+                  <li>
+                    <a href="#adocao" data-toggle="tab">Adoção</a>
                   </li>
                 </ul>
 
@@ -434,8 +388,8 @@
                         <div class="form-group">
                           <label class="col-md-3 control-label" for="profileLastName">Sexo</label>
                           <div class="col-md-8">
-                            <label><input type="radio" name="gender" id="radioM" id="M" value="M" style="margin-top: 10px; margin-left: 15px;" onclick="return exibir_reservista()"> <i class="fa fa-male" style="font-size: 20px;"> Masculino</i></label>
-                            <label><input type="radio" name="gender" id="radioF" id="F" value="F" style="margin-top: 10px; margin-left: 15px;" onclick="return esconder_reservista()"> <i class="fa fa-female" style="font-size: 20px;"> Feminino</i> </label>
+                            <label><input type="radio" name="gender" id="radioM" id="M" value="M" style="margin-top: 10px; margin-left: 15px;" > <i class="fa fa-mars" style="font-size: 20px;"></i></label>
+                            <label><input type="radio" name="gender" id="radioF" id="F" value="F" style="margin-top: 10px; margin-left: 15px;" > <i class="fa fa-venus" style="font-size: 20px;"></i></label>
                           </div>
                         </div>
                         
@@ -630,16 +584,123 @@
                           </div>
                         </div>
                       </div>
-                  </section>
-                  
+                  </section>                  
                 </div>
 
-                
-              <!-- Aba de arquivos -->
+                <!-- Ficha Medica-->
+                <div id="ficha_medica" class="tab-pane">
+                  <!--<section class="panel">
+                      <header class="panel-heading">
+                        <div class="panel-actions">
+                          <a href="#" class="fa fa-caret-down"></a>
+                        </div>
+                        <h2 class="panel-title">Adoção do Pet</h2>
+                      </header>
+                      <div class="panel-body">
+                        <form class="form-horizontal" method="post" action="../../controle/control.php">
+                          <input type="hidden" name="nomeClasse" value="AdocaoControle">
+                          <input type="hidden" name="metodo" value="modificarAdocao">
+                          <input type="hidden" name="modulo" value="pet">
+                          <fieldset>
+                            <div class="form-group">
+                              <label class="col-md-3 control-label" for="profileLastName">Adotado</label>
+                              <div class="col-md-8">
+                                <label><input type="radio" name="adotado" id="adotadoS" id="S" value="S" style="margin-top: 10px; margin-left: 15px;" > <i class="fa" style="font-size: 20px;">Sim</i></label>
+                                <label><input type="radio" checked name="adotado" id="adotadoN" id="N" value="N" style="margin-top: 10px; margin-left: 15px;" > <i class="fa" style="font-size: 20px;">Não</i></label>
+                              </div>
+                            </div>
+                            <div id="dadosAdocao">
+                              <div class="form-group">
+                                <label class="col-md-3 control-label" for="profileName">Nome</label>
+                                <div class="col-md-8">
+                                  <input type="text" class="form-control" name="nomeAdotante" id="nomeAdotante" onkeypress="return Onlychars(event)" required>
+                                </div>
+                              </div>-->
 
-                <!-- Aba endereço -->
-                                
-                <!-- end: page -->
+                              <!--RG em teste-->
+                              <!--<div class="form-group">
+                                <label class="col-md-3 control-label" for="profileRG">RG do adotante</label>
+                                <div class="col-md-8">
+                                  <input type="text" class="form-control" name="rgAdotante" id="rgAdotante" placeholder="Digite apenas números" required>
+                                </div>
+                              </div>
+                              
+                              <div class="form-group">
+                                <label class="col-md-3 control-label" for="profileCompany">Data da adoção</label>
+                                <div class="col-md-8">
+                                  <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="dataAdocao" id="dataAdocao" max=<?php echo date('Y-m-d');?> required>
+                                </div>
+                              </div>
+                            </div>                            
+
+                            
+                            </br>
+                            <input type="hidden" name="id_pet" value=<?php echo $_GET['id_pet'] ?>>
+                            <button type="button" class="btn btn-primary" id="editarAdocao" onclick="return ()">Editar Ficha Médica</button>
+                            <input type="submit" class="btn btn-primary" value="Salvar Adoção" id="salvarAdocao">
+                          </fieldset>
+                        </form>
+                      </div>
+                  </section> -->                 
+                </div>
+
+                <!-- Adocao -->
+                <div id="adocao" class="tab-pane">
+                  <section class="panel">
+                      <header class="panel-heading">
+                        <div class="panel-actions">
+                          <a href="#" class="fa fa-caret-down"></a>
+                        </div>
+                        <h2 class="panel-title">Adoção do Pet</h2>
+                      </header>
+                      <div class="panel-body">
+                        <form class="form-horizontal" method="post" action="../../controle/control.php">
+                          <input type="hidden" name="nomeClasse" value="AdocaoControle">
+                          <input type="hidden" name="metodo" value="modificarAdocao">
+                          <input type="hidden" name="modulo" value="pet">
+                          <fieldset>
+                            <div class="form-group">
+                              <label class="col-md-3 control-label" for="profileLastName">Adotado</label>
+                              <div class="col-md-8">
+                                <label><input type="radio" name="adotado" id="adotadoS" id="S" value="S" style="margin-top: 10px; margin-left: 15px;" > <i class="fa" style="font-size: 20px;">Sim</i></label>
+                                <label><input type="radio" checked name="adotado" id="adotadoN" id="N" value="N" style="margin-top: 10px; margin-left: 15px;" > <i class="fa" style="font-size: 20px;">Não</i></label>
+                              </div>
+                            </div>
+                            <div id="dadosAdocao">
+                              <div class="form-group">
+                                <label class="col-md-3 control-label" for="profileName">Nome</label>
+                                <div class="col-md-8">
+                                  <input type="text" class="form-control" name="nomeAdotante" id="nomeAdotante" onkeypress="return Onlychars(event)" required>
+                                </div>
+                              </div>
+
+                              <!--RG em teste-->
+                              <div class="form-group">
+                                <label class="col-md-3 control-label" for="profileRG">RG do adotante</label>
+                                <div class="col-md-8">
+                                  <input type="text" class="form-control" name="rgAdotante" id="rgAdotante" placeholder="Digite apenas números" required>
+                                </div>
+                              </div>
+                              <!-- -->
+                              <div class="form-group">
+                                <label class="col-md-3 control-label" for="profileCompany">Data da adoção</label>
+                                <div class="col-md-8">
+                                  <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="dataAdocao" id="dataAdocao" max=<?php echo date('Y-m-d');?> required>
+                                </div>
+                              </div>
+                            </div>                            
+
+                            
+                            </br>
+                            <input type="hidden" name="id_pet" value=<?php echo $_GET['id_pet'] ?>>
+                            <button type="button" class="btn btn-primary" id="editarAdocao" onclick="return editarAdocaoPet()">Editar Adoção</button>
+                            <input type="submit" class="btn btn-primary" value="Salvar Adoção" id="salvarAdocao">
+                          </fieldset>
+                        </form>
+                      </div>
+                  </section>                  
+                </div>
+
               </div> 
             </div>
           </div>
@@ -649,7 +710,136 @@
     <!--script pedro-->
     <script type="text/javascript">
       //============pedro
+      //Adoção
+      let nomeAdotante = document.querySelector("#nomeAdotante");
+      let adotadoS = document.querySelector("#adotadoS");
+      let adotadoN = document.querySelector("#adotadoN");
+      let dataAdocao = document.querySelector("#dataAdocao");
+      let editarAdocao = document.querySelector("#editarAdocao");
+      let salvarAdocao = document.querySelector("#salvarAdocao");
+      let rgAdotante = document.querySelector("#rgAdotante");// registro geral identidade
 
+      (()=>{
+        adotadoS.disabled = true;
+        adotadoN.disabled = true;
+        nomeAdotante.disabled = true;
+        dataAdocao.disabled = true;
+        salvarAdocao.disabled = true;
+        rgAdotante.disabled = true;
+      })();
+
+      function editarAdocaoPet(){
+        if(editarAdocao.innerHTML == "Editar Adoção"){
+          adotadoS.disabled = false;
+          adotadoN.disabled = false;
+          dataAdocao.disabled = false;
+          salvarAdocao.disabled = false;
+          rgAdotante.disabled = false;
+          editarAdocao.innerHTML = "Cancelar Editar";
+        }else{
+          // adotadoS.disabled = true;
+          // adotadoN.disabled = true;
+          // dataAdocao.disabled = true;
+          // salvarAdocao.disabled = true;
+          // rgAdotante.disabled = true;
+          // editarAdocao.innerHTML = "Editar Adoção";
+          document.location.reload();
+        }
+      }
+
+      if( adotadoN.checked == true){
+        document.querySelector("#dadosAdocao").style.display = "none";
+      }
+
+      adotadoS.addEventListener("click", ()=>{
+        document.querySelector("#dadosAdocao").style.display = "";
+        nomeAdotante.value = '';
+        rgAdotante.value = '';
+        dataAdocao.value = '';
+      })
+
+      adotadoN.addEventListener("click", ()=>{
+        document.querySelector("#dadosAdocao").style.display = "none";
+        nomeAdotante.value = '*';
+        rgAdotante.value = '*';
+        dataAdocao.value = '1111-11-11';
+      })
+
+      // salvarAdocao.addEventListener("click", (e)=>{
+      //   if(adotadoN.checked == true || (adotadoN.checked == false && adotadoS.checked == false)){
+      //     alert("Preencha todos os dados adequadamente!");
+      //     e.preventDefault();
+      //   }
+      // })
+
+
+      let dadoRG = '';
+      rgAdotante.addEventListener("input", ()=>{
+        let rg = [];
+        let rg2 = '';
+        dadoRG = rgAdotante.value.split('');
+
+        dadoRG.forEach( (valor, i) =>{
+          if( valor >= 0 && valor <= 9){
+            rg[i] = valor;
+          }
+        })
+
+        rg.forEach( valor => {
+          if( rg2.length == 2 ){
+            rg2 += '.'+valor; 
+          }else if(rg2.length == 6 ){
+            rg2 += '.'+valor;
+          }else if(rg2.length == 10){
+            rg2 += '-'+valor;
+          }else if(rg2.length >= 12){
+            rg2 += '';
+          }else{
+            rg2 += valor;
+          }
+        })
+        rgAdotante.value = rg2;
+
+        if(rgAdotante.value.length == 12){
+          fetchRG = rgAdotante.value;
+          fetch('../../controle/pet/RGControle.php',{
+            method:'POST',
+            body: JSON.stringify({'rg': fetchRG })
+          }).then( 
+            resp => {return resp.json()} 
+          ).then( 
+            resp => {nomeAdotante.value = resp}
+          )
+        }else{
+          nomeAdotante.value = '';
+        }
+      });
+
+      (()=>{
+        let id = window.location.href;
+        id = id.split("=");
+        id = id[1];
+        // alert(id);
+        fetch('../../controle/pet/ControleObterAdotante.php', {
+          method:"POST",
+          body:JSON.stringify({id})
+        })
+        .then( resp =>{
+          return resp.json();
+        })
+        .then( resp => {
+          if(resp.adotado){
+            adotadoS.checked = true;
+            dadosAdocao.style.display = '';
+            nomeAdotante.value = resp.nome;
+            rgAdotante.value = resp.rg;
+            dataAdocao.value = resp.data_adocao;
+            console.log(resp);
+          }
+        })
+      })();
+            
+      //Arquivo
       function excluirArquivo(dado){
         let trId = document.querySelector("#tr"+dado);
         let arkivo = document.querySelector("#ark"+dado).innerHTML;

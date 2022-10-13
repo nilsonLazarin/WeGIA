@@ -37,35 +37,59 @@ include_once ROOT."/dao/Conexao.php";
 class controleSaudePet
 {
     public function verificar(){
-            extract($_REQUEST);
+        extract($_REQUEST);
+
             
-            if((!isset($texto)) || (empty($texto))){
-                $msg = "Descrição não informada!";
+        if((!isset($nome)) || (empty($nome))){
+            $msg = "Nome não informado!";
             header("Location: ../../html/pet/cadastro_ficha_medica_pet.php?msg=".$msg);
             return;
-            }
-            if((!isset($nome)) || (empty($nome))){
-                $msg = "Nome não informado!";
-                header("Location: ../../html/pet/cadastro_ficha_medica_pet.php?msg=".$msg);
-                return;
-            }
-            if((!isset($castrado)) || (empty($castrado))){
-                $msg = "Estado da castração não informado!";
-                header("Location: ../../html/pet/cadastro_ficha_medica_pet.php?msg=".$msg);
-                return;
-            }
-            /*if((!isset($_SESSION['imagem'])) || (empty($_SESSION['imagem']))){
-                $imagem = '';
-            }else{
-                $imagem = base64_encode($_SESSION['imagem']);
-                unset($_SESSION['imagem']);
-            }*/
-        $senha='null';
+        }
+        
+        if((!isset($castrado)) || (empty($castrado))){
+            $msg = "Estado da castração não informado!";
+            header("Location: ../../html/pet/cadastro_ficha_medica_pet.php?msg=".$msg);
+            return;
+        }
+
+
         $saudePet = new SaudePet($nome,$texto, $castrado);
+        
+        if((!isset($vacinado)) || (empty($vacinado))){
+            $msg = "Estado da vacinação não informado!";
+            header("Location: ../../html/pet/cadastro_ficha_medica_pet.php?msg=".$msg);
+            return;
+        }else if( $vacinado == 's' && (!isset($dVacinado) || empty($dVacinado)) ){
+            $msg = "Data da vacinação não informado!";
+            header("Location: ../../html/pet/cadastro_ficha_medica_pet.php?msg=".$msg);
+            return;            
+        }else if( $vacinado == 's' ){
+            $saudePet->setDataVacinado($dVacinado);
+        }
+        
+        if((!isset($vermifugado)) || (empty($vermifugado))){
+            $msg = "Estado da vermifugação não informado!";
+            header("Location: ../../html/pet/cadastro_ficha_medica_pet.php?msg=".$msg);
+            return;
+        }else if( $vermifugado == 's' && (!isset($dVermifugado) || empty($dVermifugado)) ){
+            $msg = "Data da vermifugação não informado!";
+            header("Location: ../../html/pet/cadastro_ficha_medica_pet.php?msg=".$msg);
+            return;            
+        }else if( $vermifugado == 's'){
+            $saudePet->setDataVermifugado($dVermifugado);            
+        }        
+
+        $senha='null';
+        // $saudePet = new SaudePet($nome,$texto, $castrado);
 
         $saudePet->setNome($nome);
         $saudePet->setTexto($texto);
         $saudePet->setCastrado($castrado);
+        $saudePet->setVacinado($vacinado);
+        $saudePet->setVermifugado($vermifugado);
+        // $saudePet->setDataVacinado($dVacinado);
+        // $saudePet->setDataVermifugado($dVermifugado);
+        
         return $saudePet;
     }
 
@@ -78,44 +102,6 @@ class controleSaudePet
         $_SESSION['saudepet']=$pets;
         header('Location: '.$nextPage);
     }
-
-/*
-    public function listarUm()
-    {
-        extract($_REQUEST);
-        $cache = new Cache();
-        $infSaude = $cache->read($id);
-        if (!$infSaude) {
-            try {
-                $SaudeDAO=new SaudeDAO();
-                $infSaude=$SaudeDAO->listar($id);
-                session_start();
-                $_SESSION['id_fichamedica']=$infSaude;Saude
-                $cache->save($id, $infSaude, '1 seconds');
-                header('Location:'.$nextPage);
-            } catch (PDOException $e) {
-                echo $e->getMessage();
-            }
-        }
-        else{
-            header('Location:'.$nextPage);
-        }
-    }
-
-    public function alterarImagem()
-    {
-        extract($_REQUEST);
-        $imagem = file_get_contents($_FILES['imgperfil']['tmp_name']);
-        $SaudeDAO = new SaudeDAO();
-        try {
-            $SaudeDAO->alterarImagem($id_fichamedica, $imagem);
-            header("Location: ../html/saude/profile_paciente.php?id_fichamedica=".$id_fichamedica);
-        } catch (PDOException $e) {
-            echo $e->getMessage();
-        }
-        
-    }
-*/
 
     public function incluir(){
         $pet = $this->verificar();
@@ -130,22 +116,10 @@ class controleSaudePet
             echo $msg;
         }
     }
-    /*
-    public function alterarInfPessoal()
-    {
-        extract($_REQUEST);
-        // $paciente = new Saude('',$nome,$sobrenome,$sexo,$nascimento,'','','','','',$tipoSanguineo,'','',$imagem,'','','','','','','','');
-        $paciente = new Saude('','','','','','','','','','',$tipoSanguineo,'','','','','','','','','','','');
-        $paciente->setId_pessoa($id_fichamedica);
-        //echo $funcionario->getId_Funcionario();
-        $SaudeDAO=new SaudeDAO();
-        try {
-            $SaudeDAO->alterarInfPessoal($paciente);
-            header("Location: ../html/saude/profile_paciente.php?id_fichamedica=".$id_fichamedica);
-        } catch (PDOException $e) {
-            echo $e->getMessage();
-        }
-        
-    }*/
-   
+
+    public function getPet($id){
+        $saudePetDAO = new SaudePetDAO();
+        //$saudePetDAO->fichaPetExiste($id);
+        return $saudePetDAO->getPet($id);
+    }
 }

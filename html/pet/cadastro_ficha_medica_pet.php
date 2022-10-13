@@ -185,10 +185,10 @@ require_once ROOT."/html/personalizacao_display.php";
 
 
             var editor = CKEDITOR.replace('despacho');
-            editor.on('required', function(e){
-                alert("Por favor, informe o prontuário público!");
-                e.cancel();
-            });
+            //editor.on('required', function(e){
+                //alert("Por favor, informe o prontuário público!");
+                //e.cancel();
+            //});
             
         });
     </script>    
@@ -299,9 +299,36 @@ require_once ROOT."/html/personalizacao_display.php";
                                                     <label><input type="radio" name="castrado" id="radioN" id="N" value="n" style="margin-top: 10px; margin-left: 15px;margin-right: 5px;"><i class="fa fa" style="font-size: 18px;">Não</i></label>
                                                 </div>
                                             </div>
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label" for="vermifugado">Vermifugado<sup class="obrig">*</sup></label>
+                                                <div class="col-md-8">
+                                                    <label><input type="radio" name="vermifugado" id="vermifugadoS" id="S" value="s" style="margin-top: 10px; margin-left: 15px;margin-right: 5px;" required><i class="fa fa" style="font-size: 18px;">Sim</i></label>
+                                                    <label><input type="radio" name="vermifugado" id="vermifugadoN" id="N" value="n" style="margin-top: 10px; margin-left: 15px;margin-right: 5px;"><i class="fa fa" style="font-size: 18px;">Não</i></label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group" id="divVermifugado">
+                                                <!-- <label class="col-md-3 control-label" for="dataVermifugado">Data Vermifugado<sup class="obrig">*</sup></label>
+                                                <div class="col-md-8">
+                                                    <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="dVermifugado" id="dVermifugado" max=<?php echo date('Y-m-d');?> required>
+                                                </div> -->
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label" for="vacinado">Vacinado<sup class="obrig">*</sup></label>
+                                                <div class="col-md-8">
+                                                    <label><input type="radio" name="vacinado" id="vacinadoS" id="S" value="s" style="margin-top: 10px; margin-left: 15px;margin-right: 5px;" required><i class="fa fa" style="font-size: 18px;">Sim</i></label>
+                                                    <label><input type="radio" name="vacinado" id="vacinadoN" id="N" value="n" style="margin-top: 10px; margin-left: 15px;margin-right: 5px;"><i class="fa fa" style="font-size: 18px;">Não</i></label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group" id="divVacinado">
+                                                <!-- <label class="col-md-3 control-label" for="dataVacinado">Data Vacinado<sup class="obrig">*</sup></label>
+                                                <div class="col-md-8">
+                                                    <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="dVacinado" id="dVacinado" max=<?php echo date('Y-m-d');?> required>
+                                                </div> -->
+                                            </div>
+                                            <div class="form-group">
                                                 <div class="form-group">
-                                                <div class='col-md-6' id='div_texto' style="height: 499px;">
-                                                    <label for="texto" id="etiqueta_despacho" style="padding-left: 15px;">Prontuário público:<sup class="obrig">*</sup></label>
+                                                <div class='col-md-6' id='div_texto' style="height: 499px;"><!--necessidades especiais?-->
+                                                    <label for="texto" id="etiqueta_despacho" style="padding-left: 15px;">Outras informações:</label>
                                                     <textarea cols='30' rows='5' required id='despacho' name='texto' class='form-control'></textarea>
                                                 </div>
                                             </div>
@@ -359,11 +386,73 @@ require_once ROOT."/html/personalizacao_display.php";
         <script src="<?php echo WWW;?>assets/javascripts/tables/examples.datatables.default.js"></script>
         <script src="<?php echo WWW;?>assets/javascripts/tables/examples.datatables.row.with.details.js"></script>
         <script src="<?php echo WWW;?>assets/javascripts/tables/examples.datatables.tabletools.js"></script>
+
+        <!--Pedro-->
+        <script>
+            let vacinadoS = document.querySelector("#vacinadoS");
+            let vacinadoN = document.querySelector("#vacinadoN");
+            let divVacinado = document.querySelector("#divVacinado");
+            let divVermifugado = document.querySelector("#divVermifugado");
+            let dVacinado = document.querySelector("#dVacinado");
+            let dVermifugado = document.querySelector("#dVermifugado");
+
+
+            vacinadoS.addEventListener('click', ()=>{
+                divVacinado.innerHTML = `<label class="col-md-3 control-label" for="dataVacinado">Data Vacinado<sup class="obrig">*</sup></label>
+                                                <div class="col-md-8">
+                                                    <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="dVacinado" id="dVacinado" max=<?php echo date('Y-m-d');?> required>
+                                                </div>`;
+            })
+
+            vacinadoN.addEventListener('click', ()=>{
+                divVacinado.innerHTML = '';
+            })
+
+            vermifugadoS.addEventListener('click', ()=>{
+                divVermifugado.innerHTML = `<label class="col-md-3 control-label" for="dataVermifugado">Data Vermifugado<sup class="obrig">*</sup></label>
+                                                <div class="col-md-8">
+                                                    <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="dVermifugado" id="dVermifugado" max=<?php echo date('Y-m-d');?> required>
+                                                </div>`;
+            })
+
+            vermifugadoN.addEventListener('click', ()=>{
+                divVermifugado.innerHTML = ``;
+            })
+
+            // fetch=========================================
+            let dadoId = window.location + '';
+            let nome = document.querySelector("#nome");
+            let radioS = document.querySelector("#radioS");
+            let informacoes = document.querySelector("#despacho");
+            
+
+            dadoId = dadoId.split('=');
+            if(dadoId[1]){
+                id = dadoId[1];
+                dado = { 'id': id };
+
+                fetch("../../controle/pet/controleGetPet.php",{
+                    method: "POST",
+                    body: JSON.stringify(dado)
+                }).then(
+                    resp => { return resp.json()}
+                ).then(
+                    resp =>{
+                        if( resp != false){
+                            nome.innerHTML = `<option id=${id} value=${id} name=${id}>${resp.nome}</option>`;                  
+                        }
+                        console.log(resp);
+                    }
+                )
+            }
+
+        </script>
+        <!--fim-->
     </body>
 </html>
 <?php
 //Pedro
-if($_GET['id_pet']){
+/*if(isset($_GET['id_pet'])){
     echo <<<HTML
         <script>
             let opcao = document.querySelectorAll("option");
@@ -375,6 +464,6 @@ if($_GET['id_pet']){
             })
         </script>
     HTML;
-}
+}*/
 //===========================
 ?>

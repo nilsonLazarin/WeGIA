@@ -1622,6 +1622,38 @@ CREATE TABLE IF NOT EXISTS `wegia`.`pet_vacinacao`(
 )ENGINE = InnoDB;
 
 
+-- ------------------------------------------------------------------
+-- Table `wegia`.`pet_vermifugo`
+-- ------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `wegia`.`pet_vermifugo`(
+    `id_vermifugo` INT NOT NULL AUTO_INCREMENT,
+    `nome` VARCHAR(200) NOT NULL,
+    `marca` VARCHAR(45) NULL,
+    PRIMARY KEY (`id_vermifugo`)
+)ENGINE = InnoDB;
+
+-- -----------------------------------------------------------------
+-- Table `wegia`.`pet_vermifugacao`
+-- -----------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `wegia`.`pet_vermifugacao`(
+    `id_vermifugacao` INT NOT NULL AUTO_INCREMENT,
+    `id_vermifugo` INT NOT NULL,
+    `id_ficha_medica_vermifugo` INT NOT NULL,
+    `data_vermifugacao` DATE NOT NULL,
+    PRIMARY KEY (`id_vermifugacao`),
+    CONSTRAINT `fk_vermifugo_pet`
+     FOREIGN KEY (`id_vermifugo`)
+     REFERENCES `wegia`.`pet_vermifugo` (`id_vermifugo`)
+     ON DELETE NO ACTION
+     ON UPDATE NO ACTION,
+    CONSTRAINT `fk_ficha_medica_vermifugo`
+     FOREIGN KEY (`id_ficha_medica_vermifugo`)
+     REFERENCES `wegia`.`pet_ficha_medica` (`id_ficha_medica`)
+     ON DELETE NO ACTION
+     ON UPDATE NO ACTION
+)ENGINE = InnoDB;
+
+
 -- -------------------------------------------------------------------
 -- Table `wegia`.`pet_atendimento`
 -- -------------------------------------------------------------------
