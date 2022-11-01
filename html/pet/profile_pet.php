@@ -104,6 +104,9 @@
     <script src="../../assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
     <script src="../../assets/vendor/magnific-popup/magnific-popup.js"></script>
     <script src="../../assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
+    <!-- printThis -->
+    <script src="<?php echo WWW;?>assets/vendor/jasonday-printThis-f73ca19/printThis.js"></script>
+
     <style type="text/css">
       .btn span.fa-check 
       {
@@ -129,6 +132,19 @@
       {
         color: white;
       }
+      .select{
+			position: absolute;
+			width: 235px;
+       /*print styles*/
+      }
+	  	 @media print {
+    		.printable {
+        		display: block;
+   			 }
+   			.screen {
+        		display: none;
+    		}
+	  	}
     </style>
     <!-- jquery functions -->
     <script>
@@ -137,6 +153,9 @@
       let iAcolhimento;
       
 
+		
+
+	
       //Informações Pet
       function editar_informacoes_pet() 
       {
@@ -194,8 +213,6 @@
           {
             $("#radioM").prop('checked', true).prop('disabled', true);
             $("#radioF").prop('checked', false).prop('disabled', true);
-            $("#reservista1").show();
-            $("#reservista2").show();
           } 
           else if (item.sexo == "F") 
           {
@@ -372,97 +389,101 @@
                   <!--Aba de Informações Pessoais-->
                   <div id="overview" class="tab-pane active">
                     <form class="form-horizontal" method="post" action="../../controle/control.php">
+                      <div class="myModal print">  
                       <input type="hidden" name="nomeClasse" value="PetControle">
                       <input type="hidden" name="metodo" value="alterarPetDados">
                       <input type="hidden" name="modulo" value="pet">
-                      <h4 class="mb-xlg">Informações Pet</h4>
-                      <fieldset>
-
-                        <div class="form-group">
-                          <label class="col-md-3 control-label" for="profileFirstName">Nome</label>
-                          <div class="col-md-8">
-                            <input type="text" class="form-control" name="nome" id="nomeForm" onkeypress="return Onlychars(event)" required>
-                          </div>
-                        </div>
-
-                        <div class="form-group">
-                          <label class="col-md-3 control-label" for="profileLastName">Sexo</label>
-                          <div class="col-md-8">
-                            <label><input type="radio" name="gender" id="radioM" id="M" value="M" style="margin-top: 10px; margin-left: 15px;" > <i class="fa fa-mars" style="font-size: 20px;"></i></label>
-                            <label><input type="radio" name="gender" id="radioF" id="F" value="F" style="margin-top: 10px; margin-left: 15px;" > <i class="fa fa-venus" style="font-size: 20px;"></i></label>
-                          </div>
-                        </div>
                         
-                        <div class="form-group">
-                          <label class="col-md-3 control-label" for="profileCompany">Nascimento</label>
-                          <div class="col-md-8">
-                            <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" id="nascimento" max=<?php echo date('Y-m-d');?> required>
+                        <h4 class="mb-xlg">Informações Pet</h4>
+                        <fieldset>
+                          <div class="form-group">
+                            <label class="col-md-3 control-label" for="profileFirstName">Nome</label>
+                            <div class="col-md-8">
+                              <input type="text" class="form-control" name="nome" id="nomeForm" onkeypress="return Onlychars(event)" required>
+                            </div>
                           </div>
-                        </div>
 
-                        <div class="form-group">
-                          <label class="col-md-3 control-label" for="profileCompany">Acolhimento</label>
-                          <div class="col-md-8">
-                            <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="acolhimento" id="acolhimento" max=<?php echo date('Y-m-d'); ?> required>
+                          <div class="form-group">
+                            <label class="col-md-3 control-label" for="profileLastName">Sexo</label>
+                            <div class="col-md-8">
+                              <label><input type="radio" name="gender" id="radioM" id="M" value="M" style="margin-top: 10px; margin-left: 15px;" > <i class="fa fa-mars" style="font-size: 20px;"></i></label>
+                              <label><input type="radio" name="gender" id="radioF" id="F" value="F" style="margin-top: 10px; margin-left: 15px;" > <i class="fa fa-venus" style="font-size: 20px;"></i></label>
+                            </div>
                           </div>
-                        </div>
+                          
+                          <div class="form-group">
+                            <label class="col-md-3 control-label" for="profileCompany">Nascimento</label>
+                            <div class="col-md-8">
+                              <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" id="nascimento" max=<?php echo date('Y-m-d');?> required>
+                            </div>
+                          </div>
 
-                        <div class="form-group">
-                          <label class="col-md-3 control-label" for="inputSuccess">Cor</label>
-                          <div class="col-md-6">
-                            <select class="form-control input-lg mb-md" name="cor" id="cor">
-                              <?php
-                                $cor = mysqli_query($conexao, "SELECT id_pet_cor AS id_cor, descricao AS 'cor' FROM pet_cor");
-                                foreach ($cor as $valor) {
-                                  echo "<option value=".$valor['id_cor']." >".$valor['cor']."</option>";
-                                }
-                              ?>
-                            </select>
+                          <div class="form-group">
+                            <label class="col-md-3 control-label" for="profileCompany">Acolhimento</label>
+                            <div class="col-md-8">
+                              <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="acolhimento" id="acolhimento" max=<?php echo date('Y-m-d'); ?> required>
+                            </div>
                           </div>
-                        </div>
-                        
-                        <div class="form-group">
-                          <label class="col-md-3 control-label" for="inputSuccess">Especie</label>
-                          <div class="col-md-6">
-                            <select class="form-control input-lg mb-md" name="especie" id="especie">
-                              <?php
-                                $especie = mysqli_query($conexao, "SELECT id_pet_especie AS id_especie, descricao AS 'especie' FROM pet_especie");
-                                foreach ($especie as $valor) {
-                                  echo "<option value=".$valor['id_especie']." >".$valor['especie']."</option>";
-                                }
-                              ?>
-                            </select>
-                          </div>
-                        </div>
 
-                        <div class="form-group">
-                          <label class="col-md-3 control-label" for="inputSuccess">Raca</label>
-                          <div class="col-md-6">
-                            <select class="form-control input-lg mb-md" name="raca" id="raca">
-                              <?php
-                                $raca = mysqli_query($conexao, "SELECT id_pet_raca AS id_raca, descricao AS 'raca' FROM pet_raca");
-                                foreach ($raca as $valor) {
-                                  echo "<option value=".$valor['id_raca']." >".$valor['raca']."</option>";
-                                }
-                              ?>
-                            </select>
+                          <div class="form-group">
+                            <label class="col-md-3 control-label" for="inputSuccess">Cor</label>
+                            <div class="col-md-6">
+                              <select class="form-control input-lg mb-md" name="cor" id="cor">
+                                <?php
+                                  $cor = mysqli_query($conexao, "SELECT id_pet_cor AS id_cor, descricao AS 'cor' FROM pet_cor");
+                                  foreach ($cor as $valor) {
+                                    echo "<option value=".$valor['id_cor']." >".$valor['cor']."</option>";
+                                  }
+                                ?>
+                              </select>
+                            </div>
                           </div>
-                        </div>
+                          
+                          <div class="form-group">
+                            <label class="col-md-3 control-label" for="inputSuccess">Espécie</label>
+                            <div class="col-md-6">
+                              <select class="form-control input-lg mb-md" name="especie" id="especie">
+                                <?php
+                                  $especie = mysqli_query($conexao, "SELECT id_pet_especie AS id_especie, descricao AS 'especie' FROM pet_especie");
+                                  foreach ($especie as $valor) {
+                                    echo "<option value=".$valor['id_especie']." >".$valor['especie']."</option>";
+                                  }
+                                ?>
+                              </select>
+                            </div>
+                          </div>
 
-                        <div class="form-group">
-                          <label class="col-md-3 control-label" for="profileFirstName">Características Específicas</label>
-                          <div class="col-md-8">
-                            <input type="text" class="form-control" name="especificas" id="especificas" >
+                          <div class="form-group">
+                            <label class="col-md-3 control-label" for="inputSuccess">Raça</label>
+                            <div class="col-md-6">
+                              <select class="form-control input-lg mb-md" name="raca" id="raca">
+                                <?php
+                                  $raca = mysqli_query($conexao, "SELECT id_pet_raca AS id_raca, descricao AS 'raca' FROM pet_raca");
+                                  foreach ($raca as $valor) {
+                                    echo "<option value=".$valor['id_raca']." >".$valor['raca']."</option>";
+                                  }
+                                ?>
+                              </select>
+                            </div>
                           </div>
-                        </div>
-                        </br>
-                        <input type="hidden" name="id_pet" value=<?php echo $_GET['id_pet'] ?>>
-                        <button type="button" class="btn btn-primary" id="editarPet" onclick="return editar_informacoes_pet()">Editar</button>
-                        <input type="submit" class="btn btn-primary" disabled="true" value="Salvar" id="salvarPet">
-                      </fieldset>
+                          <div class="form-group">
+                            <label class="col-md-3 control-label" for="profileFirstName">Características Específicas</label>
+                            <div class="col-md-8">
+                              <input type="text" class="form-control" name="especificas" id="especificas" >
+                            </div>
+                          </div>
+                      </div>
+                          </br>
+                          <input type="hidden" name="id_pet" value=<?php echo $_GET['id_pet'] ?>>
+                          <button type="button" class="not-printable btn btn-primary" id="editarPet" onclick="return editar_informacoes_pet()">Editar</button>
+                          <input type="submit" class="not-printable btn btn-primary" disabled="true" value="Salvar" id="salvarPet">
+                          <button type="button" style="!important;" class="not-printable mb-xs mt-xs mr-xs btn btn-default" id="btnPrint">Imprimir <i class="fa-solid fa-print" style = "color:black"></i></button>
+                        </fieldset>
+                      
                     </form>
-                    <br>
-                  </div>
+                </div>
+                  <div class="printable"></div>
+                  <br>
                 <!--Arquivos-->
                 <div id="arquivosPet" class="tab-pane">
                   <section class="panel">
@@ -538,6 +559,7 @@
                             HTML;
                           }
                         ?>
+
                         <!-- Modal Form Documentos -->
                         <div class="modal fade" id="docFormModal" tabindex="-1" role="dialog" aria-labelledby="docFormModalLabel" aria-hidden="true">
                           <div class="modal-dialog" role="document">
@@ -897,6 +919,11 @@
           $('#tipoExame').append('<option value="' + item.id_tipo_exame + '">' + item.descricao_exame + '</option>');
         });
       }
+      $(function(){
+        $("#btnPrint").click(function () {
+          $(".print-logo, .print").printThis();
+        }); 
+      });
     </script>
     <!-- Vendor -->
     <script src="../../assets/vendor/select2/select2.js"></script>
@@ -951,7 +978,7 @@
         }
         switchButton(idForm);
       }
-      switchForm("editar_cargaHoraria", false)
+      //switchForm("editar_cargaHoraria", false)
     </script>
     <div align="right">
 	  <iframe src="https://www.wegia.org/software/footer/funcionario.html" width="200" height="60" style="border:none;"></iframe>
