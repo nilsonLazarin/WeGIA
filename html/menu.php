@@ -131,6 +131,16 @@
 											<span>Informações Saúde Pet</span>
 										</a>
 									</li>
+									<li>
+										<a href="<?= WWW ?>html/pet/cadastrar_medicamento.php">
+											<span>Cadastrar Medicamentos</span>
+										</a>
+									</li>
+									<li>
+										<a href="<?= WWW ?>html/pet/informacao_medicamento.php">
+											<span>Informacões Medicamentos</span>
+										</a>
+									</li>
 								</ul>
 							</li>
 						</ul>

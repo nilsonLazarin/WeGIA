@@ -80,15 +80,12 @@ class controleSaudePet
         }        
 
         $senha='null';
-        // $saudePet = new SaudePet($nome,$texto, $castrado);
 
         $saudePet->setNome($nome);
         $saudePet->setTexto($texto);
         $saudePet->setCastrado($castrado);
         $saudePet->setVacinado($vacinado);
         $saudePet->setVermifugado($vermifugado);
-        // $saudePet->setDataVacinado($dVacinado);
-        // $saudePet->setDataVermifugado($dVermifugado);
         
         return $saudePet;
     }
@@ -119,7 +116,22 @@ class controleSaudePet
 
     public function getPet($id){
         $saudePetDAO = new SaudePetDAO();
-        //$saudePetDAO->fichaPetExiste($id);
         return $saudePetDAO->getPet($id);
+    }
+
+    public function getFichaMedicaPet($id){
+        $saudePetDAO = new SaudePetDAO();
+        return $saudePetDAO->getFichaMedicaPet($id);
+    }
+
+    public function fichaMedicaPetExiste($id){
+        $saudePetDAO = new SaudePetDAO();
+        return $saudePetDAO->fichaMedicaPetExiste($id);
+    }
+
+    public function modificarFichaMedicaPet(){
+        $saudePetDAO = new SaudePetDAO();
+        echo $saudePetDAO->modificarFichaMedicaPet($_REQUEST);
+        
     }
 }

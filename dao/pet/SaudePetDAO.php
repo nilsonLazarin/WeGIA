@@ -14,7 +14,7 @@ require_once ROOT."/dao/Conexao.php";
 require_once ROOT."/classes/pet/Pet.php";
 require_once ROOT."/Functions/funcoes.php";
 
-class saudePetDAO
+class SaudePetDAO
 {
     public function incluir($saudePet){
         try {
@@ -46,14 +46,9 @@ class saudePetDAO
             if($vacinado == 's'){
                 $dataVacinado = $saudePet->getDataVacinado();
 
-                $pd = $pdo->prepare("SELECT id_vacina FROM pet_vacina");
-                $pd->execute();
-                $p = $pd->fetch();
-                $id_vacina = $p['id_vacina'];
-
                 $pd = $pdo->prepare("INSERT INTO pet_vacinacao(id_vacina, id_ficha_medica, 
                       data_vacinacao) VALUES(:id_vacina, :id_ficha_medica, :data_vacinacao)");
-                $pd->bindValue("id_vacina", $id_vacina);
+                $pd->bindValue("id_vacina", $this->vacinaId());
                 $pd->bindValue("id_ficha_medica", $fmp);
                 $pd->bindValue(':data_vacinacao', $dataVacinado);
                 $pd->execute();
@@ -62,20 +57,15 @@ class saudePetDAO
             if($vermifugado == 's'){
                 $dataVermifugado = $saudePet->getDataVermifugado();
 
-                $pd = $pdo->prepare("SELECT id_vermifugo FROM pet_vermifugo");
-                $pd->execute();
-                $p = $pd->fetch();
-                $id_vermifugo = $p['id_vermifugo'];
-
                 $pd = $pdo->prepare("INSERT INTO pet_vermifugacao(id_vermifugo, id_ficha_medica_vermifugo, 
                       data_vermifugacao) VALUES(:id_vermifugo, :id_ficha_medica_vermifugo, :data_vermifugacao)");
-                $pd->bindValue("id_vermifugo", $id_vermifugo);
+                $pd->bindValue("id_vermifugo", $this->vermifugoId());
                 $pd->bindValue("id_ficha_medica_vermifugo", $fmp);
                 $pd->bindValue(':data_vermifugacao',$dataVermifugado);
                 $pd->execute();
             }
             
-            header('Location: ../../html/pet/informacao_saude_pet.php');
+            header('Location: ../../html/pet/profile_pet.php?id_pet='.$id_pet);
         } catch (PDOException $e) {
             echo 'Error: <b>  na tabela pet_ficha_medica = ' . $sql . '</b> <br /><br />' . $e->getMessage();
         }        
@@ -129,5 +119,180 @@ class saudePetDAO
         $p = $pd->fetch();
             
         return $p;
+    }
+
+    public function getFichaMedicaPet($id_pet){
+        $pdo = Conexao::connect();
+        $pd = $pdo->prepare("SELECT * FROM pet_ficha_medica WHERE id_pet = :id_pet");
+        $pd->bindValue("id_pet", $id_pet);
+        $pd->execute();
+        $p = $pd->fetch();
+
+        $pd = $pdo->prepare("SELECT * FROM pet_vacinacao WHERE id_ficha_medica = :id_ficha_medica");
+        $pd->bindValue("id_ficha_medica", $p['id_ficha_medica']);
+        $pd->execute();
+        $d = $pd->fetch();
+
+        $pd = $pdo->prepare("SELECT * FROM pet_vermifugacao WHERE id_ficha_medica_vermifugo = :id_ficha_medica");
+        $pd->bindValue("id_ficha_medica", $p['id_ficha_medica']);
+        $pd->execute();
+        $o = $pd->fetch();
+
+        return [$p, $d, $o];
+    }
+
+    public function fichaMedicaPetExiste($id_pet){
+        $pdo = Conexao::connect();
+        $pd = $pdo->prepare("SELECT COUNT(id_ficha_medica) AS total FROM pet_ficha_medica WHERE id_pet = :id_pet");
+        $pd->bindValue("id_pet", $id_pet);
+        $pd->execute();
+        return $pd->fetch();
+    }
+
+    public function modificarFichaMedicaPet($dados){
+        extract($dados);
+
+        $pdo = Conexao::connect();
+        $pd = $pdo->prepare("UPDATE pet_ficha_medica SET castrado = :castrado, necessidades_especiais = 
+        :texto WHERE id_pet = :id_pet");
+        $pd->bindValue("id_pet", $id_pet);
+        $pd->bindValue("castrado", $castrado);
+        $pd->bindValue("texto", $texto);
+        $pd->execute();
+
+        if( $vermifugado == "S"){
+            if( $this->foiVermifugado($id_ficha_medica) == true){
+                $pd = $pdo->prepare("UPDATE pet_vermifugacao SET data_vermifugacao = :dataVerm WHERE 
+                id_ficha_medica_vermifugo = :id_ficha_medica");
+                $pd->bindValue(":id_ficha_medica", $id_ficha_medica);
+                $pd->bindValue("dataVerm", $dVermifugado);
+                $pd->execute();
+            }else{
+                $pd = $pdo->prepare("INSERT INTO pet_vermifugacao(id_vermifugo, id_ficha_medica_vermifugo, 
+                data_vermifugacao) VALUES(:id_vermifugo, :id_ficha_medica, :dataVerm)");
+                $pd->bindValue("id_vermifugo", $this->vermifugoId());
+                $pd->bindValue("id_ficha_medica", $id_ficha_medica);
+                $pd->bindValue("dataVerm", $dVermifugado);
+                $pd->execute();                
+            }
+        }
+        if( $vacinado == "S"){
+            if($this->foiVacinado($id_ficha_medica) == true){
+                $pd = $pdo->prepare("UPDATE pet_vacinacao SET data_vacinacao = :dataVaci WHERE 
+                id_ficha_medica = :id_ficha_medica");
+                $pd->bindValue(":id_ficha_medica", $id_ficha_medica);
+                $pd->bindValue("dataVaci", $dVacinado);
+                $pd->execute();
+            }else{
+                $pd = $pdo->prepare("INSERT INTO pet_vacinacao(id_vacina, id_ficha_medica, data_vacinacao) 
+                VALUES(:id_vacina, :id_ficha_medica, :dataVaci)");
+                $pd->bindValue("id_vacina", $this->vacinaId());
+                $pd->bindValue("id_ficha_medica", $id_ficha_medica);
+                $pd->bindValue("dataVaci", $dVacinado);
+                $pd->execute();
+            }
+        }
+
+       header("Location: ../../html/pet/profile_pet.php?id_pet=".$id_pet);
+        
+    }
+
+    public function foiVacinado($id){
+        $pdo = Conexao::connect();
+        $pd = $pdo->prepare("SELECT count(id_ficha_medica) AS total FROM pet_vacinacao 
+        WHERE id_ficha_medica = :id");
+        $pd->bindValue("id", $id);
+        $pd->execute();
+        $p = $pd->fetch();
+        if( $p['total'] != 0){
+            return true;
+        }
+    }
+    
+    public function foiVermifugado($id){
+        $pdo = Conexao::connect();
+        $pd = $pdo->prepare("SELECT count(id_ficha_medica_vermifugo) AS total FROM pet_vermifugacao 
+        WHERE id_ficha_medica_vermifugo = :id");
+        $pd->bindValue("id", $id);
+        $pd->execute();
+        $p = $pd->fetch();
+        if( $p['total'] != 0){
+            return true;
+        }
+    }
+
+    public function vacinaId(){
+        $pdo = Conexao::connect();
+        $pd = $pdo->prepare("SELECT id_vacina FROM pet_vacina");
+        $pd->execute();
+        $p = $pd->fetch();
+
+        return $p['id_vacina'];
+    }
+
+    public function vermifugoId(){
+        $pdo = Conexao::connect();
+        $pd = $pdo->prepare("SELECT id_vermifugo FROM pet_vermifugo");
+        $pd->execute();
+        $p = $pd->fetch();
+
+        return $p['id_vermifugo'];
+    }
+
+    // $nomeMedicamento, $descricaoMedicamento, $aplicacaoMedicamento
+    public function adicionarMedicamento( $nome, $descricao, $aplicacao){
+        $pdo = Conexao::connect();
+        $pd = $pdo->prepare("INSERT INTO pet_medicamento(nome_medicamento, descricao_medicamento, 
+              aplicacao) VALUES(:nome, :descricao, :aplicacao)");
+        $pd->bindValue("nome", $nome);
+        $pd->bindValue("descricao", $descricao);
+        $pd->bindValue("aplicacao", $aplicacao);
+        $pd->execute();
+        
+    }
+
+    public function listarMedicamento(){
+        $pdo = Conexao::connect();
+        $pd = $pdo->prepare("SELECT * FROM pet_medicamento");
+        $pd->execute();
+        $p = $pd->fetchAll();
+        
+        return $p;
+    }
+
+    public function registrarAtendimento(){
+        extract($_REQUEST);
+        $medics = explode('?', $medics);
+        $pdo = Conexao::connect();
+
+        $pd = $pdo->prepare("SELECT id_ficha_medica FROM pet_ficha_medica WHERE id_pet=:id_pet");
+        $pd->bindValue(":id_pet", $id_pet);
+        $pd->execute();
+        $p = $pd->fetch();
+
+        $pd = $pdo->prepare("INSERT INTO pet_atendimento(id_ficha_medica, data_atendimento, 
+        descricao) VALUES( :id_ficha_medica, :dataAtendimento, :descricao) ");
+        $pd->bindValue("id_ficha_medica", $p["id_ficha_medica"]);
+        $pd->bindValue("dataAtendimento", $dataAtendimento);
+        $pd->bindValue("descricao", $descricaoAtendimento);
+        $pd->execute();
+
+        $pd = $pdo->prepare("SELECT id_pet_atendimento FROM pet_atendimento");
+        $pd->execute();
+        $p = $pd->fetchAll();
+
+        foreach( $p as $valor){
+            $idAtendimento = $valor;
+        }
+
+        foreach( $medics as $valor){
+            if( $valor != ''){
+                $pd = $pdo->prepare("INSERT INTO pet_medicacao(id_medicamento, id_pet_atendimento) 
+                VALUES( :id_medicamento, :id_pet_atendimento)");
+                $pd->bindValue("id_medicamento", $valor);
+                $pd->bindValue("id_pet_atendimento", $idAtendimento["id_pet_atendimento"]);
+                $pd->execute();
+            }
+        }        
     }
 }
