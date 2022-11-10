@@ -386,7 +386,7 @@
                     <a href="#atendimento" data-toggle="tab">Atendimento</a>
                   </li>
                   <li>
-                    <a href="#historicoMedico" data-toggle="tab">Histórico Médico</a>
+                    <a href="#historico_medico" data-toggle="tab">Histórico Médico</a>
                   </li>
                   <li>
                     <a href="#arquivosPet" data-toggle="tab">Exames do Pet</a>
@@ -760,7 +760,36 @@
                 </div>
                 <!-- fim atendimento -->
 
-                
+                <!-- Historico medico -->
+                <div id="historico_medico" class="tab-pane">
+                  <section class="panel">
+                    <header class="panel-heading">
+                      <div class="panel-actions">
+                        <a href="#" class="fa fa-caret-down"></a>
+                      </div>
+                      <h2 class="panel-title">Histórico Médico</h2>
+                    </header>
+               
+                    <div class="panel-body">
+                      <hr class="dotted short">
+                      <div class="form-group" id="tab_atendimento" >
+                      <table class="table table-bordered table-striped mb-none">
+                        <thead>
+                          <tr style="font-size:15px;">
+                            <th>Data do atendimento</th>
+                            <th>Descrições</th>
+                            <th>Ação</th>
+                          </tr>
+                        </thead>
+                        <tbody id="tab_historico" style="font-size:15px">                
+                            
+                        </tbody>
+                      </table>                
+                      </div>          
+                    </div>
+                  </section>
+                </div>
+                <!-- fim historico medico -->
 
                 <!-- Adocao -->
                 <div id="adocao" class="tab-pane">
@@ -1216,7 +1245,60 @@
       })
 
       //Fim Atendimento
-      /* */
+      //historico_medico
+      let tabHist = document.querySelector("#tab_historico");
+      let tabAtendimento = document.querySelector("#tab_historico");
+      let id_pet = window.location+'';
+      id_pet = id_pet.split("=");
+      
+      fetch("../../controle/pet/ControleHistorico.php",{
+        method: 'POST',
+        body: JSON.stringify({
+          'metodo': "getHistoricoPet",
+          'id_pet': id_pet[1] 
+        })
+      }).then(
+        resp=>{
+          return resp.json();
+        }
+      ).then(
+        resp=>{
+          let atendimento = resp;
+          console.log(resp);
+          atendimento.forEach( valor =>{
+            let data = valor['data_atendimento'].split('-');
+            tabAtendimento.innerHTML += `
+              <tr>
+                <td>${data[2]}-${data[1]}-${data[0]}</td>
+                <td>${valor['descricao']}</td>
+                <td style="display: flex; justify-content: space-evenly;">
+                  <a href="./historico_pet.php?id_historico=${valor['id_pet_atendimento']}" title="vizualizar">
+                    <button class="btn btn-primary" id="teste">
+                      <i class="fa fa-arrow-up-right-from-square"></i>
+                    </button>
+                  </a>
+                </td>
+              </tr>
+            `;
+          })
+
+          let td = document.querySelectorAll("td");
+          let th = document.querySelectorAll("th");
+          td.forEach( al =>{
+            al.style.textAlign = "center";
+          })
+          th.forEach( ah =>{
+            ah.style.textAlign = "center";
+          })
+        }
+      )
+      /*document.querySelector("#salvarAtendimento").addEventListener("click", (e)=>{
+        if(informacoes.value == ''){
+          alert("Preencha todos os dados corretamente");
+          e.preventDefault();
+        }
+      })*/
+      //fim historico_medico
 
       //=============================================================
     </script>
