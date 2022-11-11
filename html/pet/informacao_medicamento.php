@@ -102,7 +102,7 @@ require_once ROOT."/html/personalizacao_display.php";
     <!-- Basic -->
     <meta charset="UTF-8">
 
-    <title>Cadastro medicamento para pets</title>
+    <title>Informações do medicamento para pets</title>
         
     <!-- Mobile Metas -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -184,7 +184,7 @@ require_once ROOT."/html/personalizacao_display.php";
             $(".menuu").load("../menu.php");
 
 
-            var editor = CKEDITOR.replace('despacho');
+            // var editor = CKEDITOR.replace('despacho');
             
         });
     </script>    
@@ -239,7 +239,7 @@ require_once ROOT."/html/personalizacao_display.php";
             <!-- end: sidebar -->
             <section role="main" class="content-body">
                 <header class="page-header">
-                    <h2>Cadastro medicamento para pets</h2>
+                    <h2>Informações do medicamento para pets</h2>
                     <div class="right-wrapper pull-right">
                         <ol class="breadcrumbs">
                             <li>
@@ -248,7 +248,7 @@ require_once ROOT."/html/personalizacao_display.php";
                                 </a>
                             </li>
                             <li><span>Pet</span></li>
-                            <li><span>Cadastro medicamento para pets</span></li>
+                            <li><span>Informações do medicamento para pets</span></li>
                         </ol>
                         <a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
                     </div>
@@ -260,7 +260,7 @@ require_once ROOT."/html/personalizacao_display.php";
                         <div class="tabs">
                             <ul class="nav nav-tabs tabs-primary">
                                 <li class="active">
-                                    <a href="#overview" data-toggle="tab">Cadastro medicamento pet</a>
+                                    <a href="#overview" data-toggle="tab">Informações do medicamento pet</a>
                                 </li>
                             </ul>
                                 <div id="overview" class="tab-pane active">
@@ -274,7 +274,7 @@ require_once ROOT."/html/personalizacao_display.php";
                                             <h2 class="panel-title">Medicamento do Pet</h2>
                                         </header>
                                         <div class="panel-body">    
-                                            <h5 class="obrig">Campos Obrigatórios(*)</h5>
+                                            <!-- <h5 class="obrig">Campos Obrigatórios(*)</h5> -->
                                             <br>
                                             <div id="medicamento" class="tab-pane">
                                             <section class="panel">
@@ -286,17 +286,21 @@ require_once ROOT."/html/personalizacao_display.php";
                                                     <fieldset>
 
                                                         <div class="form-group">
-                                                        <label class="col-md-3 control-label" for="profileCompany">Nome:<sup class="obrig">*</sup></label>
+                                                        <label class="col-md-3 control-label" for="profileCompany">Nome:<!--<sup class="obrig">*</sup>--></label>
                                                         <div class="col-md-8">
-                                                            <input type="text" class="form-control" name="nomeMedicamento" id="nomeMedicamento" required>
+                                                            <select type="select" class="form-control" name="nomeMedicamento" id="nomeMedicamento" required>
+                                                            <option value="selecionar" selected>Selecionar</option>
+                                                            <!-- <option value="seionar" >Select</option> -->
+                                                                
+                                                            </select>
                                                             <input type="hidden" name="id" id="oculto">
                                                         </div>
                                                         </div>
 
                                                         <div class="form-group">
-                                                        <label class="col-md-3 control-label" for="profileCompany">Aplicação: <sup class="obrig">*</sup></label>
+                                                        <label class="col-md-3 control-label" for="profileCompany">Aplicação: <!--<sup class="obrig">*</sup>--></label>
                                                         <div class="col-md-8">
-                                                            <input type="text" class="form-control" name="aplicacaoMedicamento" id="aplicacaoMedicamento" required>
+                                                            <input type="text" class="form-control" name="aplicacaoMedicamento" id="aplicacaoMedicamento" disabled>
                                                         </div>
                                                         </div>
                                                         
@@ -308,31 +312,28 @@ require_once ROOT."/html/personalizacao_display.php";
                                             </div> 
 
                                             <div class="form-group">
-                                                <div class="form-group">
                                                 <div class='col-md-6' id='div_texto' style="height: 499px;"><!--necessidades especiais?-->
-                                                    <label for="texto" id="etiqueta_despacho" style="padding-left: 15px;">Descricão:<sup class="obrig">*</sup></label>
-                                                    <textarea cols='30' rows='5' required id='despacho' name='descricaoMedicamento' class='form-control'></textarea>
+                                                    <label for="texto" id="etiqueta_despacho" style="padding-left: 15px;">Descricão:<!--<sup class="obrig">*</sup>--></label>
+                                                    <textarea cols='30' rows='5' disabled id='descricaoMedicamento' name='descricaoMedicamento' class='form-control'></textarea>
                                                 </div>
                                             </div>
                                             <br>
                                         </div> 
                                             <div class="panel-footer">
-                                                <div class='row'>
+                                                <!-- <div class='row'>
                                                     <div class="col-md-9 col-md-offset-3">
                                                         <input id="enviar" type="submit" class="btn btn-primary" value="Enviar">
                                                     </div>
-                                                </div>
+                                                </div> -->
                                                 </form>
                                             </div>
                                         </div>
                                     </section> 
-                                </div>      <!-- </form> -->
+                                </div>
                             </div> 
                         </div>
                     </div>
-                </div>
-                <!-- </div> -->
-            
+                </div>            
             </section>
         </div>
     </section><!--section do body-->
@@ -358,12 +359,38 @@ require_once ROOT."/html/personalizacao_display.php";
 
         <!--Pedro-->
         <script>
-            let oculto = document.querySelector("#oculto");
-            let marca = window.location.href + '';
-            marca = marca.split('=');
-            if(marca[1]){
-                oculto.value = marca[1];
-            }
+            let nomeMedicamento = document.querySelector("#nomeMedicamento");
+            let aplicacao = document.querySelector("#aplicacaoMedicamento");
+            let descricaoMedic = document.querySelector("#descricaoMedicamento");
+
+            window.addEventListener("load", ()=>{
+                fetch("../../controle/pet/controleGetMedicamento.php").then(
+                    resp =>{
+                        return resp.json();
+                    }
+                ).then(
+                    resp =>{
+                        resp.forEach(valor =>{
+                            nomeMedicamento.innerHTML += `
+                                <option value="${valor.id_medicamento}">${valor.nome_medicamento}</option>
+                            `;
+                        })
+                        nomeMedicamento.addEventListener("change", ()=>{
+                            resp.forEach(valor => {
+                                if( valor.id_medicamento == nomeMedicamento.value){
+                                    aplicacao.value = valor.aplicacao;
+                                    let dado = valor.descricao_medicamento.replace("<p>", "");
+                                    dado = dado.replace("</p>", "");
+                                    descricaoMedic.innerHTML = dado;
+                                    console.log(valor.descricao_medicamento);
+                                }
+                            })
+                        })
+                    }
+                )
+            })
+
+            
         </script>
         <!--fim-->
     </body>

@@ -42,6 +42,7 @@ class PetExameControle{
     public function excluir(){
         $pdo = new PetDAO();
         $pdo->excluirExamePet($this->id);
+        echo json_encode("Excluído com Sucesso");
     }
 
 }
@@ -50,7 +51,6 @@ $petExameControle = new PetExameControle($dado['idExamePet']);
 $metodo = $dado['metodo'];
 $petExameControle->$metodo();
 
-echo json_encode("Excluído com Sucesso");
 
 //require_once("");
 

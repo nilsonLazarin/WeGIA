@@ -264,7 +264,7 @@ class SaudePetDAO
         extract($_REQUEST);
         $medics = explode('?', $medics);
         $pdo = Conexao::connect();
-
+        
         $pd = $pdo->prepare("SELECT id_ficha_medica FROM pet_ficha_medica WHERE id_pet=:id_pet");
         $pd->bindValue(":id_pet", $id_pet);
         $pd->execute();
@@ -277,22 +277,70 @@ class SaudePetDAO
         $pd->bindValue("descricao", $descricaoAtendimento);
         $pd->execute();
 
-        $pd = $pdo->prepare("SELECT id_pet_atendimento FROM pet_atendimento");
+        //$pd = $pdo->prepare("SELECT id_pet_atendimento FROM pet_atendimento");
+        $pd = $pdo->prepare("SELECT MAX(id_pet_atendimento) FROM pet_atendimento");
         $pd->execute();
         $p = $pd->fetchAll();
-
-        foreach( $p as $valor){
-            $idAtendimento = $valor;
-        }
-
+        
         foreach( $medics as $valor){
             if( $valor != ''){
                 $pd = $pdo->prepare("INSERT INTO pet_medicacao(id_medicamento, id_pet_atendimento) 
                 VALUES( :id_medicamento, :id_pet_atendimento)");
                 $pd->bindValue("id_medicamento", $valor);
-                $pd->bindValue("id_pet_atendimento", $idAtendimento["id_pet_atendimento"]);
+                $pd->bindValue("id_pet_atendimento", $p[0][0]);
                 $pd->execute();
             }
-        }        
+        }
+    }
+
+    public function getHistoricoPet($id){
+        $pdo = Conexao::connect();
+        $pd = $pdo->prepare("SELECT id_ficha_medica FROM pet_ficha_medica WHERE id_pet = :id");
+        $pd->bindValue("id", $id);
+        $pd->execute();
+        $p = $pd->fetch();
+
+        $idFichaMedica = $p['id_ficha_medica'];
+        
+        $pd = $pdo->prepare("SELECT * FROM pet_atendimento WHERE id_ficha_medica = :id_ficha_medica");
+        $pd->bindValue("id_ficha_medica", $idFichaMedica);
+        $pd->execute();
+        $p = $pd->fetchAll();
+
+        //id_medicamento data_medicacao
+        $pd = $pdo->prepare("SELECT * FROM pet_medicacao WHERE id_pet_atendimento = 
+        :id_pet_atendimento");
+        $pd->bindValue("id_pet_atendimento", $p[0]['id_pet_atendimento']);
+        $pd->execute();
+        $q = $pd->fetchAll();
+
+        return $p;
+    }
+
+    public function getAtendimentoPet($id){
+        $pdo = Conexao::connect();
+        $pd = $pdo->prepare("SELECT * FROM pet_atendimento WHERE id_pet_atendimento = :id_atendimento");
+        $pd->bindValue("id_atendimento", $id);
+        $pd->execute();
+        $p = $pd->fetch();
+
+        $pd = $pdo->prepare("SELECT  * FROM pet_medicacao p JOIN pet_medicamento pm WHERE 
+        p.id_pet_atendimento = :id_atendimento AND p.id_medicamento = pm.id_medicamento");
+        $pd->bindValue("id_atendimento", $id);
+        $pd->execute();
+        $o = $pd->fetchAll();
+
+        return [$p, $o];
+    }
+    public function dataAplicacao($dados){
+        $dados = explode("|", $dados);
+        $pdo = Conexao::connect();
+        $pd = $pdo->prepare("UPDATE pet_medicacao SET data_medicacao = :dataMed 
+        WHERE id_medicacao = :idMed");
+        $pd->bindValue("dataMed", $dados[0]);
+        $pd->bindValue("idMed", $dados[1]);
+        $pd->execute();        
+        
+        return $dados;
     }
 }

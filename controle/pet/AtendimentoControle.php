@@ -34,13 +34,13 @@ class AtendimentoControle{
         }
 
         if( $vrfcr == 1){
-            header("Location: ../../html/pet/profile_pet.php?id_pet=".$id_pet."&erro=1");
+            header("Location: ../../html/pet/profile_pet.php?id_pet=".$id_pet);
+        }else{
+            $c = new SaudePetDAO();
+            $c->registrarAtendimento();
+            header("Location: ../../html/pet/profile_pet.php?id_pet=".$id_pet);
         }
 
-
-        $c = new SaudePetDAO();
-        $c->registrarAtendimento();
-        header("Location: ../../html/pet/profile_pet.php?id_pet=".$id_pet);
     }
 
 }

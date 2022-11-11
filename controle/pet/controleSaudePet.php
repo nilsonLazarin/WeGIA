@@ -134,4 +134,20 @@ class controleSaudePet
         echo $saudePetDAO->modificarFichaMedicaPet($_REQUEST);
         
     }
+
+    public function getHistoricoPet($id){
+        $saudePetDAO = new SaudePetDAO();
+        return $saudePetDAO->getHistoricoPet($id);
+    }
+
+    public function getAtendimentoPet($id){
+        $saudePetDAO = new SaudePetDAO();
+        return $saudePetDAO->getAtendimentoPet($id);
+    }
+
+    public function dataAplicacao($dados){
+        //data|id
+        $saudePetDAO = new SaudePetDAO();
+        return $saudePetDAO->dataAplicacao($dados);
+    }
 }
