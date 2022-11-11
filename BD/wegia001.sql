@@ -1690,10 +1690,10 @@ CREATE TABLE IF NOT EXISTS `wegia`.`pet_medicacao` (
     `id_medicacao` INT NOT NULL AUTO_INCREMENT, 
     `id_medicamento` INT NOT NULL,
     `id_pet_atendimento` INT NOT NULL,
-    `data_medicacao` DATE NOT NULL,
-    `dosagem` VARCHAR(100) NULL,
+    `data_medicacao` DATE NULL,
+    /*`dosagem` VARCHAR(100) NULL,
     `horario` VARCHAR(100) NULL,
-    `duracao` VARCHAR(100) NULL,
+    `duracao` VARCHAR(100) NULL,*/
     PRIMARY KEY (`id_medicacao`),
     CONSTRAINT `fk_pet_medicamento` 
      FOREIGN KEY (`id_medicamento`) 

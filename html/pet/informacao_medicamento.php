@@ -102,7 +102,7 @@ require_once ROOT."/html/personalizacao_display.php";
     <!-- Basic -->
     <meta charset="UTF-8">
 
-    <title>Cadastro ficha médica pets</title>
+    <title>Cadastro medicamento para pets</title>
         
     <!-- Mobile Metas -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -185,10 +185,6 @@ require_once ROOT."/html/personalizacao_display.php";
 
 
             var editor = CKEDITOR.replace('despacho');
-            //editor.on('required', function(e){
-                //alert("Por favor, informe o prontuário público!");
-                //e.cancel();
-            //});
             
         });
     </script>    
@@ -243,7 +239,7 @@ require_once ROOT."/html/personalizacao_display.php";
             <!-- end: sidebar -->
             <section role="main" class="content-body">
                 <header class="page-header">
-                    <h2>Cadastro ficha médica pets</h2>
+                    <h2>Cadastro medicamento para pets</h2>
                     <div class="right-wrapper pull-right">
                         <ol class="breadcrumbs">
                             <li>
@@ -252,7 +248,7 @@ require_once ROOT."/html/personalizacao_display.php";
                                 </a>
                             </li>
                             <li><span>Pet</span></li>
-                            <li><span>Cadastro ficha médica pets</span></li>
+                            <li><span>Cadastro medicamento para pets</span></li>
                         </ol>
                         <a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
                     </div>
@@ -264,7 +260,7 @@ require_once ROOT."/html/personalizacao_display.php";
                         <div class="tabs">
                             <ul class="nav nav-tabs tabs-primary">
                                 <li class="active">
-                                    <a href="#overview" data-toggle="tab">Cadastro ficha médica pets</a>
+                                    <a href="#overview" data-toggle="tab">Cadastro medicamento pet</a>
                                 </li>
                             </ul>
                                 <div id="overview" class="tab-pane active">
@@ -275,58 +271,47 @@ require_once ROOT."/html/personalizacao_display.php";
                                                 <a href="#" class="fa fa-caret-down"></a>
                                             </div>
                                             <span style="color: red">Formulário em desenvolvimento</span>
-                                            <h2 class="panel-title">Informações do Pet</h2>
+                                            <h2 class="panel-title">Medicamento do Pet</h2>
                                         </header>
                                         <div class="panel-body">    
                                             <h5 class="obrig">Campos Obrigatórios(*)</h5>
                                             <br>
+                                            <div id="medicamento" class="tab-pane">
+                                            <section class="panel">
+                                                <div id="divMedicamento" class="panel-body">
+                                                    <form class="form-horizontal" method="post" action="../../controle/control.php">
+                                                    <input type="hidden" name="nomeClasse" value="MedicamentoControle">
+                                                    <input type="hidden" name="metodo" value="adicionarMedicamento">
+                                                    <input type="hidden" name="modulo" value="pet">
+                                                    <fieldset>
 
-                                            <div class="form-group">
-                                                <div id="clicado">
-                                                    <label class="col-md-3 control-label" for="inputSuccess" style="padding-left:29px;">Pet atendido:<sup class="obrig">*</sup></label> 
-                                                    <div class="col-md-6">
-                                                        <select class="form-control input-lg mb-md" name="nome" id="nome"  required>
-                                                            <option selected disabled>Selecionar</option>
-                                                            
-                                                        </select>
-                                                    </div>
+                                                        <div class="form-group">
+                                                        <label class="col-md-3 control-label" for="profileCompany">Nome:<sup class="obrig">*</sup></label>
+                                                        <div class="col-md-8">
+                                                            <input type="text" class="form-control" name="nomeMedicamento" id="nomeMedicamento" required>
+                                                            <input type="hidden" name="id" id="oculto">
+                                                        </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                        <label class="col-md-3 control-label" for="profileCompany">Aplicação: <sup class="obrig">*</sup></label>
+                                                        <div class="col-md-8">
+                                                            <input type="text" class="form-control" name="aplicacaoMedicamento" id="aplicacaoMedicamento" required>
+                                                        </div>
+                                                        </div>
+                                                        
+                                                        </br>
+                                                        </fieldset>
+                                                    </form>
                                                 </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-md-3 control-label" for="castrado">Animal Castrado<sup class="obrig">*</sup></label>
-                                                <div class="col-md-8">
-                                                    <label><input type="radio" name="castrado" id="radioS" id="S" value="s" style="margin-top: 10px; margin-left: 15px;margin-right: 5px;" required><i class="fa fa" style="font-size: 18px;">Sim</i></label>
-                                                    <label><input type="radio" name="castrado" id="radioN" id="N" value="n" style="margin-top: 10px; margin-left: 15px;margin-right: 5px;"><i class="fa fa" style="font-size: 18px;">Não</i></label>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-md-3 control-label" for="vermifugado">Vermifugado<sup class="obrig">*</sup></label>
-                                                <div class="col-md-8">
-                                                    <label><input type="radio" name="vermifugado" id="vermifugadoS" id="S" value="s" style="margin-top: 10px; margin-left: 15px;margin-right: 5px;" required><i class="fa fa" style="font-size: 18px;">Sim</i></label>
-                                                    <label><input type="radio" name="vermifugado" id="vermifugadoN" id="N" value="n" style="margin-top: 10px; margin-left: 15px;margin-right: 5px;"><i class="fa fa" style="font-size: 18px;">Não</i></label>
-                                                </div>
-                                            </div>
-                                            <div class="form-group" id="divVermifugado">
-                                                <!-- <label class="col-md-3 control-label" for="dataVermifugado">Data Vermifugado<sup class="obrig">*</sup></label>
-                                                <div class="col-md-8">
-                                                    <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="dVermifugado" id="dVermifugado" max=<?php echo date('Y-m-d');?> required>
-                                                </div> -->
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-md-3 control-label" for="vacinado">Vacinado<sup class="obrig">*</sup></label>
-                                                <div class="col-md-8">
-                                                    <label><input type="radio" name="vacinado" id="vacinadoS" id="S" value="s" style="margin-top: 10px; margin-left: 15px;margin-right: 5px;" required><i class="fa fa" style="font-size: 18px;">Sim</i></label>
-                                                    <label><input type="radio" name="vacinado" id="vacinadoN" id="N" value="n" style="margin-top: 10px; margin-left: 15px;margin-right: 5px;"><i class="fa fa" style="font-size: 18px;">Não</i></label>
-                                                </div>
-                                            </div>
-                                            <div class="form-group" id="divVacinado">                                               
-                                            </div>
+                                            </section>                  
+                                            </div> 
 
                                             <div class="form-group">
                                                 <div class="form-group">
                                                 <div class='col-md-6' id='div_texto' style="height: 499px;"><!--necessidades especiais?-->
-                                                    <label for="texto" id="etiqueta_despacho" style="padding-left: 15px;">Outras informações:</label>
-                                                    <textarea cols='30' rows='5' required id='despacho' name='texto' class='form-control'></textarea>
+                                                    <label for="texto" id="etiqueta_despacho" style="padding-left: 15px;">Descricão:<sup class="obrig">*</sup></label>
+                                                    <textarea cols='30' rows='5' required id='despacho' name='descricaoMedicamento' class='form-control'></textarea>
                                                 </div>
                                             </div>
                                             <br>
@@ -334,9 +319,6 @@ require_once ROOT."/html/personalizacao_display.php";
                                             <div class="panel-footer">
                                                 <div class='row'>
                                                     <div class="col-md-9 col-md-offset-3">
-                                                        <input type="hidden" name="nomeClasse" value="controleSaudePet">
-                                                        <input type="hidden" name="modulo" value="pet">
-                                                        <input type="hidden" name="metodo" value="incluir">
                                                         <input id="enviar" type="submit" class="btn btn-primary" value="Enviar">
                                                     </div>
                                                 </div>
@@ -354,16 +336,6 @@ require_once ROOT."/html/personalizacao_display.php";
             </section>
         </div>
     </section><!--section do body-->
-    <?php
-          $nomesCertos = json_encode($nomesCertos);
-    ?>
-    
-    <script>
-        let pets = <?= $nomesCertos ?>;
-            $.each(pets, function(i, item){
-                $("#nome").append($("<option value="+item.id_pet +">").text(item.nome));
-            })
-    </script>
     <!-- end: page -->
     <!-- Vendor -->
         <script src="<?php echo WWW;?>assets/vendor/select2/select2.js"></script>
@@ -386,83 +358,13 @@ require_once ROOT."/html/personalizacao_display.php";
 
         <!--Pedro-->
         <script>
-            let vacinadoS = document.querySelector("#vacinadoS");
-            let vacinadoN = document.querySelector("#vacinadoN");
-            let divVacinado = document.querySelector("#divVacinado");
-            let divVermifugado = document.querySelector("#divVermifugado");
-            let dVacinado = document.querySelector("#dVacinado");
-            let dVermifugado = document.querySelector("#dVermifugado");
-
-
-            vacinadoS.addEventListener('click', ()=>{
-                divVacinado.innerHTML = `<label class="col-md-3 control-label" for="dataVacinado">Data Vacinado<sup class="obrig">*</sup></label>
-                                                <div class="col-md-8">
-                                                    <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="dVacinado" id="dVacinado" max=<?php echo date('Y-m-d');?> required>
-                                                </div>`;
-            })
-
-            vacinadoN.addEventListener('click', ()=>{
-                divVacinado.innerHTML = '';
-            })
-
-            vermifugadoS.addEventListener('click', ()=>{
-                divVermifugado.innerHTML = `<label class="col-md-3 control-label" for="dataVermifugado">Data Vermifugado<sup class="obrig">*</sup></label>
-                                                <div class="col-md-8">
-                                                    <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="dVermifugado" id="dVermifugado" max=<?php echo date('Y-m-d');?> required>
-                                                </div>`;
-            })
-
-            vermifugadoN.addEventListener('click', ()=>{
-                divVermifugado.innerHTML = ``;
-            })
-
-            // fetch=========================================
-            let dadoId = window.location + '';
-            let nome = document.querySelector("#nome");
-            let radioS = document.querySelector("#radioS");
-            let informacoes = document.querySelector("#despacho");
-            
-
-            dadoId = dadoId.split('=');
-            if(dadoId[1]){
-                id = dadoId[1];
-                dado = { 'id': id,
-                         'metodo': 'getPet'
-                       };
-
-                fetch("../../controle/pet/controleGetPet.php",{
-                    method: "POST",
-                    body: JSON.stringify(dado)
-                }).then(
-                    resp => { return resp.json()}
-                ).then(
-                    resp =>{
-                        if( resp != false){
-                            nome.innerHTML = `<option id=${id} value=${id} name=${id}>${resp.nome}</option>`;                  
-                        }
-                        console.log(resp);
-                    }
-                )
+            let oculto = document.querySelector("#oculto");
+            let marca = window.location.href + '';
+            marca = marca.split('=');
+            if(marca[1]){
+                oculto.value = marca[1];
             }
-
         </script>
         <!--fim-->
     </body>
 </html>
-<?php
-//Pedro
-/*if(isset($_GET['id_pet'])){
-    echo <<<HTML
-        <script>
-            let opcao = document.querySelectorAll("option");
-            let id = $_GET[id_pet];
-            opcao.forEach(valor=>{
-                if(valor.value == id){
-                    valor.selected = true;
-                }
-            })
-        </script>
-    HTML;
-}*/
-//===========================
-?>

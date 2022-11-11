@@ -123,13 +123,34 @@
 								<ul class="nav nav-children">
 									<li>
 										<a href="<?= WWW ?>html/pet/cadastro_ficha_medica_pet.php">
-											<span>Criar Ficha Médica Pet</span>
+											<span>Cadastrar Ficha Médica Pet</span>
 										</a>
 									</li>
 									<li>
 										<a href="<?= WWW ?>html/pet/informacao_saude_pet.php">
 											<span>Informações Saúde Pet</span>
 										</a>
+									</li>
+
+									<li class="nav-parent nav-active" id="62">
+										<a>
+											<i class="fa fa-pills" aria-hidden="true"></i>
+											<span>Medicamentos</span>
+										</a>
+
+										<ul class="nav nav-children">
+											<li>
+												<a href="<?= WWW ?>html/pet/cadastrar_medicamento.php">
+													<span>Cadastrar Medicamentos</span>
+												</a>
+											</li>
+											<li>
+												<a href="<?= WWW ?>html/pet/informacao_medicamento.php">
+													<span>Informacões Medicamentos</span>
+												</a>
+											</li>
+										</ul>
+
 									</li>
 								</ul>
 							</li>
