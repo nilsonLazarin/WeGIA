@@ -1291,13 +1291,7 @@
             ah.style.textAlign = "center";
           })
         }
-      )
-      /*document.querySelector("#salvarAtendimento").addEventListener("click", (e)=>{
-        if(informacoes.value == ''){
-          alert("Preencha todos os dados corretamente");
-          e.preventDefault();
-        }
-      })*/
+      )      
       //fim historico_medico
 
       //=============================================================

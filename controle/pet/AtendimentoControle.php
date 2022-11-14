@@ -34,7 +34,8 @@ class AtendimentoControle{
         }
 
         if( $vrfcr == 1){
-            header("Location: ../../html/pet/profile_pet.php?id_pet=".$id_pet);
+            header("Location: ../../html/pet/erro.php?id_pet=".$id_pet);
+            //controle/pet/erro.php
         }else{
             $c = new SaudePetDAO();
             $c->registrarAtendimento();
