@@ -294,7 +294,7 @@ require_once ROOT."/html/personalizacao_display.php";
                                                         </div>
 
                                                         <div class="form-group">
-                                                        <label class="col-md-3 control-label" for="profileCompany">Aplicação: <sup class="obrig">*</sup></label>
+                                                        <label class="col-md-3 control-label" for="profileCompany">Aplicação:<sup class="obrig">*</sup></label>
                                                         <div class="col-md-8">
                                                             <input type="text" class="form-control" name="aplicacaoMedicamento" id="aplicacaoMedicamento" required>
                                                         </div>

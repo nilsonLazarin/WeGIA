@@ -196,7 +196,7 @@ require_once ROOT."/html/personalizacao_display.php";
 							<img src="<?php display_campo("Logo","file");?>" height="40" class="print-logo" style="margin-right: 700px;" /><p>
 							WeGIA 
 							<p> Web Gerenciador Institucional
-						</center>
+							</center>
 
 						</h2>
 					</header>

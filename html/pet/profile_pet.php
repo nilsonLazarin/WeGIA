@@ -104,6 +104,9 @@
     <script src="../../assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
     <script src="../../assets/vendor/magnific-popup/magnific-popup.js"></script>
     <script src="../../assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
+    <!-- printThis -->
+    <script src="<?php echo WWW;?>assets/vendor/jasonday-printThis-f73ca19/printThis.js"></script>
+    <link rel="stylesheet" href="../../assets/print.css">
     <!-- jkeditor -->
     <script src="<?php echo WWW;?>assets/vendor/ckeditor/ckeditor.js"></script>
 
@@ -132,6 +135,11 @@
       {
         color: white;
       }
+      .select{
+			position: absolute;
+			width: 235px;
+       /*print styles*/
+      }
       #div_texto
       {
         width: 100%;
@@ -148,9 +156,9 @@
       {
         height: 455px !important;
       }
-        /* .col-md-3 {
-            width: 10%;
-        } */
+      #secFichaMedica{
+        margin: 0 0 0 15px;
+      }
     </style>
     <!-- jquery functions -->
     <script>
@@ -159,6 +167,9 @@
       let iAcolhimento;
       
 
+		
+
+	
       //Informações Pet
       function editar_informacoes_pet() 
       {
@@ -171,7 +182,7 @@
         $("#cor").prop('disabled', false);
         $("#especie").prop('disabled', false);
         $("#raca").prop('disabled', false);
-        $("#editarPet").html('Cancelar');
+        $("#editarPet").html('Cancelar').removeClass('btn-secondary').addClass('btn-danger');
         $("#salvarPet").prop('disabled', false);
         $("#editarPet").removeAttr('onclick');
         $("#editarPet").attr('onclick', "return cancelar_informacoes_pet()");
@@ -198,7 +209,7 @@
           $("#cor").val(item.cor).prop('disabled', true);
           $("#especie").val(item.especie).prop('disabled', true);
           $("#raca").val(item.raca).prop('disabled', true);
-          $("#editarPet").html('Editar');
+          $("#editarPet").html('Editar').removeClass('btn-danger').addClass('btn-secondary');
           $("#salvarPet").prop('disabled', true);
           $("#editarPet").removeAttr('onclick');
           $("#editarPet").attr('onclick', "return editar_informacoes_pet()");
@@ -216,8 +227,6 @@
           {
             $("#radioM").prop('checked', true).prop('disabled', true);
             $("#radioF").prop('checked', false).prop('disabled', true);
-            $("#reservista1").show();
-            $("#reservista2").show();
           } 
           else if (item.sexo == "F") 
           {
@@ -397,100 +406,104 @@
                 </ul>
 
                 <div class="tab-content">
-                  <!--Aba de Informações Pessoais-->
+                  <!--Aba de Informações Pet-->
                   <div id="overview" class="tab-pane active">
                     <form class="form-horizontal" method="post" action="../../controle/control.php">
-                      <input type="hidden" name="nomeClasse" value="PetControle">
-                      <input type="hidden" name="metodo" value="alterarPetDados">
-                      <input type="hidden" name="modulo" value="pet">
-                      <h4 class="mb-xlg">Informações Pet</h4>
-                      <fieldset>
+                      <div class="myModal print">  
+                        <input type="hidden" name="nomeClasse" value="PetControle">
+                        <input type="hidden" name="metodo" value="alterarPetDados">
+                        <input type="hidden" name="modulo" value="pet">
+                          
+                        <h4 class="mb-xlg">Informações Pet</h4>
+                        <fieldset>
+                          <div class="form-group">
+                            <label class="col-md-3 control-label" for="nome">Nome</label>
+                            <div class="col-md-8">
+                              <input type="text" class="form-control" name="nome" id="nomeForm" onkeypress="return Onlychars(event)" required>
+                            </div>
+                          </div>
 
-                        <div class="form-group">
-                          <label class="col-md-3 control-label" for="profileFirstName">Nome</label>
-                          <div class="col-md-8">
-                            <input type="text" class="form-control" name="nome" id="nomeForm" onkeypress="return Onlychars(event)" required>
+                          <div class="form-group">
+                            <label class="col-md-3 control-label" for="profileLastName">Sexo</label>
+                            <div class="col-md-8">
+                              <label><input type="radio" name="gender" id="radioM" id="M" value="M" style="margin-top: 10px; margin-left: 15px;" > <i class="fa fa-mars" style="font-size: 20px;"></i></label>
+                              <label><input type="radio" name="gender" id="radioF" id="F" value="F" style="margin-top: 10px; margin-left: 15px;" > <i class="fa fa-venus" style="font-size: 20px;"></i></label>
+                            </div>
                           </div>
-                        </div>
+                          
+                          <div class="form-group">
+                            <label class="col-md-3 control-label" for="profileCompany">Nascimento</label>
+                            <div class="col-md-8">
+                              <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" id="nascimento" max=<?php echo date('Y-m-d');?> required>
+                            </div>
+                          </div>
 
-                        <div class="form-group">
-                          <label class="col-md-3 control-label" for="profileLastName">Sexo</label>
-                          <div class="col-md-8">
-                            <label><input type="radio" name="gender" id="radioM" id="M" value="M" style="margin-top: 10px; margin-left: 15px;" > <i class="fa fa-mars" style="font-size: 20px;"></i></label>
-                            <label><input type="radio" name="gender" id="radioF" id="F" value="F" style="margin-top: 10px; margin-left: 15px;" > <i class="fa fa-venus" style="font-size: 20px;"></i></label>
+                          <div class="form-group">
+                            <label class="col-md-3 control-label" for="profileCompany">Acolhimento</label>
+                            <div class="col-md-8">
+                              <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="acolhimento" id="acolhimento" max=<?php echo date('Y-m-d'); ?> required>
+                            </div>
                           </div>
-                        </div>
-                        
-                        <div class="form-group">
-                          <label class="col-md-3 control-label" for="profileCompany">Nascimento</label>
-                          <div class="col-md-8">
-                            <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" id="nascimento" max=<?php echo date('Y-m-d');?> required>
-                          </div>
-                        </div>
 
-                        <div class="form-group">
-                          <label class="col-md-3 control-label" for="profileCompany">Acolhimento</label>
-                          <div class="col-md-8">
-                            <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="acolhimento" id="acolhimento" max=<?php echo date('Y-m-d'); ?> required>
+                          <div class="form-group">
+                            <label class="col-md-3 control-label" for="inputSuccess">Cor</label>
+                            <div class="col-md-6">
+                              <select class="form-control input-lg mb-md" name="cor" id="cor">
+                                <?php
+                                  $cor = mysqli_query($conexao, "SELECT id_pet_cor AS id_cor, descricao AS 'cor' FROM pet_cor");
+                                  foreach ($cor as $valor) {
+                                    echo "<option value=".$valor['id_cor']." >".$valor['cor']."</option>";
+                                  }
+                                ?>
+                              </select>
+                            </div>
                           </div>
-                        </div>
+                          
+                          <div class="form-group">
+                            <label class="col-md-3 control-label" for="inputSuccess">Espécie</label>
+                            <div class="col-md-6">
+                              <select class="form-control input-lg mb-md" name="especie" id="especie">
+                                <?php
+                                  $especie = mysqli_query($conexao, "SELECT id_pet_especie AS id_especie, descricao AS 'especie' FROM pet_especie");
+                                  foreach ($especie as $valor) {
+                                    echo "<option value=".$valor['id_especie']." >".$valor['especie']."</option>";
+                                  }
+                                ?>
+                              </select>
+                            </div>
+                          </div>
 
-                        <div class="form-group">
-                          <label class="col-md-3 control-label" for="inputSuccess">Cor</label>
-                          <div class="col-md-6">
-                            <select class="form-control input-lg mb-md" name="cor" id="cor">
-                              <?php
-                                $cor = mysqli_query($conexao, "SELECT id_pet_cor AS id_cor, descricao AS 'cor' FROM pet_cor");
-                                foreach ($cor as $valor) {
-                                  echo "<option value=".$valor['id_cor']." >".$valor['cor']."</option>";
-                                }
-                              ?>
-                            </select>
+                          <div class="form-group">
+                            <label class="col-md-3 control-label" for="inputSuccess">Raça</label>
+                            <div class="col-md-6">
+                              <select class="form-control input-lg mb-md" name="raca" id="raca">
+                                <?php
+                                  $raca = mysqli_query($conexao, "SELECT id_pet_raca AS id_raca, descricao AS 'raca' FROM pet_raca");
+                                  foreach ($raca as $valor) {
+                                    echo "<option value=".$valor['id_raca']." >".$valor['raca']."</option>";
+                                  }        /* .col-md-3 {
+                                    width: 10%;
+                                } */
+                                ?>
+                              </select>
+                            </div>
                           </div>
-                        </div>
-                        
-                        <div class="form-group">
-                          <label class="col-md-3 control-label" for="inputSuccess">Especie</label>
-                          <div class="col-md-6">
-                            <select class="form-control input-lg mb-md" name="especie" id="especie">
-                              <?php
-                                $especie = mysqli_query($conexao, "SELECT id_pet_especie AS id_especie, descricao AS 'especie' FROM pet_especie");
-                                foreach ($especie as $valor) {
-                                  echo "<option value=".$valor['id_especie']." >".$valor['especie']."</option>";
-                                }
-                              ?>
-                            </select>
+                          <div class="form-group">
+                            <label class="col-md-3 control-label" for="especificas">Características Específicas</label>
+                            <div class="col-md-8">
+                              <textarea name="especificas" class="form-control" id="especificas"></textarea>
+                            </div>
                           </div>
-                        </div>
-
-                        <div class="form-group">
-                          <label class="col-md-3 control-label" for="inputSuccess">Raca</label>
-                          <div class="col-md-6">
-                            <select class="form-control input-lg mb-md" name="raca" id="raca">
-                              <?php
-                                $raca = mysqli_query($conexao, "SELECT id_pet_raca AS id_raca, descricao AS 'raca' FROM pet_raca");
-                                foreach ($raca as $valor) {
-                                  echo "<option value=".$valor['id_raca']." >".$valor['raca']."</option>";
-                                }
-                              ?>
-                            </select>
-                          </div>
-                        </div>
-
-                        <div class="form-group">
-                          <label class="col-md-3 control-label" for="profileFirstName">Características Específicas</label>
-                          <div class="col-md-8">
-                            <input type="text" class="form-control" name="especificas" id="especificas" >
-                          </div>
-                        </div>
-                        </br>
-                        <input type="hidden" name="id_pet" value=<?php echo $_GET['id_pet'] ?>>
-                        <button type="button" class="btn btn-primary" id="editarPet" onclick="return editar_informacoes_pet()">Editar</button>
-                        <input type="submit" class="btn btn-primary" disabled="true" value="Salvar" id="salvarPet">
-                      </fieldset>
+                      </div>
+                          </br>
+                          <input type="hidden" name="id_pet" value=<?php echo $_GET['id_pet'] ?>>
+                          <button type="button" class="not-printable btn btn-primary" id="editarPet" onclick="return editar_informacoes_pet()">Editar</button>
+                          <input type="submit" class="not-printable btn btn-primary" disabled="true" value="Salvar" id="salvarPet">
+                          <button type="button" style="!important;" class="not-printable mb-xs mt-xs mr-xs btn btn-default" id="btnPrint">Imprimir <i class="fa-solid fa-print" style = "color:black"></i></button>
+                        </fieldset>
+                      
                     </form>
-                    <br>
-                  </div>
+                </div>
                 <!--Arquivos-->
                 <div id="arquivosPet" class="tab-pane">
                   <section class="panel">
@@ -565,6 +578,7 @@
                             HTML;
                           }
                         ?>
+
                         <!-- Modal Form Documentos -->
                         <div class="modal fade" id="docFormModal" tabindex="-1" role="dialog" aria-labelledby="docFormModalLabel" aria-hidden="true">
                           <div class="modal-dialog" role="document">
@@ -616,14 +630,9 @@
 
                 <!-- Ficha Medica-->
                 <div id="ficha_medica" class="tab-pane">
-                  <section class="panel">
-                      <header class="panel-heading">
-                        <div class="panel-actions">
-                          <a href="#" class="fa fa-caret-down"></a>
-                        </div>
-                        <h2 class="panel-title">Ficha Médica</h2>
-                      </header>
-                      <div id="divFichaMedica" class="panel-body">
+                  <section id="secFichaMedica"> <!--Corrigir o problema da impressão-->
+                      <h4 class="mb-xlg" id="fm">Ficha Médica</h4>
+                      <div id="divFichaMedica">
                         <form class="form-horizontal" method="post" action="../../controle/control.php">
                           <input type="hidden" name="nomeClasse" value="controleSaudePet">
                           <input type="hidden" name="metodo" value="modificarFichaMedicaPet">
@@ -646,7 +655,7 @@
                                 <label><input type="radio" checked name="vermifugado" id="vermifugadoN" value="N" style="margin-top: 10px; margin-left: 15px;" > <i class="fa" style="font-size: 20px;">Não</i></label>
                               </div>
                               <div class="form-group" id="div_vermifugado"> 
-                                <label class="col-md-3 control-label" for="dataVermifugado">Data Vermifugado:<sup class="obrig">*</sup></label>
+                                <label class="col-md-3 control-label" for="dVermifugado">Data de vermifugação:<sup class="obrig">*</sup></label>
                                 <div class="col-md-8">
                                   <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="dVermifugado" id="dVermifugado" max=<?php echo date('Y-m-d');?> required>
                                 </div>                                              
@@ -655,39 +664,41 @@
 
                             <!--Vacinado-->
                             <div class="form-group">
-                              <label class="col-md-3 control-label" for="profileLastName">Vacinado:</label>
+                              <label class="col-md-3 control-label" for="vacinado">Vacinado:</label>
                               <div class="col-md-8">
                                 <label><input type="radio" name="vacinado" id="vacinadoS" value="S" style="margin-top: 10px; margin-left: 15px;" > <i class="fa" style="font-size: 20px;">Sim</i></label>
-                                <label><input type="radio" checked name="vacinado" id="vacinadoN" value="N" style="margin-top: 10px; margin-left: 15px;" > <i class="fa" style="font-size: 20px;">Não</i></label>                              
+                                <label><input type="radio" checked name="vacinado" id="vacinadoN" value="N" style="margin-top: 10px; margin-left: 15px;" > <i class="fa" style="font-size: 20px;">Não</i></label>                     
                               </div>
-                              <div class="form-group" id="div_vacinado"> 
-                                <label class="col-md-3 control-label" for="dataVacinado">Data Vacinado:<sup class="obrig">*</sup></label>
+                              <div class="form-group" id="div_vacinado">
+                                <label class="col-md-3 control-label" for="dVacinado">Data de vacinação:<sup class="obrig">*</sup></label>
                                 <div class="col-md-8">
                                   <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="dVacinado" id="dVacinado" max=<?php echo date('Y-m-d');?> required>
                                 </div>                                              
                               </div>
-                              
                             </div>
+
                             <!--Outras informacoes-->
                             <div class="form-group">
                               <div class="form-group">
-                                <div class='col-md-6' id='div_texto' style="height: 499px;"><!--necessidades especiais?-->
-                                  <label for="texto" id="etiqueta_despacho" style="padding-left: 15px;">Outras informações:</label>
-                                  <textarea cols='30' rows='5' required id='despacho' name='texto' class='form-control'></textarea>
+                                <label for="texto" id="etiqueta_despacho" class="col-md-3 control-label">Outras informações:</label>
+                                <div class="col-md-8">
+                                  <textarea name="texto" class="form-control col-md-8" id="despacho"></textarea>
                                 </div>
                               </div>
                             </div>
                             </br>
-                            </br>
-                            <input type="hidden" name="id_pet" value=<?php echo $_GET['id_pet'] ?>>
-                            <input type="hidden" name="id_ficha_medica" id="id_ficha_medica">
-                            
-                            <button type="button" class="btn btn-primary" id="editarFichaMedica" >Editar Ficha Médica</button>
-                            <input type="submit" class="btn btn-primary" value="Salvar Ficha Médica" id="salvarFichaMedica">
+                            <div class="buttons">
+                              <input type="hidden" name="id_pet" value=<?php echo $_GET['id_pet'] ?>>
+                              <input type="hidden" name="id_ficha_medica" id="id_ficha_medica">
+                              <button type="button" class="d-print-none btn btn-primary" id="editarFichaMedica" >Editar Ficha Médica</button>
+                              <input type="submit" class="d-print-none btn btn-primary" value="Salvar Ficha Médica" id="salvarFichaMedica">
+                              <button type="button" class="d-print-none mb-xs mt-xs mr-xs btn btn-default" id="btnPrint2">Imprimir <i class="fa-solid fa-print" style = "color:black"></i></button>
+                            </div>
                           </fieldset>
                         </form>
-                      </div>
-                  </section>               
+                    </div>
+                  </section>
+                  <!-- </div> -->
                 </div>
 
                 <!--atendimento-->
@@ -708,7 +719,7 @@
 
                             <div class="form-group"> 
                               <div class="col-md-8">           
-                                <a href="./cadastrar_medicamento.php?pga=<?php echo $_GET["id_pet"]?>">Cadastrar Medicamento</a>
+                                <a href="./cadastrar_medicamento.php?pga=<?php echo $_GET["id_pet"]?>"><button type="button" class="btn btn-success" id="cadastrarMedicamento">Cadastrar Medicamento</button></a>
                               </div>
                             </div>
 
@@ -882,7 +893,7 @@
           dataAdocao.disabled = false;
           salvarAdocao.disabled = false;
           rgAdotante.disabled = false;
-          editarAdocao.innerHTML = "Cancelar Editar";
+          editarAdocao.innerHTML = "Cancelar";
         }else{
           document.location.reload();
         }
@@ -1028,6 +1039,17 @@
           $('#tipoExame').append('<option value="' + item.id_tipo_exame + '">' + item.descricao_exame + '</option>');
         });
       }
+      //Funções que fazem a impressão
+      $(function(){
+        $("#btnPrint").click(function () {
+          $(".print").printThis();
+        }); 
+        $("#btnPrint2").click(function () {
+          $(".tab-content").printThis({
+            loadCSS: "../../assets/stylesheets/print.css"
+          });
+        }); 
+      });
 
       //fichaMedica==================================================
       let castradoS = document.querySelector("#castradoS");
@@ -1042,7 +1064,7 @@
       let divVacinado = document.querySelector("#div_vacinado");
       let id_ficha_medica = document.querySelector("#id_ficha_medica");
 
-      let editor = CKEDITOR.replace('despacho');
+      //let editor = CKEDITOR.replace('despacho');
       let editorAtendimento = CKEDITOR.replace('descricaoAtendimento');
       
       
@@ -1066,9 +1088,9 @@
         
         id_ficha_medica.value = resp[0].id_ficha_medica;
 
-        if(resp[0].necessidades_especiais){
-          informacoes.innerHTML = resp[0].necessidades_especiais;
-        }
+         if(resp[0].necessidades_especiais){
+          $(informacoes).val(resp[0].necessidades_especiais);
+         }
         
         if( resp[1].id_vacinacao){
           vacinadoS.checked = true;
@@ -1086,7 +1108,7 @@
       });
 
       vacinadoS.addEventListener('click', ()=>{
-        divVacinado.innerHTML = `<label class="col-md-3 control-label" for="dataVacinado">Data Vacinado<sup class="obrig">*</sup></label>
+        divVacinado.innerHTML = `<label class="col-md-3 control-label" for="dVacinado">Data de Vacinação:<sup class="obrig">*</sup></label>
                                  <div class="col-md-8">
                                    <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="dVacinado" id="dVacinado" max=<?php echo date('Y-m-d');?> required>
                                  </div>`;
@@ -1097,7 +1119,7 @@
       })
 
       vermifugadoS.addEventListener('click', ()=>{
-        divVermifugado.innerHTML = `<label class="col-md-3 control-label" for="dataVermifugado">Data Vermifugado<sup class="obrig">*</sup></label>
+        divVermifugado.innerHTML = `<label class="col-md-3 control-label" for="dataVermifugado">Data de Vermifugação:<sup class="obrig">*</sup></label>
                                     <div class="col-md-8">
                                       <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="dVermifugado" id="dVermifugado" max=<?php echo date('Y-m-d');?> required>
                                     </div>`;
@@ -1115,8 +1137,8 @@
       castradoN.disabled = true;
       salvarFichaMedica.disabled = true;
       dVermifugado.disabled = true;        
-      dVacinado.disabled = true;     
-      
+      dVacinado.disabled = true;   
+      informacoes.disabled = true;  
       
       //verificar se possui ficha medica=============================
       dado = {
@@ -1162,8 +1184,9 @@
       
 
       editarFichaMedica.addEventListener('click', ()=>{        
-        if( editarFichaMedica.innerHTML != "Cancelar Editar"){
-          editarFichaMedica.innerHTML = "Cancelar Editar";       
+        if( editarFichaMedica.innerHTML != "Cancelar"){
+
+          $(editarFichaMedica).html('Cancelar').removeClass('btn-secondary').addClass('btn-danger');       
           vacinadoS.disabled = false;
           vermifugadoS.disabled = false;
           castradoS.disabled = false;
@@ -1173,6 +1196,7 @@
           salvarFichaMedica.disabled = false;
           dVacinado.disabled = false;
           dVermifugado.disabled = false;
+          informacoes.disabled = false;
         }else{
           location.reload();
         }
@@ -1349,7 +1373,7 @@
         }
         switchButton(idForm);
       }
-      switchForm("editar_cargaHoraria", false)
+      //switchForm("editar_cargaHoraria", false)
     </script>
     <div align="right">
 	  <iframe src="https://www.wegia.org/software/footer/funcionario.html" width="200" height="60" style="border:none;"></iframe>

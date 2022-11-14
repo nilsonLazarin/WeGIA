@@ -399,6 +399,29 @@
 								<h4>Informações Saúde Pet</h4>
 							</div>
 						</a>
+						<a href="#">
+							<div class="col-lg-2 col-md-8 i category-item-third" data-toggle="collapse" href="#medicamentos">
+								<i class="fa fa-pills"></i>
+								<h4>Medicamentos dos Pets</h4>
+							</div>
+						</a>
+					</div>
+				</div>
+
+				<div class="row category-row-fourth">
+					<div  id="medicamentos" class="removeIn-2 collapse">
+						<a href="../html/pet/cadastrar_medicamento.php">
+							<div class="col-lg-2 col-md-8 i">
+								<i  class="far fa-clipboard"></i>
+								<h4>Cadastrar Medicamento</h4>
+							</div>
+						</a>
+						<a href="../html/pet/informacao_medicamento.php">
+							<div class="col-lg-2 col-md-8 i">
+								<i  class="fa fa-clipboard-list"></i>
+								<h4>Informações Medicamentos</h4>
+							</div>
+						</a>
 					</div>
 				</div>
 				<!--fim da parte interna de #pet-->
