@@ -190,8 +190,7 @@
                         </ul>
                     </div>
 					<div class="panel-body">
-						<table class="table table-bordered table-striped mb-none"
-							>
+						<table class="table table-bordered table-striped mb-none">
 							<thead>
 								<tr>
 									<th>Nome do medicamento</th>
@@ -272,7 +271,7 @@
                         editDate.forEach( (valor,i) => {
                             valor.addEventListener("click", ()=>{
                                 document.querySelector(`#data${i}`).innerHTML = `
-									<input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" id="dataMed">
+									<input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" id="dataMed" max=<?php echo date('Y-m-d');?>>
                                 `;
 
                                 dataMed.onchange = ()=>{

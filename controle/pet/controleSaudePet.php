@@ -38,7 +38,6 @@ class controleSaudePet
 {
     public function verificar(){
         extract($_REQUEST);
-
             
         if((!isset($nome)) || (empty($nome))){
             $msg = "Nome não informado!";
@@ -51,7 +50,6 @@ class controleSaudePet
             header("Location: ../../html/pet/cadastro_ficha_medica_pet.php?msg=".$msg);
             return;
         }
-
 
         $saudePet = new SaudePet($nome,$texto, $castrado);
         

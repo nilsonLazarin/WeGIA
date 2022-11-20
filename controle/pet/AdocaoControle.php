@@ -43,7 +43,6 @@
                 $c->excluirAdocao($id_pet);
                 header('Location: ../../html/pet/profile_pet.php?id_pet='.$id_pet);
             }
-            // var_dump($_POST);
         }
 
     }

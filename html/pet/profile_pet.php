@@ -731,9 +731,13 @@
                             </div>
 
                             <div class="form-group">
-                              <div class='col-md-6' id='div_texto'>
+                              <!--<div class='col-md-6' id='div_texto'>
                                 <label for="texto" id="etiqueta_despacho" style="padding-left: 15px;">Descrição do Atendimento:<sup class="obrig">*</sup></label>
                                 <textarea cols='30' rows='5' required id='descricaoAtendimento' name="descricaoAtendimento" class='form-control'></textarea>
+                              </div>-->
+                              <label class="col-md-3 control-label" for="descricaoAtendimento">Descricao Atendimento<sup class="obrig">*</sup></label>
+                              <div class="col-md-8">
+                                <textarea name="descricaoAtendimento" class="form-control" id="descricaoAtendimento"></textarea>
                               </div>
                             </div>
 
@@ -1065,8 +1069,6 @@
       let id_ficha_medica = document.querySelector("#id_ficha_medica");
 
       //let editor = CKEDITOR.replace('despacho');
-      let editorAtendimento = CKEDITOR.replace('descricaoAtendimento');
-      
       
       let dadoId = window.location + '';
       dadoId = dadoId.split('=');
@@ -1089,7 +1091,12 @@
         id_ficha_medica.value = resp[0].id_ficha_medica;
 
          if(resp[0].necessidades_especiais){
-          $(informacoes).val(resp[0].necessidades_especiais);
+           console.log(resp[0].necessidades_especiais);
+           let infoPet = resp[0].necessidades_especiais;
+           infoPet = infoPet.replace("<p>", '');
+           infoPet = infoPet.replace("</p>", '');
+
+          informacoes.value = infoPet;
          }
         
         if( resp[1].id_vacinacao){
