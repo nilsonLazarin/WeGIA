@@ -138,7 +138,6 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
            
             $("#header").load("../header.php");
             $(".menuu").load("../menu.php");
-            CKEDITOR.replace('despacho');
         });
     </script>
     
@@ -154,9 +153,7 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
         .panel-body{
             margin-bottom: 15px;
         }
-        img{
-        	margin-left:10px;
-        }
+        
         #div_texto
         {
             width: 100%;
@@ -238,7 +235,7 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
                 $("#nome").text("Nome: "+item.nome+' '+item.sobrenome);
                 $("#nome").val(item.nome + " " + item.sobrenome);
 
-                if(item.imagem!=""){
+                if(item.imagem!="" && item.imagem!=null){
                       $("#imagem").attr("src","data:image/gif;base64,"+item.imagem);
                     }else{
                       $("#imagem").attr("src","../../img/semfoto.png");
@@ -267,7 +264,6 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
          
           $(function(){
             var exibimedparaenfermeiro = <?= $exibimedparaenfermeiro ?>;
-            console.log(exibimedparaenfermeiro);
             $.each(exibimedparaenfermeiro,function(i,item){
               $("#tabela")
               .append($("<tr class='item "+item.medicamento+"'>")
@@ -440,21 +436,21 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
        
        <!-- aba de atendimento enfermeiro -->
        <div id="atendimento_enfermeiro" class="tab-pane">                           
-                <section class="panel">
-                   <header class="panel-heading">
-                    <div class="panel-actions">
-                        <a href="#" class="fa fa-caret-down"></a>
-                    </div>
-                   <h2 class="panel-title">Aplicar medicamento</h2>
+            <section class="panel">
+                <header class="panel-heading">
+                  <div class="panel-actions">
+                      <a href="#" class="fa fa-caret-down"></a>
+                  </div>
+                  <h2 class="panel-title">Aplicar medicamento</h2>
                 </header>
                    
                 <div class="panel-body">
                 <hr class="dotted short">
                    
-                <table class="table table-bordered table-striped mb-none" id="datatable-default">
+            <table class="table table-bordered table-striped mb-none" id="datatable-default">
 				    <thead>
 						<tr>
-						    <th class='txt-center' width='30%' id="id_medicacao">Medicações</th>
+						  <th class='txt-center' width='30%' id="id_medicacao">Medicações</th>
 							<th class='txt-center' width='15%'>Dosagem</th>
 							<th class='txt-center' width='15%'>Horário</th>
 							<th class='txt-center' width='15%'>Duração</th>

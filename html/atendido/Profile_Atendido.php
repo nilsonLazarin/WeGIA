@@ -34,10 +34,10 @@ session_start();
       if(!is_null($id_cargo)){
         $id_cargo = $id_cargo['id_cargo'];
       }
-      $resultado = mysqli_query($conexao, "SELECT * FROM permissao WHERE id_cargo=$id_cargo and id_recurso=3");
+      $resultado = mysqli_query($conexao, "SELECT * FROM permissao WHERE id_cargo=$id_cargo and id_recurso=12");
       if(!is_bool($resultado) and mysqli_num_rows($resultado)){
         $permissao = mysqli_fetch_array($resultado);
-        if($permissao['id_acao'] == 1){
+        if($permissao['id_acao'] < 7){
                 $msg = "Você não tem as permissões necessárias para essa página.";
                 header("Location: ".WWW."html/home.php?msg_c=$msg");
         }
@@ -677,7 +677,7 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                               ?>
 
                               <div class="thumb-info mb-md">
-                                  <img id="imagem" alt="">
+                                  <img id="imagem" style="margin-bottom: 15px;" alt="">
                                   <i class="fas fa-camera-retro btn btn-info btn-lg" data-toggle="modal" data-target="#myModal"></i>
                               <div class="container">
                                  <div class="modal fade" id="myModal" role="dialog">

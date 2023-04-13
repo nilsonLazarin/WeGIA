@@ -36,10 +36,10 @@ $memorando = $_POST['dados'];
     if(!is_null($id_cargo)){
       $id_cargo = $id_cargo['id_cargo'];
     }
-    $resultado = mysqli_query($conexao, "SELECT * FROM permissao WHERE id_cargo=$id_cargo and id_recurso=3");
+    $resultado = mysqli_query($conexao, "SELECT * FROM permissao WHERE id_cargo=$id_cargo and id_recurso=12");
     if(!is_bool($resultado) and mysqli_num_rows($resultado)){
       $permissao = mysqli_fetch_array($resultado);
-      if($permissao['id_acao'] == 1){
+      if($permissao['id_acao'] < 7){
         $msg = "Você não tem as permissões necessárias para essa página.";
         header("Location: ".WWW."html/home.php?msg_c=$msg");
       }

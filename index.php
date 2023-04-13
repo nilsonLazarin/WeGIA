@@ -6,7 +6,8 @@
 	{
 		header ("Location: ./html/home.php");
 	}
-	setcookie("PHPSESSID","", 0, "/");
+	$samSite = array('samesite' => 'Secure');
+	setcookie("PHPSESSID","", 0, "/", $samSite);
 	session_destroy();
 	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
 	require_once "html/personalizacao_display.php";

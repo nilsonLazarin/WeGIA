@@ -34,7 +34,7 @@ if(file_exists($config_path)){
 			<img src="<?php display_campo("Logo",'file');?>" height="35" alt="Porto Admin" />
 		</a>
 		<div class="visible-xs toggle-sidebar-left" data-toggle-class="sidebar-left-opened" data-target="html" data-fire-event="sidebar-left-opened">
-			<i class="fa fa-bars" aria-label="Toggle sidebar"></i>
+			<i style="margin-top: 8px;" class="fa fa-bars" aria-label="Toggle sidebar"></i>
 		</div>
 	</div>
 

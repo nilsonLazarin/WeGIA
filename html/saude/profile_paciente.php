@@ -39,7 +39,7 @@ if(!is_null($resultado)){
     if(!is_null($id_cargo)){
     $id_cargo = $id_cargo['id_cargo'];
     }
-    $resultado = mysqli_query($conexao, "SELECT * FROM permissao p JOIN acao a ON(p.id_acao=a.id_acao) JOIN recurso r ON(p.id_recurso=r.id_recurso) WHERE id_cargo=$id_cargo AND a.descricao = 'LER, GRAVAR E EXECUTAR' AND r.descricao='Módulo Saúde'");
+    $resultado = mysqli_query($conexao, "SELECT * FROM permissao p JOIN acao a ON(p.id_acao=a.id_acao) JOIN recurso r ON(p.id_recurso=r.id_recurso) WHERE id_cargo=$id_cargo AND a.descricao = 'LER, GRAVAR E EXECUTAR' AND r.descricao='Ficha do paciente'");
     if(!is_bool($resultado) and mysqli_num_rows($resultado)){
     $permissao = mysqli_fetch_array($resultado);
     if($permissao['id_acao'] < 7){
@@ -167,20 +167,6 @@ header("Location: ../home.php?msg_c=$msg");
                 alert("Por favor, informe a descrição!");
                 e.cancel();
             });
-            //var editor = CKEDITOR.replace( 'despacho', {
-            // 	extraPlugins: 'placeholder',
-            // 	toolbar: [ [ 'Source', 'Bold' ], ['CreatePlaceholder'] ]
-            // });
-            // CKEDITOR.replace( 'despacho', {
-            // extraPlugins: 'editorplaceholder',
-            // editorplaceholder: 'Start typing here...',
-            // removeButtons: 'PasteFromWord'
-            // } );
-          
-            // var config = { extraPlugins : 'confighelper'};
-            // // config.placeholder = 'some value';
-            // CKEDITOR.replace('teste', config);
-
         });
     </script>
     
@@ -195,9 +181,6 @@ header("Location: ../home.php?msg_c=$msg");
         }
         .panel-body{
             margin-bottom: 15px;
-        }
-        img{
-        	margin-left:10px;
         }
         #div_texto
         {
@@ -222,7 +205,7 @@ header("Location: ../home.php?msg_c=$msg");
     </style>
 
 
-<!doctype html>
+<!DOCTYPE html>
 <html class="fixed">
    <head>
       <!-- Basic -->
@@ -283,7 +266,7 @@ header("Location: ../home.php?msg_c=$msg");
                 $("#nome").text("Nome: "+item.nome+' '+item.sobrenome);
                 $("#nome").val(item.nome + " " + item.sobrenome);
 
-                if(item.imagem!=""){
+                if(item.imagem!="" && item.imagem!=null){
                       $("#imagem").attr("src","data:image/gif;base64,"+item.imagem);
                     }else{
                       $("#imagem").attr("src","../../img/semfoto.png");
@@ -301,18 +284,17 @@ header("Location: ../home.php?msg_c=$msg");
               
                 $("#nascimento").text("Data de nascimento: "+item.data_nascimento);
                 $("#nascimento").val(item.data_nascimento);
-                $("#adicionartipo").show(); 
-                /*if(item.tipo_sanguineo==null || item.tipo_sanguineo == "")
-                {
-                    $("#adicionartipo").show(); 
-                }*/
-                if(item.tipo_sanguineo !=null && item.tipo_sanguineo != "")
-                {
+                
+                 if(item.tipo_sanguineo == null || item.tipo_sanguineo == ""){
+                   $("#adicionartipo").show(); 
                   
-                  $("#exibirtipo").show();
-                  $("#sangue").text("Sangue: "+item.tipo_sanguineo);
-                  $("#sangue").val(item.tipo_sanguineo);
-                }
+                 }
+                 else if(item.tipo_sanguineo !=null && item.tipo_sanguineo != "")
+                 {
+                   $("#sangue").text("Sangue: "+item.tipo_sanguineo);
+                   $("#sangue").val(item.tipo_sanguineo);
+                   $("#exibirtipo").show();
+                 }
               }
             });
           });
@@ -425,8 +407,13 @@ header("Location: ../home.php?msg_c=$msg");
                   [0, "asc"]
                   ]
                 });
+                $('.datatable-docfuncional').DataTable({
+                  "order": [
+                  [0, "asc"]
+                  ]
+                });
             });
-        
+            
           $(function() {
           var prontuariopublico = <?= $prontuariopublico ?>;
           $.each(prontuariopublico, function(i, item) {
@@ -580,7 +567,7 @@ header("Location: ../home.php?msg_c=$msg");
                       </div> 
 
                       <!-- caso o paciente não tenha o tipo sanguineo definido -->
-                      <div id="adicionartipo" style="display:none;" class="form-group">
+                      <div id="adicionartipo"  style="display:none;" class="form-group">
                       <input type="hidden" name="metodo" value="alterarInfPessoal">
 
                       <label class="col-md-3 control-label" for="inputSuccess">Tipo sanguíneo</label>
@@ -602,7 +589,7 @@ header("Location: ../home.php?msg_c=$msg");
                       <!-- </div> -->
                       <input type="hidden" name="id_fichamedica" value=<?php echo $_GET['id_fichamedica'] ?>>
                      <!-- <div class="col-md-9 col-md-offset-3"> -->
-                        <input type="submit" class="btn btn-primary" value="Salvar" id="botaoSalvarTipoSanguineo">
+                      <input type="submit" class="btn btn-primary" value="Salvar" id="botaoSalvarTipoSanguineo">
                      <!-- </div>  -->
 
                       <br>
@@ -644,8 +631,9 @@ header("Location: ../home.php?msg_c=$msg");
             <table class="table table-bordered table-striped mb-none" id="datatable-dependente">
                 <thead>
                     <tr style="font-size:15px;">
-                        <th>Data</th>
-                        <th>Status</th>
+                      <th>Comorbidades</th>    
+                      <th>Data</th>
+                      <th>Status</th>
                     </tr>
                 </thead>
                     <tbody id="doc-tab">
@@ -663,7 +651,7 @@ header("Location: ../home.php?msg_c=$msg");
                  
              
 
-                    <div class="form-group">
+                  <div class="form-group">
                     <label class="col-md-3 control-label" for="inputSuccess">Enfermidades<sup class="obrig">*</sup></label>
                     <!-- <a onclick="adicionar_enfermidade()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a> -->
                     <div class="col-md-6">
@@ -822,7 +810,7 @@ header("Location: ../home.php?msg_c=$msg");
               
              <div class="form-group">
              <hr class="dotted short">
-                <table class="table table-bordered table-striped mb-none">
+                <table class="table table-bordered table-striped mb-none datatable-docfuncional">
                   <thead>
                     <tr style="font-size:15px;">
                       <th>Data do atendimento</th>
@@ -855,6 +843,7 @@ header("Location: ../home.php?msg_c=$msg");
 
                                   <label class="my-1 mr-2" for="tipoDocumento">Status</label><br>
                                   <div style="display: flex;">
+                                    <input type="hidden" name="id_fichamedica" id="id_fichamedica" value="<?php echo $_GET['id_fichamedica']; ?>"/>
                                     <select class="form-control input-lg mb-md" name="id_status" id="id_status" style="width:170px;" required>
                                     <option selected disabled>Selecionar</option>
                                       <?php
@@ -990,12 +979,11 @@ header("Location: ../home.php?msg_c=$msg");
                   
                    <br>
                    <hr class="dotted short">
-                      <table class="table table-bordered table-striped mb-none" id="tabmed">
+                      <table class="table table-bordered table-striped mb-none datatable-docfuncional" id="tabmed">
                         <thead>
                           <tr style="font-size:15px;">
                             <th>Medicação</th>
                             <th>Dosagem</th>
-                            <!--<th>Laboratório</th>-->
                             <th>Horário</th>
                             <th>Duração</th>
                             <th>Ação</th>
@@ -1120,7 +1108,7 @@ header("Location: ../home.php?msg_c=$msg");
          </aside>
       </section>
 		<!-- Vendor -->
-		<script src="../../assets/vendor/select2/select2.js"></script>
+		  <script src="../../assets/vendor/select2/select2.js"></script>
         <script src="../../assets/vendor/jquery-datatables/media/js/jquery.dataTables.js"></script>
         <script src="../../assets/vendor/jquery-datatables/extras/TableTools/js/dataTables.tableTools.min.js"></script>
         <script src="../../assets/vendor/jquery-datatables-bs3/assets/js/datatables.js"></script>
@@ -1234,6 +1222,7 @@ header("Location: ../home.php?msg_c=$msg");
 
             } 
 
+
             function gerarExame() {
             url = 'exibir_exame.php';
             $.ajax({
@@ -1332,21 +1321,21 @@ header("Location: ../home.php?msg_c=$msg");
             $(function(){
 
                 let tabela_medicacao = new Array();
-
                 $("#botao").click(function(){
                 
                 let medicamento = $("#nome_medicacao").val();
                 let dose = $("#dosagem").val();
                 let horario = $("#horario_medicacao").val();
                 let duracao =  $("#duracao_medicacao").val();
-
+                
                 if(medicamento == "" || medicamento == null || dose == "" || horario == "" || duracao =="")
                 {
                   alert("Por favor, informe a medicação corretamente!");
                 
                 }
                 else{
-                    
+                $("#tabmed").find(".dataTables_empty").hide();
+                  
                 $("#tabmed").append($("<tr>").addClass("tabmed")
                   .append($("<td>") .text(medicamento) )
                   .append($("<td>") .text(dose) )
@@ -1368,7 +1357,7 @@ header("Location: ../home.php?msg_c=$msg");
                         $("#duracao_medicacao").val("");
                 }
                 })
-                $("#tabmed").on("click", "td", function(){
+                $("#tabmed").on("click", "button", function(){
 
                     let tamanho = tabela_medicacao.length;
                     

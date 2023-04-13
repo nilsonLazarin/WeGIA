@@ -18,8 +18,7 @@ if (!isset($_SESSION["usuario"])){
     // var_dump($saude_medicacao_status_idsaude_medicacao_status);
 
     $id_medicacao = $_POST['id_medicacao'];
-    echo $id_medicacao;
-
+    $id_fichamedica = $_POST['id_fichamedica'];
     try {
         $pdo = Conexao::connect();
         $prep = $pdo->prepare("UPDATE saude_medicacao SET saude_medicacao_status_idsaude_medicacao_status = $saude_medicacao_status_idsaude_medicacao_status WHERE id_medicacao = '$id_medicacao'");
@@ -29,7 +28,7 @@ if (!isset($_SESSION["usuario"])){
 
         $prep->execute();
         
-        header("Location: informacao_saude.php?id_fichamedica=$id_fichamedica");
+        header("Location: profile_paciente.php?id_fichamedica=$id_fichamedica");
     } catch (PDOException $e) {
         echo("Houve um erro ao realizar o upload do exame:<br><br>$e");
     }

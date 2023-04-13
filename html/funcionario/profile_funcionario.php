@@ -124,7 +124,6 @@
     <link rel="stylesheet" href="../../assets/stylesheets/theme-custom.css">
     <!-- Head Libs -->
     <script src="../../assets/vendor/modernizr/modernizr.js"></script>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     <!-- Vendor -->
     <script src="../../assets/vendor/jquery/jquery.min.js"></script>
     <script src="../../assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
@@ -299,7 +298,6 @@
       $(function() 
       {
         var funcionario = <?= $func ?>;
-        console.log(funcionario);
         $.each(funcionario, function(i, item) 
         {
           //Informações pessoais
@@ -780,9 +778,10 @@
                           $foto = WWW . "img/semfoto.png";
                         }
                       }
-                      echo "<img src='$foto' id='imagem' class='rounded img-responsive' alt='John Doe'>";
+                      echo "<img src='$foto' style='margin-bottom: 15px;' id='imagem' class='rounded img-responsive' alt='John Doe'>";
                     ?>
-                    <i class="fas fa-camera-retro btn btn-info btn-lg" data-toggle="modal" data-target="#myModal"></i>
+                    <button class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal"><i class="fa fa-camera-retro"></i></button>
+                    
                     <div class="container">
                       <div class="modal fade" id="myModal" role="dialog">
                         <div class="modal-dialog">
@@ -1087,16 +1086,16 @@
                           </div>
                         </div>
                         <div class="form-group">
-                        <label class="col-md-3 control-label" for="profileCompany">Data de Admissão</label>
-                        <div class="col-md-6">
-                          <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data_admissao" id="data_admissao" max=<?php echo date('Y-m-d'); ?>>
-                        </div>
-                      </form>
-                      <div class="form-group">
-                        <label class="col-md-3 control-label" for="inputSuccess">Situação</label>
-                          <a onclick="adicionar_situacao()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
+                          <label class="col-md-3 control-label" for="profileCompany">Data de Admissão</label>
                           <div class="col-md-6">
-                            <select class="form-control input-lg mb-md" name="situacao" id="situacao">
+                            <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data_admissao" id="data_admissao" max=<?php echo date('Y-m-d'); ?>>
+                          </div>
+                        </form>
+                        </div>
+                      <div class="form-group">
+                        <label class="col-md-3 control-label" style='text-align: right; margin-top: 10px;' for="situacao">Situação</label>
+                          <div class="col-md-6">
+                            <select class="form-control input-lg mb-md"  name="situacao" id="situacao">
                               <option selected disabled>Selecionar</option>
                               <?php
                                 while ($row = $situacao->fetch_array(MYSQLI_NUM)) 
@@ -1106,10 +1105,10 @@
                               ?>
                             </select>
                           </div>
+                          <a onclick="adicionar_situacao()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
                       </div>
                       <div class="form-group">
-                        <label class="col-md-3 control-label" for="inputSuccess">Cargo</label>
-                          <a onclick="adicionar_cargo()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
+                        <label class="col-md-3 control-label" style='text-align: right;  margin-top: 10px;' for="inputSuccess">Cargo</label>
                           <div class="col-md-6">
                             <select class="form-control input-lg mb-md" name="cargo" id="cargo">
                               <option selected disabled>Selecionar</option>
@@ -1121,6 +1120,7 @@
                               ?>
                             </select>
                           </div>
+                          <a onclick="adicionar_cargo()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
                       </div>
                       <input type="hidden" name="id_funcionario" value=<?php echo $_GET['id_funcionario'] ?>>
                       <button type="button" class="btn btn-primary" id="botaoEditarOutros" onclick="return editar_outros()">Editar</button>
@@ -1262,7 +1262,6 @@
                                 {
                                   var argsAdicional = "action=idInfoAdicional";
                                   var argsdesc = "action=selectDescricao";
-                                  console.log(lista[0]);
                                   var vetor = new Array;
                                   $.ajax(
                                   {
@@ -1286,6 +1285,7 @@
                                           dataType: 'json',
                                           success: function(res)
                                           {
+                                            $("#datatable-addInfo").find(".dataTables_empty").hide();
                                               var id = res['max(idfunncionario_outrasinfo)'];
                                               $("#addInfo-tab")
                                                 .append($("<tr id="+ id +">")
