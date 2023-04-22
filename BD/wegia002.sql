@@ -106,8 +106,20 @@ INSERT INTO `recurso` (`id_recurso`, `descricao`) VALUES
 ('5', 'Módulo Saúde'),
 ('51', 'Criar ficha médica'),
 ('52', 'Ficha do paciente'),
+('6', 'Módulo Pet'),
+('61', 'Cadastrar Pet'),
+('62', 'Saúde Pet'),
 ('9', 'Configurações'),
 ('91', 'Permissões');
+
+
+INSERT INTO `modulos_visiveis` (`id_recurso`, `visivel`) VALUES
+(1, 1),
+(2, 1),
+(3, 1),
+(4, 1),
+(5, 1),
+(6, 1);
 
 INSERT INTO `permissao` (`id_cargo`, `id_acao`, `id_recurso`) VALUES
 (1, 7, 1),
@@ -115,6 +127,7 @@ INSERT INTO `permissao` (`id_cargo`, `id_acao`, `id_recurso`) VALUES
 (1, 7, 3),
 (1, 7, 4),
 (1, 7, 5),
+(1, 7, 6),
 (1, 7, 9),
 (1, 7, 11),
 (1, 7, 12),
@@ -124,6 +137,10 @@ INSERT INTO `permissao` (`id_cargo`, `id_acao`, `id_recurso`) VALUES
 (1, 7, 23),
 (1, 7, 24),
 (1, 7, 25),
+(1, 7, 51),
+(1, 7, 52),
+(1, 7, 61),
+(1, 7, 62),
 (1, 7, 91);
 
 INSERT INTO `sistema_pagamento` (`id`, `nome_sistema`) VALUES 

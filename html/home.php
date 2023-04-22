@@ -58,6 +58,11 @@
 	<!-- Vendor -->
 	<script src="../assets/vendor/jquery/jquery.min.js"></script>
 
+	<style>
+		div#category-row > a:not(.visivel){ /* Faz com que apenas os selecionados por verificar_modulos se tornem visíveis*/
+			display: none !important;
+		}
+	</style>
 
 	<script type="text/javascript">
 		$(function () {
@@ -145,6 +150,26 @@
 		que aparecerem em seguida farão parte da segunda camada (category-row-second).
 		Caso o usuário clique em outro botão que não seja um link para outra página, ele irá para a terceira camada (category-row-third).*/
 	});
+
+	$(document).ready(function(){
+	verificar_modulos();
+	})
+	function verificar_modulos(){
+		let url = "../dao/verificar_modulos_visiveis.php";
+		$.ajax({
+			type: "POST",
+			url: url,
+			success: function(response){
+			var visiveis = JSON.parse(response);
+			console.log(visiveis);
+			for(visivel of visiveis){
+			$("#home"+visivel).addClass("visivel");
+			}
+		},
+	dataType: 'text'
+	});
+	}
+
 	</script>
 	<script>
 
@@ -214,14 +239,14 @@
 					  </div>');
 					}
 				?>
-					<a href="#">
+					<a id="home1" href="#">
 						<div class="col-lg-2 col-md-8 i category-item" data-toggle="collapse" href="#pessoas" >
 							<i class="far fa-address-book"></i>
 							<h4>Pessoas</h4>
 						</div>
 					</a>
 
-					<a href="#">
+					<a id="home6" href="#">
 						<div class="col-lg-2 col-md-8 i category-item" data-toggle="collapse" href="#pet">
 							<i  class="fa fa-paw"></i>
 							<h4>Pet</h4>
@@ -229,14 +254,14 @@
 						</div>
 					</a>
 
-					<a href="#">
+					<a id="home2" href="#">
 						<div class="col-lg-2 col-md-8 i category-item" data-toggle="collapse" href="#material">
 							<i  class="fa fa-cubes"></i>
 							<h4>Material e Patrimônio</h4>
 						</div>
 					</a>
 					<!--onclick="window.location.href = '../memorando/envio.php'"-->
-					<a href="#">
+					<a id="home3" href="#">
 						<div class="col-lg-2 col-md-8 i category-item" data-toggle="collapse" href="#memorando">
 							<i  class="fa fa-book"></i>
 							<h4>Memorando
@@ -244,7 +269,7 @@
 						</div>
 					</a>
 
-					<a href="#">
+					<a id="home4" href="#">
 						<div class="col-lg-2 col-md-8 i category-item" data-toggle="collapse" href="#socios">
 							<i  class="fa fa-users"></i>
 							<h4>Sócios
@@ -252,14 +277,14 @@
 						</div>
 					</a>
 
-					<a href="#">
+					<a id="home5" href="#">
 					<div class="col-lg-2 col-md-8 i category-item" data-toggle="collapse" href="#saude">
 							<i class="fas fa-hospital-user"></i>
 							<h4>Saúde</h4>
 						</div>
 					</a>
 
-					<a href="#">
+					<a class="visivel" href="#">
 						<div class="col-lg-2 col-md-8 i category-item" data-toggle="collapse" href="#configuracao">
 							<i  class="fa fa-cogs"></i>
 							<h4>Configurações</h4>
@@ -704,7 +729,13 @@
 								<i  class="fa fa-key"></i>
 								<h4>Permissões</h4>
 							</div>
-						</a>					
+						</a>	
+						<a href="../html/geral/modulos_visiveis.php">
+							<div class="col-lg-2 col-md-8 i" >
+								<i class="fa fa-eye"></i>
+								<h4>Módulos Visíveis</h4>
+							</div>
+						</a> 				
 					</div>
 				</div>
 				<!--fim da parte interna de #configuracao-->

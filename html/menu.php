@@ -12,6 +12,41 @@
 
 	session_start();
 ?>
+<style>
+	ul.nav-main > li:not(.visivel){ /* Faz com que apenas os selecionados por verificar_modulos se tornem visíveis*/
+	display: none !important;
+	}
+</style>
+<script type="text/javascript">
+	$(document).ready(function(){
+	verificar_modulos();
+	})
+	function verificar_modulos(){
+		let tentativas = 0;
+		let url = "../dao/verificar_modulos_visiveis.php";
+		$.ajax({
+			type: "POST",
+			url: url,
+			success: function(response){
+			var visiveis = JSON.parse(response);
+			for(visivel of visiveis){
+			$("#"+visivel).addClass("visivel");
+			}
+		},
+	error: function(xhr, status, error){
+	if(xhr.status == 404){
+		if(tentativas < 10){
+			url = `../${url}`;
+			this.url = url;
+			$.ajax(this);
+			tentativas++;
+		}
+	}
+	},
+	dataType: 'text'
+	});
+	}
+</script>
 	<div class="sidebar-header">
 		<div class="sidebar-title">
 			Menu
@@ -25,7 +60,7 @@
 		<div class="nano-content" tabindex="0" style="right: -17px;display: flex;flex-direction: column;justify-content: space-between; padding-bottom: 0;">
 			<nav id="menu" class="nav-main" role="navigation">
 				<ul class="nav nav-main">
-					<li>
+					<li class="visivel">
 						<a href="<?= WWW ?>html/home.php">
 							<i class="fa-solid fa-home" aria-hidden="true"></i>
 							<span>Início</span>
@@ -44,7 +79,7 @@
 									<i class="fa fa-briefcase" aria-hidden="true"></i>
 									<span>Funcionários</span>
 								</a>
-								<ul class="nav nav-children" id="11">
+								<ul class="nav nav-children">
 									<li>
 										<a href="<?= WWW ?>html/funcionario/pre_cadastro_funcionario.php">
 											<span>Cadastrar Funcionário</span>
@@ -62,7 +97,7 @@
 									<i class="fa fa-user" aria-hidden="true"></i>
 									<span>Atendidos</span>
 								</a>
-								<ul class="nav nav-children" id="12">
+								<ul class="nav nav-children">
 									<li>
 										<a href="<?= WWW ?>html/atendido/pre_cadastro_atendido.php">
 											<span>Cadastrar Atendido</span>
@@ -80,7 +115,7 @@
 									<i class="fa fa-address-book" aria-hidden="true"></i>
 									<span>Ocorrências</span>
 								</a>
-								<ul class="nav nav-children" id="13">
+								<ul class="nav nav-children">
 									<li>
 										<a href="<?= WWW ?>controle/control.php?metodo=listarTodos&nomeClasse=AtendidoControle&nextPage=<?= WWW ?>html/atendido/cadastro_ocorrencia.php">
 											<span>Cadastrar Ocorrências</span>
@@ -114,7 +149,7 @@
 									<span>Informações Pets</span>
 								</a>
 							</li>
-							<li class="nav-parent nav-active" id="61">
+							<li class="nav-parent nav-active" >
 								<a>
 									<i class="fa fa-ambulance" aria-hidden="true"></i>
 									<span>Saúde Pet</span>
@@ -132,7 +167,7 @@
 										</a>
 									</li>
 
-									<li class="nav-parent nav-active" id="62">
+									<li class="nav-parent nav-active">
 										<a>
 											<i class="fa fa-pills" aria-hidden="true"></i>
 											<span>Medicamentos</span>
@@ -164,7 +199,7 @@
 						</a>
 
 						<ul class="nav nav-children">
-							<li class="nav-parent nav-active" id="21">
+							<li class="nav-parent nav-active">
 								<a>
 									<i class="fas fa-circle-arrow-down" aria-hidden="true"></i>
 									<span>Entrada</span>
@@ -184,7 +219,7 @@
 								</ul>
 							</li>
 
-							<li class="nav-parent nav-active" id="22">
+							<li class="nav-parent nav-active" >
 								<a>
 									<i class="fas fa-circle-arrow-up" aria-hidden="true"></i>
 									<span>Saída</span>
@@ -204,7 +239,7 @@
 								</ul>
 							</li>
 
-							<li class="nav-parent nav-active" id="23">
+							<li class="nav-parent nav-active" >
 								<a>
 									<i class="fa fa-boxes" aria-hidden="true"></i>
 									<span>Estoque</span>
@@ -217,7 +252,7 @@
 											<span>Gerar Relatório</span>
 										</a>
 									</li>
-									<li class="nav-parent nav-active" id="24">
+									<li class="nav-parent nav-active" >
 										<a>
 											<i class="fa fa-box" aria-hidden="true"></i>
 											<span>Produtos</span>
@@ -230,7 +265,7 @@
 											</li>
 										</ul>
 									</li>
-									<li class="nav-parent nav-active" id="25">
+									<li class="nav-parent nav-active" >
 										<a>
 											<i class="fa fa-warehouse" aria-hidden="true"></i>
 											<span>Almoxarifados</span>
@@ -254,7 +289,7 @@
 					</ul>
 
 					</li>
-					<li class="nav-parent nav-active">
+					<li class="nav-parent nav-active" id="3">
 						<a>
 							<i class="fa fa-book" aria-hidden="true"></i>
 							<span>Memorando</span>
@@ -281,7 +316,7 @@
 						</ul>
 					</li>
 					
-					<li class="nav-parent nav-active">
+					<li class="nav-parent nav-active" id="4">
 						<a>
 							<i class="fa fa-users" aria-hidden="true"></i>
 							<span>Sócios</span>
@@ -332,14 +367,14 @@
 						</ul>
 					</li>
 
-					<li class="nav-parent nav-active" id="4">
+					<li class="nav-parent nav-active" id="5">
 						<a>
 							<i class="fa fa-hospital-user" aria-hidden="true"></i>
 							<span>Saúde</span>
 						</a>
 
 						<ul class="nav nav-children">
-							<li class="nav-parent nav-active" id="41">
+							<li class="nav-parent nav-active">
 								<a>
 									<i class="fa fa-user" aria-hidden="true"></i>
 									<span>Paciente</span>
@@ -358,7 +393,7 @@
 								</ul>
 							</li>
 
-							<li class="nav-parent nav-active" id="42">
+							<li class="nav-parent nav-active" >
 								<a>
 									<i class="fa fa-user-md" aria-hidden="true"></i>
 									<span>Enfermaria</span>
@@ -374,55 +409,60 @@
 						</ul>
 					</li>
 
-					<li class="nav-parent nav-active">
+					<li class="nav-parent nav-active visivel">
 						<a>
 							<i class="fa fa-cog" aria-hidden="true"></i>
 							<span>Configurações</span>
 						</a>
 						<ul class="nav nav-children">
-						<li id="41">
+						<li >
 								<a href="<?= WWW ?>html/personalizacao.php">
 									Editar Conteúdo
 								</a>
 							</li>
-							<li id="42">
+							<li >
 								<a href="<?= WWW ?>html/personalizacao_imagem.php">
 									Lista de Imagens
 								</a>
 							</li>
-							<li id="43">
+							<li >
 								<a href="<?= WWW ?>html/configuracao/configuracao_geral.php">
 									Configurações Gerais
 								</a>
 							</li>
-							<li id="44">
+							<li >
 								<a href="<?= WWW ?>html/contribuicao/php/configuracao_doacao.php">
 									Contribuição
 								</a>
 							</li>
-							<li id="45">
+							<li >
 								<a href="<?= WWW ?>html/geral/editar_permissoes.php">
 									Permissões
 								</a>
 							</li>
-							<li id="47">
+							<li >
+								<a href="<?= WWW ?>html/geral/modulos_visiveis.php">
+									Módulos visíveis
+								</a>
+							</li>
+							<li >
 								<a href="<?= WWW ?>html/geral/cargos.php">
 									Cargos
 								</a>
 							</li>
-							<li id="47">
+							<li >
 								<a href="<?= WWW ?>html/geral/documentos_funcionario.php">
 									Documentos Funcionário
 								</a>
 							</li>
-							<li id="46">
+							<li >
 								<a href="<?= WWW ?>html/configuracao/debug_info.php">
 									Informações de debug
 								</a>
 							</li>
 						</ul>
 					</li>
-					<li id="5">
+					<li id="5" class="visivel">
 						<a href="<?= WWW ?>manual/index.php">
 							<i class="fas fa-book" aria-hidden="true"></i>
 							<span>Manual</span>

@@ -565,6 +565,23 @@ CREATE TABLE IF NOT EXISTS `wegia`.`permissao` (
 ENGINE = InnoDB;
 
 
+
+-- -----------------------------------------------------
+-- Table `wegia`.`modulos_visiveis`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `wegia`.`modulos_visiveis`(
+ `id_modulo` INT NOT NULL AUTO_INCREMENT,
+`id_recurso` INT NOT NULL,
+  `visivel` BIT NOT NULL,
+  PRIMARY KEY (`id_modulo`),
+  INDEX `fk_modulos_visiveis_recurso_idx` (`id_recurso` ASC),
+  CONSTRAINT `fk_modulos_visiveis_recurso`
+    FOREIGN KEY (`id_recurso`)
+    REFERENCES `wegia`.`recurso` (`id_recurso`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
 -- -----------------------------------------------------
 -- Table `wegia`.`escala_quadro_horario`
 -- -----------------------------------------------------
