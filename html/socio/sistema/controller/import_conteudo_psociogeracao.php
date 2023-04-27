@@ -23,7 +23,7 @@
 	</style>
 		<!-- start: header -->
 		<header id="header" class="header">
-			
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 		<!-- end: search & user box -->
 		</header>
 		<!-- end: header -->
@@ -125,7 +125,8 @@
 					var socios = <?php
 						echo(json_encode($socios));
 					?>;
-                  $("#id_pesquisa" ).autocomplete({
+					if($("#id_pesquisa").length){
+						$("#id_pesquisa").autocomplete({
 				            source: socios,
 				            response: function(event,ui) {
 				            if (ui.content.length == 1)
@@ -137,6 +138,8 @@
                       }
 			            }
   			        });
+					}
+                  
                 </script>
              			<div style="margin-top: 2em" class="pull-right mt-2">
 							<button type="button" id="btn_gerar_unico" class="btn btn-primary">Próximo</button>

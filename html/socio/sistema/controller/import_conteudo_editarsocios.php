@@ -253,8 +253,8 @@
 <script>
         var sociotipo = <?php echo($socio_tipo); ?>;
         var status = <?php echo($status); ?>;
-        var tag = <?php echo($tag); ?>;
-
+    
+        var tag = <?php if($tag != "" && $tag != null) echo($tag); else echo("''");?>;
         $("#tags").val(tag);
 
         $("#status").val(status);

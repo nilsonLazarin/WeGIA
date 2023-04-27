@@ -161,7 +161,6 @@
 			url: url,
 			success: function(response){
 			var visiveis = JSON.parse(response);
-			console.log(visiveis);
 			for(visivel of visiveis){
 			$("#home"+visivel).addClass("visivel");
 			}

@@ -33,7 +33,7 @@
 			$id_cargo = $id_cargo['id_cargo'];
 		}
 		$resultado = mysqli_query($conexao, "SELECT * FROM permissao WHERE id_cargo=$id_cargo and id_recurso=4");
-		if(!is_bool($resultado) and mysqli_num_rows($resultado)){
+        if(!is_bool($resultado) and mysqli_num_rows($resultado)){
 			$permissao = mysqli_fetch_array($resultado);
 			if($permissao['id_acao'] < 7){
 				$msg = "Você não tem as permissões necessárias para essa página.";
@@ -67,7 +67,7 @@
   <link rel="stylesheet" href="controller/bower_components/font-awesome/css/font-awesome.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="controller/bower_components/Ionicons/css/ionicons.min.css">
-  <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+  <script nomodule="" src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
   <!-- Theme style -->
   <link rel="stylesheet" href="controller/dist/css/AdminLTE.min.css">
   <!-- AdminLTE Skins. Choose a skin from the css/skins

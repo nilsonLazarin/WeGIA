@@ -229,18 +229,20 @@
                 var socios = <?php
                   echo(json_encode($socios));
                 ?>;
-                  $("#socio_nome_ci").autocomplete({
-				            source: socios,
-				            response: function(event,ui) {
-				            if (ui.content.length == 1)
-                      {
-                        ui.item = ui.content[0];
-                        $(this).val(ui.item.value)
-                        $(this).data('ui-autocomplete')._trigger('select', 'autocompleteselect', ui);
-						            $("#socio_nome_ci" ).blur();
-                      }
-			            }
-  			        });
+                  if($("#socio_nome_ci").leght){
+                    $("#socio_nome_ci").autocomplete({
+                      source: socios,
+                      response: function(event,ui) {
+                      if (ui.content.length == 1)
+                        {
+                          ui.item = ui.content[0];
+                          $(this).val(ui.item.value)
+                          $(this).data('ui-autocomplete')._trigger('select', 'autocompleteselect', ui);
+                          $("#socio_nome_ci" ).blur();
+                        }
+                    }
+                  });
+                }
                 </script>
         <div class="form-group col-xs-12">
           <label id="label_cpf_cnpj" for="valor">Local de recepção</label>

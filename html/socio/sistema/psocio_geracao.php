@@ -70,7 +70,7 @@
   <link rel="stylesheet" href="controller/bower_components/font-awesome/css/font-awesome.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="controller/bower_components/Ionicons/css/ionicons.min.css">
-  <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+
   <!-- Theme style -->
   <link rel="stylesheet" href="controller/dist/css/AdminLTE.min.css">
   <!-- AdminLTE Skins. Choose a skin from the css/skins
