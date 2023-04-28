@@ -23,7 +23,7 @@
 	})
 	function verificar_modulos(){
 		let tentativas = 0;
-		let url = "../dao/verificar_modulos_visiveis.php";
+		let url = "<?php echo WWW;?>dao/verificar_modulos_visiveis.php";
 		$.ajax({
 			type: "POST",
 			url: url,
@@ -33,16 +33,6 @@
 			$("#"+visivel).addClass("visivel");
 			}
 		},
-	error: function(xhr, status, error){
-	if(xhr.status == 404){
-		if(tentativas < 10){
-			url = `../${url}`;
-			this.url = url;
-			$.ajax(this);
-			tentativas++;
-		}
-	}
-	},
 	dataType: 'text'
 	});
 	}

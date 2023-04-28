@@ -284,7 +284,6 @@
         }
 
         if(sociotipo >= 0  && sociotipo <= 13){
-          
           console.log("boleto");
         }else if(sociotipo >= 10 && sociotipo <= 31){
           $("#tipo_contribuicao").val("2");
