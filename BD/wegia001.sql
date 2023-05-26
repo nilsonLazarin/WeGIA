@@ -1288,7 +1288,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `wegia`.`saude_fichamedica` (
   `id_fichamedica` INT NOT NULL AUTO_INCREMENT,
   `id_pessoa` INT(11) NOT NULL UNIQUE,
-  `descricao` VARCHAR(500) NULL,
+  `descricao` VARCHAR(2000) NULL,
   PRIMARY KEY (`id_fichamedica`),
   INDEX `fk_saude_fichamedica_pessoa1_idx` (`id_pessoa` ASC),
   CONSTRAINT `fk_saude_fichamedica_pessoa1`
@@ -1297,6 +1297,23 @@ CREATE TABLE IF NOT EXISTS `wegia`.`saude_fichamedica` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `wegia`.`saude_fichamedica_descricoes`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `wegia`.`saude_fichamedica_descricoes` (
+  `id_descricao` INT NOT NULL AUTO_INCREMENT,
+  `id_fichamedica` INT(11) NOT NULL, 
+  `descricao` VARCHAR(1000) NOT NULL, 
+  PRIMARY KEY (`id_descricao`), 
+  INDEX fk_ficha_medica_descricoes_ficha_medica_idx (`id_fichamedica` ASC), 
+  CONSTRAINT fk_fichamedica_descricoes_fichamedica
+    FOREIGN KEY (`id_fichamedica`) REFERENCES `wegia`.`saude_fichamedica` (`id_fichamedica`) 
+    ON DELETE CASCADE 
+    ON UPDATE CASCADE)
+ ENGINE = InnoDB;
+
 
 
 -- -----------------------------------------------------
@@ -1327,6 +1344,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`saude_enfermidades` (
     FOREIGN KEY (`id_fichamedica`)
     REFERENCES `wegia`.`saude_fichamedica` (`id_fichamedica`)
     ON DELETE NO ACTION
+
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_saude_enfermidades_saude_CID1`
     FOREIGN KEY (`id_CID`)
@@ -1783,7 +1801,7 @@ USE `wegia` ;
 -- cria cadastro de ficha médica para pessoa
 
 DELIMITER $$
-CREATE PROCEDURE saude_cad_fichamedica(IN codpessoa INT, IN resumomedico VARCHAR(500))
+CREATE PROCEDURE saude_cad_fichamedica(IN codpessoa INT, IN resumomedico VARCHAR(2000))
 	INSERT INTO saude_fichamedica(id_fichamedica, id_pessoa, descricao) VALUES (NULL, codpessoa, resumomedico)$$
 DELIMITER ;
 

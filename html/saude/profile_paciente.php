@@ -84,9 +84,13 @@ header("Location: ../home.php?msg_c=$msg");
   }
   $docfuncional = json_encode($docfuncional);
 
-  $enfermidades = $pdo->query("SELECT sf.id_CID, sf.data_diagnostico, sf.status, stc.descricao FROM saude_enfermidades sf JOIN saude_tabelacid stc ON sf.id_CID = stc.id_CID WHERE sf.status = 1 AND id_fichamedica= ".$_GET['id_fichamedica']);
+  $enfermidades = $pdo->query("SELECT sf.id_CID, sf.data_diagnostico, sf.status, stc.descricao FROM saude_enfermidades sf JOIN saude_tabelacid stc ON sf.id_CID = stc.id_CID WHERE stc.CID NOT LIKE 'T78.4%' AND sf.status = 1 AND id_fichamedica= ".$_GET['id_fichamedica']);
   $enfermidades = $enfermidades->fetchAll(PDO::FETCH_ASSOC);
   $enfermidades = json_encode($enfermidades);
+
+  $alergias = $pdo->query("SELECT sf.id_CID, sf.data_diagnostico, sf.status, stc.descricao FROM saude_enfermidades sf JOIN saude_tabelacid stc ON sf.id_CID = stc.id_CID WHERE stc.CID LIKE 'T78.4%' AND sf.status = 1 AND id_fichamedica= ".$_GET['id_fichamedica']);
+  $alergias = $alergias->fetchAll(PDO::FETCH_ASSOC);
+  $alergias = json_encode($alergias);
 
   $descricao_medica = $pdo->query("SELECT descricao, data_atendimento FROM saude_atendimento WHERE id_fichamedica= ".$_GET['id_fichamedica']);
   $descricao_medica = $descricao_medica->fetchAll(PDO::FETCH_ASSOC);
@@ -107,7 +111,9 @@ header("Location: ../home.php?msg_c=$msg");
   $medaplicadas = json_encode($medaplicadas);
 
   $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-  $tabelacid = $mysqli->query("SELECT * FROM saude_tabelacid");
+  $tabelacid_enfermidades = $mysqli->query("SELECT * FROM saude_tabelacid WHERE CID NOT LIKE 'T78.4%'");
+  $tabelacid_alergias = $mysqli->query("SELECT * FROM saude_tabelacid WHERE CID LIKE 'T78.4%'");
+  $ultima_alergia = $mysqli->query("SELECT * FROM saude_tabelacid WHERE CID LIKE 'T78.4%' ORDER BY CID DESC LIMIT 1");
   $cargoMedico = $mysqli->query("SELECT * FROM pessoa p JOIN funcionario f ON (p.id_pessoa=f.id_pessoa) WHERE f.id_cargo = 3");
   $cargoEnfermeiro = $mysqli->query("SELECT * FROM pessoa p JOIN funcionario f ON (p.id_pessoa=f.id_pessoa) WHERE f.id_cargo = 4");
   $tipoexame = $mysqli->query("SELECT * FROM saude_exame_tipos");
@@ -159,8 +165,7 @@ header("Location: ../home.php?msg_c=$msg");
           localStorage.setItem("id_ficha_medica",'null')
            
             $("#header").load("../header.php");
-            $(".menuu").load("../menu.php");
-            //CKEDITOR.replace('despacho');
+            $(".menuu").load("../menu.php");            
 
             var editor = CKEDITOR.replace('despacho');
             editor.on('required', function(e){
@@ -335,17 +340,30 @@ header("Location: ../home.php?msg_c=$msg");
           // enfermidade //
           $(function() {
           var enfermidades = <?= $enfermidades ?>;
-          $.each(enfermidades, function(i, item) {
-            $("#doc-tab")
-              .append($("<tr>")
-                .append($("<td>").text(item.descricao))
-                .append($("<td>").text(item.data_diagnostico))
-                .append($("<td style='display: flex; justify-content: space-evenly;'>")
-                  .append($("<a onclick='removerEnfermidade("+item.id_CID+")' href='#' title='Inativar'><button class='btn btn-dark'><i class='glyphicon glyphicon-remove'></i></button></a>"))
-                 
+          console.log(enfermidades);
+            $.each(enfermidades, function(i, item) {
+              $("#doc-tab")
+                .append($("<tr>")
+                  .append($("<td>").text(item.descricao))
+                  .append($("<td>").text(item.data_diagnostico))
+                  .append($("<td style='display: flex; justify-content: space-evenly;'>")
+                    .append($("<a onclick='removerEnfermidade("+item.id_CID+")' href='#' title='Inativar'><button class='btn btn-dark'><i class='glyphicon glyphicon-remove'></i></button></a>"))
+                  
+                  )
                 )
-              )
-            });
+              });
+
+           let alergias = <?= $alergias ?>;
+            $.each(alergias, function(i, item) {
+              $("#doc-tab-alergias")
+                .append($("<tr>")
+                  .append($("<td>").text(item.descricao))
+                  .append($("<td style='display: flex; justify-content: space-evenly;'>")
+                    .append($("<a onclick='removerEnfermidade("+item.id_CID+")' href='#' title='Inativar'><button class='btn btn-dark'><i class='glyphicon glyphicon-remove'></i></button></a>"))
+                  
+                  )
+                )
+              });
           });
         
           function listarEnfermidades(enfermidades){
@@ -584,8 +602,6 @@ header("Location: ../home.php?msg_c=$msg");
                             <option value="AB-">AB-</option>
                           </select>
                         </div>
-
-
                       <!-- </div> -->
                       <input type="hidden" name="id_fichamedica" value=<?php echo $_GET['id_fichamedica'] ?>>
                      <!-- <div class="col-md-9 col-md-offset-3"> -->
@@ -598,6 +614,59 @@ header("Location: ../home.php?msg_c=$msg");
                       <!-- </div>   -->
                       
                      </div>
+                    
+                        <div class="form-group" id="exibiralergias">
+                          <table class="table table-bordered table-striped" id="datatable-alergias">
+                            <thead>
+                              <tr style="font-size:15px;">
+                                <th>Alergias</th>    
+                                </tr>
+                            </thead>
+                            <tbody id="doc-tab-alergias">
+                            </tbody>
+                          </table>
+                          <br>
+                         
+                          <form action ='alergia_upload.php' method='post' id='funcionarioDoc'>
+                            <div class='col-md-12' id="div_alergia" style="display: none;">
+                              <div class="form-group">
+                                  <label class="col-md-3 control-label" for="inputSuccess">Alergias</label>                    
+                                  <div class="col-md-6">
+                                    <select class="form-control input-lg mb-md" name="id_CID_alergia" id="id_CID_alergia">
+                                      <option selected disabled>Selecionar</option>
+                                      <?php
+                                       $alergias_decoded = json_decode($alergias, true);
+                                      while ($row = $tabelacid_alergias->fetch_array(MYSQLI_NUM)) {
+                                        $rowIdCID = $row[0];
+                                        $found = false;
+                                        foreach($alergias_decoded as $alergia){
+                                          var_dump($alergia['id_CID']);
+                                          if(isset($alergia['id_CID']) && $alergia['id_CID'] == $rowIdCID){
+                                            $found = true;
+                                            break;
+                                          }
+                                        }
+                                        if(!$found)
+                                        {
+                                           echo "<option value=" . $row[0] . ">" . $row[2] . "</option>";
+                                        }
+                                      }?>
+                                    </select>
+                                  </div>
+                                <a onclick="adicionar_alergia()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
+                                <!-- <input type="number" name="id_fichamedica" value="<?= $_GET['id_fichamedica']; ?>" style='display: none;'> -->
+                                
+                              </div>
+                              <div class="form-group">
+                                <input type="button" onclick="alergia_upload()" class="btn btn-primary" id="salvarAlergia" value="Salvar" style="display: none;">
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                                       
+                    <br>
+                    <br>
+
                      <div class="col-md-12">
                         <table class="table table-bordered table-striped mb-none">
                         <thead>
@@ -659,7 +728,7 @@ header("Location: ../home.php?msg_c=$msg");
                       <select class="form-control input-lg mb-md" name="id_CID" id="id_CID" required>
                         <option selected disabled>Selecionar</option>
                         <?php
-                        while ($row = $tabelacid->fetch_array(MYSQLI_NUM)) {
+                        while ($row = $tabelacid_enfermidades->fetch_array(MYSQLI_NUM)) {
                           echo "<option value=" . $row[0] . ">" . $row[2] . "</option>";
                         }                            ?>
                       </select>
@@ -913,14 +982,7 @@ header("Location: ../home.php?msg_c=$msg");
                    <div class="form-group">
                      <label class="col-md-3 control-label" for="profileCompany" for="texto">Descrição:<sup class="obrig">*</sup></label>
                        <div class='col-md-6' id='div_texto' style="height: 499px;">
-                        <textarea cols='30' rows='3' id='despacho' name='texto' class='form-control' value="teste" placeholder="teste" required></textarea>
-                        <!-- <script>
-
-				                CKEDITOR.replace( 'texto', {
-                        extraPlugins: 'placeholder'
-                        });
-
-		                	</script> -->
+                        <textarea cols='30' rows='3' id='despacho' name='texto' class='form-control' value="teste" placeholder="teste" required></textarea>                        
                         </div>
                       </div>
 
@@ -1223,6 +1285,20 @@ header("Location: ../home.php?msg_c=$msg");
             } 
 
 
+            //Adicionar alergias
+            $(document).ready(function(){
+              $("#exibiralergias").append("<div class='col-md-6'><input type='button' class='btn btn-success' value='Adicionar alergia' id='addAlergia'></div>");
+              $("#addAlergia").on('click', function(){
+                $("#addAlergia").hide();
+                $("#div_alergia").css("display","block");
+                $("#salvarAlergia").css("display","block");
+              })
+            });
+
+
+
+
+
             function gerarExame() {
             url = 'exibir_exame.php';
             $.ajax({
@@ -1269,7 +1345,6 @@ header("Location: ../home.php?msg_c=$msg");
 
 
           function gerarEnfermidade() {
-            console.log("entrou")
             url = 'exibir_enfermidade.php';
             $.ajax({
               data: '',
@@ -1316,6 +1391,70 @@ header("Location: ../home.php?msg_c=$msg");
           }
           
 
+
+          function gerar_alergia(){
+            url = 'exibir_alergia.php';
+            $.ajax({
+              data: '',
+              type: "POST",
+              url: url,
+              async: true,
+              success: function(response) {
+                var situacoes_alergia = response;
+                let alergias = <?= $alergias;?>;
+                console.log(alergias)
+                console.log(situacoes_alergia);
+                $('#id_CID_alergia').empty();
+                $('#id_CID_alergia').append('<option selected disabled>Selecionar</option>');
+                $.each(situacoes_alergia, function(i, item) {
+                  if(!(alergias.includes(item))){
+                    console.log(item);
+                    $('#id_CID_alergia').append('<option value="' + item.id_CID + '">' + item.descricao + '</option>');
+
+                  }
+                  
+                   
+                });
+              },
+              dataType: 'json'
+            });
+          }
+
+
+          function adicionar_alergia() {
+            url = 'adicionar_alergia.php';
+            let nome_alergia = window.prompt("Insira o nome da alergia:");
+
+            if (!nome_alergia || nome_alergia == '') {
+              return;
+            }
+            data = {nome:nome_alergia};
+            $.ajax({
+              type: "POST",
+              url: url,
+              data: data,
+              success: function(response) {
+                gerar_alergia();
+              },
+              error: function(response){
+                console.log(response);
+              },
+            })
+          }
+
+          function alergia_upload(){
+            url = 'alergia_upload.php';
+            let id_CID_alergia = $("#id_CID_alergia").val();
+            let id_fichamedica = "<?= $_GET['id_fichamedica']; ?>" ;
+            let data ={id_CID_alergia:id_CID_alergia, id_fichamedica:id_fichamedica};
+            $.post({
+              url: url,
+              data: data,
+              success: function(response){
+                location.reload();
+              }
+            })  
+          }
 
             // codigo para inserir medicacao na tabela do medico
             $(function(){
@@ -1387,8 +1526,6 @@ header("Location: ../home.php?msg_c=$msg");
                   })
 
                 });
-
-           
         </script>
         
         <!-- Vendor -->

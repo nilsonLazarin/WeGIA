@@ -254,25 +254,6 @@ require_once ROOT."/html/personalizacao_display.php";
         });
       }
 
-      function adicionar_cargo(){
-        url = '../../dao/adicionar_cargo.php';
-        var cargo = window.prompt("Cadastre um Novo Cargo:");
-        if(!cargo){return}
-        situacao = cargo.trim();
-        if(cargo == ''){return}              
-        
-          data = 'cargo=' +cargo; 
-          $.ajax({
-          type: "POST",
-          url: url,
-          data: data,
-          success: function(response){
-            gerarCargo();
-          },
-          dataType: 'text'
-        })
-      }
-
 	  function verificar_modulos(){
           url = '../../dao/verificar_modulos_visiveis.php';
           $.ajax({

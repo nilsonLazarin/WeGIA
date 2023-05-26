@@ -259,6 +259,11 @@ INSERT INTO `saude_exame_tipos` (`id_exame_tipo`, `descricao`) VALUES
 (14, 'TGO'),
 (15, 'TGP');
 
+-- Inserir as descrições existentes na tabela `saude_fichamedica` na tabela `saude_fichamedica_descricoes`
+INSERT INTO `wegia`.`saude_fichamedica_descricoes` (`id_fichamedica`, `descricao`)
+SELECT `id_fichamedica`, `descricao`
+FROM `wegia`.`saude_fichamedica`
+WHERE `descricao` IS NOT NULL;
 
 INSERT INTO `saude_medicacao_status` (`descricao`) VALUES ('Em tratamento'), ('Concluído') , ('Substituído'), ('Cancelado');
 
