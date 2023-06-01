@@ -100,7 +100,7 @@ header("Location: ../home.php?msg_c=$msg");
   $exibimed = $exibimed->fetchAll(PDO::FETCH_ASSOC);
   $exibimed = json_encode($exibimed);
 
-  $prontuariopublico = $pdo->query("SELECT descricao FROM saude_fichamedica WHERE id_fichamedica= ".$_GET['id_fichamedica']);
+  $prontuariopublico = $pdo->query("SELECT descricao FROM saude_fichamedica_descricoes WHERE id_fichamedica= ".$_GET['id_fichamedica']);
   $prontuariopublico = $prontuariopublico->fetchAll(PDO::FETCH_ASSOC);
   $prontuariopublico = json_encode($prontuariopublico);
 
@@ -340,7 +340,6 @@ header("Location: ../home.php?msg_c=$msg");
           // enfermidade //
           $(function() {
           var enfermidades = <?= $enfermidades ?>;
-          console.log(enfermidades);
             $.each(enfermidades, function(i, item) {
               $("#doc-tab")
                 .append($("<tr>")
@@ -434,12 +433,14 @@ header("Location: ../home.php?msg_c=$msg");
             
           $(function() {
           var prontuariopublico = <?= $prontuariopublico ?>;
+          stringConcatenada = "";
           $.each(prontuariopublico, function(i, item) {
-            $("#prontuario_publico")
-              .append($("<tr>")
-                .append($("<td>").html(item.descricao))
-              )
+            stringConcatenada += item.descricao; 
             });
+          $("#prontuario_publico")
+              .append($("<tr>")
+                .append($("<td>")).html(stringConcatenada)
+          )
           });
 
         function escrevermed() {

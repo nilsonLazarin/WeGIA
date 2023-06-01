@@ -19,13 +19,13 @@ class SaudeDAO
     public function incluir($saude)
     {               
         try {
-            $sql = "call saude_cad_fichamedica(:nome,:descricao)";
+            $sql = "call saude_cad_fichamedica(:nome,null)";
             $pdo = Conexao::connect();
             $stmt = $pdo->prepare($sql);
             $nome=$saude->getNome();
-            $descricao=$saude->getTexto();
+           // $descricao=$saude->getTexto();
             $stmt->bindParam(':nome',$nome);
-            $stmt->bindParam(':descricao',$descricao);
+           // $stmt->bindParam(':descricao',null);
             $stmt->execute();
             $pdo->commit();
             $pdo->close();

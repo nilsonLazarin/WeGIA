@@ -13,20 +13,20 @@ if(file_exists($config_path)){
 //include_once "/dao/Conexao.php";
 require_once ROOT.'/classes/Saude.php';
 require_once ROOT.'/dao/SaudeDAO.php';
+require_once 'DescricaoControle.php';
 require_once ROOT.'/classes/Documento.php';
 require_once ROOT.'/dao/DocumentoDAO.php';
 require_once 'DocumentoControle.php';
 include_once ROOT.'/classes/Cache.php';
-
 include_once ROOT."/dao/Conexao.php";
 
 class SaudeControle 
 {   
     public function verificar(){
             extract($_REQUEST);
-            
+
             if((!isset($texto)) || (empty($texto))){
-                $msg .= "Descricao do paciente não informado. Por favor, informe a descricao!";
+                $msg .= "Descricao do paciente não informada. Por favor, informe a descricao!";
                 header('Location: ../html/saude/cadastro_ficha_medica.php?msg='.$msg); 
             }
             if((!isset($cpf)) || (empty($cpf))){
@@ -112,6 +112,7 @@ class SaudeControle
     // aq era atendidos
     public function listarTodos(){
         extract($_REQUEST);
+
         $SaudeDAO= new SaudeDAO();
         $pacientes = $SaudeDAO->listarTodos();
         session_start();
@@ -157,21 +158,24 @@ class SaudeControle
 
     public function incluir(){
         $saude = $this->verificar();
+        $texto_descricao = $saude->$texto;
+        $id_pessoa = $saude->$nome;       
         $intDAO = new SaudeDAO();
-        //$docDAO = new DocumentoDAO();
-
+        $descricao = new DescricaoControle();
+        
         try{
             $idsaude=$intDAO->incluir($saude);
+            $descricao->incluir($texto_descricao);
             $_SESSION['msg']="Ficha médica cadastrada com sucesso!";
             $_SESSION['proxima']="Cadastrar outra ficha.";
             $_SESSION['link']="../html/saude/cadastro_ficha_medica.php";
             header("Location: ../html/saude/informacao_saude.php");
-            // header("Location: ../dao/AtendidoDAO.php");
         } catch (PDOException $e){
             $msg= "Não foi possível registrar o paciente <form> <input type='button' value='Voltar' onClick='history.go(-1)'> </form>"."<br>".$e->getMessage();
             echo $msg;
         }
     }
+    
     public function alterarInfPessoal()
     {
         extract($_REQUEST);
