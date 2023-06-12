@@ -93,12 +93,12 @@ class SaudeDAO
         try{
             $pacientes=array();
             $pdo = Conexao::connect();
-            $consulta = $pdo->query("SELECT s.id_fichamedica,p.imagem,p.nome,s.descricao,p.sobrenome FROM pessoa p INNER JOIN saude_fichamedica s ON s.id_pessoa = p.id_pessoa");
+            $consulta = $pdo->query("SELECT s.id_fichamedica,p.imagem,p.nome,p.sobrenome FROM pessoa p INNER JOIN saude_fichamedica s ON s.id_pessoa = p.id_pessoa");
             // $produtos = Array();
             $x=0;
             while($linha = $consulta->fetch(PDO::FETCH_ASSOC)){
             
-                $pacientes[$x]=array('id_fichamedica'=>$linha['id_fichamedica'], 'imagem'=>$linha['imagem'],'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'descricao'=>$linha['descricao']);
+                $pacientes[$x]=array('id_fichamedica'=>$linha['id_fichamedica'], 'imagem'=>$linha['imagem'],'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome']);
                 $x++;
             }
             //$pdo->commit();
