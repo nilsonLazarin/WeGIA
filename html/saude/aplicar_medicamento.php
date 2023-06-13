@@ -93,7 +93,7 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
   $teste = $pdo->query("SELECT nome FROM pessoa p JOIN funcionario f ON(p.id_pessoa = f.id_pessoa) WHERE f.id_pessoa = " .$_SESSION['id_pessoa'])->fetchAll(PDO::FETCH_ASSOC);
   $id_funcionario = $teste[0]['nome'];
 
-  $prontuariopublico = $pdo->query("SELECT descricao FROM saude_fichamedica WHERE id_fichamedica= ".$_GET['id_fichamedica']);
+  $prontuariopublico = $pdo->query("SELECT descricao FROM saude_fichamedica_descricoes WHERE id_fichamedica= ".$_GET['id_fichamedica']);
   $prontuariopublico = $prontuariopublico->fetchAll(PDO::FETCH_ASSOC);
   $prontuariopublico = json_encode($prontuariopublico);
 
@@ -308,12 +308,14 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
           
          $(function() {
           var prontuariopublico = <?= $prontuariopublico ?>;
+          stringConcatenada = "";
           $.each(prontuariopublico, function(i, item) {
-            $("#prontuario_publico")
-              .append($("<tr>")
-                .append($("<td>").html(item.descricao))
-              )
+            stringConcatenada += item.descricao; 
             });
+          $("#prontuario_publico")
+              .append($("<tr>")
+                .append($("<td>")).html(stringConcatenada)
+            )
           });
        
       </script>
