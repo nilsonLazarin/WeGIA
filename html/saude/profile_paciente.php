@@ -245,7 +245,7 @@ header("Location: ../home.php?msg_c=$msg");
       <!-- JavaScript Functions -->
 	    <script src="../../Functions/enviar_dados.js"></script>
       <script src="../../Functions/mascara.js"></script>
-      
+      <link rel="icon" href="<?php display_campo("Logo",'file');?>" type="image/x-icon" id="logo-icon">
       <script>
         
         function excluirimg(id)

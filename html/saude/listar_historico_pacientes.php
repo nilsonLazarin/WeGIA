@@ -10,7 +10,7 @@
 	}
 
 	if(!isset($_SESSION['saude']))	{
-		header('Location: ../../controle/control.php?metodo=listarTodos&nomeClasse=SaudeControle&nextPage=../html/saude/administrar_medicamento.php');
+		header('Location: ../../controle/control.php?metodo=listarTodos&nomeClasse=SaudeControle&nextPage=../html/saude/listar_historico_pacientes.php');
 	}
 	$config_path = "config.php";
 	if(file_exists($config_path)){
@@ -72,6 +72,7 @@
 	<link rel="stylesheet" href="../../assets/vendor/magnific-popup/magnific-popup.css" />
 	<link rel="stylesheet" href="../../assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
 	<link rel="icon" href="<?php display_campo("Logo",'file');?>" type="image/x-icon" id="logo-icon">
+
 	<!-- Specific Page Vendor CSS -->
 	<link rel="stylesheet" href="../../assets/vendor/select2/select2.css" />
 	<link rel="stylesheet" href="../../assets/vendor/jquery-datatables-bs3/assets/css/datatables.css" />
@@ -118,7 +119,7 @@
 	<!-- jquery functions -->
 	<script>
 		function clicar(id) {
-			window.location.href = "aplicar_medicamento.php?id_fichamedica="+id;
+			window.location.href = "historico_paciente.php?id_fichamedica="+id;
 		}
 		$(function() {
 
@@ -158,13 +159,13 @@
 			<!-- end: sidebar -->
 			<section role="main" class="content-body">
 				<header class="page-header">
-					<h2>Administrar medicamento</h2>
+					<h2>Histórico dos pacientes</h2>
 
 					<div class="right-wrapper pull-right">
 						<ol class="breadcrumbs">
 							<li><a href="../index.php"> <i class="fa fa-home"></i>
 							</a></li>
-							<li><span>Administrar medicamento</span></li>
+							<li><span>Histórico dos pacientes</span></li>
 						</ol>
 
 						<a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
