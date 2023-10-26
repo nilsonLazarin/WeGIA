@@ -691,6 +691,12 @@
 								<h4>Administrar Medicamentos</h4>
 							</div>
 						</a>
+						<a href="../html/saude/listar_historico_pacientes.php">	
+							<div class="col-lg-2 col-md-8 i">
+								<i  class="fa fa-address-book"></i>
+								<h4>Histórico dos pacientes</h4>
+							</div>
+						</a>
 					</div>
 				</div>		
 

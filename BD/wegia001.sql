@@ -916,6 +916,28 @@ CREATE TABLE IF NOT EXISTS `wegia`.`cobrancas` (
     ON UPDATE RESTRICT)
 ENGINE = InnoDB;
 
+-- -------------------------------------------------------
+-- Table `wegia`.`remessa`
+-- -------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `wegia`.`remessa` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `codigo` VARCHAR(5) NOT NULL,
+  `data_emissao` DATE NULL DEFAULT NULL,
+  `data_vencimento_inicial` DATE NULL DEFAULT NULL,  
+  `data_vencimento_final` DATE NULL DEFAULT NULL,  
+  `tipo_carne` INT NOT NULL,
+  `quantidade_boletos` INT NOT NULL,
+  `valor_unitario` DECIMAL(10,2) NULL DEFAULT NULL,
+  `id_socio` INT NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_remessa_socio` (`id_socio` ASC),
+  CONSTRAINT `fk_remessa_socio`
+    FOREIGN KEY (`id_socio`)
+    REFERENCES `wegia`.`socio` (`id_socio`)
+    ON DELETE RESTRICT
+    ON UPDATE RESTRICT)
+ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `wegia`.`funcionario_dependente_parentesco`
@@ -1482,6 +1504,34 @@ CREATE TABLE IF NOT EXISTS `wegia`.`saude_medicamento_administracao` (
 ENGINE = InnoDB;
 
 
+-- -----------------------------------------------------
+-- Table `wegia`.`saude_sinais_vitais
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `wegia`.`saude_sinais_vitais` (
+  `id_sinais_vitais` INT NOT NULL AUTO_INCREMENT,
+  `id_fichamedica` INT NOT NULL,
+  `id_funcionario` INT(11) NOT NULL,
+  `data` TIMESTAMP NOT NULL,
+  `saturacao` DECIMAL(5,2) NOT NULL,
+  `pressao_arterial` VARCHAR(10) NOT NULL,
+  `frequencia_cardiaca` INT(5) NOT NULL,
+  `frequencia_respiratoria` INT(5) NOT NULL,
+  `temperatura` DECIMAL(7,2) NOT NULL,
+  `hgt` DECIMAL(7,2) NOT NULL,
+  PRIMARY KEY (`id_sinais_vitais`),
+  INDEX `fk_saude_sinais_vitais_saude_fichamedica1_idx` (`id_fichamedica` ASC),
+  INDEX `fk_saude_sinais_vitais_funcionario1_idx` (`id_funcionario` ASC),
+  CONSTRAINT `fk_saude_sinais_vitais_saude_fichamedica1`
+    FOREIGN KEY (`id_fichamedica`)
+    REFERENCES `wegia`.`saude_fichamedica` (`id_fichamedica`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+    CONSTRAINT `fk_saude_sinais_vitais_funcionario1`
+    FOREIGN KEY (`id_funcionario`)
+    REFERENCES `wegia`.`funcionario` (`id_funcionario`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
 -- -------------------------------------------------------
 -- Table `wegia`.`pet_foto`

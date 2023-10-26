@@ -394,6 +394,11 @@
 											<span>Administrar Medicamentos</span>
 										</a>
 									</li>
+									<li>
+										<a href="<?= WWW ?>html/saude/listar_historico_pacientes.php">
+											<span>Histórico dos pacientes</span>
+										</a>
+									</li>
 								</ul>
 							</li>
 						</ul>
