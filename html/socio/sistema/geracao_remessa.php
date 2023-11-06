@@ -114,6 +114,9 @@
 	if(is_dir($filedir)){
 		$existe = 1;
 	}
+	else{
+		mkdir($filedir, 0777);
+	}
 	
 	
 	// Converte a UF do estado para maiúsculas
