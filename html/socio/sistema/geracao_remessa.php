@@ -110,8 +110,12 @@
 
 	$_POST['numero_end'] == "" || $_POST['numero_end'] == null ? $numero_end = "" : $numero_end = $_POST['numero_end'];
 
-	$filedir = 'arquivos_rem/';
-
+	$filedir = BKP_DIR."arquivos_rem";
+	if(is_dir($filedir)){
+		$existe = 1;
+	}
+	
+	
 	// Converte a UF do estado para maiúsculas
 	$estado = strtoupper($estado);
 
@@ -384,8 +388,8 @@ if(!function_exists(formata_numdoc))
 
 
 
-
-	$filename = $filedir."CB$dia$mes$codigo.rem";
+	$nomeParaDownload = "CB$dia$mes$codigo.rem"; // Será passado para o javascript
+	$filename = $filedir."/CB$dia$mes$codigo.rem";
 
 	$conteudo = '';
 
@@ -822,10 +826,9 @@ if(!function_exists(formata_numdoc))
 	$conteudo .= chr(13).chr(10); //essa e a quebra de linha
 
 
-
-
 	
-
+	
+	
 	if (!$handle = fopen($filename, 'w+')) 
 		{
 			echo "Nao foi possível abrir o arquivo ($filename)";
@@ -840,7 +843,8 @@ if(!function_exists(formata_numdoc))
 		}
 
 	fclose($handle);
-		
+	
+	
 	$obj = [
 		'codigo'=>$codigo,
 		'dataVencimentoIni'=>$dataVencimento[0],
@@ -848,8 +852,7 @@ if(!function_exists(formata_numdoc))
 		'dataAtual'=>$ano.$mes.$dia,
 		'valor'=>$valor,
 		'qtdBoletos'=>$lote,
-		"filename"=>$filename
-
+		"filename"=>$nomeParaDownload,
 	];
 	$obj = json_encode($obj);
 	echo $obj;

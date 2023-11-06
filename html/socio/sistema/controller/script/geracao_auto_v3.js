@@ -218,9 +218,8 @@ $(document).ready(function(){
                                 function baixarRemessa(nomeArq){
                                     console.log(nomeArq)
                                     var link = document.createElement('a');
-                                    link.setAttribute("href", nomeArq);
-                                    nomeArq = nomeArq.replace("arquivos_rem/","");
-                                    link.setAttribute("download", nomeArq);
+                                    link.setAttribute("href", "./download_remessa.php?file="+nomeArq);
+                                    
                                     link.style.display = "none";
                                     link.click();
                                 }
