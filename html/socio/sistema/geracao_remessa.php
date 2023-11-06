@@ -386,7 +386,7 @@ if(!function_exists(formata_numdoc))
 
 
 	$nomeParaDownload = "CB$dia$mes$codigo.rem"; // Será passado para o javascript
-	$filename = $filedir."/CB$dia$mes$codigo.rem";
+	$filename = $filedir."CB$dia$mes$codigo.rem";
 
 	$conteudo = '';
 
