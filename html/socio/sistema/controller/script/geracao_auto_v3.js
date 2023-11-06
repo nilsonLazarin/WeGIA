@@ -255,6 +255,8 @@ $(document).ready(function(){
                                         })
                                     }*/
                                     for(const [i, boleto] of carneBoletos.entries()){
+                                        
+                                        valor = parseFloat(boleto.valor)
                                         $.ajax({
                                             url: "./cadastro_remessas_geracao.php",
                                             type: "POST",
@@ -266,7 +268,7 @@ $(document).ready(function(){
                                                 "data_emissao": boleto.dataAtual,
                                                 "tipo_carne": tipo,
                                                 "quantidade_boletos": boleto.qtdBoletos,
-                                                "valor": boleto.valor
+                                                "valor": parseFloat(boleto.valor)
                                             },
                                             async: false, // Tornar a solicitação síncrona.
                                             success: function(res) {
@@ -312,7 +314,10 @@ $(document).ready(function(){
                                     var inputValor = $("#valor_u").val();
                                     var inputParcelas = $("#num_parcelas").val();
                                     var inputData = $("#data_vencimento").val();
-                     
+                                    inputValor = inputValor.replace(",",".");
+                                    valorCobrado = parseFloat(inputValor);
+                                    valorCobrado = valorCobrado.toFixed(2);
+
                                     var teste = inputData.split('-');
                                     teste[2] = ("0"+teste[2]).slice(-2);
                                     teste[1] = ("0"+teste[1]).slice(-2);
@@ -337,7 +342,7 @@ $(document).ready(function(){
                                         data: {
                                             dataVencimento: datasArray,
                                             tipo_inscricao: tipo_inscricao,
-                                            valor: inputValor,
+                                            valor: valorCobrado,
                                             nome: socio.nome,
                                             cidade: socio.cidade,
                                             logradouro: socio.logradouro,
