@@ -110,13 +110,7 @@
 
 	$_POST['numero_end'] == "" || $_POST['numero_end'] == null ? $numero_end = "" : $numero_end = $_POST['numero_end'];
 
-	$filedir = BKP_DIR."arquivos_rem";
-	if(is_dir($filedir)){
-		$existe = 1;
-	}
-	else{
-		mkdir($filedir, 0777);
-	}
+	$filedir = BKP_DIR;
 	
 	
 	// Converte a UF do estado para maiúsculas
