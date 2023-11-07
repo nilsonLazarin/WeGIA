@@ -12,7 +12,7 @@
 
     $codigo = "$codigo";
     // Use prepared statements
-    $stmt = mysqli_prepare($conexao, "INSERT INTO `remessa` (`codigo`, `data_emissao`, `data_vencimento_inicial`, `data_vencimento_final`, `tipo_carne`, `quantidade_boletos`, `valor`, `id_socio`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt = mysqli_prepare($conexao, "INSERT INTO `remessa` (`codigo`, `data_emissao`, `data_vencimento_inicial`, `data_vencimento_final`, `tipo_carne`, `quantidade_boletos`, `valor_unitario`, `id_socio`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 
     // Verifique se a preparação foi bem-sucedida
     if ($stmt) {
