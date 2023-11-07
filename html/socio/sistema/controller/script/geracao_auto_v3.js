@@ -33,19 +33,19 @@ $(document).ready(function(){
                         var arrayDataSegmentsA = dataV_formatada.split('-');
                         var mesAA = arrayDataSegmentsA[1]-1;              
                         var total = 0;
-                        console.log("dataInicial"+dataV_formatada);
+                        
                         for(i = 0; i < parcelas; i++){
                             tabela += `<tr><td>${i+1}/${parcelas}</td><td>${dataV}</td><td>R$ ${valor}</td></tr>`
                             // var arrayDataSegments = dataV_formatada.split('-');
                             // var mes = arrayDataSegments[1]-1;
-                            console.log("mes"+mesAA);
+                            
                             var novaData = new Date(arrayDataSegmentsA[0], mesAA, arrayDataSegmentsA[2]);
-                            console.log("dataNova"+novaData);
+                            
                             novaData.setMonth(novaData.getMonth() + periodicidade_socio);
                             dataV_formatada = `${novaData.getFullYear()}-${novaData.getMonth()}-${novaData.getDate()}`;
                             dataV = `${dataAtualFormatada(novaData)}`;
                             total += valor;
-                            console.log("dataBoleto"+dataV);
+                            
                             mesAA += periodicidade_socio;
                         }
                         tabela += `<tr><td colspan='2'>Total: </td><td>R$ ${total}</td></tr>`;
@@ -83,8 +83,8 @@ $(document).ready(function(){
                         $("#btn_wpp").css("display", "none");
                         $("#btn_geracao_unica").attr("disabled", false);
                         $("#btn_geracao_unica").text("Confirmar geração");
-                        console.log(data_inicial, periodicidade_socio, parcelas, valor);
-                        console.log("parcelas:"+parcelas);
+                        
+                        
                         referenciaAccordion = nome_socio.replace(/[^a-zA-Zs]/g, "") + Math.round(Math.random()*100000000);
                         var tabela = ``;
                         var dataV = data_inicial_br;
@@ -93,27 +93,27 @@ $(document).ready(function(){
                         var arrayDataSegmentsA = dataV_formatada.split('-');
                         var mesAA = arrayDataSegmentsA[1]-1;              
                         var total = 0;
-                        console.log("dataInicial"+dataV_formatada);
+                        
                         for(i = 0; i < parcelas; i++){
                             tabela += `<tr><td>${i+1}/${parcelas}</td><td>${dataV}</td><td>R$ ${valor}</td></tr>`
                             // var arrayDataSegments = dataV_formatada.split('-');
                             // var mes = arrayDataSegments[1]-1;
-                            console.log("mes"+mesAA);
+                            
                             var novaData = new Date(arrayDataSegmentsA[0], mesAA, arrayDataSegmentsA[2]);
-                            console.log("dataNova"+novaData);
+                            
                             novaData.setMonth(novaData.getMonth() + periodicidade_socio);
                             dataV_formatada = `${novaData.getFullYear()}-${novaData.getMonth()}-${novaData.getDate()}`;
                             dataV = `${dataAtualFormatada(novaData)}`;
                             total += valor;
-                            console.log("dataBoleto"+dataV);
+                            
                             mesAA += periodicidade_socio;
                         }
                         tabela += `<tr><td colspan='2'>Total: </td><td>R$ ${total}</td></tr>`;
                     }
 
-                    console.log(socios.length, socios);
+                    
                     $(".configs_unico").css("display", "block");
-                    console.log(socios[0].id_sociotipo);
+                    
                     var tipo;
                     
                     $("#tipo_geracao").change(function(){
@@ -141,7 +141,7 @@ $(document).ready(function(){
                            
                             var teste = inputData.split('-');
                             var dataTipoBr = teste[2]+"/"+teste[1]+"/"+teste[0];
-                            console.log("aaaa"+dataTipoBr);
+                            
                             if(inputParcelas <= 0 || inputParcelas == null || inputValor <= 0 || inputValor == null || inputData == '' ){
                                 alert("Dados inválidos, tente novamente!");
                             }
@@ -174,49 +174,45 @@ $(document).ready(function(){
                                     $("#tipo_geracao").val(0);
                                 })
                                 carneBoletos = [];
-                                function montaTabela(nome_socio, carne, tipo_socio, telefone){
+                                function montaTabela(nome_socio, carne, tipo_socio, telefone, datasVencimento){
                                     $(".detalhes_unico").html("");
                                     $("#btn_wpp").css("display", "inline-block");
                                     referenciaAccordion = nome_socio.replace(/[^a-zA-Zs]/g, "") + Math.round(Math.random()*100000000);
-                                    console.log(nome_socio, tipo_socio, carne);
+                                    let i;
                                     var tabela = ``;
-                                    var qtd_parcelas = carne.length;
-                                    var link_wpp;
-                                    var texto = `Olá ${nome_socio.split(" ")[0]}, obrigado por estar contribuindo com o LAJE, confira seus boletos:`;
-                                    for(const [i, boleto] of carne.entries()){
-                                        tabela += `<tr><td>${i+1}/${qtd_parcelas}</td><td>${boleto.dueDate}</td><td><a target='_blank' href='${boleto.checkoutUrl}'>${boleto.checkoutUrl}</a></td><td>${boleto.payNumber}</td><tr>`;
-                                        texto += `\nParcela (${i+1}/${qtd_parcelas} - ${boleto.dueDate}): ${boleto.checkoutUrl}`;
+                                    var qtd_parcelas = carne[0].qtdBoletos;
+                                 // var link_wpp;
+                                  //var texto = `Olá, ${nome_socio.split(" ")[0]}. Muito obrigado por estar contribuindo com a nossa organização! Confira seus boletos:`;
+                                    for(i=0; i<qtd_parcelas; i++){
+                                        tabela += `<tr><td>${i+1}/${qtd_parcelas}</td><td>${datasVencimento[i]}</td><td>${tipo_socio}</td><td>${carne[0].valor}</td><tr>`;
+                                      //  texto += `\nParcela (${i+1}/${qtd_parcelas} - ${datasVencimento[i]}): ${boleto.checkoutUrl}`;
                                     }
-                                    /*if(tipo_socio == "mensal"){
-                                        tabela += `<tr><td colspan='2'>Link carnê completo:</td><td colspan='2'><a target='_blank' href='${carne[0].link}'>${carne[0].link}</a></td></tr>`;
-                                        texto += `\nCarnê completo: ${boleto.checkoutUrl}`;
-                                    }*/
-                                    texto = window.encodeURIComponent(texto);
-                                    link_wpp = `https://api.whatsapp.com/send?phone=55${telefone.replace(/\D/g, "")}&text=${texto}`;
-                                    $(".detalhes_unico").append(`
-                                    <br>
+                                    // texto = window.encodeURIComponent(texto);
+                                    // link_wpp = `https://api.whatsapp.com/send?phone=55${telefone.replace(/\D/g, "")}&text=${texto}`;
+                                     $(".detalhes_unico").append(`
+                                     <br>
                                     <div class="card-body">
-                                    <table class="table table-striped table-hover">
-                                        <thead>
-                                            <tr>
-                                            <th>Parcela</th>
-                                            <th>Data de vencimento</th>
-                                            <th>Link parcela</th>
-                                            <th>Código de pagamento</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>${tabela}</tbody>
-                                    </table>
+                                        <table class="table table-striped table-hover">
+                                            <thead>
+                                                <tr>
+                                                <th>Parcela</th>
+                                                <th>Data de vencimento</th>
+                                                <th>Tipo de carnê</th>
+                                                <th>Valor</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>${tabela}</tbody>
+                                        </table>
                                     </div>
                                     `)
-                                    $("#btn_wpp").click(function(event){
-                                        var win = window.open(link_wpp, '_blank');
-                                        win.focus();
-                                    })
+                                    // $("#btn_wpp").click(function(event){
+                                    //     var win = window.open(link_wpp, '_blank');
+                                    //     win.focus();
+                                    // })
                                 }
 
                                 function baixarRemessa(nomeArq){
-                                    console.log(nomeArq)
+                                    
                                     var link = document.createElement('a');
                                     link.setAttribute("href", "./download_remessa.php?file="+nomeArq);
                                     
@@ -225,7 +221,7 @@ $(document).ready(function(){
                                 }
 
                                 function CadastraCobrancas(carneBoletos, id, tipo){
-                                    console.log("Carnê boletos: ", carneBoletos)
+                                    
                                     var arrayDataVencimentoIni = carneBoletos[0].dataVencimentoIni.split('/');
                                     var diaVencIni = arrayDataVencimentoIni[0];
                                     var mesVencIni = arrayDataVencimentoIni[1];
@@ -272,13 +268,13 @@ $(document).ready(function(){
                                             },
                                             async: false, // Tornar a solicitação síncrona.
                                             success: function(res) {
-                                                console.log(res);
+                                                
                                                 baixarRemessa(boleto.filename);
                                             },
                                             error: function(xhr, status, error) {
-                                                console.log("Erro na requisição AJAX:");
-                                                console.log("Status: " + status);
-                                                console.log("Erro: " + error);
+                                                
+                                                
+                                                
                                             }
                                         });
                                     }
@@ -335,7 +331,7 @@ $(document).ready(function(){
                                         dataV = dataV_formatada[2]+"/"+dataV_formatada[1]+"/"+dataV_formatada[0];
                                         datasArray.push(dataV);
                                     }
-                                    console.log(datasArray)
+                                    
                                     $.ajax({
                                         url: "geracao_remessa.php",
                                         type: "POST",
@@ -356,14 +352,15 @@ $(document).ready(function(){
                                         async: false, // Torna a solicitação síncrona
                                         success: function(dadosBoleto) {
                                             dadosBoleto = JSON.parse(dadosBoleto)
-                                            console.log(dadosBoleto)
+                                            
                                            if(dadosBoleto.parar == true){
                                                 alert(`A quantidade máxima de boletos foi gerada. O boleto atual não pôde ser feito. Espere até amanhã para continuar.`)
                                             }
                                             else{
                                                 carneBoletos.push(dadosBoleto);
                                                 CadastraCobrancas(carneBoletos, socio.id_socio, qtdMeses);
-                                                montaTabela(socio.nome, carneBoletos, `${tipoCarne}`, socio.telefone);
+                                                
+                                                montaTabela(socio.nome, carneBoletos, `${tipoCarne}`, socio.telefone, datasArray);
                                                 carneBoletos = [];
                                             }
                                         },
@@ -423,7 +420,7 @@ $(document).ready(function(){
                             $(this).text("Gerado com sucesso, escolha um novo sócio e aperte continuar para gerar mais");
                     });
                 }else{
-                    console.log("SEM SÓCIOS DA CATEGORIA.");
+                    
                     alert(`Para gerar carnês/boletos para o sócio desejado você deve completar o cadastro dele primeiro com os seguintes dados: valor por período, data de referência e a periodicidade.`);
                 } 
             })
