@@ -12,7 +12,13 @@
     }
     if(isset($_GET['file'])){
         $file = $_GET['file'];
-        $filepath = BKP_DIR.$file;
+        if(substr(BKP_DIR, -1) == "/"){
+            $filepath = BKP_DIR.$file;
+        }
+        else{
+            $filepath = BKP_DIR."/".$file;
+        }
+        
         // Verifique se o arquivo existe
         if(file_exists($filepath)){
             // Configurar cabeçalhos para download
