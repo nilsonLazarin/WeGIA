@@ -13,10 +13,10 @@
     if(isset($_GET['file'])){
         $file = $_GET['file'];
         if(substr(BKP_DIR, -1) == "/"){
-            $filepath = BKP_DIR.$file;
+            $filepath = BKP_DIR."arquivos_rem/".$file;
         }
         else{
-            $filepath = BKP_DIR."/".$file;
+            $filepath = BKP_DIR."/"."arquivos_rem/".$file;
         }
         
         // Verifique se o arquivo existe

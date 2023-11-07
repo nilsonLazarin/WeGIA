@@ -110,9 +110,12 @@
 
 	$_POST['numero_end'] == "" || $_POST['numero_end'] == null ? $numero_end = "" : $numero_end = $_POST['numero_end'];
 	if(substr(BKP_DIR, -1) == '/'){
-		$filedir = BKP_DIR;
+		$filedir = BKP_DIR."arquivos_rem/";
 	}
-	else $filedir  = BKP_DIR."/";
+	else $filedir  = BKP_DIR."/"."arquivos_rem/";
+	if(!is_dir($filedir)){
+		mkdir($filedir, 0777);
+	}
 	
 	
 	
