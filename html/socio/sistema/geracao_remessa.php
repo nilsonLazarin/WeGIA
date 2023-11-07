@@ -109,8 +109,11 @@
 	$_POST['bairro'] == "" || $_POST['bairro'] == null ? $bairro = "sem bairro" : $bairro = $_POST['bairro'];
 
 	$_POST['numero_end'] == "" || $_POST['numero_end'] == null ? $numero_end = "" : $numero_end = $_POST['numero_end'];
-
-	$filedir = BKP_DIR;
+	if(substr(BKP_DIR, -1) == '/'){
+		$filedir = BKP_DIR;
+	}
+	else $filedir  = BKP_DIR."/";
+	
 	
 	
 	// Converte a UF do estado para maiúsculas
@@ -386,6 +389,7 @@ if(!function_exists(formata_numdoc))
 
 
 	$nomeParaDownload = "CB$dia$mes$codigo.rem"; // Será passado para o javascript
+
 	$filename = $filedir."CB$dia$mes$codigo.rem";
 
 	$conteudo = '';
@@ -849,7 +853,7 @@ if(!function_exists(formata_numdoc))
 		'dataAtual'=>$ano.$mes.$dia,
 		'valor'=>$valor,
 		'qtdBoletos'=>$lote,
-		"filename"=>$nomeParaDownload,
+		"filename"=>$nomeParaDownload
 	];
 	$obj = json_encode($obj);
 	echo $obj;
