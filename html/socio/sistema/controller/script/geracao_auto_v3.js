@@ -268,13 +268,11 @@ $(document).ready(function(){
                                             },
                                             async: false, // Tornar a solicitação síncrona.
                                             success: function(res) {
-                                                
+                                                console.log(res)
                                                 baixarRemessa(boleto.filename);
                                             },
                                             error: function(xhr, status, error) {
-                                                
-                                                
-                                                
+                                                console.log("Ocorreu um erro no cadastro da remessa: ", error, status)
                                             }
                                         });
                                     }
