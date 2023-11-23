@@ -28,6 +28,24 @@ class SinaisVitaisDAO
             $freq_resp = $sinaisvitais->getFrequenciaRespiratoria();
             $temperatura = $sinaisvitais->getTemperatura();
             $hgt = $sinaisvitais->getHgt();
+            if ($saturacao === '') {
+                $saturacao = null;
+            }
+            if ($pres_art === '') {
+                $pres_art = null;
+            }
+            if ($freq_card === '') {
+                $freq_card = null;
+            }
+            if ($freq_resp === '') {
+                $freq_resp = null;
+            }
+            if ($temperatura === '') {
+                $temperatura = null;
+            }
+            if ($hgt === '') {
+                $hgt = null;
+            }
             
             $sql = "INSERT INTO saude_sinais_vitais (id_fichamedica, id_funcionario, data, saturacao, pressao_arterial, frequencia_cardiaca, frequencia_respiratoria, temperatura, hgt) VALUES (:id_fichamedica, :id_funcionario, :data, :saturacao, :pressao_arterial, :frequencia_cardiaca, :frequencia_respiratoria, :temperatura, :hgt)";
             $pdo = Conexao::connect();

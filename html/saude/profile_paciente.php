@@ -92,6 +92,9 @@ header("Location: ../home.php?msg_c=$msg");
   $alergias = $alergias->fetchAll(PDO::FETCH_ASSOC);
   $alergias = json_encode($alergias);
 
+  $sinaisvitais = $pdo->query("SELECT data, saturacao, pressao_arterial, frequencia_cardiaca, frequencia_respiratoria, temperatura, hgt, p.nome, p.sobrenome FROM saude_sinais_vitais sv JOIN funcionario f ON(sv.id_funcionario = f.id_funcionario) JOIN pessoa p ON (f.id_pessoa = p.id_pessoa) WHERE sv.id_fichamedica = " .$id)->fetchAll(PDO::FETCH_ASSOC);
+  $sinaisvitais = json_encode($sinaisvitais);
+
   $descricao_medica = $pdo->query("SELECT descricao, data_atendimento FROM saude_atendimento WHERE id_fichamedica= ".$_GET['id_fichamedica']);
   $descricao_medica = $descricao_medica->fetchAll(PDO::FETCH_ASSOC);
   $descricao_medica = json_encode($descricao_medica);
@@ -104,9 +107,7 @@ header("Location: ../home.php?msg_c=$msg");
   $prontuariopublico = $prontuariopublico->fetchAll(PDO::FETCH_ASSOC);
   $prontuariopublico = json_encode($prontuariopublico);
 
-  $a = $_GET['id_fichamedica'];
-
-  $medaplicadas = $pdo->query("SELECT medicamento, aplicação FROM saude_medicacao sm JOIN saude_medicamento_administracao sa ON (sm.id_medicacao = sa.saude_medicacao_id_medicacao) join saude_atendimento saa on(saa.id_atendimento=sm.id_atendimento) WHERE saa.id_fichamedica= '$a' ORDER BY id_medicacao DESC");
+  $medaplicadas = $pdo->query("SELECT medicamento, aplicação FROM saude_medicacao sm JOIN saude_medicamento_administracao sa ON (sm.id_medicacao = sa.saude_medicacao_id_medicacao) join saude_atendimento saa on(saa.id_atendimento=sm.id_atendimento) WHERE saa.id_fichamedica= '$id' ORDER BY id_medicacao DESC");
   $medaplicadas = $medaplicadas->fetchAll(PDO::FETCH_ASSOC);
   $medaplicadas = json_encode($medaplicadas);
 
@@ -520,20 +521,23 @@ header("Location: ../home.php?msg_c=$msg");
                   <a href="#overview" data-toggle="tab">Informações Pessoais</a>
                </li>
                <li>
-                  <a href="#cadastro_comorbidades" data-toggle="tab">Cadastro de comorbidades</a>
+                  <a href="#cadastro_comorbidades" data-toggle="tab">Cadastro de Comorbidades</a>
                </li>
                <li>
-                  <a href="#arquivo" data-toggle="tab">Cadastro de exames</a>
+                  <a href="#arquivo" data-toggle="tab">Cadastro de Exames</a>
                </li>
                <li>
                   <a href="#historico_medico" data-toggle="tab">Histórico Médico</a>
                </li>
                <li>
                <li>
-                  <a href="#atendimento_medico" data-toggle="tab">Atendimento médico</a>
+                  <a href="#atendimento_medico" data-toggle="tab">Atendimento Médico</a>
                </li>
                <li>
-                  <a href="#medicacoes_aplicadas" data-toggle="tab">Medicações aplicadas</a>
+                  <a href="#medicacoes_aplicadas" data-toggle="tab">Medicações Aplicadas</a>
+               </li>
+               <li>
+                  <a href="#sinais_vitais" data-toggle="tab">Sinais Vitais</a>
                </li>
             </ul>
           
@@ -1073,36 +1077,71 @@ header("Location: ../home.php?msg_c=$msg");
       
        <!-- Aba de medicações aplicadas -->
        <div id="medicacoes_aplicadas" class="tab-pane">                           
-                <section class="panel">
-                   <header class="panel-heading">
-                    <div class="panel-actions">
-                        <a href="#" class="fa fa-caret-down"></a>
-                    </div>
-                   <h2 class="panel-title">Medicações aplicadas</h2>
-                </header>
-                   
-                   <div class="panel-body">
-                   <hr class="dotted short">
-                     
-                     <table class="table table-bordered table-striped mb-none" id="enf">
-                      <thead>
-                        <tr style="font-size:15px;">
-                          <th>Medicações aplicadas</th>
-                          <th>Horário da aplicação</th>
-                        </tr>
-                      </thead>
-                      <tbody id="exibiaplicacao" style="font-size:15px">                
-                      
-                    </tbody>
-                  </table>
-                    
-                  <br>
-                  <br>
-                  
-                  <input type="hidden" name="a_enf">
+            <section class="panel">
+              <header class="panel-heading">
+                <div class="panel-actions">
+                    <a href="#" class="fa fa-caret-down"></a>
+                </div>
+                <h2 class="panel-title">Medicações aplicadas</h2>
+              </header>
+              
+              <div class="panel-body">
+              <hr class="dotted short">
+                
+                <table class="table table-bordered table-striped mb-none" id="enf">
+                <thead>
+                  <tr style="font-size:15px;">
+                    <th>Medicações aplicadas</th>
+                    <th>Horário da aplicação</th>
+                  </tr>
+                </thead>
+                <tbody id="exibiaplicacao" style="font-size:15px">                
+                
+              </tbody>
+            </table>
+              
+            <br>
+            <br>
+            
+            <input type="hidden" name="a_enf">
          </section>
        </div>  
        
+       <!-- Aba de medicações aplicadas -->
+      <div id="sinais_vitais" class="tab-pane">
+        <header class="panel-heading">
+          <div class="panel-actions">
+              <a href="#" class="fa fa-caret-down"></a>
+          </div>
+          <h2 class="panel-title">Sinais Vitais Aferidos</h2>
+        </header>
+            
+            <div class="panel-body">
+            <hr class="dotted short">
+              
+              <table class="table table-bordered table-striped mb-none" id="tab-sin-vit">
+              <thead>
+                <tr style="font-size:15px;">
+                  <th>Data</th>
+                  <th>Aferidor</th>
+                  <th>Saturação</th>
+                  <th>Pressão arterial</th>
+                  <th>Frequência cardíaca</th>
+                  <th>Frequência repiratória</th>
+                  <th>Temperatura</th>
+                  <th>HGT</th>
+                </tr>
+              </thead>
+              <tbody id="exibe-sinais-vitais" style="font-size:15px">                
+              
+            </tbody>
+          </table>
+            
+          <br>
+          <br>
+          
+          <input type="hidden" name="a_enf">
+      </div>
       
        
 
@@ -1409,9 +1448,7 @@ header("Location: ../home.php?msg_c=$msg");
                 $('#id_CID_alergia').append('<option selected disabled>Selecionar</option>');
                 $.each(situacoes_alergia, function(i, item) {
                   if(!(alergias.includes(item))){
-                    console.log(item);
                     $('#id_CID_alergia').append('<option value="' + item.id_CID + '">' + item.descricao + '</option>');
-
                   }
                   
                    
@@ -1527,6 +1564,37 @@ header("Location: ../home.php?msg_c=$msg");
                   })
 
                 });
+
+
+            $(function() {
+              var sinaisvitais = <?= $sinaisvitais ?>;
+              $("#sin-vit-tab").empty();
+              $.each(sinaisvitais, function (i,item){ // Transforma o formato de data recebido para o formato utilizado no Brasil
+                item.data = item.data.split(" ")[0];
+                partesData = item.data.split("-");
+                item.data = partesData[2]+"-"+partesData[1]+"-"+partesData[0];  
+              })
+              $.each(sinaisvitais, function(i, item) {
+                $("#exibe-sinais-vitais")
+                  .append($("<tr>")
+                    .append($("<td>").text(item.data.split(" ")[0]))
+                    .append($("<td>").text(item.nome+" "+(item.sobrenome !== null ? item.sobrenome : "")))
+                    .append($("<td>").text(item.saturacao))
+                    .append($("<td>").text(item.pressao_arterial))
+                    .append($("<td>").text(item.frequencia_cardiaca))
+                    .append($("<td>").text(item.frequencia_respiratoria))
+                    .append($("<td>").text(item.temperatura))
+                    .append($("<td>").text(item.hgt))
+                  )
+              });
+            });
+            $(document).ready(function() {
+                $('#tab-sin-vit').DataTable({
+                    "order": [
+                    [0, "desc"]
+                    ]
+                  });
+              });
         </script>
         
         <!-- Vendor -->

@@ -214,7 +214,6 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
       <link rel="icon" href="<?php display_campo("Logo",'file');?>" type="image/x-icon" id="logo-icon">
       <script>
         
-        
          $(function(){
           // pega no SaudeControle, listarUm //
 
@@ -262,13 +261,7 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
           });
          
 
-          $(function() {
-              $('.datatable-docfuncional').DataTable({
-                  "order": [
-                  [0, "asc"]
-                  ]
-                });
-            });
+          
           
          $(function() {
           var prontuariopublico = <?= $prontuariopublico ?>;
@@ -283,12 +276,11 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
           )
           });
         });
+        
 
         $(function() {
           var sinaisvitais = <?= $sinaisvitais ?>;
-          if(sinaisvitais.length > 0){
-            $("#sin-vit-tab").find(".dataTables_empty").hide();
-          }
+          $("#sin-vit-tab").empty();
           $.each(sinaisvitais, function (i,item){ // Transforma o formato de data recebido para o formato utilizado no Brasil
             item.data = item.data.split(" ")[0];
             partesData = item.data.split("-");
@@ -308,7 +300,13 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
               )
             });
           });
-       
+          $(document).ready(function() {
+              $('#tabmed').DataTable({
+                  "order": [
+                  [0, "desc"]
+                  ]
+                });
+            });
       </script>
       <style type="text/css">
       .obrig {
@@ -481,46 +479,46 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
                     </div>
 
                     <div class="form-group">
-                      <label class="col-md-3 control-label" for="profileCompany">Saturação (em %):<sup class="obrig">*</sup></label>
+                      <label class="col-md-3 control-label" for="profileCompany">Saturação (em %):</label>
                       <div class="col-md-6">
                         <input type="text" class="form-control" name="saturacao" id="saturacao" maxlength="4" pattern= "[0-9]+([,\.][0-9]+)?" oninput= "padrao = /^\d+([,\.]\d+)?/; if(!
-                        (padrao.test(this.value))) this.value = this.value.slice(0, -1); if(this.value > 100) this.value = 100;" required>
+                        (padrao.test(this.value))) this.value = this.value.slice(0, -1); if(this.value > 100) this.value = 100;" >
                       </div>
                     </div>
 
                     <div class="form-group">
-                      <label class="col-md-3 control-label"  for="profileCompany">Pressão arterial:<sup class="obrig">*</sup></label>
+                      <label class="col-md-3 control-label"  for="profileCompany">Pressão arterial:</label>
                       <div class="col-md-6">
-                        <input type="text" class="form-control" name="pres_art" id="pres_art" onkeyup="mascara('##/##',this,event)" required>
+                        <input type="text" class="form-control" name="pres_art" id="pres_art" onkeyup="mascara('##/##',this,event)" >
                       </div>
                     </div>
 
                     <div class="form-group">
-                      <label class="col-md-3 control-label"  for="profileCompany">Frequência cardíaca (em bpm):<sup class="obrig">*</sup></label>
+                      <label class="col-md-3 control-label"  for="profileCompany">Frequência cardíaca (em bpm):</label>
                       <div class="col-md-6">
-                        <input type="number" maxlength="3" class="form-control" name="freq_card" id="freq_card" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength); if(this.value<0) this.value = this.value*-1;" required>
+                        <input type="number" maxlength="3" class="form-control" name="freq_card" id="freq_card" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength); if(this.value<0) this.value = this.value*-1;" >
                       </div>
                     </div>
 
                     <div class="form-group">
-                      <label class="col-md-3 control-label"  for="profileCompany">Frequência respiratória (em rpm):<sup class="obrig">*</sup></label>
+                      <label class="col-md-3 control-label"  for="profileCompany">Frequência respiratória (em rpm):</label>
                       <div class="col-md-6">
-                        <input type="number" maxlength="3" class="form-control" name="freq_resp" id="freq_resp" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength); if(this.value<0) this.value = this.value*-1;" required>
+                        <input type="number" maxlength="3" class="form-control" name="freq_resp" id="freq_resp" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength); if(this.value<0) this.value = this.value*-1;" >
                       </div>
                     </div>
 
                     <div class="form-group">
-                      <label class="col-md-3 control-label"  for="profileCompany">Temperatura (em °C):<sup class="obrig">*</sup></label>
+                      <label class="col-md-3 control-label"  for="profileCompany">Temperatura (em °C):</label>
                       <div class="col-md-6">
-                        <input type="text" maxlength="5" class="form-control" name="temperatura" id="temperatura" onkeyup="mascara('##,##',this,event)" required>
+                        <input type="text" maxlength="5" class="form-control" name="temperatura" id="temperatura" onkeyup="mascara('##,##',this,event)" >
                       </div>
                     </div>
 
                     <div class="form-group">
-                      <label class="col-md-3 control-label"  for="profileCompany">HGT (mg/dL):<sup class="obrig">*</sup></label>
+                      <label class="col-md-3 control-label"  for="profileCompany">HGT (mg/dL):</label>
                       <div class="col-md-6">
                         <input type="text" maxlength="5" class="form-control" name="hgt" id="hgt" pattern= "[0-9]+([,\.][0-9]+)?" oninput= "padrao = /^\d+([,\.]\d+)?/; if(!
-                        (padrao.test(this.value))) this.value = this.value.slice(0, -1)" required>
+                        (padrao.test(this.value))) this.value = this.value.slice(0, -1)" >
                       </div>
                     </div>
 
@@ -679,23 +677,6 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
          </div>
          </div>
          </div>
-         
-      <script>
-                  
-            function aplicarMedicacao() {
-                if (!window.confirm("Tem certeza que deseja aplicar essa medicação?")){
-                  return false;
-                }
-            } 
-           
-            function variosMed()
-            {
-                localStorage.setItem("currentTab","2");
-                alert("Medicamento aplicado com sucesso!");
-            }
-
-     </script>
-        
         <!-- Vendor -->
         <script src="<?php echo WWW;?>assets/vendor/select2/select2.js"></script>
         <script src="<?php echo WWW;?>assets/vendor/jquery-datatables/media/js/jquery.dataTables.js"></script>
