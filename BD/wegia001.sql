@@ -1310,7 +1310,6 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `wegia`.`saude_fichamedica` (
   `id_fichamedica` INT NOT NULL AUTO_INCREMENT,
   `id_pessoa` INT(11) NOT NULL UNIQUE,
-  `descricao` VARCHAR(500) NULL,
   PRIMARY KEY (`id_fichamedica`),
   INDEX `fk_saude_fichamedica_pessoa1_idx` (`id_pessoa` ASC),
   CONSTRAINT `fk_saude_fichamedica_pessoa1`
@@ -1327,7 +1326,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `wegia`.`saude_fichamedica_descricoes` (
   `id_descricao` INT NOT NULL AUTO_INCREMENT,
   `id_fichamedica` INT(11) NOT NULL, 
-  `descricao` VARCHAR(1000) NOT NULL, 
+  `descricao` VARCHAR(2048) NOT NULL, 
   PRIMARY KEY (`id_descricao`), 
   INDEX fk_ficha_medica_descricoes_ficha_medica_idx (`id_fichamedica` ASC), 
   CONSTRAINT fk_fichamedica_descricoes_fichamedica
