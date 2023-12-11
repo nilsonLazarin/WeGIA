@@ -90,7 +90,7 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
   $id_funcionario = $teste[0]['nome'];
   $funcionario_id = $teste[0]['id_funcionario'];
 
-  $sinaisvitais = $pdo->query("SELECT data, saturacao, pressao_arterial, frequencia_cardiaca, frequencia_respiratoria, temperatura, hgt, p.nome, p.sobrenome FROM saude_sinais_vitais sv JOIN funcionario f ON(sv.id_funcionario = f.id_funcionario) JOIN pessoa p ON (f.id_pessoa = p.id_pessoa) WHERE sv.id_fichamedica = " .$_SESSION['id_upload_med'])->fetchAll(PDO::FETCH_ASSOC);
+  $sinaisvitais = $pdo->query("SELECT id_sinais_vitais, data, saturacao, pressao_arterial, frequencia_cardiaca, frequencia_respiratoria, temperatura, hgt, p.nome, p.sobrenome FROM saude_sinais_vitais sv JOIN funcionario f ON(sv.id_funcionario = f.id_funcionario) JOIN pessoa p ON (f.id_pessoa = p.id_pessoa) WHERE sv.id_fichamedica = " .$_SESSION['id_upload_med'])->fetchAll(PDO::FETCH_ASSOC);
   $sinaisvitais = json_encode($sinaisvitais);
 
   $prontuariopublico = $pdo->query("SELECT descricao FROM saude_fichamedica_descricoes WHERE id_fichamedica= ".$_GET['id_fichamedica']);
@@ -280,6 +280,7 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
         $(function() {
           var sinaisvitais = <?= $sinaisvitais ?>;
+          console.log(sinaisvitais)
           $("#sin-vit-tab").empty();
           $.each(sinaisvitais, function (i,item){ // Transforma o formato de data recebido para o formato utilizado no Brasil
             item.data = item.data.split(" ")[0];
@@ -297,9 +298,23 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
                 .append($("<td>").text(item.frequencia_respiratoria))
                 .append($("<td>").text(item.temperatura))
                 .append($("<td>").text(item.hgt))
+                .append($("<td style='display: flex; justify-content: center;'>")
+                  .append($("<a onclick='removerSinVit("+item.id_sinais_vitais+")' href='#' title='Excluir'><button class='btn btn-danger'><i class='fas fa-trash-alt'></i></button></a>"))
+                )
               )
             });
           });
+
+          function removerSinVit(sinal){
+            if(!window.confirm("Deseja excluir esse registro da tabela?")) return false;
+            fetch("sinais_vitais_excluir.php").then(response=>{return response.json()})
+            .then(data=>{
+              console.log(data);
+            })
+            .catch(err=>{console.log(err)});
+          }
+
+
           $(document).ready(function() {
               $('#tabmed').DataTable({
                   "order": [
@@ -449,6 +464,7 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
                             <th>Frequência repiratória</th>
                             <th>Temperatura</th>
                             <th>HGT</th>
+                            <th>Excluir</th>
                           </tr>
                         </thead>
                         <tbody id="sin-vit-tab" style="font-size:15px">
