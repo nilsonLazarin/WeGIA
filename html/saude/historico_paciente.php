@@ -280,7 +280,6 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
         $(function() {
           var sinaisvitais = <?= $sinaisvitais ?>;
-          console.log(sinaisvitais)
           $("#sin-vit-tab").empty();
           $.each(sinaisvitais, function (i,item){ // Transforma o formato de data recebido para o formato utilizado no Brasil
             item.data = item.data.split(" ")[0];
@@ -289,7 +288,7 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
           })
           $.each(sinaisvitais, function(i, item) {
             $("#sin-vit-tab")
-              .append($("<tr>")
+              .append($("<tr id=l_"+i+">")
                 .append($("<td>").text(item.data.split(" ")[0]))
                 .append($("<td>").text(item.nome+" "+(item.sobrenome !== null ? item.sobrenome : "")))
                 .append($("<td>").text(item.saturacao))
@@ -299,19 +298,27 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
                 .append($("<td>").text(item.temperatura))
                 .append($("<td>").text(item.hgt))
                 .append($("<td style='display: flex; justify-content: center;'>")
-                  .append($("<a onclick='removerSinVit("+item.id_sinais_vitais+")' href='#' title='Excluir'><button class='btn btn-danger'><i class='fas fa-trash-alt'></i></button></a>"))
+                  .append($("<a onclick='removerSinVit("+item.id_sinais_vitais+","+i+")' href='#' title='Excluir'><button class='btn btn-danger'><i class='fas fa-trash-alt'></i></button></a>"))
                 )
               )
             });
           });
 
-          function removerSinVit(sinal){
+          function removerSinVit(sinal, linha){
             if(!window.confirm("Deseja excluir esse registro da tabela?")) return false;
-            fetch("sinais_vitais_excluir.php").then(response=>{return response.json()})
-            .then(data=>{
-              console.log(data);
+            $.ajax({
+              url: "sinais_vitais_excluir.php",
+              type: "POST",
+               data: {
+                 "id_sinais_vitais": sinal
+               },
+              success: function (msg){
+                let texto = `#l_${linha}`;
+                $(texto).empty();
+                console.log(msg)
+              },
+              error: function (err){console.log(err)},
             })
-            .catch(err=>{console.log(err)});
           }
 
 
