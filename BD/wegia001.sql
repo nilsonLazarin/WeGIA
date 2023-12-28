@@ -929,6 +929,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`remessa` (
   `tipo_carne` INT NOT NULL,
   `quantidade_boletos` INT NOT NULL,
   `valor_unitario` DECIMAL(10,2) NULL DEFAULT NULL,
+  `nosso_num_seq` INT(11) NOT NULL,
   `id_socio` INT NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_remessa_socio` (`id_socio` ASC),

@@ -10,7 +10,7 @@
 		 }
 		 require_once($config_path);
 	}
-	$req = mysqli_query($conexao, "SELECT `id`, `codigo`, `data_emissao` FROM `remessa` ORDER BY `id` DESC LIMIT 1");
+	$req = mysqli_query($conexao, "SELECT `id`, `codigo`, `data_emissao`, `nosso_num_seq` FROM `remessa` ORDER BY `id` DESC LIMIT 1");
 	 
 	$conexao->close();
 	 
@@ -30,6 +30,7 @@
 		if(strlen($row["codigo"])==1){
 			$row["codigo"] = '0' . $row["codigo"];
 		}
+		$sequencial_anterior = $row["nosso_num_seq"]; // Último número registrado no nosso número
 		$codigo_desf = str_split($row["codigo"]); //código desformatado
 		$data_e_a = $row["data_emissao"]; //data de emissão anterior
 		$data_e_a = new DateTime($data_e_a);
@@ -87,6 +88,7 @@
 	else{
 		$id = "01";
 		$codigo = "00";
+		$sequencial_anterior = 0;
 	} 
 	
 	 $dataVencimento = $_POST['dataVencimento'];
@@ -95,7 +97,7 @@
 	 $nome = $_POST['nome'];
 	 $cidade = $_POST['cidade'];
 	 $cpf_cnpj = $_POST['cpf_cnpj'];
-	 
+
 	$_POST['cidade'] == "" || $_POST['cidade'] == null ? $cidade = "desconhecido" : $cidade = $_POST['cidade'];
 
 	$_POST['logradouro'] == "" || $_POST['logradouro'] == null ? $logradouro = "sem endereco" : $logradouro = $_POST['logradouro'];
@@ -602,7 +604,13 @@ if(!function_exists(formata_numdoc))
 
 		$conteudo .= formata_numdoc(0,5); # Zeros
 
-		$nosso_numero = formata_numdoc($conta.$conta_digito.$dados["id_cob"],11);
+		$sequencial_final = $sequencial_anterior+$lote;
+
+		$nosso_numero = formata_numdoc($conta.$conta_digito.$sequencial_final,11);
+		/* O "nosso número" é um código que deve ser único para cada boleto e serve para identificar cada um deles.
+		 Esse numero pode seguir qualquer ordem desde que seja único. O sequencal acima pode ter até 5 posições, 
+		 o que permite que sejam gerados cerca de 100.000 boletos com ele.
+		*/
 
 
 		//Cálculo do dígito de verificação do nosso número de acordo com o padrão Bradesco
@@ -661,9 +669,9 @@ if(!function_exists(formata_numdoc))
 
 		$conteudo .= formata_numdoc(number_format($valor,2,'',''),15); # Valor Nominal do Titulo
 
-		$conteudo .= formata_numdoc(0,5); # Agencia Encarregada da Cobranca
+		$conteudo .= formata_numdoc($agencia, 5);  // Agência encarregada da cobrança
 
-		$conteudo .= formata_numdoc(0,1); # Digito Verificador da Agencia
+		$conteudo .= formata_numdoc($agencia_digito, 1); // Digito da agência encarregada da cobrança
 
 		$conteudo .= '32'; # Especie do Titulo
 
@@ -853,9 +861,11 @@ if(!function_exists(formata_numdoc))
 		'codigo'=>$codigo,
 		'dataVencimentoIni'=>$dataVencimento[0],
 		'dataVencimentoFin'=>end($dataVencimento),
+		'sequencial_final'=>$sequencial_final,
 		'dataAtual'=>$ano.$mes.$dia,
 		'valor'=>$valor,
 		'qtdBoletos'=>$lote,
+		'nosso_numero'=>$nosso_numero,
 		"filename"=>$nomeParaDownload
 	];
 	$obj = json_encode($obj);

@@ -262,6 +262,7 @@ $(document).ready(function(){
                                                 "data_vencimento_inicial": DataVencIni,
                                                 "data_vencimento_final": DataVencFin,
                                                 "data_emissao": boleto.dataAtual,
+                                                "nosso_num_seq": boleto.sequencial_final,
                                                 "tipo_carne": tipo,
                                                 "quantidade_boletos": boleto.qtdBoletos,
                                                 "valor": parseFloat(boleto.valor)
@@ -357,7 +358,7 @@ $(document).ready(function(){
                                             else{
                                                 carneBoletos.push(dadosBoleto);
                                                 CadastraCobrancas(carneBoletos, socio.id_socio, qtdMeses);
-                                                
+                                                console.log(carneBoletos);
                                                 montaTabela(socio.nome, carneBoletos, `${tipoCarne}`, socio.telefone, datasArray);
                                                 carneBoletos = [];
                                             }
