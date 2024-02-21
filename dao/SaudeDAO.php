@@ -16,22 +16,38 @@ require_once ROOT."/Functions/funcoes.php";
 
 class SaudeDAO
 {
+    /**
+     * Recebe um objeto do tipo Saude e cria uma ficha médica no banco de dados linkando o id do paciente no campo id_pessoa da tabela.
+     */
     public function incluir($saude)
     {               
         try {
-            $sql = "call saude_cad_fichamedica(:nome,null)";
+            //$sql = "call saude_cad_fichamedica(:nome,null)";
+            $sql = "INSERT INTO saude_fichamedica(id_pessoa) VALUES (:id_pessoa)";//continuar daqui...
             $pdo = Conexao::connect();
+
+            $pdo->beginTransaction();
+
             $stmt = $pdo->prepare($sql);
-            $nome=$saude->getNome();
-           // $descricao=$saude->getTexto();
-            $stmt->bindParam(':nome',$nome);
-           // $stmt->bindParam(':descricao',null);
-            $stmt->execute();
-            $pdo->commit();
-            $pdo->close();
+            
+            $idPessoa = $saude->getNome();
+            $stmt->bindParam(':id_pessoa',$idPessoa);
+           
+            if($stmt->execute()){
+                $pdo->commit();
+            }else{
+                $pdo->rollBack();
+            }
+
+            //$stmt->execute();
+            
+            //$pdo->close();//método depreciado
+            
             
         } catch (PDOException $e) {
             echo 'Error: <b>  na tabela pessoas = ' . $sql . '</b> <br /><br />' . $e->getMessage();
+        } finally{
+            $pdo = null; // <-- Forma atual
         }
         
     }

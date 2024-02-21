@@ -156,7 +156,7 @@ class SaudeControle
         
     }
 
-    public function incluir(){
+    /*public function incluir(){
         $saude = $this->verificar();
         $texto_descricao = $saude->$texto;
         $id_pessoa = $saude->$nome;       
@@ -171,6 +171,31 @@ class SaudeControle
             $_SESSION['link']="../html/saude/cadastro_ficha_medica.php";
             header("Location: ../html/saude/informacao_saude.php");
         } catch (PDOException $e){
+            $msg= "Não foi possível registrar o paciente <form> <input type='button' value='Voltar' onClick='history.go(-1)'> </form>"."<br>".$e->getMessage();
+            echo $msg;
+        }
+    }*/ //temporariamente desativada
+
+    /**
+     * Instancia um objeto do tipo Saude que recebe informações do formulário de cadastro e chama os métodos de DAO e Controller necessários para que uma ficha médica nova seja criada.
+     */
+    public function incluir(){
+        $saude = $this->verificar();
+        $texto_descricao = $saude->getTexto();
+
+        $saudeDao = new SaudeDAO();
+        $descricao = new DescricaoControle();
+
+        try{
+            $saudeDao->incluir($saude);
+            $descricao->incluir($texto_descricao);
+
+            $_SESSION['msg']="Ficha médica cadastrada com sucesso!";
+            $_SESSION['proxima']="Cadastrar outra ficha.";
+            $_SESSION['link']="../html/saude/cadastro_ficha_medica.php";
+            header("Location: ../html/saude/informacao_saude.php");
+            
+        }catch(PDOException $e){
             $msg= "Não foi possível registrar o paciente <form> <input type='button' value='Voltar' onClick='history.go(-1)'> </form>"."<br>".$e->getMessage();
             echo $msg;
         }
