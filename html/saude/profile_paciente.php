@@ -119,7 +119,7 @@ header("Location: ../home.php?msg_c=$msg");
   $cargoEnfermeiro = $mysqli->query("SELECT * FROM pessoa p JOIN funcionario f ON (p.id_pessoa=f.id_pessoa) WHERE f.id_cargo = 4");
   $tipoexame = $mysqli->query("SELECT * FROM saude_exame_tipos");
   $medicamentoenfermeiro = $mysqli->query("SELECT * FROM saude_medicacao"); 
-  $descparaenfermeiro = $mysqli->query("SELECT descricao FROM saude_fichamedica");
+  //$descparaenfermeiro = $mysqli->query("SELECT descricao FROM saude_fichamedica"); ficha médica não possuí mais descrição
   $medstatus = $mysqli->query("SELECT * FROM saude_medicacao_status");
 
   $teste1 = $pdo->query("SELECT nome FROM pessoa p JOIN funcionario f ON(p.id_pessoa = f.id_pessoa) WHERE f.id_pessoa = " .$_SESSION['id_pessoa'])->fetchAll(PDO::FETCH_ASSOC);
