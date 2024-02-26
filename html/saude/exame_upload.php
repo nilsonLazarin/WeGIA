@@ -23,13 +23,16 @@ if ($_POST){
     
     try {
         $pdo = Conexao::connect();
-        $prep = $pdo->prepare("INSERT INTO saude_exames(id_fichamedica, id_exame_tipos, arquivo_nome, arquivo_extensao,arquivo) VALUES ( :id_fichamedica, :id_exame_tipos, :arquivo_nome , :arquivo_extensao, :arquivo )");
+        $prep = $pdo->prepare("INSERT INTO saude_exames(id_fichamedica, id_exame_tipos, data, arquivo_nome, arquivo_extensao,arquivo) VALUES ( :id_fichamedica, :id_exame_tipos, :data, :arquivo_nome , :arquivo_extensao, :arquivo )");
 
         $prep->bindValue(":id_fichamedica", $id_fichamedica);
         $prep->bindValue(":id_exame_tipos", $id_docfuncional);
         $prep->bindValue(":arquivo_nome", $arquivo_nome);
         $prep->bindValue(":arquivo_extensao", $extensao_nome);
         $prep->bindValue(":arquivo", gzcompress($arquivo_b64));
+
+        $dataExame = date('Y/m/d');
+        $prep->bindValue(":data", $dataExame);
 
         $prep->execute();
         
