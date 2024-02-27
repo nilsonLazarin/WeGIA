@@ -18,7 +18,7 @@ class CategoriaDAO
                 $stmt->bindParam(':descricao_categoria',$descricao_categoria);
 
                 $stmt->execute();
-            }catch (PDOExeption $e) {
+            }catch (PDOException $e) {
                 echo 'Error: <b>  na tabela categoria_produto = ' . $sql . '</b> <br /><br />' . $e->getMessage();
             }
         }
@@ -35,7 +35,7 @@ class CategoriaDAO
                   $stmt->bindParam(':id_categoria_produto',$id_categoria_produto);  
       
                   $stmt->execute();
-            }catch (PDOExeption $e) {
+            }catch (PDOException $e) {
                 echo 'Error: <b>  na tabela categoria_produto = ' . $sql . '</b> <br /><br />' . $e->getMessage();
             }
           }
@@ -83,8 +83,8 @@ class CategoriaDAO
                     $categorias[$x]=array('id_categoria_produto'=>$linha['id_categoria_produto'],'descricao_categoria'=>$linha['descricao_categoria']);
                     $x++;
                 }
-                } catch (PDOExeption $e){
-                    echo 'Error:' . $e->getMessage;
+                } catch (PDOException $e){
+                    echo 'Error:' . $e->getMessage();
 
                 }
                 return json_encode($categorias);

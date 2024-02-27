@@ -41,6 +41,33 @@ class DescricaoDAO{
             
         }
     }
+
+    /**
+     * Recebe dois parâmetros, o id da ficha médica e um array com as strings de texto que formaram o novo conteúdo, acessa o banco de dados e realiza as alterações necessárias no campo descricao da tabela saude_fichamedica_descricoes
+     */
+    public function alterar($idFicha, $texto){
+        try{
+            $sql1 = "SELECT id_descricao FROM saude_fichamedica_descricoes WHERE id_fichamedica = $idFicha";
+            $sql2 = "UPDATE saude_fichamedica_descricoes SET descricao =:descricao WHERE id_descricao =:id";
+            $pdo = Conexao::connect();
+            //$pdo->beginTransaction();
+            $stmt = $pdo->prepare($sql1);
+            $stmt->execute();
+            $descricoes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            foreach($descricoes as $indice =>$descricao){
+                $stmt2 = $pdo->prepare($sql2);
+                $stmt2->bindParam(':descricao', $texto[$indice]);
+                $stmt2->bindParam(':id', $descricao['id_descricao']);
+
+                $stmt2->execute();
+
+            }
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
+       
+    }
 }
 
 

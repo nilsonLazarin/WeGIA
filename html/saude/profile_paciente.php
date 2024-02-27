@@ -105,6 +105,7 @@ header("Location: ../home.php?msg_c=$msg");
 
   $prontuariopublico = $pdo->query("SELECT descricao FROM saude_fichamedica_descricoes WHERE id_fichamedica= ".$_GET['id_fichamedica']);
   $prontuariopublico = $prontuariopublico->fetchAll(PDO::FETCH_ASSOC);
+  $prontuarioPHP = $prontuariopublico;
   $prontuariopublico = json_encode($prontuariopublico);
 
   $medaplicadas = $pdo->query("SELECT medicamento, aplicação FROM saude_medicacao sm JOIN saude_medicamento_administracao sa ON (sm.id_medicacao = sa.saude_medicacao_id_medicacao) join saude_atendimento saa on(saa.id_atendimento=sm.id_atendimento) WHERE saa.id_fichamedica= '$id' ORDER BY id_medicacao DESC");
@@ -173,7 +174,9 @@ header("Location: ../home.php?msg_c=$msg");
                 alert("Por favor, informe a descrição!");
                 e.cancel();
             });
+
         });
+
     </script>
     
     <style type="text/css">
@@ -206,6 +209,10 @@ header("Location: ../home.php?msg_c=$msg");
         }
         .col-md-3 {
             width: 10%;
+        }
+
+        .titulo-prontuario{
+            font-weight: bold;
         }
 
     </style>
@@ -430,18 +437,6 @@ header("Location: ../home.php?msg_c=$msg");
                   [0, "asc"]
                   ]
                 });
-            });
-            
-          $(function() {
-          var prontuariopublico = <?= $prontuariopublico ?>;
-          stringConcatenada = "";
-          $.each(prontuariopublico, function(i, item) {
-            stringConcatenada += item.descricao; 
-            });
-          $("#prontuario_publico")
-              .append($("<tr>")
-                .append($("<td>")).html(stringConcatenada)
-          )
           });
 
         function escrevermed() {
@@ -476,6 +471,14 @@ header("Location: ../home.php?msg_c=$msg");
       <style type="text/css">
       .obrig {
         color: rgb(255, 0, 0);
+      }
+
+      .btn-edicaoProntuario{
+        margin-top: 10px;
+      }
+
+      .hidden{
+        display: none;
       }
       </style>
         
@@ -672,20 +675,27 @@ header("Location: ../home.php?msg_c=$msg");
                     <br>
                     <br>
 
-                     <div class="col-md-12">
-                        <table class="table table-bordered table-striped mb-none">
-                        <thead>
-                          <tr style="font-size:15px;">
-                            <th>Prontuário público</th>
-                          </tr>
-                        </thead>
-                        <tbody id="prontuario_publico" style="font-size:15px">
-                          
-                        </tbody>
-                      </table>
-                    </div>
                     </div>
                     </section>
+                  </form>
+                  <form action="../../controle/control.php" method="POST" id="editarProntuario">
+                      <input type="hidden" name="nomeClasse" value="SaudeControle">
+                      <input type="hidden" name="metodo" value="alterarProntuario">
+                      <input type="hidden" name="id_fichamedica" value="<?php echo $_GET['id_fichamedica'] ?>">
+                    
+                    <label for="textoProntuario" class="titulo-prontuario">Prontuário Público</label>
+                    <textarea name="textoProntuario" class="form-control" id="prontuario" cols="30" rows="10"><?php
+                        $stringConcatenada = '';
+
+                        foreach($prontuarioPHP as $prontuario){
+                          $stringConcatenada .= $prontuario['descricao'];
+                        }
+
+                        echo $stringConcatenada;
+                    ?></textarea>
+                    <button id="btn-editarProntuario" class="btn btn-primary btn-edicaoProntuario" onclick="event.preventDefault(); editarProntuario();">Editar Prontuário</button>
+                    <button id="btn-cancelarEdicao" class="btn btn-danger btn-edicaoProntuario hidden" onclick="event.preventDefault(); cancelarEdicao()" >Cancelar</button>
+                    <button type="submit" id="btn-confirmarEdicao" class="btn btn-success btn-edicaoProntuario hidden">Salvar</button>
                   </form>
                 </div>
 
@@ -1595,6 +1605,33 @@ header("Location: ../home.php?msg_c=$msg");
                     ]
                   });
               });
+
+
+
+        var editor2 = CKEDITOR.replace('prontuario', {
+          readOnly:true
+        });
+
+        editor2.on('required', function(e){
+          alert("Por favor, informe a descrição!");
+          e.cancel();
+        });
+
+
+        function editarProntuario(){
+          editor2.setReadOnly(false);
+          document.getElementById('btn-editarProntuario').classList.add('hidden');
+          document.getElementById('btn-cancelarEdicao').classList.remove('hidden');
+          document.getElementById('btn-confirmarEdicao').classList.remove('hidden');
+        }
+            
+        function cancelarEdicao(){
+          editor2.setReadOnly(true);
+          document.getElementById('btn-editarProntuario').classList.remove('hidden');
+          document.getElementById('btn-cancelarEdicao').classList.add('hidden');
+          document.getElementById('btn-confirmarEdicao').classList.add('hidden');
+          location.reload();
+        }
         </script>
         
         <!-- Vendor -->
