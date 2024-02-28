@@ -684,7 +684,7 @@ header("Location: ../home.php?msg_c=$msg");
                       <input type="hidden" name="id_fichamedica" value="<?php echo $_GET['id_fichamedica'] ?>">
                     
                     <label for="textoProntuario" class="titulo-prontuario">Prontuário Público</label>
-                    <textarea name="textoProntuario" class="form-control" id="prontuario" cols="30" rows="10"><?php
+                    <textarea name="textoProntuario" class="form-control" required id="prontuario" cols="30" rows="10"><?php
                         $stringConcatenada = '';
 
                         foreach($prontuarioPHP as $prontuario){
