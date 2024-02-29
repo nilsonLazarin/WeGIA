@@ -87,7 +87,7 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
   $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
   $medicamentoenfermeiro = $mysqli->query("SELECT * FROM saude_medicacao"); 
-  $descparaenfermeiro = $mysqli->query("SELECT descricao FROM saude_fichamedica");
+  //$descparaenfermeiro = $mysqli->query("SELECT descricao FROM saude_fichamedica"); A tabela saude_fichamedica não possui mais o campo de descrição
   $medstatus = $mysqli->query("SELECT * FROM saude_medicacao_status");
 
   $teste = $pdo->query("SELECT nome FROM pessoa p JOIN funcionario f ON(p.id_pessoa = f.id_pessoa) WHERE f.id_pessoa = " .$_SESSION['id_pessoa'])->fetchAll(PDO::FETCH_ASSOC);

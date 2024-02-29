@@ -4,11 +4,13 @@ include_once(ROOT.'/dao/DescricaoDAO.php');
 
 class DescricaoControle
 {
+    private $tamanho = 1000;
+
     public function incluir($texto){
         extract($_REQUEST);
         $idDescricao = new DescricaoDAO();
-        $tamanho = 1000;
-        $textoArray = $this->divideStringEmArrays($texto, $tamanho);
+        //$tamanho = 1000;
+        $textoArray = $this->divideStringEmArrays($texto, $this->tamanho);
         $idDescricao->incluir($textoArray, $nome);
 
     }  
@@ -30,6 +32,16 @@ class DescricaoControle
         }
         
         return $arrayResultante;
+    }
+
+    /**
+     * Recebe dois parâmetros, o id da ficha médica que será alterada e o novo texto, instancia um objeto do tipo DescricaoDAO e chama o método alterar, repassando o id informado e um array da string do texto informado.
+     */
+    public function alterarProntuario($idFicha, $texto){
+        $descricaoDAO = new DescricaoDAO();
+        $textoArray = $this->divideStringEmArrays($texto, $this->tamanho);
+        $descricaoDAO->alterar($idFicha, $textoArray);
+
     }
 }
 ?>

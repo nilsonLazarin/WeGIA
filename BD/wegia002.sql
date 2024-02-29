@@ -263,8 +263,8 @@ INSERT INTO `saude_exame_tipos` (`id_exame_tipo`, `descricao`) VALUES
 /*INSERT INTO `wegia`.`saude_fichamedica_descricoes` (`id_fichamedica`, `descricao`)
 SELECT `id_fichamedica`, `descricao`
 FROM `wegia`.`saude_fichamedica`
-WHERE `descricao` IS NOT NULL;
+WHERE `descricao` IS NOT NULL;*/
 
 INSERT INTO `saude_medicacao_status` (`descricao`) VALUES ('Em tratamento'), ('Concluído') , ('Substituído'), ('Cancelado');
 
-INSERT INTO `saude_tabelacid` (`CID`, `descricao`) VALUES ('B34.2', 'Infecção por coronavírus de localização não especificada');*/
+INSERT INTO `saude_tabelacid` (`CID`, `descricao`) VALUES ('B34.2', 'Infecção por coronavírus de localização não especificada');

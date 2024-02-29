@@ -217,5 +217,21 @@ class SaudeControle
         }
         
     }
+
+    /**
+     * Pega as informações do formulário de edição do prontuário e instancia um objeto do tipo DescricaoControle, chamando o método alterarProntuario e passando as informações necessárias, caso a alteração seja bem sucedida redireciona o usuário para a página de exibição das informações do paciente.
+     */
+    public function alterarProntuario(){
+       
+        extract($_REQUEST);
+
+        $descricao = new DescricaoControle();
+        try{
+            $descricao->alterarProntuario($id_fichamedica, $textoProntuario);
+            header("Location: ../html/saude/profile_paciente.php?id_fichamedica=".$id_fichamedica);
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
+    }
    
 }
