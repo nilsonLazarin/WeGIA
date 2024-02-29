@@ -26,8 +26,8 @@ if ($_POST){
 
     try {
         $pdo = Conexao::connect();
-        $prep = $pdo->prepare("INSERT INTO atendido_documentacao( atendido_idatendido, atendido_docs_atendidos_idatendido_docs_atendidos, arquivo_nome, arquivo_extensao, arquivo) 	
-        VALUES ( :atendido_idatendido , :atendido_docs_atendidos_idatendido_docs_atendidos , :arquivo_nome , :arquivo_extensao, :arquivo )");
+        $prep = $pdo->prepare("INSERT INTO atendido_documentacao( atendido_idatendido, atendido_docs_atendidos_idatendido_docs_atendidos, data, arquivo_nome, arquivo_extensao, arquivo) 	
+        VALUES ( :atendido_idatendido , :atendido_docs_atendidos_idatendido_docs_atendidos , :data, :arquivo_nome , :arquivo_extensao, :arquivo )");
 
         //$prep->bindValue(":ida", $idatendido);
         //$prep->bindValue(":idd", $atentido_ocorrencia_idatentido_ocorrencias);
@@ -36,6 +36,9 @@ if ($_POST){
         $prep->bindValue(":arquivo_nome", $arquivo_nome);
         $prep->bindValue(":arquivo_extensao", $extensao_nome);
         $prep->bindValue(":arquivo", gzcompress($arquivo_b64));
+
+        $dataDocumento = date('Y/m/d');
+        $prep->bindValue(":data", $dataDocumento);
 
         $prep->execute();
         

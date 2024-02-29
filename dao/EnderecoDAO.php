@@ -1,7 +1,7 @@
 <?php
 
 error_reporting(0);
-ini_set(“display_errors”, 0 );
+ini_set('display_errors', 0 );
 
 class EnderecoDAO
 {
@@ -55,8 +55,8 @@ class EnderecoDAO
                 $endereco[$x]=array('bairro'=>$linha['bairro'],'cep'=>$linha['cep'],'nome'=>$linha['nome'],'cidade'=>$linha['cidade'], 'complemento'=>$linha['complemento'], 'estado'=>$linha['estado'], 'ibge'=>$linha['ibge'], 'logradouro'=>$linha['logradouro'], 'numero_endereco'=>$linha['numero_endereco']);
                 $x++;
             }
-            } catch (PDOExeption $e){
-                echo 'Error:' . $e->getMessage;
+            } catch (PDOException $e){
+                echo 'Error:' . $e->getMessage();
             }
             return json_encode($endereco);
     }
@@ -110,8 +110,8 @@ class EnderecoDAO
                 $id[$x]=array('id'=>$linha['id_inst']);
                 $x++;
             }
-            } catch (PDOExeption $e){
-                echo 'Error:' . $e->getMessage;
+            } catch (PDOException $e){
+                echo 'Error:' . $e->getMessage();
             }
             return $id;
     }

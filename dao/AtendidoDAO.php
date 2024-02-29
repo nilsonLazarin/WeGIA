@@ -135,28 +135,57 @@ class AtendidoDAO
 
    
 
-    //excluir  
+    //reformular o método, não deve ser possível deletar um atendido da base de dados.
     public function excluir($id)
     {
-        
+        /*
         try {
             
-            $sql = 'call excluiratendido(:idatendido)';
-            $sql = str_replace("'", "\'", $sql);
+            //echo $id;
+            //$sql = 'call excluiratendido(:idatendido)';
+            //$sql = str_replace("'", "\'", $sql);
+
+            $sql1 = "DELETE FROM atendido WHERE idatendido=$id";
+            $sql2 = "DELETE FROM atendido_ocorrencia WHERE atendido_idatendido=$id";
+            //$sql3 = "DELETE p FROM pessoa as p join atendido as a on p.id_pessoa=a.pessoa_id_pessoa";
+            $sqlAux1 = "SELECT pessoa_id_pessoa FROM atendido WHERE idatendido=$id";
+            $sql3 = "DELETE FROM pessoa WHERE id_pessoa=:idPessoa";
+            $sql4 = "DELETE * FROM atendido_documentacao WHERE atendido_idatendido=$id";
+
             $pdo = Conexao::connect();
+
+            $pdo->beginTransaction();
+
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            
-            $stmt = $pdo->prepare($sql);
 
-            $stmt->bindParam(':idatendido', $id);
-            
-            $stmt->execute();
+            $stmtAux1 = $pdo->prepare($sqlAux1);
+            $stmtAux1->execute();
+            $pessoaID = $stmtAux1->fetch(PDO::FETCH_ASSOC);
+            $pessoaID = $pessoaID['pessoa_id_pessoa'];
+            //echo $pessoaID;
+            //print_r($pessoaID);
 
-            $pdo->commit();
-            $pdo->close();
+            $stmt3 = $pdo->prepare($sql3);
+            $stmt3->bindParam(':idPessoa', $pessoaID);
+
+            $stmt2 = $pdo->prepare($sql2);
+            $stmt2->execute();
+            
+            $stmt = $pdo->prepare($sql1);
+
+            //$stmt->bindParam(':idatendido', $id);
+            
+            if($stmt->execute()){
+                $stmt3->execute();
+                $pdo->commit();
+            }else{
+                $pdo->rollBack();
+            }
+
+            $pdo = null;
         } catch (PDOException $e) {
-            echo 'Error: <b>  na tabela pessoas = ' . $sql . '</b> <br /><br />' . $e->getMessage();
-        }
+            echo 'Error: <b>  na tabela pessoas = ' . $sql1 . '</b> <br /><br />' . $e->getMessage();
+        }*/
     }
 
     public function alterarImagem($idatendido, $imagem)

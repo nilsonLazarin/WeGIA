@@ -56,7 +56,7 @@ session_start();
     //fechar conexao arq
    
 
-  include_once '../../classes/Cache.php';    
+  include_once '../../classes/Cache.php';   
 
 	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
   require_once "../personalizacao_display.php";
