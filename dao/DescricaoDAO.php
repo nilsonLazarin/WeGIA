@@ -49,6 +49,8 @@ class DescricaoDAO{
         try{
             $sql1 = "SELECT id_descricao FROM saude_fichamedica_descricoes WHERE id_fichamedica = $idFicha";
             $sql2 = "UPDATE saude_fichamedica_descricoes SET descricao =:descricao WHERE id_descricao =:id";
+            $sql3 = "DELETE FROM saude_fichamedica_descricoes WHERE id_descricao=:id";
+            $sql4 = "INSERT INTO saude_fichamedica_descricoes(id_fichamedica, descricao) VALUES (:id, :descricao)";
             $pdo = Conexao::connect();
             //$pdo->beginTransaction();
             $stmt = $pdo->prepare($sql1);
@@ -56,13 +58,38 @@ class DescricaoDAO{
             $descricoes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             foreach($descricoes as $indice =>$descricao){
-                $stmt2 = $pdo->prepare($sql2);
-                $stmt2->bindParam(':descricao', $texto[$indice]);
-                $stmt2->bindParam(':id', $descricao['id_descricao']);
+                //Adicionar verificação para atribuir uma descrição vazia a partir do momento que o indice passar do número de elementos do texto
+                if($texto[$indice]){
+                    $stmt2 = $pdo->prepare($sql2);
+                    $stmt2->bindParam(':descricao', $texto[$indice]);
+                    $stmt2->bindParam(':id', $descricao['id_descricao']);
+    
+                    $stmt2->execute();
+                }else{
+                    //echo 'Array Vazio<br>';
+                    $stmt3 = $pdo->prepare($sql3);
+                    $stmt3->bindParam(':id', $descricao['id_descricao']);
 
-                $stmt2->execute();
+                    $stmt3->execute();
+                }
 
             }
+
+            //echo $indice;
+            //Adicionar verificação para detectar se todo o texto enviado foi de fato alterado, em caso negativo fazer um INSERT INTO com o conteúdo restante.
+            $tamanhoTexto = count(($texto));
+            if($tamanhoTexto > $indice){
+
+                for($i=++$indice; $i<$tamanhoTexto; $i++){
+                    //echo $i.'<br>';
+                    $stmt4 = $pdo->prepare($sql4);
+                    $stmt4->bindParam(':id', $idFicha);
+                    $stmt4->bindParam(':descricao', $texto[$i]);
+
+                    $stmt4->execute();
+                }
+            }
+
         }catch(PDOException $e){
             echo $e->getMessage();
         }
