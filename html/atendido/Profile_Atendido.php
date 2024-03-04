@@ -1398,7 +1398,7 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
       }
     }
       function gerarParentesco() {
-      url = './funcionario/dependente_parentesco_listar.php';
+      url = './atendido_parentesco_listar.php';
       $.ajax({
         data: '',
         type: "POST",
@@ -1409,14 +1409,14 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
           $('#parentesco').empty();
           $('#parentesco').append('<option selected disabled>Selecionar...</option>');
           $.each(parentesco, function(i, item) {
-            $('#parentesco').append('<option value="' + item+ '">' + item.atendido_parentesco_idatendido_parentesco + '</option>');
+            $('#parentesco').append('<option value="' + item.idatendido_parentesco+ '">' + item.parentesco + '</option>');
           });
         },
         dataType: 'json'
       });
     }
     function adicionarParentesco() {
-      url = './funcionario/dependente_parentesco_adicionar.php';
+      url = './atendido_parentesco_adicionar.php';
       var descricao = window.prompt("Cadastre um novo tipo de Parentesco:");
       if (!descricao) {
         return
