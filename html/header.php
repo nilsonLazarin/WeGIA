@@ -28,6 +28,29 @@ if(file_exists($config_path)){
 	$pessoa = mysqli_fetch_array($resultado);
 ?>
 
+<head>
+	<style>
+		.alerta, .userbox{
+			display: inline;
+		}
+
+		.alerta a{
+			margin-right: 30px;
+			/*color: red;*/
+		}
+		.badge{
+			font-size: 1rem;
+			position: absolute;
+			top: 5px;
+			background-color: red;
+		}
+
+		.fa.fa-bell{
+			font-size: 2rem;
+		}
+	</style>
+</head>
+
 <header class="header">
 	<div class="logo-container">
 		<a href="<?php echo WWW;?>html/home.php" class="logo">
@@ -41,6 +64,12 @@ if(file_exists($config_path)){
 	<!-- start: search & user box -->
 	<div class="header-right">
 		<span class="separator"></span>
+		<div class="alerta">
+			<?php
+				if($cargo == 'Enfermeiro(a)' || $cargo == 'Téc. Enfermagem')
+					echo '<a href="/WeGIA/html/saude/emergencia_visualizar.php">Emergências <i class="fa fa-bell" aria-hidden="true"></i><span class="badge">1</span></a>';
+			?>
+		</div>
 		<div id="userbox" class="userbox">
 			<a href="#" data-toggle="dropdown">
 				<figure class="profile-picture">
