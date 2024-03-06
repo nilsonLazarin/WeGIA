@@ -186,24 +186,7 @@ echo "<script>let recentes = $recentes; let historico = $historico</script>";
 
         }
 
-        /*function exibir(conteudo) {
-            let exibidos = document.getElementById('exibidos');
-
-            let impressao = conteudo.map(function(item) {
-                return `<div class="col-md-8">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Nome Paciente</h5>
-                                    <p class="card-text">${item.descricao_emergencia}</p>
-                                    <a href="#" class="btn btn-primary">Confirmar Leitura</a>
-                                </div>
-                            </div>
-                        </div>`;
-            }).join('\n');
-            //console.log(impressao);
-
-            exibidos.innerHTML = impressao;
-        }*/
+        exibirRecentes();
     </script>
 </head>
 
@@ -237,30 +220,6 @@ echo "<script>let recentes = $recentes; let historico = $historico</script>";
                 </header>
 
                 <!-- start: page -->
-                <!--<section class="panel">
-					<header class="panel-heading">
-						<div class="panel-actions">
-							<a href="#" class="fa fa-caret-down"></a>
-						</div>
-
-						<h2 class="panel-title">Pacientes</h2>
-					</header>
-					<div class="panel-body">
-						<table class="table table-bordered table-striped mb-none"
-							id="datatable-default">
-							<thead>
-								<tr>
-									<th>Nome</th>
-									<th>Ação</th>
-								</tr>
-							</thead>
-							<tbody id="tabela">
-
-							</tbody>
-						</table>
-					</div>
-					<br>
-				</section>-->
 
                 <section class="container">
                     <button class="btn btn-primary" onclick="exibirRecentes();">Recentes</button>
@@ -277,17 +236,6 @@ echo "<script>let recentes = $recentes; let historico = $historico</script>";
                                 </div>
                             </div>
                         </div>
-
-                        <!--<div class="col-md-8">
-                            <div class="card">
-
-                                <div class="card-body">
-                                    <h5 class="card-title">Nome Paciente</h5>
-                                    <p class="card-text">Descrição da emergência</p>
-                                    <a href="#" class="btn btn-primary">Confirmar Leitura</a>
-                                </div>
-                            </div>
-                        </div>-->
                     </div>
                 </section>
 
@@ -317,6 +265,11 @@ echo "<script>let recentes = $recentes; let historico = $historico</script>";
                 <div align="right">
                     <iframe src="https://www.wegia.org/software/footer/saude.html" width="200" height="60" style="border:none; margin-top:150px;"></iframe>
                 </div>
+            </section>
+    </section>
+    <script>
+        exibirRecentes();
+    </script>
 </body>
 
 </html>
