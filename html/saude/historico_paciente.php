@@ -582,9 +582,10 @@ $idPaciente = $idPaciente->fetch(PDO::FETCH_ASSOC);
                     </header>
                     <div class="panel-body">
                       <form method="post" action="../../controle/control.php">
-                        <input type="hidden" name="nomeClasse" value="SaudeControle">
-                        <input type="hidden" name="metodo" value="cadastrarEmergencia">
+                        <input type="hidden" name="nomeClasse" value="AvisoControle">
+                        <input type="hidden" name="metodo" value="incluir">
                         <input type="hidden" name="idpaciente" value="<?php echo $idPaciente['id_pessoa'];?>">
+                        <input type="hidden" name="idfuncionario" value="<?php echo $funcionario_id;?>">
 
                         <div class="form-group">
                           <label for="descricao_emergencia">Descrição da Emergência</label>

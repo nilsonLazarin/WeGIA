@@ -22,6 +22,10 @@ if (file_exists($config_path)) {
     }
     require_once($config_path);
 }
+
+
+require_once '../../controle/AvisoNotificacaoControle.php';
+
 $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 $id_pessoa = $_SESSION['id_pessoa'];
 $resultado = mysqli_query($conexao, "SELECT * FROM funcionario WHERE id_pessoa=$id_pessoa");
@@ -52,6 +56,9 @@ if (!is_null($resultado)) {
 // Adiciona a Função display_campo($nome_campo, $tipo_campo)
 require_once "../personalizacao_display.php";
 
+/*
+$avisoNotificacaoControle = new AvisoNotificacaoControle();
+$avisoNotificacaoControle->listarRecentes($id_pessoa);*/
 
 $recentes =  json_encode([
     ['id_emergencia' => '1', 'descricao_emergencia' => 'Recente'],
@@ -186,7 +193,6 @@ echo "<script>let recentes = $recentes; let historico = $historico</script>";
 
         }
 
-        exibirRecentes();
     </script>
 </head>
 
