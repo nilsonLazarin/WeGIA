@@ -67,7 +67,10 @@ if(file_exists($config_path)){
 		<div class="alerta">
 			<?php
 				if($cargo == 'Enfermeiro(a)' || $cargo == 'Téc. Enfermagem')
-					echo '<a href="/WeGIA/html/saude/emergencia_visualizar.php">Emergências <i class="fa fa-bell" aria-hidden="true"></i><span class="badge">1</span></a>';
+					require_once ROOT .'/controle/AvisoNotificacaoControle.php';
+					$avisoNotificacaoControle = new AvisoNotificacaoControle();
+					$quantidadeNotificações = $avisoNotificacaoControle->quantidadeRecentes($id_pessoa);
+					echo '<a href="/WeGIA/html/saude/emergencia_visualizar.php">Emergências <i class="fa fa-bell" aria-hidden="true"></i><span class="badge">'.$quantidadeNotificações.'</span></a>';
 			?>
 		</div>
 		<div id="userbox" class="userbox">

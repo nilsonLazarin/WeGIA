@@ -586,6 +586,7 @@ $idPaciente = $idPaciente->fetch(PDO::FETCH_ASSOC);
                         <input type="hidden" name="metodo" value="incluir">
                         <input type="hidden" name="idpaciente" value="<?php echo $idPaciente['id_pessoa'];?>">
                         <input type="hidden" name="idfuncionario" value="<?php echo $funcionario_id;?>">
+                        <input type="hidden" name="idfichamedica" value="<?php echo $id;?>">
 
                         <div class="form-group">
                           <label for="descricao_emergencia">Descrição da Emergência</label>

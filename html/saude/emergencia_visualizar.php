@@ -56,20 +56,20 @@ if (!is_null($resultado)) {
 // Adiciona a Função display_campo($nome_campo, $tipo_campo)
 require_once "../personalizacao_display.php";
 
-/*
-$avisoNotificacaoControle = new AvisoNotificacaoControle();
-$avisoNotificacaoControle->listarRecentes($id_pessoa);*/
 
-$recentes =  json_encode([
-    ['id_emergencia' => '1', 'descricao_emergencia' => 'Recente'],
-    ['id_emergencia' => '1', 'descricao_emergencia' => 'Recente2']
-]);
-$historico = json_encode([
+$avisoNotificacaoControle = new AvisoNotificacaoControle();
+$recentes = $avisoNotificacaoControle->listarRecentes($id_pessoa);
+//print_r($recentes);
+
+$recentesJSON =  json_encode(
+    $recentes
+);
+$historicoJSON = json_encode([
     ['id_emergencia' => '1', 'descricao_emergencia' => 'Histórico'],
     ['id_emergencia' => '2', 'descricao_emergencia' => 'Histórico2']
 ]);
 
-echo "<script>let recentes = $recentes; let historico = $historico</script>";
+echo "<script>let recentes = $recentesJSON; let historico = $historicoJSON</script>";
 
 ?>
 
@@ -157,12 +157,14 @@ echo "<script>let recentes = $recentes; let historico = $historico</script>";
             let exibidos = document.getElementById('exibidos');
             let conteudo = recentes;
 
+            //console.log(conteudo);
+
             let impressao = conteudo.map(function(item) {
                 return `<div class="col-md-8">
                             <div class="card">
                                 <div class="card-body">
-                                    <h5 class="card-title">Nome Paciente</h5>
-                                    <p class="card-text">${item.descricao_emergencia}</p>
+                                    <h5 class="card-title"><strong>Paciente:</strong> ${item.atendido_nome} ${item.atendido_sobrenome}</h5>
+                                    <p class="card-text"><strong>Descrição:</strong> ${item.descricao}<br><strong>Registrada em:</strong> ${item.data}<br><strong>Responsável pelo registro:</strong> ${item.funcionario_nome} ${item.funcionario_sobrenome}</p>
                                     <a href="#" class="btn btn-primary">Confirmar Leitura</a>
                                 </div>
                             </div>
