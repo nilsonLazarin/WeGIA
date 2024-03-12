@@ -10,7 +10,7 @@
         private $status;
 
         /**
-         * Recebe dois parâmetros inteiros($idAviso, $idFuncionario) e instancia um objeto do tipo AvisoNotificacao
+         * Recebe um parâmetros do tipo Aviso e instancia um objeto do tipo AvisoNotificacao
          */
         public function __construct(Aviso $aviso)
         {
