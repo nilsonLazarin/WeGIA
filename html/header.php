@@ -48,6 +48,17 @@ if(file_exists($config_path)){
 		.fa.fa-bell{
 			font-size: 2rem;
 		}
+
+		@media(max-width:768px){
+			.alerta{
+				margin-left: 30px;
+				display: inline-flex;
+				position: relative;
+				height: 50px;
+				padding-top: 20px;
+			}
+			
+		}
 	</style>
 </head>
 
@@ -66,11 +77,17 @@ if(file_exists($config_path)){
 		<span class="separator"></span>
 		<div class="alerta">
 			<?php
-				if($cargo == 'Enfermeiro(a)' || $cargo == 'Téc. Enfermagem')
+				if($cargo == 'Enfermeiro(a)' || $cargo == 'Téc. Enfermagem'){
 					require_once ROOT .'/controle/AvisoNotificacaoControle.php';
 					$avisoNotificacaoControle = new AvisoNotificacaoControle();
 					$quantidadeNotificações = $avisoNotificacaoControle->quantidadeRecentes($id_pessoa);
-					echo '<a href="/WeGIA/html/saude/emergencia_visualizar.php">Emergências <i class="fa fa-bell" aria-hidden="true"></i><span class="badge">'.$quantidadeNotificações.'</span></a>';
+					if($quantidadeNotificações > 0){
+						echo '<a href="/WeGIA/html/saude/emergencia_visualizar.php">Emergências <i class="fa fa-bell" aria-hidden="true"></i><span class="badge">'.$quantidadeNotificações.'</span></a>';
+					}else{
+						echo '<a href="/WeGIA/html/saude/emergencia_visualizar.php">Emergências <i class="fa fa-bell" aria-hidden="true"></i></a>';
+					}
+					
+				}
 			?>
 		</div>
 		<div id="userbox" class="userbox">

@@ -19,6 +19,9 @@ require_once ROOT . '/dao/AvisoDAO.php';
 
 class AvisoControle
 {
+    /**
+     * Extrai as informações enviadas pelo formulário via POST e realiza as operações necessárias para criar um aviso e enviar suas respectivas notificações para os funcionários cadastrados no sistema
+     */
     public function incluir()
     {
 

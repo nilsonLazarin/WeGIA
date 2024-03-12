@@ -5,7 +5,6 @@ require_once '../classes/Aviso.php';
 
 class AvisoDAO
 {
-
     private $pdo;
 
     public function __construct()
@@ -13,13 +12,15 @@ class AvisoDAO
         $this->pdo = Conexao::connect();
     }
 
+    /**
+     * Recebe um objeto do tipo Aviso como parâmetro, extrai suas propriedades e realiza os procedimentos necessários para realizar o cadastro dele no banco de dados da aplicação
+     */
     public function cadastrar(Aviso $aviso)
     {
         $sql = 'INSERT INTO aviso(id_funcionario_aviso, id_pessoa_atendida, descricao, data) VALUES (:idFuncionario, :idPessoaAtendida, :descricao, :data);';
 
         $idFuncionario = $aviso->getIdFuncionario();
         $idPessoaAtendida = $aviso->getIdPessoaAtendida();
-        //echo $idPessoaAtendida;
         $descricao = $aviso->getDescricao();
 
         try {
@@ -38,8 +39,6 @@ class AvisoDAO
             $stmt->execute();
 
             $ultimoID = $this->pdo->lastInsertId();
-
-            //Criar posteriormente função própria para realizar pesquisa por ID
             $informacoesUltimoId = $this->procuraPorID($ultimoID);
 
             if ($informacoesUltimoId['id_funcionario_aviso'] == $idFuncionario && $informacoesUltimoId['id_pessoa_atendida'] == $idPessoaAtendida && $informacoesUltimoId['descricao'] == $descricao) {
@@ -54,6 +53,9 @@ class AvisoDAO
         }
     }
 
+    /**
+     * Recebe como parâmetro um número inteiro, retorna as informações de um aviso no banco de dados que possua o mesmo id que o parâmetro recebido;
+     */
     public function procuraPorID($id)
     {
         $sql = 'SELECT id_funcionario_aviso, id_pessoa_atendida, descricao FROM aviso WHERE id_aviso=:id';

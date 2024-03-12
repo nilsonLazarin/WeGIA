@@ -9,9 +9,6 @@ if (!isset($_SESSION['usuario'])) {
     header("Location: ../index.php");
 }
 
-/*if(!isset($_SESSION['saude']))	{
-		header('Location: ../../controle/control.php?metodo=listarTodos&nomeClasse=SaudeControle&nextPage=../html/saude/informacao_saude.php');
-	}*/
 $config_path = "config.php";
 if (file_exists($config_path)) {
     require_once($config_path);
@@ -22,7 +19,6 @@ if (file_exists($config_path)) {
     }
     require_once($config_path);
 }
-
 
 require_once '../../controle/AvisoNotificacaoControle.php';
 
@@ -56,23 +52,20 @@ if (!is_null($resultado)) {
 // Adiciona a Função display_campo($nome_campo, $tipo_campo)
 require_once "../personalizacao_display.php";
 
-
 $avisoNotificacaoControle = new AvisoNotificacaoControle();
 $recentes = $avisoNotificacaoControle->listarRecentes($id_pessoa);
-//print_r($recentes);
+$historicos = $avisoNotificacaoControle->listarHistoricos($id_pessoa);
 
 $recentesJSON =  json_encode(
     $recentes
 );
-$historicoJSON = json_encode([
-    ['id_emergencia' => '1', 'descricao_emergencia' => 'Histórico'],
-    ['id_emergencia' => '2', 'descricao_emergencia' => 'Histórico2']
-]);
+$historicoJSON = json_encode(
+    $historicos
+);
 
 echo "<script>let recentes = $recentesJSON; let historico = $historicoJSON</script>";
 
 ?>
-
 
 <!doctype html>
 <html class="fixed">
@@ -156,45 +149,55 @@ echo "<script>let recentes = $recentesJSON; let historico = $historicoJSON</scri
         function exibirRecentes() {
             let exibidos = document.getElementById('exibidos');
             let conteudo = recentes;
+            let impressao = '';
 
-            //console.log(conteudo);
-
-            let impressao = conteudo.map(function(item) {
-                return `<div class="col-md-8">
+            if (conteudo.length == 0) {
+                impressao = '<br><p>Nenhum conteúdo disponível para ser visualizado foi encontrado no momemento.</p>';
+            } else {
+                impressao = conteudo.map(function(item) {
+                    return `<div class="col-md-8">
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title"><strong>Paciente:</strong> ${item.atendido_nome} ${item.atendido_sobrenome}</h5>
                                     <p class="card-text"><strong>Descrição:</strong> ${item.descricao}<br><strong>Registrada em:</strong> ${item.data}<br><strong>Responsável pelo registro:</strong> ${item.funcionario_nome} ${item.funcionario_sobrenome}</p>
-                                    <a href="#" class="btn btn-primary">Confirmar Leitura</a>
+                                    <form action="../../controle/control.php" method="POST">
+                                        <input type="hidden" name="id_notificacao" value="${item.id_aviso_notificacao}">
+                                        <input type="hidden" name="nomeClasse" value="AvisoNotificacaoControle">
+                                        <input type="hidden" name="metodo" value="mudarStatus">
+                                        <input type="submit" class="btn btn-primary" value="Confirmar Leitura">
+                                    </form>
                                 </div>
                             </div>
                         </div>`;
-            }).join('\n');
-            //console.log(impressao);
+                }).join('\n');
+            }
 
-            exibidos.innerHTML = impressao;
+            exibidos.innerHTML = impressao; 
         }
 
         function exibirHistorico() {
             let exibidos = document.getElementById('exibidos');
             let conteudo = historico;
+            let impressao = '';
+            
+            if (conteudo.length == 0) {
+                impressao = '<br><p>Nenhum conteúdo disponível para ser visualizado foi encontrado no momemento.</p>';
+            } else {
 
-            let impressao = conteudo.map(function(item) {
-                return `<div class="col-md-8">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Nome Paciente</h5>
-                        <p class="card-text">${item.descricao_emergencia}</p>
+                impressao = conteudo.map(function(item) {
+                    return `<div class="col-md-8">
+                    <div class="card">
+                        <div class="card-body">
+                             <h5 class="card-title"><strong>Paciente:</strong> ${item.atendido_nome} ${item.atendido_sobrenome}</h5>
+                              <p class="card-text"><strong>Descrição:</strong> ${item.descricao}<br><strong>Registrada em:</strong> ${item.data}<br><strong>Responsável pelo registro:</strong> ${item.funcionario_nome} ${item.funcionario_sobrenome}</p>
+                         </div>
                     </div>
-                </div>
-            </div>`;
-            }).join('\n');
-            //console.log(impressao);
+                </div>`;
+                }).join('\n');
+            }
 
             exibidos.innerHTML = impressao;
-
         }
-
     </script>
 </head>
 
@@ -234,16 +237,7 @@ echo "<script>let recentes = $recentesJSON; let historico = $historicoJSON</scri
                     <button class="btn btn-primary" onclick="exibirHistorico();">Histórico</button>
 
                     <div class="row" id="exibidos">
-                        <div class="col-md-8">
-                            <div class="card">
-
-                                <div class="card-body">
-                                    <h5 class="card-title">Nome Paciente</h5>
-                                    <p class="card-text">Descrição da emergência</p>
-                                    <a href="#" class="btn btn-primary">Confirmar Leitura</a>
-                                </div>
-                            </div>
-                        </div>
+                        
                     </div>
                 </section>
 

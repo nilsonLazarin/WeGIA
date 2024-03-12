@@ -1848,7 +1848,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`aviso`(
   `id_aviso` INT(11) NOT NULL AUTO_INCREMENT,
   `id_funcionario_aviso` INT(11) NOT NULL,
   `id_pessoa_atendida` INT(11) NOT NULL,
-  `descricao` VARCHAR(255) NOT NULL,
+  `descricao` VARCHAR(512) NOT NULL,
   `data` DATETIME NOT NULL,
   PRIMARY KEY(`id_aviso`),
   FOREIGN KEY(`id_funcionario_aviso`)
