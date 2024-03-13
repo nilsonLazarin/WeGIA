@@ -1482,7 +1482,7 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
           $('#tipoDocumento').empty();
           $('#tipoDocumento').append('<option selected disabled>Selecionar</option>');
           $.each(descricao, function(i, item) {
-            $('#tipoDocumento').append('<option value="' + item.id_tipo + '">' + item.descricao + '</option>');
+            $('#tipoDocumento').append('<option value="' + item.idatendido_docs_atendidos + '">' + item.descricao + '</option>');
           });
         },
         dataType: 'json'
