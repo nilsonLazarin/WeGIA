@@ -341,6 +341,19 @@ $idPaciente = $idPaciente->fetch(PDO::FETCH_ASSOC);
     #btn-cadastrar-emergencia{
       margin-top:10px;
     }
+
+    #prontuario_publico tr p{
+        max-width: 450px;
+        word-wrap: break-word;
+    }
+
+    @media(max-width:768px){
+        #prontuario_publico tr p{
+        max-width: 250px;
+        word-wrap: break-word;
+    }
+    }
+      
   </style>
 
 </head>
@@ -446,7 +459,7 @@ $idPaciente = $idPaciente->fetch(PDO::FETCH_ASSOC);
                                   <th>Prontuário público</th>
                                 </tr>
                               </thead>
-                              <tbody id="prontuario_publico" style="font-size:15px">
+                              <tbody id="prontuario_publico" style="font-size:15px;">
 
                               </tbody>
                             </table>
