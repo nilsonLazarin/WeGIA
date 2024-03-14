@@ -1405,11 +1405,8 @@ header("Location: ../home.php?msg_c=$msg");
                 
                 var situacoes = response;
                 console.log("situacoes",situacoes)
-                $('#id_CID').empty();
-                $('#id_CID').append('<option selected disabled>Selecionar</option>');
-                $.each(situacoes, function(i, item) {
-                  $('#id_CID').append('<option value="' + item.id_CID + '">' + item.descricao + '</option>');
-                });
+                let index = situacoes.length - 1;
+                $('#id_CID').append('<option value="' + situacoes[index].id_CID + '">' + situacoes[index].descricao + '</option>');
               },
               dataType: 'json'
             });
