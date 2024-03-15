@@ -377,7 +377,7 @@ $(function(){
 										<div class="form-group">
 											<label class="col-md-3 control-label" for="profileLastName">Sexo<sup class="obrig">*</sup></label>
 											<div class="col-md-8">
-												<input type="radio" name="sexo" id="radio1" value="m" style="margin-top: 10px margin-left: 15px;" required><i class="fa fa-male" style="font-size: 20px;" ></i>
+												<input type="radio" name="sexo" id="radio1" value="m" style="margin-top: 10px; margin-left: 15px;" required><i class="fa fa-male" style="font-size: 20px;" ></i>
 												<input type="radio" name="sexo" id="radio2"  value="f" style="margin-top: 10px; margin-left: 15px;"><i class="fa fa-female" style="font-size: 20px;"></i> 
 											</div>
 										</div>
