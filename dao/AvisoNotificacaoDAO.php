@@ -37,7 +37,9 @@ class AvisoNotificacaoDAO
      */
     public function loopCadastro(AvisoNotificacao $avisoNotificacao, $sql)
     {
-        $funcionarios = $this->pdo->query('SELECT f.id_funcionario FROM funcionario f JOIN cargo c ON(f.id_cargo=c.id_cargo) WHERE c.cargo="Enfermeiro(a)" OR c.cargo="Téc. Enfermagem"')->fetchAll(PDO::FETCH_ASSOC);
+        /*$funcionarios = $this->pdo->query('SELECT f.id_funcionario FROM funcionario f JOIN cargo c ON(f.id_cargo=c.id_cargo) WHERE c.cargo="Enfermeiro(a)" OR c.cargo="Téc. Enfermagem"')->fetchAll(PDO::FETCH_ASSOC);*/
+
+        $funcionarios = $this->pdo->query('SELECT f.id_funcionario FROM funcionario f JOIN cargo c ON(f.id_cargo=c.id_cargo) JOIN permissao p ON (c.id_cargo=p.id_cargo) WHERE p.id_acao>=5 AND p.id_recurso=5')->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($funcionarios as $funcionario) {
             $stmt = $this->pdo->prepare($sql);

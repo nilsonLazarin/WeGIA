@@ -1842,7 +1842,7 @@ ENGINE = InnoDB;
 
 
 -- ------------------------------------------------------
--- Table `wegia`.`aviso` trocar date para datetime
+-- Table `wegia`.`aviso` 
 -- ------------------------------------------------------
 CREATE TABLE IF NOT EXISTS `wegia`.`aviso`(
   `id_aviso` INT(11) NOT NULL AUTO_INCREMENT,

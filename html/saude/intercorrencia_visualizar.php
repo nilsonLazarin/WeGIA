@@ -30,13 +30,10 @@ if (!is_null($resultado)) {
     if (!is_null($id_cargo)) {
         $id_cargo = $id_cargo['id_cargo'];
     }
-    $resultado = mysqli_query($conexao, "SELECT * FROM permissao p JOIN acao a ON(p.id_acao=a.id_acao) JOIN recurso r ON(p.id_recurso=r.id_recurso) WHERE id_cargo=$id_cargo AND a.descricao = 'LER, GRAVAR E EXECUTAR' AND r.descricao='Módulo Saúde'");
+    //Alterar essa busca pelo resultado
+    $resultado = mysqli_query($conexao, "SELECT * FROM permissao p JOIN acao a ON(p.id_acao=a.id_acao) JOIN recurso r ON(p.id_recurso=r.id_recurso) WHERE id_cargo=$id_cargo AND p.id_acao >=5  AND p.id_recurso=5");
     if (!is_bool($resultado) and mysqli_num_rows($resultado)) {
         $permissao = mysqli_fetch_array($resultado);
-        if ($permissao['id_acao'] < 5) {
-            $msg = "Você não tem as permissões necessárias para essa página.";
-            header("Location: ../home.php?msg_c=$msg");
-        }
         $permissao = $permissao['id_acao'];
     } else {
         $permissao = 1;
@@ -84,7 +81,7 @@ echo "<script>let recentes = $recentesJSON; let historico = $historicoJSON</scri
     <!-- Basic -->
     <meta charset="UTF-8">
 
-    <title>Lista de Emergências</title>
+    <title>Lista de Intercorrências</title>
 
     <!-- Mobile Metas -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -213,13 +210,13 @@ echo "<script>let recentes = $recentesJSON; let historico = $historicoJSON</scri
             <!-- end: sidebar -->
             <section role="main" class="content-body">
                 <header class="page-header">
-                    <h2>Emergências</h2>
+                    <h2>Intercorrências</h2>
 
                     <div class="right-wrapper pull-right">
                         <ol class="breadcrumbs">
                             <li><a href="../index.php"> <i class="fa fa-home"></i>
                                 </a></li>
-                            <li><span>Visualizar Emergências</span></li>
+                            <li><span>Visualizar Intercorrências</span></li>
                         </ol>
 
                         <a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>

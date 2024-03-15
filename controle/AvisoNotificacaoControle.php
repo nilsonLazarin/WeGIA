@@ -85,7 +85,7 @@ class AvisoNotificacaoControle
           try{
                $avisoNotificacaoDAO = new AvisoNotificacaoDAO();
                $avisoNotificacaoDAO->alterarStatus($idNotificacao);
-               header("Location: ../html/saude/emergencia_visualizar.php");
+               header("Location: ../html/saude/intercorrencia_visualizar.php");
           }catch(PDOException $e){
                $e->getMessage();
           }
