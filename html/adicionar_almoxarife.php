@@ -1,13 +1,13 @@
 <?php
+    session_start();
     require_once './permissao/permissao.php';
     permissao($_SESSION['id_pessoa'], 91);
-
     if (!isset($id_funcionario) && !isset($id_almoxarifado)){
         header("Location: ./geral/editar_permissoes.php?msg=Preencha todos os campos antes de prosseguir!&flag=warn");
     }
     extract($_REQUEST);
 
-    session_start();
+    
     if (!isset($_SESSION['id_pessoa'])){
         header("Location: ../index.php");
     }
@@ -22,7 +22,7 @@
         try{
             $pdo->exec("INSERT INTO almoxarife (id_funcionario, id_almoxarifado) VALUES ( $id_funcionario , $id_almoxarifado );");
             header("Location: ./geral/editar_permissoes.php?msg=Funcionário cadastrado como almoxarife!&flag=success");
-        }catch (PDOExeption $e){
+        }catch (PDOException $e){
             header("Location: ./geral/editar_permissoes.php?msg=Erro: &flag=erro&log=$e");
         }
     }
