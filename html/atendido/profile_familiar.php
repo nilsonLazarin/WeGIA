@@ -37,7 +37,7 @@ permissao($_SESSION['id_pessoa'], 11, 7);
 $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 $situacao = $mysqli->query("SELECT * FROM situacao");
 $cargo = $mysqli->query("SELECT * FROM cargo");
-$beneficios = $mysqli->query("SELECT * FROM beneficios");
+//$beneficios = $mysqli->query("SELECT * FROM beneficios");
 
 
 // Adiciona a Função display_campo($nome_campo, $tipo_campo)

@@ -323,6 +323,18 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
       .obrig {
         color: rgb(255, 0, 0);
       }
+
+      #prontuario_publico tr p{
+        max-width: 450px;
+        word-wrap: break-word;
+      }
+      @media(max-width:768px){
+        #prontuario_publico tr p{
+        max-width: 250px;
+        word-wrap: break-word;
+      }
+      }
+     
       </style>
         
    </head>

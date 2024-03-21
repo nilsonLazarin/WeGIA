@@ -24,9 +24,43 @@ if(file_exists($config_path)){
 	$conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 	$id_pessoa = $_SESSION['id_pessoa'];
 	$resultado = mysqli_query($conexao, "SELECT `imagem`, `nome` FROM `pessoa` WHERE id_pessoa=$id_pessoa");
-	$cargo = mysqli_fetch_assoc(mysqli_query($conexao, "SELECT c.cargo FROM pessoa p join funcionario f on f.id_pessoa = p.id_pessoa join cargo c on c.id_cargo = f.id_cargo WHERE p.id_pessoa = $id_pessoa"))['cargo'];
+	$cargo = mysqli_fetch_assoc(mysqli_query($conexao, "SELECT c.cargo, c.id_cargo FROM pessoa p join funcionario f on f.id_pessoa = p.id_pessoa join cargo c on c.id_cargo = f.id_cargo WHERE p.id_pessoa = $id_pessoa"));
 	$pessoa = mysqli_fetch_array($resultado);
 ?>
+
+<head>
+	<style>
+		.alerta, .userbox{
+			display: inline;
+		}
+
+		.alerta a{
+			margin-right: 30px;
+			/*color: red;*/
+		}
+		.badge{
+			font-size: 1rem;
+			position: absolute;
+			top: 5px;
+			background-color: red;
+		}
+
+		.fa.fa-bell{
+			font-size: 2rem;
+		}
+
+		@media(max-width:768px){
+			.alerta{
+				margin-left: 30px;
+				display: inline-flex;
+				position: relative;
+				height: 50px;
+				padding-top: 20px;
+			}
+			
+		}
+	</style>
+</head>
 
 <header class="header">
 	<div class="logo-container">
@@ -41,6 +75,30 @@ if(file_exists($config_path)){
 	<!-- start: search & user box -->
 	<div class="header-right">
 		<span class="separator"></span>
+		<div class="alerta">
+			<?php
+			//começar por aqui
+			$idCargo = $cargo['id_cargo'];
+			$idModuloSaude = 5;
+			$resultado = mysqli_query($conexao, "SELECT * FROM permissao p JOIN acao a ON(p.id_acao=a.id_acao) JOIN recurso r ON(p.id_recurso=r.id_recurso) WHERE id_cargo=$idCargo AND r.id_recurso=$idModuloSaude");
+
+			if(!is_bool($resultado) and mysqli_num_rows($resultado)){
+				$permissao = mysqli_fetch_array($resultado);
+				if($permissao['id_acao'] >= 5){
+					require_once ROOT .'/controle/AvisoNotificacaoControle.php';
+					$avisoNotificacaoControle = new AvisoNotificacaoControle();
+					$quantidadeNotificações = $avisoNotificacaoControle->quantidadeRecentes($id_pessoa);
+					$paginaIntercorrencia =WWW.'html/saude/intercorrencia_visualizar.php';
+					if($quantidadeNotificações > 0){
+						echo '<a href="'.$paginaIntercorrencia.'">Intercorrências <i class="fa fa-bell" aria-hidden="true"></i><span class="badge">'.$quantidadeNotificações.'</span></a>';//Corrigir endereço
+					}else{
+						echo '<a href="'.$paginaIntercorrencia.'">Intercorrências <i class="fa fa-bell" aria-hidden="true"></i></a>';
+					}
+				}
+			}
+			
+			?>
+		</div>
 		<div id="userbox" class="userbox">
 			<a href="#" data-toggle="dropdown">
 				<figure class="profile-picture">
@@ -57,7 +115,7 @@ if(file_exists($config_path)){
 				</figure>
 				<div class="profile-info" data-lock-name="John Doe" data-lock-email="johndoe@okler.com">
 					<span class="name"><?php echo($pessoa['nome']); ?></span>
-					<span class="role"><?php echo($cargo); ?></span>
+					<span class="role"><?php echo($cargo['cargo']); ?></span>
 				</div>
 				<i class="fa custom-caret"></i>
 			</a>

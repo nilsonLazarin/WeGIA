@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-if (!isset($_SESSION["usuario"])){
+if (!isset($_SESSION["usuario"])) {
     header("Location: ../../index.php");
 }
 
@@ -9,9 +9,15 @@ if (!isset($_SESSION["usuario"])){
 require_once '../permissao/permissao.php';
 permissao($_SESSION['id_pessoa'], 11, 7);
 require_once '../../dao/Conexao.php';
-$pdo = Conexao::connect();
-$descricao = $_POST["descricao"];
+try {
+    $pdo = Conexao::connect();
+    $descricao = $_POST["descricao"];
 
-$pdo->query("INSERT INTO funcionario_dependente_parentesco (descricao) VALUES ('$descricao')");
+    $stmt = $pdo->prepare("INSERT INTO funcionario_dependente_parentesco (descricao) VALUES ('$descricao')");
+    $stmt->execute();
+} catch (PDOException $e) {
+    $e->getMessage();
+}
+
 
 die();

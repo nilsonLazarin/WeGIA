@@ -26,8 +26,8 @@ class FuncionarioDAO
                 $pessoa[$x]=$linha['id_funcionario'];
                 $x++;
             }
-            } catch (PDOExeption $e){
-                echo 'Error:' . $e->getMessage;
+            } catch (PDOException $e){
+                echo 'Error:' . $e->getMessage();
             }
             return $pessoa;
     }

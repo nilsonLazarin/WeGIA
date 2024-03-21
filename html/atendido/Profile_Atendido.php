@@ -56,7 +56,7 @@ session_start();
     //fechar conexao arq
    
 
-  include_once '../../classes/Cache.php';    
+  include_once '../../classes/Cache.php';   
 
 	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
   require_once "../personalizacao_display.php";
@@ -952,7 +952,7 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                      <div class="form-group">
                      <label class="col-md-3 control-label" for="profileCompany">Data de expedição</label>
                      <div class="col-md-6">
-                       <input type="date" class="form-control" disabled maxlength="10" placeholder="dd/mm/aaaa" name="dataExpedicao" id="dataExpedicao">
+                       <input type="date" class="form-control" disabled maxlength="10" placeholder="dd/mm/aaaa" name="dataExpedicao" id="dataExpedicao" max=<?php echo date('Y-m-d'); ?>>
                      </div>
                      </div>
                      <div class="form-group">
@@ -1050,7 +1050,7 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
                                 <div class="form-group">
                                   <label class="col-md-3 control-label" for="profileCompany">Nascimento<sup class="obrig">*</sup></label>
                                   <div class="col-md-8">
-                                    <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" id="nascimento" max="<?php echo date('Y-m-d'); ?> required">
+                                    <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" id="nascimento" max="<?php echo date('Y-m-d'); ?>" required>
                                   </div>
                                 </div>
                                 <hr class="dotted short">
@@ -1398,7 +1398,7 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
       }
     }
       function gerarParentesco() {
-      url = './funcionario/dependente_parentesco_listar.php';
+      url = './atendido_parentesco_listar.php';
       $.ajax({
         data: '',
         type: "POST",
@@ -1409,14 +1409,14 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
           $('#parentesco').empty();
           $('#parentesco').append('<option selected disabled>Selecionar...</option>');
           $.each(parentesco, function(i, item) {
-            $('#parentesco').append('<option value="' + item+ '">' + item.atendido_parentesco_idatendido_parentesco + '</option>');
+            $('#parentesco').append('<option value="' + item.idatendido_parentesco+ '">' + item.parentesco + '</option>');
           });
         },
         dataType: 'json'
       });
     }
     function adicionarParentesco() {
-      url = './funcionario/dependente_parentesco_adicionar.php';
+      url = './atendido_parentesco_adicionar.php';
       var descricao = window.prompt("Cadastre um novo tipo de Parentesco:");
       if (!descricao) {
         return
@@ -1482,7 +1482,7 @@ $("#botaoEditarDocumentacao").attr('onclick', "return editar_documentacao()");
           $('#tipoDocumento').empty();
           $('#tipoDocumento').append('<option selected disabled>Selecionar</option>');
           $.each(descricao, function(i, item) {
-            $('#tipoDocumento').append('<option value="' + item.id_tipo + '">' + item.descricao + '</option>');
+            $('#tipoDocumento').append('<option value="' + item.idatendido_docs_atendidos + '">' + item.descricao + '</option>');
           });
         },
         dataType: 'json'

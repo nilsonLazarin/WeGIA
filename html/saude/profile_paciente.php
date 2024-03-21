@@ -981,7 +981,7 @@ header("Location: ../home.php?msg_c=$msg");
                    <div class="form-group">
                      <label class="col-md-3 control-label" for="profileCompany" id="data_atendimento">Data do atendimento:<sup class="obrig">*</sup></label>
                      <div class="col-md-6">
-                     <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" name="data_atendimento" id="data_atendimento" required>
+                     <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" name="data_atendimento" id="data_atendimento" max=<?php echo date('Y-m-d'); ?> required>
                      </div>
                     
                    </div>
@@ -1405,11 +1405,8 @@ header("Location: ../home.php?msg_c=$msg");
                 
                 var situacoes = response;
                 console.log("situacoes",situacoes)
-                $('#id_CID').empty();
-                $('#id_CID').append('<option selected disabled>Selecionar</option>');
-                $.each(situacoes, function(i, item) {
-                  $('#id_CID').append('<option value="' + item.id_CID + '">' + item.descricao + '</option>');
-                });
+                let index = situacoes.length - 1;
+                $('#id_CID').append('<option value="' + situacoes[index].id_CID + '">' + situacoes[index].descricao + '</option>');
               },
               dataType: 'json'
             });

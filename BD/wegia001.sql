@@ -71,7 +71,6 @@ CREATE TABLE IF NOT EXISTS `wegia`.`pessoa` (
   PRIMARY KEY (`id_pessoa`))
 ENGINE = InnoDB;
 
-
 -- -----------------------------------------------------
 -- Table `wegia`.`cargo`
 -- -----------------------------------------------------
@@ -1842,6 +1841,46 @@ CREATE TABLE IF NOT EXISTS `wegia`.`pet_medida`(
 ENGINE = InnoDB;
 
 
+-- ------------------------------------------------------
+-- Table `wegia`.`aviso` 
+-- ------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `wegia`.`aviso`(
+  `id_aviso` INT(11) NOT NULL AUTO_INCREMENT,
+  `id_funcionario_aviso` INT(11) NOT NULL,
+  `id_pessoa_atendida` INT(11) NOT NULL,
+  `descricao` VARCHAR(512) NOT NULL,
+  `data` DATETIME NOT NULL,
+  PRIMARY KEY(`id_aviso`),
+  FOREIGN KEY(`id_funcionario_aviso`)
+    REFERENCES `wegia`.`funcionario` (`id_funcionario`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  FOREIGN KEY (`id_pessoa_atendida`)
+    REFERENCES `wegia`.`atendido` (`pessoa_id_pessoa`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+
+ENGINE = InnoDB;
+
+-- ------------------------------------------------------
+-- Table `wegia` . `aviso_notificacao`
+-- ------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `wegia` . `aviso_notificacao` (
+  `id_aviso_notificacao` INT(11) NOT NULL AUTO_INCREMENT,
+  `id_aviso` INT(11) NOT NULL,
+  `id_funcionario` INT(11) NOT NULL,
+  `status` BOOLEAN NOT NULL,
+  PRIMARY KEY (`id_aviso_notificacao`),
+  FOREIGN KEY (`id_aviso`)
+    REFERENCES `wegia` . `aviso` (`id_aviso`)
+    ON DELETE CASCADE, 
+  FOREIGN KEY (`id_funcionario`)
+    REFERENCES `wegia`. `funcionario` (`id_funcionario`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+
+ENGINE = InnoDB;
 
 -- ########################### PROCEDURES #################### --
 
