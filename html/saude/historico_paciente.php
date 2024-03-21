@@ -403,7 +403,7 @@ $idPaciente = $idPaciente->fetch(PDO::FETCH_ASSOC);
                   <a href="#atendimento_enfermeiro" data-toggle="tab">Sinais vitais</a>
                 </li>
                 <li id="tab3">
-                  <a href="#cadastro_emergencia" data-toggle="tab">Informar emergência</a>
+                  <a href="#cadastro_emergencia" data-toggle="tab">Informar Intercorrência</a>
                 </li>
               </ul>
 
@@ -591,7 +591,7 @@ $idPaciente = $idPaciente->fetch(PDO::FETCH_ASSOC);
                       <div class="panel-actions">
                         <a href="#" class="fa fa-caret-down"></a>
                       </div>
-                      <h2 class="panel-title">Cadastro de emergências</h2>
+                      <h2 class="panel-title">Cadastro de intercorrências</h2>
                     </header>
                     <div class="panel-body">
                       <form method="post" action="../../controle/control.php">
@@ -602,8 +602,8 @@ $idPaciente = $idPaciente->fetch(PDO::FETCH_ASSOC);
                         <input type="hidden" name="idfichamedica" value="<?php echo $id;?>">
 
                         <div class="form-group">
-                          <label for="descricao_emergencia">Descrição da Emergência</label>
-                          <textarea class="form-control" name="descricao_emergencia" id="" cols="30" rows="10" placeholder="Insira aqui a descrição da emergência ocorrida..." required ></textarea>
+                          <label for="descricao_emergencia">Descrição da Intercorrência</label>
+                          <textarea class="form-control" name="descricao_emergencia" id="" cols="30" rows="10" placeholder="Insira aqui a descrição do ocorrido..." required ></textarea>
                         </div>
 
                         <input type="submit" id="btn-cadastrar-emergencia" class="btn btn-primary" value="Cadastrar">

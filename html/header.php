@@ -88,10 +88,11 @@ if(file_exists($config_path)){
 					require_once ROOT .'/controle/AvisoNotificacaoControle.php';
 					$avisoNotificacaoControle = new AvisoNotificacaoControle();
 					$quantidadeNotificações = $avisoNotificacaoControle->quantidadeRecentes($id_pessoa);
+					$paginaIntercorrencia =WWW.'html/saude/intercorrencia_visualizar.php';
 					if($quantidadeNotificações > 0){
-						echo '<a href="/WeGIA/html/saude/intercorrencia_visualizar.php">Intercorrências <i class="fa fa-bell" aria-hidden="true"></i><span class="badge">'.$quantidadeNotificações.'</span></a>';
+						echo '<a href="'.$paginaIntercorrencia.'">Intercorrências <i class="fa fa-bell" aria-hidden="true"></i><span class="badge">'.$quantidadeNotificações.'</span></a>';//Corrigir endereço
 					}else{
-						echo '<a href="/WeGIA/html/saude/intercorrencia_visualizar.php">Intercorrências <i class="fa fa-bell" aria-hidden="true"></i></a>';
+						echo '<a href="'.$paginaIntercorrencia.'">Intercorrências <i class="fa fa-bell" aria-hidden="true"></i></a>';
 					}
 				}
 			}
