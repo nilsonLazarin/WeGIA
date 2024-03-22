@@ -211,23 +211,42 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
             <h3 class="box-title"><i class="fa fa-plus-square"></i> Nova cobrança</h3>
           </div>
           <div class="box-body">
-            <form id="frm_nova_cobranca" method="POST">
+            <form id="frm_nova_cobranca2" action="./controller/CobrancaController.php" method="POST">
               <div class="row">
                 <div class="form-group mb-2 col-xs-12">
-                  <?php
-                  $socios = array();
-                  $resultado = mysqli_query($conexao, "SELECT *, s.id_socio as socioid FROM socio AS s LEFT JOIN pessoa AS p ON s.id_pessoa = p.id_pessoa LEFT JOIN socio_tipo AS st ON s.id_sociotipo = st.id_sociotipo LEFT JOIN (SELECT id_socio, MAX(data) AS ultima_data_doacao FROM log_contribuicao GROUP BY id_socio) AS lc ON lc.id_socio = s.id_socio");
-                  while ($registro = mysqli_fetch_assoc($resultado)) {
-                    $socios[] = $registro['nome'] . '|' . $registro['cpf'] . '|' . $registro['socioid'];
-                  }
-                  ?>
                   <label for="nome_cliente">Sócio</label>
-                  <input type="text" class="form-control" id="socio_nome_ci" name="socio_nome_ci" placeholder="" required>
+                  <select name="socio_id" class="form-control" required>
+                    <option value="" disabled selected>Selecione um sócio...</option>
+
+                    <?php
+                    require_once './model/Socio.php';
+                    $socios = array();
+                    $resultado = mysqli_query($conexao, "SELECT *, s.id_socio as socioid FROM socio AS s LEFT JOIN pessoa AS p ON s.id_pessoa = p.id_pessoa LEFT JOIN socio_tipo AS st ON s.id_sociotipo = st.id_sociotipo LEFT JOIN (SELECT id_socio, MAX(data) AS ultima_data_doacao FROM log_contribuicao GROUP BY id_socio) AS lc ON lc.id_socio = s.id_socio");
+                    while ($registro = mysqli_fetch_assoc($resultado)) {
+                      $socios[] = new Socio($registro['socioid'], $registro['nome'], $registro['cpf']);
+                    }
+
+                    //print_r($socios);
+                    $opcoesSocio = "";
+
+                    foreach($socios as $socio){
+                      $idSocio = $socio->getId();
+                      $nomeSocio = $socio->getNome();
+                      $opcoesSocio .= "<option value=\"$idSocio\">$nomeSocio</option>";
+                    }
+
+                    echo $opcoesSocio;
+
+                    ?>
+                  </select>
+                  <!--<input type="text" class="form-control" id="socio_nome_ci" name="socio_nome_ci" placeholder="" required>-->
                 </div>
                 <script>
+                  /*
                   var socios = <?php
-                                echo (json_encode($socios));
+                                //echo (json_encode($socios));
                                 ?>;
+                  console.log(socios);
                   if ($("#socio_nome_ci").leght) {
                     $("#socio_nome_ci").autocomplete({
                       source: socios,
@@ -240,7 +259,7 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
                         }
                       }
                     });
-                  }
+                  }*/
                 </script>
                 <div class="form-group col-xs-12">
                   <label id="label_cpf_cnpj" for="valor">Local de recepção</label>
@@ -250,7 +269,7 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
               <div class="row">
                 <div class="form-group col-xs-6">
                   <label for="obs">Recebido por: </label>
-                  <input type="text" class="form-control" id="receptor" value="<?php echo ($nome); ?>" name="receptor" placeholder="">
+                  <input type="text" class="form-control" id="receptor" value="<?php echo ($nome); ?>" name="receptor" placeholder="" readonly>
                 </div>
                 <div class="form-group col-xs-6">
                   <label for="valor">Valor</label>
@@ -266,7 +285,7 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
                 <div class="form-group col-xs-6">
                   <label for="valor">Data Doação</label>
-                  <input type="date" class="form-control" id="data_doacao" value="<?php echo (Date("Y-m-d")); ?>" name="forma_doacao" required>
+                  <input type="date" class="form-control" id="data_doacao" value="<?php echo (Date("Y-m-d")); ?>" name="data_doacao" required>
                 </div>
 
               </div>
