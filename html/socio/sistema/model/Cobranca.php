@@ -5,7 +5,7 @@
         private $idSocio;
         private $localRecepcao;
         private $receptor;
-        private $valorPagemento;
+        private $valorPagamento;
         private $formaPagamento;
         private $dataPagamento;
 
@@ -33,12 +33,12 @@
             return $this->receptor;
         }
 
-        public function setValorPagamento($valorPagemento){
-            $this->valorPagemento = $valorPagemento;
+        public function setValorPagamento($valorPagamento){
+            $this->valorPagamento = $valorPagamento;
         }
 
         public function getValorPagamento(){
-            return $this->valorPagemento;
+            return $this->valorPagamento;
         }
 
         public function setFormaPagamento($formaPagamento){
@@ -83,6 +83,10 @@
         public function setId($id)
         {
                 $this->id = $id;
+        }
+
+        public function getDescricao(){
+            return "Forma de pagamento: $this->formaPagamento | Localidade: $this->localRecepcao | Recebido por: $this->receptor";
         }
     }
 ?>

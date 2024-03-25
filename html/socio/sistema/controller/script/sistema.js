@@ -537,7 +537,7 @@ $(document).ready(function(){
         
     });
 
-    /*$(document).on("submit", "#frm_nova_cobranca", function(e){
+    $(document).on("submit", "#frm_nova_cobranca", function(e){
         e.preventDefault();
         var socio_nome = $("#socio_nome_ci").val().split("|")[0];
         var cpf_cnpj = $("#socio_nome_ci").val().split("|")[1];
@@ -571,7 +571,7 @@ $(document).ready(function(){
                     modalSimples("Status", "Erro ao cadastrar cobranca, verifique os dados e tente novamente.", "erro");
                 }
             });
-    });*/
+    });
 
     // Validação de CEP e API de CEP
     $("#cep").blur(function(){

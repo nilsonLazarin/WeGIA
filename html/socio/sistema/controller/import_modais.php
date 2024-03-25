@@ -292,7 +292,7 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
           </div>
           <div class="modal-footer">
-            <button id="btn_reset" type="reset" class="btn btn-danger">Resetar</button>
+            <button id="btn_reset" type="reset" class="btn btn-danger" onclick="resetaForma('#frm_nova_cobranca2')">Resetar</button>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
             <button type="submit" class="btn btn-primary btn_salvar_socio">Salvar cobrança</button>
           </div>
