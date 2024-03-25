@@ -8,6 +8,10 @@
         private $valorPagamento;
         private $formaPagamento;
         private $dataPagamento;
+        private $codigo;
+        private $linkCobranca;
+        private $linkBoleto;
+        private $linhaDigitavel;
 
         public function setIdSocio($idSocio){
             $this->idSocio = $idSocio;
@@ -87,6 +91,86 @@
 
         public function getDescricao(){
             return "Forma de pagamento: $this->formaPagamento | Localidade: $this->localRecepcao | Recebido por: $this->receptor";
+        }
+
+        /**
+         * Get the value of codigo
+         */ 
+        public function getCodigo()
+        {
+                return $this->codigo;
+        }
+
+        /**
+         * Set the value of codigo
+         *
+         * @return  self
+         */ 
+        public function setCodigo($codigo)
+        {
+                $this->codigo = $codigo;
+
+                return $this;
+        }
+
+        /**
+         * Get the value of linkCobranca
+         */ 
+        public function getLinkCobranca()
+        {
+                return $this->linkCobranca;
+        }
+
+        /**
+         * Set the value of linkCobranca
+         *
+         * @return  self
+         */ 
+        public function setLinkCobranca($linkCobranca)
+        {
+                $this->linkCobranca = $linkCobranca;
+
+                return $this;
+        }
+
+        /**
+         * Get the value of linkBoleto
+         */ 
+        public function getLinkBoleto()
+        {
+                return $this->linkBoleto;
+        }
+
+        /**
+         * Set the value of linkBoleto
+         *
+         * @return  self
+         */ 
+        public function setLinkBoleto($linkBoleto)
+        {
+                $this->linkBoleto = $linkBoleto;
+
+                return $this;
+        }
+
+        /**
+         * Get the value of linhaDigitavel
+         */ 
+        public function getLinhaDigitavel()
+        {
+                return $this->linhaDigitavel;
+        }
+
+        /**
+         * Set the value of linhaDigitavel
+         *
+         * @return  self
+         */ 
+        public function setLinhaDigitavel($linhaDigitavel)
+        {
+                $this->linhaDigitavel = $linhaDigitavel;
+
+                return $this;
         }
     }
 ?>

@@ -14,7 +14,7 @@ function cadastrarCobranca()
 {
     extract($_REQUEST);
     //print_r($_REQUEST);
-
+    //adicionar uma forma de gerar um código
     $cobranca = new Cobranca();
     $cobranca->setIdSocio($socio_id);
     $cobranca->setLocalRecepcao($local_recepcao);
