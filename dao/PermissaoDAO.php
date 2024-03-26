@@ -16,7 +16,9 @@
     class PermissaoDAO{
         public function adicionarPermissao($cargo, $acao, $recurso){
             try {
-                if(count($recurso > 1)){
+                //print_r($recurso);
+                $qtd = count($recurso);
+                if($qtd> 1){
                     foreach($recurso as $i => $recurso_id){
                         $query = "INSERT INTO `permissao` (`id_cargo`, `id_acao`, `id_recurso`) VALUES ('$cargo', '$acao', '$recurso_id')";
                         $pdo = Conexao::connect();
