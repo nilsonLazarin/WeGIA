@@ -90,7 +90,11 @@
         }
 
         public function getDescricao(){
-            return "Forma de pagamento: $this->formaPagamento | Localidade: $this->localRecepcao | Recebido por: $this->receptor";
+            return [
+                    'formaPagamento' => $this->formaPagamento, 
+                    'localidade' => $this->localRecepcao, 
+                    'receptor' => $this->receptor
+                   ];
         }
 
         /**

@@ -10,7 +10,7 @@
                 $pdo = Conexao::connect();
                 $stmt = $pdo->prepare($sql);
 
-                $descricao = $cobranca->getDescricao();
+                $descricao = json_encode($cobranca->getDescricao());
                 $stmt->bindParam(':descricao', $descricao);
 
                 $dataPagamento = $cobranca->getDataPagamento();
