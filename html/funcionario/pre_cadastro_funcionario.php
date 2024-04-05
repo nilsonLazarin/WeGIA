@@ -36,7 +36,7 @@ $memorando = $_POST['dados'];
     if(!is_null($id_cargo)){
       $id_cargo = $id_cargo['id_cargo'];
     }
-    $resultado = mysqli_query($conexao, "SELECT * FROM permissao WHERE id_cargo=$id_cargo and id_recurso=3");
+    $resultado = mysqli_query($conexao, "SELECT * FROM permissao WHERE id_cargo=$id_cargo and id_recurso=11");
     if(!is_bool($resultado) and mysqli_num_rows($resultado)){
       $permissao = mysqli_fetch_array($resultado);
       if($permissao['id_acao'] == 1){
