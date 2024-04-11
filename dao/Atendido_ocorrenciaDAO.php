@@ -44,8 +44,8 @@ class Atendido_ocorrenciaDAO
             }
             //$pdo->commit();
             //$pdo->close();
-            } catch (PDOExeption $e){
-                echo 'Error:' . $e->getMessage;
+            } catch (PDOException $e){
+                echo 'Error:' . $e->getMessage();
             }
             return json_encode($ocorrencias);
     }
@@ -53,6 +53,7 @@ class Atendido_ocorrenciaDAO
 
 	public function listarTodosComAnexo($id_ocorrencia)
 	{
+        /*Função não está sendo utilizada em nenhum local da aplicação. */
 		try
 		{
 			$Despachos = array();
@@ -66,9 +67,9 @@ class Atendido_ocorrenciaDAO
 				$x++;
 			}
 		}
-		catch(PDOExeption $e)
+		catch(PDOException $e)
 		{
-			echo 'Error:' . $e->getMessage;
+			echo 'Error:' . $e->getMessage();
 		}
 		return json_encode($Despachos);
 	}
@@ -97,8 +98,6 @@ class Atendido_ocorrenciaDAO
             $stmt->bindParam(':datao',$datao);
 			// $stmt->bindParam(':nome',$nome);
             $stmt->execute();
-            $pdo->commit();
-            $pdo->close();
             
         } catch (PDOException $e) {
             echo 'Error: <b>  na tabela pessoas = ' . $sql . '</b> <br /><br />' . $e->getMessage();
@@ -124,7 +123,7 @@ class Atendido_ocorrenciaDAO
 		}
 		catch(PDOException $e)
 		{
-			echo 'Error:' . $e->getMessage;
+			echo 'Error:' . $e->getMessage();
 		}
 		return $Anexo;
 	}
@@ -151,7 +150,7 @@ class Atendido_ocorrenciaDAO
                 $paciente[]=array('nome_atendido'=>$linha['nome_atendido'],'arquivo_nome'=>$linha['arquivo_nome'],'arquivo_extensao'=>$linha['arquivo_extensao'],'idatendido_ocorrencias'=>$linha['idatendido_ocorrencias'],'sobrenome_atendido'=>$linha['sobrenome_atendido'],'atendido_ocorrencia_tipos_idatendido_ocorrencia_tipos'=>$linha['descricao_tipo'],'funcionario_id_funcionario'=>$linha['func'],
                 'data'=>$linha['data'], 'descricao'=>$linha['descricao_ocorrencia']);
             }
-        }catch (PDOExeption $e){
+        }catch (PDOException $e){
             echo 'Error: ' .  $e->getMessage();
         }
         return json_encode($paciente);
