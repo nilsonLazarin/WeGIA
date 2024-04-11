@@ -23,6 +23,8 @@ $funcionario_id_funcionario = $teste[0]['id_funcionario'];
 
 // echo file_put_contents('id_pessoa.txt',$pessoa_id_pessoa);
 // echo file_put_contents('id_func.txt',$funcionario_id_funcionario);
+
+date_default_timezone_set('America/Sao_Paulo');
     
 $aplicacao = date('Y-m-d H:i:s', time()); 
 
