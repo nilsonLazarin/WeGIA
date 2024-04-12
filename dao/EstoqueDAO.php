@@ -25,8 +25,8 @@ class EstoqueDAO
                     $Estoques[$x]=array('codigo'=>$linha['codigo'],'descricao'=>$linha['descricao'],'descricao_almoxarifado'=>$linha['descricao_almoxarifado'],'qtd'=>$linha['qtd'],'categoria'=>$linha['categoria'],'id_almoxarifado'=>$linha['id_almoxarifado']);
                     $x++;
                 }
-            } catch (PDOExeption $e){
-                echo 'Error:' . $e->getMessage;
+            } catch (PDOException $e){
+                echo 'Error:' . $e->getMessage();
             }
             return filtrarAlmoxarifado($_SESSION['id_pessoa'] , json_encode($Estoques));
         }
