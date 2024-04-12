@@ -492,6 +492,7 @@ class FuncionarioControle
 
     public function retornarIdPessoa($id_funcionario)
     {
+        /*Avaliar se este método está sendo utilizado em alguma parte do sistema, do contrário considerar sua remoção, tal como do método retornarIdPessoa da classe FuncionarioDAO */
         $funcionariosDAO = new FuncionarioDAO();
         $pessoa = $funcionariosDAO->retornarIdPessoa($id_funcionario);
         $_SESSION['id_pessoaa']=$pessoa;

@@ -20,7 +20,7 @@ class IentradaDAO
             while($linha = $stmt->fetch(PDO::FETCH_ASSOC)){
                 $entradas[]=array('id_ientrada'=>$linha['id_ientrada'], 'id_entrada'=>$linha['id_entrada'], 'descricao'=>$linha['descricao'], 'qtd'=>$linha['qtd'], 'valor_unitario'=>$linha['valor_unitario']);
                 }
-        } catch(PDOExeption $e){
+        } catch(PDOException $e){
             echo 'Erro: ' .  $e->getMessage();
         }
         return json_encode($entradas);  
@@ -47,7 +47,7 @@ class IentradaDAO
                 $stmt->bindParam(':valor_unitario',$valor_unitario);
 
                 $stmt->execute();
-            }catch (PDOExeption $e) {
+            }catch (PDOException $e) {
                 echo 'Error: <b>  na tabela produto = ' . $sql . '</b> <br /><br />' . $e->getMessage();
             }
 
