@@ -21,7 +21,7 @@ class CargoDAO
             $stmt->bindParam(':cargo',$cargo);
 
             $stmt->execute();
-        }catch (PDOExeption $e) {
+        }catch (PDOException $e) {
             echo 'Error: <b>  na tabela cargo = ' . $sql . '</b> <br /><br />' . $e->getMessage();
         }
     }
@@ -38,7 +38,7 @@ class CargoDAO
                 $cargo = new Cargo($linha['cargo']);
                 $cargo->setId_cargo($linha['id_cargo']);
             }
-        }catch(PDOExeption $e){
+        }catch(PDOException $e){
             throw $e;
         }
         return $cargo;
@@ -66,8 +66,8 @@ class CargoDAO
                 $cargos[$x]=array('id_cargo'=>$linha['id_cargo'],'cargo'=>$linha['cargo']);
                 $x++;
             }
-            } catch (PDOExeption $e){
-                echo 'Error:' . $e->getMessage;
+            } catch (PDOException $e){
+                echo 'Error:' . $e->getMessage();
             }
             return json_encode($cargos);
         }
