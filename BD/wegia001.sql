@@ -1336,6 +1336,35 @@ CREATE TABLE IF NOT EXISTS `wegia`.`saude_fichamedica_descricoes` (
  ENGINE = InnoDB;
 
 
+-- Table `wegia`.`saude_fichamedica_historico`
+
+CREATE TABLE IF NOT EXISTS `wegia`.`saude_fichamedica_historico` (
+  `id_fichamedica_historico` INT NOT NULL AUTO_INCREMENT,
+  `id_pessoa` INT(11) NOT NULL,
+  `data` DATE NOT NULL,
+  PRIMARY KEY (`id_fichamedica_historico`),
+  INDEX `fk_saude_fichamedica_historico_pessoa1_idx` (`id_pessoa` ASC),
+  CONSTRAINT `fk_saude_fichamedica_historico_pessoa1`
+    FOREIGN KEY (`id_pessoa`)
+    REFERENCES `wegia`.`pessoa` (`id_pessoa`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+-- Table `wegia`.`saude_fichamedica_historico_descricoes`
+
+CREATE TABLE IF NOT EXISTS `wegia`.`saude_fichamedica_historico_descricoes` (
+  `id_fichamedica_historico_descricao` INT NOT NULL AUTO_INCREMENT,
+  `id_fichamedica_historico` INT(11) NOT NULL, 
+  `descricao` VARCHAR(2048) NOT NULL, 
+  PRIMARY KEY (`id_fichamedica_historico_descricao`), 
+  INDEX `fk_ficha_medica_historico_descricoes_ficha_medica_idx` (`id_fichamedica_historico` ASC), 
+  CONSTRAINT `fk_fichamedica_historico_descricoes`
+    FOREIGN KEY (`id_fichamedica_historico`) REFERENCES `wegia`.`saude_fichamedica_historico` (`id_fichamedica_historico`) 
+    ON DELETE CASCADE 
+    ON UPDATE CASCADE)
+ ENGINE = InnoDB;
+
 
 -- -----------------------------------------------------
 -- Table `wegia`.`saude_tabelacid`
