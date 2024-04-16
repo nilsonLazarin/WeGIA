@@ -103,7 +103,7 @@ class InternoDAO
             }
             return $idPessoa;
 
-        }catch (PDOExeption $e) {
+        }catch (PDOException $e) {
             echo 'Error: <b>  na tabela interno = ' . $sql . '</b> <br /><br />' . $e->getMessage();
         }
     }
@@ -259,8 +259,8 @@ class InternoDAO
                 }
                 $x++;
             }
-            } catch (PDOExeption $e){
-                echo 'Error:' . $e->getMessage;
+            } catch (PDOException $e){
+                echo 'Error:' . $e->getMessage();
             }
             return json_encode($internos);
         }
@@ -283,8 +283,8 @@ class InternoDAO
                 }
                 $x++;
             }
-            } catch (PDOExeption $e){
-                echo 'Error:' . $e->getMessage;
+            } catch (PDOException $e){
+                echo 'Error:' . $e->getMessage();
             }
             return $internos;
         }
@@ -307,7 +307,7 @@ class InternoDAO
                 $interno[]=array('ctps'=>$linha['ctps'],'titulo'=>$linha['titulo'],'casamento'=>$linha['certidao_casamento'],'imagem'=>$linha['imagem'],'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'cpf'=>mask($linha['cpf'],'###.###.###-##'), 'senha'=>$linha['senha'], 'sexo'=>$linha['sexo'], 'telefone'=>$linha['telefone'],'data_nascimento'=>$linha['data_nascimento'], 'cep'=>$linha['cep'],'cidade'=>$linha['cidade'],'bairro'=>$linha['bairro'],'logradouro'=>$linha['logradouro'],'numero_endereco'=>$linha['numero_endereco'],'complemento'=>$linha['complemento'],'ibge'=>$linha['ibge'],'registro_geral'=>$linha['registro_geral'],'orgao_emissor'=>$linha['orgao_emissor'],'data_expedicao'=>$linha['data_expedicao'],'nome_pai'=>$linha['nome_pai'],'nome_mae'=>$linha['nome_mae'],'tipo_sanguineo'=>$linha['tipo_sanguineo'],'nome_contato_urgente'=>$linha['nome_contato_urgente'],'telefone_contato_urgente_1'=>$linha['telefone_contato_urgente_1'],'telefone_contato_urgente_2'=>$linha['telefone_contato_urgente_2'],'telefone_contato_urgente_3'=>$linha['telefone_contato_urgente_3'],'observacao'=>$linha['observacao'],'certidao'=>$linha['certidao_nascimento'],'curatela'=>$linha['curatela'],'inss'=>$linha['inss'],'loas'=>$linha['loas'],'bpc'=>$linha['bpc'],'funrural'=>$linha['funrural'],'saf'=>$linha['saf'],'sus'=>$linha['sus'],'idInterno'=>$linha['id_interno'],'imgdoc'=>$linha['imgdoc'],'descricao'=>$linha['descricao'],'id_documento'=>$linha['id_documento']);
             }
         }
-        }catch (PDOExeption $e){
+        }catch (PDOException $e){
             echo 'Error: ' .  $e->getMessage();
         }
         return json_encode($interno);
@@ -326,9 +326,9 @@ class InternoDAO
                 $x++;
             }
         }
-        catch(PDOExeption $e)
+        catch(PDOException $e)
         {
-            echo 'Error:' . $e->getMessage;
+            echo 'Error:' . $e->getMessage();
         }
         return json_encode($cpfs);
     }

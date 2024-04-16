@@ -256,7 +256,7 @@ require_once "personalizacao_display.php";
 										<option value="">Todas as Opções</option>
 										<?php
 										$pdo = Conexao::connect();
-										$res = $pdo->query("SELECT DISTINCT p.* FROM pessoa p JOIN funcionario f ON (f.id_pessoa = p.id_pessoa) JOIN almoxarife a ON (f.id_funcionario =a.id_funcionario) ORDER BY p.nome ASC;");
+										$res = $pdo->query("SELECT DISTINCT p.* FROM pessoa p JOIN funcionario f ON (f.id_pessoa = p.id_pessoa) JOIN almoxarife a ON (f.id_funcionario =a.id_funcionario) WHERE f.id_situacao=1 ORDER BY p.nome ASC;");
 										$resp = $res->fetchAll(PDO::FETCH_ASSOC);
 										foreach ($resp as $value) {
 											echo ('

@@ -81,7 +81,8 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
   $a = $_GET['id_fichamedica'];
 
-  $medaplicadas = $pdo->query("SELECT medicamento, aplicação FROM saude_medicacao sm JOIN saude_medicamento_administracao sa ON (sm.id_medicacao = sa.saude_medicacao_id_medicacao) join saude_atendimento saa on(saa.id_atendimento=sm.id_atendimento) WHERE saa.id_fichamedica= '$a' ORDER BY id_medicacao DESC");
+  $medaplicadas = $pdo->query("SELECT medicamento, aplicação, p.nome as nomeFuncionario FROM saude_medicacao sm JOIN saude_medicamento_administracao sa ON (sm.id_medicacao = sa.saude_medicacao_id_medicacao) join saude_atendimento saa on(saa.id_atendimento=sm.id_atendimento)
+  JOIN funcionario f ON (sa.funcionario_id_funcionario=f.id_funcionario) JOIN pessoa p ON (p.id_pessoa=f.id_pessoa) WHERE saa.id_fichamedica= '$a' ORDER BY aplicação DESC");
   $medaplicadas = $medaplicadas->fetchAll(PDO::FETCH_ASSOC);
   $medaplicadas = json_encode($medaplicadas);
 
@@ -289,9 +290,11 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
           $(function() {
           var medaplicadas = <?= $medaplicadas ?>;
+          //console.log(medaplicadas);
           $.each(medaplicadas, function(i, item) {
             $("#exibiaplicacao")
               .append($("<tr>")
+                .append($("<td>").text(item.nomeFuncionario))
                 .append($("<td>").text(item.medicamento))
                 .append($("<td>").text(item.aplicação))
               )
@@ -481,6 +484,7 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
                 <table class="table table-bordered table-striped mb-none" id="enf">
                     <thead>
                         <tr style="font-size:15px;">
+                            <th>Responsável pela aplicação</th>
                             <th>Medicações aplicadas</th>
                             <th>Horário da aplicação</th>
                         </tr>

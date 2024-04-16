@@ -26,7 +26,7 @@
 			$stmt->bindParam(':extensao',$extensao);
 			$stmt->bindParam(':descricao',$descricao);
             $stmt->execute();
-	        }catch (PDOExeption $e) {
+	        }catch (PDOException $e) {
 	            echo 'Error: <b>  na tabela documento = ' . $sql . '</b> <br /><br />' . $e->getMessage();
 	        }
 		}
@@ -47,7 +47,7 @@
 				$stmt->bindParam(':extensao',$extensao);
 				$stmt->bindParam(':descricao',$descricao);
 				$stmt->execute();
-			} catch (PDOExeption $e) {
+			} catch (PDOException $e) {
 				echo 'Error: <b>  na tabela Documento = ' . $sql . '</b> <br /><br />' . $e->getMessage();
 			}
 		}
@@ -64,7 +64,7 @@
             $stmt->bindParam(':id_documento', $id);
             
             $stmt->execute();
-			} catch (PDOExeption $e) {
+			} catch (PDOException $e) {
 				echo 'Error: <b>  na tabela documentos = ' . $sql . '</b> <br /><br />' . $e->getMessage();
 			}
 		}

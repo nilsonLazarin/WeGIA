@@ -49,7 +49,7 @@ class BeneficiadosDAO
           $stmt->bindParam(':id_pessoa',$pessoa);
 
           $stmt->execute();
-      }catch (PDOExeption $e) {
+      }catch (PDOException $e) {
           echo 'Error: <b>  na tabela Beneficiados = ' . $sql . '</b> <br /><br />' . $e->getMessage();
       }
     }
@@ -78,7 +78,7 @@ class BeneficiadosDAO
             $stmt->bindParam(':valor',$valor);
 
             $stmt->execute();
-      }catch (PDOExeption $e) {
+      }catch (PDOException $e) {
           echo 'Error: <b>  na tabela Beneficiados = ' . $sql . '</b> <br /><br />' . $e->getMessage();
       }
     }
@@ -127,7 +127,7 @@ class BeneficiadosDAO
                     'descricao_beneficios'=>$linha['descricao_beneficios'] ? $linha['descricao_beneficios'] : "Nenhum"
                 );
             }
-        }catch (PDOExeption $e){
+        }catch (PDOException $e){
             echo 'Error: ' .  $e->getMessage();
         }
         return json_encode($beneficio);
