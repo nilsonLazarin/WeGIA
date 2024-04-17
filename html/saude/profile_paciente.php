@@ -126,6 +126,18 @@ header("Location: ../home.php?msg_c=$msg");
 
   $teste1 = $pdo->query("SELECT nome FROM pessoa p JOIN funcionario f ON(p.id_pessoa = f.id_pessoa) WHERE f.id_pessoa = " .$_SESSION['id_pessoa'])->fetchAll(PDO::FETCH_ASSOC);
   $id_funcionario = $teste1[0]['nome'];
+
+  try{
+    $stmtProcuraIdPaciente = $pdo->prepare("SELECT id_pessoa FROM saude_fichamedica WHERE id_fichamedica =:idFicha");
+    $idFicha = $_GET['id_fichamedica'];
+    
+    $stmtProcuraIdPaciente->bindParam(':idFicha', $idFicha);
+    $stmtProcuraIdPaciente->execute();
+    $idPaciente = $stmtProcuraIdPaciente->fetch(PDO::FETCH_ASSOC)['id_pessoa'];
+  }catch(PDOException $e){
+    echo $e->getMessage();
+  }
+   
  
 ?>
     <!-- Vendor -->
@@ -520,6 +532,24 @@ header("Location: ../home.php?msg_c=$msg");
                </section>
             </div>
             <div class="col-md-8 col-lg-8">
+            <?php 
+              if(isset($_SESSION['msg']) && !empty($_SESSION['msg'])){
+                $mensagem = $_SESSION['msg'];
+                if($mensagem == 'Prontuário público adicionado ao histórico com sucesso'){
+                  echo "<div class=\"alert alert-success\" role=\"alert\">
+                  $mensagem
+                </div>";
+                }else{
+                  echo "<div class=\"alert alert-danger\" role=\"alert\">
+                  $mensagem
+                </div>";
+                }
+
+                unset($_SESSION['msg']);
+
+              }
+            //echo 'teste';
+            ?>
             <div class="tabs">
             <ul class="nav nav-tabs tabs-primary">
                <li class="active">
@@ -704,8 +734,11 @@ header("Location: ../home.php?msg_c=$msg");
                       <input type="hidden" name="nomeClasse" value="SaudeControle">
                       <input type="hidden" name="metodo" value="adicionarProntuarioAoHistorico">
                       <input type="hidden" name="id_fichamedica" value="<?php echo $_GET['id_fichamedica'] ?>">
+                      <input type="hidden" name="id_paciente" value="<?= $idPaciente?>">
                   
                     <button id="btn-adicionarAoHistorico" class="btn btn-primary btn-edicaoProntuario">Adicionar versão ao histórico</button>
+
+                    <button id="btn-listaDoHistorico" class="btn btn-primary btn-edicaoProntuario" onclick="event.preventDefault(); listarProntuariosDoHistorico()">Listar prontuários do histórico</button>
                   </form>
 
                   
@@ -1642,6 +1675,11 @@ header("Location: ../home.php?msg_c=$msg");
           document.getElementById('btn-cancelarEdicao').classList.add('hidden');
           document.getElementById('btn-confirmarEdicao').classList.add('hidden');
           location.reload();
+        }
+
+        function listarProntuariosDoHistorico(){
+          const idPaciente = <?= $idPaciente?>;
+          window.location.href = `./historico_prontuarios/?id_paciente=${idPaciente}`
         }
 
         </script>

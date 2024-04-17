@@ -216,17 +216,16 @@ class SaudeControle
 
     public function adicionarProntuarioAoHistorico(){
         extract($_REQUEST);
-
-        //echo $id_fichamedica;
-
+        session_start();
         $saudeDao = new SaudeDAO();
         try{
-            $saudeDao->adicionarProntuarioAoHistorico($id_fichamedica);
-            //return 1;
-            echo 'teste';
-        }catch(PDOException $e){
-            $e->getMessage();
-            //return 0;
+            $saudeDao->adicionarProntuarioAoHistorico($id_fichamedica, $id_paciente);
+            $_SESSION['msg']="Prontuário público adicionado ao histórico com sucesso";
+            header("Location: ../html/saude/profile_paciente.php?id_fichamedica=".$id_fichamedica);
+        }catch(Error $e){
+            $erro = $e->getMessage();
+            $_SESSION['msg']="Ops! Ocorreu o seguinte erro ao tentar inserir o prontuário público: $erro";
+            header("Location: ../html/saude/profile_paciente.php?id_fichamedica=".$id_fichamedica);
         }
     }
    

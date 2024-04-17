@@ -179,23 +179,25 @@ class SaudeDAO
         }
     }
 
-    public function adicionarProntuarioAoHistorico($idFicha){
-        $sql1 = "SELECT id_pessoa FROM saude_fichamedica WHERE id_fichamedica =:idFicha";//Ver depois se é possível já puxar esse dado do front-end
+    public function adicionarProntuarioAoHistorico($idFicha, $idPaciente){
+        //$sql1 = "SELECT id_pessoa FROM saude_fichamedica WHERE id_fichamedica =:idFicha";//Ver depois se é possível já puxar esse dado do front-end
         $sql2 = "INSERT INTO saude_fichamedica_historico (id_pessoa, data) VALUES (:idPessoa, :data)";
 
         try{
             $pdo = Conexao::connect();
 
-            $stmt1 = $pdo->prepare($sql1);
+            /*$stmt1 = $pdo->prepare($sql1);
             $stmt1->bindParam(':idFicha', $idFicha);
             $stmt1->execute();
 
-            $idPessoa = $stmt1->fetch(PDO::FETCH_ASSOC)['id_pessoa'];
+            $idPessoa = $stmt1->fetch(PDO::FETCH_ASSOC)['id_pessoa'];*/
+           
+            date_default_timezone_set('America/Sao_Paulo');
             $data = date('Y-m-d H:i:s');
 
             $pdo->beginTransaction();
             $stmt2 = $pdo->prepare($sql2);
-            $stmt2->bindParam(':idPessoa', $idPessoa);
+            $stmt2->bindParam(':idPessoa', $idPaciente);
             $stmt2->bindParam(':data', $data);
             $stmt2->execute();
 
@@ -203,10 +205,10 @@ class SaudeDAO
  
             if($this->insercaoDescricaoHistoricoEmCadeia($idFicha, $pdo, $ultimoID)){
                 $pdo->commit();
-                echo 'Commit';
+                //echo 'Commit';
             }else{
                 $pdo->rollBack();
-                echo 'Rollback';
+                //echo 'Rollback';
             }
       
         }catch(PDOException $e){
