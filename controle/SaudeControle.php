@@ -213,5 +213,21 @@ class SaudeControle
             echo $e->getMessage();
         }
     }
+
+    public function adicionarProntuarioAoHistorico(){
+        extract($_REQUEST);
+
+        //echo $id_fichamedica;
+
+        $saudeDao = new SaudeDAO();
+        try{
+            $saudeDao->adicionarProntuarioAoHistorico($id_fichamedica);
+            //return 1;
+            echo 'teste';
+        }catch(PDOException $e){
+            $e->getMessage();
+            //return 0;
+        }
+    }
    
 }

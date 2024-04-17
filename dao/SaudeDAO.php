@@ -63,8 +63,6 @@ class SaudeDAO
             $stmt->bindValue(':id_pessoa', $id_pessoa);
             $stmt->bindValue(':imagem',$imagem);
             $stmt->execute();
-            $pdo->commit();
-            $pdo->close();
         } catch (PDOException $e) {
             echo 'Error: <b>  na tabela pessoa = ' . $sql . '</b> <br /><br />' . $e->getMessage();
         }
@@ -119,8 +117,8 @@ class SaudeDAO
             }
             //$pdo->commit();
             //$pdo->close();
-            } catch (PDOExeption $e){
-                echo 'Error:' . $e->getMessage;
+            } catch (PDOException $e){
+                echo 'Error:' . $e->getMessage();
             }
             return json_encode($pacientes);
     }
@@ -155,7 +153,7 @@ class SaudeDAO
                 // 'id_fichamedica'=>$linha['id_fichamedica']
 
             }
-        }catch (PDOExeption $e){
+        }catch (PDOException $e){
             echo 'Error: ' .  $e->getMessage();
         }
         return json_encode($paciente);
@@ -178,6 +176,65 @@ class SaudeDAO
             $stmt->execute();
         } catch (PDOException $e) {
             echo 'Error: <b>  na tabela pessoas = ' . $sql . '</b> <br /><br />' . $e->getMessage();
+        }
+    }
+
+    public function adicionarProntuarioAoHistorico($idFicha){
+        $sql1 = "SELECT id_pessoa FROM saude_fichamedica WHERE id_fichamedica =:idFicha";//Ver depois se é possível já puxar esse dado do front-end
+        $sql2 = "INSERT INTO saude_fichamedica_historico (id_pessoa, data) VALUES (:idPessoa, :data)";
+
+        try{
+            $pdo = Conexao::connect();
+
+            $stmt1 = $pdo->prepare($sql1);
+            $stmt1->bindParam(':idFicha', $idFicha);
+            $stmt1->execute();
+
+            $idPessoa = $stmt1->fetch(PDO::FETCH_ASSOC)['id_pessoa'];
+            $data = date('Y-m-d H:i:s');
+
+            $pdo->beginTransaction();
+            $stmt2 = $pdo->prepare($sql2);
+            $stmt2->bindParam(':idPessoa', $idPessoa);
+            $stmt2->bindParam(':data', $data);
+            $stmt2->execute();
+
+            $ultimoID = $pdo->lastInsertId();
+ 
+            if($this->insercaoDescricaoHistoricoEmCadeia($idFicha, $pdo, $ultimoID)){
+                $pdo->commit();
+                echo 'Commit';
+            }else{
+                $pdo->rollBack();
+                echo 'Rollback';
+            }
+      
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
+    }
+
+    public function insercaoDescricaoHistoricoEmCadeia($idFicha, PDO $pdo, $idFichaHistorico){
+        $sql1 = "SELECT descricao from saude_fichamedica_descricoes WHERE id_fichamedica=:idFicha";
+        $sql2 = "INSERT INTO saude_fichamedica_historico_descricoes (id_fichamedica_historico, descricao) VALUES (:idFichaHistorico, :descricao)";
+        try{
+            $stmt1 = $pdo->prepare($sql1);
+            $stmt1->bindParam(':idFicha', $idFicha);
+            $stmt1->execute();
+
+            $descricoes = $stmt1->fetchAll(PDO::FETCH_ASSOC);
+            $stmt2 = $pdo->prepare($sql2);
+
+            foreach($descricoes as $descricao){
+                $texto = $descricao['descricao'];
+                $stmt2->bindParam(":idFichaHistorico", $idFichaHistorico);
+                $stmt2->bindParam(":descricao", $texto);
+                $stmt2->execute();
+            }
+            return true;
+        }catch(PDOException $e){
+            echo $e->getMessage();
+            return false;
         }
     }
     

@@ -1341,7 +1341,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`saude_fichamedica_descricoes` (
 CREATE TABLE IF NOT EXISTS `wegia`.`saude_fichamedica_historico` (
   `id_fichamedica_historico` INT NOT NULL AUTO_INCREMENT,
   `id_pessoa` INT(11) NOT NULL,
-  `data` DATE NOT NULL,
+  `data` DATETIME NOT NULL,
   PRIMARY KEY (`id_fichamedica_historico`),
   INDEX `fk_saude_fichamedica_historico_pessoa1_idx` (`id_pessoa` ASC),
   CONSTRAINT `fk_saude_fichamedica_historico_pessoa1`

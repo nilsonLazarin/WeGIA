@@ -699,6 +699,16 @@ header("Location: ../home.php?msg_c=$msg");
                     <button id="btn-cancelarEdicao" class="btn btn-danger btn-edicaoProntuario hidden" onclick="event.preventDefault(); cancelarEdicao()" >Cancelar</button>
                     <button type="submit" id="btn-confirmarEdicao" class="btn btn-success btn-edicaoProntuario hidden">Salvar</button>
                   </form>
+
+                  <form action="../../controle/control.php" method="POST">
+                      <input type="hidden" name="nomeClasse" value="SaudeControle">
+                      <input type="hidden" name="metodo" value="adicionarProntuarioAoHistorico">
+                      <input type="hidden" name="id_fichamedica" value="<?php echo $_GET['id_fichamedica'] ?>">
+                  
+                    <button id="btn-adicionarAoHistorico" class="btn btn-primary btn-edicaoProntuario">Adicionar versão ao histórico</button>
+                  </form>
+
+                  
                 </div>
 
                     
@@ -1628,10 +1638,12 @@ header("Location: ../home.php?msg_c=$msg");
         function cancelarEdicao(){
           editor2.setReadOnly(true);
           document.getElementById('btn-editarProntuario').classList.remove('hidden');
+          document.getElementById('btn-adicionarAoHistorico').classList.remove('hidden');
           document.getElementById('btn-cancelarEdicao').classList.add('hidden');
           document.getElementById('btn-confirmarEdicao').classList.add('hidden');
           location.reload();
         }
+
         </script>
         
         <!-- Vendor -->
