@@ -738,7 +738,7 @@ header("Location: ../home.php?msg_c=$msg");
                   
                     <button id="btn-adicionarAoHistorico" class="btn btn-primary btn-edicaoProntuario">Adicionar versão ao histórico</button>
 
-                    <button id="btn-listaDoHistorico" class="btn btn-primary btn-edicaoProntuario" onclick="event.preventDefault(); listarProntuariosDoHistorico()">Listar prontuários do histórico</button>
+                    <button id="btn-listarDoHistorico" class="btn btn-primary btn-edicaoProntuario" onclick="event.preventDefault(); listarProntuariosDoHistorico()">Listar prontuários do histórico</button>
                   </form>
 
                   
@@ -1664,6 +1664,8 @@ header("Location: ../home.php?msg_c=$msg");
         function editarProntuario(){
           editor2.setReadOnly(false);
           document.getElementById('btn-editarProntuario').classList.add('hidden');
+          document.getElementById('btn-adicionarAoHistorico').classList.add('hidden');
+          document.getElementById('btn-listarDoHistorico').classList.add('hidden');
           document.getElementById('btn-cancelarEdicao').classList.remove('hidden');
           document.getElementById('btn-confirmarEdicao').classList.remove('hidden');
         }
@@ -1672,6 +1674,7 @@ header("Location: ../home.php?msg_c=$msg");
           editor2.setReadOnly(true);
           document.getElementById('btn-editarProntuario').classList.remove('hidden');
           document.getElementById('btn-adicionarAoHistorico').classList.remove('hidden');
+          document.getElementById('btn-listarDoHistorico').classList.remove('hidden');
           document.getElementById('btn-cancelarEdicao').classList.add('hidden');
           document.getElementById('btn-confirmarEdicao').classList.add('hidden');
           location.reload();
@@ -1679,7 +1682,7 @@ header("Location: ../home.php?msg_c=$msg");
 
         function listarProntuariosDoHistorico(){
           const idPaciente = <?= $idPaciente?>;
-          window.location.href = `./historico_prontuarios/?id_paciente=${idPaciente}`
+          window.location.href = `./historico_prontuarios.php?id_paciente=${idPaciente}`
         }
 
         </script>
