@@ -228,5 +228,17 @@ class SaudeControle
             header("Location: ../html/saude/profile_paciente.php?id_fichamedica=".$id_fichamedica);
         }
     }
+
+    public function listarProntuariosDoHistorico($idPaciente){
+        //echo $idPaciente;
+        $saudeDao = new SaudeDAO();
+        try{
+            $prontuariosHistorico = $saudeDao->listarProntuariosDoHistorico($idPaciente);
+            return $prontuariosHistorico;
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
+        
+    }
    
 }

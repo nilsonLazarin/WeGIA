@@ -20,7 +20,7 @@ if (file_exists($config_path)) {
   require_once($config_path);
 }
 
-require_once '../../controle/AvisoNotificacaoControle.php';
+require_once '../../controle/SaudeControle.php';
 
 $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 $id_pessoa = $_SESSION['id_pessoa'];
@@ -49,18 +49,10 @@ if (!is_null($resultado)) {
 // Adiciona a Função display_campo($nome_campo, $tipo_campo)
 require_once "../personalizacao_display.php";
 
-$avisoNotificacaoControle = new AvisoNotificacaoControle();
-$recentes = $avisoNotificacaoControle->listarRecentes($id_pessoa);
-$historicos = $avisoNotificacaoControle->listarHistoricos($id_pessoa);
+extract($_REQUEST);
 
-$recentesJSON =  json_encode(
-  $recentes
-);
-$historicoJSON = json_encode(
-  $historicos
-);
-
-echo "<script>let recentes = $recentesJSON; let historico = $historicoJSON</script>";
+$saudeControle = new SaudeControle();
+$prontuariosDoHistorico = $saudeControle->listarProntuariosDoHistorico($id_paciente);
 
 ?>
 
@@ -76,12 +68,20 @@ echo "<script>let recentes = $recentesJSON; let historico = $historicoJSON</scri
       padding: 10px;
       border-radius: 10px;
     }
+
+    #historicoOpcao{
+      width: 60%;;
+    }
+
+    .btn{
+      margin-top: 10px;
+    }
   </style>
 
   <!-- Basic -->
   <meta charset="UTF-8">
 
-  <title>Lista de Intercorrências</title>
+  <title>Histórico dos prontuários</title>
 
   <!-- Mobile Metas -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -137,15 +137,14 @@ echo "<script>let recentes = $recentesJSON; let historico = $historicoJSON</scri
   <script src="../../Functions/enviar_dados.js"></script>
   <script src="../../Functions/mascara.js"></script>
 
-    <!-- Ckeditor -->
-  <script src="<?php echo WWW;?>assets/vendor/ckeditor/ckeditor.js"></script>
+  <!-- Ckeditor -->
+  <script src="<?php echo WWW; ?>assets/vendor/ckeditor/ckeditor.js"></script>
   <!-- jquery functions -->
   <script>
     $(function() {
       $("#header").load("../header.php");
       $(".menuu").load("../menu.php");
     });
-
   </script>
 </head>
 
@@ -175,6 +174,28 @@ echo "<script>let recentes = $recentesJSON; let historico = $historicoJSON</scri
         </header>
 
         <!-- start: page -->
+        <div class="container">
+          <div class="col-md-6" id="container-selecao">
+            <form action="">
+              <div class="form-group">
+                <label for="historicoOpcao" class="font-weight-bold">Selecione a data do histórico que você deseja visualizar</label>
+                <select name="historicoOpcao" id="historicoOpcao" class="form-control">
+                  <option value="" selected disabled>Selecionar ...</option>
+                  <?php 
+                    foreach($prontuariosDoHistorico as $prontuario){
+                      $idHistorico = $prontuario['idHistorico'];
+                      $data = $prontuario['data'];
+                      echo "<option value=\"$idHistorico\">$data</option>";
+                    }
+                  ?>
+                </select>
+              </div>
+              <button class="btn btn-primary">Visualizar</button>
+            </form>
+          </div>
+        </div>
+
+
 
         <!-- start: page -->
 
