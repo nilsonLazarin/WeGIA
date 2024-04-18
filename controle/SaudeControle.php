@@ -240,5 +240,15 @@ class SaudeControle
         }
         
     }
+
+    public function listarProntuarioHistoricoPorId($idHistorico = -1){
+        header('Content-Type: application/json');
+     
+        if($idHistorico == -1){
+            $idHistorico = $_GET['idHistorico'];
+        }
+
+        echo json_encode(array("idHistorico" => $idHistorico));
+    }
    
 }

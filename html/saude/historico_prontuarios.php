@@ -69,12 +69,18 @@ $prontuariosDoHistorico = $saudeControle->listarProntuariosDoHistorico($id_pacie
       border-radius: 10px;
     }
 
-    #historicoOpcao{
-      width: 60%;;
+    #historicoOpcao {
+      width: 60%;
+      ;
     }
 
-    .btn{
+    .btn#visualizar {
       margin-top: 10px;
+      margin-bottom: 10px;
+    }
+
+    .hidden {
+      display: none;
     }
   </style>
 
@@ -181,17 +187,30 @@ $prontuariosDoHistorico = $saudeControle->listarProntuariosDoHistorico($id_pacie
                 <label for="historicoOpcao" class="font-weight-bold">Selecione a data do histórico que você deseja visualizar</label>
                 <select name="historicoOpcao" id="historicoOpcao" class="form-control">
                   <option value="" selected disabled>Selecionar ...</option>
-                  <?php 
-                    foreach($prontuariosDoHistorico as $prontuario){
-                      $idHistorico = $prontuario['idHistorico'];
-                      $data = $prontuario['data'];
-                      echo "<option value=\"$idHistorico\">$data</option>";
-                    }
+                  <?php
+                  foreach ($prontuariosDoHistorico as $prontuario) {
+                    $idHistorico = $prontuario['idHistorico'];
+                    $data = $prontuario['data'];
+                    echo "<option value=\"$idHistorico\">$data</option>";
+                  }
                   ?>
                 </select>
               </div>
-              <button class="btn btn-primary">Visualizar</button>
+              <button class="btn btn-primary" id="visualizar" onclick="event.preventDefault(); visualizarProntuario();">Visualizar</button>
             </form>
+
+            <table class="table table-bordered table-striped mb-none hidden" id="table-prontuario">
+              <thead>
+                <tr style="font-size:15px;">
+                  <th>Prontuário público</th>
+                </tr>
+              </thead>
+              <tbody id="prontuario_publico" style="font-size:15px;">
+
+              </tbody>
+            </table>
+
+
           </div>
         </div>
 
@@ -227,6 +246,36 @@ $prontuariosDoHistorico = $saudeControle->listarProntuariosDoHistorico($id_pacie
         </div>
       </section>
   </section>
+
+  <script>
+    async function visualizarProntuario() {
+
+      const opcao = document.getElementById('historicoOpcao').value;
+
+      const URL = `../../controle/control.php?metodo=listarProntuarioHistoricoPorId&nomeClasse=SaudeControle&idHistorico=${opcao}`;
+
+      let resposta = await fetch(URL, {
+        headers: {
+          'Accept':'application/json'
+        }
+      });
+
+      if (!resposta.ok) {
+        alert('Ops!, ocorreu algum erro ao tentar puxar as informações do histórico');
+        return;
+      }
+
+      let prontuario = await resposta.json();
+
+      console.log(prontuario);
+
+      const tableProntuario = document.getElementById('table-prontuario');
+
+      if (tableProntuario.classList.contains("hidden")) {
+        tableProntuario.classList.remove("hidden");
+      }
+    }
+  </script>
 </body>
 
 </html>
