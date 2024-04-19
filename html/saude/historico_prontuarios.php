@@ -62,16 +62,9 @@ $prontuariosDoHistorico = $saudeControle->listarProntuariosDoHistorico($id_pacie
 <head>
 
   <style>
-    .card {
-      margin-top: 20px;
-      background-color: white;
-      padding: 10px;
-      border-radius: 10px;
-    }
 
     #historicoOpcao {
       width: 60%;
-      ;
     }
 
     .btn#visualizar {
@@ -82,6 +75,25 @@ $prontuariosDoHistorico = $saudeControle->listarProntuariosDoHistorico($id_pacie
     .hidden {
       display: none;
     }
+
+    #conteudo-pagina{
+      margin-left: 10%;
+    }
+
+    /*@media(max-width:1000px){
+      #conteudo-pagina{
+        margin-left: 0;
+      }
+
+      #historicoOpcao {
+      width: 45%;
+      }
+      
+      #prontuario_publico{
+        max-width: 80%;
+      }
+    }*/
+
   </style>
 
   <!-- Basic -->
@@ -181,36 +193,38 @@ $prontuariosDoHistorico = $saudeControle->listarProntuariosDoHistorico($id_pacie
 
         <!-- start: page -->
         <div class="container">
-          <div class="col-md-6" id="container-selecao">
-            <form action="">
-              <div class="form-group">
-                <label for="historicoOpcao" class="font-weight-bold">Selecione a data do histórico que você deseja visualizar</label>
-                <select name="historicoOpcao" id="historicoOpcao" class="form-control">
-                  <option value="" selected disabled>Selecionar ...</option>
-                  <?php
-                  foreach ($prontuariosDoHistorico as $prontuario) {
-                    $idHistorico = $prontuario['idHistorico'];
-                    $data = $prontuario['data'];
-                    echo "<option value=\"$idHistorico\">$data</option>";
-                  }
-                  ?>
-                </select>
-              </div>
-              <button class="btn btn-primary" id="visualizar" onclick="event.preventDefault(); visualizarProntuario();">Visualizar</button>
-            </form>
+          <div class="row justify-content-center">
+            <div class="col-12 col-md-6" id="conteudo-pagina">
+              <form action="">
+                <div class="form-group">
+                  <label for="historicoOpcao" class="font-weight-bold">Selecione a data do histórico que você deseja visualizar</label>
+                  <select name="historicoOpcao" id="historicoOpcao" class="form-control">
+                    <option value="" selected disabled>Selecionar ...</option>
+                    <?php
+                    foreach ($prontuariosDoHistorico as $prontuario) {
+                      $idHistorico = $prontuario['idHistorico'];
+                      $data = $prontuario['data'];
+                      echo "<option value=\"$idHistorico\">$data</option>";
+                    }
+                    ?>
+                  </select>
+                </div>
+                <button class="btn btn-primary" id="visualizar" onclick="event.preventDefault(); visualizarProntuario();">Visualizar</button>
+              </form>
 
-            <table class="table table-bordered table-striped mb-none hidden" id="table-prontuario">
-              <thead>
-                <tr style="font-size:15px;">
-                  <th>Prontuário público</th>
-                </tr>
-              </thead>
-              <tbody id="prontuario_publico" style="font-size:15px;">
+              <table class="table table-bordered table-striped mb-none hidden" id="table-prontuario">
+                <thead>
+                  <tr style="font-size:15px;">
+                    <th>Prontuário público</th>
+                  </tr>
+                </thead>
+                <tbody id="prontuario_publico" style="font-size:15px;">
+                  <td id="descricao_historico"></td>
+                </tbody>
+              </table>
 
-              </tbody>
-            </table>
 
-
+            </div>
           </div>
         </div>
 
@@ -256,7 +270,7 @@ $prontuariosDoHistorico = $saudeControle->listarProntuariosDoHistorico($id_pacie
 
       let resposta = await fetch(URL, {
         headers: {
-          'Accept':'application/json'
+          'Accept': 'application/json'
         }
       });
 
@@ -267,7 +281,14 @@ $prontuariosDoHistorico = $saudeControle->listarProntuariosDoHistorico($id_pacie
 
       let prontuario = await resposta.json();
 
-      console.log(prontuario);
+      let descricaoCompleta = "";
+
+      prontuario.forEach(element => {
+        descricaoCompleta += element.descricao;
+      });
+
+      const tdDescricao = document.getElementById('descricao_historico');
+      tdDescricao.innerHTML = descricaoCompleta;
 
       const tableProntuario = document.getElementById('table-prontuario');
 
