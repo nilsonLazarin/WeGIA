@@ -1885,7 +1885,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`aviso`(
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   FOREIGN KEY (`id_pessoa_atendida`)
-    REFERENCES `wegia`.`atendido` (`pessoa_id_pessoa`)
+    REFERENCES `wegia`.`pessoa` (`id_pessoa`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 
