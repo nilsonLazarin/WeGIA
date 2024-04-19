@@ -266,6 +266,11 @@ $prontuariosDoHistorico = $saudeControle->listarProntuariosDoHistorico($id_pacie
 
       const opcao = document.getElementById('historicoOpcao').value;
 
+      if(!opcao || opcao.trim() === ""){
+        alert("Escolha uma opção de data válida antes de clicar em visualizar.");
+        return;
+      }
+
       const URL = `../../controle/control.php?metodo=listarProntuarioHistoricoPorId&nomeClasse=SaudeControle&idHistorico=${opcao}`;
 
       let resposta = await fetch(URL, {
