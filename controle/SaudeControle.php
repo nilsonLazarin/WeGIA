@@ -248,7 +248,14 @@ class SaudeControle
             $idHistorico = $_GET['idHistorico'];
         }
 
-        echo json_encode(array("idHistorico" => $idHistorico));
+        //echo json_encode(array("idHistorico" => $idHistorico));
+        try {
+            $saudeDao = new SaudeDAO();
+            $descricoes = $saudeDao->listarDescricoesHistoricoPorId($idHistorico);
+            echo json_encode($descricoes);
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
     }
    
 }

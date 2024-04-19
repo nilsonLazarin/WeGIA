@@ -256,4 +256,21 @@ class SaudeDAO
             echo $e->getMessage();
         }
     }
+
+    public function listarDescricoesHistoricoPorId($idHistorico){
+        $sql = 'SELECT descricao FROM saude_fichamedica_historico_descricoes WHERE id_fichamedica_historico=:idHistorico';
+
+        try{
+            $pdo = Conexao::connect();
+
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindParam(':idHistorico', $idHistorico);
+            $stmt->execute();
+
+            $descricoes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $descricoes;
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
+    }
 }
