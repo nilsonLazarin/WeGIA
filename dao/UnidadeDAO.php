@@ -20,7 +20,7 @@ class UnidadeDAO
             $stmt->bindParam(':descricao_unidade',$descricao_unidade);
 
             $stmt->execute();
-        }catch (PDOExeption $e) {
+        }catch (PDOException $e) {
             echo 'Error: <b>  na tabela unidade_produto = ' . $sql . '</b> <br /><br />' . $e->getMessage();
         }
     }
@@ -67,8 +67,8 @@ class UnidadeDAO
                 $unidades[$x]=array('id_unidade'=>$linha['id_unidade'],'descricao_unidade'=>$linha['descricao_unidade']);
                 $x++;
             }
-            } catch (PDOExeption $e){
-                echo 'Error:' . $e->getMessage;
+            } catch (PDOException $e){
+                echo 'Error:' . $e->getMessage();
             }
             return json_encode($unidades);
         }
