@@ -17,7 +17,7 @@ class QuadroHorarioControle
         try {
             $log = (new QuadroHorarioDAO())->adicionarTipo($tipo);;
             $_SESSION['msg'] = $log;
-        } catch (PDOExeption $e) {
+        } catch (PDOException $e) {
             echo("Erro ao adicionar tipo '$tipo' ao banco de dados: " . $e->getMessage());
             $_SESSION['msg'] = "Erro ao adicionar tipo: " . $e->getMessage();
             $_SESSION['flag'] = "erro";
@@ -46,10 +46,8 @@ class QuadroHorarioControle
         session_start();
         try {
             $log = (new QuadroHorarioDAO())->adicionarEscala($escala);
-            // var_dump($log);
-            // die();
             $_SESSION['msg'] = $log;
-        } catch (PDOExeption $e) {
+        } catch (PDOException $e) {
             echo("Erro ao adicionar escala '$escala' ao banco de dados: " . $e->getMessage());
             $_SESSION['msg'] = "Erro ao adicionar escala: " . $e->getMessage();
             $_SESSION['flag'] = "erro";
