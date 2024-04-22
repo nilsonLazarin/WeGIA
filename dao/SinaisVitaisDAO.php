@@ -60,8 +60,7 @@ class SinaisVitaisDAO
             $stmt->bindParam(':temperatura',$temperatura);
             $stmt->bindParam(':hgt',$hgt);
             $stmt->execute();
-           $pdo->commit();
-           $pdo->close();
+           
             
         } catch (PDOException $e) {
             echo 'Error: <b>  na tabela pessoas = ' . $sql . '</b> <br /><br />' . $e->getMessage();

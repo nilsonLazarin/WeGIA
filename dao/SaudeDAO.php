@@ -68,7 +68,7 @@ class SaudeDAO
         }
     }
     public function alterar($saude)
-    {
+    {//Verificar possibilidade de desativação do método
         try {
             $sql = 'update pessoa as p inner join saude_fichamedica as sf on p.id_pessoa=sf.id_pessoa set p.imagem=:imagem where sf.id_pessoa=:id_pessoa';
             
@@ -89,9 +89,9 @@ class SaudeDAO
             // $stmt->bindParam(':sexo',$sexo);
             // $stmt->bindParam(':telefone',$telefone);
             // $stmt->bindParam(':data_nascimento',$nascimento);
-            $stmt->execute();
+            /*$stmt->execute();
             $pdo->commit();
-            $pdo->close();
+            $pdo->close();*/
 
             // mysqli_stmt_close($stmt);
             // mysqli_close($pdo);
