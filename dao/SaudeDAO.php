@@ -178,19 +178,13 @@ class SaudeDAO
             echo 'Error: <b>  na tabela pessoas = ' . $sql . '</b> <br /><br />' . $e->getMessage();
         }
     }
-
+    
+    /**Recebe como parâmetro o id de uma ficha médica e o id de um paciente, instancia um objeto do tipo PDO e insere no banco de dados uma nova linha em saude_fichamedica_historico */
     public function adicionarProntuarioAoHistorico($idFicha, $idPaciente){
-        //$sql1 = "SELECT id_pessoa FROM saude_fichamedica WHERE id_fichamedica =:idFicha";//Ver depois se é possível já puxar esse dado do front-end
         $sql2 = "INSERT INTO saude_fichamedica_historico (id_pessoa, data) VALUES (:idPessoa, :data)";
 
         try{
             $pdo = Conexao::connect();
-
-            /*$stmt1 = $pdo->prepare($sql1);
-            $stmt1->bindParam(':idFicha', $idFicha);
-            $stmt1->execute();
-
-            $idPessoa = $stmt1->fetch(PDO::FETCH_ASSOC)['id_pessoa'];*/
            
             date_default_timezone_set('America/Sao_Paulo');
             $data = date('Y-m-d H:i:s');
@@ -205,10 +199,8 @@ class SaudeDAO
  
             if($this->insercaoDescricaoHistoricoEmCadeia($idFicha, $pdo, $ultimoID)){
                 $pdo->commit();
-                //echo 'Commit';
             }else{
                 $pdo->rollBack();
-                //echo 'Rollback';
             }
       
         }catch(PDOException $e){
@@ -216,6 +208,8 @@ class SaudeDAO
         }
     }
 
+
+    /**Recebe como parâmetros o id de uma ficha médica, um objeto do tipo PDO e o id de uma ficha médica do histórico, puxa todas as descrições correspondentes ao id da ficha médica informada e insere na tabela saude_fichamedica_historico_descricoes com o campo id_fichamedica_historico com o valor passado para o idFichaHistorico */
     public function insercaoDescricaoHistoricoEmCadeia($idFicha, PDO $pdo, $idFichaHistorico){
         $sql1 = "SELECT descricao from saude_fichamedica_descricoes WHERE id_fichamedica=:idFicha";
         $sql2 = "INSERT INTO saude_fichamedica_historico_descricoes (id_fichamedica_historico, descricao) VALUES (:idFichaHistorico, :descricao)";
@@ -240,6 +234,7 @@ class SaudeDAO
         }
     }
     
+    /**Recebe como parâmetro o id de um paciente e retorna um array com todos id's dos prontuários públicos salvos no histórico daquele paciente. */
     public function listarProntuariosDoHistorico($idPaciente){
         $sql = 'SELECT id_fichamedica_historico as idHistorico, data FROM saude_fichamedica_historico WHERE id_pessoa=:idPaciente';
 
@@ -257,6 +252,7 @@ class SaudeDAO
         }
     }
 
+    /**Recebe como parâmetro o id de uma fica médica no histórico e retorna um array com todas as descrições correspondentes aquele prontuário público */
     public function listarDescricoesHistoricoPorId($idHistorico){
         $sql = 'SELECT descricao FROM saude_fichamedica_historico_descricoes WHERE id_fichamedica_historico=:idHistorico';
 
