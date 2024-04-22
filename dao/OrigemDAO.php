@@ -26,7 +26,7 @@ class OrigemDAO
             $stmt->bindParam(':telefone',$telefone);
 
             $stmt->execute();
-        }catch (PDOExeption $e) {
+        }catch (PDOException $e) {
             echo 'Error: <b>  na tabela origem = ' . $sql . '</b> <br /><br />' . $e->getMessage();
         }
     }
@@ -73,8 +73,8 @@ class OrigemDAO
                 $origens[$x]=array('id_origem'=>$linha['id_origem'],'nome_origem'=>$linha['nome_origem'],'cnpj'=>$linha['cnpj'],'cpf'=>$linha['cpf'],'telefone'=>$linha['telefone']);
                 $x++;
             }
-            } catch (PDOExeption $e){
-                echo 'Error:' . $e->getMessage;
+            } catch (PDOException $e){
+                echo 'Error:' . $e->getMessage();
             }
             return json_encode($origens);
         }
@@ -90,8 +90,8 @@ class OrigemDAO
                 $origens[$x]=array('id_origem'=>$linha['id_origem'],'nome_origem'=>$linha['nome_origem']);
                 $x++;
             }
-            } catch (PDOExeption $e){
-                echo 'Error:' . $e->getMessage;
+            } catch (PDOException $e){
+                echo 'Error:' . $e->getMessage();
             }
             return json_encode($origens);
         }
