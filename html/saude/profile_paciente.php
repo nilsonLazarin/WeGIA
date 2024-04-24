@@ -119,7 +119,8 @@ header("Location: ../home.php?msg_c=$msg");
   $ultima_alergia = $mysqli->query("SELECT * FROM saude_tabelacid WHERE CID LIKE 'T78.4%' ORDER BY CID DESC LIMIT 1");
   $cargoMedico = $mysqli->query("SELECT * FROM pessoa p JOIN funcionario f ON (p.id_pessoa=f.id_pessoa) WHERE f.id_cargo = 3");
   $cargoEnfermeiro = $mysqli->query("SELECT * FROM pessoa p JOIN funcionario f ON (p.id_pessoa=f.id_pessoa) WHERE f.id_cargo = 4");
-  $tipoexame = $mysqli->query("SELECT * FROM saude_exame_tipos");
+  //$tipoexame = $mysqli->query("SELECT * FROM saude_exame_tipos");
+  $tipoexame = $pdo->query("SELECT * FROM saude_exame_tipos ORDER BY descricao ASC")->fetchAll(PDO::FETCH_ASSOC);
   $medicamentoenfermeiro = $mysqli->query("SELECT * FROM saude_medicacao"); 
   //$descparaenfermeiro = $mysqli->query("SELECT descricao FROM saude_fichamedica"); ficha médica não possuí mais descrição
   $medstatus = $mysqli->query("SELECT * FROM saude_medicacao_status");
@@ -460,7 +461,7 @@ header("Location: ../home.php?msg_c=$msg");
           $("#mais_medicacoes").show();
           $(".meddisabled").val(nome_medicacao);
         }
-        $(function() {
+        /*$(function() {
         var selects = $('select#tipoDocumento');
         for(let n = 0; n < selects.length; n++){
           var options = $('select#tipoDocumento:eq('+n+') option')
@@ -480,7 +481,7 @@ header("Location: ../home.php?msg_c=$msg");
                 $(o).text(arr[i].tf);
             });
           }
-      });
+      });*/
       </script>
       <style type="text/css">
       .obrig {
@@ -889,10 +890,15 @@ header("Location: ../home.php?msg_c=$msg");
                                     <div style="display: flex;">
                                     
                                         <select class="form-control input-lg mb-md" name="id_docfuncional" id="tipoDocumento" style="width:170px;" required> 
-                                        <option selected disabled>Selecionar</option>
+                                        <option value="" selected disabled>Selecionar</option>
                                           <?php
-                                          while ($row = $tipoexame->fetch_array(MYSQLI_NUM)) {
+                                          /*while ($row = $tipoexame->fetch_array(MYSQLI_NUM)) {
                                           echo "<option value=" . $row[0] . ">" . $row[1] . "</option>";
+                                          }*/
+                                          foreach($tipoexame as $tipo){
+                                            $id = $tipo['id_exame_tipo'];
+                                            $descricao = $tipo['descricao'];
+                                            echo "<option value=\"$id\">$descricao</option>";
                                           }
                                           ?>
                                         </select>
