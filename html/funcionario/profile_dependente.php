@@ -36,8 +36,8 @@
     $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
     $situacao = $mysqli->query("SELECT * FROM situacao");
     $cargo = $mysqli->query("SELECT * FROM cargo");
-    $beneficios = $mysqli->query("SELECT * FROM beneficios");
-    $descricao_epi = $mysqli->query("SELECT * FROM epi");
+    //$beneficios = $mysqli->query("SELECT * FROM beneficios");
+    //$descricao_epi = $mysqli->query("SELECT * FROM epi");
     // Adiciona a Função display_campo($nome_campo, $tipo_campo)
     require_once "../personalizacao_display.php";
     require_once "../../dao/Conexao.php";
