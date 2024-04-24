@@ -23,9 +23,9 @@
     $cpf = $_POST['cpf'];
     $data_expedicao = $_POST['data_expedicao'];
 
-    if(count($data_expedicao) <10){
+    /*if(count($data_expedicao) <10){
         $data_expedicao= null;
-    }
+    }*/
 
     define("ALTERAR_DOC", "UPDATE pessoa SET orgao_emissor=:orgao_emissor, data_expedicao=:data_expedicao, registro_geral=:registro_geral, cpf=:cpf where id_pessoa = :id"); 
 
