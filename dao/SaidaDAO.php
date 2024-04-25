@@ -21,8 +21,8 @@ class SaidaDAO
             $saidas[$x]=array('id_saida'=>$linha['id_saida'],'nome_destino'=>$linha['nome_destino'],'descricao_almoxarifado'=>$linha['descricao_almoxarifado'],'descricao'=>$linha['descricao'],'nome'=>$linha['nome'],'data'=>$linha['data'],'hora'=>$linha['hora'],'valor_total'=>$linha['valor_total']);
             $x++;
         }
-        } catch (PDOExeption $e){
-            echo 'Error:' . $e->getMessage;
+        } catch (PDOException $e){
+            echo 'Error:' . $e->getMessage();
         }
         return json_encode($saidas);
     }
@@ -54,7 +54,7 @@ class SaidaDAO
             $stmt->bindParam(':valor_total',$valor_total);
 
             $stmt->execute();
-        } catch(PDOExeption $e){
+        } catch(PDOException $e){
             echo 'Error: <b>  na tabela produto = ' . $sql . '</b> <br /><br />' . $e->getMessage();
         }
     }
@@ -90,7 +90,7 @@ class SaidaDAO
             while($linha = $stmt->fetch(PDO::FETCH_ASSOC)){
                 $saidas[]=array('id_saida'=>$linha['id_saida'],'id_destino'=>$linha['id_destino'],'id_almoxarifado'=>$linha['id_almoxarifado'],'id_tipo'=>$linha['id_tipo'],'id_responsavel'=>$linha['id_responsavel'],'data'=>$linha['data'],'hora'=>$linha['hora'],'valor_total'=>$linha['valor_total']);
             }
-        } catch(PDOExeption $e){
+        } catch(PDOException $e){
             echo 'Erro: ' .  $e->getMessage();
         }
         return json_encode($saidas);  
