@@ -44,7 +44,7 @@ class AlmoxarifadoControle
             $almoxarifadoDAO->excluir($id_almoxarifado);
             header('Location:../html/listar_almox.php');
         } catch (PDOException $e) {
-            echo "ERROR";
+            echo "ERROR: ". $e->getMessage();
         }
     }
     
