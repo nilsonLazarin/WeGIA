@@ -6,7 +6,7 @@ class OrigemControle
     public function verificar(){
         extract($_REQUEST);
         if((!isset($nome)) || (empty($nome))){
-            $msg = "Nome do origem nÃ£o informado. Por favor, informe um nome!";
+            $msg = "Nome do origem não informado. Por favor, informe um nome!";
             header('Location: ../html/origem.html?msg='.$msg);
         }
         if((!isset($cnpj)) || (empty($cnpj))){
@@ -16,7 +16,7 @@ class OrigemControle
             $calca='null';
         }
         if((!isset($telefone)) || (empty($telefone))){
-            $msg .= "Telefone do origem nÃ£o informado. Por favor, informe um telefone!";
+            $msg .= "Telefone do origem não informado. Por favor, informe um telefone!";
             header('Location: ../html/origem.html?msg='.$msg);
         }
         $cpf=str_replace(".", '', $cpf);
@@ -59,7 +59,7 @@ class OrigemControle
             $_SESSION['link']="../html/cadastro_doador.php";
             header("Location: ../html/cadastro_doador.php");
         } catch (PDOException $e){
-            $msg= "NÃ£o foi possÃ­vel registrar o tipo"."<br>".$e->getMessage();
+            $msg= "Não foi possível registrar o tipo"."<br>".$e->getMessage();
             echo $msg;
         }
     }
@@ -70,7 +70,7 @@ class OrigemControle
             $origemDAO->excluir($id_origem);
             header('Location:../html/listar_origem.php');
         } catch (PDOException $e) {
-            echo "ERROR";
+            echo "ERROR: ".$e->getMessage();
         }
     }
 }
