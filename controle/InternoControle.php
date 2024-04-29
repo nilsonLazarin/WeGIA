@@ -1,7 +1,7 @@
 <?php
 
 error_reporting(0);
-ini_set(“display_errors”, 0 );
+ini_set('display_errors', 0 );
 
 require_once '../classes/Interno.php';
 require_once '../dao/InternoDAO.php';
@@ -72,7 +72,7 @@ class InternoControle
             $senha='null';
             $numeroCPF=str_replace(".", '', $numeroCPF);
             $numeroCPF=str_replace("-", "", $numeroCPF);
-            $interno = new Interno($numeroCPF,$nome,$sobrenome,$sexo,$nascimento,$telefone,);
+            $interno = new Interno($numeroCPF,$nome,$sobrenome,$sexo,$nascimento,'','','','','','','',$telefone,'','','','','','','','','');
            
             return $interno;
         }
@@ -137,7 +137,7 @@ class InternoControle
         $intDAO = new AtendidoDAO();
         $docDAO = new DocumentoDAO();
         try{
-            $idPessoa=$intDAO->incluir($interno);
+            $idPessoa=$intDAO->incluir($interno, $interno->getCpf());
             $_SESSION['msg']="Interno cadastrado com sucesso";
             $_SESSION['proxima']="Cadastrar outro interno";
             $_SESSION['link']="../html/atendido/Cadastro_Atendido.php";

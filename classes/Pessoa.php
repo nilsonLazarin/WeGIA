@@ -279,7 +279,7 @@ abstract class Pessoa
 
     public function setOrgaoEmissor($orgaoEmissor)
     {
-        $this->orgao_emissor = $orgaoEmissor;
+        $this->orgaoEmissor = $orgaoEmissor;
     }
 
     public function setDataExpedicao($dataExpedicao)
