@@ -35,10 +35,10 @@ class Funcionario extends Pessoa
         return $this->id_pessoa;
     }
 
-    public function getId_quadro_horario()
+    /*public function getId_quadro_horario()
     {
         return $this->id_quadro_horario;
-    }
+    }*/
 
     /*public function getVale_transporte()
     {
@@ -195,8 +195,8 @@ class Funcionario extends Pessoa
         $this->id_situacao = $id_situacao;
     }
 
-    public function setQuadro_horario($quadro_horario)
+    /*public function setQuadro_horario($quadro_horario)
     {
         $this->quadro_horario = $quadro_horario;
-    }
+    }*/
 }
