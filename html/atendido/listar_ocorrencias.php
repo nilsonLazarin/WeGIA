@@ -100,6 +100,8 @@ session_start();
      
     header('Location: ../../controle/control.php?metodo=listarUm&nomeClasse=Atendido_ocorrenciaControle&nextPage=../html/atendido/listar_ocorrencias.php?id='.$id.'&id='.$id);
       }
+
+    // $_SESSION['atendido_ocorrencia'];
    
 ?>
 

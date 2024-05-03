@@ -139,7 +139,10 @@ class Atendido_ocorrenciaDAO
             join funcionario f on (ao.funcionario_id_funcionario = f.id_funcionario)
             join pessoa pp on (f.id_pessoa = pp.id_pessoa)
             join atendido_ocorrencia_doc aod on (aod.atentido_ocorrencia_idatentido_ocorrencias = ao.idatendido_ocorrencias)
-            where ao.idatendido_ocorrencias = :id";
+            where ao.idatendido_ocorrencias = :id"; // <-- Query Não retorna dados quando a ocorrência não possuí um documento
+            
+            $sqlNova = "SELECT ao.idatendido_ocorrencias, ao.atendido_ocorrencia_tipos_idatendido_ocorrencia_tipos, ao.funcionario_id_funcionario, ao.data, ao.descricao, p.nome as nome_atendido, p.sobrenome as sobrenome_atendido FROM pessoa p JOIN atendido a ON (p.id_pessoa=a.pessoa_id_pessoa) JOIN atendido_ocorrencia ao ON (ao.atendido_idatendido=a.idatendido) WHERE ao.idatendido_ocorrencias =:id"; // <-- Aproveitar a query nova para buscar os dados quando a ocorrência não possuir um documento 
+
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':id',$id);
             $stmt->execute();
