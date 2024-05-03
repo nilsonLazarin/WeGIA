@@ -10,154 +10,158 @@ INSERT INTO `atendido_ocorrencia` (`idatendido_ocorrencias`, `atendido_idatendid
 <?php
 
 $config_path = "config.php";
-if(file_exists($config_path)){
+if (file_exists($config_path)) {
     require_once($config_path);
-}else{
-    while(true){
+} else {
+    while (true) {
         $config_path = "../" . $config_path;
-        if(file_exists($config_path)) break;
+        if (file_exists($config_path)) break;
     }
     require_once($config_path);
 }
 
-require_once ROOT."/dao/Conexao.php";
-require_once ROOT."/classes/Atendido_ocorrencia.php";
-require_once ROOT."/Functions/funcoes.php";
-require_once ROOT."/dao/Atendido_ocorrenciaDAO.php";
+require_once ROOT . "/dao/Conexao.php";
+require_once ROOT . "/classes/Atendido_ocorrencia.php";
+require_once ROOT . "/Functions/funcoes.php";
+require_once ROOT . "/dao/Atendido_ocorrenciaDAO.php";
 
 
 
 class Atendido_ocorrenciaDAO
 {
-	public function listarTodos(){
+    public function listarTodos()
+    {
 
-        try{
-            $ocorrencias=array();
+        try {
+            $ocorrencias = array();
             $pdo = Conexao::connect();
             $consulta = $pdo->query("SELECT ao.idatendido_ocorrencias, p.nome, p.sobrenome, ao.data, ao.atendido_ocorrencia_tipos_idatendido_ocorrencia_tipos FROM pessoa p INNER JOIN atendido a ON(p.id_pessoa=a.pessoa_id_pessoa) INNER JOIN atendido_ocorrencia ao ON (a.idatendido=ao.atendido_idatendido)");
             // $produtos = Array();
-            $x=0;
-            while($linha = $consulta->fetch(PDO::FETCH_ASSOC)){
-            
-                $ocorrencias[$x]=array('idatendido_ocorrencias'=>$linha['idatendido_ocorrencias'],'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'atendido_ocorrencia_tipos_idatendido_ocorrencia_tipos'=>$linha['atendido_ocorrencia_tipos_idatendido_ocorrencia_tipos'], 'data'=>$linha['data']);
+            $x = 0;
+            while ($linha = $consulta->fetch(PDO::FETCH_ASSOC)) {
+
+                $ocorrencias[$x] = array('idatendido_ocorrencias' => $linha['idatendido_ocorrencias'], 'nome' => $linha['nome'], 'sobrenome' => $linha['sobrenome'], 'atendido_ocorrencia_tipos_idatendido_ocorrencia_tipos' => $linha['atendido_ocorrencia_tipos_idatendido_ocorrencia_tipos'], 'data' => $linha['data']);
                 $x++;
             }
             //$pdo->commit();
             //$pdo->close();
-            } catch (PDOException $e){
-                echo 'Error:' . $e->getMessage();
-            }
-            return json_encode($ocorrencias);
+        } catch (PDOException $e) {
+            echo 'Error:' . $e->getMessage();
+        }
+        return json_encode($ocorrencias);
     }
 
 
-	public function listarTodosComAnexo($id_ocorrencia)
-	{
+    public function listarTodosComAnexo($id_ocorrencia)
+    {
         /*Função não está sendo utilizada em nenhum local da aplicação. */
-		try
-		{
-			$Despachos = array();
-			$pdo = Conexao::connect();
-			$consulta = $pdo->query("SELECT arquivo FROM atendido_ocorrencia_doc  WHERE idatendido_ocorrencia_doc=$id_memorando");
-			$x = 0;
+        try {
+            $Despachos = array();
+            $pdo = Conexao::connect();
+            $consulta = $pdo->query("SELECT arquivo FROM atendido_ocorrencia_doc  WHERE idatendido_ocorrencia_doc=$id_memorando");
+            $x = 0;
 
-			while ($linha = $consulta->fetch(PDO::FETCH_ASSOC)) 
-			{
-				$Despachos[$x] = array('idatendido_ocorrencia_doc'=>$linha['idatendido_ocorrencia_doc']);
-				$x++;
-			}
-		}
-		catch(PDOException $e)
-		{
-			echo 'Error:' . $e->getMessage();
-		}
-		return json_encode($Despachos);
-	}
+            while ($linha = $consulta->fetch(PDO::FETCH_ASSOC)) {
+                $Despachos[$x] = array('idatendido_ocorrencia_doc' => $linha['idatendido_ocorrencia_doc']);
+                $x++;
+            }
+        } catch (PDOException $e) {
+            echo 'Error:' . $e->getMessage();
+        }
+        return json_encode($Despachos);
+    }
 
-	
-	public function incluir($ocorrencia)
-    {               
+
+    public function incluir($ocorrencia)
+    {
         try {
             $sql = "INSERT INTO `atendido_ocorrencia` (`idatendido_ocorrencias`, `atendido_idatendido`, `atendido_ocorrencia_tipos_idatendido_ocorrencia_tipos`, `funcionario_id_funcionario`, `data`, `descricao`) values (default, :atendido_idatendido, :id_tipos_ocorrencia, :funcionario_idfuncionario, :datao, :descricao)";
             //$sql = str_replace("'", "\'", $sql); 
             $pdo = Conexao::connect();
             $stmt = $pdo->prepare($sql);
             // $idatendido_ocorrencias=$ocorrencia->getIdatendido_ocorrencias();
-            $atendido_idatendido=$ocorrencia->getAtendido_idatendido();
-            $id_tipos_ocorrencia=$ocorrencia->getId_tipos_ocorrencia();
-            $funcionario_idfuncionario=$ocorrencia->getFuncionario_idfuncionario();
-            $datao=$ocorrencia->getData();
-            $descricao=$ocorrencia->getDescricao();
-			
-			
-            $stmt->bindParam(':descricao',$descricao);
-            $stmt->bindParam(':atendido_idatendido',$atendido_idatendido);
-			$stmt->bindParam(':funcionario_idfuncionario',$funcionario_idfuncionario);
-            $stmt->bindParam(':id_tipos_ocorrencia',$id_tipos_ocorrencia);
-			// $stmt->bindParam(':idatendido_ocorrencias',$id_atendido_ocorrencias);
-            $stmt->bindParam(':datao',$datao);
-			// $stmt->bindParam(':nome',$nome);
+            $atendido_idatendido = $ocorrencia->getAtendido_idatendido();
+            $id_tipos_ocorrencia = $ocorrencia->getId_tipos_ocorrencia();
+            $funcionario_idfuncionario = $ocorrencia->getFuncionario_idfuncionario();
+            $datao = $ocorrencia->getData();
+            $descricao = $ocorrencia->getDescricao();
+
+
+            $stmt->bindParam(':descricao', $descricao);
+            $stmt->bindParam(':atendido_idatendido', $atendido_idatendido);
+            $stmt->bindParam(':funcionario_idfuncionario', $funcionario_idfuncionario);
+            $stmt->bindParam(':id_tipos_ocorrencia', $id_tipos_ocorrencia);
+            // $stmt->bindParam(':idatendido_ocorrencias',$id_atendido_ocorrencias);
+            $stmt->bindParam(':datao', $datao);
+            // $stmt->bindParam(':nome',$nome);
             $stmt->execute();
-            
         } catch (PDOException $e) {
             echo 'Error: <b>  na tabela pessoas = ' . $sql . '</b> <br /><br />' . $e->getMessage();
         }
     }
 
     public function listarAnexo($id_anexo)
-	{
-		try
-		{	
-			$Anexo = array();
-			$pdo = Conexao::connect();
-			$consulta = $pdo->query("SELECT arquivo FROM arquivo_atendido_doc WHERE idatendido_ocorrencia_doc=$id_anexo");
-			$x = 0;
-
-			while($linha = $consulta->fetch(PDO::FETCH_ASSOC))
-			{
-				$AnexoDAO = new Atendido_ocorrenciaDAO;
-				$decode = gzuncompress($linha['arquivo']);
-				$Anexo[$x] = array('arquivo'=>$decode);
-				$x++;
-			}
-		}
-		catch(PDOException $e)
-		{
-			echo 'Error:' . $e->getMessage();
-		}
-		return $Anexo;
-	}
-
-    public function listar($id){
-        try{
-            echo $id;
+    {
+        try {
+            $Anexo = array();
             $pdo = Conexao::connect();
-            // $sql = "SELECT atendido_idatendido, atendido_ocorrencia_tipos_idatendido_ocorrencia_tipos, funcionario_id_funcionario, data, descricao FROM atendido_ocorrencia WHERE idatendido_ocorrencias= :id";
-            $sql = "SELECT p.nome as nome_atendido, p.sobrenome as sobrenome_atendido,ao.data,ao.descricao as descricao_tipo,aod.arquivo_nome, aod.arquivo_extensao, ao.idatendido_ocorrencias, aod.arquivo,pp.nome as func,aot.descricao as descricao_ocorrencia from pessoa p join atendido a on (a.pessoa_id_pessoa = p.id_pessoa)
-            join atendido_ocorrencia ao on (ao.atendido_idatendido = a.idatendido)
-            join atendido_ocorrencia_tipos aot on (ao.atendido_ocorrencia_tipos_idatendido_ocorrencia_tipos = aot.idatendido_ocorrencia_tipos) 
-            join funcionario f on (ao.funcionario_id_funcionario = f.id_funcionario)
-            join pessoa pp on (f.id_pessoa = pp.id_pessoa)
-            join atendido_ocorrencia_doc aod on (aod.atentido_ocorrencia_idatentido_ocorrencias = ao.idatendido_ocorrencias)
-            where ao.idatendido_ocorrencias = :id"; // <-- Query Não retorna dados quando a ocorrência não possuí um documento
-            
-            $sqlNova = "SELECT ao.idatendido_ocorrencias, ao.atendido_ocorrencia_tipos_idatendido_ocorrencia_tipos, ao.funcionario_id_funcionario, ao.data, ao.descricao, p.nome as nome_atendido, p.sobrenome as sobrenome_atendido FROM pessoa p JOIN atendido a ON (p.id_pessoa=a.pessoa_id_pessoa) JOIN atendido_ocorrencia ao ON (ao.atendido_idatendido=a.idatendido) WHERE ao.idatendido_ocorrencias =:id"; // <-- Aproveitar a query nova para buscar os dados quando a ocorrência não possuir um documento 
+            $consulta = $pdo->query("SELECT arquivo FROM arquivo_atendido_doc WHERE idatendido_ocorrencia_doc=$id_anexo");
+            $x = 0;
+
+            while ($linha = $consulta->fetch(PDO::FETCH_ASSOC)) {
+                $AnexoDAO = new Atendido_ocorrenciaDAO;
+                $decode = gzuncompress($linha['arquivo']);
+                $Anexo[$x] = array('arquivo' => $decode);
+                $x++;
+            }
+        } catch (PDOException $e) {
+            echo 'Error:' . $e->getMessage();
+        }
+        return $Anexo;
+    }
+
+    public function listar($id)
+    {
+        try {
+            $pdo = Conexao::connect();
+
+            $sqlBuscaArquivos = "SELECT * FROM atendido_ocorrencia_doc WHERE atentido_ocorrencia_idatentido_ocorrencias =:id";
+
+            $stmt1 = $pdo->prepare($sqlBuscaArquivos);
+            $stmt1->bindParam(':id', $id);
+            $stmt1->execute();
+
+            if ($stmt1->fetch(PDO::FETCH_ASSOC)) {
+                $sql = "SELECT p.nome as nome_atendido, p.sobrenome as sobrenome_atendido,ao.data,ao.descricao as descricao_tipo,aod.arquivo_nome, aod.arquivo_extensao, ao.idatendido_ocorrencias, aod.arquivo,pp.nome as func,aot.descricao as descricao_ocorrencia from pessoa p join atendido a on (a.pessoa_id_pessoa = p.id_pessoa)
+                join atendido_ocorrencia ao on (ao.atendido_idatendido = a.idatendido)
+                join atendido_ocorrencia_tipos aot on (ao.atendido_ocorrencia_tipos_idatendido_ocorrencia_tipos = aot.idatendido_ocorrencia_tipos) 
+                join funcionario f on (ao.funcionario_id_funcionario = f.id_funcionario)
+                join pessoa pp on (f.id_pessoa = pp.id_pessoa)
+                join atendido_ocorrencia_doc aod on (aod.atentido_ocorrencia_idatentido_ocorrencias = ao.idatendido_ocorrencias)
+                where ao.idatendido_ocorrencias = :id"; // <-- Query Não retorna dados quando a ocorrência não possuí um documento
+            } else {
+                $sql = "SELECT p.nome as nome_atendido, p.sobrenome as sobrenome_atendido,ao.data,ao.descricao as descricao_tipo, ao.idatendido_ocorrencias, pp.nome as func,aot.descricao as descricao_ocorrencia from pessoa p join atendido a on (a.pessoa_id_pessoa = p.id_pessoa)
+                join atendido_ocorrencia ao on (ao.atendido_idatendido = a.idatendido)
+                join atendido_ocorrencia_tipos aot on (ao.atendido_ocorrencia_tipos_idatendido_ocorrencia_tipos = aot.idatendido_ocorrencia_tipos) 
+                join funcionario f on (ao.funcionario_id_funcionario = f.id_funcionario)
+                join pessoa pp on (f.id_pessoa = pp.id_pessoa)
+                where ao.idatendido_ocorrencias = :id";// <-- Aproveitar a query nova para buscar os dados quando a ocorrência não possuir um documento 
+            }
 
             $stmt = $pdo->prepare($sql);
-            $stmt->bindParam(':id',$id);
+            $stmt->bindParam(':id', $id);
             $stmt->execute();
-            $paciente=array();
+            $paciente = array();
             while ($linha = $stmt->fetch(PDO::FETCH_ASSOC)) {
-
-                // $paciente[]=array('atendido_idatendido'=>$linha['atendido_idatendido'],'atendido_ocorrencia_tipos_idatendido_ocorrencia_tipos'=>$linha['atendido_ocorrencia_tipos_idatendido_ocorrencia_tipos'],'funcionario_id_funcionario'=>$linha['funcionario_id_funcionario'],'data'=>$linha['data'], 'descricao'=>$linha['descricao']);
-                $paciente[]=array('nome_atendido'=>$linha['nome_atendido'],'arquivo_nome'=>$linha['arquivo_nome'],'arquivo_extensao'=>$linha['arquivo_extensao'],'idatendido_ocorrencias'=>$linha['idatendido_ocorrencias'],'sobrenome_atendido'=>$linha['sobrenome_atendido'],'atendido_ocorrencia_tipos_idatendido_ocorrencia_tipos'=>$linha['descricao_tipo'],'funcionario_id_funcionario'=>$linha['func'],
-                'data'=>$linha['data'], 'descricao'=>$linha['descricao_ocorrencia']);
+                $paciente[] = array(
+                    'nome_atendido' => $linha['nome_atendido'], 'arquivo_nome' => $linha['arquivo_nome'], 'arquivo_extensao' => $linha['arquivo_extensao'], 'idatendido_ocorrencias' => $linha['idatendido_ocorrencias'], 'sobrenome_atendido' => $linha['sobrenome_atendido'], 'atendido_ocorrencia_tipos_idatendido_ocorrencia_tipos' => $linha['descricao_tipo'], 'funcionario_id_funcionario' => $linha['func'],
+                    'data' => $linha['data'], 'descricao' => $linha['descricao_ocorrencia']
+                );
             }
-        }catch (PDOException $e){
+        } catch (PDOException $e) {
             echo 'Error: ' .  $e->getMessage();
         }
         return json_encode($paciente);
     }
-
 }
 ?>
