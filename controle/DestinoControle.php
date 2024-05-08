@@ -16,7 +16,7 @@ class DestinoControle
             $cpf='';
         }
         if((!isset($telefone)) || (empty($telefone))){
-            $msg .= "Telefone do destino nÃ£o informado. Por favor, informe um telefone!";
+            $msg .= "Telefone do destino não informado. Por favor, informe um telefone!";
             header('Location: ../html/destino.html?msg='.$msg);
         }
         $cpf=str_replace(".", '', $cpf);
@@ -61,7 +61,7 @@ class DestinoControle
             $destinoDAO->excluir($id_destino);
             header('Location:../html/listar_destino.php');
         } catch (PDOException $e) {
-            echo "ERROR";
+            echo "ERROR: ".$e->getMessage();
         }
     }
 }

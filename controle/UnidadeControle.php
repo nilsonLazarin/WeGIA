@@ -7,7 +7,7 @@ class UnidadeControle
         extract($_REQUEST);
         
         if((!isset($descricao_unidade)) || (empty($descricao_unidade))){
-            $msg .= "Descricao da Unidade nÃ£o informada. Por favor, informe uma descricao!";
+            $msg .= "Descrição da Unidade não informada. Por favor, informe uma descrição!";
             header('Location: ../html/unidade.html?msg='.$msg);
         }else{
         	$unidade = new Unidade($descricao_unidade);
@@ -34,7 +34,7 @@ class UnidadeControle
             $_SESSION['link']="../html/cadastrar_unidade.php";
             header("Location: ../html/cadastro_produto.php");
         } catch (PDOException $e){
-            $msg= "NÃ£o foi possÃ­vel registrar o funcionário"."<br>".$e->getMessage();
+            $msg= "Não foi possível registrar o funcionário"."<br>".$e->getMessage();
             echo $msg;
         }
     }
@@ -45,7 +45,7 @@ class UnidadeControle
             $unidadeDAO->excluir($id_unidade);
             header('Location:../html/listar_unidade.php');
         }catch (PDOException $e) {
-            echo "ERROR";
+            echo "ERROR: ".$e->getMessage();
         }
     }
 }

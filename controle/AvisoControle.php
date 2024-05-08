@@ -45,7 +45,7 @@ class AvisoControle
                 header("Location: ../html/saude/historico_paciente.php?id_fichamedica=$idfichamedica");
             }
         }catch(PDOException $e){
-            $e->getMessage();
+            echo 'Erro ao registrar intercorrência: '.$e->getMessage();
         }
     }
 }

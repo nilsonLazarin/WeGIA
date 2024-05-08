@@ -315,7 +315,7 @@ class AtendidoControle
             header("Location: ../html/atendido/Informacao_Atendido.php");
 
         } catch (PDOException $e){
-            $msg= "NÃ£o foi possÃ­vel registrar o atendido"."<br>".$e->getMessage();
+            $msg= "Não foi possível registrar o atendido"."<br>".$e->getMessage();
             echo $msg;
         }
     }

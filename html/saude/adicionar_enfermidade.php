@@ -1,11 +1,27 @@
 <?php
 	require_once '../../dao/Conexao.php';
-	$pdo = Conexao::connect();
-	//$situacao = $_POST["situacao"];
-	$s1 = $_POST["cid"];
-	$s2 = $_POST["nome"];
-	$teste = explode(",", $situacao);
+	
+	$enfermidadeCid = $_POST["cid"];
+	$enfermidadeNome = $_POST["nome"];
 
-	$sql = "INSERT into saude_tabelacid(CID, descricao) values('$s1', '$s2')";
-	$pdo->query($sql);
+	$enfermidadeCid = trim($enfermidadeCid);
+	$enfermidadeNome = trim($enfermidadeNome);
+
+	if(!$enfermidadeCid || !$enfermidadeNome){
+		echo 'As informações referentes ao CID e ao nome da enfermidade devem ser preenchidas para que o cadastro ocorra';
+		exit(400);
+	}
+	
+	try{
+		$pdo = Conexao::connect();
+		$sql = "INSERT into saude_tabelacid(CID, descricao) values(:enfermidadeCid, :enfermidadeNome)";
+
+		$stmt = $pdo->prepare($sql);
+		$stmt->bindParam(':enfermidadeCid', $enfermidadeCid);
+		$stmt->bindParam('enfermidadeNome', $enfermidadeNome);
+		$stmt->execute();
+	}catch(PDOException $e){
+		echo 'Erro ao cadastrar enfermidade: '.$e->getMessage();
+	}
+	
 ?>

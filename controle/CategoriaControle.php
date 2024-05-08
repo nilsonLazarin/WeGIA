@@ -6,7 +6,7 @@ class CategoriaControle
     public function verificar(){
         extract($_REQUEST);
         if((!isset($descricao_categoria)) || (empty($descricao_categoria))){
-            $msg = "Descricao da Categoria n�o informada. Por favor, informe uma descricao!";
+            $msg = "Descricao da Categoria não informada. Por favor, informe uma descricao!";
             header('Location: ../html/categoria.html?msg='.$msg);
         }
         else{
@@ -31,7 +31,7 @@ class CategoriaControle
             $categoriaDAO->incluir($categoria);
             header("Location: ../html/adicionar_categoria.php");
         } catch (PDOException $e){
-            $msg= "N�o foi poss�vel registrar a categoria"."<br>".$e->getMessage();
+            $msg= "Não foi possível registrar a categoria"."<br>".$e->getMessage();
             echo $msg;
         }
     }
@@ -42,7 +42,7 @@ class CategoriaControle
             $categoriaDAO->editar($id_categoria_produto, $descricao_categoria);
             header("Location: ../html/listar_categoria.php");
         } catch (PDOException $e){
-            $msg= "N�o foi poss�vel registrar a categoria"."<br>".$e->getMessage();
+            $msg= "Não foi possível registrar a categoria"."<br>".$e->getMessage();
             echo $msg;
         }
     }
@@ -53,7 +53,7 @@ class CategoriaControle
             $categoriaDAO->excluir($id_categoria_produto);
             header('Location:../html/listar_categoria.php');
         } catch (PDOException $e) {
-            $msg = "N�o foi poss�vel excluir essa categoria, pois ela j� deve existir um produto cadastrado com essa categoria"."<br>".$e->getMessage();
+            $msg = "Não foi possível excluir essa categoria, pois já deve existir um produto cadastrado com essa categoria"."<br>".$e->getMessage();
             echo $msg;
         }
     }
