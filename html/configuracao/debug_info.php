@@ -16,7 +16,57 @@
 	}
 	$conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
+	// Função para obter as branches de um repositório no GitHub usando a API
+	function getGitHubBranches($owner, $repo)
+	{
+		$url = "https://api.github.com/repos/$owner/$repo/branches";
+		$options = [
+			'http' => [
+				'header' => "User-Agent: My-App\r\n",
+			],
+		];
+		$context = stream_context_create($options);
+		$response = file_get_contents($url, false, $context);
+		return json_decode($response, true);
+	}
 
+	function getCurrentBranch() {
+		$output = array();
+		exec("git -C ".ROOT." branch | grep '*' | cut -d ' ' -f2", $output);
+		return $output[0];
+	}
+
+    // Função para fazer o checkout para uma branch
+    function gitCheckout($branch) {
+        $output = array();
+        exec("git -C ".ROOT." checkout $branch", $output);
+        return $output;
+    }
+
+	// Obtém as branches do repositório
+	$owner = "nilsonLazarin";
+	$repo = "WeGIA";
+	$branches = [];
+	try {
+		$branchesData = getGitHubBranches($owner, $repo);
+		foreach ($branchesData as $branch) {
+			$branches[] = $branch['name'];
+		}
+	} catch (Exception $e) {
+		echo "Erro ao obter as branches do GitHub: " . $e->getMessage();
+	}
+
+
+	if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['branch'])) {
+        $branch = $_POST['branch']; 
+        $action = $_POST["action"]; 
+
+        if ($action == "switch") {
+            $output = gitCheckout($branch);
+        } elseif ($action == "update") {
+            header("Location: atualizacao.php?branch=$branch"); 
+        }
+    }
 	
 	// Verifica Permissão do Usuário
 	require_once '../permissao/permissao.php';
@@ -110,6 +160,44 @@
 		.btn{
 			width: 10%;
 		}
+
+		.config-item {
+        margin: 20px 0;
+    }
+
+    .config-item form {
+        display: flex;
+        align-items: center;
+    }
+
+    .config-item label,
+    .config-item select,
+    .config-item button {
+        margin: 0 10px;
+    }
+
+    .config-item button {
+        background-color: #4CAF50; /* Verde */
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        transition-duration: 0.4s;
+        cursor: pointer;
+
+        border-radius: 12px;
+
+        width: 150px;
+    }
+
+    .config-item button:hover {
+        background-color: #45a049;
+
+        transform: scale(1.1);
+    }
 	</style>
 
 </head>
@@ -192,9 +280,19 @@
                                     ?></p>
 							</div>
 							<div>
-								<div class="config-item">
-									<div>Atualizar sistema para versão em desenvolvimento:</div>
-									<button id="btn2" class="btn btn-warning" onClick="setLoader(this)"><a href="./atualizacao.php?redirect=./debug_info.php"><i class="fas fa-download" aria-hidden="true"></i></a></button>
+    							<div class="config-item">
+       								<div>Atualizar sistema para versão em desenvolvimento:</div>
+        							<form action="debug_info.php" method="post">
+           								<label for="branch">Escolha a branch para atualizar:</label>
+            							<select name="branch" id="branch">
+               							 	<?php foreach ($branches as $branch): ?>
+                    							<option value="<?php echo $branch; ?>" <?php if ($branch == getCurrentBranch()) echo 'style="color: #32CD32;"'; ?>><?php echo $branch; ?></option>
+                							<?php endforeach; ?>
+            							</select>
+           								<button type="submit" name="action" value="switch">Trocar branch</button>
+            							<button type="submit" name="action" value="update">Atualizar</button>
+        							</form>
+    								</div>
 								</div>
 							</div>
                             
