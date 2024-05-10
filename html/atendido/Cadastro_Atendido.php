@@ -553,7 +553,7 @@
           $('#intStatus').empty();
           $('#intStatus').append('<option selected disabled>Selecionar</option>');
           $.each(status, function(i, item) {
-            $('#intStatus').append('<option value="' + item.id_status + '">' + item.status + '</option>');
+            $('#intStatus').append('<option value="' + item.idatendido_status + '">' + item.status + '</option>');
           });
         },
         dataType: 'json'
