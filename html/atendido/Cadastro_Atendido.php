@@ -509,7 +509,7 @@
           $('#intTipo').empty();
           $('#intTipo').append('<option selected disabled>Selecionar</option>');
           $.each(descricao, function(i, item) {
-            $('#intTipo').append('<option value="' + item.id_tipo + '">' + item.descricao + '</option>');
+            $('#intTipo').append('<option value="' + item.idatendido_tipo + '">' + item.descricao + '</option>');
           });
         },
         dataType: 'json'
