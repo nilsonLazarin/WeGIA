@@ -1100,7 +1100,7 @@ header("Location: ../home.php?msg_c=$msg");
                      <div class="form-group">
                       <label class="col-md-3 control-label" for="profileCompany">Horário:<sup class="obrig">*</sup></label>
                       <div class="col-md-6">
-                        <input type="text" class="form-control" name="horario_medicacao" id="horario_medicacao">
+                        <input type="time" class="form-control" name="horario_medicacao" id="horario_medicacao">
                       </div>
                    </div>
 
