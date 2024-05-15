@@ -452,7 +452,7 @@ $JSON_dependente = json_encode($dependente);
             $('#tipoDocumento').empty();
             $('#tipoDocumento').append('<option selected disabled>Selecionar...</option>');
             $.each(documento, function(i, item) {
-                $('#tipoDocumento').append('<option value="' + item.id_docdependente + '">' + item.nome_docdependente + '</option>');
+                $('#tipoDocumento').append('<option value="' + item.id_docdependentes + '">' + item.nome_docdependente + '</option>');
             });
         }
 
