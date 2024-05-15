@@ -228,7 +228,10 @@ require_once "../personalizacao_display.php";
                   <div class="form-group">
                     <label class="col-md-3 control-label" for="cpf">Número do CPF<sup class="obrig">*</sup></label>
                     <div class="col-md-6">
-                      <input type="text" class="form-control" id="cpf" id="cpf" name="cpf" placeholder="Ex: 222.222.222-22" maxlength="14" value= <?php echo $cpf ?> disabled>
+                      <input type="text" class="form-control" id="cpf" id="cpf" name="cpf" placeholder="Ex: 222.222.222-22" maxlength="14" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##', this, event)" value= "<?php
+                      if(isset($cpf) && !is_null(trim($cpf))){
+                        echo $cpf;
+                      } ?>" required>
                     </div>
                   </div>
                   <div class="form-group">
@@ -320,7 +323,6 @@ require_once "../personalizacao_display.php";
                     <div class="row">
                       <div class="col-md-9 col-md-offset-3">
                         <input type="hidden" name="nomeClasse" value="FuncionarioControle">
-                        <input type="hidden" name="cpf" value="<?php  echo $cpf ?>">
                         <input type="hidden" name="metodo" value="incluir">
                         <input id="enviar" type="submit" class="btn btn-primary"  value="Salvar" onclick="validarFuncionario()">
                         <input type="reset" class="btn btn-default">
