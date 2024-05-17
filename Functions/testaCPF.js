@@ -1,4 +1,4 @@
-export function testaCPF(strCPF) {
+function testaCPF(strCPF) {
     var strCPF = strCPF.replace(/[^\d]+/g, ''); // Limpa a string do CPF removendo espaços em branco e caracteres especiais.
     var Soma;
     var Resto;

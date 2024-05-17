@@ -1,7 +1,6 @@
-
 <?php
-ini_set('display_errors',1);
-ini_set('display_startup_erros',1);
+ini_set('display_errors', 1);
+ini_set('display_startup_erros', 1);
 error_reporting(E_ALL);
 extract($_REQUEST);
 session_start();
@@ -60,8 +59,8 @@ LEFT JOIN pessoa p ON p.id_pessoa = af.pessoa_id_pessoa
 LEFT JOIN atendido_parentesco ap ON ap.idatendido_parentesco = af.atendido_parentesco_idatendido_parentesco
 WHERE af.idatendido_familiares = " . $_GET['id_dependente'] ?? null);
 $dependente = $dependente->fetch(PDO::FETCH_ASSOC);
-$dependente["nome_atendido"] = ($pdo->query("SELECT p.nome FROM atendido a LEFT JOIN pessoa p ON a.pessoa_id_pessoa = p.id_pessoa WHERE a.idatendido = ".$dependente["atendido_idatendido"].";")->fetch(PDO::FETCH_ASSOC))["nome"];
-$dependente["sobrenome_atendido"] = ($pdo->query("SELECT p.sobrenome FROM atendido a LEFT JOIN pessoa p ON a.pessoa_id_pessoa = p.id_pessoa WHERE a.idatendido = ".$dependente["atendido_idatendido"].";")->fetch(PDO::FETCH_ASSOC))["sobrenome"];
+$dependente["nome_atendido"] = ($pdo->query("SELECT p.nome FROM atendido a LEFT JOIN pessoa p ON a.pessoa_id_pessoa = p.id_pessoa WHERE a.idatendido = " . $dependente["atendido_idatendido"] . ";")->fetch(PDO::FETCH_ASSOC))["nome"];
+$dependente["sobrenome_atendido"] = ($pdo->query("SELECT p.sobrenome FROM atendido a LEFT JOIN pessoa p ON a.pessoa_id_pessoa = p.id_pessoa WHERE a.idatendido = " . $dependente["atendido_idatendido"] . ";")->fetch(PDO::FETCH_ASSOC))["sobrenome"];
 
 $id_pessoa = $dependente["id_pessoa"];
 $idatendido_familiares = $dependente["idatendido_familiares"];
@@ -103,6 +102,7 @@ $JSON_dependente = json_encode($dependente);
     <!--script src="../Functions/enviar_dados.js"></script-->
     <script src="../../Functions/mascara.js"></script>
     <script src="../../Functions/lista.js"></script>
+    <script src="<?php echo WWW; ?>Functions/testaCPF.js"></script>
 
 
     <link rel="stylesheet" href="../../assets/vendor/bootstrap/css/bootstrap.css" />
@@ -113,11 +113,11 @@ $JSON_dependente = json_encode($dependente);
     <!-- Specific Page Vendor CSS -->
     <link rel="stylesheet" href="../../assets/vendor/select2/select2.css" />
     <link rel="stylesheet" href="../../assets/vendor/jquery-datatables-bs3/assets/css/datatables.css" />
-    <link rel="stylesheet" type="text/css" href="../../css/profile-theme.css"> 
-    <script src="../../assets/vendor/jquery/jquery.min.js"></script> 
+    <link rel="stylesheet" type="text/css" href="../../css/profile-theme.css">
+    <script src="../../assets/vendor/jquery/jquery.min.js"></script>
     <script src="../../assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js">
-    </script> 
-    <script src="../../assets/vendor/bootstrap/js/bootstrap.js"></script> 
+    </script>
+    <script src="../../assets/vendor/bootstrap/js/bootstrap.js"></script>
     <script src="../../assets/vendor/nanoscroller/nanoscroller.js"></script>
 
     <!-- Theme CSS -->
@@ -307,8 +307,6 @@ $JSON_dependente = json_encode($dependente);
             });
 
         });
-
-
     </script>
 
 
@@ -322,119 +320,95 @@ $JSON_dependente = json_encode($dependente);
 
 
 
-    
-     <script type="text/javascript">
-        
-    function numero_residencial() {
-        if ($("#numResidencial").prop('checked')) {
-        $("#numero_residencia").val('');
-        document.getElementById("numero_residencia").disabled = true; 
 
-      }  else {
-        document.getElementById("numero_residencia").disabled = false;
-      }
-    }   
+    <script type="text/javascript">
+        function numero_residencial() {
+            if ($("#numResidencial").prop('checked')) {
+                $("#numero_residencia").val('');
+                document.getElementById("numero_residencia").disabled = true;
 
-
-
-
-
-
-    function meu_callback(conteudo) {
-      if (!("erro" in conteudo)) {
-        //Atualiza os campos com os valores.
-        document.getElementById('rua').value = (conteudo.logradouro);
-        document.getElementById('bairro').value = (conteudo.bairro);
-        document.getElementById('cidade').value = (conteudo.localidade);
-        document.getElementById('uf').value = (conteudo.uf);
-        document.getElementById('ibge').value = (conteudo.ibge);
-      } //end if.
-      else {
-        //CEP não Encontrado.
-        limpa_formulário_cep();
-        alert("CEP não encontrado.");
-      }
-    }
-
-    function pesquisacep(valor) {
-      //Nova variável "cep" somente com dígitos.
-      var cep = valor.replace(/\D/g, '');
-
-      //Verifica se campo cep possui valor informado.
-      if (cep != "") {
-
-        //Expressão regular para validar o CEP.
-        var validacep = /^[0-9]{8}$/;
-
-        //Valida o formato do CEP.
-        if (validacep.test(cep)) {
-
-          //Preenche os campos com "..." enquanto consulta webservice.
-          document.getElementById('rua').value = "...";
-          document.getElementById('bairro').value = "...";
-          document.getElementById('cidade').value = "...";
-          document.getElementById('uf').value = "...";
-          document.getElementById('ibge').value = "...";
-
-          //Cria um elemento javascript.
-          var script = document.createElement('script');
-
-          //Sincroniza com o callback.
-          script.src = 'https://viacep.com.br/ws/' + cep + '/json/?callback=meu_callback';
-
-          //Insere script no documento e carrega o conteúdo.
-          document.body.appendChild(script);
-
-        } //end if.
-        else {
-          //cep é inválido.
-          limpa_formulário_cep();
-          alert("Formato de CEP inválido.");
+            } else {
+                document.getElementById("numero_residencia").disabled = false;
+            }
         }
-      } //end if.
-      else {
-        //cep sem valor, limpa formulário.
-        limpa_formulário_cep();
-      }
 
-    };
 
-    function testaCPF(strCPF) { //strCPF é o cpf que será validado. Ele deve vir em formato string e sem nenhum tipo de pontuação.
-      var strCPF = strCPF.replace(/[^\d]+/g, ''); // Limpa a string do CPF removendo espaços em branco e caracteres especiais. 
-      // PODE SER QUE NÃO ESTEJA LIMPANDO COMPLETAMENTE. FAVOR FAZER O TESTE!!!!
-      var Soma;
-      var Resto;
-      Soma = 0;
-      if (strCPF == "00000000000") return false;
 
-      for (i = 1; i <= 9; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (11 - i);
-      Resto = (Soma * 10) % 11;
 
-      if ((Resto == 10) || (Resto == 11)) Resto = 0;
-      if (Resto != parseInt(strCPF.substring(9, 10))) return false;
 
-      Soma = 0;
-      for (i = 1; i <= 10; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (12 - i);
-      Resto = (Soma * 10) % 11;
 
-      if ((Resto == 10) || (Resto == 11)) Resto = 0;
-      if (Resto != parseInt(strCPF.substring(10, 11))) return false;
-      return true;
-    }
+        function meu_callback(conteudo) {
+            if (!("erro" in conteudo)) {
+                //Atualiza os campos com os valores.
+                document.getElementById('rua').value = (conteudo.logradouro);
+                document.getElementById('bairro').value = (conteudo.bairro);
+                document.getElementById('cidade').value = (conteudo.localidade);
+                document.getElementById('uf').value = (conteudo.uf);
+                document.getElementById('ibge').value = (conteudo.ibge);
+            } //end if.
+            else {
+                //CEP não Encontrado.
+                limpa_formulário_cep();
+                alert("CEP não encontrado.");
+            }
+        }
 
-    function validarCPF(strCPF) {
+        function pesquisacep(valor) {
+            //Nova variável "cep" somente com dígitos.
+            var cep = valor.replace(/\D/g, '');
 
-      if (!testaCPF(strCPF)) {
-        $('#cpfInvalido').show();
-        document.getElementById("enviarEditar").disabled = true;
+            //Verifica se campo cep possui valor informado.
+            if (cep != "") {
 
-      } else {
-        $('#cpfInvalido').hide();
+                //Expressão regular para validar o CEP.
+                var validacep = /^[0-9]{8}$/;
 
-        document.getElementById("enviarEditar").disabled = false;
-      }
+                //Valida o formato do CEP.
+                if (validacep.test(cep)) {
 
-    }
+                    //Preenche os campos com "..." enquanto consulta webservice.
+                    document.getElementById('rua').value = "...";
+                    document.getElementById('bairro').value = "...";
+                    document.getElementById('cidade').value = "...";
+                    document.getElementById('uf').value = "...";
+                    document.getElementById('ibge').value = "...";
+
+                    //Cria um elemento javascript.
+                    var script = document.createElement('script');
+
+                    //Sincroniza com o callback.
+                    script.src = 'https://viacep.com.br/ws/' + cep + '/json/?callback=meu_callback';
+
+                    //Insere script no documento e carrega o conteúdo.
+                    document.body.appendChild(script);
+
+                } //end if.
+                else {
+                    //cep é inválido.
+                    limpa_formulário_cep();
+                    alert("Formato de CEP inválido.");
+                }
+            } //end if.
+            else {
+                //cep sem valor, limpa formulário.
+                limpa_formulário_cep();
+            }
+
+        };
+
+        function validarCPF(strCPF) {
+
+            if (!testaCPF(strCPF)) {
+                $('#cpfInvalido').show();
+                document.getElementById("enviarEditar").disabled = true;
+
+            } else {
+                $('#cpfInvalido').hide();
+
+                document.getElementById("enviarEditar").disabled = false;
+            }
+
+        }
 
         function gerarSituacao() {
             url = '../dao/exibir_situacao.php';
@@ -540,7 +514,7 @@ $JSON_dependente = json_encode($dependente);
                         .append($("<td>").text(item.descricao))
                         .append($("<td>").text(item.data))
                         .append($("<td style='display: flex; justify-content: space-evenly;'>")
-                            .append($("<a href='./funcionario/dependente_docdependente.php?action=download&id_doc="+item.id_doc+"' title='Visualizar ou Baixar'><button class='btn btn-primary'><i class='fas fa-download'></i></button></a>"))
+                            .append($("<a href='./funcionario/dependente_docdependente.php?action=download&id_doc=" + item.id_doc + "' title='Visualizar ou Baixar'><button class='btn btn-primary'><i class='fas fa-download'></i></button></a>"))
                             .append($("<a href='#' onclick='excluir_docdependente(" + item.id_doc + ")' title='Excluir'><button class='btn btn-danger'><i class='fas fa-trash-alt'></i></button></a>"))
                         )
                     )
@@ -575,9 +549,9 @@ $JSON_dependente = json_encode($dependente);
         }
     </script>
     <script>
-    function goBack() {
-    window.history.back()
-    }
+        function goBack() {
+            window.history.back()
+        }
     </script>
 
 
@@ -640,7 +614,7 @@ $JSON_dependente = json_encode($dependente);
 
                 <div class="panel">
                     <div class="panel-body">
-                        <h3>Familiar de: <?= $dependente["nome_atendido"] . " " . $dependente["sobrenome_atendido"];?></h3>
+                        <h3>Familiar de: <?= $dependente["nome_atendido"] . " " . $dependente["sobrenome_atendido"]; ?></h3>
                         <div class="tabs">
 
                             <ul class="nav nav-tabs tabs-primary">
@@ -794,7 +768,7 @@ $JSON_dependente = json_encode($dependente);
                                 <!-- Aba de documentação do dependente -->
 
                                 <div id="documentacao" class="tab-pane" role="tabpanel">
-                                <h4>Documentação</h4>
+                                    <h4>Documentação</h4>
                                     <form action="familiar_editarDoc.php?id_pessoa=<?php echo $id_pessoa ?>&idatendido_familiares=<?php echo $idatendido_familiares ?>" method='POST'>
                                         <fieldset id="formDocumentacao">
                                             <div class="form-group">
@@ -835,7 +809,7 @@ $JSON_dependente = json_encode($dependente);
                                         </fieldset>
                                     </form>
                                 </div>
-                            
+
                                 <!-- Aba de endereço do dependente -->
 
                                 <div id="endereco" class="tab-pane" role="tabpanel">
@@ -902,10 +876,10 @@ $JSON_dependente = json_encode($dependente);
                                         </fieldset>
                                     </form>
                                 </div>
-                                
-                                 <div class="justify-content-between" style="height: 30px;">
-                             
-                        </div>
+
+                                <div class="justify-content-between" style="height: 30px;">
+
+                                </div>
 
                             </div>
                         </div>
