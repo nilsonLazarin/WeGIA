@@ -1,5 +1,5 @@
 <?php
-
+require_once "../personalizacao_display.php";
 session_start();
 if (!isset($_SESSION['usuario'])) {
 	header("Location: ../index.php");
@@ -76,6 +76,7 @@ $cpf = $_GET['cpf'];
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.1.1/css/all.css">
 	<link rel="stylesheet" href="../../assets/vendor/magnific-popup/magnific-popup.css" />
 	<link rel="stylesheet" href="../../assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
+	<link rel="icon" href="<?php display_campo("Logo", 'file'); ?>" type="image/x-icon">
 
 	<!-- Theme CSS -->
 	<link rel="stylesheet" href="../../assets/stylesheets/theme.css" />
