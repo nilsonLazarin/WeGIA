@@ -228,10 +228,10 @@ require_once "../personalizacao_display.php";
                   <div class="form-group">
                     <label class="col-md-3 control-label" for="cpf">Número do CPF<sup class="obrig">*</sup></label>
                     <div class="col-md-6">
-                      <input type="text" class="form-control" id="cpf" id="cpf" name="cpf" placeholder="Ex: 222.222.222-22" maxlength="14" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##', this, event)" value="<?php
-                                                                                                                                                                                                                                          if (isset($cpf) && !is_null(trim($cpf))) {
-                                                                                                                                                                                                                                            echo $cpf;
-                                                                                                                                                                                                                                          } ?>" required>
+                      <input type="text" class="form-control" id="cpf" id="cpf" name="cpf" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##', this, event)" value="<?php
+                                                                                                                                                                                                                                                                          if (isset($cpf) && !is_null(trim($cpf))) {
+                                                                                                                                                                                                                                                                            echo $cpf;
+                                                                                                                                                                                                                                                                          } ?>" required>
                     </div>
                   </div>
                   <div class="form-group">
