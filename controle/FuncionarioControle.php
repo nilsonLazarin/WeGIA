@@ -988,8 +988,8 @@ class FuncionarioControle
     public function alterarDocumentacao()
     {
         extract($_REQUEST);
-        $cpf=str_replace(".", '', $cpf);
-        $cpf=str_replace("-", "", $cpf);
+        //$cpf=str_replace(".", '', $cpf);
+        //$cpf=str_replace("-", "", $cpf);
 
         $funcionario = new Funcionario($cpf,'','','','',$rg,$orgao_emissor,$data_expedicao,'','','','','','','','','','','','','','');
             

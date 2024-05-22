@@ -286,7 +286,7 @@ require_once ROOT."/html/personalizacao_display.php";
 										<form action="../adicionar_almoxarife.php" method="post">
 											<div class="form-group">
 												<label class="col-md-3 control-label" for="inputSuccess">Funcionário</label>
-												<a href="../cadastro_funcionario.php">
+												<a href="../funcionario/cadastro_funcionario.php">
 												<i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i>
 											</a>
 											<div class="col-md-6">

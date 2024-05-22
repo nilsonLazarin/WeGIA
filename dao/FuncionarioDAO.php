@@ -434,21 +434,21 @@ class FuncionarioDAO
     {
         try {
 
-            $sql = 'update pessoa as p inner join funcionario as f on p.id_pessoa=f.id_pessoa set registro_geral=:registro_geral,orgao_emissor=:orgao_emissor,data_expedicao=:data_expedicao,cpf=:cpf where id_funcionario=:id_funcionario';
+            $sql = 'update pessoa as p inner join funcionario as f on p.id_pessoa=f.id_pessoa set registro_geral=:registro_geral,orgao_emissor=:orgao_emissor,data_expedicao=:data_expedicao where id_funcionario=:id_funcionario';
             
             $sql = str_replace("'", "\'", $sql);
 
             $pdo = Conexao::connect();
             $stmt = $pdo->prepare($sql);
 
-            $cpf=$funcionario->getCpf();
+            //$cpf=$funcionario->getCpf();
             $id_funcionario=$funcionario->getId_funcionario();
             $registro_geral=$funcionario->getRegistroGeral();
             $orgao_emissor=$funcionario->getOrgaoEmissor();
             $data_expedicao=$funcionario->getDataExpedicao();
             $data_admissao=$funcionario->getData_admissao();
 
-            $stmt->bindParam(':cpf',$cpf);
+            //$stmt->bindParam(':cpf',$cpf);
             $stmt->bindParam(':id_funcionario',$id_funcionario);
             $stmt->bindParam(':registro_geral',$registro_geral);
             $stmt->bindParam(':orgao_emissor',$orgao_emissor);

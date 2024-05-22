@@ -85,6 +85,7 @@ $JSON_dependente = json_encode($dependente);
     <!--script src="../Functions/enviar_dados.js"></script-->
     <script src="../../Functions/mascara.js"></script>
     <script src="../../Functions/lista.js"></script>
+    <script src="<?php echo WWW; ?>Functions/testaCPF.js"></script>
     <link rel="stylesheet" href="../../assets/vendor/bootstrap/css/bootstrap.css" />
     <link rel="stylesheet" href="../../assets/vendor/magnific-popup/magnific-popup.css" />
     <link rel="stylesheet" href="../../assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
@@ -317,26 +318,6 @@ $JSON_dependente = json_encode($dependente);
             }
         };
 
-        function testaCPF(strCPF) {
-            //strCPF é o cpf que será validado. Ele deve vir em formato string e sem nenhum tipo de pontuação.
-            var strCPF = strCPF.replace(/[^\d]+/g, ''); // Limpa a string do CPF removendo espaços em branco e caracteres especiais. 
-            // PODE SER QUE NÃO ESTEJA LIMPANDO COMPLETAMENTE. FAVOR FAZER O TESTE!!!!
-            var Soma;
-            var Resto;
-            Soma = 0;
-            if (strCPF == "00000000000") return false;
-            for (i = 1; i <= 9; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (11 - i);
-            Resto = (Soma * 10) % 11;
-            if ((Resto == 10) || (Resto == 11)) Resto = 0;
-            if (Resto != parseInt(strCPF.substring(9, 10))) return false;
-            Soma = 0;
-            for (i = 1; i <= 10; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (12 - i);
-            Resto = (Soma * 10) % 11;
-            if ((Resto == 10) || (Resto == 11)) Resto = 0;
-            if (Resto != parseInt(strCPF.substring(10, 11))) return false;
-            return true;
-        }
-
         function validarCPF(strCPF) {
             if (!testaCPF(strCPF)) {
                 $('#cpfInvalido').show();
@@ -452,7 +433,7 @@ $JSON_dependente = json_encode($dependente);
             $('#tipoDocumento').empty();
             $('#tipoDocumento').append('<option selected disabled>Selecionar...</option>');
             $.each(documento, function(i, item) {
-                $('#tipoDocumento').append('<option value="' + item.id_docdependente + '">' + item.nome_docdependente + '</option>');
+                $('#tipoDocumento').append('<option value="' + item.id_docdependentes + '">' + item.nome_docdependente + '</option>');
             });
         }
 
