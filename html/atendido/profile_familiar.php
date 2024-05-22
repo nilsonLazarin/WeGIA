@@ -400,12 +400,12 @@ $JSON_dependente = json_encode($dependente);
 
             if (!testaCPF(strCPF)) {
                 $('#cpfInvalido').show();
-                document.getElementById("enviarEditar").disabled = true;
+                document.getElementById("botaoSalvar_formDocumentacao").disabled = true;
 
             } else {
                 $('#cpfInvalido').hide();
 
-                document.getElementById("enviarEditar").disabled = false;
+                document.getElementById("botaoSalvar_formDocumentacao").disabled = false;
             }
 
         }
