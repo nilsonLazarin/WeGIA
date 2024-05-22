@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-if (!isset($_SESSION["usuario"])){
+if (!isset($_SESSION["usuario"])) {
     header("Location: ../../index.php");
 }
 
@@ -11,15 +11,25 @@ permissao($_SESSION['id_pessoa'], 11, 7);
 
 
 require_once "../../dao/Conexao.php";
-$pdo = Conexao::connect();
+
 $id_dependente = $_POST["id_dependente"];
 
-$sql = "SELECT doc.nome_docdependente AS descricao, ddoc.data, ddoc.id_doc FROM funcionario_dependentes_docs ddoc LEFT JOIN funcionario_docdependentes doc ON doc.id_docdependentes = ddoc.id_docdependentes WHERE ddoc.id_dependente=$id_dependente;";
+if(!$id_dependente || !is_numeric($id_dependente)){
+    http_response_code(400);
+    exit('O valor informado para o id do dependente não é válido.');
+}
 
-$dependente = $pdo->query($sql);
-$dependente = $dependente->fetchAll(PDO::FETCH_ASSOC);
-$dependente = json_encode($dependente);
+try {
+    $sql = "SELECT doc.nome_docdependente AS descricao, ddoc.data, ddoc.id_doc FROM funcionario_dependentes_docs ddoc LEFT JOIN funcionario_docdependentes doc ON doc.id_docdependentes = ddoc.id_docdependentes WHERE ddoc.id_dependente=:idDependente";
+    $pdo = Conexao::connect();
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':idDependente', $id_dependente);
+    $stmt->execute();
 
-echo $dependente;
+    $dependente = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $dependente = json_encode($dependente);
 
-die();
+    echo $dependente;
+} catch (PDOException $e) {
+    echo 'Erro na hora de buscar os documentos do familiar: ' . $e->getMessage();
+}
