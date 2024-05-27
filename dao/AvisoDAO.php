@@ -49,7 +49,8 @@ class AvisoDAO
                 $this->pdo->rollBack();
             }
         } catch (PDOException $e) {
-            $e->getMessage();
+            echo 'Erro ao cadastrar uma intercorrência no banco de dados: '.$e->getMessage();
+            throw $e;
         }
     }
 
@@ -69,7 +70,7 @@ class AvisoDAO
             $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
             return $resultado;
         } catch (PDOException $e) {
-            $e->getMessage();
+            echo 'Erro ao procurar uma intercorrência com o id fornecido: '.$e->getMessage();
         }
     }
 }
