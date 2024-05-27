@@ -80,7 +80,12 @@ class AvisoNotificacaoControle
       */
      public function mudarStatus()
      {
-          $idNotificacao = $_POST['id_notificacao'];
+          $idNotificacao = trim($_POST['id_notificacao']);
+
+          if(!$idNotificacao || !is_numeric($idNotificacao)){
+               http_response_code(400);
+               exit('Erro, o id de uma notificação não está dentro dos padrões aceitados.');
+          }
      
           try{
                $avisoNotificacaoDAO = new AvisoNotificacaoDAO();
