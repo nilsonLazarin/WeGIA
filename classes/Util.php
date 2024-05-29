@@ -774,4 +774,60 @@ class Util
 
         return $feriado;
     }
+
+    /**
+     * Recebe uma string como parâmetro e realiza os procedimentos necessários para validar o cpf informado
+     * @return boolean
+     */
+    public function validarCPF(string $cpf)
+    {
+        //Limpar formatação
+        $cpfLimpo = preg_replace('/[^0-9]/', '', $cpf);
+
+        //Validação do tamanho da string informada
+        if (strlen($cpfLimpo) != 11) {
+            return false;
+        }
+
+        // Validação de CPFs conhecidos como inválidos
+        if (preg_match('/(\d)\1{10}/', $cpfLimpo)) {
+            return false;
+        }
+
+        //Validação do primeiro dígito verificador
+        $soma = 0;
+        $resto = 0;
+
+        for ($i = 0; $i < 9; $i++) { // Cálculo da soma
+            $soma += $cpfLimpo[$i] * (10 - $i);
+        }
+
+        $resto = $soma % 11;
+
+        $digitoVerificador1 = $resto < 2 ? 0 : 11 - $resto;
+
+        if ($digitoVerificador1 != $cpfLimpo[9]) {
+            return false;
+        }
+
+        //Validação do segundo dígito verificador
+        $soma = 0;
+        $resto = 0;
+        //$digitoVerificador2 = 0;
+
+        for ($i = 0; $i < 10; $i++) { // Cálculo da soma
+            $soma += $cpfLimpo[$i] * (11 - $i);
+        }
+
+        $resto = $soma % 11;
+
+        $digitoVerificador2 = $resto < 2 ? 0 : 11 - $resto;
+
+        if ($digitoVerificador2 != $cpfLimpo[10]) {
+            return false;
+        }
+
+        //Retornar resultado
+        return true;
+    }
 }
