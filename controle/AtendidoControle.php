@@ -17,6 +17,7 @@ require_once ROOT . '/classes/Documento.php';
 require_once ROOT . '/dao/DocumentoDAO.php';
 require_once 'DocumentoControle.php';
 include_once ROOT . '/classes/Cache.php';
+require_once ROOT . '/classes/Util.php';
 
 include_once ROOT . "/dao/Conexao.php";
 
@@ -278,6 +279,13 @@ class AtendidoControle
     public function selecionarCadastro()
     {
         $cpf = $_GET['cpf'];
+        $validador = new Util();
+
+        if(!$validador->validarCPF($cpf)){
+            http_response_code(400);
+            exit('Erro, o CPF informado não é válido');
+        }
+
         $atendido = new AtendidoDAO();
         $atendido->selecionarCadastro($cpf);
     }
@@ -287,6 +295,13 @@ class AtendidoControle
     {
         $atendido = $this->verificar();
         $cpf = $_GET['cpf'];
+        $validador = new Util();
+
+        if(!$validador->validarCPF($cpf)){
+            http_response_code(400);
+            exit('Erro, o CPF informado não é válido');
+        }
+
         $intDAO = new AtendidoDAO();
         $docDAO = new DocumentoDAO();
         try {
