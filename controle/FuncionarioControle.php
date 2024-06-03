@@ -18,6 +18,7 @@ include_once ROOT.'/dao/QuadroHorarioDAO.php';
 //include_once ROOT.'/dao/BeneficiadosDAO.php';
 //include_once ROOT.'/dao/Pessoa_epiDAO.php';
 include_once ROOT.'/dao/PermissaoDAO.php';
+require_once ROOT . '/classes/Util.php';
 
 
 class FuncionarioControle
@@ -674,6 +675,13 @@ class FuncionarioControle
     }*/
     public function selecionarCadastro(){
         $cpf = $_GET['cpf'];
+        $validador = new Util();
+
+        if(!$validador->validarCPF($cpf)){
+            http_response_code(400);
+            exit('Erro, o CPF informado não é válido');
+        }
+
         $funcionario = new FuncionarioDAO();
         $funcionario->selecionarCadastro($cpf);
         // header("Location: ../html/funcionario/cadastro_funcionario.php");
@@ -683,6 +691,12 @@ class FuncionarioControle
         $funcionario = $this->verificarFuncionario();
         $horario = $this->verificarHorario();
         $cpf = $_GET['cpf'];
+        $validador = new Util();
+
+        if(!$validador->validarCPF($cpf)){
+            http_response_code(400);
+            exit('Erro, o CPF informado não é válido');
+        }
         //$beneficiados = $this->verificarBeneficiados();
         //$epi = $this->verificarEpi();
         $funcionarioDAO = new FuncionarioDAO();

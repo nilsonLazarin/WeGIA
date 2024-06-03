@@ -236,10 +236,9 @@ class FuncionarioDAO
              
             $sql2 = "INSERT INTO funcionario(id_pessoa,id_cargo,id_situacao,data_admissao,certificado_reservista_numero,certificado_reservista_serie, ctps)
             values(:id_pessoa,:id_cargo,:id_situacao,:data_admissao,:certificado_reservista_numero,:certificado_reservista_serie, 'NULL')";
--
             
-            // $sql = str_replace("'", "\'", $sql);
             $pdo = Conexao::connect();
+            $pdo->beginTransaction();
             $stmt = $pdo->prepare($sql);
             $stmt2 = $pdo->prepare($sql2);
 
@@ -262,7 +261,6 @@ class FuncionarioDAO
             // $escala=$funcionario->getEscala();
             // $tipo=$funcionario->gettTipo();
 
-
             $stmt->bindParam(':id_pessoa',$idPessoa);
             $stmt->bindParam(':registro_geral',$rg);
             $stmt->bindParam(':orgao_emissor',$orgao_emissor);
@@ -277,7 +275,6 @@ class FuncionarioDAO
             $stmt2->bindParam(':certificado_reservista_numero', $certificadoReservistaNumero);
             $stmt2->bindParam(':certificado_reservista_serie', $certificadoReservistaSerie);
             // $stmt2->bindParam(':ctps', $ctps);
-            
             
             // $stmt->bindParam(':nome',$nome);
             // $stmt->bindParam(':sobrenome',$sobrenome);
@@ -296,7 +293,13 @@ class FuncionarioDAO
             // $stmt->bindParam(':escala',$escala);
 
             $stmt->execute();
-            $stmt2->execute();
+            if($stmt2->execute()){
+                $pdo->commit();
+            }else{
+                $pdo->rollBack();
+                http_response_code(500);
+                exit('Erro, não foi possível concluir a operação de cadastro.');
+            }
 
         } catch (PDOException $e) {
             echo 'Error: <b>  na tabela pessoas1 = ' . $sql . '</b> <br /><br />' . $e->getMessage();

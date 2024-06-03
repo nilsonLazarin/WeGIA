@@ -19,7 +19,15 @@ include_once ROOT."/dao/Conexao.php";
 class SinaisVitaisControle 
 {  
     public function verificar(){
-        extract($_REQUEST);
+        $id_fichamedica = trim($_REQUEST['id_fichamedica']);
+        $id_funcionario = trim($_REQUEST['id_funcionario']);
+        $data_afericao = trim($_REQUEST['data_afericao']);
+        $saturacao = trim($_REQUEST['saturacao']);
+        $pres_art = trim($_REQUEST['pres_art']);
+        $freq_card = trim($_REQUEST['freq_card']);
+        $freq_resp = trim($_REQUEST['freq_resp']);
+        $temperatura = trim($_REQUEST['temperatura']);
+        $hgt = trim($_REQUEST['hgt']);
 
         if((!isset($id_fichamedica)) || (empty($id_fichamedica))){
             $id_fichamedica = "";
@@ -69,7 +77,6 @@ class SinaisVitaisControle
             $hgt = floatval($hgt);
         } 
         
-
         $sinaisvitais = new SinaisVitais($id_fichamedica, $id_funcionario, $data_afericao, $saturacao, $pres_art, $freq_card, $freq_resp, $temperatura, $hgt);
 
         $sinaisvitais->setIdFuncionario($id_funcionario);
@@ -86,11 +93,16 @@ class SinaisVitaisControle
     }
 
     public function incluir(){
-        extract($_REQUEST);
+        $id_fichamedica = trim($_REQUEST['id_fichamedica']);
+
+        if(!$id_fichamedica || !is_numeric($id_fichamedica)){
+            http_response_code(400);
+            exit('Erro, o id da ficha médica não pode ser nulo ou diferente de um número');
+        }
+
         $sinaisvitais = $this->verificar();
         $sinVitDAO = new SinaisVitaisDAO();
         
-
         try{
             $intDAO=$sinVitDAO->incluir($sinaisvitais);
             $_SESSION['msg']="Ficha médica cadastrada com sucesso!";
@@ -98,10 +110,8 @@ class SinaisVitaisControle
             $_SESSION['link']="../html/saude/cadastro_ficha_medica.php";
             header("Location: ../html/saude/historico_paciente.php?id_fichamedica=".$id_fichamedica);
         } catch (PDOException $e){
-            $msg= "Não foi possível registrar o paciente <form> <input type='button' value='Voltar' onClick='history.go(-1)'> </form>"."<br>".$e->getMessage();
+            $msg= htmlspecialchars("Não foi possível registrar o paciente <form> <input type='button' value='Voltar' onClick='history.go(-1)'> </form>"."<br>".$e->getMessage());
             echo $msg;
         }
     }
-
-   
 }

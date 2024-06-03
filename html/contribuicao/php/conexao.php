@@ -45,7 +45,7 @@ if(file_exists($config_path))
          $dados = $this->pdo->query($sql);
          $this->array_dados = $dados->fetch();
          $this->rows = $dados->rowCount();
-         $this->arraydados = $dados->fetchAll();
+         $this->array_dados = $dados->fetchAll();
       }
       
       public function rows()
@@ -64,7 +64,7 @@ if(file_exists($config_path))
       }
       public function arraydados()
       {
-         return $this->arraydados;
+         return $this->array_dados;
       }
    }
 
