@@ -11,7 +11,7 @@
         /**
          * Recebe dois parâmetros do tipo inteiro ($idFuncionario, $idPessoaAtendida) e uma String ($descricao) para instanciar um objeto do tipo Aviso.
          */
-        public function __construct($idFuncionario, $idPessoaAtendida, $descricao)
+        public function __construct(int $idFuncionario, int $idPessoaAtendida, string $descricao)
         {
             $this->setIdFuncionario($idFuncionario);
             $this->setIdPessoaAtendida($idPessoaAtendida);
@@ -24,7 +24,10 @@
             return $this->idAviso;
         }
 
-        public function setIdAviso($idAviso){
+        public function setIdAviso(int $idAviso){
+            if($idAviso < 1){
+                throw new InvalidArgumentException('O id de uma intercorrência não pode ser menor que 1.');
+            }
             $this->idAviso = $idAviso;
         }
 
@@ -32,7 +35,10 @@
             return $this->idFuncionario;
         }
 
-        public function setIdFuncionario($idFuncionario){
+        public function setIdFuncionario(int $idFuncionario){
+            if($idFuncionario < 1){
+                throw new InvalidArgumentException('O id de um funcionário não pode ser menor que 1.');
+            }
             $this->idFuncionario = $idFuncionario;
         }
 
@@ -40,7 +46,10 @@
             return $this->idPessoaAtendida;
         }
 
-        public function setIdPessoaAtendida($idPessoaAtendia){
+        public function setIdPessoaAtendida(int $idPessoaAtendia){
+            if($idPessoaAtendia < 1){
+                throw new InvalidArgumentException('O id de um paciente não pode ser menor que 1.');
+            }
             $this->idPessoaAtendida = $idPessoaAtendia;
         }
 
@@ -48,7 +57,10 @@
             return $this->descricao;
         }
 
-        public function setDescricao($descricao){
+        public function setDescricao(string $descricao){
+            if(empty($descricao)){
+                throw new InvalidArgumentException('A descrição de uma intercorrência não pode ser vazia.');
+            }
             $this->descricao = $descricao;
         }
 
