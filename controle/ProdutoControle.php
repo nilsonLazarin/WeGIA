@@ -123,7 +123,7 @@ class ProdutoControle
         $registros = $pdo->query("SELECT * FROM isaida WHERE id_produto=$id_produto")->fetch(PDO::FETCH_ASSOC) || $pdo->query("SELECT * FROM ientrada WHERE id_produto=$id_produto")->fetch(PDO::FETCH_ASSOC);
         $produto = $produto->fetch(PDO::FETCH_ASSOC);
         if ($produto){
-            if (intval($produto{'qtd'}) < 0 && !$registros){
+            if (intval($produto['qtd']) < 0 && !$registros){
                 try {
                     $produtoDAO = new ProdutoDAO();
                     $produtoDAO->excluir($id_produto);

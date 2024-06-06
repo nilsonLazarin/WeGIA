@@ -93,7 +93,7 @@ $sobrenome = $funcionario->listarSobrenome($cpf);
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.1.1/css/all.css">
   <link rel="stylesheet" href="../../assets/vendor/magnific-popup/magnific-popup.css" />
   <link rel="stylesheet" href="../../assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
-<link rel="icon" href="<?php display_campo("Logo",'file');?>" type="image/x-icon">
+  <link rel="icon" href="<?php display_campo("Logo", 'file'); ?>" type="image/x-icon">
 
   <!-- Theme CSS -->
   <link rel="stylesheet" href="../../assets/stylesheets/theme.css" />
@@ -104,21 +104,20 @@ $sobrenome = $funcionario->listarSobrenome($cpf);
   <!-- Theme Custom CSS -->
   <link rel="stylesheet" href="../../assets/stylesheets/theme-custom.css">
   <script src="../../assets/vendor/jquery/jquery.min.js"></script>
-  
+
   <script>
-
     console.log("oi");
-    $(function(){
+    $(function() {
 
-      
-      
-      var funcionario = <?php echo $informacoesFunc ?>; 
+
+
+      var funcionario = <?php echo $informacoesFunc ?>;
       console.log(funcionario);
       console.log("oi");
       $.each(funcionario, function(i, item) {
-        
+
         $("#nome").val(item.nome).prop('disabled', true);
-        $("#sobrenome").val(item.sobrenome).prop('disabled',true);
+        $("#sobrenome").val(item.sobrenome).prop('disabled', true);
         // if (item.sobrenome==null) {
         //         $("#sobrenome").prop('disabled',false);
         //       }
@@ -132,21 +131,17 @@ $sobrenome = $funcionario->listarSobrenome($cpf);
         $("#data_expedicao").val(alterardate(item.data_expedicao));
         $("#cpf").val(item.cpf).prop('disabled', true);
         $("#rg").val(item.registro_geral);
-        if(item.sexo=="m")
-        {
+        if (item.sexo == "m") {
           $("#sexo").html("Sexo: <i class='fa fa-male'></i>  Masculino");
-          $("#radioM").prop('checked',true);
+          $("#radioM").prop('checked', true);
           $("#radioF").prop('disabled', true);
 
-        }
-        else if(item.sexo=="f")
-        {
+        } else if (item.sexo == "f") {
           $("#sexo").html("Sexo: <i class='fa fa-female'>  Feminino");
-          $("#radioF").prop('checked',true);
+          $("#radioF").prop('checked', true);
           $("#radioM").prop('disabled', true);
 
-        }
-        else if(item.sexo = null){
+        } else if (item.sexo = null) {
           $("#radio").prop('disabled', false);
         }
 
@@ -167,8 +162,6 @@ $sobrenome = $funcionario->listarSobrenome($cpf);
       }
 
     });
-
-
   </script>
 
 </head>
@@ -197,174 +190,174 @@ $sobrenome = $funcionario->listarSobrenome($cpf);
           <a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
         </div>
       </header>
-    
-        <div class="col-md-8 col-lg-12">
-          <div class="tabs">
-            <ul class="nav nav-tabs tabs-primary">
-              <li class="active">
-                <a href="#overview" data-toggle="tab">Cadastro de Funcionário</a>
-              </li>
-            </ul>
-            <div class="tab-content">
-              <div id="overview" class="tab-pane active">
-                <form class="form-horizontal" method="GET" action="../../controle/control.php">
-                  <h4 class="mb-xlg">Informações Pessoais</h4>
-                  <h5 class="obrig">Campos Obrigatórios(*)</h5>
-                  <div class="form-group">
-                    <label class="col-md-3 control-label" for="profileFirstName">Nome<sup class="obrig">*</sup></label>
-                    <div class="col-md-6">
-                      <input type="text" class="form-control" name="nome"  id="nome" onkeypress="return Onlychars(event)">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-md-3 control-label">Sobrenome<sup class="obrig">*</sup></label>
-                    <div class="col-md-6">
-                      <input type="text" class="form-control" name="sobrenome" id="sobrenome" onkeypress="return Onlychars(event)">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-md-3 control-label" for="profileLastName">Sexo<sup class="obrig">*</sup></label>
-                    <div class="col-md-6">
-                      <label><input type="radio" name="gender" id="radio" id="radioM" id="M" value="m" style="margin-top: 10px; margin-left: 15px;" onclick="return exibir_reservista()"><i class="fa fa-male" style="font-size: 20px;"></i></label>
-                      <label><input type="radio" name="gender" id="radio" id="radioF" id="F" value="f" style="margin-top: 10px; margin-left: 15px;" onclick="return esconder_reservista()"><i class="fa fa-female" style="font-size: 20px;"></i> </label>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-md-3 control-label" for="telefone">Telefone<sup class="obrig">*</sup></label>
-                    <div class="col-md-6">
-                      <input type="text" class="form-control" maxlength="14" minlength="14" name="telefone" id="telefone" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeyup="mascara('(##)#####-####',this,event)">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-md-3 control-label" for="profileCompany">Nascimento<sup class="obrig">*</sup></label>
-                    <div class="col-md-6">
-                      <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" id="nascimento" max=<?php echo date('Y-m-d'); ?>>
-                    </div>
-                  </div>
-                  <hr class="dotted short">
-                  <h4 class="mb-xlg doch4">Documentação</h4>
-                  <div class="form-group">
-                    <label class="col-md-3 control-label" for="cpf">Número do CPF<sup class="obrig">*</sup></label>
-                    <div class="col-md-6">
-                      <input type="text" class="form-control" id="cpf" name="cpf" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##',this,event)" >
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-md-3 control-label" for="profileCompany">Número do RG<sup class="obrig">*</sup></label>
-                    <div class="col-md-6">
-                      <input type="text" class="form-control" name="rg" id="rg" onkeypress="return Onlynumbers(event)" placeholder="Ex: 22.222.222-2" onkeyup="mascara('##.###.###-#',this,event)" required>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-md-3 control-label" for="profileCompany">Órgão Emissor<sup class="obrig">*</sup></label>
-                    <div class="col-md-6">
-                      <input type="text" class="form-control" name="orgao_emissor" id="orgao_emissor" onkeypress="return Onlychars(event)" required>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-md-3 control-label" for="profileCompany">Data de expedição<sup class="obrig">*</sup></label>
-                    <div class="col-md-6">
-                      <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" name="data_expedicao" id="data_expedicao" max=<?php echo date('Y-m-d'); ?> required>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-md-3 control-label" for="profileCompany"></label>
-                    <div class="col-md-6">
-                      <p id="cpfInvalido" style="display: none; color: #b30000">CPF INVÁLIDO!</p>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-md-3 control-label" for="profileCompany">Data de Admissão<sup class="obrig">*</sup></label>
-                    <div class="col-md-6">
-                      <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data_admissao" id="data_admissao" id="profileCompany" max=<?php echo date('Y-m-d'); ?> required>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-md-3 control-label" for="inputSuccess">Situação<sup class="obrig">*</sup></label>
-                    <a onclick="adicionar_situacao()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
-                    <div class="col-md-6">
-                      <select class="form-control input-lg mb-md" name="situacao" id="situacao" required>
-                        <option selected disabled>Selecionar</option>
-                        <?php
-                        while ($row = $situacao->fetch_array(MYSQLI_NUM)) {
-                          echo "<option value=" . $row[0] . ">" . $row[1] . "</option>";
-                        }                            ?>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-md-3 control-label" for="inputSuccess">Cargo<sup class="obrig">*</sup></label>
-                    <a onclick="adicionar_cargo()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
-                    <div class="col-md-6">
-                      <select class="form-control input-lg mb-md" name="cargo" id="cargo" required>
-                        <option selected disabled>Selecionar</option>
-                        <?php
-                        while ($row = $cargo->fetch_array(MYSQLI_NUM)) {
-                          echo "<option value=" . $row[0] . ">" . $row[1] . "</option>";
-                        }
-                        ?>
-                      </select>
-                    </div>
-                  </div>
 
-                  <div class="form-group">
-                    <label class="col-md-3 control-label">Escala<sup class="obrig">*</sup></label>
-                    <div class="col-md-6">
-                      <select class="form-control input-lg mb-md" name="escala" id="escala_input" required>
-                        <option selected disabled value="">Selecionar</option>
-                        <?php
-                        $pdo = Conexao::connect();
-                        $escala = $pdo->query("SELECT * FROM escala_quadro_horario;")->fetchAll(PDO::FETCH_ASSOC);
-                        foreach ($escala as $key => $value) {
-                          echo ("<option value=" . $value["id_escala"] . ">" . $value["descricao"] . "</option>");
-                        }
-                        ?>
-                      </select>
-                    </div>
-                    <a href="../quadro_horario/adicionar_escala.php"><i class="fas fa-plus w3-xlarge"></i></a>
+      <div class="col-md-8 col-lg-12">
+        <div class="tabs">
+          <ul class="nav nav-tabs tabs-primary">
+            <li class="active">
+              <a href="#overview" data-toggle="tab">Cadastro de Funcionário</a>
+            </li>
+          </ul>
+          <div class="tab-content">
+            <div id="overview" class="tab-pane active">
+              <form class="form-horizontal" method="GET" action="../../controle/control.php">
+                <h4 class="mb-xlg">Informações Pessoais</h4>
+                <h5 class="obrig">Campos Obrigatórios(*)</h5>
+                <div class="form-group">
+                  <label class="col-md-3 control-label" for="profileFirstName">Nome<sup class="obrig">*</sup></label>
+                  <div class="col-md-6">
+                    <input type="text" class="form-control" name="nome" id="nome" onkeypress="return Onlychars(event)">
                   </div>
-                  <div class="form-group">
-                    <label class="col-md-3 control-label">Tipo<sup class="obrig">*</sup></label>
-                    <div class="col-md-6">
-                      <select class="form-control input-lg mb-md" name="tipoCargaHoraria" id="tipoCargaHoraria_input" required>
-                        <option selected disabled value="">Selecionar</option>
-                        <?php
-                        $pdo = Conexao::connect();
-                        $tipo = $pdo->query("SELECT * FROM tipo_quadro_horario;")->fetchAll(PDO::FETCH_ASSOC);
-                        foreach ($tipo as $key => $value) {
-                          echo ("<option value=" . $value["id_tipo"] . ">" . $value["descricao"] . "</option>");
-                        }
-                        ?>
-                      </select>
-                    </div>
-                    <a href="../quadro_horario/adicionar_tipo_quadro_horario.php"><i class="fas fa-plus w3-xlarge"></i></a>
+                </div>
+                <div class="form-group">
+                  <label class="col-md-3 control-label">Sobrenome<sup class="obrig">*</sup></label>
+                  <div class="col-md-6">
+                    <input type="text" class="form-control" name="sobrenome" id="sobrenome" onkeypress="return Onlychars(event)">
                   </div>
-                  <div class="form-group" id="reservista1" style="display: none">
-                    <label class="col-md-3 control-label">Número do certificado reservista</label>
-                    <div class="col-md-6">
-                      <input type="text" name="certificado_reservista_numero" class="form-control num_reservista">
-                    </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-md-3 control-label" for="profileLastName">Sexo<sup class="obrig">*</sup></label>
+                  <div class="col-md-6">
+                    <label><input type="radio" name="gender" id="radio" id="radioM" id="M" value="m" style="margin-top: 10px; margin-left: 15px;" onclick="return exibir_reservista()"><i class="fa fa-male" style="font-size: 20px;"></i></label>
+                    <label><input type="radio" name="gender" id="radio" id="radioF" id="F" value="f" style="margin-top: 10px; margin-left: 15px;" onclick="return esconder_reservista()"><i class="fa fa-female" style="font-size: 20px;"></i> </label>
                   </div>
-                  <div class="form-group" id="reservista2" style="display: none">
-                    <label class="col-md-3 control-label">Série do certificado reservista</label>
-                    <div class="col-md-6">
-                      <input type="text" name="certificado_reservista_serie" class="form-control serie_reservista">
-                    </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-md-3 control-label" for="telefone">Telefone<sup class="obrig">*</sup></label>
+                  <div class="col-md-6">
+                    <input type="text" class="form-control" maxlength="14" minlength="14" name="telefone" id="telefone" placeholder="Ex: (22)99999-9999" onkeypress="return Onlynumbers(event)" onkeyup="mascara('(##)#####-####',this,event)">
                   </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-md-3 control-label" for="profileCompany">Nascimento<sup class="obrig">*</sup></label>
+                  <div class="col-md-6">
+                    <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" id="nascimento" max=<?php echo date('Y-m-d'); ?>>
+                  </div>
+                </div>
+                <hr class="dotted short">
+                <h4 class="mb-xlg doch4">Documentação</h4>
+                <div class="form-group">
+                  <label class="col-md-3 control-label" for="cpf">Número do CPF<sup class="obrig">*</sup></label>
+                  <div class="col-md-6">
+                    <input type="text" class="form-control" id="cpf" name="cpf" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##',this,event)">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-md-3 control-label" for="profileCompany">Número do RG<sup class="obrig">*</sup></label>
+                  <div class="col-md-6">
+                    <input type="text" class="form-control" name="rg" id="rg" onkeypress="return Onlynumbers(event)" placeholder="Ex: 22.222.222-2" onkeyup="mascara('##.###.###-#',this,event)" required>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-md-3 control-label" for="profileCompany">Órgão Emissor<sup class="obrig">*</sup></label>
+                  <div class="col-md-6">
+                    <input type="text" class="form-control" name="orgao_emissor" id="orgao_emissor" onkeypress="return Onlychars(event)" required>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-md-3 control-label" for="profileCompany">Data de expedição<sup class="obrig">*</sup></label>
+                  <div class="col-md-6">
+                    <input type="date" class="form-control" maxlength="10" placeholder="dd/mm/aaaa" name="data_expedicao" id="data_expedicao" max=<?php echo date('Y-m-d'); ?> required>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-md-3 control-label" for="profileCompany"></label>
+                  <div class="col-md-6">
+                    <p id="cpfInvalido" style="display: none; color: #b30000">CPF INVÁLIDO!</p>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-md-3 control-label" for="profileCompany">Data de Admissão<sup class="obrig">*</sup></label>
+                  <div class="col-md-6">
+                    <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data_admissao" id="data_admissao" id="profileCompany" max=<?php echo date('Y-m-d'); ?> required>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-md-3 control-label" for="inputSuccess">Situação<sup class="obrig">*</sup></label>
+                  <a onclick="adicionar_situacao()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
+                  <div class="col-md-6">
+                    <select class="form-control input-lg mb-md" name="situacao" id="situacao" required>
+                      <option selected disabled>Selecionar</option>
+                      <?php
+                      while ($row = $situacao->fetch_array(MYSQLI_NUM)) {
+                        echo "<option value=" . $row[0] . ">" . $row[1] . "</option>";
+                      }                            ?>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-md-3 control-label" for="inputSuccess">Cargo<sup class="obrig">*</sup></label>
+                  <a onclick="adicionar_cargo()"><i class="fas fa-plus w3-xlarge" style="margin-top: 0.75vw"></i></a>
+                  <div class="col-md-6">
+                    <select class="form-control input-lg mb-md" name="cargo" id="cargo" required>
+                      <option selected disabled>Selecionar</option>
+                      <?php
+                      while ($row = $cargo->fetch_array(MYSQLI_NUM)) {
+                        echo "<option value=" . $row[0] . ">" . $row[1] . "</option>";
+                      }
+                      ?>
+                    </select>
+                  </div>
+                </div>
 
-                  <div class="panel-footer">
-                    <div class="row">
-                      <div class="col-md-9 col-md-offset-3">
-                        <input type="hidden" name="nomeClasse" value="FuncionarioControle">
-                        <input type="hidden" name="id_pessoa" value="<?php  echo $id_pessoaForm ?>">
-                        <input type="hidden" name="sobrenome" value="<?php  echo $sobrenome ?>">
-                        <input type="hidden" name="metodo" value="incluirExistente">
-                        <input id="enviar" type="submit" class="btn btn-primary" value="Salvar" onclick="validarFuncionario()">
-                        <input type="reset" class="btn btn-default">
-                      </div>
+                <div class="form-group">
+                  <label class="col-md-3 control-label">Escala<sup class="obrig">*</sup></label>
+                  <div class="col-md-6">
+                    <select class="form-control input-lg mb-md" name="escala" id="escala_input" required>
+                      <option selected disabled value="">Selecionar</option>
+                      <?php
+                      $pdo = Conexao::connect();
+                      $escala = $pdo->query("SELECT * FROM escala_quadro_horario;")->fetchAll(PDO::FETCH_ASSOC);
+                      foreach ($escala as $key => $value) {
+                        echo ("<option value=" . $value["id_escala"] . ">" . $value["descricao"] . "</option>");
+                      }
+                      ?>
+                    </select>
+                  </div>
+                  <a href="../quadro_horario/adicionar_escala.php"><i class="fas fa-plus w3-xlarge"></i></a>
+                </div>
+                <div class="form-group">
+                  <label class="col-md-3 control-label">Tipo<sup class="obrig">*</sup></label>
+                  <div class="col-md-6">
+                    <select class="form-control input-lg mb-md" name="tipoCargaHoraria" id="tipoCargaHoraria_input" required>
+                      <option selected disabled value="">Selecionar</option>
+                      <?php
+                      $pdo = Conexao::connect();
+                      $tipo = $pdo->query("SELECT * FROM tipo_quadro_horario;")->fetchAll(PDO::FETCH_ASSOC);
+                      foreach ($tipo as $key => $value) {
+                        echo ("<option value=" . $value["id_tipo"] . ">" . $value["descricao"] . "</option>");
+                      }
+                      ?>
+                    </select>
+                  </div>
+                  <a href="../quadro_horario/adicionar_tipo_quadro_horario.php"><i class="fas fa-plus w3-xlarge"></i></a>
+                </div>
+                <div class="form-group" id="reservista1" style="display: none">
+                  <label class="col-md-3 control-label">Número do certificado reservista</label>
+                  <div class="col-md-6">
+                    <input type="text" name="certificado_reservista_numero" class="form-control num_reservista">
+                  </div>
+                </div>
+                <div class="form-group" id="reservista2" style="display: none">
+                  <label class="col-md-3 control-label">Série do certificado reservista</label>
+                  <div class="col-md-6">
+                    <input type="text" name="certificado_reservista_serie" class="form-control serie_reservista">
+                  </div>
+                </div>
+
+                <div class="panel-footer">
+                  <div class="row">
+                    <div class="col-md-9 col-md-offset-3">
+                      <input type="hidden" name="nomeClasse" value="FuncionarioControle">
+                      <input type="hidden" name="id_pessoa" value="<?php echo $id_pessoaForm ?>">
+                      <input type="hidden" name="sobrenome" value="<?php echo $sobrenome ?>">
+                      <input type="hidden" name="metodo" value="incluirExistente">
+                      <input id="enviar" type="submit" class="btn btn-primary" value="Salvar" onclick="validarFuncionario()">
+                      <input type="reset" class="btn btn-default">
                     </div>
                   </div>
-                </form>
+                </div>
+              </form>
               <!-- end: page -->
     </section>
   </div>
@@ -408,13 +401,13 @@ $sobrenome = $funcionario->listarSobrenome($cpf);
           send.attr('disabled', 'disabled');
         }
       });
-      
+
       if (apoio == 0) {
         alert("Cadastrado com sucesso!");
       }
     }
 
-    function validarFuncionario(){
+    function validarFuncionario() {
       var btn = $("#enviar");
       var cpf_cadastrado = (<?php echo $_SESSION['cpf_funcionario']; ?>).concat(<?php echo $_SESSION['cpf_interno']; ?>);
       var cpf_cadastrado = (<?php echo $_SESSION['cpf_funcionario']; ?>);
@@ -428,29 +421,29 @@ $sobrenome = $funcionario->listarSobrenome($cpf);
         }
       });
 
-        var sexo = document.querySelector('input[name="gender"]:checked').value;
+      var sexo = document.querySelector('input[name="gender"]:checked').value;
 
-        var rg = document.getElementById('rg').value;
+      var rg = document.getElementById('rg').value;
 
-        var orgao_emissor = document.getElementById('orgao_emissor').value;
+      var orgao_emissor = document.getElementById('orgao_emissor').value;
 
-        var dt_expedicao = document.getElementById('data_expedicao').value;
+      var dt_expedicao = document.getElementById('data_expedicao').value;
 
-        var dt_admissao = document.getElementById('data_admissao').value;
+      var dt_admissao = document.getElementById('data_admissao').value;
 
-        var a = document.getElementById('situacao');
-        var situacao = a.options[a.selectedIndex].text;
+      var a = document.getElementById('situacao');
+      var situacao = a.options[a.selectedIndex].text;
 
-        var b = document.getElementById('cargo');
-        var cargo = b.options[b.selectedIndex].text;
+      var b = document.getElementById('cargo');
+      var cargo = b.options[b.selectedIndex].text;
 
-        var c = document.getElementById('escala_input');
-        var escala = c.options[c.selectedIndex].text;
+      var c = document.getElementById('escala_input');
+      var escala = c.options[c.selectedIndex].text;
 
-        var d = document.getElementById('tipoCargaHoraria_input');
-        var tipo = d.options[d.selectedIndex].text;
+      var d = document.getElementById('tipoCargaHoraria_input');
+      var tipo = d.options[d.selectedIndex].text;
 
-      if(sexo && rg && orgao_emissor && dt_expedicao && dt_admissao && situacao && cargo && escala && tipo){
+      if (sexo && rg && orgao_emissor && dt_expedicao && dt_admissao && situacao && cargo && escala && tipo) {
         alert("Cadastrado com sucesso!");
       }
     }
@@ -552,7 +545,7 @@ $sobrenome = $funcionario->listarSobrenome($cpf);
 
     };
 
-    function testaCPF(strCPF) { //strCPF é o cpf que será validado. Ele deve vir em formato string e sem nenhum tipo de pontuação.
+    /*function testaCPF(strCPF) { //strCPF é o cpf que será validado. Ele deve vir em formato string e sem nenhum tipo de pontuação.
       var strCPF = strCPF.replace(/[^\d]+/g, ''); // Limpa a string do CPF removendo espaços em branco e caracteres especiais.
       var Soma;
       var Resto;
@@ -572,7 +565,7 @@ $sobrenome = $funcionario->listarSobrenome($cpf);
       if ((Resto == 10) || (Resto == 11)) Resto = 0;
       if (Resto != parseInt(strCPF.substring(10, 11))) return false;
       return true;
-    }
+    }*/
 
     function validarCPF(strCPF) {
 
@@ -674,7 +667,7 @@ $sobrenome = $funcionario->listarSobrenome($cpf);
     }
 
     $(function() {
-     
+
       $("#header").load("../header.php");
       $(".menuu").load("../menu.php");
     });
@@ -687,6 +680,7 @@ $sobrenome = $funcionario->listarSobrenome($cpf);
   <script src="../../Functions/onlyChars.js"></script>
   <script src="../../Functions/mascara.js"></script>
   <script src="../../Functions/lista.js"></script>
+  <script src="<?php echo WWW; ?>Functions/testaCPF.js"></script>
   <script language="JavaScript">
     var numValidos = "0123456789-()";
     var num1invalido = "78";
@@ -720,11 +714,10 @@ $sobrenome = $funcionario->listarSobrenome($cpf);
   <script src="../../assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
   <script src="../../assets/vendor/magnific-popup/magnific-popup.js"></script>
   <script src="../../assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
-          
- <div align="right">
+
+  <div align="right">
     <iframe src="https://www.wegia.org/software/footer/funcionario.html" width="200" height="60" style="border:none;"></iframe>
- </div>
+  </div>
 </body>
 
 </html>
-  

@@ -3,7 +3,6 @@
 ini_set('display_errors',1);
 ini_set('display_startup_erros',1);
 error_reporting(E_ALL);
-extract($_REQUEST);
 session_start();
 if (!isset($_SESSION["usuario"])){
     header("Location: ../../index.php");
@@ -21,12 +20,18 @@ define("TYPEOF_EXTENSION", [
     'png' => 'image/png',
     'jpeg' => 'image/jpeg',
     'pdf' => 'application/pdf',
-    'docx' => 'application/docx',
+    'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
     'doc' => 'application/doc',
     'odp' => 'application/odp',
 ]);
 
-$arquivo = new DocumentoAtendido($_GET["id_doc"]);
+$idDoc = $_GET['id_doc'];
+if(!is_numeric($idDoc) || $idDoc < 1){
+    http_response_code(400);
+    exit('Não foi possível baixar o documento solicitado.');
+}
+
+$arquivo = new DocumentoAtendido($idDoc);
 
 if (!$arquivo->getException()){
     header("Content-type: ".TYPEOF_EXTENSION[$arquivo->getExtensao()]);
@@ -38,5 +43,3 @@ if (!$arquivo->getException()){
 }else{
     echo $arquivo->getException();
 }
-
-die();

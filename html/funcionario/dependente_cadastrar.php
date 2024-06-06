@@ -48,17 +48,31 @@ try {
 $id_parentesco = $_POST['id_parentesco'];
 $id_funcionario = $_POST['id_funcionario'];
 try {
-    $id_pessoa = $pdo->query("SELECT id_pessoa FROM pessoa WHERE cpf = '$cpf';")->fetch(PDO::FETCH_ASSOC)["id_pessoa"];
+    $sql = "SELECT id_pessoa FROM pessoa WHERE cpf =:cpf";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':cpf', $cpf);
+    $stmt->execute();
+    $id_pessoa = $stmt->fetch(PDO::FETCH_ASSOC)["id_pessoa"];
 } catch (PDOException $th) {
     echo "Houve um erro ao obter o id da pessoa do banco de dados: $th";
     die();
 }
 
-define("NOVO_DEPENDENTE", "INSERT IGNORE INTO funcionario_dependentes (id_funcionario, id_pessoa, id_parentesco) VALUES 
-                                ( $id_funcionario , $id_pessoa , $id_parentesco );");
-echo NOVO_DEPENDENTE."<br><br>";
 try {
-    $pdo->query(NOVO_DEPENDENTE);
+    $id_funcionario = trim($id_funcionario);
+    $id_pessoa = trim($id_pessoa);
+    $id_parentesco = trim($id_parentesco);
+
+    if(!is_numeric($id_funcionario) || !is_numeric($id_pessoa) || !is_numeric($id_parentesco)){
+        echo 'Erro: Os parâmetros informados para a consulta não correspondem a um tipo válido de ID';
+        die();
+    }
+    $sql = "INSERT IGNORE INTO funcionario_dependentes (id_funcionario, id_pessoa, id_parentesco) VALUES (:id_funcionario, :id_pessoa, :id_parentesco)";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':id_funcionario', $id_funcionario);
+    $stmt->bindParam(':id_pessoa', $id_pessoa);
+    $stmt->bindParam(':id_parentesco', $id_parentesco);
+    $stmt->execute();
 } catch (PDOException $th) {
     echo "Houve um erro ao adicionar o dependente ao banco de dados: $th";
     die();

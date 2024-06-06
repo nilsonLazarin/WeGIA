@@ -236,10 +236,9 @@ class FuncionarioDAO
              
             $sql2 = "INSERT INTO funcionario(id_pessoa,id_cargo,id_situacao,data_admissao,certificado_reservista_numero,certificado_reservista_serie, ctps)
             values(:id_pessoa,:id_cargo,:id_situacao,:data_admissao,:certificado_reservista_numero,:certificado_reservista_serie, 'NULL')";
--
             
-            // $sql = str_replace("'", "\'", $sql);
             $pdo = Conexao::connect();
+            $pdo->beginTransaction();
             $stmt = $pdo->prepare($sql);
             $stmt2 = $pdo->prepare($sql2);
 
@@ -262,7 +261,6 @@ class FuncionarioDAO
             // $escala=$funcionario->getEscala();
             // $tipo=$funcionario->gettTipo();
 
-
             $stmt->bindParam(':id_pessoa',$idPessoa);
             $stmt->bindParam(':registro_geral',$rg);
             $stmt->bindParam(':orgao_emissor',$orgao_emissor);
@@ -277,7 +275,6 @@ class FuncionarioDAO
             $stmt2->bindParam(':certificado_reservista_numero', $certificadoReservistaNumero);
             $stmt2->bindParam(':certificado_reservista_serie', $certificadoReservistaSerie);
             // $stmt2->bindParam(':ctps', $ctps);
-            
             
             // $stmt->bindParam(':nome',$nome);
             // $stmt->bindParam(':sobrenome',$sobrenome);
@@ -296,7 +293,13 @@ class FuncionarioDAO
             // $stmt->bindParam(':escala',$escala);
 
             $stmt->execute();
-            $stmt2->execute();
+            if($stmt2->execute()){
+                $pdo->commit();
+            }else{
+                $pdo->rollBack();
+                http_response_code(500);
+                exit('Erro, não foi possível concluir a operação de cadastro.');
+            }
 
         } catch (PDOException $e) {
             echo 'Error: <b>  na tabela pessoas1 = ' . $sql . '</b> <br /><br />' . $e->getMessage();
@@ -434,21 +437,21 @@ class FuncionarioDAO
     {
         try {
 
-            $sql = 'update pessoa as p inner join funcionario as f on p.id_pessoa=f.id_pessoa set registro_geral=:registro_geral,orgao_emissor=:orgao_emissor,data_expedicao=:data_expedicao,cpf=:cpf where id_funcionario=:id_funcionario';
+            $sql = 'update pessoa as p inner join funcionario as f on p.id_pessoa=f.id_pessoa set registro_geral=:registro_geral,orgao_emissor=:orgao_emissor,data_expedicao=:data_expedicao where id_funcionario=:id_funcionario';
             
             $sql = str_replace("'", "\'", $sql);
 
             $pdo = Conexao::connect();
             $stmt = $pdo->prepare($sql);
 
-            $cpf=$funcionario->getCpf();
+            //$cpf=$funcionario->getCpf();
             $id_funcionario=$funcionario->getId_funcionario();
             $registro_geral=$funcionario->getRegistroGeral();
             $orgao_emissor=$funcionario->getOrgaoEmissor();
             $data_expedicao=$funcionario->getDataExpedicao();
             $data_admissao=$funcionario->getData_admissao();
 
-            $stmt->bindParam(':cpf',$cpf);
+            //$stmt->bindParam(':cpf',$cpf);
             $stmt->bindParam(':id_funcionario',$id_funcionario);
             $stmt->bindParam(':registro_geral',$registro_geral);
             $stmt->bindParam(':orgao_emissor',$orgao_emissor);

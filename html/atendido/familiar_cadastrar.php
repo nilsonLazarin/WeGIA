@@ -2,7 +2,6 @@
 ini_set('display_errors',1);
 ini_set('display_startup_erros',1);
 error_reporting(E_ALL);
-extract($_REQUEST);
 
 session_start();
 if (!isset($_SESSION["usuario"])){
@@ -42,7 +41,7 @@ try {
     $pessoa->bindValue(":data_expedicao", $data_expedicao);
     $pessoa->execute();
 } catch (PDOException $th) {
-    echo "Houve um erro ao inserir a pessoa no banco de dados: $th";
+    echo "Houve um erro ao inserir a pessoa no banco de dados";
     die();
 }
 
@@ -52,19 +51,33 @@ try {
 $id_parentesco = $_POST['id_parentesco'];
 $idatendido = $_POST['idatendido'];
 try {
-    $id_pessoa = $pdo->query("SELECT id_pessoa FROM pessoa WHERE cpf = '$cpf';")->fetch(PDO::FETCH_ASSOC)["id_pessoa"];
+    $sql = "SELECT id_pessoa FROM pessoa WHERE cpf =:cpf";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(":cpf", $cpf);
+    $stmt->execute();
+
+    $id_pessoa = $stmt->fetch(PDO::FETCH_ASSOC)["id_pessoa"];
 } catch (PDOException $th) {
-    echo "Houve um erro ao obter o id da pessoa do banco de dados: $th";
+    echo "Houve um erro ao obter o id da pessoa do banco de dados";
     die();
 }
 
 define("NOVO_FAMILIAR", "INSERT IGNORE INTO atendido_familiares (atendido_idatendido, pessoa_id_pessoa, atendido_parentesco_idatendido_parentesco ) VALUES 
-                                ( $idatendido , $id_pessoa , $id_parentesco );");
+                                (:idatendido, :id_pessoa, :id_parentesco);");
 echo NOVO_FAMILIAR."<br><br>";
+
+echo $idatendido.'<br>';
+echo $id_pessoa.'<br>';
+echo $id_parentesco.'<br>';
+
 try {
-    $pdo->query(NOVO_FAMILIAR);
+    $stmt = $pdo->prepare(NOVO_FAMILIAR);
+    $stmt->bindParam(":idatendido", $idatendido);
+    $stmt->bindParam(":id_pessoa", $id_pessoa);
+    $stmt->bindParam(":id_parentesco", $id_parentesco);
+    $stmt->execute();
 } catch (PDOException $th) {
-    echo "Houve um erro ao adicionar o dependente ao banco de dados: $th";
+    echo "Houve um erro ao adicionar o dependente ao banco de dados:";
     die();
 }
 
