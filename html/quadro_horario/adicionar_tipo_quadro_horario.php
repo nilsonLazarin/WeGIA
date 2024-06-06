@@ -189,7 +189,15 @@ require_once "../geral/msg.php";
 														<button id="enviar" class="btn btn-primary" type="submit">Enviar</button>
 														<input type="reset" class="btn btn-default">
 
+														<?php if(!$_SESSION['btnVoltar']):?>
 														<button class="btn btn-info" type="button" onclick="window.history.back()">Voltar</button>
+														<?php else:
+															if (isset($_SESSION['btnVoltar'])){
+																unset($_SESSION['btnVoltar']);
+															}	
+														?>
+														<button class="btn btn-info" type="button" onclick="window.history.go(-2)">Voltar</button>
+														<?php endif?>
 
 														<a href="listar_tipo_quadro_horario.php" style="color: white; text-decoration:none;">
 															<button class="btn btn-success" type="button">Listar tipos</button>

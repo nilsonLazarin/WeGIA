@@ -188,9 +188,15 @@ require_once "../geral/msg.php";
 													<div class="col-md-9 col-md-offset-3">
 														<button id="enviar" class="btn btn-primary" type="submit">Enviar</button>
 														<input type="reset" class="btn btn-default">
-
+														<?php if(!$_SESSION['btnVoltar']):?>
 														<button class="btn btn-info" type="button" onclick="window.history.back()">Voltar</button>
-
+														<?php else:
+															if (isset($_SESSION['btnVoltar'])){
+																unset($_SESSION['btnVoltar']);
+															}	
+														?>
+														<button class="btn btn-info" type="button" onclick="window.history.go(-2)">Voltar</button>
+														<?php endif?>
 														<a href="listar_escala.php" style="color: white; text-decoration:none;">
 															<button class="btn btn-success" type="button">Listar escalas</button>
 														</a>
