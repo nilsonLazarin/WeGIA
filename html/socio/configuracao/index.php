@@ -14,11 +14,23 @@
 		} 
 		else{
 			$titulo = "Configurações básicas";
-			$dados_config = mysqli_fetch_array(mysqli_query($conexao, "select * from configuracao where id=1"));
-			$nome = $dados_config['nome'];
+			$id = 1;
+			$sql = "select * from configuracao where id=?";
+			$stmt = $conexao->prepare($sql);
+			$stmt->bind_param("i", $id);
+			$stmt->execute();
+			$result = $stmt->get_result();
+			$dados_config = $result->fetch_assoc();
+			$nome = filter_var($dados_config['nome'], FILTER_SANITIZE_STRING);
 			$foto = $dados_config['foto_login'];
-			$mensagem = $dados_config['mensagem_login'];
-			$dados_admin = mysqli_fetch_array(mysqli_query($conexao, "select *, AES_DECRYPT(senha, 'token') as senha_d from usuario where usuario='admin'"));
+			$mensagem = filter_var($dados_config['mensagem_login'], FILTER_SANITIZE_STRING);
+			$usuario = "admin";
+			$sql2 = "select *, AES_DECRYPT(senha, 'token') as senha_d from usuario where usuario=?";
+			$stmt2 = $conexao->prepare($sql2);
+			$stmt2->bind_param("s", $usuario);
+			$stmt2->execute();
+			$result2 = $stmt2->get_result();
+			$dados_admin = $result2->fetch_assoc();
 			$senha = $dados_admin['senha_d'];
 			$aviso_img = '<div class="alert alert-info" role="alert">Se deseja manter a imagem atual, ignore este campo.</div>';
 			$mostrar_botoes = true;
@@ -63,7 +75,7 @@
 		<div class="wrap-contact100">
 			<form class="contact100-form validate-form" action="processa_config.php" method="POST" enctype="multipart/form-data">
 				<span class="contact100-form-title">
-					<?php echo($titulo); ?>
+					<?php echo htmlspecialchars($titulo); ?>
 				</span>
 				<div class="alert alert-light text-center wrap-input100" role="alert">
 					Só é possível criar uma conta de administrador, então escolha uma senha forte!<br>
@@ -71,17 +83,17 @@
 				</div>
 				<div class="wrap-input100 validate-input bg1" data-validate="Digite o nome da empresa!">
 					<span class="label-input100">Nome da empresa</span>
-					<input class="input100" type="text" name="nome" placeholder="Nome da empresa/instituição" value="<?php echo($nome); ?>">
+					<input class="input100" type="text" name="nome" placeholder="Nome da empresa/instituição" value="<?php echo htmlspecialchars($nome, ENT_QUOTES, 'UTF-8');?>">
 				</div>
 
 				<div class="wrap-input100 validate-input bg1 rs1-wrap-input100" data-validate = "Digite sua senha!">
 					<span class="label-input100">Senha</span>
-					<input class="input100" type="password" name="senha" placeholder="Crie uma senha" value="<?php echo($senha); ?>">
+					<input class="input100" type="password" name="senha" placeholder="Crie uma senha" value="<?php echo isset($_POST['senha']) ? htmlspecialchars($_POST['senha']) : ''; ?>">
 				</div>
 
 				<div class="wrap-input100 validate-input bg1 rs1-wrap-input100" data-validate = "Digite sua confirmação de senha!" >
 					<span class="label-input100">Confirmação</span>
-					<input class="input100" type="password" name="c_senha" placeholder="Confirme sua senha" value="<?php echo($senha); ?>">
+					<input class="input100" type="password" name="c_senha" placeholder="Confirme sua senha" value="<?php echo isset($_POST['senha']) ? htmlspecialchars($_POST['senha']) : ''; ?>">
 				</div>
 
 				<div class="wrap-input100 input100-select bg1 rs1-wrap-input100">
