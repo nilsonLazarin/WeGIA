@@ -83,7 +83,7 @@ class Interno extends Pessoa
 
     public function getCertidaoNascimento()
     {
-        return $this->certidao_nascimento;
+        return $this->certidaoNascimento;
     }
 
     public function getCuratela()
@@ -165,7 +165,7 @@ class Interno extends Pessoa
 
     public function setCertidaoNascimento($certidao_nascimento)
     {
-        $this->certidao_nascimento = $certidao_nascimento;
+        $this->certidaoNascimento = $certidao_nascimento;
     }
 
     public function setCuratela($curatela)

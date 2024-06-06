@@ -610,7 +610,7 @@ $dependente = json_encode($dependente);
     }
 
     function gerarCargo() {
-      url = '../dao/exibir_cargo.php';
+      url = '../../dao/exibir_cargo.php';
       $.ajax({
         data: '',
         type: "POST",

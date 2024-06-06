@@ -29,7 +29,7 @@ class AvisoNotificacaoControle
                $avisoNotificacaoDAO = new AvisoNotificacaoDAO();
                $avisoNotificacaoDAO->cadastrar($avisoNotificacao);
           } catch (PDOException $e) {
-               $e->getMessage();
+               echo 'Erro ao registrar notificação de intercorrência: '.$e->getMessage();
           }
      }
 
@@ -43,7 +43,7 @@ class AvisoNotificacaoControle
                $recentes = $avisoNotificacaoDAO->buscarRecentes($idPessoa);
                return $recentes;
           } catch (PDOException $e) {
-               $e->getMessage();
+               echo 'Erro ao listar as intercorrências recentes: '.$e->getMessage();
           }
      }
 
@@ -57,7 +57,7 @@ class AvisoNotificacaoControle
                $historicos = $avisoNotificacaoDAO->buscarHistoricos($idPessoa);
                return $historicos;
           } catch (PDOException $e) {
-               $e->getMessage();
+               echo 'Erro ao listar as intercorrências do histórico: '.$e->getMessage();
           }
      }
 
@@ -71,7 +71,7 @@ class AvisoNotificacaoControle
                $recentesQuantidade = $avisoNotificacaoDAO->contarRecentes($idPessoa);
                return $recentesQuantidade;
           } catch (PDOException $e) {
-               $e->getMessage();
+               echo 'Erro ao contabilizar a quantidade de intercorrências recentes: '.$e->getMessage();
           }
      }
 
@@ -87,7 +87,7 @@ class AvisoNotificacaoControle
                $avisoNotificacaoDAO->alterarStatus($idNotificacao);
                header("Location: ../html/saude/intercorrencia_visualizar.php");
           }catch(PDOException $e){
-               $e->getMessage();
+               echo 'Erro ao confirmar leitura de intercorrência: '.$e->getMessage();
           }
      }
 }

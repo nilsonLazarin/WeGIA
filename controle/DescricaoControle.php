@@ -9,7 +9,6 @@ class DescricaoControle
     public function incluir($texto){
         extract($_REQUEST);
         $idDescricao = new DescricaoDAO();
-        //$tamanho = 1000;
         $textoArray = $this->divideStringEmArrays($texto, $this->tamanho);
         $idDescricao->incluir($textoArray, $nome);
 

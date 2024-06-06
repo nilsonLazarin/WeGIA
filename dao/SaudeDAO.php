@@ -63,14 +63,12 @@ class SaudeDAO
             $stmt->bindValue(':id_pessoa', $id_pessoa);
             $stmt->bindValue(':imagem',$imagem);
             $stmt->execute();
-            $pdo->commit();
-            $pdo->close();
         } catch (PDOException $e) {
             echo 'Error: <b>  na tabela pessoa = ' . $sql . '</b> <br /><br />' . $e->getMessage();
         }
     }
     public function alterar($saude)
-    {
+    {//Verificar possibilidade de desativação do método
         try {
             $sql = 'update pessoa as p inner join saude_fichamedica as sf on p.id_pessoa=sf.id_pessoa set p.imagem=:imagem where sf.id_pessoa=:id_pessoa';
             
@@ -91,9 +89,9 @@ class SaudeDAO
             // $stmt->bindParam(':sexo',$sexo);
             // $stmt->bindParam(':telefone',$telefone);
             // $stmt->bindParam(':data_nascimento',$nascimento);
-            $stmt->execute();
+            /*$stmt->execute();
             $pdo->commit();
-            $pdo->close();
+            $pdo->close();*/
 
             // mysqli_stmt_close($stmt);
             // mysqli_close($pdo);
@@ -119,8 +117,8 @@ class SaudeDAO
             }
             //$pdo->commit();
             //$pdo->close();
-            } catch (PDOExeption $e){
-                echo 'Error:' . $e->getMessage;
+            } catch (PDOException $e){
+                echo 'Error:' . $e->getMessage();
             }
             return json_encode($pacientes);
     }
@@ -155,7 +153,7 @@ class SaudeDAO
                 // 'id_fichamedica'=>$linha['id_fichamedica']
 
             }
-        }catch (PDOExeption $e){
+        }catch (PDOException $e){
             echo 'Error: ' .  $e->getMessage();
         }
         return json_encode($paciente);
@@ -181,4 +179,94 @@ class SaudeDAO
         }
     }
     
+    /**Recebe como parâmetro o id de uma ficha médica e o id de um paciente, instancia um objeto do tipo PDO e insere no banco de dados uma nova linha em saude_fichamedica_historico */
+    public function adicionarProntuarioAoHistorico($idFicha, $idPaciente){
+        $sql2 = "INSERT INTO saude_fichamedica_historico (id_pessoa, data) VALUES (:idPessoa, :data)";
+
+        try{
+            $pdo = Conexao::connect();
+           
+            date_default_timezone_set('America/Sao_Paulo');
+            $data = date('Y-m-d H:i:s');
+
+            $pdo->beginTransaction();
+            $stmt2 = $pdo->prepare($sql2);
+            $stmt2->bindParam(':idPessoa', $idPaciente);
+            $stmt2->bindParam(':data', $data);
+            $stmt2->execute();
+
+            $ultimoID = $pdo->lastInsertId();
+ 
+            if($this->insercaoDescricaoHistoricoEmCadeia($idFicha, $pdo, $ultimoID)){
+                $pdo->commit();
+            }else{
+                $pdo->rollBack();
+            }
+      
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
+    }
+
+
+    /**Recebe como parâmetros o id de uma ficha médica, um objeto do tipo PDO e o id de uma ficha médica do histórico, puxa todas as descrições correspondentes ao id da ficha médica informada e insere na tabela saude_fichamedica_historico_descricoes com o campo id_fichamedica_historico com o valor passado para o idFichaHistorico */
+    public function insercaoDescricaoHistoricoEmCadeia($idFicha, PDO $pdo, $idFichaHistorico){
+        $sql1 = "SELECT descricao from saude_fichamedica_descricoes WHERE id_fichamedica=:idFicha";
+        $sql2 = "INSERT INTO saude_fichamedica_historico_descricoes (id_fichamedica_historico, descricao) VALUES (:idFichaHistorico, :descricao)";
+        try{
+            $stmt1 = $pdo->prepare($sql1);
+            $stmt1->bindParam(':idFicha', $idFicha);
+            $stmt1->execute();
+
+            $descricoes = $stmt1->fetchAll(PDO::FETCH_ASSOC);
+            $stmt2 = $pdo->prepare($sql2);
+
+            foreach($descricoes as $descricao){
+                $texto = $descricao['descricao'];
+                $stmt2->bindParam(":idFichaHistorico", $idFichaHistorico);
+                $stmt2->bindParam(":descricao", $texto);
+                $stmt2->execute();
+            }
+            return true;
+        }catch(PDOException $e){
+            echo $e->getMessage();
+            return false;
+        }
+    }
+    
+    /**Recebe como parâmetro o id de um paciente e retorna um array com todos id's dos prontuários públicos salvos no histórico daquele paciente. */
+    public function listarProntuariosDoHistorico($idPaciente){
+        $sql = 'SELECT id_fichamedica_historico as idHistorico, data FROM saude_fichamedica_historico WHERE id_pessoa=:idPaciente';
+
+        try{
+            $pdo = Conexao::connect();
+
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindParam(':idPaciente', $idPaciente);
+            $stmt->execute();
+
+            $prontuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $prontuarios;
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
+    }
+
+    /**Recebe como parâmetro o id de uma fica médica no histórico e retorna um array com todas as descrições correspondentes aquele prontuário público */
+    public function listarDescricoesHistoricoPorId($idHistorico){
+        $sql = 'SELECT descricao FROM saude_fichamedica_historico_descricoes WHERE id_fichamedica_historico=:idHistorico';
+
+        try{
+            $pdo = Conexao::connect();
+
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindParam(':idHistorico', $idHistorico);
+            $stmt->execute();
+
+            $descricoes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $descricoes;
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
+    }
 }

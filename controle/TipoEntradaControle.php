@@ -7,7 +7,7 @@ class TipoEntradaControle
         extract($_REQUEST);
         
         if((!isset($descricao)) || (empty($descricao))){
-            $msg .= "Descricao do tipo de entrada nÃ£o informada. Por favor, informe uma descricao!";
+            $msg .= "Descricao do tipo de entrada não informada. Por favor, informe uma descrição!";
             header('Location: ../html/tipoentrada.html?msg='.$msg);
         }else{
         	$tipoentrada = new TipoEntrada($descricao);
@@ -30,12 +30,12 @@ class TipoEntradaControle
         try{
             $tipoentradaDAO->incluir($tipoentrada);
             session_start();
-            $_SESSION['msg']="TipoEntrada cadastrado com sucesso";
+            $_SESSION['msg']="Tipo de Entrada cadastrado com sucesso";
             $_SESSION['proxima']="Cadastrar outro TipoEntrada";
             $_SESSION['link']="../html/adicionar_tipoEntrada.php";
             header("Location: ../html/adicionar_tipoEntrada.php");
         } catch (PDOException $e){
-            $msg= "NÃ£o foi possÃ­vel registrar o tipo"."<br>".$e->getMessage();
+            $msg= "Não foi possível registrar o tipo"."<br>".$e->getMessage();
             echo $msg;
         }
     }
@@ -47,7 +47,7 @@ class TipoEntradaControle
             $tipoentradaDAO->excluir($id_tipo);
             header('Location:../html/listar_tipoEntrada.php');
         } catch (PDOException $e) {
-            echo "ERROR";
+            echo "ERROR: ".$e->getMessage();
         }
     }
 }

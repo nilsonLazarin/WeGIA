@@ -226,26 +226,26 @@ class FuncionarioControle
         extract($_REQUEST);
 
         if((!isset($nome)) || (empty($nome))){
-            $msg = "Nome do funcionario nÃ£o informado. Por favor, informe um nome!";
+            $msg = "Nome do funcionario não informado. Por favor, informe um nome!";
             header('Location: ../html/funcionario.html?msg='.$msg);
         }
         if((!isset($sobrenome)) || (empty($sobrenome))){
-            $msg = "Sobrenome do funcionario nÃ£o informado. Por favor, informe um sobrenome!";
+            $msg = "Sobrenome do funcionario não informado. Por favor, informe um sobrenome!";
             header('Location: ../html/funcionario.html?msg='.$msg);
         }
         if((!isset($gender)) || (empty($gender))){
-            $msg .= "Sexo do funcionario nÃ£o informado. Por favor, informe um sexo!";
+            $msg .= "Sexo do funcionario não informado. Por favor, informe um sexo!";
             header('Location: ../html/funcionario.html?msg='.$msg);
         }
         if((!isset($cargo)) || (empty($cargo))){
-            $msg .= "Cargo do funcionario nÃ£o informado. Por favor, informe um cargo!";
+            $msg .= "Cargo do funcionario não informado. Por favor, informe um cargo!";
             header('Location: ../html/funcionario.html?msg='.$msg);
         }
         if((!isset($telefone)) || (empty($telefone))){
             $telefone='null';
         }
         if((!isset($nascimento)) || (empty($nascimento))){
-            $msg .= "Data de nascimento do funcionario nÃ£o informado. Por favor, informe uma data de nascimento!";
+            $msg .= "Data de nascimento do funcionario não informado. Por favor, informe uma data de nascimento!";
             header('Location: ../html/funcionario.html?msg='.$msg);
         }
         if((!isset($nome_pai)) || (empty($nome_pai))){
@@ -282,19 +282,19 @@ class FuncionarioControle
             $ibge='';
         }
         if((!isset($rg)) || empty(($rg))){
-            $msg .= "RG do funcionario nÃ£o informado. Por favor, informe um rg!";
+            $msg .= "RG do funcionario não informado. Por favor, informe um rg!";
             header('Location: ../html/funcionario.html?msg='.$msg);
         }
         if((!isset($orgao_emissor)) || empty(($orgao_emissor))){
-            $msg .= "Órgão emissor do funcionario nÃ£o informado. Por favor, informe o órgão emissor!";
+            $msg .= "Órgão emissor do funcionario não informado. Por favor, informe o órgão emissor!";
             header('Location: ../html/funcionario.html?msg='.$msg);
         }
         if((!isset($data_expedicao)) || (empty($data_expedicao))){
-            $msg .= "Data de expediÃ§Ã£o do rg do funcionario nÃ£o informado. Por favor, informe um data de expediÃ§Ã£o!";
+            $msg .= "Data de expediÃ§Ã£o do rg do funcionario não informado. Por favor, informe um data de expedição!";
             header('Location: ../html/funcionario.html?msg='.$msg);
         }
         if((!isset($cpf)) || (empty($cpf))){
-            $msg .= "CPF do funcionario nÃ£o informado. Por favor, informe um CPF!";
+            $msg .= "CPF do funcionario não informado. Por favor, informe um CPF!";
             header('Location: ../html/funcionario.html?msg='.$msg);
         }
         if((!isset($pis)) || (empty($pis))){
@@ -317,11 +317,11 @@ class FuncionarioControle
         }
         
         if((!isset($data_admissao)) || (empty($data_admissao))){
-            $msg .= "Data de Admissao do funcionario nÃ£o informada. Por favor, informe a data de admissao!";
+            $msg .= "Data de Admissão do funcionario não informada. Por favor, informe a data de admissao!";
             header('Location: ../html/funcionario.html?msg='.$msg);
         }
         if((!isset($situacao)) || (empty($situacao))){
-            $msg .= "Situação do funcionario nÃ£o informada. Por favor, informe a situação!";
+            $msg .= "Situação do funcionario não informada. Por favor, informe a situação!";
             header('Location: ../html/funcionario.html?msg='.$msg);
         }
         
@@ -370,7 +370,7 @@ class FuncionarioControle
             $gender = '';
         }
         if((!isset($cargo)) || (empty($cargo))){
-            $msg .= "Cargo do funcionario nÃ£o informado. Por favor, informe um cargo!";
+            $msg .= "Cargo do funcionario não informado. Por favor, informe um cargo!";
             header('Location: ../html/funcionario.html?msg='.$msg);
         }
         if((!isset($telefone)) || (empty($telefone))){
@@ -413,15 +413,15 @@ class FuncionarioControle
             $ibge='';
         }
         if((!isset($rg)) || empty(($rg))){
-            $msg .= "RG do funcionario nÃ£o informado. Por favor, informe um rg!";
+            $msg .= "RG do funcionario não informado. Por favor, informe um rg!";
             header('Location: ../html/funcionario.html?msg='.$msg);
         }
         if((!isset($orgao_emissor)) || empty(($orgao_emissor))){
-            $msg .= "Órgão emissor do funcionario nÃ£o informado. Por favor, informe o órgão emissor!";
+            $msg .= "Órgão emissor do funcionario não informado. Por favor, informe o órgão emissor!";
             header('Location: ../html/funcionario.html?msg='.$msg);
         }
         if((!isset($data_expedicao)) || (empty($data_expedicao))){
-            $msg .= "Data de expediÃ§Ã£o do rg do funcionario nÃ£o informado. Por favor, informe um data de expediÃ§Ã£o!";
+            $msg .= "Data de expedição do rg do funcionario não informado. Por favor, informe um data de expedição!";
             header('Location: ../html/funcionario.html?msg='.$msg);
         }
         if((!isset($cpf)) || (empty($cpf))){
@@ -447,11 +447,11 @@ class FuncionarioControle
         }
         
         if((!isset($data_admissao)) || (empty($data_admissao))){
-            $msg .= "Data de Admissao do funcionario nÃ£o informada. Por favor, informe a data de admissao!";
+            $msg .= "Data de Admissão do funcionario não informada. Por favor, informe a data de admissão!";
             header('Location: ../html/funcionario.html?msg='.$msg);
         }
         if((!isset($situacao)) || (empty($situacao))){
-            $msg .= "Situação do funcionario nÃ£o informada. Por favor, informe a situação!";
+            $msg .= "Situação do funcionario não informada. Por favor, informe a situação!";
             header('Location: ../html/funcionario.html?msg='.$msg);
         }
         
@@ -701,7 +701,7 @@ class FuncionarioControle
             header("Location: ../html/funcionario/informacao_funcionario.php");
 
         } catch (PDOException $e){
-            $msg= "NÃ£o foi possÃ­vel registrar o funcionário"."<br>".$e->getMessage();
+            $msg= "Não foi possível registrar o funcionário"."<br>".$e->getMessage();
             echo $msg;
         }
     }
@@ -733,7 +733,7 @@ class FuncionarioControle
             header("Location: ../html/funcionario/informacao_funcionario.php");
 
         } catch (PDOException $e){
-            $msg= "NÃ£o foi possÃ­vel registrar o funcionário"."<br>".$e->getMessage();
+            $msg= "Não foi possível registrar o funcionário"."<br>".$e->getMessage();
             echo $msg;
         }
     }
@@ -991,7 +991,7 @@ class FuncionarioControle
         $cpf=str_replace(".", '', $cpf);
         $cpf=str_replace("-", "", $cpf);
 
-        $funcionario = new Funcionario($cpf,'','','','',$registro_geral,$orgao_emissor,$data_expedicao,'','','','','','','','','','','','','','');
+        $funcionario = new Funcionario($cpf,'','','','',$rg,$orgao_emissor,$data_expedicao,'','','','','','','','','','','','','','');
             
         $funcionario->setData_admissao($data_admissao);
         $funcionario->setId_funcionario($id_funcionario);
