@@ -53,6 +53,20 @@ $avisoNotificacaoControle = new AvisoNotificacaoControle();
 $recentes = $avisoNotificacaoControle->listarRecentes($id_pessoa);
 $historicos = $avisoNotificacaoControle->listarHistoricos($id_pessoa);
 
+//Transforma as datas para o formato brasileiro
+
+foreach($recentes as $num => $recente){
+    $data = new DateTime($recente['data']);
+    $recente['data'] = $data->format('d/m/Y h:m:s');
+    $recentes[$num] = $recente;
+}
+
+foreach($historicos as $num => $historico){
+    $data = new DateTime($historico['data']);
+    $historico['data'] = $data->format('d/m/Y h:m:s');
+    $historicos[$num] = $historico;
+}
+
 $recentesJSON =  json_encode(
     $recentes
 );
