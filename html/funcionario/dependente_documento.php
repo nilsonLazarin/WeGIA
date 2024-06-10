@@ -18,6 +18,13 @@ $sql = "SELECT doc.nome_docdependente AS descricao, ddoc.data, ddoc.id_doc FROM 
 
 $dependente = $pdo->query($sql);
 $dependente = $dependente->fetchAll(PDO::FETCH_ASSOC);
+
+foreach ($dependente as $key => $value) {
+    //formatar data
+    $data = new DateTime($value['data']);
+    $dependente[$key]['data'] = $data->format('d/m/Y h:m:s');
+  }
+
 $dependente = json_encode($dependente);
 
 echo $dependente;
