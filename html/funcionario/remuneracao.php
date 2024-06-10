@@ -74,6 +74,15 @@ if ($action == "listar"){
         WHERE rem.funcionario_id_funcionario = $id_funcionario;";
     
         $lista = ($pdo->query($sql))->fetchAll(PDO::FETCH_ASSOC);
+
+        //Formata data para o formato brasileiro
+        foreach($lista as $num => $remuneracao){
+            $dataInicio = new DateTime($remuneracao['inicio']);
+            $dataFim = new DateTime($remuneracao['fim']);
+
+            $lista[$num]['inicio'] = $dataInicio->format('d/m/Y');
+            $lista[$num]['fim'] = $dataFim->format('d/m/Y');
+        }
         echo json_encode($lista);
     } catch (\Throwable $th) {
         echo json_encode($th);
