@@ -18,7 +18,9 @@ class SaidaDAO
             INNER JOIN pessoa p ON p.id_pessoa = s.id_responsavel");
         $x=0;
         while($linha = $consulta->fetch(PDO::FETCH_ASSOC)){
-            $saidas[$x]=array('id_saida'=>$linha['id_saida'],'nome_destino'=>$linha['nome_destino'],'descricao_almoxarifado'=>$linha['descricao_almoxarifado'],'descricao'=>$linha['descricao'],'nome'=>$linha['nome'],'data'=>$linha['data'],'hora'=>$linha['hora'],'valor_total'=>$linha['valor_total']);
+            //formatar data
+            $data = new DateTime($linha['data']);
+            $saidas[$x]=array('id_saida'=>$linha['id_saida'],'nome_destino'=>$linha['nome_destino'],'descricao_almoxarifado'=>$linha['descricao_almoxarifado'],'descricao'=>$linha['descricao'],'nome'=>$linha['nome'],'data'=>$data->format('d/m/Y'),'hora'=>$linha['hora'],'valor_total'=>$linha['valor_total']);
             $x++;
         }
         } catch (PDOException $e){
@@ -69,7 +71,8 @@ class SaidaDAO
                 ':id_saida' => $id,
             ));
             while ($linha = $consulta->fetch(PDO::FETCH_ASSOC)) {
-                $saida = new Saida($linha['data'],$linha['hora'],$linha['valor_total'],$linha['id_responsavel']);
+                $data = new DateTime($linha['data']);
+                $saida = new Saida($data->format('d/m/Y'),$linha['hora'],$linha['valor_total'],$linha['id_responsavel']);
                 $saida->setId_saida($linha['id_saida']);
             }
             } catch (PDOException $e) {
@@ -88,7 +91,8 @@ class SaidaDAO
             $stmt->execute();
             $saidas = array();
             while($linha = $stmt->fetch(PDO::FETCH_ASSOC)){
-                $saidas[]=array('id_saida'=>$linha['id_saida'],'id_destino'=>$linha['id_destino'],'id_almoxarifado'=>$linha['id_almoxarifado'],'id_tipo'=>$linha['id_tipo'],'id_responsavel'=>$linha['id_responsavel'],'data'=>$linha['data'],'hora'=>$linha['hora'],'valor_total'=>$linha['valor_total']);
+                $data = new DateTime($linha['data']);
+                $saidas[]=array('id_saida'=>$linha['id_saida'],'id_destino'=>$linha['id_destino'],'id_almoxarifado'=>$linha['id_almoxarifado'],'id_tipo'=>$linha['id_tipo'],'id_responsavel'=>$linha['id_responsavel'],'data'=>$data->format('d/m/Y'),'hora'=>$linha['hora'],'valor_total'=>$linha['valor_total']);
             }
         } catch(PDOException $e){
             echo 'Erro: ' .  $e->getMessage();
