@@ -90,6 +90,12 @@ $id_funcionario = $teste[0]['nome'];
 $funcionario_id = $teste[0]['id_funcionario'];
 
 $sinaisvitais = $pdo->query("SELECT id_sinais_vitais, data, saturacao, pressao_arterial, frequencia_cardiaca, frequencia_respiratoria, temperatura, hgt, p.nome, p.sobrenome FROM saude_sinais_vitais sv JOIN funcionario f ON(sv.id_funcionario = f.id_funcionario) JOIN pessoa p ON (f.id_pessoa = p.id_pessoa) WHERE sv.id_fichamedica = " . $_SESSION['id_upload_med'])->fetchAll(PDO::FETCH_ASSOC);
+//formatar data
+foreach($sinaisvitais as $key => $value){
+  $data = new DateTime($value['data']);
+  $sinaisvitais[$key]['data'] = $data->format('d/m/Y');
+}
+
 $sinaisvitais = json_encode($sinaisvitais);
 
 $prontuariopublico = $pdo->query("SELECT descricao FROM saude_fichamedica_descricoes WHERE id_fichamedica= " . $_GET['id_fichamedica']);
@@ -282,15 +288,15 @@ $idPaciente = $idPaciente->fetch(PDO::FETCH_ASSOC);
     $(function() {
       var sinaisvitais = <?= $sinaisvitais ?>;
       $("#sin-vit-tab").empty();
-      $.each(sinaisvitais, function(i, item) { // Transforma o formato de data recebido para o formato utilizado no Brasil
+      /*$.each(sinaisvitais, function(i, item) { // Transforma o formato de data recebido para o formato utilizado no Brasil
         item.data = item.data.split(" ")[0];
         partesData = item.data.split("-");
         item.data = partesData[2] + "-" + partesData[1] + "-" + partesData[0];
-      })
+      })*/
       $.each(sinaisvitais, function(i, item) {
         $("#sin-vit-tab")
           .append($("<tr id=l_" + i + ">")
-            .append($("<td>").text(item.data.split(" ")[0]))
+            .append($("<td>").text(item.data))
             .append($("<td>").text(item.nome + " " + (item.sobrenome !== null ? item.sobrenome : "")))
             .append($("<td>").text(item.saturacao))
             .append($("<td>").text(item.pressao_arterial))
