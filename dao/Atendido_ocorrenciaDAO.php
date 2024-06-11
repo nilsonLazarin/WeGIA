@@ -39,12 +39,11 @@ class Atendido_ocorrenciaDAO
             // $produtos = Array();
             $x = 0;
             while ($linha = $consulta->fetch(PDO::FETCH_ASSOC)) {
-
-                $ocorrencias[$x] = array('idatendido_ocorrencias' => $linha['idatendido_ocorrencias'], 'nome' => $linha['nome'], 'sobrenome' => $linha['sobrenome'], 'atendido_ocorrencia_tipos_idatendido_ocorrencia_tipos' => $linha['atendido_ocorrencia_tipos_idatendido_ocorrencia_tipos'], 'data' => $linha['data']);
+                //formatar data
+                $data = new DateTime($linha['data']);
+                $ocorrencias[$x] = array('idatendido_ocorrencias' => $linha['idatendido_ocorrencias'], 'nome' => $linha['nome'], 'sobrenome' => $linha['sobrenome'], 'atendido_ocorrencia_tipos_idatendido_ocorrencia_tipos' => $linha['atendido_ocorrencia_tipos_idatendido_ocorrencia_tipos'], 'data' => $data->format('d/m/Y'));
                 $x++;
             }
-            //$pdo->commit();
-            //$pdo->close();
         } catch (PDOException $e) {
             echo 'Error:' . $e->getMessage();
         }
