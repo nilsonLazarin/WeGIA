@@ -59,7 +59,7 @@ foreach ($docfuncional as $key => $value) {
 
   //formatar data
   $data = new DateTime($value['data']);
-  $docfuncional[$key]['data'] = $data->format('d/m/Y h:m:s');
+  $docfuncional[$key]['data'] = $data->format('d/m/Y h:i:s');
 
 }
 $docfuncional = json_encode($docfuncional);

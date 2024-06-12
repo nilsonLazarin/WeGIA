@@ -22,7 +22,7 @@ $dependente = $dependente->fetchAll(PDO::FETCH_ASSOC);
 foreach ($dependente as $key => $value) {
     //formatar data
     $data = new DateTime($value['data']);
-    $dependente[$key]['data'] = $data->format('d/m/Y h:m:s');
+    $dependente[$key]['data'] = $data->format('d/m/Y');
   }
 
 $dependente = json_encode($dependente);

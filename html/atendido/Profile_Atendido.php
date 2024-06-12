@@ -90,7 +90,7 @@ foreach ($docfuncional as $key => $value) {
 
   //formatar data
   $data = new DateTime($value['data']);
-  $docfuncional[$key]['data'] = $data->format('d/m/Y h:m:s');
+  $docfuncional[$key]['data'] = $data->format('d/m/Y');
 }
 $docfuncional = json_encode($docfuncional);
 //$docs = $mysqli->query("SELECT * FROM atendido_docs_atendidos");

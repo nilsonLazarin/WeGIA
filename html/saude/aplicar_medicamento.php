@@ -88,7 +88,7 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
   foreach($medaplicadas as $key => $value){
     //formatar data
     $data = new DateTime($value['aplicação']);
-    $medaplicadas[$key]['aplicação'] = $data->format('d/m/Y h:m:s'); 
+    $medaplicadas[$key]['aplicação'] = $data->format('d/m/Y h:i:s'); 
   }
 
   $medaplicadas = json_encode($medaplicadas);

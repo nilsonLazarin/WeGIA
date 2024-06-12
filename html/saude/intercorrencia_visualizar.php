@@ -57,13 +57,13 @@ $historicos = $avisoNotificacaoControle->listarHistoricos($id_pessoa);
 
 foreach($recentes as $num => $recente){
     $data = new DateTime($recente['data']);
-    $recente['data'] = $data->format('d/m/Y h:m:s');
+    $recente['data'] = $data->format('d/m/Y h:i:s');
     $recentes[$num] = $recente;
 }
 
 foreach($historicos as $num => $historico){
     $data = new DateTime($historico['data']);
-    $historico['data'] = $data->format('d/m/Y h:m:s');
+    $historico['data'] = $data->format('d/m/Y h:i:s');
     $historicos[$num] = $historico;
 }
 
