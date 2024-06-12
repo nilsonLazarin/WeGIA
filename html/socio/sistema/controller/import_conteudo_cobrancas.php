@@ -1,7 +1,5 @@
 <?php
-  $locale = ( isset($_COOKIE['locale']) ) ? 
-  $_COOKIE['locale'] : 
-  $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+$locale = (isset($_COOKIE['locale'])) ? filter_var($_COOKIE['locale'], FILTER_SANITIZE_STRING) : filter_var($_SERVER['HTTP_ACCEPT_LANGUAGE'], FILTER_SANITIZE_STRING);
 setlocale(LC_ALL, $locale);
 ?>
 
@@ -53,12 +51,12 @@ setlocale(LC_ALL, $locale);
     <div class="box-body box_tabela_cobranca" style="">
     <?php
 									if(isset($_GET['msg_c'])){
-										$msg = $_GET['msg_c'];
+										$msg = htmlspecialchars($_GET['msg_c']);
 										echo('<div class="alert alert-success" role="alert">
 										'. $msg .'
 									  </div>');
 									}else if(isset($_GET['msg_e'])){
-										$msg = $_GET['msg_e'];
+										$msg = htmlspecialchars($_GET['msg_e']);
 										echo('<div class="alert alert-danger" role="alert">
 										'. $msg .'
 									  </div>');
