@@ -199,4 +199,18 @@ class Funcionario extends Pessoa
     {
         $this->quadro_horario = $quadro_horario;
     }*/
+
+    //Data de nascimento máxima
+    static public function getDataNascimentoMaxima()
+    {
+        $idadeMinima = 18;
+        $data = date('Y-m-d', strtotime("-$idadeMinima years"));
+        return $data;
+    }
+
+    static public function getDataNascimentoMinima(){
+        $idadeMaxima = 100;
+        $data = date('Y-m-d', strtotime("-$idadeMaxima years"));
+        return $data;
+    }
 }
