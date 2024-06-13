@@ -203,7 +203,7 @@ class Funcionario extends Pessoa
     //Data de nascimento máxima
     static public function getDataNascimentoMaxima()
     {
-        $idadeMinima = 18;
+        $idadeMinima = 16;
         $data = date('Y-m-d', strtotime("-$idadeMinima years"));
         return $data;
     }

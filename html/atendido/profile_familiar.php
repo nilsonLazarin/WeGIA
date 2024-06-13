@@ -676,13 +676,13 @@ $JSON_dependente = json_encode($dependente);
                                             <div class="form-group">
                                                 <label class="col-md-3 control-label" for="pai">Nome do pai</label>
                                                 <div class="col-md-8">
-                                                    <input type="text" class="form-control" name="nome_pai" id="pai">
+                                                    <input type="text" class="form-control" name="nome_pai" id="pai" onkeypress="return Onlychars(event)">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-md-3 control-label" for="mae">Nome da mãe</label>
                                                 <div class="col-md-8">
-                                                    <input type="text" class="form-control" name="nome_mae" id="mae">
+                                                    <input type="text" class="form-control" name="nome_mae" id="mae" onkeypress="return Onlychars(event)">
                                                 </div>
                                             </div>
                                             <div class="form-group center">
