@@ -1,5 +1,6 @@
 <?php
 require_once "../personalizacao_display.php";
+require_once "../../classes/Atendido.php";
 session_start();
 if (!isset($_SESSION['usuario'])) {
 	header("Location: ../index.php");
@@ -53,6 +54,10 @@ $intTipo = $mysqli->query("SELECT * FROM atendido_tipo");
 $intStatus = $mysqli->query("SELECT * FROM atendido_status");
 
 $cpf = $_GET['cpf'];
+
+$dataNascimentoMaxima = Atendido::getDataNascimentoMaxima();
+$dataNascimentoMinima = Atendido::getDataNascimentoMinima();
+
 ?>
 <!doctype html>
 <html class="fixed">
@@ -306,7 +311,7 @@ $cpf = $_GET['cpf'];
 							<div class="form-group">
 								<label class="col-md-3 control-label" for="profileCompany">Nascimento<sup class="obrig">*</sup></label>
 								<div class="col-md-6">
-									<input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" id="nascimento" max=<?php echo date('Y-m-d'); ?> required>
+									<input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" id="nascimento" min=<?= $dataNascimentoMinima ?> max=<?= $dataNascimentoMaxima ?> required>
 								</div>
 							</div>
 
