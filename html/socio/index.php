@@ -36,6 +36,7 @@
 	<link rel="stylesheet" type="text/css" href="login/css/main.css">
 	<script src="https://kit.fontawesome.com/d7eb01c67c.js" crossorigin="anonymous"></script>
 <!--===============================================================================================-->
+<script src="../../Functions/onlyChars.js"></script>
 </head>
 <body style="background-color: #666666;">
 	
