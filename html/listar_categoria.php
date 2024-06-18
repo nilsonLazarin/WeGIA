@@ -53,7 +53,7 @@
   	include_once '../dao/CategoriaDAO.php';
 
 	if(!isset($_SESSION['categoria'])){
-		header('Location: ../controle/control.php?metodo=listarTodos&nomeClasse=CategoriaControle&nextPage=../html/listar_categoria.php');
+		header('Location: ../controle/control.php?metodo=listarTodos&nomeClasse=CategoriaControle&nextPage='.WWW.'/html/listar_categoria.php');
 	}
 	if(isset($_SESSION['msg'])){
 		$msg = $_SESSION['msg'];
