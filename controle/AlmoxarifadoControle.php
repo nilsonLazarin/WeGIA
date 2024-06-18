@@ -5,8 +5,7 @@ class AlmoxarifadoControle
 {
     public function verificar()
     {
-        extract($_REQUEST);
-        $descricao_almoxarifado = trim($descricao_almoxarifado);
+        $descricao_almoxarifado= trim($_POST['descricao_almoxarifado']);
         try {
             $almoxarifado = new Almoxarifado($descricao_almoxarifado);
             return $almoxarifado;
@@ -17,7 +16,13 @@ class AlmoxarifadoControle
     }
     public function listarTodos()
     {
-        extract($_REQUEST);
+        $nextPage = trim($_GET['nextPage']);
+
+        if(!filter_var($nextPage, FILTER_VALIDATE_URL)){
+            http_response_code(400);
+            exit('Erro, a URL informada para a próxima página não é válida.');
+        }
+
         $almoxarifadoDAO = new AlmoxarifadoDAO();
         $almoxarifados = $almoxarifadoDAO->listarTodos();
         session_start();
@@ -36,19 +41,24 @@ class AlmoxarifadoControle
             $_SESSION['link'] = "../html/adicionar_almoxarifado.php";
             header("Location: ../html/adicionar_almoxarifado.php");
         } catch (PDOException $e) {
-            $msg = "Não foi possível registrar o almoxarifado" . "<br>" . $e->getMessage();
-            echo $msg;
+            echo "Não foi possível registrar o almoxarifado";
         }
     }
     public function excluir()
     {
-        extract($_REQUEST);
+        $id_almoxarifado = trim($_GET['id_almoxarifado']);
+
+        if(!$id_almoxarifado || !is_numeric($id_almoxarifado) || $id_almoxarifado < 1){
+            http_response_code(400);
+            exit("O id de um almoxarifado deve ser um inteiro maior que 1");
+        }
+
         try {
             $almoxarifadoDAO = new AlmoxarifadoDAO();
             $almoxarifadoDAO->excluir($id_almoxarifado);
             header('Location:../html/listar_almox.php');
         } catch (PDOException $e) {
-            echo "ERROR: " . $e->getMessage();
+            echo "Não foi possível excluir o almoxarifado";
         }
     }
 }

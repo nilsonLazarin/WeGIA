@@ -68,7 +68,7 @@
     header('Location: ../controle/control.php?metodo=listarTodos&nomeClasse=DestinoControle&nextPage=../html/remover_produto.php?id_produto='.$_GET['id_produto']);
   }
   if(!isset($_SESSION['almoxarifado'])){
-    header('Location: ../controle/control.php?metodo=listarTodos&nomeClasse=AlmoxarifadoControle&nextPage=../html/remover_produto.php?id_produto='.$_GET['id_produto']);
+    header('Location: ../controle/control.php?metodo=listarTodos&nomeClasse=AlmoxarifadoControle&nextPage='.WWW.'/html/remover_produto.php?id_produto='.$_GET['id_produto']);
   }
   extract($_SESSION);
 ?>

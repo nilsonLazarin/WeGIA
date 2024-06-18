@@ -56,7 +56,7 @@ require_once "../Functions/permissao/permissao.php";
 	include_once '../dao/ProdutoDAO.php';
 
 	if (!isset($_SESSION['almoxarifado'])) {
-		header('Location: ../controle/control.php?metodo=listarTodos&nomeClasse=AlmoxarifadoControle&nextPage=../html/cadastro_saida.php');
+		header('Location: ../controle/control.php?metodo=listarTodos&nomeClasse=AlmoxarifadoControle&nextPage='.WWW.'/html/cadastro_saida.php');
 	}
 	if (!isset($_SESSION['tipo_saida'])) {
 		header('Location: ../controle/control.php?metodo=listarTodos&nomeClasse=TipoSaidaControle&nextPage=../html/cadastro_saida.php');
