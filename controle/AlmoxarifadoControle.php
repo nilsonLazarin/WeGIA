@@ -50,7 +50,7 @@ class AlmoxarifadoControle
 
         if(!$id_almoxarifado || !is_numeric($id_almoxarifado) || $id_almoxarifado < 1){
             http_response_code(400);
-            exit("O id de um almoxarifado deve ser um inteiro maior que 1");
+            exit("O id de um almoxarifado deve ser um inteiro maior ou igual a 1");
         }
 
         try {
