@@ -48,7 +48,7 @@ setlocale(LC_ALL, $locale);
       <!-- /.box-tools -->
     </div>
     <!-- /.box-header -->
-    <div class="box-body box_tabela_cobranca" style="">
+    <div class="box-body box_tabela_cobranca">
     <?php
 									if(isset($_GET['msg_c'])){
 										$msg = htmlspecialchars($_GET['msg_c']);

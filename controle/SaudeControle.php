@@ -10,7 +10,6 @@ if(file_exists($config_path)){
     require_once($config_path);
 }
 
-//include_once "/dao/Conexao.php";
 require_once ROOT.'/classes/Saude.php';
 require_once ROOT.'/dao/SaudeDAO.php';
 require_once 'DescricaoControle.php';
@@ -210,6 +209,60 @@ class SaudeControle
             $descricao->alterarProntuario($id_fichamedica, $textoProntuario);
             header("Location: ../html/saude/profile_paciente.php?id_fichamedica=".$id_fichamedica);
         }catch(PDOException $e){
+            echo $e->getMessage();
+        }
+    }
+
+    /**
+     * Extraí os dados da requisição e instancia um objeto SaudeDAO, em seguida chama a função adicionarProntuarioAoHistorico passando os parâmetros $id_fichamedica e $id_paciente, redireciona o usuário para a página profile_paciente.php e atribuí uma string para a varivável msg da sessão.
+     */
+    public function adicionarProntuarioAoHistorico(){
+        extract($_REQUEST);
+        session_start();
+        $saudeDao = new SaudeDAO();
+        try{
+            $saudeDao->adicionarProntuarioAoHistorico($id_fichamedica, $id_paciente);
+            $_SESSION['msg']="Prontuário público adicionado ao histórico com sucesso";
+            header("Location: ../html/saude/profile_paciente.php?id_fichamedica=".$id_fichamedica);
+        }catch(Error $e){
+            $erro = $e->getMessage();
+            $_SESSION['msg']="Ops! Ocorreu o seguinte erro ao tentar inserir o prontuário público: $erro";
+            header("Location: ../html/saude/profile_paciente.php?id_fichamedica=".$id_fichamedica);
+        }
+    }
+
+    /**
+     * Recebe como parâmetro o id de um paciente, instancia um objeto do tipo SaudeDAO e chama o método listarProntuariosDoHistorico passando o id do paciente informado, em caso de sucesso retorna os prontuários do histórico e em caso de falha da um echo na mensagem do erro.
+     */
+    public function listarProntuariosDoHistorico($idPaciente){
+        $saudeDao = new SaudeDAO();
+
+        try{
+            $prontuariosHistorico = $saudeDao->listarProntuariosDoHistorico($idPaciente);
+            return $prontuariosHistorico;
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
+        
+    }
+
+    /**
+     * Pode receber ou não o id de uma ficha médica do histórico, em caso negativo pega a informação do 'idHistorico' da requisição do tipo GET que o chamou. 
+     * 
+     * Instancia um objeto do tipo SaudeDAO e chama o método listarDescricoesHistoricoPorId passando o id da ficha médica do histórico, em caso de sucesso faz um echo do JSON das descrições, em caso de falha da um echo na mensagem do erro.
+     */
+    public function listarProntuarioHistoricoPorId($idHistorico = -1){
+        header('Content-Type: application/json');
+     
+        if($idHistorico == -1){
+            $idHistorico = $_GET['idHistorico'];
+        }
+
+        try {
+            $saudeDao = new SaudeDAO();
+            $descricoes = $saudeDao->listarDescricoesHistoricoPorId($idHistorico);
+            echo json_encode($descricoes);
+        } catch (PDOException $e) {
             echo $e->getMessage();
         }
     }

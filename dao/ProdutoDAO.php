@@ -41,7 +41,7 @@ class ProdutoDAO
 					$stmt->execute();
 				}
 
-	        }catch (PDOExeption $e) {
+	        }catch (PDOException $e) {
 	            echo 'Error: <b>  na tabela produto = ' . $sql . '</b> <br /><br />' . $e->getMessage();
 	        }
 
@@ -76,8 +76,8 @@ class ProdutoDAO
 	                $produtos[$x]=array('id_produto'=>$linha['id_produto'],'preco'=>$linha['preco'],'descricao'=>$linha['descricao'],'codigo'=>$linha['codigo'],'descricao_categoria'=>$linha['descricao_categoria'],'descricao_unidade'=>$linha['descricao_unidade']);
 	                $x++;
 	            }
-	            } catch (PDOExeption $e){
-	                echo 'Error:' . $e->getMessage;
+	            } catch (PDOException $e){
+	                echo 'Error:' . $e->getMessage();
 	            }
 	            return json_encode($produtos);
 	        }
@@ -98,7 +98,7 @@ class ProdutoDAO
 	        		while($linha = $stmt->fetch(PDO::FETCH_ASSOC)){
 	        			$produtos[]=array('id_produto'=>$linha['id_produto'], 'preco'=>$linha['preco'], 'descricao'=>$linha['descricao'], 'codigo'=>$linha['codigo'], 'id_categoria_produto'=>$linha['id_categoria_produto'], 'descricao_categoria'=>$linha['descricao_categoria'], 'id_unidade'=>$linha['id_unidade'], 'descricao_unidade'=>$linha['descricao_unidade']);
 	        		}
-	        	} catch(PDOExeption $e){
+	        	} catch(PDOException $e){
             		echo 'Erro: ' .  $e->getMessage();
         		}
         		return json_encode($produtos);	
@@ -116,11 +116,11 @@ class ProdutoDAO
 		                ':codigo' => $codigo
 		            ));
 		            $produtos = Array();
-		            while ($linha = $consulta-fetch(PDO::FETCH_ASSOC)) {
-		                $produto = new Produto($preco,$descricao,$codigo);
+		            while ($linha = $consulta->fetch(PDO::FETCH_ASSOC)) {
+		                $produto = new Produto($linha->preco,$linha->descricao,$codigo);
 		                $produtos[] = $produto;
 		            }
-		        }catch (PDOExeption $e){
+		        }catch (PDOException $e){
 		            echo 'Error: ' .  $e->getMessage();
 		        }
 		        return $produtos;
@@ -138,10 +138,10 @@ class ProdutoDAO
 		            ));
 		            $produtos = Array();
 		            while ($linha = $consulta->fetch(PDO::FETCH_ASSOC)) {
-		                $produto = new Produto($preco,$descricao,$codigo);
+		                $produto = new Produto($linha->preco,$descricao,$linha->codigo);
 		                $produtos[] = $produto;
 		            }
-		        }catch (PDOExeption $e){
+		        }catch (PDOException $e){
 		            echo 'Error: ' .  $e->getMessage();
 		        }
 		        return $produtos;
@@ -158,7 +158,7 @@ class ProdutoDAO
 					$produtos[$x]=array('id_produto'=>$linha['id_produto'],'descricao'=>$linha['descricao'],'preco'=>$linha['preco'], 'codigo'=> $linha['codigo']);
 	                $x++;
 	            }
-	            } catch (PDOExeption $e){
+	            } catch (PDOException $e){
 	                echo 'Error:' . $e->getMessage();
 	            }
 				return json_encode($produtos);
@@ -208,7 +208,7 @@ class ProdutoDAO
                 $stmt->bindParam(':id_produto',$id_produto);
 
                 $stmt->execute();
-            }catch (PDOExeption $e) {
+            }catch (PDOException $e) {
                 echo 'Error: <b>  na tabela produto = ' . $sql . '</b> <br /><br />' . $e->getMessage();
             }
     }

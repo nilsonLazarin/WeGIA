@@ -36,7 +36,7 @@ if(file_exists($config_path)){
 
 		.alerta a{
 			margin-right: 30px;
-			/*color: red;*/
+			color:#3498db;
 		}
 		.badge{
 			font-size: 1rem;

@@ -230,7 +230,7 @@ class Atendido_ocorrenciaControle
     		$anexoDAO = new AnexoDAO();
 			try
 			{
-				$anexoDAO->incluirdoc($anexo);
+				$anexoDAO->incluir($anexo);
 			}
 			catch(PDOException $e)
 			{

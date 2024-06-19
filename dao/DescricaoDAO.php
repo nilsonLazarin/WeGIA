@@ -19,9 +19,10 @@ class DescricaoDAO
     public function incluir($texto, $id_pessoa)
     {
         try {
-            $query = "SELECT `id_fichamedica` FROM `saude_fichamedica` WHERE `id_pessoa` = " . $id_pessoa;
+            $query = "SELECT `id_fichamedica` FROM `saude_fichamedica` WHERE `id_pessoa` =:idPessoa";
             $pdo = Conexao::connect();
             $stmt = $pdo->prepare($query);
+            $stmt->bindParam(':idPessoa', $id_pessoa);
             $stmt->execute();
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
@@ -47,13 +48,14 @@ class DescricaoDAO
     public function alterar($idFicha, $texto)
     {
         try {
-            $sql1 = "SELECT id_descricao FROM saude_fichamedica_descricoes WHERE id_fichamedica = $idFicha";
+            $sql1 = "SELECT id_descricao FROM saude_fichamedica_descricoes WHERE id_fichamedica =:idFicha";
             $sql2 = "UPDATE saude_fichamedica_descricoes SET descricao =:descricao WHERE id_descricao =:id";
             $sql3 = "DELETE FROM saude_fichamedica_descricoes WHERE id_descricao=:id";
             $sql4 = "INSERT INTO saude_fichamedica_descricoes(id_fichamedica, descricao) VALUES (:id, :descricao)";
             $pdo = Conexao::connect();
             $pdo->beginTransaction();
             $stmt = $pdo->prepare($sql1);
+            $stmt->bindParam(':idFicha', $idFicha);
             $stmt->execute();
             $descricoes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 

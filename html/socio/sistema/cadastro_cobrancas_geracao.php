@@ -17,7 +17,7 @@
     $link_boleto = "'$link_boleto'";
     $linha_digitavel = "'$linha_digitavel'";
     $status = "'$status'";
-
+    
     mysqli_query($conexao, "INSERT INTO cobrancas (`codigo`, `descricao`, `data_emissao`, `data_vencimento`, `data_pagamento`, `valor`, `valor_pago`, `status`, `link_cobranca`, `link_boleto`, `linha_digitavel`, `id_socio`) VALUES ($codigo,$descricao,$data_emissao, $data_vencimento,$data_pagamento,$valor,$valor_pago,$status,$link_cobranca,$link_boleto,$linha_digitavel,$id_socio)");
-
+    
 ?>

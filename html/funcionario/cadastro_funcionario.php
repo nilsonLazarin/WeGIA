@@ -80,7 +80,7 @@ require_once "../personalizacao_display.php";
   <link rel="stylesheet" href="../../assets/vendor/font-awesome/css/font-awesome.css" />
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.1.1/css/all.css">
   <link rel="stylesheet" href="../../assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
-<link rel="icon" href="<?php display_campo("Logo",'file');?>" type="image/x-icon">
+  <link rel="icon" href="<?php display_campo("Logo", 'file'); ?>" type="image/x-icon">
 
   <!-- Theme CSS -->
   <link rel="stylesheet" href="../../assets/stylesheets/theme.css" />
@@ -136,32 +136,32 @@ require_once "../personalizacao_display.php";
       </header>
       <!-- start: page -->
       <div class="row" id="formulario">
-      <form action="#" method="POST" id="formsubmit" enctype="multipart/form-data" target="frame">
-        <div class="col-md-4 col-lg-3">
-          <section class="panel">
-            <div class="panel-body">
-              <div class="thumb-info mb-md">
-              <?php
-                if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                  if (isset($_FILES['imgperfil'])) {
-                    $image = file_get_contents($_FILES['imgperfil']['tmp_name']);
-                    $_SESSION['imagem'] = $image;
-                    echo '<img src="data:image/gif;base64,' . base64_encode($image) . '" class="rounded img-responsive" alt="John Doe">';
+        <form action="#" method="POST" id="formsubmit" enctype="multipart/form-data" target="frame">
+          <div class="col-md-4 col-lg-3">
+            <section class="panel">
+              <div class="panel-body">
+                <div class="thumb-info mb-md">
+                  <?php
+                  if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                    if (isset($_FILES['imgperfil'])) {
+                      $image = file_get_contents($_FILES['imgperfil']['tmp_name']);
+                      $_SESSION['imagem'] = $image;
+                      echo '<img src="data:image/gif;base64,' . base64_encode($image) . '" class="rounded img-responsive" alt="John Doe">';
+                    }
                   }
-                }
-                ?>
+                  ?>
 
-              <input type="file" class="image_input form-control" onclick="okDisplay()" name="imgperfil"  id="imgform">
-              <div id="display_image" class="thumb-info mb-md"></div>
-              <div id="botima">
-              <h5 id="okText"></h5>
-              <input type="submit" class="btn btn-primary stylebutton" onclick="submitButtonStyle(this)" id="okButton" id="botima" value="Ok"> 
+                  <input type="file" class="image_input form-control" onclick="okDisplay()" name="imgperfil" id="imgform">
+                  <div id="display_image" class="thumb-info mb-md"></div>
+                  <div id="botima">
+                    <h5 id="okText"></h5>
+                    <input type="submit" class="btn btn-primary stylebutton" onclick="submitButtonStyle(this)" id="okButton" id="botima" value="Ok">
+                  </div>
+                </div>
               </div>
-              </div>
-            </div>
-          </section>
-        </div>
-      </form>
+            </section>
+          </div>
+        </form>
         <div class="col-md-8 col-lg-8">
           <div class="tabs">
             <ul class="nav nav-tabs tabs-primary">
@@ -171,7 +171,7 @@ require_once "../personalizacao_display.php";
             </ul>
             <div class="tab-content">
               <div id="overview" class="tab-pane active">
-              <form class="form-horizontal" method="GET" action="../../controle/control.php">
+                <form class="form-horizontal" method="GET" action="../../controle/control.php">
                   <h4 class="mb-xlg">Informações Pessoais</h4>
                   <h5 class="obrig">Campos Obrigatórios(*)</h5>
                   <div class="form-group">
@@ -216,7 +216,7 @@ require_once "../personalizacao_display.php";
                   <div class="form-group">
                     <label class="col-md-3 control-label" for="profileCompany">Órgão Emissor<sup class="obrig">*</sup></label>
                     <div class="col-md-6">
-                      <input type="text" class="form-control" name="orgao_emissor" id="orgao_emissor" id="profileCompany"  onkeypress="return Onlychars(event)" required>
+                      <input type="text" class="form-control" name="orgao_emissor" id="orgao_emissor" id="profileCompany" onkeypress="return Onlychars(event)" required>
                     </div>
                   </div>
                   <div class="form-group">
@@ -228,7 +228,10 @@ require_once "../personalizacao_display.php";
                   <div class="form-group">
                     <label class="col-md-3 control-label" for="cpf">Número do CPF<sup class="obrig">*</sup></label>
                     <div class="col-md-6">
-                      <input type="text" class="form-control" id="cpf" id="cpf" name="cpf" placeholder="Ex: 222.222.222-22" maxlength="14" value= <?php echo $cpf ?> disabled>
+                      <input type="text" class="form-control" id="cpf" id="cpf" name="cpf" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##', this, event)" value="<?php
+                                                                                                                                                                                                                                                                          if (isset($cpf) && !is_null(trim($cpf))) {
+                                                                                                                                                                                                                                                                            echo $cpf;
+                                                                                                                                                                                                                                                                          } ?>" required>
                     </div>
                   </div>
                   <div class="form-group">
@@ -320,16 +323,15 @@ require_once "../personalizacao_display.php";
                     <div class="row">
                       <div class="col-md-9 col-md-offset-3">
                         <input type="hidden" name="nomeClasse" value="FuncionarioControle">
-                        <input type="hidden" name="cpf" value="<?php  echo $cpf ?>">
                         <input type="hidden" name="metodo" value="incluir">
-                        <input id="enviar" type="submit" class="btn btn-primary"  value="Salvar" onclick="validarFuncionario()">
+                        <input id="enviar" type="submit" class="btn btn-primary" value="Salvar" onclick="validarFuncionario()">
                         <input type="reset" class="btn btn-default">
                       </div>
                     </div>
                   </div>
                 </form>
                 <iframe name="frame"></iframe>
-              <!-- end: page -->
+                <!-- end: page -->
     </section>
   </div>
   </section>
@@ -354,12 +356,12 @@ require_once "../personalizacao_display.php";
       color: rgb(255, 0, 0);
     }
 
-    iframe{
+    iframe {
       display: none;
     }
 
-    #display_image{
-      
+    #display_image {
+
       min-height: 250px;
       margin: 0 auto;
       border: 1px solid black;
@@ -369,27 +371,24 @@ require_once "../personalizacao_display.php";
     }
 
 
-    #display_image:after{
-      
+    #display_image:after {
+
       content: "";
       display: block;
       padding-bottom: 100%;
     }
-
-
   </style>
   <script type="text/javascript">
-
     var clickcont = 0;
     $("#botima").toggle();
-    $("#imgform").click(function(e){ 
-      if(clickcont == 0){
+    $("#imgform").click(function(e) {
+      if (clickcont == 0) {
         $("#botima").toggle();
       }
       clickcont = clickcont + 1;
     });
-    
-    function okDisplay(){
+
+    function okDisplay() {
       document.getElementById("okButton").style.backgroundColor = "#0275d8"; //azul
       document.getElementById("okText").textContent = "Confirme o arquivo selecionado";
       $("#profileFirstName").prop('disabled', true);
@@ -444,13 +443,13 @@ require_once "../personalizacao_display.php";
           send.attr('disabled', 'disabled');
         }
       });
-      
+
       if (apoio == 0) {
         alert("Cadastrado com sucesso!");
       }
     }
 
-    function validarFuncionario(){
+    function validarFuncionario() {
       var btn = $("#enviar");
       var cpf_cadastrado = (<?php echo $_SESSION['cpf_funcionario']; ?>).concat(<?php echo $_SESSION['cpf_interno']; ?>);
       var cpf_cadastrado = (<?php echo $_SESSION['cpf_funcionario']; ?>);
@@ -463,43 +462,43 @@ require_once "../personalizacao_display.php";
           return false;
         }
       });
-      
-        var nome = document.getElementById('profileFirstName').value;
 
-        var sobrenome = document.getElementById('sobrenome').value;
+      var nome = document.getElementById('profileFirstName').value;
 
-        var sexo = document.querySelector('input[name="gender"]:checked').value;
+      var sobrenome = document.getElementById('sobrenome').value;
 
-        var telefone = document.getElementById('telefone').value;
+      var sexo = document.querySelector('input[name="gender"]:checked').value;
 
-        var dt_nasc = document.getElementById('nascimento').value;
-      
-        var rg = document.getElementById('rg').value;
+      var telefone = document.getElementById('telefone').value;
 
-        var orgao_emissor = document.getElementById('orgao_emissor').value;
+      var dt_nasc = document.getElementById('nascimento').value;
 
-        var dt_expedicao = document.getElementById('data_expedicao').value;
+      var rg = document.getElementById('rg').value;
 
-        var dt_admissao = document.getElementById('data_admissao').value;
+      var orgao_emissor = document.getElementById('orgao_emissor').value;
 
-        var a = document.getElementById('situacao');
-        var situacao = a.options[a.selectedIndex].text;
+      var dt_expedicao = document.getElementById('data_expedicao').value;
 
-        var b = document.getElementById('cargo');
-        var cargo = b.options[b.selectedIndex].text;
+      var dt_admissao = document.getElementById('data_admissao').value;
 
-        var c = document.getElementById('escala_input');
-        var escala = c.options[c.selectedIndex].text;
+      var a = document.getElementById('situacao');
+      var situacao = a.options[a.selectedIndex].text;
 
-        var d = document.getElementById('tipoCargaHoraria_input');
-        var tipo = d.options[d.selectedIndex].text;
+      var b = document.getElementById('cargo');
+      var cargo = b.options[b.selectedIndex].text;
 
-      if(nome && sobrenome && sexo && telefone && dt_nasc && rg && orgao_emissor && dt_expedicao && dt_admissao && situacao && cargo && escala && tipo){
+      var c = document.getElementById('escala_input');
+      var escala = c.options[c.selectedIndex].text;
+
+      var d = document.getElementById('tipoCargaHoraria_input');
+      var tipo = d.options[d.selectedIndex].text;
+
+      if (nome && sobrenome && sexo && telefone && dt_nasc && rg && orgao_emissor && dt_expedicao && dt_admissao && situacao && cargo && escala && tipo) {
         alert("Cadastrado com sucesso!");
       }
     }
 
-    
+
 
     function numero_residencial() {
 
@@ -597,28 +596,6 @@ require_once "../personalizacao_display.php";
       }
 
     };
-
-    function testaCPF(strCPF) { //strCPF é o cpf que será validado. Ele deve vir em formato string e sem nenhum tipo de pontuação.
-      var strCPF = strCPF.replace(/[^\d]+/g, ''); // Limpa a string do CPF removendo espaços em branco e caracteres especiais.
-      var Soma;
-      var Resto;
-      Soma = 0;
-      if (strCPF == "00000000000") return false;
-
-      for (i = 1; i <= 9; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (11 - i);
-      Resto = (Soma * 10) % 11;
-
-      if ((Resto == 10) || (Resto == 11)) Resto = 0;
-      if (Resto != parseInt(strCPF.substring(9, 10))) return false;
-
-      Soma = 0;
-      for (i = 1; i <= 10; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (12 - i);
-      Resto = (Soma * 10) % 11;
-
-      if ((Resto == 10) || (Resto == 11)) Resto = 0;
-      if (Resto != parseInt(strCPF.substring(10, 11))) return false;
-      return true;
-    }
 
     function validarCPF(strCPF) {
 
@@ -720,15 +697,10 @@ require_once "../personalizacao_display.php";
     }
 
     $(function() {
-     
+
       $("#header").load("../header.php");
       $(".menuu").load("../menu.php");
     });
-
-    
-
-
-    
   </script>
   <!-- Head Libs -->
   <script src="../../assets/vendor/modernizr/modernizr.js"></script>
@@ -738,6 +710,7 @@ require_once "../personalizacao_display.php";
   <script src="../../Functions/onlyChars.js"></script>
   <script src="../../Functions/mascara.js"></script>
   <script src="../../Functions/lista.js"></script>
+  <script src="<?php echo WWW; ?>Functions/testaCPF.js"></script>
   <script language="JavaScript">
     var numValidos = "0123456789-()";
     var num1invalido = "78";
@@ -787,7 +760,7 @@ require_once "../personalizacao_display.php";
     });
   </script>
   <div align="right">
-	  <iframe src="https://www.wegia.org/software/footer/funcionario.html" width="200" height="60" style="border:none;"></iframe>
+    <iframe src="https://www.wegia.org/software/footer/funcionario.html" width="200" height="60" style="border:none;"></iframe>
   </div>
 </body>
 

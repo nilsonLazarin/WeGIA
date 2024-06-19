@@ -20,7 +20,6 @@ class QuadroHorarioDAO
             $pdo = Conexao::connect();
             
             $sql = 'call cadhorariofunc(:escala, :tipo, :carga_horaria, :entrada1, :saida1,:entrada2,:saida2, :total, :dias_trabalhados, :folga)';
-            // $sql2 = "call cadhorariofunc2( $id_funcionario , :escala, :tipo, :carga_horaria, :entrada1, :saida1,:entrada2,:saida2, :total, :dias_trabalhados, :folga)";
             $sql = str_replace("'", "\'", $sql);            
             $pdo = Conexao::connect();
             $stmt = $pdo->prepare($sql);
@@ -48,7 +47,7 @@ class QuadroHorarioDAO
             $stmt->bindParam(':folga',$folga);
 
             $stmt->execute();
-        }catch (PDOExeption $e) {
+        }catch (PDOException $e) {
             echo 'Error: <b>  na tabela quadro horario = ' . $sql . '</b> <br /><br />' . $e->getMessage();
         }
     }
@@ -90,7 +89,7 @@ class QuadroHorarioDAO
             }else{
                 $this->incluir($quadro_horario, $id_funcionario);
             }
-        }catch (PDOExeption $e) {
+        }catch (PDOException $e) {
             echo 'Error: <b>  na tabela quadro horario = ' . $sql . '</b> <br /><br />' . $e->getMessage();
         }
     }
@@ -107,7 +106,7 @@ class QuadroHorarioDAO
             $ins->bindParam(':d', $desc);
             $ins->execute();
             return "Tipo '$desc' cadastrado com sucesso.";
-        } catch (PDOExeption $e) {
+        } catch (PDOException $e) {
             echo "Erro ao incluir o tipo '$desc': " . $e->getMessage();
             return "Houve um erro ao cadastrar o tipo '$desc': " . $e->getMessage();
         }
@@ -125,7 +124,7 @@ class QuadroHorarioDAO
             $ins->bindParam(':d', $desc);
             $ins->execute();
             return "Escala '$desc' adicionada com sucesso.";
-        } catch (PDOExeption $e) {
+        } catch (PDOException $e) {
             echo "Erro ao incluir a escala '$desc': " . $e->getMessage();
             return "Houve um erro ao cadastrar a escala '$desc': " . $e->getMessage();
         }
@@ -139,7 +138,7 @@ class QuadroHorarioDAO
             $ins->bindParam(':d', $desc);
             $ins->bindParam(':id', $id);
             $ins->execute();
-        } catch (PDOExeption $e) {
+        } catch (PDOException $e) {
             echo "Erro ao alterar o tipo de id $id para '$desc': " . $e->getMessage();
         }
     }
@@ -152,7 +151,7 @@ class QuadroHorarioDAO
             $ins->bindParam(':d', $desc);
             $ins->bindParam(':id', $id);
             $ins->execute();
-        } catch (PDOExeption $e) {
+        } catch (PDOException $e) {
             echo "Erro ao alterar o tipo de id $id para '$desc': " . $e->getMessage();
         }
     }
@@ -168,7 +167,7 @@ class QuadroHorarioDAO
             $ins->bindParam(':id', $id);
             $ins->execute();
             return "Tipo removido";
-        } catch (PDOExeption $e) {
+        } catch (PDOException $e) {
             echo "Erro ao excluir o tipo de id $id: " . $e->getMessage();
             $_SESSION['flag'] = "erro";
             return "Erro ao remover tipo: " . $e->getMessage();
@@ -186,7 +185,7 @@ class QuadroHorarioDAO
             $ins->bindParam(':id', $id);
             $ins->execute();
             return "Escala removida";
-        } catch (PDOExeption $e) {
+        } catch (PDOException $e) {
             echo "Erro ao excluir a escala de id $id: " . $e->getMessage();
             $_SESSION['flag'] = "erro";
             return "Erro ao remover escala: " . $e->getMessage();
@@ -199,7 +198,7 @@ class QuadroHorarioDAO
             $tipo = $pdo->query("SELECT * FROM tipo_quadro_horario;")->fetchAll(PDO::FETCH_ASSOC);
             session_start();
             $_SESSION['tipo_quadro_horario'] = json_encode($tipo);
-        } catch (PDOExeption $e) {
+        } catch (PDOException $e) {
             echo "Erro ao listar tipos: " . $e->getMessage();
         }
     }
@@ -210,7 +209,7 @@ class QuadroHorarioDAO
             $tipo = $pdo->query("SELECT * FROM escala_quadro_horario;")->fetchAll(PDO::FETCH_ASSOC);
             session_start();
             $_SESSION['escala_quadro_horario'] = json_encode($tipo);
-        } catch (PDOExeption $e) {
+        } catch (PDOException $e) {
             echo "Erro ao listar escalas: " . $e->getMessage();
         }
     }

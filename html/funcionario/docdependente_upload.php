@@ -15,12 +15,16 @@
         $nome_arquivo = $arquivo["name"];
         $extensao_arquivo = explode(".", $arquivo["name"])[1];
         $arquivo_b64 = base64_encode(file_get_contents($arquivo['tmp_name']));
+
+        date_default_timezone_set('America/Sao_Paulo');
+        $data = date('Y-m-d H:i:s', time()); 
         try 
         {
             $pdo = Conexao::connect();
-            $prep = $pdo->prepare("INSERT INTO funcionario_dependentes_docs (id_dependente, id_docdependentes, extensao_arquivo, nome_arquivo, arquivo) VALUES ( :idf , :idd , :ext , :n , COMPRESS(:a) )");
+            $prep = $pdo->prepare("INSERT INTO funcionario_dependentes_docs (id_dependente, id_docdependentes, data, extensao_arquivo, nome_arquivo, arquivo) VALUES ( :idf , :idd , :data, :ext , :n , COMPRESS(:a) )");
             $prep->bindValue(":idf", $id_dependente);
             $prep->bindValue(":idd", $id_docdependente);
+            $prep->bindParam(':data', $data);
             $prep->bindValue(":ext", $extensao_arquivo);
             $prep->bindValue(":n", $nome_arquivo);
             $prep->bindValue(":a", $arquivo_b64);

@@ -7,7 +7,7 @@ class TipoSaidaControle
         extract($_REQUEST);
         
         if((!isset($descricao)) || (empty($descricao))){
-            $msg .= "Descricao do tipo de saida nÃ£o informada. Por favor, informe uma descricao!";
+            $msg .= "Descrição do tipo de saida não informada. Por favor, informe uma descrição!";
             header('Location: ../html/tiposaida.html?msg='.$msg);
         }else{
         	$tiposaida = new TipoSaida($descricao);
@@ -30,12 +30,12 @@ class TipoSaidaControle
         try{
             $tiposaidaDAO->incluir($tiposaida);
             session_start();
-            $_SESSION['msg']="TipoSaida cadastrado com sucesso";
+            $_SESSION['msg']="Tipo de Saida cadastrado com sucesso";
             $_SESSION['proxima']="Cadastrar outro TipoSaida";
             $_SESSION['link']="../html/adicionar_tipoSaida.php";
             header("Location: ../html/cadastro_saida.php");
         } catch (PDOException $e){
-            $msg= "NÃ£o foi possÃ­vel registrar o tipo"."<br>".$e->getMessage();
+            $msg= "Não foi possível registrar o tipo"."<br>".$e->getMessage();
             echo $msg;
         }
     }
@@ -47,7 +47,7 @@ class TipoSaidaControle
             $tiposaidaDAO->excluir($id_tipo);
             header('Location:../html/listar_tipoSaida.php');
         } catch (PDOException $e) {
-            echo "ERROR";
+            echo "ERROR: ".$e->getMessage();
         }
     }
 }

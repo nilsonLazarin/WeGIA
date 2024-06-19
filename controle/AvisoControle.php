@@ -1,7 +1,5 @@
 <?php
 
-session_start();
-
 $config_path = "config.php";
 if (file_exists($config_path)) {
     require_once($config_path);
@@ -25,27 +23,47 @@ class AvisoControle
     public function incluir()
     {
 
-        $idFuncionario = $_POST['idfuncionario'];
-        $idPessoaAtendida = $_POST['idpaciente'];
-        $descricao = $_POST['descricao_emergencia'];
-        $idfichamedica = $_POST['idfichamedica'];
+        $idFuncionario = trim($_POST['idfuncionario']);
+        $idPessoaAtendida = trim($_POST['idpaciente']);
+        $descricao = trim($_POST['descricao_emergencia']);
+        $idfichamedica = trim($_POST['idfichamedica']);
+
+        if (!$idFuncionario || !is_numeric($idFuncionario)) {
+            http_response_code(400);
+            exit('Erro, o id do funcionário que está registrando uma intercorrência não está dentro dos padrões aceitados.');
+        }
+
+        if (!$idPessoaAtendida || !is_numeric($idPessoaAtendida)) {
+            http_response_code(400);
+            exit('Erro, o id do paciente não está dentro dos padrões aceitados.');
+        }
+
+        if (!$idfichamedica || !is_numeric($idfichamedica)) {
+            http_response_code(400);
+            exit('Erro, o id da ficha médica não está dentro dos padrões aceitados.');
+        }
+
+        if (!$descricao || empty($descricao)) {
+            http_response_code(400);
+            exit('Erro, a descrição de uma intercorrência não pode ser nula ou vazia.');
+        }
 
         $aviso = new Aviso($idFuncionario, $idPessoaAtendida, $descricao);
 
         $avisoNotificacaoControle = new AvisoNotificacaoControle();
 
-        try{
+        try {
             $avisoDAO = new AvisoDAO();
             $ultimaInsercao = $avisoDAO->cadastrar($aviso);
-            if(!$ultimaInsercao){
+            if (!$ultimaInsercao) {
                 throw new PDOException();
-            }else{
+            } else {
                 $aviso->setIdAviso($ultimaInsercao);
                 $avisoNotificacaoControle->incluir($aviso);
                 header("Location: ../html/saude/historico_paciente.php?id_fichamedica=$idfichamedica");
             }
-        }catch(PDOException $e){
-            $e->getMessage();
+        } catch (PDOException $e) {
+            echo 'Erro ao registrar intercorrência: ' . $e->getMessage();
         }
     }
 }

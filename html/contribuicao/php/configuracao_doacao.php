@@ -1,9 +1,7 @@
 <?php
-
 require_once('conexao.php');
 $banco = new Conexao;
-include('dadosConfig.php');
-
+require_once('dadosConfig.php');
 ini_set('display_errors', 0);
 ini_set('display_startup_erros', 0);
 
@@ -22,11 +20,12 @@ if(file_exists($config_path)){
     }
     require_once($config_path);
 }
+
 $mysqli = new mysqli(DB_HOST,DB_USER,DB_PASSWORD,DB_NAME);
 $situacao = $mysqli->query("SELECT * FROM situacao");
 $cargo = $mysqli->query("SELECT * FROM cargo");
-$beneficios = $mysqli->query("SELECT * FROM beneficios");
-$descricao_epi = $mysqli->query("SELECT * FROM epi");
+//$beneficios = $mysqli->query("SELECT * FROM beneficios");
+//$descricao_epi = $mysqli->query("SELECT * FROM epi");
 
 $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 $id_pessoa = $_SESSION['id_pessoa'];

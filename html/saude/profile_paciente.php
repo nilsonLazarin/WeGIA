@@ -108,7 +108,8 @@ header("Location: ../home.php?msg_c=$msg");
   $prontuarioPHP = $prontuariopublico;
   $prontuariopublico = json_encode($prontuariopublico);
 
-  $medaplicadas = $pdo->query("SELECT medicamento, aplicação FROM saude_medicacao sm JOIN saude_medicamento_administracao sa ON (sm.id_medicacao = sa.saude_medicacao_id_medicacao) join saude_atendimento saa on(saa.id_atendimento=sm.id_atendimento) WHERE saa.id_fichamedica= '$id' ORDER BY id_medicacao DESC");
+  $medaplicadas = $pdo->query("SELECT medicamento, aplicação, p.nome as nomeFuncionario FROM saude_medicacao sm JOIN saude_medicamento_administracao sa ON (sm.id_medicacao = sa.saude_medicacao_id_medicacao) join saude_atendimento saa on(saa.id_atendimento=sm.id_atendimento)
+  JOIN funcionario f ON (sa.funcionario_id_funcionario=f.id_funcionario) JOIN pessoa p ON (p.id_pessoa=f.id_pessoa) WHERE saa.id_fichamedica= '$id' ORDER BY aplicação DESC");
   $medaplicadas = $medaplicadas->fetchAll(PDO::FETCH_ASSOC);
   $medaplicadas = json_encode($medaplicadas);
 
@@ -118,13 +119,26 @@ header("Location: ../home.php?msg_c=$msg");
   $ultima_alergia = $mysqli->query("SELECT * FROM saude_tabelacid WHERE CID LIKE 'T78.4%' ORDER BY CID DESC LIMIT 1");
   $cargoMedico = $mysqli->query("SELECT * FROM pessoa p JOIN funcionario f ON (p.id_pessoa=f.id_pessoa) WHERE f.id_cargo = 3");
   $cargoEnfermeiro = $mysqli->query("SELECT * FROM pessoa p JOIN funcionario f ON (p.id_pessoa=f.id_pessoa) WHERE f.id_cargo = 4");
-  $tipoexame = $mysqli->query("SELECT * FROM saude_exame_tipos");
+  //$tipoexame = $mysqli->query("SELECT * FROM saude_exame_tipos");
+  $tipoexame = $pdo->query("SELECT * FROM saude_exame_tipos ORDER BY descricao ASC")->fetchAll(PDO::FETCH_ASSOC);
   $medicamentoenfermeiro = $mysqli->query("SELECT * FROM saude_medicacao"); 
   //$descparaenfermeiro = $mysqli->query("SELECT descricao FROM saude_fichamedica"); ficha médica não possuí mais descrição
   $medstatus = $mysqli->query("SELECT * FROM saude_medicacao_status");
 
   $teste1 = $pdo->query("SELECT nome FROM pessoa p JOIN funcionario f ON(p.id_pessoa = f.id_pessoa) WHERE f.id_pessoa = " .$_SESSION['id_pessoa'])->fetchAll(PDO::FETCH_ASSOC);
   $id_funcionario = $teste1[0]['nome'];
+
+  try{
+    $stmtProcuraIdPaciente = $pdo->prepare("SELECT id_pessoa FROM saude_fichamedica WHERE id_fichamedica =:idFicha");
+    $idFicha = $_GET['id_fichamedica'];
+    
+    $stmtProcuraIdPaciente->bindParam(':idFicha', $idFicha);
+    $stmtProcuraIdPaciente->execute();
+    $idPaciente = $stmtProcuraIdPaciente->fetch(PDO::FETCH_ASSOC)['id_pessoa'];
+  }catch(PDOException $e){
+    echo $e->getMessage();
+  }
+   
  
 ?>
     <!-- Vendor -->
@@ -420,6 +434,7 @@ header("Location: ../home.php?msg_c=$msg");
           $.each(medaplicadas, function(i, item) {
             $("#exibiaplicacao")
               .append($("<tr>")
+                .append($("<td>").text(item.nomeFuncionario))
                 .append($("<td>").text(item.medicamento))
                 .append($("<td>").text(item.aplicação))
               )
@@ -446,7 +461,7 @@ header("Location: ../home.php?msg_c=$msg");
           $("#mais_medicacoes").show();
           $(".meddisabled").val(nome_medicacao);
         }
-        $(function() {
+        /*$(function() {
         var selects = $('select#tipoDocumento');
         for(let n = 0; n < selects.length; n++){
           var options = $('select#tipoDocumento:eq('+n+') option')
@@ -466,7 +481,7 @@ header("Location: ../home.php?msg_c=$msg");
                 $(o).text(arr[i].tf);
             });
           }
-      });
+      });*/
       </script>
       <style type="text/css">
       .obrig {
@@ -518,6 +533,30 @@ header("Location: ../home.php?msg_c=$msg");
                </section>
             </div>
             <div class="col-md-8 col-lg-8">
+            <?php 
+              if(isset($_SESSION['msg']) && !empty($_SESSION['msg'])){
+                $mensagem = $_SESSION['msg'];
+                if($mensagem == 'Prontuário público adicionado ao histórico com sucesso'){
+                  echo "<div class=\"alert alert-success\" role=\"alert\">
+                  $mensagem
+                  <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">
+                    <span aria-hidden=\"true\">&times;</span>
+                  </button>
+                </div>";
+                }else{
+                  echo "<div class=\"alert alert-danger\" role=\"alert\">
+                  $mensagem
+                  <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">
+                    <span aria-hidden=\"true\">&times;</span>
+                  </button>
+                </div>";
+                }
+
+                unset($_SESSION['msg']);
+
+              }
+            //echo 'teste';
+            ?>
             <div class="tabs">
             <ul class="nav nav-tabs tabs-primary">
                <li class="active">
@@ -697,6 +736,19 @@ header("Location: ../home.php?msg_c=$msg");
                     <button id="btn-cancelarEdicao" class="btn btn-danger btn-edicaoProntuario hidden" onclick="event.preventDefault(); cancelarEdicao()" >Cancelar</button>
                     <button type="submit" id="btn-confirmarEdicao" class="btn btn-success btn-edicaoProntuario hidden">Salvar</button>
                   </form>
+
+                  <form action="../../controle/control.php" method="POST">
+                      <input type="hidden" name="nomeClasse" value="SaudeControle">
+                      <input type="hidden" name="metodo" value="adicionarProntuarioAoHistorico">
+                      <input type="hidden" name="id_fichamedica" value="<?php echo $_GET['id_fichamedica'] ?>">
+                      <input type="hidden" name="id_paciente" value="<?= $idPaciente?>">
+                  
+                    <button id="btn-adicionarAoHistorico" class="btn btn-primary btn-edicaoProntuario">Adicionar versão ao histórico</button>
+
+                    <button id="btn-listarDoHistorico" class="btn btn-primary btn-edicaoProntuario" onclick="event.preventDefault(); listarProntuariosDoHistorico()">Listar prontuários do histórico</button>
+                  </form>
+
+                  
                 </div>
 
                     
@@ -838,10 +890,15 @@ header("Location: ../home.php?msg_c=$msg");
                                     <div style="display: flex;">
                                     
                                         <select class="form-control input-lg mb-md" name="id_docfuncional" id="tipoDocumento" style="width:170px;" required> 
-                                        <option selected disabled>Selecionar</option>
+                                        <option value="" selected disabled>Selecionar</option>
                                           <?php
-                                          while ($row = $tipoexame->fetch_array(MYSQLI_NUM)) {
+                                          /*while ($row = $tipoexame->fetch_array(MYSQLI_NUM)) {
                                           echo "<option value=" . $row[0] . ">" . $row[1] . "</option>";
+                                          }*/
+                                          foreach($tipoexame as $tipo){
+                                            $id = $tipo['id_exame_tipo'];
+                                            $descricao = $tipo['descricao'];
+                                            echo "<option value=\"$id\">$descricao</option>";
                                           }
                                           ?>
                                         </select>
@@ -1043,7 +1100,7 @@ header("Location: ../home.php?msg_c=$msg");
                      <div class="form-group">
                       <label class="col-md-3 control-label" for="profileCompany">Horário:<sup class="obrig">*</sup></label>
                       <div class="col-md-6">
-                        <input type="text" class="form-control" name="horario_medicacao" id="horario_medicacao">
+                        <input type="time" class="form-control" name="horario_medicacao" id="horario_medicacao">
                       </div>
                    </div>
 
@@ -1101,6 +1158,7 @@ header("Location: ../home.php?msg_c=$msg");
                 <table class="table table-bordered table-striped mb-none" id="enf">
                 <thead>
                   <tr style="font-size:15px;">
+                    <th>Responsável pela aplicação</th>
                     <th>Medicações aplicadas</th>
                     <th>Horário da aplicação</th>
                   </tr>
@@ -1618,6 +1676,8 @@ header("Location: ../home.php?msg_c=$msg");
         function editarProntuario(){
           editor2.setReadOnly(false);
           document.getElementById('btn-editarProntuario').classList.add('hidden');
+          document.getElementById('btn-adicionarAoHistorico').classList.add('hidden');
+          document.getElementById('btn-listarDoHistorico').classList.add('hidden');
           document.getElementById('btn-cancelarEdicao').classList.remove('hidden');
           document.getElementById('btn-confirmarEdicao').classList.remove('hidden');
         }
@@ -1625,10 +1685,18 @@ header("Location: ../home.php?msg_c=$msg");
         function cancelarEdicao(){
           editor2.setReadOnly(true);
           document.getElementById('btn-editarProntuario').classList.remove('hidden');
+          document.getElementById('btn-adicionarAoHistorico').classList.remove('hidden');
+          document.getElementById('btn-listarDoHistorico').classList.remove('hidden');
           document.getElementById('btn-cancelarEdicao').classList.add('hidden');
           document.getElementById('btn-confirmarEdicao').classList.add('hidden');
           location.reload();
         }
+
+        function listarProntuariosDoHistorico(){
+          const idPaciente = <?= $idPaciente?>;
+          window.location.href = `./historico_prontuarios.php?id_paciente=${idPaciente}`
+        }
+
         </script>
         
         <!-- Vendor -->

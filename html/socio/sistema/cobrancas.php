@@ -104,7 +104,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.1.1/css/all.css">
     <link rel="stylesheet" href="<?php echo WWW;?>assets/vendor/magnific-popup/magnific-popup.css" />
     <link rel="stylesheet" href="<?php echo WWW;?>assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
-    <link rel="icon" href="" type="image/x-icon" id="logo-icon">
+    <!--<link rel="icon" href="<?php //display_campo("Logo",'file');?>" type="image/x-icon">-->
 
     <!-- Specific Page Vendor CSS -->
     <link rel="stylesheet" href="<?php echo WWW;?>assets/vendor/select2/select2.css" />

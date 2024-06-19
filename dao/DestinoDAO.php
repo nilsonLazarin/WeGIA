@@ -26,7 +26,7 @@ class DestinoDAO
             $stmt->bindParam(':telefone',$telefone);
 
             $stmt->execute();
-        }catch (PDOExeption $e) {
+        }catch (PDOException $e) {
             echo 'Error: <b>  na tabela destino = ' . $sql . '</b> <br /><br />' . $e->getMessage();
         }
     }
@@ -74,8 +74,8 @@ class DestinoDAO
                 $destinos[$x]=array('id_destino'=>$linha['id_destino'],'nome_destino'=>$linha['nome_destino'],'cnpj'=>$linha['cnpj'],'cpf'=>$linha['cpf'],'telefone'=>$linha['telefone']);
                 $x++;
             }
-            } catch (PDOExeption $e){
-                echo 'Error:' . $e->getMessage;
+            } catch (PDOException $e){
+                echo 'Error:' . $e->getMessage();
             }
             return json_encode($destinos);
         }

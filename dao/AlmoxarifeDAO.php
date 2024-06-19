@@ -16,7 +16,7 @@
                 ")->fetchAll(PDO::FETCH_ASSOC);
                 return json_encode($almoxarife);
             }catch (PDOException $e){
-                echo 'Error:' . $e->getMessage;
+                echo 'Error:' . $e->getMessage();
             }
         }
 
@@ -25,7 +25,7 @@
                 $pdo = Conexao::connect();
                 $pdo->exec("DELETE FROM almoxarife WHERE id_almoxarife=$id;");
             } catch (PDOException $e) {
-                echo 'Error:' . $e->getMessage;
+                echo 'Error:' . $e->getMessage();
             }
         }
     }
