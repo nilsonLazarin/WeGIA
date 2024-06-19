@@ -1,5 +1,5 @@
 <?php
-	require_once'Conexao.php';
+	require_once('Conexao.php');
 	$pdo = Conexao::connect();
 	$cargo = trim($_POST['cargo']);
 
