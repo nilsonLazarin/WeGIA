@@ -87,6 +87,10 @@ $docfuncional = $pdo->query("SELECT * FROM atendido_documentacao a JOIN atendido
 $docfuncional = $docfuncional->fetchAll(PDO::FETCH_ASSOC);
 foreach ($docfuncional as $key => $value) {
   $docfuncional[$key]["arquivo"] = gzuncompress($value["arquivo"]);
+
+  //formatar data
+  $data = new DateTime($value['data']);
+  $docfuncional[$key]['data'] = $data->format('d/m/Y');
 }
 $docfuncional = json_encode($docfuncional);
 //$docs = $mysqli->query("SELECT * FROM atendido_docs_atendidos");

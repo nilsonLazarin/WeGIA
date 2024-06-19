@@ -43,5 +43,23 @@ class Atendido extends Pessoa
     {
         $this->id_pessoa = $id_pessoa;
     }
-    
+
+    /**
+     * Retorna a data máxima de nascimento permitida para um atendido ser cadastrado no sistema
+     */
+    static public function getDataNascimentoMaxima()
+    {
+        $idadeMinima = 30;
+        $data = date('Y-m-d', strtotime("-$idadeMinima years"));
+        return $data;
+    }
+
+    /**
+     * Retorna a data mínima de nascimento permitida para um atendido ser cadastrado no sistema
+     */
+    static public function getDataNascimentoMinima(){
+        $idadeMaxima = 120;
+        $data = date('Y-m-d', strtotime("-$idadeMaxima years"));
+        return $data;
+    }  
 }

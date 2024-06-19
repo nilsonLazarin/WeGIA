@@ -96,7 +96,7 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
                 </div>
                 <div class="form-group col-xs-6">
                   <label for="valor">Valor/período em R$</label>
-                  <input type="number" class="form-control" id="valor_periodo" name="valor_periodo">
+                  <input type="number" class="form-control" id="valor_periodo" name="valor_periodo" onkeypress="return Onlynumbers(event)">
                 </div>
               </div>
               <div class="row">
