@@ -44,8 +44,8 @@ class FuncionarioDAO
             //     $pessoa[$x]=$linha['id_pessoa'];
             //     $x++;
             // }
-            } catch (PDOExeption $e){
-                echo 'Error:' . $e->getMessage;
+            } catch (PDOException $e){
+                echo 'Error:' . $e->getMessage();
             }
             // return $pessoa;
             return $linha['id_pessoa'];
@@ -63,8 +63,8 @@ class FuncionarioDAO
             //     $pessoa[$x]=$linha['id_pessoa'];
             //     $x++;
             // }
-            } catch (PDOExeption $e){
-                echo 'Error:' . $e->getMessage;
+            } catch (PDOException $e){
+                echo 'Error:' . $e->getMessage();
             }
             // return $pessoa;
             return $linha['sobrenome'];
@@ -82,8 +82,8 @@ class FuncionarioDAO
             //     $pessoa[$x]=$linha['id_pessoa'];
             //     $x++;
             // }
-            } catch (PDOExeption $e){
-                echo 'Error:' . $e->getMessage;
+            } catch (PDOException $e){
+                echo 'Error:' . $e->getMessage();
             }
             // return $pessoa;
             return $linha['situacao'];
@@ -236,10 +236,9 @@ class FuncionarioDAO
              
             $sql2 = "INSERT INTO funcionario(id_pessoa,id_cargo,id_situacao,data_admissao,certificado_reservista_numero,certificado_reservista_serie, ctps)
             values(:id_pessoa,:id_cargo,:id_situacao,:data_admissao,:certificado_reservista_numero,:certificado_reservista_serie, 'NULL')";
--
             
-            // $sql = str_replace("'", "\'", $sql);
             $pdo = Conexao::connect();
+            $pdo->beginTransaction();
             $stmt = $pdo->prepare($sql);
             $stmt2 = $pdo->prepare($sql2);
 
@@ -262,7 +261,6 @@ class FuncionarioDAO
             // $escala=$funcionario->getEscala();
             // $tipo=$funcionario->gettTipo();
 
-
             $stmt->bindParam(':id_pessoa',$idPessoa);
             $stmt->bindParam(':registro_geral',$rg);
             $stmt->bindParam(':orgao_emissor',$orgao_emissor);
@@ -277,7 +275,6 @@ class FuncionarioDAO
             $stmt2->bindParam(':certificado_reservista_numero', $certificadoReservistaNumero);
             $stmt2->bindParam(':certificado_reservista_serie', $certificadoReservistaSerie);
             // $stmt2->bindParam(':ctps', $ctps);
-            
             
             // $stmt->bindParam(':nome',$nome);
             // $stmt->bindParam(':sobrenome',$sobrenome);
@@ -296,7 +293,13 @@ class FuncionarioDAO
             // $stmt->bindParam(':escala',$escala);
 
             $stmt->execute();
-            $stmt2->execute();
+            if($stmt2->execute()){
+                $pdo->commit();
+            }else{
+                $pdo->rollBack();
+                http_response_code(500);
+                exit('Erro, não foi possível concluir a operação de cadastro.');
+            }
 
         } catch (PDOException $e) {
             echo 'Error: <b>  na tabela pessoas1 = ' . $sql . '</b> <br /><br />' . $e->getMessage();
@@ -434,21 +437,21 @@ class FuncionarioDAO
     {
         try {
 
-            $sql = 'update pessoa as p inner join funcionario as f on p.id_pessoa=f.id_pessoa set registro_geral=:registro_geral,orgao_emissor=:orgao_emissor,data_expedicao=:data_expedicao,cpf=:cpf where id_funcionario=:id_funcionario';
+            $sql = 'update pessoa as p inner join funcionario as f on p.id_pessoa=f.id_pessoa set registro_geral=:registro_geral,orgao_emissor=:orgao_emissor,data_expedicao=:data_expedicao where id_funcionario=:id_funcionario';
             
             $sql = str_replace("'", "\'", $sql);
 
             $pdo = Conexao::connect();
             $stmt = $pdo->prepare($sql);
 
-            $cpf=$funcionario->getCpf();
+            //$cpf=$funcionario->getCpf();
             $id_funcionario=$funcionario->getId_funcionario();
             $registro_geral=$funcionario->getRegistroGeral();
             $orgao_emissor=$funcionario->getOrgaoEmissor();
             $data_expedicao=$funcionario->getDataExpedicao();
             $data_admissao=$funcionario->getData_admissao();
 
-            $stmt->bindParam(':cpf',$cpf);
+            //$stmt->bindParam(':cpf',$cpf);
             $stmt->bindParam(':id_funcionario',$id_funcionario);
             $stmt->bindParam(':registro_geral',$registro_geral);
             $stmt->bindParam(':orgao_emissor',$orgao_emissor);
@@ -528,7 +531,7 @@ class FuncionarioDAO
                 $funcionarios[$x]=array('id_funcionario'=>$linha['id_funcionario'],'cpf'=>$linha['cpf'],'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'] ,'situacao'=>$linha['situacao'], 'cargo'=>$linha['cargo']);
                 $x++;
             }
-            } catch (PDOExeption $e){
+            } catch (PDOException $e){
                 echo 'Error:' . $e->getMessage();
             }
             return json_encode($funcionarios);
@@ -549,8 +552,8 @@ class FuncionarioDAO
                 $funcionarios[$x]=array('id_pessoa'=>$linha['id_pessoa'],'nome'=>$linha['nome'], 'sobrenome'=>$linha['sobrenome']);
                 $x++;
             }
-            } catch (PDOExeption $e){
-                echo 'Error:' . $e->getMessage;
+            } catch (PDOException $e){
+                echo 'Error:' . $e->getMessage();
             }
             return json_encode($funcionarios);
     }
@@ -568,9 +571,9 @@ class FuncionarioDAO
                 $x++;
             }
         }
-        catch(PDOExeption $e)
+        catch(PDOException $e)
         {
-            echo 'Error:' . $e->getMessage;
+            echo 'Error:' . $e->getMessage();
         }
         return json_encode($cpfs);
     }
@@ -596,7 +599,7 @@ class FuncionarioDAO
             while($linha = $stmt->fetch(PDO::FETCH_ASSOC)){
                 $funcionario[] = array('imagem'=>$linha['imagem'],'cpf'=>$linha['cpf'],'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'sexo'=>$linha['sexo'],'data_nascimento'=>$this->formatoDataDMY($linha['data_nascimento']),'registro_geral'=>$linha['registro_geral'],'orgao_emissor'=>$linha['orgao_emissor'],'data_expedicao'=>$this->formatoDataDMY($linha['data_expedicao']),'nome_mae'=>$linha['nome_mae'],'nome_pai'=>$linha['nome_pai'],'tipo_sanguineo'=>$linha['tipo_sanguineo'],'senha'=>$linha['senha'],'telefone'=>$linha['telefone'],'cep'=>$linha['cep'],'estado'=>$linha['estado'],'ibge'=>$linha['ibge'],'cidade'=>$linha['cidade'],'bairro'=>$linha['bairro'],'logradouro'=>$linha['logradouro'],'numero_endereco'=>$linha['numero_endereco'],'complemento'=>$linha['complemento'],'id_funcionario'=>$linha['id_funcionario'],'data_admissao'=>$this->formatoDataDMY($linha['data_admissao']),'pis'=>$linha['pis'],'ctps'=>$linha['ctps'],'uf_ctps'=>$linha['uf_ctps'],'numero_titulo'=>$linha['numero_titulo'],'zona'=>$linha['zona'],'secao'=>$linha['secao'],'certificado_reservista_numero'=>$linha['certificado_reservista_numero'],'certificado_reservista_serie'=>$linha['certificado_reservista_serie'],'id_situacao'=>$linha['id_situacao'],'situacao'=>$linha['situacao'],'escala'=>$linha['escala'],'tipo'=>$linha['tipo'],'carga_horaria'=>$linha['carga_horaria'],'entrada1'=>$linha['entrada1'],'saida1'=>$linha['saida1'],'entrada2'=>$linha['entrada2'],'saida2'=>$linha['saida2'],'total'=>$linha['total'],'dias_trabalhados'=>$linha['dias_trabalhados'],'folga'=>$linha['folga'],'id_cargo'=>$linha['id_cargo'],'cargo'=>$linha['cargo']);
             }
-        }catch (PDOExeption $e){
+        }catch (PDOException $e){
             echo 'Error: ' .  $e->getMessage();
         }
         return json_encode($funcionario);
@@ -627,7 +630,7 @@ class FuncionarioDAO
                 $funcionario[] = array('imagem'=>$linha['imagem'],'id_pessoa'=>$linha['id_pessoa'],'cpf'=>$linha['cpf'],'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'sexo'=>$linha['sexo'],'data_nascimento'=>$this->formatoDataDMY($linha['data_nascimento']),'registro_geral'=>$linha['registro_geral'],'orgao_emissor'=>$linha['orgao_emissor'],'data_expedicao'=>$this->formatoDataDMY($linha['data_expedicao']),'telefone'=>$linha['telefone']);
             }
 
-        }catch (PDOExeption $e){
+        }catch (PDOException $e){
             echo 'Error: ' .  $e->getMessage();
         }
         return json_encode($funcionario);
@@ -644,7 +647,7 @@ class FuncionarioDAO
            while($linha = $stmt->fetch(PDO::FETCH_ASSOC)){
                     $idFuncionario=$linha['id_funcionario'];
             }
-        }catch (PDOExeption $e){
+        }catch (PDOException $e){
             echo 'Error: ' .  $e->getMessage();
         }
 

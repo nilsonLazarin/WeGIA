@@ -32,7 +32,7 @@ class EntradaDAO
             $stmt->bindParam(':valor_total',$valor_total);
 
             $stmt->execute();
-        } catch(PDOExeption $e){
+        } catch(PDOException $e){
             echo 'Error: <b>  na tabela produto = ' . $sql . '</b> <br /><br />' . $e->getMessage();
         }
 
@@ -54,8 +54,8 @@ class EntradaDAO
             $entradas[$x]=array('id_entrada'=>$linha['id_entrada'],'nome_origem'=>$linha['nome_origem'],'descricao_almoxarifado'=>$linha['descricao_almoxarifado'],'descricao'=>$linha['descricao'],'nome'=>$linha['nome'],'data'=>$linha['data'],'hora'=>$linha['hora'],'valor_total'=>$linha['valor_total']);
             $x++;
         }
-        } catch (PDOExeption $e){
-            echo 'Error:' . $e->getMessage;
+        } catch (PDOException $e){
+            echo 'Error:' . $e->getMessage();
         }
         return json_encode($entradas);
     }
@@ -78,8 +78,8 @@ class EntradaDAO
                 $entradas[$x]=array('id_entrada'=>$linha['id_entrada'],'nome_origem'=>$linha['nome_origem'],'descricao_almoxarifado'=>$linha['descricao_almoxarifado'],'descricao'=>$linha['descricao'],'nome'=>$linha['nome'],'data'=>$linha['data'],'hora'=>$linha['hora'],'valor_total'=>$linha['valor_total'], 'desc_produto'=>$linha['desc_produto']);
                 $x++;
             }
-            } catch (PDOExeption $e){
-                echo 'Error:' . $e->getMessage;
+            } catch (PDOException $e){
+                echo 'Error:' . $e->getMessage();
             }
             return json_encode($entradas);
         }
@@ -120,8 +120,8 @@ class EntradaDAO
         while($linha = $consulta->fetch(PDO::FETCH_ASSOC)){
             $entradas[]=array('id_entrada'=>$linha['id_entrada'],'nome_origem'=>$linha['nome_origem'],'descricao_almoxarifado'=>$linha['descricao_almoxarifado'],'descricao'=>$linha['descricao'],'nome'=>$linha['nome'],'data'=>$linha['data'],'hora'=>$linha['hora'],'valor_total'=>$linha['valor_total']);
         }
-        } catch (PDOExeption $e){
-            echo 'Error:' . $e->getMessage;
+        } catch (PDOException $e){
+            echo 'Error:' . $e->getMessage();
         }
         return json_encode($entradas);
     }

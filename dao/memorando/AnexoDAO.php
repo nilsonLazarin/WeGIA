@@ -34,7 +34,7 @@ class AnexoDAO
 		}
 		catch(PDOException $e)
 		{
-			echo 'Error:' . $e->getMessage;
+			echo 'Error:' . $e->getMessage();
 		}
 		return json_encode($Anexos);
 	}
@@ -58,7 +58,7 @@ class AnexoDAO
 		}
 		catch(PDOException $e)
 		{
-			echo 'Error:' . $e->getMessage;
+			echo 'Error:' . $e->getMessage();
 		}
 		return $Anexo;
 	}

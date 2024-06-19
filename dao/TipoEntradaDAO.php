@@ -20,7 +20,7 @@ class TipoEntradaDAO
             $stmt->bindParam(':descricao',$descricao);
 
             $stmt->execute();
-        }catch (PDOExeption $e) {
+        }catch (PDOException $e) {
             echo 'Error: <b>  na tabela tipo_entrada = ' . $sql . '</b> <br /><br />' . $e->getMessage();
         }
     }
@@ -67,8 +67,8 @@ class TipoEntradaDAO
                 $tipoentradas[$x]=array('id_tipo'=>$linha['id_tipo'],'descricao'=>$linha['descricao']);
                 $x++;
             }
-            } catch (PDOExeption $e){
-                echo 'Error:' . $e->getMessage;
+            } catch (PDOException $e){
+                echo 'Error:' . $e->getMessage();
             }
             return json_encode($tipoentradas);
         }

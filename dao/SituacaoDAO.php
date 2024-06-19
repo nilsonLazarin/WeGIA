@@ -20,7 +20,7 @@ class SituacaoDAO
             $stmt->bindParam(':situacoes',$situacoes);
 
             $stmt->execute();
-        }catch (PDOExeption $e) {
+        }catch (PDOException $e) {
             echo 'Error: <b>  na tabela situacao = ' . $sql . '</b> <br /><br />' . $e->getMessage();
         }
     }
@@ -37,7 +37,7 @@ class SituacaoDAO
                 $situacao = new Situacao($linha['situacoes']);
                 $situacao->setId_situacao($linha['id_situacao']);
             }
-        }catch(PDOExeption $e){
+        }catch(PDOException $e){
             throw $e;
         }
         return $situacao;
@@ -65,8 +65,8 @@ class SituacaoDAO
                 $situacaos[$x]=array('id_situacao'=>$linha['id_situacao'],'situacoes'=>$linha['situacoes']);
                 $x++;
             }
-            } catch (PDOExeption $e){
-                echo 'Error:' . $e->getMessage;
+            } catch (PDOException $e){
+                echo 'Error:' . $e->getMessage();
             }
             return json_encode($situacaos);
         }

@@ -1,5 +1,5 @@
 <?php
-
+//Arquivo é apenas uma cópia de pre_cadastro_atendido, considerar remoção.
 $config_path = "config.php";
 if(file_exists($config_path)){
     require_once($config_path);

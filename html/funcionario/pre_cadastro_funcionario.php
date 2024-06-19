@@ -36,7 +36,7 @@ $memorando = $_POST['dados'];
     if(!is_null($id_cargo)){
       $id_cargo = $id_cargo['id_cargo'];
     }
-    $resultado = mysqli_query($conexao, "SELECT * FROM permissao WHERE id_cargo=$id_cargo and id_recurso=3");
+    $resultado = mysqli_query($conexao, "SELECT * FROM permissao WHERE id_cargo=$id_cargo and id_recurso=11");
     if(!is_bool($resultado) and mysqli_num_rows($resultado)){
       $permissao = mysqli_fetch_array($resultado);
       if($permissao['id_acao'] == 1){
@@ -126,6 +126,7 @@ require_once ROOT."/html/personalizacao_display.php";
     <script src="<?php echo WWW;?>Functions/onlyNumbers.js"></script>
     <script src="<?php echo WWW;?>Functions/onlyChars.js"></script>
     <script src="<?php echo WWW;?>Functions/mascara.js"></script>
+    <script src="<?php echo WWW;?>Functions/testaCPF.js"></script>
 
     <!-- printThis -->
     <script src="<?php echo WWW;?>assets/vendor/jasonday-printThis-f73ca19/printThis.js"></script>
@@ -278,27 +279,6 @@ require_once ROOT."/html/personalizacao_display.php";
             </div>
         </section>
         <script>
-            function testaCPF(strCPF) { //strCPF é o cpf que será validado. Ele deve vir em formato string e sem nenhum tipo de pontuação.
-                var strCPF = strCPF.replace(/[^\d]+/g, ''); // Limpa a string do CPF removendo espaços em branco e caracteres especiais.
-                var Soma;
-                var Resto;
-                Soma = 0;
-                if (strCPF == "00000000000") return false;
-
-                for (i = 1; i <= 9; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (11 - i);
-                Resto = (Soma * 10) % 11;
-
-                if ((Resto == 10) || (Resto == 11)) Resto = 0;
-                if (Resto != parseInt(strCPF.substring(9, 10))) return false;
-
-                Soma = 0;
-                for (i = 1; i <= 10; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (12 - i);
-                Resto = (Soma * 10) % 11;
-
-                if ((Resto == 10) || (Resto == 11)) Resto = 0;
-                if (Resto != parseInt(strCPF.substring(10, 11))) return false;
-                return true;
-            }
             function validarCPF(strCPF) {
 
                 if (!testaCPF(strCPF)) {

@@ -189,10 +189,10 @@
 			<!-- end: sidebar -->
 			<section role="main" class="content-body">
 				<header class="page-header">
-					<h2>5. Atualixação</h2>
+					<h2>5. Atualização</h2>
 					<div class="right-wrapper pull-right">
 						<ol class="breadcrumbs">
-							<li><span>5. Atualixação</span></li>
+							<li><span>5. Atualização</span></li>
 						</ol>
 						<a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
 					</div>

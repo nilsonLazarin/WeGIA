@@ -51,10 +51,10 @@ class Ientrada
         $this->id_produto = $id_produto;
     }
 
-    public function setData($data)
+    /*public function setData($data)
     {
         $this->data = $data;
-    }
+    }*/
 
     public function setQtd($qtd)
     {

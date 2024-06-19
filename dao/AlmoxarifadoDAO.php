@@ -20,7 +20,7 @@ class AlmoxarifadoDAO
             $stmt->bindParam(':descricao_almoxarifado',$descricao_almoxarifado);
 
             $stmt->execute();
-        }catch (PDOExeption $e) {
+        }catch (PDOException $e) {
             echo 'Error: <b>  na tabela almoxarifado = ' . $sql . '</b> <br /><br />' . $e->getMessage();
         }
     }
@@ -37,7 +37,7 @@ class AlmoxarifadoDAO
                 $almoxarifado = new Almoxarifado($linha['descricao_almoxarifado']);
                 $almoxarifado->setId_almoxarifado($linha['id_almoxarifado']);
             }
-        }catch(PDOExeption $e){
+        }catch(PDOException $e){
             throw $e;
         }
         return $almoxarifado;
@@ -65,8 +65,8 @@ class AlmoxarifadoDAO
                 $almoxarifados[$x]=array('id_almoxarifado'=>$linha['id_almoxarifado'],'descricao_almoxarifado'=>$linha['descricao_almoxarifado']);
                 $x++;
             }
-            } catch (PDOExeption $e){
-                echo 'Error:' . $e->getMessage;
+            } catch (PDOException $e){
+                echo 'Error:' . $e->getMessage();
             }
             return json_encode($almoxarifados);
         }

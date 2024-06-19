@@ -21,7 +21,7 @@ class BeneficiosDAO
             $stmt->bindParam(':descricao_beneficios',$descricao_beneficios);
 
             $stmt->execute();
-        } catch(PDOExeption $e){
+        } catch(PDOException $e){
             echo 'Error: <b>  na tabela produto = ' . $sql . '</b> <br /><br />' . $e->getMessage();
         }
 
@@ -43,7 +43,7 @@ class BeneficiosDAO
                   $stmt->bindParam(':descricao_beneficios',$descricao_beneficios);
 
                   $stmt->execute();
-            }catch (PDOExeption $e) {
+            }catch (PDOException $e) {
                 echo 'Error: <b>  na tabela quadro horario = ' . $sql . '</b> <br /><br />' . $e->getMessage();
             }
         }

@@ -79,13 +79,6 @@ class AtendidoDAO
             $stmt->bindParam(':intStatus',$intStatus);
             $stmt->bindParam(':intTipo',$intTipo);
             $stmt->execute();
-            $pdo->commit();
-            $pdo->close();
-            
-
-            //$pdo = Conexao::flush();
-            //$pdo = Conexao::close();
-
             
         } catch (PDOException $e) {
             echo 'Error: <b>  na tabela pessoas = ' . $sql . '</b> <br /><br />' . $e->getMessage();
@@ -100,7 +93,6 @@ class AtendidoDAO
               
              $sql2 = "INSERT INTO atendido(pessoa_id_pessoa,atendido_tipo_idatendido_tipo,atendido_status_idatendido_status)
              values(:id_pessoa,:intTipo,:intStatus)";
- -
              
              // $sql = str_replace("'", "\'", $sql);
              $pdo = Conexao::connect();
@@ -200,8 +192,6 @@ class AtendidoDAO
             $stmt->bindValue(':pessoa_id_pessoa', $id_pessoa);
             $stmt->bindValue(':imagem',$imagem);
             $stmt->execute();
-            $pdo->commit();
-            $pdo->close();
         } catch (PDOException $e) {
             echo 'Error: <b>  na tabela pessoa = ' . $sql . '</b> <br /><br />' . $e->getMessage();
         }
@@ -224,6 +214,8 @@ class AtendidoDAO
             $telefone=$atendido->getTelefone();
             $nascimento=$atendido->getDataNascimento();
 
+            $stmt = $pdo->prepare($sql);
+
             $stmt->bindParam('nome',$nome);
             $stmt->bindParam('sobrenome',$sobrenome);
             $stmt->bindParam(':cpf',$cpf);
@@ -231,11 +223,6 @@ class AtendidoDAO
             $stmt->bindParam(':telefone',$telefone);
             $stmt->bindParam(':data_nascimento',$nascimento);
             $stmt->execute();
-            $pdo->commit();
-            $pdo->close();
-
-            // mysqli_stmt_close($stmt);
-            // mysqli_close($pdo);
             
         } catch (PDOException $e) {
             echo 'Error: <b>  na tabela pessoas = ' . $sql . '</b> <br /><br />' . $e->getMessage();
@@ -269,7 +256,7 @@ class AtendidoDAO
             }
            // $pdo->commit();
             //$pdo->close();
-            } catch (PDOExeption $e){
+            } catch (PDOException $e){
                 echo 'Error:' . $e->getMessage();
             }
             return json_encode($atendidos);
@@ -296,8 +283,8 @@ class AtendidoDAO
             }
             // $pdo = Conexao::flush();
             // $pdo = Conexao::close();
-            } catch (PDOExeption $e){
-                echo 'Error:' . $e->getMessage;
+            } catch (PDOException $e){
+                echo 'Error:' . $e->getMessage();
             }
             return $pessoas;
         }
@@ -323,7 +310,7 @@ class AtendidoDAO
                 $pessoa[]=array('imagem'=>$linha['imagem'],'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'cpf'=>$linha['cpf'], 'senha'=>$linha['senha'], 'sexo'=>$linha['sexo'], 'telefone'=>$linha['telefone'],'data_nascimento'=>$linha['data_nascimento'], 'cep'=>$linha['cep'],'estado'=>$linha['estado'],'cidade'=>$linha['cidade'],'bairro'=>$linha['bairro'],'logradouro'=>$linha['logradouro'],'numero_endereco'=>$linha['numero_endereco'],'complemento'=>$linha['complemento'],'ibge'=>$linha['ibge'],'registro_geral'=>$linha['registro_geral'],'orgao_emissor'=>$linha['orgao_emissor'],'data_expedicao'=>$linha['data_expedicao'],'nome_pai'=>$linha['nome_pai'],'nome_mae'=>$linha['nome_mae'],'tipo_sanguineo'=>$linha['tipo_sanguineo'],'idatendido'=>$linha['pessoa_id_pessoa'],'imgdoc'=>$linha['imgdoc'],'descricao'=>$linha['descricao'],'id_documento'=>$linha['id_documento']);
             }
         }
-        }catch (PDOExeption $e){
+        }catch (PDOException $e){
             echo 'Error: ' .  $e->getMessage();
         }
         return json_encode($pessoa);
@@ -342,9 +329,9 @@ class AtendidoDAO
                 $x++;
             }
         }
-        catch(PDOExeption $e)
+        catch(PDOException $e)
         {
-            echo 'Error:' . $e->getMessage;
+            echo 'Error:' . $e->getMessage();
         }
         /////////////////$pdo = Conexao::flush();
         //$pdo = Conexao::close();
@@ -380,11 +367,7 @@ class AtendidoDAO
             $stmt->bindParam(':nome_mae',$nomeMae);
             $stmt->bindParam(':tipo_sanguineo',$sangue);
             $stmt->execute();
-            $pdo->commit();
-            $pdo->close();
 
-            // mysqli_stmt_close($stmt);
-            // mysqli_close($pdo);
         } catch (PDOException $e) {
             echo 'Error: <b>  na tabela pessoas = ' . $sql . '</b> <br /><br />' . $e->getMessage();
         }
@@ -423,13 +406,7 @@ class AtendidoDAO
             $stmt->bindParam(':orgao_emissor',$orgao_emissor);
             $stmt->bindParam(':data_expedicao',$data_expedicao);
             $stmt->execute();
-            $pdo->commit();
-            $pdo->close();
-            //$stmt->commit();
-
-
-            // mysqli_stmt_close($stmt);
-            // mysqli_close($pdo);
+        
         } catch (PDOException $e) {
             echo 'Error: <b>  na tabela pessoas = ' . $sql . '</b> <br /><br />' . $e->getMessage();
         }
@@ -464,11 +441,7 @@ class AtendidoDAO
             $stmt->bindParam(':complemento',$complemento);
             $stmt->bindParam(':ibge',$ibge);
             $stmt->execute();
-            $pdo->commit();
-            $pdo->close();
-
-            // mysqli_stmt_close($stmt);
-            // mysqli_close($pdo);
+        
         } catch (PDOException $e) {
             echo 'Error: <b>  na tabela pessoas = ' . $sql . '</b> <br /><br />' . $e->getMessage();
         }
@@ -486,8 +459,8 @@ class AtendidoDAO
             //     $pessoa[$x]=$linha['id_pessoa'];
             //     $x++;
             // }
-            } catch (PDOExeption $e){
-                echo 'Error:' . $e->getMessage;
+            } catch (PDOException $e){
+                echo 'Error:' . $e->getMessage();
             }
             // return $pessoa;
             return $linha['sobrenome'];
@@ -506,8 +479,8 @@ class AtendidoDAO
             //     $pessoa[$x]=$linha['id_pessoa'];
             //     $x++;
             // }
-            } catch (PDOExeption $e){
-                echo 'Error:' . $e->getMessage;
+            } catch (PDOException $e){
+                echo 'Error:' . $e->getMessage();
             }
             // return $pessoa;
             return $linha['id_pessoa'];
@@ -531,7 +504,7 @@ class AtendidoDAO
                 $funcionario[] = array('id_pessoa'=>$linha['id_pessoa'],'cpf'=>$linha['cpf'],'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'sexo'=>$linha['sexo'],'data_nascimento'=>$this->formatoDataDMY($linha['data_nascimento']),'telefone'=>$linha['telefone']);
             }
 
-        }catch (PDOExeption $e){
+        }catch (PDOException $e){
             echo 'Error: ' .  $e->getMessage();
         }
         return json_encode($funcionario);

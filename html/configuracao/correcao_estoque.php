@@ -115,9 +115,9 @@
 				$logHeader .= "\n";
 			}
 			$log = $logHeader . (($changed + $added + $updates) == 0 ? "Não houveram alterações no Banco de Dados\n" : "") . $log;
-		}catch (Exeption $e){
+		}catch (Exception $e){
 			$result = "error";
-			$log = "Erro: \n\n$e";
+			$log = "Erro: \n\n{$e->getMessage()}";
 		}
 		return [$result, $log];
 	}
@@ -318,9 +318,9 @@
 				$logHeader .= "\n";
 			}
 			$log = $logHeader . (($changed + $added + $updates) == 0 ? "Não houveram alterações no Banco de Dados\n" : "") . $log;
-		}catch (Exeption $e){
+		}catch (Exception $e){
 			$result = "error";
-			$log = "Erro: \n$e";
+			$log = "Erro: \n{$e->getMessage()}";
 		}
 		// echo("<div style='display: flex;'>");
 		// echoMatrix($somaEntrada);
