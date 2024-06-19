@@ -94,17 +94,19 @@ class ProdutoControle
     public function incluir()
     {
         $produto = $this->verificar();
-        extract($_REQUEST);
+        //extract($_REQUEST);
+        $id_categoria = $_REQUEST['id_categoria'];
+        $id_unidade = $_REQUEST['id_unidade'];
         $produtoDAO = new ProdutoDAO();
-        $catDAO = new CategoriaDAO();
-        $uniDAO = new UnidadeDAO();
+        //$catDAO = new CategoriaDAO();
+        //$uniDAO = new UnidadeDAO();
 
-        $categoria = $catDAO->listarUm($id_categoria);
-        $unidade = $uniDAO->listarUm($id_unidade);
+        //$categoria = $catDAO->listarUm($id_categoria);
+        //$unidade = $uniDAO->listarUm($id_unidade);
         try {
 
-            $produto->set_categoria_produto($categoria);
-            $produto->set_unidade($unidade);
+            $produto->set_categoria_produto($id_categoria);
+            $produto->set_unidade($id_unidade);
 
             $produtoDAO->incluir($produto);
 

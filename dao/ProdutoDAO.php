@@ -24,8 +24,8 @@ class ProdutoDAO
 
 				$stmt = $pdo->prepare($sql);
 
-				$id_categoria_produto = $produto->get_categoria_produto()->getId_categoria_produto();
-				$id_unidade = $produto->get_unidade()->getId_unidade();
+				$id_categoria_produto = $produto->get_categoria_produto();
+				$id_unidade = $produto->get_unidade();
 				$descricao = $produto->getDescricao();
 				$codigo = $produto->getCodigo();
 				$preco = $produto->getPreco();
