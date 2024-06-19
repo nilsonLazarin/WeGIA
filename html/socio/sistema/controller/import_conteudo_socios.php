@@ -14,6 +14,7 @@
 
 			<section role="main" class="content-body">
 				<header class="page-header">
+          <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 					<h2>Sócios</h2>
 					
 					<div class="right-wrapper pull-right">
@@ -67,7 +68,9 @@
                           $mensal = 0;
                           $casual = 0;
                           $si_contrib = 0;
-                          $query = mysqli_query($conexao, "SELECT *, s.id_socio as socioid FROM socio AS s LEFT JOIN pessoa AS p ON s.id_pessoa = p.id_pessoa LEFT JOIN socio_tipo AS st ON s.id_sociotipo = st.id_sociotipo LEFT JOIN (SELECT id_socio, MAX(data) AS ultima_data_doacao FROM log_contribuicao GROUP BY id_socio) AS lc ON lc.id_socio = s.id_socio");
+                          $stmt = $conexao->prepare("SELECT *, s.id_socio as socioid FROM socio AS s LEFT JOIN pessoa AS p ON s.id_pessoa = p.id_pessoa LEFT JOIN socio_tipo AS st ON s.id_sociotipo = st.id_sociotipo LEFT JOIN (SELECT id_socio, MAX(data) AS ultima_data_doacao FROM log_contribuicao GROUP BY id_socio) AS lc ON lc.id_socio = s.id_socio");
+                          $stmt->execute();
+                          $query = $stmt->get_result();
                           while($resultado = mysqli_fetch_array($query)){
                             switch($resultado['id_sociotipo']){
                               case 0: case 1: 
@@ -95,16 +98,16 @@
                                   $class = "bg-danger";
                               }
                             }
-                            $id = $resultado['socioid'];
-                            $cpf_cnpj = $resultado['cpf'];
-                            $nome_s = $resultado['nome'];
-                            $email = $resultado['email'];
-                            $telefone = $resultado['telefone'];
-                            $tipo_socio = $resultado['tipo'];
+                            $id = htmlspecialchars($resultado['socioid']);
+                            $cpf_cnpj = htmlspecialchars($resultado['cpf']);
+                            $nome_s = htmlspecialchars($resultado['nome']);
+                            $email = htmlspecialchars($resultado['email']);
+                            $telefone = htmlspecialchars($resultado['telefone']);
+                            $tipo_socio = htmlspecialchars($resultado['tipo']);
                             if($resultado['logradouro'] == ""){
                               $endereco = "Endereço não informado/incompleto.";
                             }else{
-                              $endereco = $resultado['logradouro']." ".$resultado['numero_endereco'].", ".$resultado['bairro'].", ".$resultado['cidade']." - ".$resultado['estado'];
+                              $endereco = htmlspecialchars($resultado['logradouro'])." ".htmlspecialchars($resultado['numero_endereco']).", ".htmlspecialchars($resultado['bairro']).", ".htmlspecialchars($resultado['cidade'])." - ".htmlspecialchars($resultado['estado']);
                             }
                             
                             if(strlen($telefone) == 14){
@@ -144,7 +147,12 @@
                     </tr>
                   </tfoot>
                 </table>
-                <?php $num_socios = mysqli_num_rows(mysqli_query($conexao,"select * from socio")); ?>
+                <?php 
+                  $stmt = $conexao->prepare("select * from socio");
+                  $stmt->execute();
+                  $resultado = $stmt->get_result();
+                  $num_socios = mysqli_num_rows($resultado); 
+                ?>
                 <div class="row">
                 <a id="btn_add_socio" class="btn btn-app">
                 <span class="badge bg-purple"><span id="qtd_socios"><?php echo($num_socios); ?></span></span>
@@ -201,7 +209,9 @@
                           $mensal = 0;
                           $casual = 0;
                           $si_contrib = 0;
-                          $query = mysqli_query($conexao, "SELECT *, sp.nome_sistema as sistema_pagamento, DATE_FORMAT(lc.data, '%d/%m/%Y') as data_geracao, DATE_FORMAT(lc.data_venc_boleto, '%d/%m/%Y') as data_vencimento, s.id_socio as socioid FROM socio AS s LEFT JOIN pessoa AS p ON s.id_pessoa = p.id_pessoa LEFT JOIN socio_tipo AS st ON s.id_sociotipo = st.id_sociotipo LEFT JOIN log_contribuicao AS lc ON lc.id_socio = s.id_socio LEFT JOIN sistema_pagamento as sp ON sp.id = lc.id_sistema WHERE s.id_socio");
+                          $stmt = $conexao->prepare("SELECT *, sp.nome_sistema as sistema_pagamento, DATE_FORMAT(lc.data, '%d/%m/%Y') as data_geracao, DATE_FORMAT(lc.data_venc_boleto, '%d/%m/%Y') as data_vencimento, s.id_socio as socioid FROM socio AS s LEFT JOIN pessoa AS p ON s.id_pessoa = p.id_pessoa LEFT JOIN socio_tipo AS st ON s.id_sociotipo = st.id_sociotipo LEFT JOIN log_contribuicao AS lc ON lc.id_socio = s.id_socio LEFT JOIN sistema_pagamento as sp ON sp.id = lc.id_sistema WHERE s.id_socio");
+                          $stmt->execute();
+                          $query = $stmt->get_result();
                           while($resultado = mysqli_fetch_assoc($query)){
                             $nome = $resultado['nome'];
                             $id_log = $resultado['id_log'];
