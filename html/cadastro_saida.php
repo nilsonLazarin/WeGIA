@@ -497,7 +497,7 @@ require_once "../Functions/permissao/permissao.php";
 							// 	$("<option/>").val(produto.id_produto + '-' + produto.descricao+ '-' + produto.qtd+ '-' + produto.codigo).attr("qtd", produto.qtd)
 							// );
 							console.log(i, produto);
-							prods[i] = produto.id_produto + '|' + produto.descricao + '|' + produto.qtd + '|' + produto.codigo;
+							prods[i] = produto.id_produto + '|' + produto.descricao + '|' + produto.codigo;
 						}
 						$("#input_produtos").autocomplete({
 							source: prods,
