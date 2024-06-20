@@ -93,7 +93,7 @@ $sinaisvitais = $pdo->query("SELECT id_sinais_vitais, data, saturacao, pressao_a
 //formatar data
 foreach($sinaisvitais as $key => $value){
   $data = new DateTime($value['data']);
-  $sinaisvitais[$key]['data'] = $data->format('d/m/Y');
+  $sinaisvitais[$key]['data'] = $data->format('d/m/Y H:i');
 }
 
 $sinaisvitais = json_encode($sinaisvitais);
@@ -527,7 +527,7 @@ $idPaciente = $idPaciente->fetch(PDO::FETCH_ASSOC);
                         <div class="form-group">
                           <label class="col-md-3 control-label" for="profileCompany">Data da aferição<sup class="obrig">*</sup></label>
                           <div class="col-md-6">
-                            <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data_afericao" id="data_afericao" max=<?php echo date('Y-m-d'); ?> required>
+                            <input type="datetime-local" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data_afericao" id="data_afericao" max=<?php echo date('Y-m-d\TH:i'); ?> required>
                           </div>
                         </div>
 
