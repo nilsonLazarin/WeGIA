@@ -10,7 +10,11 @@ if (file_exists($config_path)) {
   require_once($config_path);
 }
 
-$conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+try {
+  $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+} catch (Exception $e) {
+  echo "Ocorreu um erro ao se conectar com o db: " . $e->getMessage();
+}
 
 ?>
 
@@ -118,9 +122,11 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
                   <select class="form-control" name="tags" id="tags">
                     <option value="none" disabled selected>Selecionar Grupo</option>
                     <?php
-                    $tags = mysqli_query($conexao, "SELECT * FROM socio_tag");
+                    $stmt = $conexao->prepare("SELECT * FROM socio_tag");
+                    $stmt->execute();
+                    $tags = $stmt->get_result();
                     while ($row = $tags->fetch_array(MYSQLI_NUM)) {
-                      echo "<option value=" . $row[0] . ">" . $row[1] . "</option>";
+                      echo "<option value=" . htmlspecialchars($row[0]) . ">" . htmlspecialchars($row[1]) . "</option>";
                     }
 
                     ?>
@@ -269,7 +275,7 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
               <div class="row">
                 <div class="form-group col-xs-6">
                   <label for="obs">Recebido por: </label>
-                  <input type="text" class="form-control" id="receptor" value="<?php echo ($nome); ?>" name="receptor" placeholder="" readonly>
+                  <input type="text" class="form-control" id="receptor" value="<?php echo (htmlspecialchars($nome)); ?>" name="receptor" placeholder="" readonly>
                 </div>
                 <div class="form-group col-xs-6">
                   <label for="valor">Valor</label>
