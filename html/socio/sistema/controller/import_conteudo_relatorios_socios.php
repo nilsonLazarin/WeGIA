@@ -122,12 +122,16 @@
 								<select id="tag">
 								<option value="x">Todas as Opções</option>
 								<?php
-										$tags = mysqli_query($conexao, "SELECT * FROM socio_tag");
+										$socio_tag = "socio_tag";
+										$stmt = $conexao->prepare("SELECT * FROM ?");
+										$stmt->bind_param("s", $socio_tag);
+										$stmt->execute();
+										$tags = $stmt->get_result();
+
 										while($row = $tags->fetch_array(MYSQLI_NUM))
 										{
-												echo("<option value=".$row[0].">".$row[1]."</option>");
+												echo("<option value=".htmlspecialchars($row[0]).">".htmlspecialchars($row[1])."</option>");
 										}
-           
             					?>
 								</select>
 								</div>

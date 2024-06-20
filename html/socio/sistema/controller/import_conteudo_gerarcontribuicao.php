@@ -47,8 +47,14 @@
             ?>
             <input type="hidden" id="id_socio" name="id_socio" value="<?php echo($id_socio); ?>">
             <?php
-        $resultado = mysqli_query($conexao, "SELECT *, s.id_socio as socioid FROM socio AS s LEFT JOIN pessoa AS p ON s.id_pessoa = p.id_pessoa LEFT JOIN socio_tipo AS st ON s.id_sociotipo = st.id_sociotipo LEFT JOIN (SELECT id_socio, MAX(data) AS ultima_data_doacao FROM log_contribuicao GROUP BY id_socio) AS lc ON lc.id_socio = s.id_socio WHERE s.id_socio = $id_socio");
-        $registro = mysqli_fetch_assoc($resultado);
+        $id_socio = mysqli_real_escape_string($conexao, $id_socio);
+
+        $stmt = $conexao->prepare("SELECT *, s.id_socio as socioid FROM socio AS s LEFT JOIN pessoa AS p ON s.id_pessoa = p.id_pessoa LEFT JOIN socio_tipo AS st ON s.id_sociotipo = st.id_sociotipo LEFT JOIN (SELECT id_socio, MAX(data) AS ultima_data_doacao FROM log_contribuicao GROUP BY id_socio) AS lc ON lc.id_socio = s.id_socio WHERE s.id_socio = ?");
+        $stmt->bind_param("i", $id_socio);
+        $stmt->execute();
+        $resultado = $stmt->get_result();
+        $registro = $resultado->fetch_assoc();
+
         $nome_socio = $registro['nome'];
         $email = $registro['email'];
         $telefone = $registro['telefone'];

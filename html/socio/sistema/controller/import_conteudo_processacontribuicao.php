@@ -33,8 +33,14 @@
 				<!-- start: page -->
 				<div class="row">
         <?php
-                $resultado = mysqli_query($conexao,"SELECT * FROM doacao_boleto_info AS bi JOIN sistema_pagamento AS sp ON (bi.id_sistema = sp.id) JOIN doacao_boleto_regras AS br ON (br.id = bi.id_regras)  WHERE nome_sistema = 'BOLETOFACIL'");
-                $dados_sistema = mysqli_fetch_assoc($resultado);
+
+                $nome_sistema = "BOLETOFACIL";
+                $stmt = $conexao->prepare("SELECT * FROM doacao_boleto_info AS bi JOIN sistema_pagamento AS sp ON (bi.id_sistema = sp.id) JOIN doacao_boleto_regras AS br ON (br.id = bi.id_regras)  WHERE nome_sistema = ?");
+                $stmt->bind_param("s", $nome_sistema);
+                $stmt->execute();
+                $resultado = $stmt->get_result();
+                $dados_sistema = $resultado->fetch_assoc();
+
                 $token_api = $dados_sistema['token_api'];
                 extract($dados_sistema);
                 extract(json_decode($_REQUEST ['dados_contrib'], 1));
@@ -53,7 +59,7 @@
               }
             ?>
             <form id="frm_editar_socio" action="processa_contribuicao.php" method="POST">
-            <input type="hidden" id="id_socio" name="id_socio" value="<?php echo($_GET['socio']); ?>">
+            <input type="hidden" id="id_socio" name="id_socio" value="<?php echo(filter_input(INPUT_GET, 'socio', FILTER_SANITIZE_STRING)); ?>">
         
         <div class="box box-info resultado">
             

@@ -15,15 +15,21 @@
 	}
 	$conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 	$id_pessoa = $_SESSION['id_pessoa'];
-	$resultado = mysqli_query($conexao, "SELECT * FROM funcionario WHERE id_pessoa=$id_pessoa");
+  $stmt = $conexao->prepare("SELECT * FROM funcionario WHERE id_pessoa=?");
+  $stmt->bind_param("i", $id_pessoa);
+  $stmt->execute();
+  $resultado = $stmt->get_result();
 	if(!is_null($resultado)){
-		$id_cargo = mysqli_fetch_array($resultado);
+		$id_cargo = mysqli_fetch_assoc($resultado);
 		if(!is_null($id_cargo)){
 			$id_cargo = $id_cargo['id_cargo'];
 		}
-		$resultado = mysqli_query($conexao, "SELECT * FROM permissao WHERE id_cargo=$id_cargo and id_recurso=91");
+    $stmt = $conexao->prepare("SELECT * FROM permissao WHERE id_cargo=? and id_recurso=91");
+    $stmt->bind_param("i", $id_cargo);
+    $stmt->execute();
+    $resultado = $stmt->get_result();
 		if(!is_bool($resultado) and mysqli_num_rows($resultado)){
-			$permissao = mysqli_fetch_array($resultado);
+			$permissao = mysqli_fetch_assoc($resultado);
 			if($permissao['id_acao'] == 1){
 				$msg = "Você não tem as permissões necessárias para essa página.";
 				header("Location: ".WWW."/html/home.php?msg_c=$msg");
@@ -42,9 +48,17 @@
 	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
 	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
 require_once ROOT."/html/personalizacao_display.php";
-      $cargo = mysqli_query($conexao, "SELECT * FROM cargo");
-      $acao = mysqli_query($conexao, "SELECT * FROM acao");
-      $recurso = mysqli_query($conexao, "SELECT * FROM recurso");
+      $stmt = $conexao->prepare("SELECT * FROM cargo");
+      $stmt->execute();
+      $cargo = $stmt->get_result();
+      
+      $stmt = $conexao->prepare("SELECT * FROM acao");
+      $stmt->execute();
+      $acao = $stmt->get_result();
+    
+      $stmt = $conexao->prepare("SELECT * FROM recurso");
+      $stmt->execute();
+      $recurso = $stmt->get_result();
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
