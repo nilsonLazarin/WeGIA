@@ -4,10 +4,10 @@
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="<?php echo($foto); ?>" class="img-circle" alt="User Image">
+          <img src="<?php echo(htmlspecialchars($foto, ENT_QUOTES, 'UTF-8')); ?>" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p><?php echo($nome); ?></p>
+          <p><?php echo(htmlspecialchars($nome, ENT_QUOTES, 'UTF-8')); ?></p>
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
       </div>
