@@ -75,8 +75,96 @@
 				margin-left: auto;
 				margin-right: auto;	
 			}
-</style>		
-</head>
+
+			.conteudoPix {
+				background-color: #fff;
+				padding: 20px;
+				border-radius: 8px;
+				box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+				max-width: 400px;
+				margin: 0 auto;
+			}
+
+			.h2-formulario {
+				text-align: left;
+				margin-bottom: 20px;
+				font-family: Arial, Helvetica, sans-serif;
+				font-size: 17px;
+			}
+
+			span {
+				color: black;
+			}
+
+			.form-group {
+				margin-bottom: 15px;
+			}
+
+			.label-formulario {
+				display: block;
+				margin-bottom: 5px;
+			}
+
+			.input-formulario {
+				width: 95%;
+				padding: 8px;
+				border: 1px solid;
+				border-radius: 4px;
+			}
+
+			.input-formulario:focus {
+				outline: none;
+				border-color: #333333;
+				box-shadow: 0 0 5px #333333;
+			}
+
+			.input-formulario:focus::before {
+				content: '';
+				position: absolute;
+				top: -1px;
+				bottom: -1px;
+				left: -1px;
+				right: -1px;
+				border: 2px solid #333333;
+				border-radius: 4px;
+				pointer-events: none;
+			}
+
+
+			.button-formulario {
+				background-color: #333333;
+				color: white;
+				padding: 10px;
+				border: none;
+				border-radius: 25px;
+				cursor: pointer;
+				display: -webkit-box;
+				display: -webkit-flex;
+				display: -moz-box;
+				display: -ms-flexbox;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				padding: 0 20px;
+				width: 100%;
+				height: 50px;
+				border-radius: 25px;
+				font-family: Montserrat-Medium;
+				font-size: 16px;
+				color: #fff;
+				line-height: 1.2;
+				-webkit-transition: all 0.4s;
+				-o-transition: all 0.4s;
+				-moz-transition: all 0.4s;
+				transition: all 0.4s;
+			}
+
+			.button-formulario:hover {
+				background-color: rgb(94 183 94);
+				transition: 0.4s all ease-out;
+			}
+		</style>		
+	</head>
 <body>
 	<div class="container-contact100">
 		<div class="wrap-contact100">
@@ -95,8 +183,13 @@
 							<input  class = "radio" type = "radio"  name = "forma" id = "forma2" value = "1" checked>
 							<label class="label"  for = "forma2">BOLETO BANCÁRIO</label>
 							<input type='hidden' name='id_sistema' id='id_sistema' value="<?php echo $id_sistema; ?>">
-					</div>
-					
+						</span>
+						<span id="pix">
+							<input  class = "radio" type = "radio"  name = "forma" id = "forma3" value = "pix">
+							<label class="label" for = "forma3">PIX</label>
+						</span>
+					</div>		
+
 						<div id="tipo_cartao">
 							<h3>TIPO DE DOAÇÃO:</h3>
 							<span id = "mensal_cartao"><input class = "radio" type = "radio"  name = "tipoc1" id = "tipoc1" checked>
@@ -366,8 +459,37 @@
 				</div>
 				<div class="pultima_div" id="form2"></div>
 				<div class="ultima_div" id="form3"></div>
-				
 			</form>
+			<div id="conteudoPix" style="display: none;">
+						<br>
+							<h2 class="h2-formulario"><span>PREENCHA O FORMULÁRIO A SEGUIR</span></h2>
+							<br>
+							<form action="./php/pixPagamento.php" id="formulario" method="POST">
+								<div class="form-group">
+									<label class="label-formulario" for="name">Nome:</label>
+									<input class="input-formulario" type="text" id="name" name="name" placeholder="Ex: João da Silva" required>
+								</div>
+								<div class="form-group">
+									<label class="label-formulario" for="email">E-mail:</label>
+									<input class="input-formulario" type="email" id="email" name="email" placeholder="Ex: joao@exemplo.com" required>
+								</div>
+								<div class="form-group">
+									<label class="label-formulario" for="document">CPF:</label>
+									<input class="input-formulario" type="number" id="document" name="document" placeholder="CPF: 123.456.789-10" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" required>
+								</div>            
+								<div class="form-group">
+									<label class="label-formulario" for="phone">Telefone:</label>
+									<input class="input-formulario" type="number" id="phone" name="phone" placeholder="(11) 91234-5678" pattern="\(\d{2}\) \d{5}-\d{4}" required>
+								</div>
+								<div class="form-group">
+									<label class="label-formulario" for="amount">Valor (R$):</label>
+									<input class="input-formulario" type="number" step="0.01" id="amount" name="amount" placeholder="Ex: 100.00" required>
+								</div>
+								<div class="form-group">
+									<button class="button-formulario" type="submit">Realizar Pagamento</button>
+								</div>
+							</form>
+						</div>
 		</div>
 	</div>
 
@@ -496,6 +618,37 @@ $('#valores').change(function() {
 	$(".input-donation-method").hide();
 });
 
+</script>
+<script>
+$(document).ready(function() {
+    $('#forma3').change(function() {
+        if ($(this).is(':checked')) {
+            $('#tipo_cartao').hide();
+            $('#doacao_boleto').hide();
+            $('#conteudoPix').show();
+        }
+    });
+});
+
+$(document).ready(function() {
+    $('#forma2').change(function() {
+        if ($(this).is(':checked')) {
+            $('#tipo_cartao').hide();
+            $('#doacao_boleto').show();
+            $('#conteudoPix').hide();
+        }
+    });
+});
+
+$(document).ready(function() {
+    $('#forma1').change(function() {
+        if ($(this).is(':checked')) {
+            $('#tipo_cartao').show();
+            $('#doacao_boleto').hide();
+            $('#conteudoPix').hide();
+        }
+    });
+});
 </script>
 
 

@@ -53,8 +53,32 @@ if(!is_null($resultado)){
     $msg = "Você não tem as permissões necessárias para essa página.";
     header("Location: ../../home.php?msg_c=$msg");
 }
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $idSistema = 4;
+
+    try {
+        $conexao = new Conexao();
+        $sql = "SELECT api, token_api FROM doacao_boleto_info WHERE id_sistema = :id_sistema";
+        $stmt = $conexao->pdo->prepare($sql);
+        $stmt->bindParam(':id_sistema', $idSistema, PDO::PARAM_INT);
+        $stmt->execute();
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($resultado) {
+            $api = $resultado['api'];
+            $tokenApi = $resultado['token_api'];
+        } else {
+            echo "Nenhum dado encontrado para o ID do sistema especificado.";
+        }
+    } catch (PDOException $e) {
+        echo "Erro ao selecionar dados: " . $e->getMessage();
+    }
+}
     
+
 ?>
+
 
 <!DOCTYPE html>
 <html class="fixed">
@@ -112,6 +136,14 @@ if(!is_null($resultado)){
 				color: white;
 
 			}
+
+        .msgSucesso{
+            color: green;
+        }
+
+        .msgErro{
+            color: red;
+        }
     </style>
 
     <body>
@@ -142,19 +174,22 @@ if(!is_null($resultado)){
                 <div class="col-md-8 col-lg-8">
                     <div id='foo'>Dados atualizados com sucesso!</div>
                     
-                        <ul class="nav nav-tabs" id="myTab" role="tablist">
-							<li class="nav-item active">
-								<a class="nav-link active" id="boletofacil" data-toggle="tab" href="#img-tab" role="tab" aria-controls="img" aria-selected="true">BOLETO BANCÁRIO</a>
-							</li>
-                            <li class="nav-item">
-								<a class="nav-link" id="pagseguro" data-toggle="tab" href="#img-tab" role="tab" aria-controls="img" aria-selected="false">CARTÃO DE CRÉDITO</a>
-							</li>
-							<!--
-                            <li class="nav-item">
-								<a class="nav-link" id="paypal" data-toggle="tab" href="#img-tab" role="tab" aria-controls="img" aria-selected="false">PAYPAL</a>
-							</li>
-                            -->
-                        </ul>
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item active">
+                            <a class="nav-link active" id="boletofacil" data-toggle="tab" href="#img-tab" role="tab" aria-controls="img" aria-selected="true">BOLETO BANCÁRIO</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="pagseguro" data-toggle="tab" href="#img-tab" role="tab" aria-controls="img" aria-selected="false">CARTÃO DE CRÉDITO</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="pix-tab" data-toggle="tab" href="#pix-content" role="tab" aria-controls="pix-content" aria-selected="false">PIX</a>
+                        </li>
+                        <!--
+                        <li class="nav-item">
+                            <a class="nav-link" id="paypal" data-toggle="tab" href="#img-tab" role="tab" aria-controls="img" aria-selected="false">PAYPAL</a>
+                        </li>
+                        -->
+                </ul>
                         <div class="tab-content" id="myTabContent" width = "50%">
                         <div class='alerta_pay'>Faltam dados para o sistema selecionado :(</div>
                             <div id='divpaypal'>
@@ -221,7 +256,7 @@ if(!is_null($resultado)){
                                 </form>
                             </div>
                             <div id='divboleto'> 
-                            <div class='alerta_bol'>Faltam dados para o sistema selecionado :(</div>
+                            <!-- <div class='alerta_bol'>Faltam dados para o sistema selecionado :(</div> !-->
                             <a href="https://app.juno.com.br/#/onboarding/308993:f4f47e" target="_blank"><input type="button" class="btn btn-primary" value="Cadastre sua Instituição no Gateway de Pagamentos via Boleto"></a>
                                 <form action="dadosBoleto.php?idSistema=<?php echo $sistemas[0];?>&idRegras=<?php echo $dadosBoleto['id_regras']; ?>&dados=<?php echo $linhasboleto; ?>" method = "POST" id="form1" name="BOLETO">
                                     <input type='hidden' id="dadoBol" value='<?php echo $linhasboleto;?>'>
@@ -288,32 +323,81 @@ if(!is_null($resultado)){
                                                 </tr>
                                             </thead>
                                         </table>
-                                        <!--table class="table table-hover"-->
-                                        <table class="table table-bordered mb-none">
-                                            <h3>Configuração de Sistema</h3>
-                                            <br>
-                                            <br>
-                                                <tr>
-                                                    <th scope="col" width="5%">Link API</th>
-                                                    <th scope="col" width="5%">TOKEN API</th>
-                                                </tr>
-                                                <tr>
-                                                    <td><input type='text' class="form-control" name='api' id='api' value="<?php echo $api ?>"></td>
-                                                    <td><input type='text' class="form-control" name='token_api' id='token_api' value="<?php echo $token; ?>"></td>
-                                                    
-                                                </tr>
-                                                
-                                        </table>
                                         
-                                
-                                        <input type='button' class="btn btn-primary" id="editar-bol" value="Editar">
-                                        <input type='submit' class="btn btn-primary" id="btn-bol" value='Salvar'>
-                                        <a href="../index.php" target="_blank"><input type="button" class="btn btn-primary" value="Ir à Página de Doações"></a>
-                                       
                                     </div>
                                     
                                 </form> 
+                                
+                                <form id="form-configuracao" action="salvar_configuracao_boleto.php" method="post">
+                                <h3>Configuração de Sistema</h3>
+                                <br>
+                                <label for="meio-de-pagamento-boleto">Escolha a plataforma de pagamento:</label>
+                                <br>
+                                <select name="meio-de-pagamento-boleto" id="meio-de-pagamento-boleto">
+                                    <option value="escolha" selected>Escolha</option>
+                                    <option value="pagarme-boleto">Pagar.me</option>
+                                </select>
+                                <table class="table table-bordered mb-none" id="tabela-configuracao-boleto" style="display:none;">
+                                    <br>
+                                    <br>
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" width="5%">Link API</th>
+                                            <th scope="col" width="5%">TOKEN API</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr id="linha-configuracao" name="linha-configuracao">
+                                            <td><input type='text' class="form-control" name='api-boleto' id='api-boleto' value=""></td>
+                                            <td><input type='text' class="form-control" name='token-api-boleto' id='token-api-boleto' value=""></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <input type="submit" class="btn btn-primary" id="btn-salvar-boleto" value="Salvar" style="display:none;">
+                                <input type='button' class="btn btn-primary" id="editar-bol" value="Editar" style="display:none;"> 
+                                <a href="../index.php" target="_blank"><input type="button" class="btn btn-primary" value="Ir à Página de Doações"></a>
+                                <!-- <input type='submit' class="btn btn-primary" id="btn-bol" value='Salvar'> !-->
+                            </form>
                             </div> 
+
+                            <div id='divPix' style="display:none;">
+                                <a href="https://pagar.me/" target="_blank"><input type="button" class="btn btn-primary" value="Cadastre sua Instituição no Gateway de Pagamentos via Pix"></a>
+                                <form id="form-configuracao" method="post">
+                                    <h3>Configuração de Sistema</h3>
+                                    <br>
+                                    <label for="meio-de-pagamento-pix">Escolha a plataforma de pagamento:</label>
+                                    <br>
+                                    <select name="meio-de-pagamento-pix" id="meio-de-pagamento-pix">
+                                        <option value="escolha" selected>Escolha</option>
+                                        <option value="pagarme-pix">Pagar.me</option>
+                                    </select>
+                                    <table class="table table-bordered mb-none" id="tabela-configuracao-pix" style="display:none;">
+                                        <br>
+                                        <br>
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" width="5%">Link API</th>
+                                                <th scope="col" width="5%">TOKEN API</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr id="linha-configuracao" name="linha-configuracao">
+                                                <td><input type='text' class="form-control" name='api-pix' id='api-pix' value=""></td>
+                                                <td><input type='text' class="form-control" name='token-api-pix' id='token-api-pix' value=""></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </form>
+                                <input type="submit" class="btn btn-primary" id="btn-salvar-pix" value='Salvar' style="display:none;">    
+                                <input type="button" class= "btn btn-primary" id="editar-pag" value="Editar" style="display:none;">
+                                <a href="../index.php"><input type="button" class="btn btn-primary" value="Ir à Página de Contribuição"></a>  
+
+                                <div class="mensagens" id="mensagens">
+                                    <p class="msgSucesso" id="msgSucesso">As configurações foram salvas com sucesso!</p>
+                                    <p class="msgErro" id="msgErro">Houve um erro ao salvar as configurações. Por favor, tente novamente.</p>
+                                </div>
+                            </div>
+
                             <div id='divpagseguro'>
                             <!-- <div class='alerta_pag'>Faltam dados para o sistema selecionado :(</div> -->
                                 <form action="dadosCartao.php?idSistema=<?php echo $sistemas[1];?>&dados=<?php echo $linhaspagseguro;?>" method='POST' id="form2" name="PAGSEGURO">
@@ -374,24 +458,147 @@ if(!is_null($resultado)){
                                                     ?> 
                                                 </table>
                                             </div>
-                                            <br><br>
-                                        <input type="button" class= "btn btn-primary" id="editar-pag" value="Editar">
-                                        <input type="submit" class="btn btn-primary" id="btn-card-pag" value='Salvar'>
-                                        <a href="../index.php"><input type="button" class="btn btn-primary" value="Ir à Página de Contribuição"></a>  
-                                    </div> 
-                                </form>
-                            </div>     
+                                        <br>
+                                        <br>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+                    </div>
                 </div>
-            </div>
         </section>
     </section>
-    </body>
-    <script>
+</body>
+
+    <script defer>
         $(document).ready(function() 
         {   
             atualiza();
         });
-	
+
+        // BOLETO
+        document.getElementById('meio-de-pagamento-boleto').addEventListener('change', function() {
+        let meioPagamento = this.value;
+        let tabelaConfiguracao = document.getElementById('tabela-configuracao-boleto');
+        let btnSalvar = document.getElementById('btn-salvar-boleto');
+        let btnEditar = document.getElementById('editar-bol');
+        
+        if (meioPagamento !== "escolha") {
+            document.getElementById('api-boleto').value = "https://api.pagar.me/core/v5/orders";
+            document.getElementById('token-api-boleto').value = "CADASTRE-SE NO GATEWAY DE PAGAMENTO PARA RECEBER UM TOKEN";
+            tabelaConfiguracao.style.display = "table";
+            btnSalvar.style.display = 'inline-block';
+            btnEditar.style.display = 'inline-block'; 
+        } else {
+            document.getElementById('api-boleto').value = "";
+            document.getElementById('token-api-boleto').value = "";
+            tabelaConfiguracao.style.display = "none";
+            btnSalvar.style.display = 'none';
+            btnEditar.style.display = 'none';
+            }
+        });
+
+        document.getElementById('meio-de-pagamento-boleto').addEventListener('change', function() {
+        var tabelaConfiguracao = document.getElementById('tabela-configuracao');
+        var btnSalvar = document.getElementById('btn-salvar-boleto');
+        
+        if (this.value !== 'escolha') {
+            tabelaConfiguracao.style.display = 'table';
+            btnSalvar.style.display = 'inline-block';
+            btnEditar.style.display = 'inline-block';
+        } else {
+            tabelaConfiguracao.style.display = 'none';
+            btnSalvar.style.display = 'none';
+            btnEditar.style.display = 'none'
+        }
+        });
+        
+        // PIX
+        document.getElementById('meio-de-pagamento-pix').addEventListener('change', function() {
+        let meioPagamento = this.value;
+        let tabelaConfiguracao = document.getElementById('tabela-configuracao-pix');
+        let btnSalvar = document.getElementById('btn-salvar-pix');
+        let btnEditar = document.getElementById('editar-pag');
+        
+        if (meioPagamento === "pagarme-pix") {
+            let apiPix = document.getElementById('api-pix').value = "https://api.pagar.me/core/v5/orders";
+            let tokenApiPix = document.getElementById('token-api-pix').value = "CADASTRE-SE NO GATEWAY DE PAGAMENTO PARA RECEBER UM TOKEN"; 
+            tabelaConfiguracao.style.display = "table";
+            btnSalvar.style.display = 'inline-block';
+            btnEditar.style.display = 'inline-block'; 
+        } else {
+            document.getElementById('api-pix').value = "";
+            document.getElementById('token-api-pix').value = "";
+            tabelaConfiguracao.style.display = "none";
+            btnSalvar.style.display = 'none';
+            btnEditar.style.display = 'none';
+        }
+        }); 
+
+        // EXIBE MENSAGEM DE SUCESSO OU ERRO
+        let btnSalvar = document.getElementById('btn-salvar-pix');
+        
+        btnSalvar.addEventListener('click', function(){
+            let apiPix = document.getElementById('api-pix').value;
+            let tokenApiPix = document.getElementById('token-api-pix').value;
+
+            if (apiPix === "") {
+                apiPix = "https://api.pagar.me/core/v5/orders";
+            }
+            if (tokenApiPix === "") {
+                tokenApiPix = "sk_test_e0825df65b1a4cceab318896abf1f71d";
+            }
+
+            $.ajax({
+                url: 'salvar_configuracao_pix.php',
+                method: 'POST',
+                data: {apiPix: apiPix, tokenApiPix: tokenApiPix},
+                success: function(response) {
+                    console.log("Resposta da requisição AJAX:", response);
+
+                    let apiPixRetornado = response.match(/API: (.*?)<br>/)[1];
+                    let tokenApiPixRetornado = response.match(/Token API: (.*?)<br>/)[1];
+
+                    if (apiPixRetornado === apiPix && tokenApiPixRetornado === tokenApiPix) {
+                        alert("As configurações foram salvas com sucesso!");
+                    } else {
+                        alert("Houve um erro ao salvar as configurações. Verifique se o link e o token da API são válidos.");
+                    }
+                    
+                    divMensagens.innerHTML = msgSucesso.outerHTML + msgErro.outerHTML;
+                    console.log("Conteúdo da div de mensagens atualizado:", divMensagens.innerHTML);
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                    msgErro.innerHTML = "Houve um erro ao salvar as configurações. Por favor, tente novamente.";
+
+                    divMensagens.innerHTML = msgSucesso.outerHTML + msgErro.outerHTML;
+                    console.log("Conteúdo da div de mensagens atualizado:", divMensagens.innerHTML);
+                }
+            });
+        });
+
+
+        // ALTERNAR ENTRE ABAS
+        document.getElementById('pix-tab').addEventListener('click', function() {
+            document.getElementById('divboleto').style.display = 'none';
+            document.getElementById('divpagseguro').style.display = 'none';
+            document.getElementById('divPix').style.display = 'block';
+            msgSucesso.style.display = "none";
+            msgErro.style.display = "none";
+        });
+
+        document.getElementById('boletofacil').addEventListener('click', function() {
+            document.getElementById('divboleto').style.display = 'block';
+            document.getElementById('divpagseguro').style.display = 'none';
+            document.getElementById('divPix').style.display = 'none';
+        });
+
+        document.getElementById('pagseguro').addEventListener('click', function() {
+            document.getElementById('divboleto').style.display = 'none';
+            document.getElementById('divpagseguro').style.display = 'block';
+            document.getElementById('divPix').style.display = 'none';
+        });  
+
     </script>
 </html>
