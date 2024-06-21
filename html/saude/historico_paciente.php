@@ -222,6 +222,7 @@ $idPaciente = $idPaciente->fetch(PDO::FETCH_ASSOC);
   <!-- JavaScript Functions -->
   <script src="../../Functions/enviar_dados.js"></script>
   <script src="../../Functions/mascara.js"></script>
+  <script src="../../Functions/onlyNumbers.js"></script>
   <link rel="icon" href="<?php display_campo("Logo", 'file'); ?>" type="image/x-icon" id="logo-icon">
   <script>
     $(function() {
@@ -549,14 +550,14 @@ $idPaciente = $idPaciente->fetch(PDO::FETCH_ASSOC);
                         <div class="form-group">
                           <label class="col-md-3 control-label" for="profileCompany">Frequência cardíaca (em bpm):</label>
                           <div class="col-md-6">
-                            <input type="number" maxlength="3" class="form-control" name="freq_card" id="freq_card" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength); if(this.value<0) this.value = this.value*-1;">
+                            <input type="number" maxlength="3" class="form-control" name="freq_card" id="freq_card" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength); if(this.value<0) this.value = this.value*-1;" onkeypress="return Onlynumbers(event)">
                           </div>
                         </div>
 
                         <div class="form-group">
                           <label class="col-md-3 control-label" for="profileCompany">Frequência respiratória (em rpm):</label>
                           <div class="col-md-6">
-                            <input type="number" maxlength="3" class="form-control" name="freq_resp" id="freq_resp" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength); if(this.value<0) this.value = this.value*-1;">
+                            <input type="number" maxlength="3" class="form-control" name="freq_resp" id="freq_resp" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength); if(this.value<0) this.value = this.value*-1;" onkeypress="return Onlynumbers(event)">
                           </div>
                         </div>
 
