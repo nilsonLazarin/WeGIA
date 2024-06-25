@@ -268,3 +268,8 @@ WHERE `descricao` IS NOT NULL;*/
 INSERT INTO `saude_medicacao_status` (`descricao`) VALUES ('Em tratamento'), ('Concluído') , ('Substituído'), ('Cancelado');
 
 INSERT INTO `saude_tabelacid` (`CID`, `descricao`) VALUES ('B34.2', 'Infecção por coronavírus de localização não especificada');
+
+-- 240621: Refatoração do módulo Contribuição, dados para as novas tabelas --
+INSERT INTO `contribuicao_regras` (`regra`) VALUES 
+('MIN_VALUE'), 
+('MAX_VALUE');
