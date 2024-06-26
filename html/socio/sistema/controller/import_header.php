@@ -25,13 +25,19 @@
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
           <?php
+          try {
 						if(isset($_SESSION['id_pessoa']) and !empty($_SESSION['id_pessoa'])){
 							$foto = $pessoa['imagem'];
 							if($foto != null and $foto != "")
 								$foto = 'data:image;base64,'.$foto;
+                if(preg_match('/^data:image\/[a-zA-Z]+;base64,/', $foto))
+                  $foto = htmlspecialchars($foto, ENT_QUOTES, 'UTF-8');
 							else $foto = WWW."img/semfoto.png";
 						}
-						
+					} catch (Exception $e) {
+            error_log($e->getMessage());
+            $foto = WWW . "img/semfoto.png";
+          }
 					?>
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="<?php echo($foto); ?>" class="user-image" alt="User Image">
