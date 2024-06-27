@@ -4,5 +4,6 @@
 	$tag = addslashes($tag);
 	$tags = trim($tag);
 	$sql = "INSERT into socio_tag(tag) values('$tag')";
-	mysqli_query($conexao, $sql);
+	$stmt = mysqli_prepare($conexao, $sql);
+	mysqli_stmt_execute($stmt);
 ?>
