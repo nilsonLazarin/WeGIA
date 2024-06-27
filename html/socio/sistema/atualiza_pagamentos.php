@@ -10,8 +10,12 @@
 
     extract($_REQUEST);
     $cadastrado = false;
-    
-    mysqli_query($conexao, "UPDATE cobrancas set status='Pago', data_pagamento='$data', valor_pago=$valor where codigo = $codigo");
+
+    $stmt = mysqli_prepare($conexao, "UPDATE cobrancas SET status='Pago', data_pagamento=?, valor_pago=? WHERE codigo=?");
+
+    mysqli_stmt_bind_param($stmt, "sdi", $data, $valor, $codigo);
+
+    mysqli_stmt_execute($stmt);
 
     if(mysqli_affected_rows($conexao)) $cadastrado = true;
 
