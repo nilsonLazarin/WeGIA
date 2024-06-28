@@ -21,8 +21,10 @@
     $socio_nome = addslashes($socio_nome);
     $local_recepcao = addslashes($local_recepcao);
     $codigo = rand() * -1;
+
+    $stmt = mysqli_prepare($conexao, "INSERT INTO `cobrancas`(`codigo`, `descricao`, `data_pagamento`, `valor`, `valor_pago`, `status`, `linha_digitavel`, `link_cobranca`, `link_boleto`, `id_socio`) VALUES ($codigo, 'PAGO EM $local_recepcao, $forma_doacao, RECEBIDO POR $receptor', $data_doacao, $valor, $valor, 'PAGO', 'PAGO EM $local_recepcao, $forma_doacao, RECEBIDO POR $receptor', '#', '#', $socio_id)");
     
-    if(mysqli_query($conexao, "INSERT INTO `cobrancas`(`codigo`, `descricao`, `data_pagamento`, `valor`, `valor_pago`, `status`, `linha_digitavel`, `link_cobranca`, `link_boleto`, `id_socio`) VALUES ($codigo, 'PAGO EM $local_recepcao, $forma_doacao, RECEBIDO POR $receptor', $data_doacao, $valor, $valor, 'PAGO', 'PAGO EM $local_recepcao, $forma_doacao, RECEBIDO POR $receptor', '#', '#', $socio_id)")){
+    if($stmt && mysqli_stmt_execute($stmt)){
         if(mysqli_affected_rows($conexao)){
             $cadastrado = true;
         }
