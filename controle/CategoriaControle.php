@@ -4,19 +4,16 @@ include_once '../dao/CategoriaDAO.php';
 class CategoriaControle
 {
     public function verificar(){
-        //extract($_REQUEST);
         $descricao_categoria = trim($_REQUEST['descricao_categoria']);
-        if((!isset($descricao_categoria)) || (empty($descricao_categoria))){
-            $msg = "Descricao da Categoria não informada. Por favor, informe uma descricao!";
-            header('Location: ../html/categoria.html?msg='.$msg);
-        }
-        else{
+    
+        try{
             $categoria = new Categoria($descricao_categoria);
+            return $categoria;
+        }catch(InvalidArgumentException $e){
+            header('Location: ../html/home.php?msg_c='.$e->getMessage());//Envio de temporariamente para a home, posteriormente criar um sistema de exibição de mensagens em html/adicionar_categoria.php
         }
-        return $categoria;
     }
     public function listarTodos(){
-        //extract($_REQUEST);
         $nextPage = trim($_REQUEST['nextPage']);
 
         if(!filter_var($nextPage, FILTER_VALIDATE_URL)){
@@ -43,7 +40,6 @@ class CategoriaControle
         }
     }
     public function editar(){
-        //extract($_REQUEST);
         $id_categoria_produto = trim($_REQUEST['id_categoria_produto']);
         $descricao_categoria = trim($_REQUEST['descricao_categoria']);
 
@@ -66,7 +62,6 @@ class CategoriaControle
         }
     }
     public function excluir(){
-    	//extract($_REQUEST);
         $id_categoria_produto = trim($_REQUEST['id_categoria_produto']);
 
         if(!$id_categoria_produto || !is_numeric($id_categoria_produto) || $id_categoria_produto < 1){
