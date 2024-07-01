@@ -595,7 +595,7 @@ require_once ROOT . "/html/personalizacao_display.php";
 									$memorandosDespachados->listarTodosId($id_memorando);
 									$memorando = $_SESSION['memorandoId'][0];
 									extract($memorando);
-									$status = $pdo->query("SELECT status_atual FROM status_memorando WHERE id_status_memorando=$id_status_memorando;")->fetch(PDO::FETCH_ASSOC)["status_atual"]; //Alterar pesquisa para ser executada em um DAO com prepared statments
+									//$status = $pdo->query("SELECT status_atual FROM status_memorando WHERE id_status_memorando=$id_status_memorando;")->fetch(PDO::FETCH_ASSOC)["status_atual"]; //Alterar pesquisa para ser executada em um DAO com prepared statments
 
 									$despacho = $pdo->query("SELECT texto FROM despacho WHERE id_despacho=$id_memorando;")->fetch(PDO::FETCH_ASSOC)["texto"]; //Alterar pesquisa para ser executada em um DAO com prepared statments
 
