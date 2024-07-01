@@ -55,6 +55,7 @@ require_once ROOT . "/controle/memorando/DespachoControle.php";
 require_once ROOT . "/controle/FuncionarioControle.php";
 require_once ROOT . "/controle/memorando/MemorandoControle.php";
 require_once ROOT . "/controle/memorando/AnexoControle.php";
+require_once ROOT.'/controle/memorando/StatusMemorandoControle.php';
 
 
 $id_memorando = $_GET['id_memorando'];
@@ -591,11 +592,16 @@ require_once ROOT . "/html/personalizacao_display.php";
 								<div class="just-printable">
 
 									<?php
+									
 									$pdo = Conexao::connect();
 									$memorandosDespachados->listarTodosId($id_memorando);
 									$memorando = $_SESSION['memorandoId'][0];
 									extract($memorando);
-									//$status = $pdo->query("SELECT status_atual FROM status_memorando WHERE id_status_memorando=$id_status_memorando;")->fetch(PDO::FETCH_ASSOC)["status_atual"]; //Alterar pesquisa para ser executada em um DAO com prepared statments
+									$statusMemorandoControle = new StatusMemorandoControle();
+									$statusMemorando = $statusMemorandoControle->getPorId(intval($id_status_memorando));
+									if($statusMemorando){
+										$status = $statusMemorando->getIdStatus();
+									}
 
 									$despacho = $pdo->query("SELECT texto FROM despacho WHERE id_despacho=$id_memorando;")->fetch(PDO::FETCH_ASSOC)["texto"]; //Alterar pesquisa para ser executada em um DAO com prepared statments
 

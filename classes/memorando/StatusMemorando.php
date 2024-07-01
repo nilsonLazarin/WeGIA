@@ -16,16 +16,25 @@ class StatusMemorando
         }
     }
 
+    /**
+     * Retorna o nome do status de um memorando
+     */
     public function getStatus()
     {
         return $this->status;
     }
 
+    /**
+     * Retorna o id do status de um memorando
+     */
     public function getIdStatus()
     {
         return $this->idStatus;
     }
 
+    /**
+     * Define o nome do status de um memorando
+     */
     public function setStatus(string $status)
     {
         if (empty($status)) {
@@ -34,6 +43,9 @@ class StatusMemorando
         $this->status = $status;
     }
 
+    /**
+     * Define o id do status de um memorando, somente inteiros maiores ou iguais a 1 são permitidos
+     */
     public function setIdStatus(int $idStatus)
     {
         if ($idStatus < 1) {
