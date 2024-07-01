@@ -102,4 +102,23 @@ class DespachoControle
 			exit('Erro ao verificar o despacho: ' . $e->getMessage());
 		}
 	}
+
+	public function getPorId(int $id){
+		try{
+			if($id < 1){
+                throw new InvalidArgumentException('O id de um despacho não pode ser menor que 1.');
+            }
+
+			$despachoDAO = new DespachoDAO();
+			$resultado = $despachoDAO->getPorId($id);
+
+			if(!$resultado){
+				return null;
+			}
+
+			return $resultado;
+		}catch(Exception $e){
+			echo 'Erro ao buscar um despacho pelo id: '.$e->getMessage();
+		}
+	}
 }

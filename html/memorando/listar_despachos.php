@@ -600,10 +600,16 @@ require_once ROOT . "/html/personalizacao_display.php";
 									$statusMemorandoControle = new StatusMemorandoControle();
 									$statusMemorando = $statusMemorandoControle->getPorId(intval($id_status_memorando));
 									if($statusMemorando){
-										$status = $statusMemorando->getIdStatus();
+										$status = $statusMemorando->getStatus();
 									}
 
-									$despacho = $pdo->query("SELECT texto FROM despacho WHERE id_despacho=$id_memorando;")->fetch(PDO::FETCH_ASSOC)["texto"]; //Alterar pesquisa para ser executada em um DAO com prepared statments
+									$despachoControle = new DespachoControle();
+									$despacho = $despachoControle->getPorId(intval($id_memorando));
+									if($despacho){
+										$despachoNome = $despacho['texto'];
+									}else{
+										$despachoNome = 'Nenhum despacho';
+									}
 
 									$enderecoInstituicao = $pdo->query("SELECT nome, bairro, estado, cidade FROM endereco_instituicao")->fetch(PDO::FETCH_ASSOC);
 
@@ -672,7 +678,7 @@ require_once ROOT . "/html/personalizacao_display.php";
 
 									echo ("
 								<p> Ao Sr(a): $pessoa_destino</p>
-								<p> $despacho </p>
+								<p> $despachoNome </p>
 
 								");
 									?>

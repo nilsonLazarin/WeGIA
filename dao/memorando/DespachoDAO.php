@@ -112,4 +112,16 @@ class DespachoDAO
 		}
 		return $lastId;
 	}
+
+	public function getPorId(int $id){
+		$sql = 'SELECT * FROM despacho WHERE id_despacho=:idDespacho';
+		$pdo = Conexao::connect();
+
+		$stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':idDespacho', $id);
+        $stmt->execute();
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $resultado;
+	}
 }
