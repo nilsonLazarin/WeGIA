@@ -38,9 +38,9 @@ class MemorandoDAO
 			}
 		}
 
-		catch(PDOExeption $e)
+		catch(PDOException $e)
 		{
-			echo 'Error:' . $e->getMessage;
+			echo 'Error:' . $e->getMessage();
 		}
 
 		return json_encode($Memorandos);
@@ -67,9 +67,9 @@ class MemorandoDAO
 			}
 		}
 
-		catch(PDOExeption $e)
+		catch(PDOException $e)
 		{
-			echo 'Error:' . $e->getMessage;
+			echo 'Error:' . $e->getMessage();
 		}
 
 		return $Memorando;
@@ -97,9 +97,9 @@ class MemorandoDAO
 			}
 		}
 
-		catch(PDOExeption $e)
+		catch(PDOException $e)
 		{
-			echo 'Error:' . $e->getMessage;
+			echo 'Error:' . $e->getMessage();
 		}
 
 		return json_encode($Memorandos);
@@ -125,9 +125,9 @@ class MemorandoDAO
 			}
 		}
 
-		catch(PDOExeption $e)
+		catch(PDOException $e)
 		{
-			echo 'Error:' . $e->getMessage;
+			echo 'Error:' . $e->getMessage();
 		}
 
 		return $Memorandos;
@@ -208,9 +208,9 @@ class MemorandoDAO
 			}
 		}
 
-		catch(PDOExeption $e)
+		catch(PDOException $e)
 		{
-			echo 'Error:' . $e->getMessage;
+			echo 'Error:' . $e->getMessage();
 		}
 
 		return $Despacho;
