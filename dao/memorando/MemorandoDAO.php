@@ -17,7 +17,9 @@ require_once ROOT."/dao/memorando/UsuarioDAO.php";
 
 class MemorandoDAO
 {
-	//Listar memorandos ativos (Caixa de entrada)
+	/**
+	 * Lista os memorandos ativos (Caixa de Entrada) do usuário logado no momento. 
+	 */
 	public function listarTodos()
 	{
 		try
@@ -26,15 +28,16 @@ class MemorandoDAO
 			$pdo = Conexao::connect();
 			$cpf_usuario = $_SESSION["usuario"];
 			$usuario=new UsuarioDAO;
-			$id_usuario=$usuario->obterUsuario($cpf_usuario);
-			$id_usuario=$id_usuario['0']['id_pessoa'];
-			$consulta = $pdo->query("SELECT d.id_memorando, d.id_destinatario, m.titulo, d.data, d.id_remetente, m.id_status_memorando, m.id_pessoa, d.id_destinatario FROM despacho d INNER JOIN memorando m ON(d.id_memorando=m.id_memorando) WHERE (d.id_despacho IN (SELECT MAX(id_despacho) FROM despacho GROUP BY id_memorando)) AND m.id_status_memorando!='6' AND d.id_destinatario='$id_usuario' ORDER BY m.data DESC");
-			$x = 0;
+			$id_usuario=$usuario->obterUsuario($cpf_usuario)['0']['id_pessoa'];
 
-			while($linha = $consulta->fetch(PDO::FETCH_ASSOC))
-			{
-				$Memorandos[$x]=array('id_memorando'=>$linha['id_memorando'], 'id_pessoa'=>$linha['id_pessoa'], 'id_status_memorando'=>$linha['id_status_memorando'], 'titulo'=>$linha['titulo'], 'data'=>$linha['data'], 'id_remetente'=>$linha['id_remetente'], 'id_destinatario'=>$linha['id_destinatario']);
-				$x++;
+			$sql = "SELECT d.id_memorando, d.id_destinatario, m.titulo, d.data, d.id_remetente, m.id_status_memorando, m.id_pessoa, d.id_destinatario FROM despacho d INNER JOIN memorando m ON(d.id_memorando=m.id_memorando) WHERE (d.id_despacho IN (SELECT MAX(id_despacho) FROM despacho GROUP BY id_memorando)) AND m.id_status_memorando!='6' AND d.id_destinatario=:idUsuario ORDER BY m.data DESC";
+			$stmt = $pdo->prepare($sql);
+			$stmt->bindParam(':idUsuario', $id_usuario);
+			$stmt->execute();
+			$resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+			if($resultado){
+				$Memorandos = $resultado;
 			}
 		}
 
