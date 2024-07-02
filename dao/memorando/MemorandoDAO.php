@@ -208,17 +208,23 @@ class MemorandoDAO
 		}
 	}
 
-	//Buscar último despacho de um memorando
+	/**
+	 * Busca o último despacho associado ao id do memorando informado pelo parâmetro
+	 */
 	public function buscarUltimoDespacho($id_memorando)
 	{
 		$Despacho = array();
 		try
 		{
 			$pdo = Conexao::connect();
-			$consulta = $pdo->query("SELECT id_destinatario, id_despacho, id_remetente FROM despacho WHERE id_despacho IN (SELECT MAX(id_despacho) FROM despacho WHERE id_memorando='$id_memorando')");
-			$x = 0;
+			
+			$sql = "SELECT id_destinatario, id_despacho, id_remetente FROM despacho WHERE id_despacho IN (SELECT MAX(id_despacho) FROM despacho WHERE id_memorando=:idMemorando)";
+			$stmt = $pdo->prepare($sql);
+			$stmt->bindParam(':idMemorando', $id_memorando);
+			$stmt->execute();
 
-			while($linha = $consulta->fetch(PDO::FETCH_ASSOC))
+			$x = 0;
+			while($linha = $stmt->fetch(PDO::FETCH_ASSOC))
 			{
 				$Despacho[$x]=array('id_destinatarioo'=>$linha['id_destinatario'], 'id_despacho'=>$linha['id_despacho'], 'id_remetente'=>$linha['id_remetente']);
 				$x++;
