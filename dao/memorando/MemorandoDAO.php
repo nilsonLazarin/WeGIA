@@ -83,7 +83,9 @@ class MemorandoDAO
 	}
 
 
-	//LIstar memorandos inativos
+	/**
+	 * Lista todos os memorandos inativos do usuário daquela sessão em específico.
+	 */
 	public function listarTodosInativos()
 	{
 		try
@@ -91,16 +93,17 @@ class MemorandoDAO
 			$Memorandos = array();
 			$cpf_usuario = $_SESSION["usuario"];
 			$usuario = new UsuarioDAO;
-			$id_usuario=$usuario->obterUsuario($cpf_usuario);
-			$id_usuario=$id_usuario['0']['id_pessoa'];
+			$id_usuario=$usuario->obterUsuario($cpf_usuario)['0']['id_pessoa'];
 			$pdo = Conexao::connect();
-			$consulta = $pdo->query("SELECT DISTINCT m.id_memorando, m.titulo, m.data, p.nome, m.id_status_memorando FROM memorando m JOIN despacho d ON(d.id_memorando=m.id_memorando) JOIN pessoa p ON(m.id_pessoa=p.id_pessoa) WHERE d.id_remetente=$id_usuario");
-			$x = 0;
+			
+			$sql = "SELECT DISTINCT m.id_memorando, m.titulo, m.data, p.nome, m.id_status_memorando FROM memorando m JOIN despacho d ON(d.id_memorando=m.id_memorando) JOIN pessoa p ON(m.id_pessoa=p.id_pessoa) WHERE d.id_remetente=:idUsuario";
+			$stmt = $pdo->prepare($sql);
+			$stmt->bindParam(':idUsuario', $id_usuario);
+			$stmt->execute();
+			$resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-			while($linha = $consulta->fetch(PDO::FETCH_ASSOC))
-			{
-				$Memorandos[$x]=array('id_memorando'=>$linha['id_memorando'], 'titulo'=>$linha['titulo'], 'data'=>$linha['data'], 'nome'=>$linha['nome'], 'id_status_memorando'=>$linha['id_status_memorando']);
-				$x++;
+			if($resultado){
+				$Memorandos = $resultado;
 			}
 		}
 
