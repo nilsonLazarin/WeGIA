@@ -49,7 +49,9 @@ class MemorandoDAO
 		return json_encode($Memorandos);
 	}
 
-    //LIstar memorando pelo Id
+    /**
+	 * Recebe como parâmetro o id de um memorando e retorna as informações de um memorando guardado no banco de dados
+	 */
 	public function listarTodosId($id_memorando)
 	{
 		try
@@ -60,13 +62,15 @@ class MemorandoDAO
 			$usuario=new UsuarioDAO;
 			$id_usuario=$usuario->obterUsuario($cpf_usuario);
 			$id_usuario=$id_usuario['0']['id_pessoa'];
-			$consulta = $pdo->query("SELECT titulo, id_status_memorando, id_pessoa, id_memorando FROM memorando WHERE id_memorando='$id_memorando'");
-			$x = 0;
+			
+			$sql = "SELECT titulo, id_status_memorando, id_pessoa, id_memorando FROM memorando WHERE id_memorando=:idMemorando";
+			$stmt = $pdo->prepare($sql);
+			$stmt->bindParam(':idMemorando', $id_memorando);
+			$stmt->execute();
+			$resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-			while($linha = $consulta->fetch(PDO::FETCH_ASSOC))
-			{
-				$Memorando[$x]=array('id_memorando'=>$linha['id_memorando'], 'id_pessoa'=>$linha['id_pessoa'], 'id_status_memorando'=>$linha['id_status_memorando'], 'titulo'=>$linha['titulo']);
-				$x++;
+			if($resultado){
+				$Memorando = $resultado;
 			}
 		}
 
