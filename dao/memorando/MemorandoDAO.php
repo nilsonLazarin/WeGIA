@@ -265,15 +265,21 @@ class MemorandoDAO
 		return $id;
 	}
 
-	//Verifica se um memorando existe
+	/**
+	 * Verifica se um memorando com id igual ao informado como parâmetro existe na base de dados.
+	 */
 	public function issetMemorando($id_memorando)
 	{
 		try
 		{
 			$pdo = Conexao::connect();
-			$consulta = $pdo->query("SELECT id_memorando FROM memorando WHERE id_memorando=$id_memorando");
 
-			if(null == $consulta->fetch(PDO::FETCH_ASSOC))
+			$sql = "SELECT id_memorando FROM memorando WHERE id_memorando=:idMemorando";
+			$stmt = $pdo->prepare($sql);
+			$stmt->bindParam(':idMemorando', $id_memorando);
+			$stmt->execute();
+
+			if(null == $stmt->fetch(PDO::FETCH_ASSOC))
 			{
 				$retorno = 1;
 			}
