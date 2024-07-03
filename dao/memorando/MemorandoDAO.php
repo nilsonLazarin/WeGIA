@@ -238,21 +238,24 @@ class MemorandoDAO
 
 		return $Despacho;
 	}
-
-	//Buscar id_status_memorando
+	/**
+	 * Busca o id do status de um memorando cujo o seu id foi passado como parâmetro para o método.
+	 */
 	public function buscarIdStatusMemorando($id_memorando)
 	{
 		try
 		{
 			$id = array();
 			$pdo = Conexao::connect();
-			$consulta = $pdo->query("SELECT id_status_memorando FROM memorando WHERE id_memorando=$id_memorando");
-			$x = 0;
+			
+			$sql = "SELECT id_status_memorando FROM memorando WHERE id_memorando=:idMemorando";
+			$stmt = $pdo->prepare($sql);
+			$stmt->bindParam(':idMemorando', $id_memorando);
+			$stmt->execute();
+			$resultado = $stmt->fetch(PDO::FETCH_ASSOC);
 
-			while($linha = $consulta->fetch(PDO::FETCH_ASSOC))
-			{
-				$id[$x] = $linha['id_status_memorando'];
-				$x++;
+			if($resultado){
+				$id []= $resultado['id_status_memorando'];
 			}
 		}
 		catch(PDOException $e)
