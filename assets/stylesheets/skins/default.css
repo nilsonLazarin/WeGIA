@@ -65,7 +65,7 @@ a:active,
 	color: #0099e6;
 }
 
-.mailbox .mailbox-mail .panel .panel-heading .panel-actions a:hover {
+.mailbox .mailbox-mail .panel .card-header .panel-actions a:hover {
 	color: #0088cc;
 }
 /* Media Gallery */
@@ -89,7 +89,7 @@ a:active,
 	background-color: #0088cc;
 }
 
-.body-sign .panel-sign .panel-body {
+.body-sign .panel-sign .card-body {
 	border-top-color: #0088cc;
 }
 /* Lock Screen */
@@ -443,7 +443,7 @@ html.dark .timeline.timeline-simple .tm-body .tm-items > li:before {
 	background-color: #0088cc;
 }
 /* Accordion */
-.panel-group .panel-accordion .panel-heading a {
+.panel-group .panel-accordion .card-header a {
 	color: #0088cc;
 }
 /* Alerts */
@@ -465,25 +465,25 @@ html.dark .timeline.timeline-simple .tm-body .tm-items > li:before {
 	border-color: #0088cc;
 }
 /* Panels */
-.panel-highlight .panel-heading {
+.panel-highlight .card-header {
 	background-color: #0088cc;
 	border-color: #0088cc;
 }
 
-.panel-highlight .panel-body {
+.panel-highlight .card-body {
 	background-color: #0088cc;
 }
 
-html .panel-primary .panel-heading {
+html .panel-primary .card-header {
 	background: #0088cc;
 	border-color: #0088cc;
 }
 
-.panel-heading.bg-primary {
+.card-header.bg-primary {
 	background: #0088cc;
 }
 
-.panel-body.bg-primary {
+.card-body.bg-primary {
 	background: #0088cc;
 }
 
@@ -495,11 +495,11 @@ html .panel-primary .panel-heading {
 	color: #0088cc;
 }
 
-.panel-heading-icon.bg-primary {
+.card-header-icon.bg-primary {
 	background: #0088cc;
 }
 
-.panel-group .panel-accordion-primary .panel-heading .panel-title a {
+.panel-group .panel-accordion-primary .card-header .panel-title a {
 	background: #0088cc;
 }
 /* Progress Bar */
@@ -607,7 +607,7 @@ html .panel-primary .panel-heading {
 	color: #0088cc;
 }
 
-.modal-block-primary.modal-header-color .panel-heading {
+.modal-block-primary.modal-header-color .card-header {
 	background-color: #0088cc;
 }
 
@@ -615,7 +615,7 @@ html .panel-primary .panel-heading {
 	background-color: #00a3f5;
 }
 
-.modal-block-primary.modal-full-color .panel-heading {
+.modal-block-primary.modal-full-color .card-header {
 	background-color: #0088cc;
 }
 
