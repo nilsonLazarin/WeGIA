@@ -33,19 +33,19 @@ class AlmoxarifadoDAO
             $consulta->execute(array(
                 'id_almoxarifado' => $id_almoxarifado,
             ));
+            $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
             try {
-                while ($linha = $consulta->fetch(PDO::FETCH_ASSOC)) {
-                    $almoxarifado = new Almoxarifado($linha['descricao_almoxarifado']);
-                    $almoxarifado->setId_almoxarifado(intval($linha['id_almoxarifado']));
-                }
+                $almoxarifado = new Almoxarifado($resultado['descricao_almoxarifado']);
+                $almoxarifado->setId_almoxarifado(intval($resultado['id_almoxarifado']));
+                return $almoxarifado;
             } catch (InvalidArgumentException $e) {
                 exit('Erro ao listar um almoxarifado: ' . $e->getMessage());
             }
         } catch (PDOException $e) {
             throw $e;
-        }
-        return $almoxarifado;
+        }     
     }
+
     public function excluir($id_almoxarifado)
     {
         try {

@@ -41,7 +41,7 @@ class SinaisVitaisControle
             $data_afericao = "";
         }else{
             $timestamp = strtotime($data_afericao);
-            $data_afericao = date('Y-m-d', $timestamp);
+            $data_afericao = date('Y-m-d\TH:i', $timestamp);
         } 
 
         if((!isset($saturacao)) || (empty($saturacao))){

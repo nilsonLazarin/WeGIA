@@ -85,18 +85,18 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
                 <div class="div_nasc">
                   <div class="form-group col-xs-4">
                     <label for="valor">Data de nascimento</label>
-                    <input type="date" class="form-control" id="data_nasc" name="data_nasc">
+                    <input type="date" class="form-control" id="data_nasc" name="data_nasc" max="<?= date('Y-m-d')?>">
                   </div>
                 </div>
               </div>
               <div class="row">
                 <div class="form-group col-xs-6">
                   <label for="valor">Data referência (ínicio contribuição)</label>
-                  <input type="date" class="form-control" id="data_referencia" name="data_referencia">
+                  <input type="date" class="form-control" id="data_referencia" name="data_referencia" min="<?= date('Y-m-d')?>">
                 </div>
                 <div class="form-group col-xs-6">
                   <label for="valor">Valor/período em R$</label>
-                  <input type="number" class="form-control" id="valor_periodo" name="valor_periodo" onkeypress="return Onlynumbers(event)">
+                  <input type="number" class="form-control" id="valor_periodo" name="valor_periodo" onkeypress="return Onlynumbers(event)" min="<?= 0 ?>">
                 </div>
               </div>
               <div class="row">

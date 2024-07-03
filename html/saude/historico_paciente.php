@@ -93,7 +93,7 @@ $sinaisvitais = $pdo->query("SELECT id_sinais_vitais, data, saturacao, pressao_a
 //formatar data
 foreach($sinaisvitais as $key => $value){
   $data = new DateTime($value['data']);
-  $sinaisvitais[$key]['data'] = $data->format('d/m/Y');
+  $sinaisvitais[$key]['data'] = $data->format('d/m/Y H:i');
 }
 
 $sinaisvitais = json_encode($sinaisvitais);
@@ -222,6 +222,7 @@ $idPaciente = $idPaciente->fetch(PDO::FETCH_ASSOC);
   <!-- JavaScript Functions -->
   <script src="../../Functions/enviar_dados.js"></script>
   <script src="../../Functions/mascara.js"></script>
+  <script src="../../Functions/onlyNumbers.js"></script>
   <link rel="icon" href="<?php display_campo("Logo", 'file'); ?>" type="image/x-icon" id="logo-icon">
   <script>
     $(function() {
@@ -527,7 +528,7 @@ $idPaciente = $idPaciente->fetch(PDO::FETCH_ASSOC);
                         <div class="form-group">
                           <label class="col-md-3 control-label" for="profileCompany">Data da aferição<sup class="obrig">*</sup></label>
                           <div class="col-md-6">
-                            <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data_afericao" id="data_afericao" max=<?php echo date('Y-m-d'); ?> required>
+                            <input type="datetime-local" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data_afericao" id="data_afericao" max=<?php echo date('Y-m-d\TH:i'); ?> required>
                           </div>
                         </div>
 
@@ -549,14 +550,14 @@ $idPaciente = $idPaciente->fetch(PDO::FETCH_ASSOC);
                         <div class="form-group">
                           <label class="col-md-3 control-label" for="profileCompany">Frequência cardíaca (em bpm):</label>
                           <div class="col-md-6">
-                            <input type="number" maxlength="3" class="form-control" name="freq_card" id="freq_card" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength); if(this.value<0) this.value = this.value*-1;">
+                            <input type="number" maxlength="3" class="form-control" name="freq_card" id="freq_card" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength); if(this.value<0) this.value = this.value*-1;" onkeypress="return Onlynumbers(event)">
                           </div>
                         </div>
 
                         <div class="form-group">
                           <label class="col-md-3 control-label" for="profileCompany">Frequência respiratória (em rpm):</label>
                           <div class="col-md-6">
-                            <input type="number" maxlength="3" class="form-control" name="freq_resp" id="freq_resp" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength); if(this.value<0) this.value = this.value*-1;">
+                            <input type="number" maxlength="3" class="form-control" name="freq_resp" id="freq_resp" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength); if(this.value<0) this.value = this.value*-1;" onkeypress="return Onlynumbers(event)">
                           </div>
                         </div>
 
