@@ -64,8 +64,6 @@
       if (!class_exists('Conexao')) {
           die('Erro: O arquivo conexao.php não foi encontrado em nenhum dos caminhos especificados.');
       }
-      
-      $conexao = Conexao::connect();
 
       $pdo = Conexao::connect();
 
