@@ -47,14 +47,48 @@
             ?>
             <input type="hidden" id="id_socio" name="id_socio" value="<?php echo($id_socio); ?>">
             <?php
-        $id_socio = mysqli_real_escape_string($conexao, $id_socio);
+          $possible_paths = [
+          dirname(__FILE__) . '/../../../../dao/Conexao.php',
+          dirname(__FILE__) . '/../../../dao/Conexao.php',
+          dirname(__FILE__) . '/../../dao/Conexao.php',
+          dirname(__FILE__) . '/../dao/Conexao.php'
+      ];
+      
+      foreach ($possible_paths as $path) {
+          if (file_exists($path)) {
+              require_once realpath($path);
+              break;
+          }
+      }
+      
+      if (!class_exists('Conexao')) {
+          die('Erro: O arquivo conexao.php não foi encontrado em nenhum dos caminhos especificados.');
+      }
+      
+      $conexao = Conexao::connect();
 
-        $stmt = $conexao->prepare("SELECT *, s.id_socio as socioid FROM socio AS s LEFT JOIN pessoa AS p ON s.id_pessoa = p.id_pessoa LEFT JOIN socio_tipo AS st ON s.id_sociotipo = st.id_sociotipo LEFT JOIN (SELECT id_socio, MAX(data) AS ultima_data_doacao FROM log_contribuicao GROUP BY id_socio) AS lc ON lc.id_socio = s.id_socio WHERE s.id_socio = ?");
-        $stmt->bind_param("i", $id_socio);
-        $stmt->execute();
-        $resultado = $stmt->get_result();
-        $registro = $resultado->fetch_assoc();
+      $pdo = Conexao::connect();
 
+      $id_socio = filter_var($id_socio, FILTER_SANITIZE_NUMBER_INT);
+      
+      $stmt = $pdo->prepare("
+          SELECT *, s.id_socio as socioid
+          FROM socio AS s
+          LEFT JOIN pessoa AS p ON s.id_pessoa = p.id_pessoa
+          LEFT JOIN socio_tipo AS st ON s.id_sociotipo = st.id_sociotipo
+          LEFT JOIN (
+              SELECT id_socio, MAX(data) AS ultima_data_doacao
+              FROM log_contribuicao
+              GROUP BY id_socio
+          ) AS lc ON lc.id_socio = s.id_socio
+          WHERE s.id_socio = :id_socio
+      ");
+      $stmt->bindParam(':id_socio', $id_socio, PDO::PARAM_INT);
+      $stmt->execute();
+      
+      $registro = $stmt->fetch(PDO::FETCH_ASSOC);
+      
+      if ($registro !== false) {
         $nome_socio = $registro['nome'];
         $email = $registro['email'];
         $telefone = $registro['telefone'];
@@ -70,6 +104,9 @@
         $bairro = $registro['bairro'];
         $cidade = $registro['cidade'];
         $estado = $registro['estado'];
+    } else {
+        echo "Nenhum registro encontrado para o id_socio especificado.";
+    }
 
         $dados_contrib = json_encode($registro);
 
