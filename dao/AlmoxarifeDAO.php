@@ -16,16 +16,19 @@
                 ")->fetchAll(PDO::FETCH_ASSOC);
                 return json_encode($almoxarife);
             }catch (PDOException $e){
-                echo 'Error:' . $e->getMessage();
+                echo 'Erro ao listar almoxarifes: ' . $e->getMessage();
             }
         }
 
         public function excluir($id){
             try {
                 $pdo = Conexao::connect();
-                $pdo->exec("DELETE FROM almoxarife WHERE id_almoxarife=$id;");
+                $sql = "DELETE FROM almoxarife WHERE id_almoxarife=:id";
+                $stmt = $pdo->prepare($sql);
+                $stmt->bindParam(':id', $id);
+                $stmt->execute();
             } catch (PDOException $e) {
-                echo 'Error:' . $e->getMessage();
+                echo 'Erro ao excluir almoxarife: ' . $e->getMessage();
             }
         }
     }
