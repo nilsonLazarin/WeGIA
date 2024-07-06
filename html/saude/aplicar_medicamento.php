@@ -84,6 +84,13 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
   $medaplicadas = $pdo->query("SELECT medicamento, aplicação, p.nome as nomeFuncionario FROM saude_medicacao sm JOIN saude_medicamento_administracao sa ON (sm.id_medicacao = sa.saude_medicacao_id_medicacao) join saude_atendimento saa on(saa.id_atendimento=sm.id_atendimento)
   JOIN funcionario f ON (sa.funcionario_id_funcionario=f.id_funcionario) JOIN pessoa p ON (p.id_pessoa=f.id_pessoa) WHERE saa.id_fichamedica= '$a' ORDER BY aplicação DESC");
   $medaplicadas = $medaplicadas->fetchAll(PDO::FETCH_ASSOC);
+
+  foreach($medaplicadas as $key => $value){
+    //formatar data
+    $data = new DateTime($value['aplicação']);
+    $medaplicadas[$key]['aplicação'] = $data->format('d/m/Y h:i:s'); 
+  }
+
   $medaplicadas = json_encode($medaplicadas);
 
   $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);

@@ -227,7 +227,7 @@
                                         {
 											$id_tag = $row['id_sociotag'];
 											$tag = $row['tag'];
-                                            echo "<tr><td>$id_tag</td><td><input id='$id_tag' type='text' value='$tag'></td><td><a id='a_$id_tag' class='btn btn-primary' href='salvar_tag.php?id_tag=$id_tag&value='>Salvar</a><td><a class='btn btn-danger' href='deletar_tag.php?id_tag=$id_tag'>Deletar</a></td></tr>";
+                                            echo "<tr><td>$id_tag</td><td><input id='$id_tag' type='text' value='$tag'></td><td><a id='a_$id_tag' class='btn btn-primary' href='salvar_tag.php?id_tag=$id_tag&value=$tag' disabled>Salvar</a><td><a class='btn btn-danger' href='deletar_tag.php?id_tag=$id_tag'>Deletar</a></td></tr>";
                                         }         
 									?>
 								</tbody>
@@ -257,14 +257,16 @@
                 $("input").change(function(){
                     console.log($(this).val());
                     var id = this.id;
-                    $("#a_"+id).attr("href", `salvar_tag.php?id_tag=${id}&value=${$(this).val()}`)
+                    $("#a_"+id).attr("href", `salvar_tag.php?id_tag=${id}&value=${$(this).val()}`);
+					$("#a_"+id).attr("disabled", false);
 				})
 				
 				setInterval(function(){
 					$("input").change(function(){
 						console.log($(this).val());
 						var id = this.id;
-						$("#a_"+id).attr("href", `salvar_tag.php?id_tag=${id}&value=${$(this).val()}`)
+						$("#a_"+id).attr("href", `salvar_tag.php?id_tag=${id}&value=${$(this).val()}`);
+						$("#a_"+id).attr("disabled", false);
 					})
 				}, 300)
             })

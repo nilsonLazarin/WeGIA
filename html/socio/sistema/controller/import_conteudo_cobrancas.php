@@ -1,7 +1,5 @@
 <?php
-  $locale = ( isset($_COOKIE['locale']) ) ? 
-  $_COOKIE['locale'] : 
-  $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+$locale = (isset($_COOKIE['locale'])) ? filter_var($_COOKIE['locale'], FILTER_SANITIZE_STRING) : filter_var($_SERVER['HTTP_ACCEPT_LANGUAGE'], FILTER_SANITIZE_STRING);
 setlocale(LC_ALL, $locale);
 ?>
 
@@ -53,12 +51,12 @@ setlocale(LC_ALL, $locale);
     <div class="box-body box_tabela_cobranca">
     <?php
 									if(isset($_GET['msg_c'])){
-										$msg = $_GET['msg_c'];
+										$msg = htmlspecialchars($_GET['msg_c']);
 										echo('<div class="alert alert-success" role="alert">
 										'. $msg .'
 									  </div>');
 									}else if(isset($_GET['msg_e'])){
-										$msg = $_GET['msg_e'];
+										$msg = htmlspecialchars($_GET['msg_e']);
 										echo('<div class="alert alert-danger" role="alert">
 										'. $msg .'
 									  </div>');
@@ -99,7 +97,30 @@ setlocale(LC_ALL, $locale);
             </tr>
           </tfoot>
         </table>
-        <?php $num_socios = mysqli_num_rows(mysqli_query($conexao,"select * from socio")); ?>
+        <?php 
+        $possible_paths = [
+          dirname(__FILE__) . '/../../../../dao/Conexao.php',
+          dirname(__FILE__) . '/../../../dao/Conexao.php',
+          dirname(__FILE__) . '/../../dao/Conexao.php',
+          dirname(__FILE__) . '/../dao/Conexao.php'
+      ];
+      
+      foreach ($possible_paths as $path) {
+          if (file_exists($path)) {
+              require_once realpath($path);
+              break;
+          }
+      }
+      
+      if (!class_exists('Conexao')) {
+          die('Erro: O arquivo conexao.php não foi encontrado em nenhum dos caminhos especificados.');
+      }
+      
+      $pdo = Conexao::connect();
+      $stmt = $pdo->query("SELECT COUNT(*) as num_socios FROM socio");
+      $result = $stmt->fetch(PDO::FETCH_ASSOC);
+      $num_socios = $result['num_socios'];
+        ?>
         <div class="row">
           <a id="btn_importar_xlsx_cobranca" class="btn btn-app">
         <i class="fa fa-upload"></i> Importar Cobranças

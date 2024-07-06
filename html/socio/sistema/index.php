@@ -145,7 +145,7 @@
     <script src="../../../Functions/onlyChars.js"></script>
     <script src="../../../Functions/mascara.js"></script>
     <script src="../../contribuicao/js/geraboleto.js"></script>
-    <script src="/html/socio/sistema/controller/script/relatorios_socios.js"></script>
+    <script src="./controller/script/relatorios_socios.js"></script>
 
 	<script type="text/javascript">
 		$(function () {

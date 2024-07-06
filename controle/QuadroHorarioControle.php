@@ -22,6 +22,7 @@ class QuadroHorarioControle
             $_SESSION['msg'] = "Erro ao adicionar tipo: " . $e->getMessage();
             $_SESSION['flag'] = "erro";
         }
+        $_SESSION['btnVoltar'] = true;
         header("Location: $nextPage");
     }
 
@@ -52,6 +53,7 @@ class QuadroHorarioControle
             $_SESSION['msg'] = "Erro ao adicionar escala: " . $e->getMessage();
             $_SESSION['flag'] = "erro";
         }
+        $_SESSION['btnVoltar'] = true;
         header("Location: $nextPage");
     }
 

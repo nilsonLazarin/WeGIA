@@ -62,17 +62,23 @@
                         isset ($_POST['c_senha']) and
                         isset($_POST['mensagem'])
                     ){
-                        $nome_empresa = trim($_POST['nome']);
-                        $senha = $_POST['senha'];
-                        $c_senha = $_POST['c_senha'];
-                        $mensagem = trim($_POST['mensagem']);
+                        $nome_empresa = mysqli_real_escape_string($conexao, trim($_POST['nome']));
+						$senha = mysqli_real_escape_string($conexao, $_POST['senha']);
+						$c_senha = mysqli_real_escape_string($conexao, $_POST['c_senha']);
+						$mensagem = mysqli_real_escape_string($conexao, trim($_POST['mensagem']));
+
 
                         if($senha == $c_senha){
                             if(!empty($_FILES['foto_login']['name'])){
                                 $foto = $_FILES['foto_login'];
-                                $destino = "../images/".$foto['name'];
-                                move_uploaded_file($foto['tmp_name'], $destino);
-                                $destino = "./images/".$foto['name'];
+
+								if(exif_imagetype($foto['tmp_name']) !== false) {
+									$destino = "../images/".$foto['name'];
+									move_uploaded_file($foto['tmp_name'], $destino);
+									$destino = "./images/".$foto['name'];
+								} else {
+									echo("<div class='alert alert-danger text-center wrap-input100' role='alert'>O arquivo enviado não é uma imagem válida.</div>");
+								}
                             }else{
 								if(!$_SESSION['adm_configurado']) $destino = "./configuracao/dados/imagem_padrao.jpg";
 								else{
@@ -80,7 +86,9 @@
 									$destino = $destino['url_img'];
 								}
 							}
-                            echo("<pre>".print_r(var_dump($_FILES))."</pre>");
+                            echo "<pre>";
+							var_dump($_FILES);
+							echo "</pre>";
                             $comando = "UPDATE `configuracao` SET `nome`='$nome_empresa',`foto_login`='$destino',`mensagem_login`='$mensagem' WHERE 1";
                             $resultado = mysqli_query($conexao, $comando);
                             if(mysqli_affected_rows($conexao)){

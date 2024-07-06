@@ -10,7 +10,7 @@ class Memorando
 
 	public function __construct($titulo)
 	{
-		$this->titulo=$titulo;
+		$this->titulo = $titulo;
 	}
 
 	public function getId_memorando()
@@ -58,11 +58,14 @@ class Memorando
 		$this->titulo = $titulo;
 	}
 
-	public function setData()
+	public function setData($data = null)
 	{
-		date_default_timezone_set('America/Sao_Paulo');
-        $data=date('Y-m-d H:i:s');
-		$this->data = $data;
+		if ($data) {
+			$this->data = $data;
+		} else {
+			date_default_timezone_set('America/Sao_Paulo');
+			$data = date('Y-m-d H:i:s');
+			$this->data = $data;
+		}
 	}
 }
-?>

@@ -17,7 +17,9 @@ require_once ROOT."/dao/memorando/UsuarioDAO.php";
 
 class MemorandoDAO
 {
-	//Listar memorandos ativos (Caixa de entrada)
+	/**
+	 * Lista os memorandos ativos (Caixa de Entrada) do usuário logado no momento. 
+	 */
 	public function listarTodos()
 	{
 		try
@@ -26,27 +28,30 @@ class MemorandoDAO
 			$pdo = Conexao::connect();
 			$cpf_usuario = $_SESSION["usuario"];
 			$usuario=new UsuarioDAO;
-			$id_usuario=$usuario->obterUsuario($cpf_usuario);
-			$id_usuario=$id_usuario['0']['id_pessoa'];
-			$consulta = $pdo->query("SELECT d.id_memorando, d.id_destinatario, m.titulo, d.data, d.id_remetente, m.id_status_memorando, m.id_pessoa, d.id_destinatario FROM despacho d INNER JOIN memorando m ON(d.id_memorando=m.id_memorando) WHERE (d.id_despacho IN (SELECT MAX(id_despacho) FROM despacho GROUP BY id_memorando)) AND m.id_status_memorando!='6' AND d.id_destinatario='$id_usuario' ORDER BY m.data DESC");
-			$x = 0;
+			$id_usuario=$usuario->obterUsuario($cpf_usuario)['0']['id_pessoa'];
 
-			while($linha = $consulta->fetch(PDO::FETCH_ASSOC))
-			{
-				$Memorandos[$x]=array('id_memorando'=>$linha['id_memorando'], 'id_pessoa'=>$linha['id_pessoa'], 'id_status_memorando'=>$linha['id_status_memorando'], 'titulo'=>$linha['titulo'], 'data'=>$linha['data'], 'id_remetente'=>$linha['id_remetente'], 'id_destinatario'=>$linha['id_destinatario']);
-				$x++;
+			$sql = "SELECT d.id_memorando, d.id_destinatario, m.titulo, d.data, d.id_remetente, m.id_status_memorando, m.id_pessoa, d.id_destinatario FROM despacho d INNER JOIN memorando m ON(d.id_memorando=m.id_memorando) WHERE (d.id_despacho IN (SELECT MAX(id_despacho) FROM despacho GROUP BY id_memorando)) AND m.id_status_memorando!='6' AND d.id_destinatario=:idUsuario ORDER BY m.data DESC";
+			$stmt = $pdo->prepare($sql);
+			$stmt->bindParam(':idUsuario', $id_usuario);
+			$stmt->execute();
+			$resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+			if($resultado){
+				$Memorandos = $resultado;
 			}
 		}
 
-		catch(PDOExeption $e)
+		catch(PDOException $e)
 		{
-			echo 'Error:' . $e->getMessage;
+			echo 'Error:' . $e->getMessage();
 		}
 
 		return json_encode($Memorandos);
 	}
 
-    //LIstar memorando pelo Id
+    /**
+	 * Recebe como parâmetro o id de um memorando e retorna as informações de um memorando guardado no banco de dados
+	 */
 	public function listarTodosId($id_memorando)
 	{
 		try
@@ -57,26 +62,30 @@ class MemorandoDAO
 			$usuario=new UsuarioDAO;
 			$id_usuario=$usuario->obterUsuario($cpf_usuario);
 			$id_usuario=$id_usuario['0']['id_pessoa'];
-			$consulta = $pdo->query("SELECT titulo, id_status_memorando, id_pessoa, id_memorando FROM memorando WHERE id_memorando='$id_memorando'");
-			$x = 0;
+			
+			$sql = "SELECT titulo, id_status_memorando, id_pessoa, id_memorando FROM memorando WHERE id_memorando=:idMemorando";
+			$stmt = $pdo->prepare($sql);
+			$stmt->bindParam(':idMemorando', $id_memorando);
+			$stmt->execute();
+			$resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-			while($linha = $consulta->fetch(PDO::FETCH_ASSOC))
-			{
-				$Memorando[$x]=array('id_memorando'=>$linha['id_memorando'], 'id_pessoa'=>$linha['id_pessoa'], 'id_status_memorando'=>$linha['id_status_memorando'], 'titulo'=>$linha['titulo']);
-				$x++;
+			if($resultado){
+				$Memorando = $resultado;
 			}
 		}
 
-		catch(PDOExeption $e)
+		catch(PDOException $e)
 		{
-			echo 'Error:' . $e->getMessage;
+			echo 'Error:' . $e->getMessage();
 		}
 
 		return $Memorando;
 	}
 
 
-	//LIstar memorandos inativos
+	/**
+	 * Lista todos os memorandos inativos do usuário daquela sessão em específico.
+	 */
 	public function listarTodosInativos()
 	{
 		try
@@ -84,27 +93,31 @@ class MemorandoDAO
 			$Memorandos = array();
 			$cpf_usuario = $_SESSION["usuario"];
 			$usuario = new UsuarioDAO;
-			$id_usuario=$usuario->obterUsuario($cpf_usuario);
-			$id_usuario=$id_usuario['0']['id_pessoa'];
+			$id_usuario=$usuario->obterUsuario($cpf_usuario)['0']['id_pessoa'];
 			$pdo = Conexao::connect();
-			$consulta = $pdo->query("SELECT DISTINCT m.id_memorando, m.titulo, m.data, p.nome, m.id_status_memorando FROM memorando m JOIN despacho d ON(d.id_memorando=m.id_memorando) JOIN pessoa p ON(m.id_pessoa=p.id_pessoa) WHERE d.id_remetente=$id_usuario");
-			$x = 0;
+			
+			$sql = "SELECT DISTINCT m.id_memorando, m.titulo, m.data, p.nome, m.id_status_memorando FROM memorando m JOIN despacho d ON(d.id_memorando=m.id_memorando) JOIN pessoa p ON(m.id_pessoa=p.id_pessoa) WHERE d.id_remetente=:idUsuario";
+			$stmt = $pdo->prepare($sql);
+			$stmt->bindParam(':idUsuario', $id_usuario);
+			$stmt->execute();
+			$resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-			while($linha = $consulta->fetch(PDO::FETCH_ASSOC))
-			{
-				$Memorandos[$x]=array('id_memorando'=>$linha['id_memorando'], 'titulo'=>$linha['titulo'], 'data'=>$linha['data'], 'nome'=>$linha['nome'], 'id_status_memorando'=>$linha['id_status_memorando']);
-				$x++;
+			if($resultado){
+				$Memorandos = $resultado;
 			}
 		}
 
-		catch(PDOExeption $e)
+		catch(PDOException $e)
 		{
-			echo 'Error:' . $e->getMessage;
+			echo 'Error:' . $e->getMessage();
 		}
 
 		return json_encode($Memorandos);
 	}
 
+	/**
+	 * Retorna o id de todos os memorandos inativos do usuário logado na sessão
+	 */
 	public function listarIdTodosInativos()
 	{
 		try
@@ -112,22 +125,26 @@ class MemorandoDAO
 			$Memorandos = array();
 			$cpf_usuario = $_SESSION["usuario"];
 			$usuario = new UsuarioDAO;
-			$id_usuario=$usuario->obterUsuario($cpf_usuario);
-			$id_usuario=$id_usuario['0']['id_pessoa'];
+			$id_usuario=$usuario->obterUsuario($cpf_usuario)['0']['id_pessoa'];
 			$pdo = Conexao::connect();
-			$consulta = $pdo->query("SELECT DISTINCT m.id_memorando FROM memorando m JOIN despacho d ON(d.id_memorando=m.id_memorando) JOIN pessoa p ON(m.id_pessoa=p.id_pessoa) WHERE (d.id_destinatario=$id_usuario OR d.id_remetente=$id_usuario)");
-			$x = 0;
+			
+			$sql = "SELECT DISTINCT m.id_memorando FROM memorando m JOIN despacho d ON(d.id_memorando=m.id_memorando) JOIN pessoa p ON(m.id_pessoa=p.id_pessoa) WHERE (d.id_destinatario=:idUsuario1 OR d.id_remetente=:idUsuario2)";
+			$stmt = $pdo->prepare($sql);
+			$stmt->bindParam(':idUsuario1', $id_usuario);
+			$stmt->bindParam(':idUsuario2', $id_usuario);
+			$stmt->execute();
+			$resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-			while($linha = $consulta->fetch(PDO::FETCH_ASSOC))
-			{
-				$Memorandos[$x]=$linha['id_memorando'];
-				$x++;
+			if($resultado){
+				foreach($resultado as $linha){
+					$Memorandos []= $linha['id_memorando'];
+				}
 			}
 		}
 
-		catch(PDOExeption $e)
+		catch(PDOException $e)
 		{
-			echo 'Error:' . $e->getMessage;
+			echo 'Error:' . $e->getMessage();
 		}
 
 		return $Memorandos;
@@ -191,45 +208,54 @@ class MemorandoDAO
 		}
 	}
 
-	//Buscar último despacho de um memorando
+	/**
+	 * Busca o último despacho associado ao id do memorando informado pelo parâmetro
+	 */
 	public function buscarUltimoDespacho($id_memorando)
 	{
 		$Despacho = array();
 		try
 		{
 			$pdo = Conexao::connect();
-			$consulta = $pdo->query("SELECT id_destinatario, id_despacho, id_remetente FROM despacho WHERE id_despacho IN (SELECT MAX(id_despacho) FROM despacho WHERE id_memorando='$id_memorando')");
-			$x = 0;
+			
+			$sql = "SELECT id_destinatario, id_despacho, id_remetente FROM despacho WHERE id_despacho IN (SELECT MAX(id_despacho) FROM despacho WHERE id_memorando=:idMemorando)";
+			$stmt = $pdo->prepare($sql);
+			$stmt->bindParam(':idMemorando', $id_memorando);
+			$stmt->execute();
 
-			while($linha = $consulta->fetch(PDO::FETCH_ASSOC))
+			$x = 0;
+			while($linha = $stmt->fetch(PDO::FETCH_ASSOC))
 			{
 				$Despacho[$x]=array('id_destinatarioo'=>$linha['id_destinatario'], 'id_despacho'=>$linha['id_despacho'], 'id_remetente'=>$linha['id_remetente']);
 				$x++;
 			}
 		}
 
-		catch(PDOExeption $e)
+		catch(PDOException $e)
 		{
-			echo 'Error:' . $e->getMessage;
+			echo 'Error:' . $e->getMessage();
 		}
 
 		return $Despacho;
 	}
-
-	//Buscar id_status_memorando
+	/**
+	 * Busca o id do status de um memorando cujo o seu id foi passado como parâmetro para o método.
+	 */
 	public function buscarIdStatusMemorando($id_memorando)
 	{
 		try
 		{
 			$id = array();
 			$pdo = Conexao::connect();
-			$consulta = $pdo->query("SELECT id_status_memorando FROM memorando WHERE id_memorando=$id_memorando");
-			$x = 0;
+			
+			$sql = "SELECT id_status_memorando FROM memorando WHERE id_memorando=:idMemorando";
+			$stmt = $pdo->prepare($sql);
+			$stmt->bindParam(':idMemorando', $id_memorando);
+			$stmt->execute();
+			$resultado = $stmt->fetch(PDO::FETCH_ASSOC);
 
-			while($linha = $consulta->fetch(PDO::FETCH_ASSOC))
-			{
-				$id[$x] = $linha['id_status_memorando'];
-				$x++;
+			if($resultado){
+				$id []= $resultado['id_status_memorando'];
 			}
 		}
 		catch(PDOException $e)
@@ -239,15 +265,21 @@ class MemorandoDAO
 		return $id;
 	}
 
-	//Verifica se um memorando existe
+	/**
+	 * Verifica se um memorando com id igual ao informado como parâmetro existe na base de dados.
+	 */
 	public function issetMemorando($id_memorando)
 	{
 		try
 		{
 			$pdo = Conexao::connect();
-			$consulta = $pdo->query("SELECT id_memorando FROM memorando WHERE id_memorando=$id_memorando");
 
-			if(null == $consulta->fetch(PDO::FETCH_ASSOC))
+			$sql = "SELECT id_memorando FROM memorando WHERE id_memorando=:idMemorando";
+			$stmt = $pdo->prepare($sql);
+			$stmt->bindParam(':idMemorando', $id_memorando);
+			$stmt->execute();
+
+			if(null == $stmt->fetch(PDO::FETCH_ASSOC))
 			{
 				$retorno = 1;
 			}

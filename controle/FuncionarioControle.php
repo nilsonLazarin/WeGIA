@@ -697,6 +697,11 @@ class FuncionarioControle
             http_response_code(400);
             exit('Erro, o CPF informado não é válido');
         }
+
+        if($funcionario->getDataNascimento() > Funcionario::getDataNascimentoMaxima() || $funcionario->getDataNascimento() < Funcionario::getDataNascimentoMinima()){
+            http_response_code(400);
+            exit('Erro, a data de nascimento de um funcionário não está dentro dos limites permitidos.');
+        }
         //$beneficiados = $this->verificarBeneficiados();
         //$epi = $this->verificarEpi();
         $funcionarioDAO = new FuncionarioDAO();

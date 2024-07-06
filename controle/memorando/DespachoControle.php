@@ -1,25 +1,25 @@
 <?php
 
-ini_set('display_errors',1);
-ini_set('display_startup_erros',1);
+ini_set('display_errors', 1);
+ini_set('display_startup_erros', 1);
 error_reporting(E_ALL);
 
 $config_path = "config.php";
-if(file_exists($config_path)){
-    require_once($config_path);
-}else{
-    while(true){
-        $config_path = "../" . $config_path;
-        if(file_exists($config_path)) break;
-    }
-    require_once($config_path);
+if (file_exists($config_path)) {
+	require_once($config_path);
+} else {
+	while (true) {
+		$config_path = "../" . $config_path;
+		if (file_exists($config_path)) break;
+	}
+	require_once($config_path);
 }
 
-require_once ROOT."/dao/Conexao.php";
-require_once ROOT."/classes/memorando/Despacho.php";
-require_once ROOT."/dao/memorando/DespachoDAO.php";
-require_once ROOT."/dao/memorando/MemorandoDAO.php";
-require_once ROOT."/controle/memorando/MemorandoControle.php";
+require_once ROOT . "/dao/Conexao.php";
+require_once ROOT . "/classes/memorando/Despacho.php";
+require_once ROOT . "/dao/memorando/DespachoDAO.php";
+require_once ROOT . "/dao/memorando/MemorandoDAO.php";
+require_once ROOT . "/controle/memorando/MemorandoControle.php";
 
 class DespachoControle
 {
@@ -29,7 +29,7 @@ class DespachoControle
 		extract($_REQUEST);
 		$despachoDAO = new DespachoDAO();
 		$despachos = $despachoDAO->listarTodos($id_memorando);
-		$_SESSION['despacho']=$despachos;
+		$_SESSION['despacho'] = $despachos;
 
 		$MemorandoDAO = new MemorandoDAO();
 		$dadosMemorando = $MemorandoDAO->listarTodosId($id_memorando);
@@ -37,17 +37,15 @@ class DespachoControle
 		$ultimoDespacho =  new MemorandoControle;
 		$ultimoDespacho->buscarUltimoDespacho($id_memorando);
 
-		if(!empty($_SESSION['ultimo_despacho']))
-		{
-		if($dadosMemorando[0]['id_status_memorando'] == 3 AND $_SESSION['ultimo_despacho'][0]['id_destinatarioo']==$_SESSION['id_pessoa'])
-		{
-			$memorando = new Memorando('','',$dadosMemorando[0]['id_status_memorando'],'','');
-       		$memorando->setId_memorando($id_memorando);
-        	$memorando->setId_status_memorando(2);
-			$MemorandoDAO2 = new MemorandoDAO();
-			$id_status_memorando = 2;
-			$MemorandoDAO2->alterarIdStatusMemorando($memorando);
-		}
+		if (!empty($_SESSION['ultimo_despacho'])) {
+			if ($dadosMemorando[0]['id_status_memorando'] == 3 and $_SESSION['ultimo_despacho'][0]['id_destinatarioo'] == $_SESSION['id_pessoa']) {
+				$memorando = new Memorando('', '', $dadosMemorando[0]['id_status_memorando'], '', '');
+				$memorando->setId_memorando($id_memorando);
+				$memorando->setId_status_memorando(2);
+				$MemorandoDAO2 = new MemorandoDAO();
+				$id_status_memorando = 2;
+				$MemorandoDAO2->alterarIdStatusMemorando($memorando);
+			}
 		}
 	}
 
@@ -66,26 +64,22 @@ class DespachoControle
 		extract($_REQUEST);
 		$despacho = $this->verificarDespacho();
 		$despachoDAO = new DespachoDAO();
-		try
-		{
+		try {
 			$lastId = $despachoDAO->incluir($despacho);
 			$anexoss = $_FILES["anexo"];
 			$anexo2 = $_FILES["anexo"]["tmp_name"][0];
 			var_dump($anexo2);
-    		if(isset($anexo2) && !empty($anexo2))
-    		{
-				require_once ROOT."/controle/memorando/AnexoControle.php";
-    			$arquivo = new AnexoControle();
-    			$arquivo->incluir($anexoss, $lastId);
-    		}
-    		$msg = "success";
+			if (isset($anexo2) && !empty($anexo2)) {
+				require_once ROOT . "/controle/memorando/AnexoControle.php";
+				$arquivo = new AnexoControle();
+				$arquivo->incluir($anexoss, $lastId);
+			}
+			$msg = "success";
 			$sccd = "Despacho enviado com sucesso";
-			header("Location: ".WWW."html/memorando/listar_memorandos_ativos.php?msg=".$msg."&sccd=".$sccd);
-		}
-		catch(PDOException $e)
-		{
-			$msg= "Não foi possível criar o despacho"."<br>".$e->getMessage();
-            echo $msg;
+			header("Location: " . WWW . "html/memorando/listar_memorandos_ativos.php?msg=" . $msg . "&sccd=" . $sccd);
+		} catch (PDOException $e) {
+			$msg = "Não foi possível criar o despacho" . "<br>" . $e->getMessage();
+			echo $msg;
 		}
 	}
 
@@ -95,20 +89,36 @@ class DespachoControle
 		session_start();
 		$cpf_usuario = $_SESSION["usuario"];
 		extract($_REQUEST);
-		if(!isset($texto) || (empty($texto)))
-		{
-			$msg = "Texto do despacho não informado. Por favor informe um texto";
-		}
 
 		$pessoa = new UsuarioDAO();
-    	$id_pessoa = $pessoa->obterUsuario($cpf_usuario);
-    	$id_pessoa = $id_pessoa['0']['id_pessoa'];
-    	$despacho = new Despacho($texto);
-    	$despacho->setId_remetente($id_pessoa);
-    	$despacho->setData();
-    	$despacho->setId_destinatario($destinatario);
-    	$despacho->setId_memorando($id_memorando);
-    	return $despacho;
+		$id_pessoa = $pessoa->obterUsuario($cpf_usuario);
+		$id_pessoa = $id_pessoa['0']['id_pessoa'];
+
+		try {
+			$despacho = new Despacho($texto, $id_pessoa, $destinatario, $id_memorando);
+			return $despacho;
+		} catch (InvalidArgumentException $e) {
+			http_response_code(400);
+			exit('Erro ao verificar o despacho: ' . $e->getMessage());
+		}
+	}
+
+	public function getPorId(int $id){
+		try{
+			if($id < 1){
+                throw new InvalidArgumentException('O id de um despacho não pode ser menor que 1.');
+            }
+
+			$despachoDAO = new DespachoDAO();
+			$resultado = $despachoDAO->getPorId($id);
+
+			if(!$resultado){
+				return null;
+			}
+
+			return $resultado;
+		}catch(Exception $e){
+			echo 'Erro ao buscar um despacho pelo id: '.$e->getMessage();
+		}
 	}
 }
-?>

@@ -56,6 +56,11 @@ $docfuncional = $pdo->query("SELECT * FROM funcionario_docs f JOIN funcionario_d
 $docfuncional = $docfuncional->fetchAll(PDO::FETCH_ASSOC);
 foreach ($docfuncional as $key => $value) {
   $docfuncional[$key]["arquivo"] = gzuncompress($value["arquivo"]);
+
+  //formatar data
+  $data = new DateTime($value['data']);
+  $docfuncional[$key]['data'] = $data->format('d/m/Y h:i:s');
+
 }
 $docfuncional = json_encode($docfuncional);
 $dependente = $pdo->query("SELECT fdep.id_dependente AS id_dependente, p.nome AS nome, p.cpf AS cpf, par.descricao AS parentesco FROM funcionario_dependentes fdep LEFT JOIN funcionario f ON f.id_funcionario = fdep.id_funcionario LEFT JOIN pessoa p ON p.id_pessoa = fdep.id_pessoa LEFT JOIN funcionario_dependente_parentesco par ON par.id_parentesco = fdep.id_parentesco WHERE fdep.id_funcionario = " . $_GET['id_funcionario']);

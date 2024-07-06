@@ -3,7 +3,12 @@
 <div class="modal fade" id="modalBoletofacil" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 <?php 
   require("../conexao.php");
-  $boletofacil = mysqli_fetch_array(mysqli_query($conexao, "SELECT `api`, `token_api`, `sandbox`, `token_sandbox`, `val_min_boleto_uni`, `max_dias_pos_venc`, `juros(%)`, `multa(%)`, `val_max_parcela`, `val_min_parcela`, `agradecimento`, `dias_boleto_a_vista`, `dias_venc_carne_op1`, `dias_venc_carne_op2`, `dias_venc_carne_op3`, `dias_venc_carne_op4`, `dias_venc_carne_op5`, `dias_venc_carne_op6` FROM `infoboletofacil` WHERE 1"));
+
+  $stmt = $conexao->prepare("SELECT `api`, `token_api`, `sandbox`, `token_sandbox`, `val_min_boleto_uni`, `max_dias_pos_venc`, `juros(%)`, `multa(%)`, `val_max_parcela`, `val_min_parcela`, `agradecimento`, `dias_boleto_a_vista`, `dias_venc_carne_op1`, `dias_venc_carne_op2`, `dias_venc_carne_op3`, `dias_venc_carne_op4`, `dias_venc_carne_op5`, `dias_venc_carne_op6` FROM `infoboletofacil` WHERE 1");
+  $stmt->execute();
+  $resultado = $stmt->get_result();
+  $boletofacil = $resultado->fetch_array(MYSQLI_ASSOC);
+
   $agradecimento = $boletofacil['agradecimento'];
   $url = $boletofacil['api'];
   $token = $boletofacil['token_api'];

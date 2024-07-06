@@ -9,9 +9,20 @@
         }
     }
     if(!empty($_FILES['arquivo']['name'])){
-        if(move_uploaded_file($_FILES['arquivo']['tmp_name'], "../tabelas/".$_FILES['arquivo']['name'])){
-            $r['resultado'] = true;
-            $r['url'] = "./tabelas/".$_FILES['arquivo']['name'];
+        $bloqueados = array('php', 'exe', 'sh', 'bat', 'js', 'html', 'htm');
+        $extensao = strtolower(pathinfo($_FILES['arquivo']['name'], PATHINFO_EXTENSION));
+
+        if (!in_array($extensao, $bloqueados)) {
+            $file_name = preg_replace("/[^a-zA-Z0-9\._-]/", "_", basename($_FILES['arquivo']['name']));
+
+             if (move_uploaded_file($_FILES['arquivo']['tmp_name'], "../tabelas/".$file_name)) {
+                $r['resultado'] = true;
+                $r['url'] = "./tabelas/".htmlspecialchars($file_name, ENT_QUOTES, 'UTF-8');
+            } else {
+            $r['url'] = "Erro ao mover o arquivo.";
+            }
+        } else {
+        $r['url'] = "Tipo de arquivo não permitido.";
         }
     }
 

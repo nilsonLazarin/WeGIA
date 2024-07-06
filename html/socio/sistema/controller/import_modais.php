@@ -10,7 +10,11 @@ if (file_exists($config_path)) {
   require_once($config_path);
 }
 
-$conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+try {
+  $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+} catch (Exception $e) {
+  echo "Ocorreu um erro ao se conectar com o db: " . $e->getMessage();
+}
 
 ?>
 
@@ -85,18 +89,18 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
                 <div class="div_nasc">
                   <div class="form-group col-xs-4">
                     <label for="valor">Data de nascimento</label>
-                    <input type="date" class="form-control" id="data_nasc" name="data_nasc">
+                    <input type="date" class="form-control" id="data_nasc" name="data_nasc" max="<?= date('Y-m-d')?>">
                   </div>
                 </div>
               </div>
               <div class="row">
                 <div class="form-group col-xs-6">
                   <label for="valor">Data referência (ínicio contribuição)</label>
-                  <input type="date" class="form-control" id="data_referencia" name="data_referencia">
+                  <input type="date" class="form-control" id="data_referencia" name="data_referencia" min="<?= date('Y-m-d')?>">
                 </div>
                 <div class="form-group col-xs-6">
                   <label for="valor">Valor/período em R$</label>
-                  <input type="number" class="form-control" id="valor_periodo" name="valor_periodo">
+                  <input type="number" class="form-control" id="valor_periodo" name="valor_periodo" onkeypress="return Onlynumbers(event)" min="<?= 0 ?>">
                 </div>
               </div>
               <div class="row">
@@ -118,9 +122,11 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
                   <select class="form-control" name="tags" id="tags">
                     <option value="none" disabled selected>Selecionar Grupo</option>
                     <?php
-                    $tags = mysqli_query($conexao, "SELECT * FROM socio_tag");
+                    $stmt = $conexao->prepare("SELECT * FROM socio_tag");
+                    $stmt->execute();
+                    $tags = $stmt->get_result();
                     while ($row = $tags->fetch_array(MYSQLI_NUM)) {
-                      echo "<option value=" . $row[0] . ">" . $row[1] . "</option>";
+                      echo "<option value=" . htmlspecialchars($row[0]) . ">" . htmlspecialchars($row[1]) . "</option>";
                     }
 
                     ?>
@@ -269,7 +275,7 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
               <div class="row">
                 <div class="form-group col-xs-6">
                   <label for="obs">Recebido por: </label>
-                  <input type="text" class="form-control" id="receptor" value="<?php echo ($nome); ?>" name="receptor" placeholder="" readonly>
+                  <input type="text" class="form-control" id="receptor" value="<?php echo (htmlspecialchars($nome)); ?>" name="receptor" placeholder="" readonly>
                 </div>
                 <div class="form-group col-xs-6">
                   <label for="valor">Valor</label>

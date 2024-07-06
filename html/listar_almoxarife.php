@@ -64,7 +64,7 @@
 //   }
 
   if (!isset($_SESSION['almoxarife'])){
-	header('Location: ../controle/control.php?metodo=listarTodos&nomeClasse=AlmoxarifeControle&nextPage=../html/listar_almoxarife.php');
+	header('Location: ../controle/control.php?metodo=listarTodos&nomeClasse=AlmoxarifeControle&nextPage='.WWW.'/html/listar_almoxarife.php');
   }else{
     $almoxarife = $_SESSION['almoxarife'];
     unset($_SESSION['almoxarife']);
@@ -131,7 +131,8 @@
 	<!-- jquery functions -->
 	<script>
 		function excluir(id){
-			window.location.replace('../controle/control.php?metodo=excluir&nomeClasse=AlmoxarifeControle&id_almoxarife='+id+'&nextPage=../html/listar_almoxarife.php');
+			const WWW = "<?=WWW?>";
+			window.location.replace('../controle/control.php?metodo=excluir&nomeClasse=AlmoxarifeControle&id_almoxarife='+id+'&nextPage='+WWW+'/html/listar_almoxarife.php');
 		}
 	</script>
 	<script>

@@ -62,14 +62,46 @@
                   </thead>
                   <tbody>
                       <?php
+                      try {
                           $fisica = 0;
                           $juridica = 0;
                           $socios_atrasados = 0;
                           $mensal = 0;
                           $casual = 0;
                           $si_contrib = 0;
-                          $query = mysqli_query($conexao, "SELECT *, s.id_socio as socioid FROM socio AS s LEFT JOIN pessoa AS p ON s.id_pessoa = p.id_pessoa LEFT JOIN socio_tipo AS st ON s.id_sociotipo = st.id_sociotipo LEFT JOIN (SELECT id_socio, MAX(data) AS ultima_data_doacao FROM log_contribuicao GROUP BY id_socio) AS lc ON lc.id_socio = s.id_socio");
-                          while($resultado = mysqli_fetch_array($query)){
+
+                          $possible_paths = [
+                            dirname(__FILE__) . '/../../../../dao/Conexao.php',
+                            dirname(__FILE__) . '/../../../dao/Conexao.php',
+                            dirname(__FILE__) . '/../../dao/Conexao.php',
+                            dirname(__FILE__) . '/../dao/Conexao.php'
+                        ];
+                        
+                        foreach ($possible_paths as $path) {
+                            if (file_exists($path)) {
+                                require_once realpath($path);
+                                break;
+                            }
+                        }
+                        
+                        if (!class_exists('Conexao')) {
+                            die('Erro: O arquivo conexao.php não foi encontrado em nenhum dos caminhos especificados.');
+                        }
+                        
+                        $pdo = Conexao::connect();
+
+                        $stmt = $pdo->query("
+                          SELECT *, s.id_socio as socioid 
+                          FROM socio AS s 
+                          LEFT JOIN pessoa AS p ON s.id_pessoa = p.id_pessoa 
+                          LEFT JOIN socio_tipo AS st ON s.id_sociotipo = st.id_sociotipo 
+                          LEFT JOIN (
+                            SELECT id_socio, MAX(data) AS ultima_data_doacao 
+                            FROM log_contribuicao 
+                            GROUP BY id_socio
+                          ) AS lc ON lc.id_socio = s.id_socio
+                        ");
+                          while($resultado = $stmt->fetch(PDO::FETCH_ASSOC)){
                             switch($resultado['id_sociotipo']){
                               case 0: case 1: 
                                   $casual++;
@@ -96,13 +128,13 @@
                                   $class = "bg-danger";
                               }
                             }
-                            $id = $resultado['socioid'];
-                            $cpf_cnpj = $resultado['cpf'];
-                            $nome_s = $resultado['nome'];
-                            $email = $resultado['email'];
-                            $telefone = $resultado['telefone'];
-                            $tipo_socio = $resultado['tipo'];
-                            $endereco = $resultado['logradouro']." ".$resultado['numero_endereco'].", ".$resultado['bairro'].", ".$resultado['cidade']." - ".$resultado['estado'];
+                            $id = htmlspecialchars($resultado['socioid']);
+                            $cpf_cnpj = htmlspecialchars($resultado['cpf']);
+                            $nome_s = htmlspecialchars($resultado['nome']);
+                            $email = htmlspecialchars($resultado['email']);
+                            $telefone = htmlspecialchars($resultado['telefone']);
+                            $tipo_socio = htmlspecialchars($resultado['tipo']);
+                            $endereco = htmlspecialchars($resultado['logradouro']." ".$resultado['numero_endereco'].", ".$resultado['bairro'].", ".$resultado['cidade']." - ".$resultado['estado']);
                             if(strlen($telefone) == 14){
                               $tel_url = preg_replace("/[^0-9]/", "", $telefone);
                               $telefone = "<a target='_blank' href='http://wa.me/55$tel_url'>$telefone</a>";
@@ -118,6 +150,9 @@
                             $del_json = json_encode(array("id"=>$id,"nome"=>$nome_s,"pessoa"=>$pessoa));
                             echo("<tr><td >$id</td><td onclick='detalhar_socio($id);' style='cursor: pointer' class='$class'>$nome_s</td><td><a href='mailto:$email'>$email</a></td><td>$telefone</td><td>$endereco</td><td>$cpf_cnpj</td><td>$tipo_socio</td><td><a href='editar_socio.php?socio=$id'><button type='button' class='btn btn-default btn-flat'><i class='fa fa-edit'></i></button></a></td><td><button onclick='deletar_socio_modal($del_json)' type='button' class='btn btn-default btn-flat'><i class='fa fa-remove text-red'></i></button></td></tr>");
                           }
+                        } catch(Exception $e) {
+                          echo "Erro: " . $e->getMessage();
+                        }
                       ?>
                   </tbody>
                   <tfoot>
@@ -170,6 +205,7 @@
 </body>
 <script>
 	function gerarCargo(){
+      try {
           url = '../../dao/exibir_cargo.php';
           $.ajax({
           data: '',
@@ -185,29 +221,37 @@
           },
           dataType: 'json'
         });
+      } catch(Exception $e) {
+          throw new Exception("Erro genérico: " . $e->getMessage(), 2);
+      }
       }
 
       function adicionar_cargo(){
-        url = '../../dao/adicionar_cargo.php';
-        var cargo = window.prompt("Cadastre um Novo Cargo:");
-        if(!cargo){return}
-        situacao = cargo.trim();
-        if(cargo == ''){return}              
+        try{
+          url = '../../dao/adicionar_cargo.php';
+          var cargo = window.prompt("Cadastre um Novo Cargo:");
+          if(!cargo){return}
+          situacao = cargo.trim();
+          if(cargo == ''){return}              
         
-          data = 'cargo=' +cargo; 
-          console.log(data);
-          $.ajax({
-          type: "POST",
-          url: url,
-          data: data,
-          success: function(response){
-            gerarCargo();
-          },
-          dataType: 'text'
-        })
+            data = 'cargo=' +cargo; 
+            console.log(data);
+            $.ajax({
+            type: "POST",
+            url: url,
+            data: data,
+            success: function(response){
+              gerarCargo();
+            },
+            dataType: 'text'
+          })
+        } catch(Exception $e) {
+            throw new Exception("Erro genérico: " . $e->getMessage(), 2);
+        }
       }
 
 	  function verificar_recursos_cargo(cargo_id){
+    try{
           url = '../../dao/verificar_recursos_cargo.php';              
           data = 'cargo=' +cargo_id; 
           console.log(data);
@@ -225,6 +269,9 @@
           },
           dataType: 'text'
         })
+    } catch(Exception $e) {
+        throw new Exception("Erro genérico: " . $e->getMessage(), 2);
+      }
       }
 
 	  $(document).ready(function(){
