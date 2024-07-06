@@ -69,8 +69,39 @@
                           $mensal = 0;
                           $casual = 0;
                           $si_contrib = 0;
-                          $query = mysqli_query($conexao, "SELECT *, s.id_socio as socioid FROM socio AS s LEFT JOIN pessoa AS p ON s.id_pessoa = p.id_pessoa LEFT JOIN socio_tipo AS st ON s.id_sociotipo = st.id_sociotipo LEFT JOIN (SELECT id_socio, MAX(data) AS ultima_data_doacao FROM log_contribuicao GROUP BY id_socio) AS lc ON lc.id_socio = s.id_socio");
-                          while($resultado = mysqli_fetch_array($query)){
+
+                          $possible_paths = [
+                            dirname(__FILE__) . '/../../../../dao/Conexao.php',
+                            dirname(__FILE__) . '/../../../dao/Conexao.php',
+                            dirname(__FILE__) . '/../../dao/Conexao.php',
+                            dirname(__FILE__) . '/../dao/Conexao.php'
+                        ];
+                        
+                        foreach ($possible_paths as $path) {
+                            if (file_exists($path)) {
+                                require_once realpath($path);
+                                break;
+                            }
+                        }
+                        
+                        if (!class_exists('Conexao')) {
+                            die('Erro: O arquivo conexao.php não foi encontrado em nenhum dos caminhos especificados.');
+                        }
+                        
+                        $pdo = Conexao::connect();
+
+                        $stmt = $pdo->query("
+                          SELECT *, s.id_socio as socioid 
+                          FROM socio AS s 
+                          LEFT JOIN pessoa AS p ON s.id_pessoa = p.id_pessoa 
+                          LEFT JOIN socio_tipo AS st ON s.id_sociotipo = st.id_sociotipo 
+                          LEFT JOIN (
+                            SELECT id_socio, MAX(data) AS ultima_data_doacao 
+                            FROM log_contribuicao 
+                            GROUP BY id_socio
+                          ) AS lc ON lc.id_socio = s.id_socio
+                        ");
+                          while($resultado = $stmt->fetch(PDO::FETCH_ASSOC)){
                             switch($resultado['id_sociotipo']){
                               case 0: case 1: 
                                   $casual++;
@@ -120,7 +151,7 @@
                             echo("<tr><td >$id</td><td onclick='detalhar_socio($id);' style='cursor: pointer' class='$class'>$nome_s</td><td><a href='mailto:$email'>$email</a></td><td>$telefone</td><td>$endereco</td><td>$cpf_cnpj</td><td>$tipo_socio</td><td><a href='editar_socio.php?socio=$id'><button type='button' class='btn btn-default btn-flat'><i class='fa fa-edit'></i></button></a></td><td><button onclick='deletar_socio_modal($del_json)' type='button' class='btn btn-default btn-flat'><i class='fa fa-remove text-red'></i></button></td></tr>");
                           }
                         } catch(Exception $e) {
-                          throw new Exception("Erro genérico: " . $e->getMessage(), 2);
+                          echo "Erro: " . $e->getMessage();
                         }
                       ?>
                   </tbody>

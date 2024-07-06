@@ -9,17 +9,36 @@
     }
     $cadastrado =  false;
     extract($_REQUEST);
+
+    $status = mysqli_real_escape_string($conexao, $status);
+    $linha_digitavel = mysqli_real_escape_string($conexao, $linha_digitavel);
+    $cpf_cnpj = mysqli_real_escape_string($conexao, $cpf_cnpj);
+    $socio_nome = mysqli_real_escape_string($conexao, $socio_nome);
+    $telefone = mysqli_real_escape_string($conexao, $telefone);
+    $email = mysqli_real_escape_string($conexao, $email);
+    $descricao = mysqli_real_escape_string($conexao, $descricao);
+    $link_cobranca = mysqli_real_escape_string($conexao, $link_cobranca);
+    $link_boleto = mysqli_real_escape_string($conexao, $link_boleto);
+
     if(!isset($data_nasc) or ($data_nasc == null) or ($data_nasc == "") or empty($data_nasc) or ($data_nasc == "imp")){
         $data_nasc = "null";
-    }else $data_nasc = "'$data_nasc'";
+    }else{
+        $data_nasc = mysqli_real_escape_string($conexao, $data_nasc);
+
+         if (DateTime::createFromFormat('Y-m-d', $data_nasc) !== false) {
+            $data_nasc = "'$data_nasc'";
+        } else {
+            $data_nasc = "null"; 
+        }
+    }
 
     if(!isset($data_pagamento) or ($data_pagamento == null) or ($data_pagamento == "") or empty($data_pagamento) or ($data_pagamento == "imp")){
         $data_pagamento = "0000-00-00";
-    }else $data_pagamento = $data_pagamento;
+    }else $data_pagamento = mysqli_real_escape_string($conexao, $data_pagamento);
 
     if(!isset($valor_pago) or ($valor_pago == null) or ($valor_pago == "") or empty($valor_pago) or ($valor_pago == "imp")){
         $valor_pago = 0;
-    }else $valor_pago = $valor_pago;
+    }else $valor_pago = mysqli_real_escape_string($conexao, $valor_pago);
 
     if(!isset($contribuinte)){
         $contribuinte = null;
