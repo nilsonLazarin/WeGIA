@@ -33,20 +33,41 @@
 				<!-- start: page -->
 				<div class="row">
         <?php
+          $possible_paths = [
+            dirname(__FILE__) . '/../../../../dao/Conexao.php',
+            dirname(__FILE__) . '/../../../dao/Conexao.php',
+            dirname(__FILE__) . '/../../dao/Conexao.php',
+            dirname(__FILE__) . '/../dao/Conexao.php'
+          ];
 
-                $nome_sistema = "BOLETOFACIL";
-                $stmt = $conexao->prepare("SELECT * FROM doacao_boleto_info AS bi JOIN sistema_pagamento AS sp ON (bi.id_sistema = sp.id) JOIN doacao_boleto_regras AS br ON (br.id = bi.id_regras)  WHERE nome_sistema = ?");
-                $stmt->bind_param("s", $nome_sistema);
-                $stmt->execute();
-                $resultado = $stmt->get_result();
-                $dados_sistema = $resultado->fetch_assoc();
+          foreach ($possible_paths as $path) {
+            if (file_exists($path)) {
+              require_once realpath($path);
+              break;
+            }
+          }
 
-                $token_api = $dados_sistema['token_api'];
-                extract($dados_sistema);
-                extract(json_decode($_REQUEST ['dados_contrib'], 1));
-                extract($_REQUEST);
-                
-            ?>
+          if (!class_exists('Conexao')) {
+            die('Erro: O arquivo conexao.php não foi encontrado em nenhum dos caminhos especificados.');
+          }
+
+          $conexao = Conexao::connect();
+
+          $nome_sistema = "BOLETOFACIL";
+          $stmt = $conexao->prepare("SELECT * FROM doacao_boleto_info AS bi JOIN sistema_pagamento AS sp ON (bi.id_sistema = sp.id) JOIN doacao_boleto_regras AS br ON (br.id = bi.id_regras)  WHERE nome_sistema = ?");
+          $stmt->execute([$nome_sistema]);
+          $dados_sistema = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+          if ($dados_sistema) {
+            foreach ($dados_sistema as $row) {
+                $token_api = $row['token_api'];
+            }
+        
+            if (isset($_REQUEST['dados_contrib'])) {
+                $dados_contrib = json_decode($_REQUEST['dados_contrib'], true);
+            }
+        }       
+        ?>
         <div class="box box-info box-solid socioModal">
             <div class="box-header">
               <h3 class="box-title"><i class="far fa-list-alt"></i> Gerar boleto/carnê</h3>

@@ -97,7 +97,30 @@ setlocale(LC_ALL, $locale);
             </tr>
           </tfoot>
         </table>
-        <?php $num_socios = mysqli_num_rows(mysqli_query($conexao,"select * from socio")); ?>
+        <?php 
+        $possible_paths = [
+          dirname(__FILE__) . '/../../../../dao/Conexao.php',
+          dirname(__FILE__) . '/../../../dao/Conexao.php',
+          dirname(__FILE__) . '/../../dao/Conexao.php',
+          dirname(__FILE__) . '/../dao/Conexao.php'
+      ];
+      
+      foreach ($possible_paths as $path) {
+          if (file_exists($path)) {
+              require_once realpath($path);
+              break;
+          }
+      }
+      
+      if (!class_exists('Conexao')) {
+          die('Erro: O arquivo conexao.php não foi encontrado em nenhum dos caminhos especificados.');
+      }
+      
+      $pdo = Conexao::connect();
+      $stmt = $pdo->query("SELECT COUNT(*) as num_socios FROM socio");
+      $result = $stmt->fetch(PDO::FETCH_ASSOC);
+      $num_socios = $result['num_socios'];
+        ?>
         <div class="row">
           <a id="btn_importar_xlsx_cobranca" class="btn btn-app">
         <i class="fa fa-upload"></i> Importar Cobranças

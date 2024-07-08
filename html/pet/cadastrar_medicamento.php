@@ -270,7 +270,6 @@ require_once ROOT."/html/personalizacao_display.php";
                                             <div class="panel-actions">
                                                 <a href="#" class="fa fa-caret-down"></a>
                                             </div>
-                                            <span style="color: red">Formulário em desenvolvimento</span>
                                             <h2 class="panel-title">Medicamento do Pet</h2>
                                         </header>
                                         <div class="panel-body">    
