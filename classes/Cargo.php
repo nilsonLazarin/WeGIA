@@ -6,7 +6,7 @@ class Cargo
 
     public function __construct($cargo, $id = null)
     {
-        $this->cargo = $this->setCargo($cargo);
+        $this->setCargo($cargo);
         if($id){
             $this->setId_cargo($id);
         }

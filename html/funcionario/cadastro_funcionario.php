@@ -692,7 +692,7 @@ require_once "../personalizacao_display.php";
     }
 
     function adicionar_cargo() {
-      url = '../../dao/adicionar_cargo.php';
+      url = '../../controle/control.php';
       var cargo = window.prompt("Cadastre um Novo Cargo:");
       if (!cargo) {
         return
@@ -702,17 +702,22 @@ require_once "../personalizacao_display.php";
         return
       }
 
-      data = 'cargo=' + cargo;
+      data = {
+        nomeClasse : 'CargoControle',
+        metodo: 'incluir',
+        cargo : cargo
+      };
       console.log(data);
       $.ajax({
         type: "POST",
         url: url,
-        data: data,
+        data: JSON.stringify(data),
+        contentType: "application/json",
         success: function(response) {
-          gerarCargo();
+            gerarCargo();
         },
         dataType: 'text'
-      })
+    });
     }
 
     $(function() {
