@@ -9,36 +9,85 @@
     }
     $cadastrado =  false;
 
-    extract($_REQUEST);
-    if(!isset($data_nasc) or ($data_nasc == null) or ($data_nasc == "") or empty($data_nasc) or ($data_nasc == "imp")){
-        $data_nasc = "null";
-    }else $data_nasc = "'$data_nasc'";
+   // extract($_REQUEST);
 
-    if(!isset($data_referencia) or ($data_referencia == null) or ($data_referencia == "") or empty($data_referencia) or ($data_referencia == "imp")){
-        $data_referencia = "null";
-    }else $data_referencia = "'$data_referencia'";
+    $socio_nome = trim($_REQUEST['socio_nome']);
+    $pessoa = trim($_REQUEST['pessoa']);
+    $contribuinte = trim($_REQUEST['contribuinte']);
+    $status = trim($_REQUEST['status']);
+    $email = trim($_REQUEST['email']);
+    $tag = trim($_REQUEST['tag']);
+    $telefone = trim($_REQUEST['telefone']);
+    $cpf_cnpj = trim($_REQUEST['cpf_cnpj']);
+    $rua = trim($_REQUEST['rua']);
+    $numero = trim($_REQUEST['numero']);
+    $complemento = trim($_REQUEST['complemento']);
+    $bairro = trim($_REQUEST['bairro']);
+    $estado = trim($_REQUEST['estado']);
+    $cidade = trim($_REQUEST['cidade']);
+    $data_nasc = trim($_REQUEST['data_nasc']);
+    $cep = trim($_REQUEST['cep']);
+    $data_referencia = trim($_REQUEST['data_referencia']);
+    $valor_periodo = trim($_REQUEST['valor_periodo']);
+    $tipo_contribuicao = trim($_REQUEST['tipo_contribuicao']);
 
-    if(!isset($valor_periodo) or ($valor_periodo == null) or ($valor_periodo == "") or empty($valor_periodo) or ($valor_periodo == "imp")){
-        $valor_periodo = "null";
-    }else $valor_periodo = "$valor_periodo";
-
-    if(!isset($contribuinte)){
-        $contribuinte = null;
+    if(!$socio_nome || empty($socio_nome)){
+        http_response_code(400);
+        exit('O nome de um sócio não pode ser vazio.');
     }
 
-    if(!isset($tag) or ($tag == null) or ($tag == "none")){
-        $tag = "null";
+    if($pessoa !== 'fisica' && $pessoa !== 'juridica'){
+        http_response_code(400);
+        exit('O tipo de pessoa informado não é válido.');
     }
-    // Lidando com aspas simples e duplas
-    $socio_nome = addslashes($socio_nome);
-    $cidade = addslashes($cidade);
-    $bairro = addslashes($bairro);
-    $numero = addslashes($numero);
-    $rua = addslashes($rua);
-    $complemento = addslashes($complemento);
+
+    if(!$contribuinte || empty($contribuinte)){
+        http_response_code(400);
+        exit('O tipo do contribuinte não pode ser vazio.');
+    }
+
+    /*if(!$status || !is_numeric($status) || $status < 0){
+        http_response_code(400);
+        exit('O id de um status deve ser um inteiro maior ou igual a 0.');
+    } */ //Desativado temporariamente
+
+    if(!$tag || !is_numeric($tag) || $tag <1){
+        http_response_code(400);
+        exit('O id de uma tag deve ser um inteiro maior ou igual a 1.');
+    }
+
+    if(!$cpf_cnpj || empty($cpf_cnpj)){//posteriormente adicionar validações de formato
+        http_response_code(400);
+        exit('Um cpf/cpnj não pode ser vazio.');
+    }
+
+    if(!$data_nasc || empty($data_nasc)){//posteiormente adicionar validações de formato
+        http_response_code(400);
+        exit('A data de nascimento não pode ser vazia.');
+    }
+
+    if(!$data_referencia || empty($data_referencia)){//Posteriormente adicionar validações de formato
+        http_response_code(400);
+        exit('A data de referência não pode ser vazia.');
+    }
+
+    if(!$valor_periodo || !is_numeric($valor_periodo) || $valor_periodo <= 0){
+        http_response_code(400);
+        exit('O valor de doação durante determinado perído deve ser um número com valor maior que 0.');
+    }
+
+    if(!$tipo_contribuicao || !is_numeric($tipo_contribuicao) || $tipo_contribuicao < 1){
+        http_response_code(400);
+        exit('O tipo da contribuição deve ter um id maior ou igual a 1.');
+    }
 
     // si = sem informação
-    if($resultado = mysqli_query($conexao, "INSERT INTO `pessoa`(`cpf`, `nome`, `telefone`, `data_nascimento`, `cep`, `estado`, `cidade`, `bairro`, `logradouro`, `numero_endereco`, `complemento`) VALUES ('$cpf_cnpj', '$socio_nome',  '$telefone', $data_nasc, '$cep', '$estado', '$cidade', '$bairro', '$rua', '$numero', '$complemento' )")){
+
+    $sql = "INSERT INTO pessoa (cpf, nome, telefone, data_nascimento, cep, estado, cidade, bairro, logradouro, numero_endereco, complemento) VALUES ('$cpf_cnpj', '$socio_nome', '$telefone', '$data_nasc', '$cep', '$estado', '$cidade', '$bairro', '$rua', '$numero', '$complemento')";
+
+    $resultado = mysqli_query($conexao, $sql); //Transformar em prepared statement
+
+    if($resultado){
         $id_pessoa = mysqli_insert_id($conexao);
         switch($pessoa){
             case "juridica": 
@@ -136,8 +185,8 @@
                 $id_sociotipo = 4;
             }  break;
     }
-    $resultado = mysqli_query($conexao, "INSERT INTO `socio`(`id_pessoa`, `id_sociostatus`, `id_sociotipo`, `email`, `valor_periodo`, `data_referencia`, `id_sociotag`) VALUES ($id_pessoa, $status, $id_sociotipo, '$email', $valor_periodo, $data_referencia, $tag)");
-    if(mysqli_affected_rows($conexao)) $cadastrado = true;
+   $resultado = mysqli_query($conexao, "INSERT INTO `socio`(`id_pessoa`, `id_sociostatus`, `id_sociotipo`, `email`, `valor_periodo`, `data_referencia`, `id_sociotag`) VALUES ('$id_pessoa', '$status', '$id_sociotipo', '$email', '$valor_periodo', '$data_referencia', $tag)");
+   if(mysqli_affected_rows($conexao)) $cadastrado = true;
 }
 
     echo(json_encode($cadastrado));
