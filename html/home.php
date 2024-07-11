@@ -249,7 +249,6 @@
 						<div class="col-lg-2 col-md-8 i category-item" data-toggle="collapse" href="#pet">
 							<i  class="fa fa-paw"></i>
 							<h4>Pet</h4>
-							<h6 style="color:red">Em desenvolvimento</h6>
 						</div>
 					</a>
 

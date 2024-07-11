@@ -312,13 +312,13 @@ require_once "../personalizacao_display.php";
                   <div class="form-group" id="reservista1" style="display: none">
                     <label class="col-md-3 control-label">Número do certificado reservista</label>
                     <div class="col-md-6">
-                      <input type="text" name="certificado_reservista_numero" class="form-control num_reservista">
+                      <input type="text" name="certificado_reservista_numero" class="form-control num_reservista" onkeypress="return Onlynumbers(event)">
                     </div>
                   </div>
                   <div class="form-group" id="reservista2" style="display: none">
                     <label class="col-md-3 control-label">Série do certificado reservista</label>
                     <div class="col-md-6">
-                      <input type="text" name="certificado_reservista_serie" class="form-control serie_reservista">
+                      <input type="text" name="certificado_reservista_serie" class="form-control serie_reservista" onkeypress="return Onlynumbers(event)">
                     </div>
                   </div>
 
@@ -692,7 +692,7 @@ require_once "../personalizacao_display.php";
     }
 
     function adicionar_cargo() {
-      url = '../../dao/adicionar_cargo.php';
+      url = '../../controle/control.php';
       var cargo = window.prompt("Cadastre um Novo Cargo:");
       if (!cargo) {
         return
@@ -702,17 +702,22 @@ require_once "../personalizacao_display.php";
         return
       }
 
-      data = 'cargo=' + cargo;
+      data = {
+        nomeClasse : 'CargoControle',
+        metodo: 'incluir',
+        cargo : cargo
+      };
       console.log(data);
       $.ajax({
         type: "POST",
         url: url,
-        data: data,
+        data: JSON.stringify(data),
+        contentType: "application/json",
         success: function(response) {
-          gerarCargo();
+            gerarCargo();
         },
         dataType: 'text'
-      })
+    });
     }
 
     $(function() {

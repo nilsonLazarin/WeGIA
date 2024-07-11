@@ -4,9 +4,12 @@ class Cargo
     private $id_cargo;
     private $cargo;
 
-    public function __construct($cargo)
+    public function __construct($cargo, $id = null)
     {
-        $this->cargo = $this->setCargo($cargo);
+        $this->setCargo($cargo);
+        if($id){
+            $this->setId_cargo($id);
+        }
     }
 
     public function getId_cargo()

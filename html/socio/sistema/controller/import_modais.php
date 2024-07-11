@@ -143,7 +143,7 @@ try {
                       <label for="cep">CEP</label>
                       <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-search"></i></span>
-                        <input type="text" id="cep" class="form-control" placeholder="">
+                        <input type="text" id="cep" class="form-control" placeholder="" name="cep">
                       </div>
                       <div class="status_cep col-xs-12"></div>
                     </div>
@@ -151,7 +151,7 @@ try {
                   <div class="row">
                     <div class="form-group mb-2 col-xs-8">
                       <label for="nome_cliente">Rua</label>
-                      <input type="text" class="form-control" id="rua" name="nome" placeholder="">
+                      <input type="text" class="form-control" id="rua" name="rua" placeholder="">
                     </div>
                     <div class="form-group col-xs-4">
                       <label for="data_corte">Número</label>
