@@ -1564,7 +1564,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `wegia`.`saude_medicamento_administracao` (
   `idsaude_medicamento_administracao` INT NOT NULL AUTO_INCREMENT,
-  `aplicação` DATETIME NOT NULL,
+  `aplicacao` DATETIME NOT NULL,
   `saude_medicacao_id_medicacao` INT NOT NULL,
   `pessoa_id_pessoa` INT(11) NOT NULL,
   `funcionario_id_funcionario` INT(11) NOT NULL,
