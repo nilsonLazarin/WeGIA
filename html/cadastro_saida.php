@@ -142,7 +142,7 @@ require_once "../Functions/permissao/permissao.php";
 
 			$.each(produtos_autocomplete, function(i, item) {
 				//$('#produtos_autocomplete').append('<option value="' + item.id_produto + '|' + item.descricao + '">');
-				prods[i] = item.id_produto + '|' + item.descricao + '|' + item.codigo;
+				prods[i] = item.id_produto + '|' + item.descricao + '|' + item.codigo;//alterar aqui
 			})
 
 			$("#input_produtos").autocomplete({
@@ -177,10 +177,14 @@ require_once "../Functions/permissao/permissao.php";
 			$(".add-row").click(function() {
 				var produto = $("#input_produtos").val();
 				var val = $("#input_produtos").val();
-				var obj = prods.find(prod => prod === val);
-				// console.log(prods);
-				// console.log(prods.find(prod => prod === val),val);
-				// console.log(obj);
+
+				//As próximas 3 linhas de código são responsáveis por deixar a formatação compatível para a verificação na linha de código seguinte, uma vez que os dados vem de tabelas diferentes e a tabela de produtos não possuí o campo quantidade
+				let parts = val.split('|');
+				parts.splice(2,1);
+				val = parts.join('|')
+				
+				var obj = prods.find;(prod => prod === val);
+				
 				produto = produto.split("|");
 				if (obj != null && obj.length > 0) {
 					if (Number(produto[2]) >= Number($("#quantidade").val())) {
@@ -497,7 +501,7 @@ require_once "../Functions/permissao/permissao.php";
 							// 	$("<option/>").val(produto.id_produto + '-' + produto.descricao+ '-' + produto.qtd+ '-' + produto.codigo).attr("qtd", produto.qtd)
 							// );
 							console.log(i, produto);
-							prods[i] = produto.id_produto + '|' + produto.descricao + '|' + produto.codigo;
+							prods[i] = produto.id_produto + '|' + produto.descricao + '|' + produto.qtd + '|' + produto.codigo;
 						}
 						$("#input_produtos").autocomplete({
 							source: prods,

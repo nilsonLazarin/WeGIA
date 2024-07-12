@@ -49,7 +49,7 @@ class Atendido extends Pessoa
      */
     static public function getDataNascimentoMaxima()
     {
-        $idadeMinima = 30;
+        $idadeMinima = 0;
         $data = date('Y-m-d', strtotime("-$idadeMinima years"));
         return $data;
     }
