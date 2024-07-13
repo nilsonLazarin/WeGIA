@@ -12,8 +12,9 @@ apt install apache2 mariadb-server git python3-certbot-apache php8.2 php8.2-cli 
 
 nano /etc/apache2/sites-available/wegia.conf
 <VirtualHost *:80>
-        ServerName wegia.instituicao.org 
-        DocumentRoot /var/www/WeGIA
+        ServerName              wegia.instituicao.org 
+        DocumentRoot            /var/www/WeGIA
+        ErrorDocument 404       http://wegia.instituicao.org/
 </VirtualHost>
 
 a2ensite wegia.conf
