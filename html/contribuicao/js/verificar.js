@@ -94,6 +94,40 @@ function verificar()
         }
     }              
 }
+
+//verificarNovo
+function verificarNovo(){
+    var valor = $("#v").val();
+    var val_min = $("#valunic").val(); //vem do bd
+    val_min = val_min.split('.');
+    valor = valor.split('.');
+    val_min = parseInt(val_min);
+    valor = parseInt(valor); 
+           
+    if(isNaN(valor) || valor[0] == 0)
+    {
+        $("#avisa_valor").html("Digite um valor para doação");
+                   
+    }
+    else
+    {
+        if(valor < val_min)
+        {
+                        
+            $("#avisa_valor").html("O valor mínimo para doação é <i>R$"+val_min+"</i>"); 
+                        
+        }else{
+                            
+            $("#avisa_valor").html("");
+            $("#verifica_socio").fadeIn();
+            $("#pag1").hide();      
+        }
+                   
+    }
+}
+
+
+
 function verifica2()
 {   
     if($("#op_cpf").prop('checked'))
