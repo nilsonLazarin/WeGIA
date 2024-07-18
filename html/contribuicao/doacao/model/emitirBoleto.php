@@ -1,4 +1,5 @@
 <?php
+//Posteriormente mudar o paradigma para orientação a objetos.
 //Recuperar Info BD
 
 require_once("../../php/conexao.php");
@@ -15,7 +16,7 @@ try {
     $req->bindParam(":cpf", $cpf);
     $req->execute();
     $arrayBd = $req->fetch(PDO::FETCH_ASSOC);
-    //Adicionar verificação para validar se o banco de dados retornou algo ou se a resposta está vazia.
+    //Verificação para validar se o banco de dados retornou algo ou se a resposta está vazia.
     if (!empty($arrayBd)) {
         $nome = $arrayBd['nome'];
         $telefone = $arrayBd['telefone'];
@@ -41,7 +42,17 @@ $type = "DM";
 
 //Requisição Boleto
 
+//Validação do valor de um boleto
 $value = intval($_POST["valor"]);
+
+$regras = $stmt->query("SELECT dbr.min_boleto_uni FROM doacao_boleto_regras AS dbr JOIN doacao_boleto_info AS dbi ON (dbr.id = dbi.id_regras)");
+$regras = $regras->fetch(PDO::FETCH_ASSOC);
+
+if($value < $regras['min_boleto_uni']){
+    echo json_encode('O valor para uma doação está abaixo do mínimo requerido.');
+    exit();
+}
+
 //parcelar
 $qtd_p = 1;
 
