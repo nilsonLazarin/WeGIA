@@ -37,6 +37,42 @@ function CadastraCobrancas(carneBoletos, id,valor){
 
 }   
 
+function geraBoletoNovo(){
+    console.log('Nova geração de boleto.');
+    //Enviar um post para ./model/emitirBoleto.php com as informações do CPF e do valor da doação
+
+    let cpfCnpj;
+
+    if($("#op_cpf").prop('checked')){
+        cpfCnpj = document.getElementById("dcpf").value;
+    }else if($("#op_cnpj").prop('checked')){
+        cpfCnpj = document.getElementById("dcnpj").value;
+    }
+
+    const valor = document.getElementById("v").value;
+    //const cpfCnpj = document.getElementById("dcpf").value;
+
+    console.log("Valor doação: "+valor);
+    console.log("CPF/CNPJ: "+cpfCnpj);
+
+    $.post("./model/emitirBoleto.php", {
+        "dcpf": cpfCnpj,
+        "valor": valor
+    }).done(function(r){
+        const resposta = JSON.parse(r);
+        if(resposta.boletoLink){
+            console.log(resposta.boletoLink);
+            // Redirecionar o usuário para o link do boleto em uma nova aba
+            window.open(resposta.boletoLink, '_blank');
+            // Desativar o clique no span
+            $('#gerar_boleto').addClass('disabled');
+            $('#avanca3').addClass('disabled');
+        }else{
+            alert("Ops! Ocorreu um problema na geração do seu boleto, tente novamente, se o erro persistir contate o suporte.");
+        } 
+    });
+}
+
 function geraBoleto()
 {
     $.post("./php/infoBoletoFacil.php").done(function(data)

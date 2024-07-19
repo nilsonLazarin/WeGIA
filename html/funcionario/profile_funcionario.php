@@ -615,7 +615,7 @@ $dependente = json_encode($dependente);
     }
 
     function adicionar_cargo() {
-      url = '../../dao/adicionar_cargo.php';
+      url = '../../controle/control.php';
       var cargo = window.prompt("Cadastre um Novo Cargo:");
       if (!cargo) {
         return
@@ -624,16 +624,22 @@ $dependente = json_encode($dependente);
       if (cargo == '') {
         return
       }
-      data = 'cargo=' + cargo;
+      data = {
+        nomeClasse : 'CargoControle',
+        metodo: 'incluir',
+        cargo : cargo
+      };
+      console.log(data);
       $.ajax({
         type: "POST",
         url: url,
-        data: data,
+        data: JSON.stringify(data),
+        contentType: "application/json",
         success: function(response) {
-          gerarCargo();
+            gerarCargo();
         },
         dataType: 'text'
-      })
+    });
     }
   </script>
 </head>

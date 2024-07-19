@@ -45,7 +45,7 @@
               <!-- /.box-tools -->
             </div>
             <!-- /.box-header -->
-            <div class="box-body" style="">
+            <div class="box-body">
             <table id="example4" class="table table-hover" style="width: 100%; display: none">
                   <thead>
                     <tr>
@@ -202,85 +202,6 @@
 			</div>
 		</aside>
 	</section>
-</body>
-<script>
-	function gerarCargo(){
-      try {
-          url = '../../dao/exibir_cargo.php';
-          $.ajax({
-          data: '',
-          type: "POST",
-          url: url,
-          success: function(response){
-            var cargo = response;
-            $('#cargo').empty();
-            $('#cargo').append('<option selected disabled>Selecionar</option>');
-            $.each(cargo,function(i,item){
-              $('#cargo').append('<option value="' + item.id_cargo + '">' + item.cargo + '</option>');
-            });
-          },
-          dataType: 'json'
-        });
-      } catch(Exception $e) {
-          throw new Exception("Erro genérico: " . $e->getMessage(), 2);
-      }
-      }
-
-      function adicionar_cargo(){
-        try{
-          url = '../../dao/adicionar_cargo.php';
-          var cargo = window.prompt("Cadastre um Novo Cargo:");
-          if(!cargo){return}
-          situacao = cargo.trim();
-          if(cargo == ''){return}              
-        
-            data = 'cargo=' +cargo; 
-            console.log(data);
-            $.ajax({
-            type: "POST",
-            url: url,
-            data: data,
-            success: function(response){
-              gerarCargo();
-            },
-            dataType: 'text'
-          })
-        } catch(Exception $e) {
-            throw new Exception("Erro genérico: " . $e->getMessage(), 2);
-        }
-      }
-
-	  function verificar_recursos_cargo(cargo_id){
-    try{
-          url = '../../dao/verificar_recursos_cargo.php';              
-          data = 'cargo=' +cargo_id; 
-          console.log(data);
-          $.ajax({
-          type: "POST",
-          url: url,
-          data: data,
-          success: function(response){
-			var recursos = JSON.parse(response);
-            console.log(response);
-			$(".recurso").prop("checked",false ).attr("disabled", false);
-			for(recurso of recursos){
-				$("#recurso_"+recurso).prop("checked",true ).attr("disabled", true);
-			}
-          },
-          dataType: 'text'
-        })
-    } catch(Exception $e) {
-        throw new Exception("Erro genérico: " . $e->getMessage(), 2);
-      }
-      }
-
-	  $(document).ready(function(){
-		$("#cargo").change(function(){
-			verificar_recursos_cargo($(this).val());
-		});
-	  });
-</script>
-
-           
+</body>           
             <!-- /.box-body -->
  
