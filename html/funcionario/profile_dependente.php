@@ -369,46 +369,6 @@ $JSON_dependente = json_encode($dependente);
             })
         }
 
-        function gerarCargo() {
-            url = '../../dao/exibir_cargo.php';
-            $.ajax({
-                data: '',
-                type: "POST",
-                url: url,
-                success: function(response) {
-                    var cargo = response;
-                    $('#cargo').empty();
-                    $('#cargo').append('<option selected disabled>Selecionar</option>');
-                    $.each(cargo, function(i, item) {
-                        $('#cargo').append('<option value="' + item.id_cargo + '">' + item.cargo + '</option>');
-                    });
-                },
-                dataType: 'json'
-            });
-        }
-
-        function adicionar_cargo() {
-            url = '../../dao/adicionar_cargo.php';
-            var cargo = window.prompt("Cadastre um Novo Cargo:");
-            if (!cargo) {
-                return
-            }
-            situacao = cargo.trim();
-            if (cargo == '') {
-                return
-            }
-            data = 'cargo=' + cargo;
-            $.ajax({
-                type: "POST",
-                url: url,
-                data: data,
-                success: function(response) {
-                    gerarCargo();
-                },
-                dataType: 'text'
-            })
-        }
-
         function listarDocDependente(docdependentes) {
             $("#doc-tab").empty();
             $.each(docdependentes, function(i, item) {

@@ -17,7 +17,7 @@ function socio_cadastrado(doc)
 {
     var doc = doc;
     doc = formata_cpf_cnpj(doc);
-        $.post("./php/socioCadastrado.php", {'doc':doc}).done(function(data){
+        $.post("../php/socioCadastrado.php", {'doc':doc}).done(function(data){
             console.log("Data agora: ", typeof(data));
                 if(data == 0 || data.includes("false"))
                 {
@@ -62,9 +62,9 @@ function socio_cadastrado(doc)
                         $("#pag2").hide();
                         $("#pag3").hide();
                         $("#form2").fadeIn();
-                        $("#form2").html('<h3>Obrigado por contribuir mais uma vez, '+dados.nome+'!</h3><br><br><div class="container-contact100-form-btn"><span class="contact100-form-btn" id = "gerar_boleto"><i style="margin-right: 15px; " class="fa fa-long-arrow-right m-l-7"aria-hidden="true"></i>GERAR BOLETO</span></div><div style="display: none" class="container-contact100-form-btn"><span class="contact100-form-btn" id = "editar_infos"><i style="margin-right: 15px; " class="fa fa-long-arrow-left m-l-7"aria-hidden="true"></i>EDITAR DADOS CADASTRADOS</span></div><div class="container-contact100-form-btn"><span class="contact100-form-btn"><i style="margin-right: 15px; " aria-hidden="true"></i><a class= "botao" href="../contribuicao/index.php">VOLTAR A PÁGINA INICIAL</a></span></div>');
+                        $("#form2").html('<h3>Obrigado por contribuir mais uma vez, '+dados.nome+'!</h3><br><br><div class="container-contact100-form-btn"><span class="contact100-form-btn" id = "gerar_boleto"><i style="margin-right: 15px; " class="fa fa-long-arrow-right m-l-7"aria-hidden="true"></i>GERAR BOLETO</span></div><div style="display: none" class="container-contact100-form-btn"><span class="contact100-form-btn" id = "editar_infos"><i style="margin-right: 15px; " class="fa fa-long-arrow-left m-l-7"aria-hidden="true"></i>EDITAR DADOS CADASTRADOS</span></div><div class="container-contact100-form-btn"><span class="contact100-form-btn"><i style="margin-right: 15px; " aria-hidden="true"></i><a class= "botao" href="../doacao/index.php">VOLTAR A PÁGINA INICIAL</a></span></div>');
 
-                        $("#gerar_boleto").click(function(){geraBoleto();});
+                        $("#gerar_boleto").click(function(){geraBoletoNovo();});
                         $("#editar_infos").click(function(){
                             
                             $("#form2").hide();
@@ -106,7 +106,7 @@ function editar_informacoes()
                 $("#form2").html('<h3> Dados atualizados com sucesso!</h3><br><br><div class="container-contact100-form-btn"><span class="contact100-form-btn" id = "dados_atualizados"><i style="margin-right: 15px; " class="fa fa-long-arrow m-l-7"aria-hidden="true"></i>OK</span></div>')
                 $("#pag3").hide();
                         $("#dados_atualizados").click(function(){$("#form2").html('<h3>Obrigado por contribuir mais uma vez, '+nome+'!</h3><br><br><div class="container-contact100-form-btn"><span class="contact100-form-btn" id = "gerar_boleto"><i style="margin-right: 15px; " class="fa fa-long-arrow-right m-l-7"aria-hidden="true"></i>GERAR BOLETO</span></div><div style="display: none" class="container-contact100-form-btn"><span class="contact100-form-btn" id = "editar_infos"><i style="margin-right: 15px; " class="fa fa-long-arrow-left m-l-7"aria-hidden="true"></i>EDITAR DADOS CADASTRADOS</span></div><div class="container-contact100-form-btn"><span class="contact100-form-btn"><i style="margin-right: 15px; " aria-hidden="true"></i><a class= "botao" href="../contribuicao/index.php">VOLTAR A PÁGINA INICIAL</a></span></div>');
-                        $("#gerar_boleto").click(function(){geraBoleto();});
+                        $("#gerar_boleto").click(function(){geraBoletoNovo();});
                         $("#editar_infos").click(function(){
                             
                             $("#form2").hide();
@@ -123,7 +123,7 @@ function editar_informacoes()
 function cadastra_socio()
 {
 
-  var id_sociotipo = tipo_socio();
+  var id_sociotipo = tipoSocioNovo();
  
   var horadata = new Date();
   var horaAtual = horadata.getHours();
@@ -165,8 +165,8 @@ function cadastra_socio()
       doc = formata_cpf_cnpj(doc);
       var dataN = ano.concat("-",mes,"-",dia);
 
-      $.post("./php/cadastrarSocio.php", {'tipo':fisjur, 'nome':nome, 'sobrenome': sobrenome, 'telefone':telefone, 'cep':cep, 'log':log, 'comp':comp, 'bairro':bairro, 'cidade':cidade, 'uf':uf, 'numero': num, 'doc':doc,'datanascimento':dataN, 'hora':hora, 'sistema':sistema, 'contato':email, 'id_sociotipo': id_sociotipo, 'status': status, 'datavencimento':data_vencimento, 'valor_doacao':valor_contribuicao}).done(function(data){console.log(data)
-    geraBoleto();
+      $.post("../php/cadastrarSocio.php", {'tipo':fisjur, 'nome':nome, 'sobrenome': sobrenome, 'telefone':telefone, 'cep':cep, 'log':log, 'comp':comp, 'bairro':bairro, 'cidade':cidade, 'uf':uf, 'numero': num, 'doc':doc,'datanascimento':dataN, 'hora':hora, 'sistema':sistema, 'contato':email, 'id_sociotipo': id_sociotipo, 'status': status, 'datavencimento':data_vencimento, 'valor_doacao':valor_contribuicao}).done(function(data){console.log(data)
+    geraBoletoNovo();
     });
 
       
@@ -180,8 +180,8 @@ function cadastra_socio()
       doc = formata_cpf_cnpj(doc);
       dataN = "0000-00-00"
 
-      $.post("./php/cadastrarSocio.php", {'tipo':fisjur, 'nome':nome, 'sobrenome':sobrenome, 'telefone':telefone, 'cep':cep, 'log':log, 'comp':comp, 'bairro':bairro, 'cidade':cidade, 'uf':uf, 'numero': num, 'doc':doc,'datanascimento':dataN, 'hora':hora, 'sistema':sistema, 'contato':email, 'id_sociotipo': id_sociotipo, 'status': status,  'datavencimento':data_vencimento, 'valor_doacao':valor_contribuicao}).done(function(data){console.log(data);
-    geraBoleto();
+      $.post("../php/cadastrarSocio.php", {'tipo':fisjur, 'nome':nome, 'sobrenome':sobrenome, 'telefone':telefone, 'cep':cep, 'log':log, 'comp':comp, 'bairro':bairro, 'cidade':cidade, 'uf':uf, 'numero': num, 'doc':doc,'datanascimento':dataN, 'hora':hora, 'sistema':sistema, 'contato':email, 'id_sociotipo': id_sociotipo, 'status': status,  'datavencimento':data_vencimento, 'valor_doacao':valor_contribuicao}).done(function(data){console.log(data);
+    geraBoletoNovo();
     });
       
       
@@ -267,4 +267,17 @@ function tipo_socio(){
         }
 
         return tipo_doacao;
+}
+
+function tipoSocioNovo(){
+
+    let tipoDoacao;
+
+    if($("#op_cpf").prop('checked')){
+        tipoDoacao = '0';
+    }else if($("#op_cnpj").prop('checked')){
+        tipoDoacao = '1';
+    }
+
+    return tipoDoacao;
 }

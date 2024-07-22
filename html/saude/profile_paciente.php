@@ -130,14 +130,14 @@ header("Location: ../home.php?msg_c=$msg");
   $prontuarioPHP = $prontuariopublico;
   $prontuariopublico = json_encode($prontuariopublico);
 
-  $medaplicadas = $pdo->query("SELECT medicamento, aplicação, p.nome as nomeFuncionario FROM saude_medicacao sm JOIN saude_medicamento_administracao sa ON (sm.id_medicacao = sa.saude_medicacao_id_medicacao) join saude_atendimento saa on(saa.id_atendimento=sm.id_atendimento)
-  JOIN funcionario f ON (sa.funcionario_id_funcionario=f.id_funcionario) JOIN pessoa p ON (p.id_pessoa=f.id_pessoa) WHERE saa.id_fichamedica= '$id' ORDER BY aplicação DESC");
+  $medaplicadas = $pdo->query("SELECT medicamento, aplicacao, p.nome as nomeFuncionario FROM saude_medicacao sm JOIN saude_medicamento_administracao sa ON (sm.id_medicacao = sa.saude_medicacao_id_medicacao) join saude_atendimento saa on(saa.id_atendimento=sm.id_atendimento)
+  JOIN funcionario f ON (sa.funcionario_id_funcionario=f.id_funcionario) JOIN pessoa p ON (p.id_pessoa=f.id_pessoa) WHERE saa.id_fichamedica= '$id' ORDER BY aplicacao DESC");
   $medaplicadas = $medaplicadas->fetchAll(PDO::FETCH_ASSOC);
 
   foreach($medaplicadas as $key => $value){
     //formata data
-    $data = new DateTime($value['aplicação']);
-    $medaplicadas[$key]['aplicação'] = $data->format('d/m/Y h:i:s');
+    $data = new DateTime($value['aplicacao']);
+    $medaplicadas[$key]['aplicacao'] = $data->format('d/m/Y h:i:s');
   }
 
   $medaplicadas = json_encode($medaplicadas);
@@ -465,7 +465,7 @@ header("Location: ../home.php?msg_c=$msg");
               .append($("<tr>")
                 .append($("<td>").text(item.nomeFuncionario))
                 .append($("<td>").text(item.medicamento))
-                .append($("<td>").text(item.aplicação))
+                .append($("<td>").text(item.aplicacao))
               )
             });
           });
