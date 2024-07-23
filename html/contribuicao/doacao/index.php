@@ -287,6 +287,7 @@ ini_set('display_startup_erros', 0);
 							<option value="TO">Tocantins</option>
 						</select><br>
 					</div>
+
 					<p id="lista" name="lista"></p>
 
 					<p id="aviso"></p>
