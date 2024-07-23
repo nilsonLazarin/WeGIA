@@ -2,6 +2,20 @@
 //Posteriormente mudar o paradigma para orientação a objetos.
 //Recuperar Info BD
 
+/**
+ * Função para gerar um código aleatório
+ */
+function gerarCodigoAleatorio($tamanho = 16){
+    $caracteres = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $caracteresTamanho = strlen($caracteres);
+    $codigoString = '';
+    for ($i = 0; $i < $tamanho; $i++) {
+        $codigoString .= $caracteres[rand(0, $caracteresTamanho - 1)];
+    }
+    return $codigoString;
+}
+
+
 require_once("../../php/conexao.php");
 
 $cpf = $_POST['dcpf'];
@@ -105,13 +119,16 @@ try {
     die("Erro: Não foi possível buscar a venda no BD" . $e->getMessage() . ".");
 }
 
+$code = gerarCodigoAleatorio();
+
 //Boleto
 $boleto = [
     "items" => [
         [
             "amount" => $value * 100,
             "description" => "Donation",
-            "quantity" => 1
+            "quantity" => 1,
+            "code" => $code
         ]
     ],
     "customer" => [
