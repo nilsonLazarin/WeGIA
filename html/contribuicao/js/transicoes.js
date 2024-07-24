@@ -145,6 +145,7 @@ function transicoes()
 			//$("#input").hide();
 			$("#pag2").hide();
 			$("#pag3").hide();
+			$("#pagEditar").hide();
 			$("#cnpj").hide();
 			$("#info_valor").hide();
 			$("#nc").show();
