@@ -5,7 +5,8 @@
 /**
  * Função para gerar um código aleatório
  */
-function gerarCodigoAleatorio($tamanho = 16){
+function gerarCodigoAleatorio($tamanho = 16)
+{
     $caracteres = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $caracteresTamanho = strlen($caracteres);
     $codigoString = '';
@@ -14,7 +15,6 @@ function gerarCodigoAleatorio($tamanho = 16){
     }
     return $codigoString;
 }
-
 
 require_once("../../php/conexao.php");
 
@@ -62,7 +62,7 @@ $value = intval($_POST["valor"]);
 $regras = $stmt->query("SELECT dbr.min_boleto_uni FROM doacao_boleto_regras AS dbr JOIN doacao_boleto_info AS dbi ON (dbr.id = dbi.id_regras)");
 $regras = $regras->fetch(PDO::FETCH_ASSOC);
 
-if($value < $regras['min_boleto_uni']){
+if ($value < $regras['min_boleto_uni']) {
     echo json_encode('O valor para uma doação está abaixo do mínimo requerido.');
     exit();
 }
@@ -70,30 +70,9 @@ if($value < $regras['min_boleto_uni']){
 //parcelar
 $qtd_p = 1;
 
-$ano = date('Y');
-$mes = date('m');
-$dia = date('d') + 7;
-
-$aux = 0;
-
-$datas_de_vencimento = array(); // Inicializa o array de datas de vencimento
-
-for ($i = 0; $i <= $qtd_p; $i++) {
-    if ($mes == 12) {
-        // Se o mês for 12, ajusta o ano e o mês
-        $datas_de_vencimento[$i] = ($ano + 1) . "/" . (01) . "/" . ($dia); // Janeiro do próximo ano
-    } else {
-        // Incrementa o mês e ajusta para não ultrapassar 12 meses no ano
-        $mes_atual = $mes + $i;
-        $ano_atual = $ano + floor(($mes_atual - 1) / 12); // Ajusta o ano conforme o número de meses
-        $mes_atual = ($mes_atual % 12 == 0) ? 12 : ($mes_atual % 12); // Ajusta o mês dentro do limite de 1 a 12
-
-        $datas_de_vencimento[$i] = $ano_atual . "/" . str_pad($mes_atual, 2, '0', STR_PAD_LEFT) . "/" . $dia;
-    }
-}
-
-// Definição inicial da primeira data
-$datas_de_vencimento[0] = $ano . "/" . $mes . "/" . $dia;
+$dataAtual = new DateTime();
+$dataVencimento = $dataAtual->modify('+7 days');
+$dataVencimento = $dataVencimento->format('Y-m-d');
 
 try {
     $req = $stmt->prepare("SELECT doacao_boleto_info.api, doacao_boleto_info.token_api FROM doacao_boleto_info WHERE 1;");
@@ -152,69 +131,56 @@ $boleto = [
             "boleto" => [
                 "instructions" => $msg,
                 "document_number" => $idBoleto,
-                "due_at" => $ano . "/" . $mes . "/" . $dia,
+                "due_at" => $dataVencimento,
                 "type" => $type
             ]
         ]
     ]
 ];
 
-$pdf_links = [];
-$arquivos = [];
+// Transformar o boleto em JSON
+$boleto_json = json_encode($boleto);
 
-//Transforma o boleto em um objeto JSON
-for ($i = 0; $i < $qtd_p; $i++) {
-    // Atualizar a data de vencimento para cada boleto
-    $boleto['payments'][0]['boleto']['due_at'] = $datas_de_vencimento[$i];
+// Iniciar a requisição cURL
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_POST, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+curl_setopt($ch, CURLOPT_POSTFIELDS, $boleto_json);
 
-    // Transformar o boleto em JSON
-    $boleto_json = json_encode($boleto);
+// Executar a requisição cURL
+$response = curl_exec($ch);
 
-    // Iniciar a requisição cURL
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $boleto_json);
+// Lidar com a resposta da API (mesmo código de tratamento que você já possui)
 
-    // Executar a requisição cURL
-    $response = curl_exec($ch);
-
-    // Lidar com a resposta da API (mesmo código de tratamento que você já possui)
-
-    // Verifica por erros no cURL
-    if (curl_errno($ch)) {
-        echo 'Erro na requisição: ' . curl_error($ch);
-        curl_close($ch);
-        exit;
-    }
-
-    // Obtém o código de status HTTP
-    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-    // Fecha a conexão cURL
+// Verifica por erros no cURL
+if (curl_errno($ch)) {
+    echo 'Erro na requisição: ' . curl_error($ch);
     curl_close($ch);
+    exit;
+}
 
+// Obtém o código de status HTTP
+$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-    // Verifica o código de status HTTP
-    if ($httpCode === 200 || $httpCode === 201) {
-        $responseData = json_decode($response, true);
-        $pdf_links[] = $responseData['charges'][0]['last_transaction']['pdf'];
-        $arquivos[] = $responseData['charges'][0]['last_transaction']['pdf'];
-    } else {
-        echo json_encode('Erro: A API retornou o código de status HTTP ' . $httpCode . '<br>');
-        // Verifica se há mensagens de erro na resposta JSON
-        $responseData = json_decode($response, true);
-        if (isset($responseData['errors'])) {
-            //echo 'Detalhes do erro:';
-            foreach ($responseData['errors'] as $error) {
-                //echo '<br> ' . htmlspecialchars($error['message']);
-            }
+// Fecha a conexão cURL
+curl_close($ch);
+
+// Verifica o código de status HTTP
+if ($httpCode === 200 || $httpCode === 201) {
+    $responseData = json_decode($response, true);
+    $pdf_link = $responseData['charges'][0]['last_transaction']['pdf'];
+} else {
+    echo json_encode('Erro: A API retornou o código de status HTTP ' . $httpCode . '<br>');
+    // Verifica se há mensagens de erro na resposta JSON
+    $responseData = json_decode($response, true);
+    if (isset($responseData['errors'])) {
+        //echo 'Detalhes do erro:';
+        foreach ($responseData['errors'] as $error) {
+            //echo '<br> ' . htmlspecialchars($error['message']);
         }
     }
 }
 
-foreach ($pdf_links as $pdf_link) {
-    echo json_encode(['boletoLink' => $pdf_link]);
-}
+echo json_encode(['boletoLink' => $pdf_link]);
