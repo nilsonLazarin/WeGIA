@@ -142,9 +142,10 @@ function transicoes()
 			$("#tipo_cartao").hide();
 			$("#cartao_mensal").hide();
 			$("#cartao_unica").hide();
-			$("#input").hide();
+			//$("#input").hide();
 			$("#pag2").hide();
 			$("#pag3").hide();
+			$("#pagEditar").hide();
 			$("#cnpj").hide();
 			$("#info_valor").hide();
 			$("#nc").show();
@@ -246,6 +247,13 @@ function transicoes()
 		$("#avanca").click(function()
 		{
 			verificar();
+
+		});
+
+		$("#avanca-novo").click(function()
+		{
+			console.log('Avança novo');
+			verificarNovo();
 
 		});
 

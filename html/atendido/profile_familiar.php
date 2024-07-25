@@ -453,59 +453,6 @@ $JSON_dependente = json_encode($dependente);
             })
         }
 
-        function gerarCargo() {
-            url = '../dao/exibir_cargo.php';
-            $.ajax({
-                data: '',
-                type: "POST",
-                url: url,
-                success: function(response) {
-                    var cargo = response;
-                    $('#cargo').empty();
-                    $('#cargo').append('<option selected disabled>Selecionar</option>');
-                    $.each(cargo, function(i, item) {
-                        $('#cargo').append('<option value="' + item.id_cargo + '">' + item.cargo + '</option>');
-                    });
-                },
-                dataType: 'json'
-            });
-        }
-
-        function adicionar_cargo() {
-            url = '../dao/adicionar_cargo.php';
-            var cargo = window.prompt("Cadastre um Novo Cargo:");
-            if (!cargo) {
-                return
-            }
-            situacao = cargo.trim();
-            if (cargo == '') {
-                return
-            }
-
-            data = 'cargo=' + cargo;
-            $.ajax({
-                type: "POST",
-                url: url,
-                data: data,
-                success: function(response) {
-                    gerarCargo();
-                },
-                dataType: 'text'
-            })
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
         function listarDocDependente(doc) {
             $("#doc-tab").empty();
             $.each(doc, function(i, item) {
@@ -676,13 +623,13 @@ $JSON_dependente = json_encode($dependente);
                                             <div class="form-group">
                                                 <label class="col-md-3 control-label" for="pai">Nome do pai</label>
                                                 <div class="col-md-8">
-                                                    <input type="text" class="form-control" name="nome_pai" id="pai">
+                                                    <input type="text" class="form-control" name="nome_pai" id="pai" onkeypress="return Onlychars(event)">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-md-3 control-label" for="mae">Nome da mãe</label>
                                                 <div class="col-md-8">
-                                                    <input type="text" class="form-control" name="nome_mae" id="mae">
+                                                    <input type="text" class="form-control" name="nome_mae" id="mae" onkeypress="return Onlychars(event)">
                                                 </div>
                                             </div>
                                             <div class="form-group center">

@@ -16,12 +16,22 @@ require_once ROOT . "/Functions/funcoes.php";
 
 class DescricaoDAO
 {
+    private $pdo;
+
+    public function __construct()
+    {
+        try{
+            $this->pdo = Conexao::connect();
+        }catch(PDOException $e){
+            echo 'Erro ao instanciar o objeto do tipo DescricaoDAO: '.$e->getMessage();
+        }
+    }
+
     public function incluir($texto, $id_pessoa)
     {
         try {
             $query = "SELECT `id_fichamedica` FROM `saude_fichamedica` WHERE `id_pessoa` =:idPessoa";
-            $pdo = Conexao::connect();
-            $stmt = $pdo->prepare($query);
+            $stmt = $this->pdo->prepare($query);
             $stmt->bindParam(':idPessoa', $id_pessoa);
             $stmt->execute();
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -32,7 +42,7 @@ class DescricaoDAO
         foreach ($texto as $txt) {
             try {
                 $query = "INSERT INTO `saude_fichamedica_descricoes` (`id_fichamedica`, `descricao`) VALUES (:id_fichamedica, :descricao)";
-                $stmt = $pdo->prepare($query);
+                $stmt = $this->pdo->prepare($query);
                 $stmt->bindParam(':id_fichamedica', $id_fichamedica);
                 $stmt->bindParam(':descricao', $txt);
                 $stmt->execute();
@@ -49,62 +59,55 @@ class DescricaoDAO
     {
         try {
             $sql1 = "SELECT id_descricao FROM saude_fichamedica_descricoes WHERE id_fichamedica =:idFicha";
-            $sql2 = "UPDATE saude_fichamedica_descricoes SET descricao =:descricao WHERE id_descricao =:id";
-            $sql3 = "DELETE FROM saude_fichamedica_descricoes WHERE id_descricao=:id";
-            $sql4 = "INSERT INTO saude_fichamedica_descricoes(id_fichamedica, descricao) VALUES (:id, :descricao)";
-            $pdo = Conexao::connect();
-            $pdo->beginTransaction();
-            $stmt = $pdo->prepare($sql1);
+           
+            $this->pdo->beginTransaction();
+            $stmt = $this->pdo->prepare($sql1);
             $stmt->bindParam(':idFicha', $idFicha);
             $stmt->execute();
             $descricoes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            if($this->loopAlteracao($pdo, $sql2, $sql3, $sql4, $descricoes, $texto, $idFicha)){
-                $pdo->commit();
+            if($this->loopAlteracao($descricoes, $texto, $idFicha)){
+                $this->pdo->commit();
             }else{
-                $pdo->rollBack();
+                $this->pdo->rollBack();
             }
 
         } catch (PDOException $e) {
-            echo $e->getMessage();
-        }finally{
-            $pdo = null;
+            echo 'Erro ao tentar alterar a descrição do prontuário: '.$e->getMessage();
         }
     }
 
     /**
      * Estrutura de repetição responsável por fazer as mudanças necessárias na base de dados para realizar a alteração do prontuário público, retorna true ao final do try e false caso entre no catch
      */
-    public function loopAlteracao($pdo, $sql2, $sql3, $sql4, $descricoes, $texto, $idFicha)
+    private function loopAlteracao($descricoes, $texto, $idFicha)
     {
+        $sql2 = "UPDATE saude_fichamedica_descricoes SET descricao =:descricao WHERE id_descricao =:id";
+        $sql3 = "DELETE FROM saude_fichamedica_descricoes WHERE id_descricao=:id";
+        $sql4 = "INSERT INTO saude_fichamedica_descricoes(id_fichamedica, descricao) VALUES (:id, :descricao)";
         try {
-
-
             foreach ($descricoes as $indice => $descricao) {
                 //Adicionar verificação para atribuir uma descrição vazia a partir do momento que o indice passar do número de elementos do texto
                 if ($texto[$indice]) {
-                    $stmt2 = $pdo->prepare($sql2);
+                    $stmt2 = $this->pdo->prepare($sql2);
                     $stmt2->bindParam(':descricao', $texto[$indice]);
                     $stmt2->bindParam(':id', $descricao['id_descricao']);
 
                     $stmt2->execute();
                 } else {
-                    //echo 'Array Vazio<br>';
-                    $stmt3 = $pdo->prepare($sql3);
+                    $stmt3 = $this->pdo->prepare($sql3);
                     $stmt3->bindParam(':id', $descricao['id_descricao']);
 
                     $stmt3->execute();
                 }
             }
 
-            //echo $indice;
             //Adicionar verificação para detectar se todo o texto enviado foi de fato alterado, em caso negativo fazer um INSERT INTO com o conteúdo restante.
             $tamanhoTexto = count(($texto));
             if ($tamanhoTexto > $indice) {
 
                 for ($i = ++$indice; $i < $tamanhoTexto; $i++) {
-                    //echo $i.'<br>';
-                    $stmt4 = $pdo->prepare($sql4);
+                    $stmt4 = $this->pdo->prepare($sql4);
                     $stmt4->bindParam(':id', $idFicha);
                     $stmt4->bindParam(':descricao', $texto[$i]);
 
@@ -114,9 +117,8 @@ class DescricaoDAO
 
              return true;
 
-        } catch (Exception $e) {
-            echo $e->getMessage();
-
+        } catch (PDOException $e) {
+            echo 'Erro ao manipular a edição do texto de um prontuário público: '.$e->getMessage();
             return false;
         }
     }

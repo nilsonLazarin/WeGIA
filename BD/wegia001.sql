@@ -664,7 +664,7 @@ CREATE TABLE IF NOT EXISTS `wegia`.`tabela_imagem_campo` (
     REFERENCES `wegia`.`imagem` (`id_imagem`))
 ENGINE = InnoDB;
 
-
+-- SERÁ REMOVIDO EM NOVA VERSÃO - Módulo contribuição está sendo refatorado... --
 -- -----------------------------------------------------
 -- Table `wegia`.`sistema_pagamento`
 -- -----------------------------------------------------
@@ -764,6 +764,64 @@ ID_SISTEMA INT,
 FOREIGN KEY (TIPO_CHAVE) REFERENCES doacao_pix_tipos(ID),
 FOREIGN KEY (ID_SISTEMA) REFERENCES sistema_pagamento(ID))
 ENGINE = InnoDB;
+
+-- Novas tabelas para o módulo contribuição --
+-- -----------------------------------------------------
+-- Table `wegia`.`contribuicao_gatewayPagamento`
+-- -----------------------------------------------------
+CREATE TABLE `wegia`.`contribuicao_gatewayPagamento` (
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `plataforma` VARCHAR(50) NOT NULL,
+    `endPoint` VARCHAR(255) NOT NULL,
+    `token` VARCHAR(100) NOT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `wegia`.`contribuicao_regras`
+-- -----------------------------------------------------
+CREATE TABLE `wegia`.`contribuicao_regras` (
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `regra` VARCHAR(128) NOT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE INDEX `regra_UNIQUE` (`regra` ASC) VISIBLE
+) ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `wegia`.`contribuicao_meioPagamento`
+-- -----------------------------------------------------
+CREATE TABLE `wegia`.`contribuicao_meioPagamento` (
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `meio` VARCHAR(45) NOT NULL,
+    `id_plataforma` INT NOT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE INDEX `meio_UNIQUE` (`meio` ASC) VISIBLE,
+    CONSTRAINT `fk_contribuicao_gatewayPagamento_plataforma`
+        FOREIGN KEY (`id_plataforma`)
+        REFERENCES `wegia`.`contribuicao_gatewayPagamento` (`id`)
+        ON DELETE NO ACTION
+        ON UPDATE NO ACTION
+) ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `wegia`.`contribuicao_conjuntoRegras`
+-- -----------------------------------------------------
+CREATE TABLE `wegia`.`contribuicao_conjuntoRegras` (
+    `id_meio` INT NOT NULL,
+    `id_regra` INT NOT NULL,
+    `value` VARCHAR(45) NULL,
+    PRIMARY KEY (`id_meio`, `id_regra`),
+    CONSTRAINT `fk_contribuicao_meioPagamento_meio`
+        FOREIGN KEY (`id_meio`)
+        REFERENCES `wegia`.`contribuicao_meioPagamento` (`id`)
+        ON DELETE NO ACTION
+        ON UPDATE NO ACTION,
+    CONSTRAINT `fk_contribuicao_regras_regra`
+        FOREIGN KEY (`id_regra`)
+        REFERENCES `wegia`.`contribuicao_regras` (`id`)
+        ON DELETE NO ACTION
+        ON UPDATE NO ACTION
+) ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -1506,7 +1564,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `wegia`.`saude_medicamento_administracao` (
   `idsaude_medicamento_administracao` INT NOT NULL AUTO_INCREMENT,
-  `aplicação` DATETIME NOT NULL,
+  `aplicacao` DATETIME NOT NULL,
   `saude_medicacao_id_medicacao` INT NOT NULL,
   `pessoa_id_pessoa` INT(11) NOT NULL,
   `funcionario_id_funcionario` INT(11) NOT NULL,

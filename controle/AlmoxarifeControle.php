@@ -3,7 +3,13 @@
 
     class AlmoxarifeControle {
         public function listarTodos(){
-            extract($_REQUEST);
+            $nextPage = trim($_REQUEST['nextPage']);
+
+            if(!filter_var($nextPage, FILTER_VALIDATE_URL)){
+                http_response_code(400);
+                exit('Erro, a URL informada para a próxima página não é válida.');
+            }
+
             $almoxarifeDAO = new almoxarifeDAO();
             $almoxarifes = $almoxarifeDAO->listarTodos();
             session_start();
@@ -12,7 +18,19 @@
         }
 
         public function excluir(){
-            extract($_REQUEST);
+            $nextPage = trim($_REQUEST['nextPage']);
+            $id_almoxarife = trim($_REQUEST['id_almoxarife']);
+
+            if(!filter_var($nextPage, FILTER_VALIDATE_URL)){
+                http_response_code(400);
+                exit('Erro, a URL informada para a próxima página não é válida.');
+            }
+
+            if(!$id_almoxarife || !is_numeric($id_almoxarife) || $id_almoxarife < 1){
+                http_response_code(400);
+                exit('O id de um almoxarife deve ser um inteiro maior ou igual a 1.');
+            }
+            
             $almoxarifeDAO = new almoxarifeDAO();
             $almoxarifeDAO->excluir($id_almoxarife);
             header('Location: '.$nextPage);

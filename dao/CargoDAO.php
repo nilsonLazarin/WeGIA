@@ -1,75 +1,78 @@
 <?php
-require_once'../classes/Cargo.php';
-require_once'Conexao.php';
-require_once'../Functions/funcoes.php';
+require_once '../classes/Cargo.php';
+require_once 'Conexao.php';
+require_once '../Functions/funcoes.php';
 
 class CargoDAO
 {
-    
-    public function incluir($cargo)
-    {        
+    private $pdo;
+
+    public function __construct()
+    {
+        try{
+            $this->pdo = Conexao::connect();
+        }catch(PDOException $e){
+            echo 'Erro ao instanciar objeto do tipo CargoDAO: '.$e->getMessage();
+        }
+    }
+
+    public function incluir(Cargo $cargo)
+    {
         try {
-            $pdo = Conexao::connect();
-
             $sql = 'INSERT cargo(cargo) VALUES(:cargo)';
-            $sql = str_replace("'", "\'", $sql);            
- 
-            $stmt = $pdo->prepare($sql);
-
-            $cargo=$cargo->getCargo();
-
-            $stmt->bindParam(':cargo',$cargo);
-
+            $stmt = $this->pdo->prepare($sql);
+            $cargo = $cargo->getCargo();
+            $stmt->bindParam(':cargo', $cargo);
             $stmt->execute();
-        }catch (PDOException $e) {
+        } catch (PDOException $e) {
             echo 'Error: <b>  na tabela cargo = ' . $sql . '</b> <br /><br />' . $e->getMessage();
         }
     }
-   public function listarUm($id_cargo)
+    public function listarUm($id_cargo)
     {
-        try{
-            $pdo = Conexao::connect();
+        try {
             $sql = "SELECT id_cargo, cargo  FROM cargo WHERE id_cargo = :id_cargo";
-            $consulta = $pdo->prepare($sql);
+            $consulta = $this->pdo->prepare($sql);
             $consulta->execute(array(
                 'id_cargo' => $id_cargo,
             ));
-            while($linha = $consulta->fetch(PDO::FETCH_ASSOC)){
-                $cargo = new Cargo($linha['cargo']);
-                $cargo->setId_cargo($linha['id_cargo']);
+            try {
+                $linha = $consulta->fetch(PDO::FETCH_ASSOC);
+                $cargo = new Cargo($linha['cargo'], $linha['id_cargo']);
+                return $cargo;
+            } catch (InvalidArgumentException $e) {
+                exit('Ocorreu um erro ao tentar listar o cargo solicitado: ' . $e->getMessage());
             }
-        }catch(PDOException $e){
+        } catch (PDOException $e) {
             throw $e;
         }
-        return $cargo;
     }
-    public function excluir($id_cargo){
-        try{
-            $pdo = Conexao::connect();
+    public function excluir($id_cargo)
+    {
+        try {
             $sql = 'DELETE FROM cargo WHERE id_cargo = :id_cargo';
-            $stmt = $pdo->prepare($sql);
-            $stmt->bindParam(':id_cargo',$id_cargo);
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindParam(':id_cargo', $id_cargo);
             $stmt->execute();
-            
-        }catch (PDOException $e) {
-                echo 'Error: <b>  na tabela cargo = ' . $sql . '</b> <br /><br />' . $e->getMessage();
+        } catch (PDOException $e) {
+            echo 'Error: <b>  na tabela cargo = ' . $sql . '</b> <br /><br />' . $e->getMessage();
         }
     }
-        public function listarTodos(){
-
-        try{
-            $cargos=array();
-            $pdo = Conexao::connect();
-            $consulta = $pdo->query("SELECT id_cargo, cargo FROM cargo");
-            $x=0;
-            while($linha = $consulta->fetch(PDO::FETCH_ASSOC)){
-                $cargos[$x]=array('id_cargo'=>$linha['id_cargo'],'cargo'=>$linha['cargo']);
-                $x++;
+    public function listarTodos()
+    {
+        try {
+            $cargos = array();
+            $consulta = $this->pdo->query("SELECT id_cargo, cargo FROM cargo");
+            $resultados = $consulta->fetchAll(PDO::FETCH_ASSOC);
+            if($resultados){
+                foreach($resultados as $resultado){
+                    $cargo = new Cargo($resultado['cargo'], $resultado['id_cargo']);
+                    $cargos []= $cargo;
+                }
             }
-            } catch (PDOException $e){
-                echo 'Error:' . $e->getMessage();
-            }
-            return json_encode($cargos);
+            return $cargos;
+        } catch (PDOException $e) {
+            echo 'Error:' . $e->getMessage();
         }
+    }
 }
-?>

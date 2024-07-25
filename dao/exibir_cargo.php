@@ -1,12 +1,17 @@
 <?php
-	require_once'Conexao.php';
+require_once 'Conexao.php';
+try {
 	$pdo = Conexao::connect();
 
-	$sql = 'select * from cargo';
+	$sql = 'SELECT * FROM cargo';
 	$stmt = $pdo->query($sql);
-	$resultado = array();
-	while ($row = $stmt->fetch()) {
-    	$resultado[] = array('id_cargo'=>$row['id_cargo'],'cargo'=>$row['cargo']);
+	$cargos = array();
+	$resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	if ($resultado) {
+		$cargos = $resultado;
 	}
-	echo json_encode($resultado);
-?>
+
+	echo json_encode($cargos);
+} catch (PDOException $e) {
+	echo 'Erro ao exibir cargos: '.$e->getMessage();
+}

@@ -14,8 +14,6 @@ session_start();
       header('Location: ../../controle/control.php?metodo=listarUm&nomeClasse=SaudeControle&nextPage=../html/saude/profile_paciente.php');
     }
 
-
-
     $config_path = "config.php";
     if (file_exists($config_path)) {
       require_once($config_path);
@@ -81,6 +79,9 @@ header("Location: ../home.php?msg_c=$msg");
   $docfuncional = $docfuncional->fetchAll(PDO::FETCH_ASSOC);
   foreach ($docfuncional as $key => $value) {
     $docfuncional[$key]["arquivo"] = gzuncompress($value["arquivo"]);
+    //formata data
+    $data = new DateTime($value['data']);
+    $docfuncional[$key]['data'] = $data->format('d/m/Y');
   }
   $docfuncional = json_encode($docfuncional);
 
@@ -93,14 +94,35 @@ header("Location: ../home.php?msg_c=$msg");
   $alergias = json_encode($alergias);
 
   $sinaisvitais = $pdo->query("SELECT data, saturacao, pressao_arterial, frequencia_cardiaca, frequencia_respiratoria, temperatura, hgt, p.nome, p.sobrenome FROM saude_sinais_vitais sv JOIN funcionario f ON(sv.id_funcionario = f.id_funcionario) JOIN pessoa p ON (f.id_pessoa = p.id_pessoa) WHERE sv.id_fichamedica = " .$id)->fetchAll(PDO::FETCH_ASSOC);
+
+  foreach($sinaisvitais as $key => $value){
+    //formata data
+    $data = new DateTime($value['data']);
+    $sinaisvitais[$key]['data'] = $data->format('d/m/Y h:i:s');
+  }
+
   $sinaisvitais = json_encode($sinaisvitais);
 
   $descricao_medica = $pdo->query("SELECT descricao, data_atendimento FROM saude_atendimento WHERE id_fichamedica= ".$_GET['id_fichamedica']);
   $descricao_medica = $descricao_medica->fetchAll(PDO::FETCH_ASSOC);
+
+  foreach($descricao_medica as $key => $value){
+    //formata data
+    $data = new DateTime($value['data_atendimento']);
+    $descricao_medica[$key]['data_atendimento'] = $data->format('d/m/Y');
+  }
+
   $descricao_medica = json_encode($descricao_medica);
   
   $exibimed = $pdo->query("SELECT id_medicacao, data_atendimento, medicamento, dosagem, horario, duracao, st.descricao FROM saude_atendimento sa JOIN saude_medicacao sm ON (sa.id_atendimento=sm.id_atendimento) JOIN saude_medicacao_status st ON (sm.saude_medicacao_status_idsaude_medicacao_status = st.idsaude_medicacao_status)  WHERE id_fichamedica= ".$_GET['id_fichamedica']);
   $exibimed = $exibimed->fetchAll(PDO::FETCH_ASSOC);
+
+  foreach($exibimed as $key => $value){
+    //formata data
+    $data = new DateTime($value['data_atendimento']);
+    $exibimed[$key]['data_atendimento'] = $data->format('d/m/Y');
+  }
+
   $exibimed = json_encode($exibimed);
 
   $prontuariopublico = $pdo->query("SELECT descricao FROM saude_fichamedica_descricoes WHERE id_fichamedica= ".$_GET['id_fichamedica']);
@@ -108,9 +130,16 @@ header("Location: ../home.php?msg_c=$msg");
   $prontuarioPHP = $prontuariopublico;
   $prontuariopublico = json_encode($prontuariopublico);
 
-  $medaplicadas = $pdo->query("SELECT medicamento, aplicação, p.nome as nomeFuncionario FROM saude_medicacao sm JOIN saude_medicamento_administracao sa ON (sm.id_medicacao = sa.saude_medicacao_id_medicacao) join saude_atendimento saa on(saa.id_atendimento=sm.id_atendimento)
-  JOIN funcionario f ON (sa.funcionario_id_funcionario=f.id_funcionario) JOIN pessoa p ON (p.id_pessoa=f.id_pessoa) WHERE saa.id_fichamedica= '$id' ORDER BY aplicação DESC");
+  $medaplicadas = $pdo->query("SELECT medicamento, aplicacao, p.nome as nomeFuncionario FROM saude_medicacao sm JOIN saude_medicamento_administracao sa ON (sm.id_medicacao = sa.saude_medicacao_id_medicacao) join saude_atendimento saa on(saa.id_atendimento=sm.id_atendimento)
+  JOIN funcionario f ON (sa.funcionario_id_funcionario=f.id_funcionario) JOIN pessoa p ON (p.id_pessoa=f.id_pessoa) WHERE saa.id_fichamedica= '$id' ORDER BY aplicacao DESC");
   $medaplicadas = $medaplicadas->fetchAll(PDO::FETCH_ASSOC);
+
+  foreach($medaplicadas as $key => $value){
+    //formata data
+    $data = new DateTime($value['aplicacao']);
+    $medaplicadas[$key]['aplicacao'] = $data->format('d/m/Y h:i:s');
+  }
+
   $medaplicadas = json_encode($medaplicadas);
 
   $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
@@ -436,7 +465,7 @@ header("Location: ../home.php?msg_c=$msg");
               .append($("<tr>")
                 .append($("<td>").text(item.nomeFuncionario))
                 .append($("<td>").text(item.medicamento))
-                .append($("<td>").text(item.aplicação))
+                .append($("<td>").text(item.aplicacao))
               )
             });
           });
@@ -1634,15 +1663,15 @@ header("Location: ../home.php?msg_c=$msg");
             $(function() {
               var sinaisvitais = <?= $sinaisvitais ?>;
               $("#sin-vit-tab").empty();
-              $.each(sinaisvitais, function (i,item){ // Transforma o formato de data recebido para o formato utilizado no Brasil
+              /*$.each(sinaisvitais, function (i,item){ // Transforma o formato de data recebido para o formato utilizado no Brasil
                 item.data = item.data.split(" ")[0];
                 partesData = item.data.split("-");
                 item.data = partesData[2]+"-"+partesData[1]+"-"+partesData[0];  
-              })
+              })*/
               $.each(sinaisvitais, function(i, item) {
                 $("#exibe-sinais-vitais")
                   .append($("<tr>")
-                    .append($("<td>").text(item.data.split(" ")[0]))
+                    .append($("<td>").text(item.data))
                     .append($("<td>").text(item.nome+" "+(item.sobrenome !== null ? item.sobrenome : "")))
                     .append($("<td>").text(item.saturacao))
                     .append($("<td>").text(item.pressao_arterial))

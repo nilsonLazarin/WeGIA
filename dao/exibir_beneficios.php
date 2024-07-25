@@ -1,12 +1,21 @@
 <?php
-  require_once'Conexao.php';
+require_once 'Conexao.php';
+
+try {
   $pdo = Conexao::connect();
 
-  $sql = 'select * from beneficios';
-  $stmt = $pdo->query($sql);
-  $resultado = array();
-  while ($row = $stmt->fetch()) {
-    $resultado[] = array('id_beneficios'=>$row['id_beneficios'],'descricao_beneficios'=>$row['descricao_beneficios']);
+  $sql = 'SELECT id_beneficios, descricao_beneficios FROM beneficios';
+  $stmt = $pdo->prepare($sql);
+  $stmt->execute();
+  $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+  if ($resultado) {
+    $beneficios = $resultado;
+  } else {
+    $beneficios = [];
   }
-  echo json_encode($resultado);
-?>
+
+  echo json_encode($beneficios);
+} catch (PDOException $e) {
+  echo 'Erro ao exibir benefícios: ' . $e->getMessage();
+}

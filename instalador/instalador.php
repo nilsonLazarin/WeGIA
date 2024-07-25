@@ -133,7 +133,7 @@ define( 'WWW', '$www');");
 				}
 			}else{
 				foreach ($sqlFiles as $key => $file){
-					$log = shell_exec("mysql -u $user -p$senha $nomeDB < ".realpath($inport_dir . $file)."");
+					$log = shell_exec("mysql --default-character-set=utf8 -u $user -p$senha $nomeDB < ".realpath($inport_dir . $file)."");
 					if (!$log){
 						echo("<p style='color:green;'>$file importado com sucesso<p>");
 					}else{
