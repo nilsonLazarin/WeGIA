@@ -1,10 +1,10 @@
 <?php
-
+    require_once('conexao.php');
+    use Versao\Conexao;
     boletoFacil();
 
     function boletoFacil()
     {
-        require_once('conexao.php');
         $query = new Conexao();
         $cpf = $_POST['cpf'];
         $cpff = "'$cpf'";

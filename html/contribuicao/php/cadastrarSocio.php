@@ -1,11 +1,11 @@
 <?php
-
+    require_once('conexao.php');
+    use Versao\Conexao;
     cadastra_socio();    
 
     function cadastra_socio()
     {
 
-        require_once('conexao.php');
         $query = new Conexao;
 
         $nome = $_POST['nome'];

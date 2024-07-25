@@ -70,10 +70,10 @@
                           $si_contrib = 0;
 
                           $possible_paths = [
-                            dirname(__FILE__) . '/../../../../dao/Conexao.php',
-                            dirname(__FILE__) . '/../../../dao/Conexao.php',
-                            dirname(__FILE__) . '/../../dao/Conexao.php',
-                            dirname(__FILE__) . '/../dao/Conexao.php'
+                            dirname(__FILE__) . '/../../../../classes/Conexao.php',
+                            dirname(__FILE__) . '/../../../classes/Conexao.php',
+                            dirname(__FILE__) . '/../../classes/Conexao.php',
+                            dirname(__FILE__) . '/../classes/Conexao.php'
                           ];
                           
                           foreach ($possible_paths as $path) {
@@ -91,7 +91,9 @@
                   
                           $stmt = $pdo->prepare("SELECT *, s.id_socio as socioid FROM socio AS s LEFT JOIN pessoa AS p ON s.id_pessoa = p.id_pessoa LEFT JOIN socio_tipo AS st ON s.id_sociotipo = st.id_sociotipo LEFT JOIN (SELECT id_socio, MAX(data) AS ultima_data_doacao FROM log_contribuicao GROUP BY id_socio) AS lc ON lc.id_socio = s.id_socio");
                           $stmt->execute();
-                          while($resultados = $stmt->fetchAll(PDO::FETCH_ASSOC)){
+                          $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                          foreach ($resultados as $resultado) {
                             switch($resultado['id_sociotipo']){
                               case 0: case 1: 
                                   $casual++;
@@ -170,10 +172,10 @@
                 <?php 
 
                   $possible_paths = [
-                    dirname(__FILE__) . '/../../../../dao/Conexao.php',
-                    dirname(__FILE__) . '/../../../dao/Conexao.php',
-                    dirname(__FILE__) . '/../../dao/Conexao.php',
-                    dirname(__FILE__) . '/../dao/Conexao.php'
+                    dirname(__FILE__) . '/../../../../classes/Conexao.php',
+                    dirname(__FILE__) . '/../../../classes/Conexao.php',
+                    dirname(__FILE__) . '/../../classes/Conexao.php',
+                    dirname(__FILE__) . '/../classes/Conexao.php'
                   ];
 
                   foreach ($possible_paths as $path) {
@@ -251,10 +253,10 @@
                           $si_contrib = 0;
 
                           $possible_paths = [
-                            dirname(__FILE__) . '/../../../../dao/Conexao.php',
-                            dirname(__FILE__) . '/../../../dao/Conexao.php',
-                            dirname(__FILE__) . '/../../dao/Conexao.php',
-                            dirname(__FILE__) . '/../dao/Conexao.php'
+                            dirname(__FILE__) . '/../../../../classes/Conexao.php',
+                            dirname(__FILE__) . '/../../../classes/Conexao.php',
+                            dirname(__FILE__) . '/../../classes/Conexao.php',
+                            dirname(__FILE__) . '/../classes/Conexao.php'
                           ];
         
                           foreach ($possible_paths as $path) {

@@ -1,9 +1,11 @@
 
 <?php
+    require_once('conexao.php');
+
+    use Versao\Conexao;
 
     function resgataImagem()
     {
-        require_once('conexao.php');
         $banco = new Conexao();
 
         $banco->querydados("SELECT imagem.imagem, imagem.tipo FROM imagem, campo_imagem, tabela_imagem_campo WHERE campo_imagem.id_campo=tabela_imagem_campo.id_campo AND imagem.id_imagem=tabela_imagem_campo.id_imagem AND campo_imagem.nome_campo='Logo'");
@@ -18,7 +20,6 @@
 
     function resgataParagrafo()
     {
-        require_once('conexao.php');
         $banco = new Conexao();
 
         $banco->querydados("SELECT paragrafo FROM selecao_paragrafo WHERE nome_campo = 'ContribuiçãoMSG'");

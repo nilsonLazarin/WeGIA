@@ -1,5 +1,8 @@
 <?php
     require_once('conexao.php');
+
+    use Versao\Conexao;
+    
     $query = new Conexao();
 
     $doc = $_POST['doc'];

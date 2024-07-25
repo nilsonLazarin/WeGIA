@@ -1,7 +1,10 @@
 <?php
 
 require_once('conexao.php');
-$query = new Conexao;
+
+use Versao\Conexao;
+
+$banco = new Conexao();
 
 $idValor = $_GET['idValor'];
 $idSistema = $_GET['idSistema'];

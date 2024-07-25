@@ -1,5 +1,6 @@
 <?php
 require_once('conexao.php');
+use Versao\Conexao;
 $banco = new Conexao;
 require_once('dadosConfig.php');
 ini_set('display_errors', 0);
