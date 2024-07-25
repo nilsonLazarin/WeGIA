@@ -26,7 +26,7 @@ $stmt = $banco->pdo;
 
 try {
 
-    $req = $stmt->prepare("SELECT pessoa.id_pessoa, pessoa.nome, pessoa.telefone, pessoa.cep, pessoa.estado, pessoa.cidade, pessoa.bairro, pessoa.complemento, pessoa.numero_endereco, socio.id_pessoa, socio.email FROM pessoa, socio WHERE pessoa.id_pessoa = socio.id_pessoa AND pessoa.cpf=:cpf;");
+    $req = $stmt->prepare("SELECT pessoa.id_pessoa, pessoa.nome, pessoa.telefone, pessoa.cep, pessoa.estado, pessoa.cidade, pessoa.bairro, pessoa.complemento, pessoa.numero_endereco, pessoa.logradouro, socio.id_pessoa, socio.email FROM pessoa, socio WHERE pessoa.id_pessoa = socio.id_pessoa AND pessoa.cpf=:cpf;");
     $req->bindParam(":cpf", $cpf);
     $req->execute();
     $arrayBd = $req->fetch(PDO::FETCH_ASSOC);
@@ -41,6 +41,7 @@ try {
         $complemento = $arrayBd['complemento'];
         $cep = $arrayBd['cep'];
         $n_ender = $arrayBd['numero_endereco'];
+        $logradouro = $arrayBd['logradouro'];
     } else {
         http_response_code(400);
         exit('Não foi possível encontrar um sócio cadastrado com o CPF/CNPJ informado, por favor tente novamente.');
@@ -117,7 +118,7 @@ $boleto = [
         "document" => $cpfSemMascara,
         "type" => "Individual",
         "address" => [
-            "line_1" => $n_ender . "," . $bairro . "," . $cidade,
+            "line_1" => $logradouro . ", n°" . $n_ender . ", " . $bairro,
             "line_2" => $complemento,
             "zip_code" => $cep,
             "city" => $cidade,
