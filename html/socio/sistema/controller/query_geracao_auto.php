@@ -2,7 +2,7 @@
     require("../../conexao.php");
 
     function cleanInput($data) {
-        return htmlspecialchars(strip_tags(trim($data)), ENT_QUOTES, 'UTF-8');
+        return trim($data);
     }
 
     if (!isset($_POST) or empty($_POST)) {
