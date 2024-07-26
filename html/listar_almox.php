@@ -53,7 +53,7 @@
   
 
   if(!isset($_SESSION['almoxarifado'])){
-    header('Location: ../controle/control.php?metodo=listarTodos&nomeClasse=AlmoxarifadoControle&nextPage=../html/listar_almox.php');
+    header('Location: ../controle/control.php?metodo=listarTodos&nomeClasse=AlmoxarifadoControle&nextPage='.WWW.'/html/listar_almox.php');
   }
   if(isset($_SESSION['almoxarifado'])){
     $almoxarifado = $_SESSION['almoxarifado'];

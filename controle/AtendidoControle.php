@@ -302,6 +302,11 @@ class AtendidoControle
             exit('Erro, o CPF informado não é válido');
         }
 
+        if($atendido->getDataNascimento() > Atendido::getDataNascimentoMaxima() || $atendido->getDataNascimento() < Atendido::getDataNascimentoMinima()){
+            http_response_code(400);
+            exit('Erro, a data de nascimento informada está fora dos limites permitidos.');
+        }
+
         $intDAO = new AtendidoDAO();
         $docDAO = new DocumentoDAO();
         try {

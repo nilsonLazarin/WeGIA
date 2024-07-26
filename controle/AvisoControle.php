@@ -22,33 +22,21 @@ class AvisoControle
      */
     public function incluir()
     {
-
-        $idFuncionario = trim($_POST['idfuncionario']);
-        $idPessoaAtendida = trim($_POST['idpaciente']);
+        $idFuncionario = intval(trim($_POST['idfuncionario']));
+        $idPessoaAtendida = intval(trim($_POST['idpaciente']));
+        $idfichamedica = intval(trim($_POST['idfichamedica']));
         $descricao = trim($_POST['descricao_emergencia']);
-        $idfichamedica = trim($_POST['idfichamedica']);
 
-        if (!$idFuncionario || !is_numeric($idFuncionario)) {
+        try {
+            if ($idfichamedica < 1) {
+                throw new InvalidArgumentException('Erro, o id da ficha médica não pode ser menor que 1.');
+            }
+
+            $aviso = new Aviso($idFuncionario, $idPessoaAtendida, $descricao);
+        } catch (InvalidArgumentException $e) {
             http_response_code(400);
-            exit('Erro, o id do funcionário que está registrando uma intercorrência não está dentro dos padrões aceitados.');
+            exit('Erro ao tentar cadastrar uma intercorrência: ' . $e->getMessage());
         }
-
-        if (!$idPessoaAtendida || !is_numeric($idPessoaAtendida)) {
-            http_response_code(400);
-            exit('Erro, o id do paciente não está dentro dos padrões aceitados.');
-        }
-
-        if (!$idfichamedica || !is_numeric($idfichamedica)) {
-            http_response_code(400);
-            exit('Erro, o id da ficha médica não está dentro dos padrões aceitados.');
-        }
-
-        if (!$descricao || empty($descricao)) {
-            http_response_code(400);
-            exit('Erro, a descrição de uma intercorrência não pode ser nula ou vazia.');
-        }
-
-        $aviso = new Aviso($idFuncionario, $idPessoaAtendida, $descricao);
 
         $avisoNotificacaoControle = new AvisoNotificacaoControle();
 

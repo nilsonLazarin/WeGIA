@@ -59,7 +59,7 @@
 		header('Location: ../controle/control.php?metodo=listarTodos&nomeClasse=UnidadeControle&nextPage=../html/cadastro_produto.php');
 	}
 	if(!isset($_SESSION['categoria'])){
-		header('Location: ../controle/control.php?metodo=listarTodos&nomeClasse=CategoriaControle&nextPage=../html/cadastro_produto.php');	
+		header('Location: ../controle/control.php?metodo=listarTodos&nomeClasse=CategoriaControle&nextPage='.WWW.'/html/cadastro_produto.php');	
 	}
 	if(isset($_SESSION['categoria']) && isset($_SESSION['unidade'])){
 		extract($_SESSION);

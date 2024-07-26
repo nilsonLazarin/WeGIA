@@ -57,6 +57,9 @@ $cpf = $_GET['cpf'];
 $funcionario = new FuncionarioDAO;
 $informacoesFunc = $funcionario->listarPessoaExistente($cpf);
 
+require_once "../../classes/Funcionario.php";
+$dataNascimentoMaxima = Funcionario::getDataNascimentoMaxima();
+$dataNascimentoMinima = Funcionario::getDataNascimentoMinima();
 
 // Inclui display de Campos
 require_once "../personalizacao_display.php";
@@ -202,7 +205,7 @@ require_once "../personalizacao_display.php";
                   <div class="form-group">
                     <label class="col-md-3 control-label" for="profileCompany">Nascimento<sup class="obrig">*</sup></label>
                     <div class="col-md-8">
-                      <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" id="nascimento" max=<?php echo date('Y-m-d'); ?> required>
+                      <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" id="nascimento" min="<?= $dataNascimentoMinima?>" max=<?= $dataNascimentoMaxima?> required>
                     </div>
                   </div>
                   <hr class="dotted short">
@@ -309,13 +312,13 @@ require_once "../personalizacao_display.php";
                   <div class="form-group" id="reservista1" style="display: none">
                     <label class="col-md-3 control-label">Número do certificado reservista</label>
                     <div class="col-md-6">
-                      <input type="text" name="certificado_reservista_numero" class="form-control num_reservista">
+                      <input type="text" name="certificado_reservista_numero" class="form-control num_reservista" onkeypress="return Onlynumbers(event)">
                     </div>
                   </div>
                   <div class="form-group" id="reservista2" style="display: none">
                     <label class="col-md-3 control-label">Série do certificado reservista</label>
                     <div class="col-md-6">
-                      <input type="text" name="certificado_reservista_serie" class="form-control serie_reservista">
+                      <input type="text" name="certificado_reservista_serie" class="form-control serie_reservista" onkeypress="return Onlynumbers(event)">
                     </div>
                   </div>
 
@@ -472,6 +475,22 @@ require_once "../personalizacao_display.php";
       var telefone = document.getElementById('telefone').value;
 
       var dt_nasc = document.getElementById('nascimento').value;
+
+      let dataNascimentoMaxima = "<?=$dataNascimentoMaxima?>";
+      dataNascimentoMaxima = dataNascimentoMaxima.replaceAll('-', '');
+
+      let dataNascimentoMinima = "<?=$dataNascimentoMinima?>";
+      dataNascimentoMinima = dataNascimentoMinima.replaceAll('-', '');
+
+      dt_nasc = dt_nasc.replaceAll('-', '');
+
+      if(dt_nasc > dataNascimentoMaxima){
+        return false;
+      }
+
+      if(dt_nasc < dataNascimentoMinima){
+        return false;
+      }
 
       var rg = document.getElementById('rg').value;
 
@@ -673,7 +692,7 @@ require_once "../personalizacao_display.php";
     }
 
     function adicionar_cargo() {
-      url = '../../dao/adicionar_cargo.php';
+      url = '../../controle/control.php';
       var cargo = window.prompt("Cadastre um Novo Cargo:");
       if (!cargo) {
         return
@@ -683,17 +702,22 @@ require_once "../personalizacao_display.php";
         return
       }
 
-      data = 'cargo=' + cargo;
+      data = {
+        nomeClasse : 'CargoControle',
+        metodo: 'incluir',
+        cargo : cargo
+      };
       console.log(data);
       $.ajax({
         type: "POST",
         url: url,
-        data: data,
+        data: JSON.stringify(data),
+        contentType: "application/json",
         success: function(response) {
-          gerarCargo();
+            gerarCargo();
         },
         dataType: 'text'
-      })
+    });
     }
 
     $(function() {

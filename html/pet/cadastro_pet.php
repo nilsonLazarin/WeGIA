@@ -173,7 +173,6 @@ if($_GET['msg']){
             <div class="tab-content">
               <div id="overview" class="tab-pane active">
               <form class="form-horizontal" method="POST" action="../../controle/pet/controlPet.php" onsubmit="verificarDataAcolhimento()">
-                <span style="color: red">Formulário em desenvolvimento</span>
                   <h4 class="mb-xlg">Informações do Pet</h4>
                   <h5 class="obrig">Campos Obrigatórios(*)</h5>
                   <div class="form-group">

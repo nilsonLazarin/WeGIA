@@ -32,7 +32,7 @@ $id_fichamedica = $_SESSION['id_upload_med'];
 
 try {
     $pdo = Conexao::connect();
-    $prep = $pdo->prepare("INSERT INTO saude_medicamento_administracao(aplicação, saude_medicacao_id_medicacao, pessoa_id_pessoa, funcionario_id_funcionario) VALUES (:aplicacao, :saude_medicacao_id_medicacao, :pessoa_id_pessoa, :funcionario_id_funcionario)");
+    $prep = $pdo->prepare("INSERT INTO saude_medicamento_administracao(aplicacao, saude_medicacao_id_medicacao, pessoa_id_pessoa, funcionario_id_funcionario) VALUES (:aplicacao, :saude_medicacao_id_medicacao, :pessoa_id_pessoa, :funcionario_id_funcionario)");
 
     $prep->bindValue(":aplicacao", $aplicacao);
     $prep->bindValue(":saude_medicacao_id_medicacao", $id_medicacao);

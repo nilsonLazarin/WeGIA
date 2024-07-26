@@ -89,18 +89,18 @@ try {
                 <div class="div_nasc">
                   <div class="form-group col-xs-4">
                     <label for="valor">Data de nascimento</label>
-                    <input type="date" class="form-control" id="data_nasc" name="data_nasc">
+                    <input type="date" class="form-control" id="data_nasc" name="data_nasc" max="<?= date('Y-m-d')?>">
                   </div>
                 </div>
               </div>
               <div class="row">
                 <div class="form-group col-xs-6">
                   <label for="valor">Data referência (ínicio contribuição)</label>
-                  <input type="date" class="form-control" id="data_referencia" name="data_referencia">
+                  <input type="date" class="form-control" id="data_referencia" name="data_referencia" min="<?= date('Y-m-d')?>">
                 </div>
                 <div class="form-group col-xs-6">
                   <label for="valor">Valor/período em R$</label>
-                  <input type="number" class="form-control" id="valor_periodo" name="valor_periodo">
+                  <input type="number" class="form-control" id="valor_periodo" name="valor_periodo" onkeypress="return Onlynumbers(event)" min="<?= 0 ?>">
                 </div>
               </div>
               <div class="row">
@@ -143,7 +143,7 @@ try {
                       <label for="cep">CEP</label>
                       <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-search"></i></span>
-                        <input type="text" id="cep" class="form-control" placeholder="">
+                        <input type="text" id="cep" class="form-control" placeholder="" name="cep">
                       </div>
                       <div class="status_cep col-xs-12"></div>
                     </div>
@@ -151,7 +151,7 @@ try {
                   <div class="row">
                     <div class="form-group mb-2 col-xs-8">
                       <label for="nome_cliente">Rua</label>
-                      <input type="text" class="form-control" id="rua" name="nome" placeholder="">
+                      <input type="text" class="form-control" id="rua" name="rua" placeholder="">
                     </div>
                     <div class="form-group col-xs-4">
                       <label for="data_corte">Número</label>
@@ -227,7 +227,7 @@ try {
                     <?php
                     require_once './model/Socio.php';
                     $socios = array();
-                    $resultado = mysqli_query($conexao, "SELECT *, s.id_socio as socioid FROM socio AS s LEFT JOIN pessoa AS p ON s.id_pessoa = p.id_pessoa LEFT JOIN socio_tipo AS st ON s.id_sociotipo = st.id_sociotipo LEFT JOIN (SELECT id_socio, MAX(data) AS ultima_data_doacao FROM log_contribuicao GROUP BY id_socio) AS lc ON lc.id_socio = s.id_socio");
+                    $resultado = mysqli_query($conexao, "SELECT *, s.id_socio as socioid FROM socio AS s LEFT JOIN pessoa AS p ON s.id_pessoa = p.id_pessoa LEFT JOIN socio_tipo AS st ON s.id_sociotipo = st.id_sociotipo LEFT JOIN (SELECT id_socio, MAX(data) AS ultima_data_doacao FROM log_contribuicao GROUP BY id_socio) AS lc ON lc.id_socio = s.id_socio ORDER BY p.nome");
                     while ($registro = mysqli_fetch_assoc($resultado)) {
                       $socios[] = new Socio($registro['socioid'], $registro['nome'], $registro['cpf']);
                     }

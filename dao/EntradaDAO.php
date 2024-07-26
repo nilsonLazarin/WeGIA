@@ -51,7 +51,9 @@ class EntradaDAO
             INNER JOIN pessoa p ON p.id_pessoa = e.id_responsavel");
         $x=0;
         while($linha = $consulta->fetch(PDO::FETCH_ASSOC)){
-            $entradas[$x]=array('id_entrada'=>$linha['id_entrada'],'nome_origem'=>$linha['nome_origem'],'descricao_almoxarifado'=>$linha['descricao_almoxarifado'],'descricao'=>$linha['descricao'],'nome'=>$linha['nome'],'data'=>$linha['data'],'hora'=>$linha['hora'],'valor_total'=>$linha['valor_total']);
+            //formatar data
+            $data = new DateTime($linha['data']);
+            $entradas[$x]=array('id_entrada'=>$linha['id_entrada'],'nome_origem'=>$linha['nome_origem'],'descricao_almoxarifado'=>$linha['descricao_almoxarifado'],'descricao'=>$linha['descricao'],'nome'=>$linha['nome'],'data'=>$data->format('d/m/Y'),'hora'=>$linha['hora'],'valor_total'=>$linha['valor_total']);
             $x++;
         }
         } catch (PDOException $e){
@@ -75,7 +77,9 @@ class EntradaDAO
             GROUP BY e.id_entrada");
             $x=0;
             while($linha = $consulta->fetch(PDO::FETCH_ASSOC)){
-                $entradas[$x]=array('id_entrada'=>$linha['id_entrada'],'nome_origem'=>$linha['nome_origem'],'descricao_almoxarifado'=>$linha['descricao_almoxarifado'],'descricao'=>$linha['descricao'],'nome'=>$linha['nome'],'data'=>$linha['data'],'hora'=>$linha['hora'],'valor_total'=>$linha['valor_total'], 'desc_produto'=>$linha['desc_produto']);
+                //formatar data
+                $data = new DateTime($linha['data']);
+                $entradas[$x]=array('id_entrada'=>$linha['id_entrada'],'nome_origem'=>$linha['nome_origem'],'descricao_almoxarifado'=>$linha['descricao_almoxarifado'],'descricao'=>$linha['descricao'],'nome'=>$linha['nome'],'data'=>$data->format('d/m/Y'),'hora'=>$linha['hora'],'valor_total'=>$linha['valor_total'], 'desc_produto'=>$linha['desc_produto']);
                 $x++;
             }
             } catch (PDOException $e){
@@ -93,7 +97,8 @@ class EntradaDAO
                 ':id_entrada' => $id,
             ));
             while ($linha = $consulta->fetch(PDO::FETCH_ASSOC)) {
-                $entrada = new Entrada($linha['data'],$linha['hora'],$linha['valor_total'],$linha['id_responsavel']);
+                $data = new DateTime($linha['data']);
+                $entrada = new Entrada($data->format('d/m/Y'),$linha['hora'],$linha['valor_total'],$linha['id_responsavel']);
                 $entrada->setId_entrada($linha['id_entrada']);
             }
             } catch (PDOException $e) {
@@ -118,7 +123,8 @@ class EntradaDAO
         ));
         
         while($linha = $consulta->fetch(PDO::FETCH_ASSOC)){
-            $entradas[]=array('id_entrada'=>$linha['id_entrada'],'nome_origem'=>$linha['nome_origem'],'descricao_almoxarifado'=>$linha['descricao_almoxarifado'],'descricao'=>$linha['descricao'],'nome'=>$linha['nome'],'data'=>$linha['data'],'hora'=>$linha['hora'],'valor_total'=>$linha['valor_total']);
+            $data = new DateTime($linha['data']);
+            $entradas[]=array('id_entrada'=>$linha['id_entrada'],'nome_origem'=>$linha['nome_origem'],'descricao_almoxarifado'=>$linha['descricao_almoxarifado'],'descricao'=>$linha['descricao'],'nome'=>$linha['nome'],'data'=>$data->format('d/m/Y'),'hora'=>$linha['hora'],'valor_total'=>$linha['valor_total']);
         }
         } catch (PDOException $e){
             echo 'Error:' . $e->getMessage();

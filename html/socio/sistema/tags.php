@@ -117,44 +117,6 @@
 			$("#header").load("<?php echo WWW;?>html/header.php");
             $(".menuu").load("<?php echo WWW;?>html/menu.php");
 	    });	
-
-        function gerarCargo(){
-          url = '../../dao/exibir_cargo.php';
-          $.ajax({
-          data: '',
-          type: "POST",
-          url: url,
-          success: function(response){
-            var cargo = response;
-            $('#tabela').empty();
-            $.each(cargo,function(i,item){
-			  if(item.id_cargo != 1 && item.id_cargo != 2)
-              $('#tabela').append(`<tr><td>${item.id_cargo}</td><td><input id='${item.id_cargo}' type='text' value='${item.cargo}'></td><td><a id='a_${item.id_cargo}' class='btn btn-primary' href='salvar_cargo.php?id_cargo=${item.id_cargo}&value='>Salvar</a><td><a class='btn btn-danger' href='deletar_cargo.php?id_cargo=${item.id_cargo}'>Deletar</a></td></tr>`);
-            });
-          },
-          dataType: 'json'
-        });
-      }
-
-      function adicionar_cargo(){
-        url = '../../dao/adicionar_cargo.php';
-        var cargo = window.prompt("Cadastre um Novo Cargo:");
-        if(!cargo){return}
-        situacao = cargo.trim();
-        if(cargo == ''){return}              
-        
-          data = 'cargo=' +cargo; 
-          console.log(data);
-          $.ajax({
-          type: "POST",
-          url: url,
-          data: data,
-          success: function(response){
-            gerarCargo();
-          },
-          dataType: 'text'
-        })
-      }
 	</script>
 
 		
@@ -227,7 +189,7 @@
                                         {
 											$id_tag = $row['id_sociotag'];
 											$tag = $row['tag'];
-                                            echo "<tr><td>$id_tag</td><td><input id='$id_tag' type='text' value='$tag'></td><td><a id='a_$id_tag' class='btn btn-primary' href='salvar_tag.php?id_tag=$id_tag&value='>Salvar</a><td><a class='btn btn-danger' href='deletar_tag.php?id_tag=$id_tag'>Deletar</a></td></tr>";
+                                            echo "<tr><td>$id_tag</td><td><input id='$id_tag' type='text' value='$tag'></td><td><a id='a_$id_tag' class='btn btn-primary' href='salvar_tag.php?id_tag=$id_tag&value=$tag' disabled>Salvar</a><td><a class='btn btn-danger' href='deletar_tag.php?id_tag=$id_tag'>Deletar</a></td></tr>";
                                         }         
 									?>
 								</tbody>
@@ -257,14 +219,16 @@
                 $("input").change(function(){
                     console.log($(this).val());
                     var id = this.id;
-                    $("#a_"+id).attr("href", `salvar_tag.php?id_tag=${id}&value=${$(this).val()}`)
+                    $("#a_"+id).attr("href", `salvar_tag.php?id_tag=${id}&value=${$(this).val()}`);
+					$("#a_"+id).attr("disabled", false);
 				})
 				
 				setInterval(function(){
 					$("input").change(function(){
 						console.log($(this).val());
 						var id = this.id;
-						$("#a_"+id).attr("href", `salvar_tag.php?id_tag=${id}&value=${$(this).val()}`)
+						$("#a_"+id).attr("href", `salvar_tag.php?id_tag=${id}&value=${$(this).val()}`);
+						$("#a_"+id).attr("disabled", false);
 					})
 				}, 300)
             })
