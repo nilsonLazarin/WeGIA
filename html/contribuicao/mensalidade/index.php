@@ -95,7 +95,7 @@ ini_set('display_startup_erros', 0);
 				<span id="logo_img"><?php resgataImagem(); ?></span>
 				<span class="contact100-form-title" id="titulo_pag"><?php resgataParagrafo(); ?></span>
 
-				<input type="hidden" name="boleto-carne" id="boleto-carne" value="boleto">
+				<input type="hidden" name="boleto-carne" id="boleto-carne" value="carne">
 
 				<div id="pag1" class="wrap-input100">
 
@@ -103,10 +103,26 @@ ini_set('display_startup_erros', 0);
 
 						<div id="input" class="wrap-input100 validate-input bg1">
 							<span class="label-input100">Digite um valor</span>
-							<input class="input100" type='number' id='v' name='v' placeholder="Digite um valor de doação única." onblur="toReal(v);" required min="<?=$minvalunic?>">
+							<input class="input100" type='number' id='v' name='v' placeholder="Digite um valor de doação única." onblur="toReal(v);" required min="<?= $minvalunic ?>">
 							<input type='hidden' id='valunic' value='<?php echo $minvalunic ?>'>
 
 							<p id="avisa_valor"></p>
+						</div>
+
+						<div id="venci" class="wrap-input100 validate-input bg1">
+							<span class="label-input100">Escolha uma data de vencimento *</span><br>
+							<?php
+							for ($i = 0; $i < 5; $i++) {
+								if ($arrayData[$i] != 0) {
+									echo "<input type = 'radio' value ='" . $arrayData[$i] . "' name = 'dta' id='op" . $i . "'>" . "<span style='margin-right: 1.5em'>" . $arrayData[$i] . "</span>";
+								}
+							}
+							?>
+						</div>
+
+						<div id="parcelas" class="wrap-input100 validate-input bg1">
+							<span class="label-input100">Quantidade de parcelas</span>
+							<input class="input100" type='number' id='input-parcelas' name='input-parcelas' placeholder="Digite a quantidade de parcelas aqui." required min="1">
 						</div>
 
 						<div class="container-contact100-form-btn">
