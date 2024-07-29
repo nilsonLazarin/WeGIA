@@ -42,6 +42,9 @@ function geraBoletoNovo(){
     //Enviar um post para ./model/emitirBoleto.php com as informações do CPF e do valor da doação
 
     let cpfCnpj;
+    let url;
+    let parcela = 1;
+    let dia = 1;
 
     if($("#op_cpf").prop('checked')){
         cpfCnpj = document.getElementById("dcpf").value;
@@ -49,15 +52,29 @@ function geraBoletoNovo(){
         cpfCnpj = document.getElementById("dcnpj").value;
     }
 
+    const boletoCarne = document.getElementById("boleto-carne").value;
+
+    if(boletoCarne == "boleto"){
+        url = "./model/emitirBoleto.php";
+    }else if(boletoCarne == "carne"){
+        url = "./model/carne.php";
+        parcela = document.getElementById("input-parcelas").value;
+        dia = document.querySelector("input[name='dta']:checked").value;
+    }else{
+        alert('O valor de boleto ou carne informado não é válido');
+    }
+
     const valor = document.getElementById("v").value;
     //const cpfCnpj = document.getElementById("dcpf").value;
 
-    console.log("Valor doação: "+valor);
-    console.log("CPF/CNPJ: "+cpfCnpj);
+    //console.log("Valor doação: "+valor);
+    //console.log("CPF/CNPJ: "+cpfCnpj);
 
-    $.post("./model/emitirBoleto.php", {
+    $.post(url, {
         "dcpf": cpfCnpj,
-        "valor": valor
+        "valor": valor,
+        "parcela": parcela,
+        "dia": dia
     }).done(function(r){
         const resposta = JSON.parse(r);
         if(resposta.boletoLink){
