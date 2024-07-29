@@ -1,10 +1,67 @@
 <?php
 //Recuperar Info BD
+//Refatorar arquivo posteriormente
 
 require_once("../../php/conexao.php");
 require 'vendor/autoload.php';
 
 use setasign\Fpdi\Fpdi;
+
+/**
+ * Função para gerar um código aleatório
+ */
+function gerarCodigoAleatorio($tamanho = 16)
+{
+    $caracteres = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $caracteresTamanho = strlen($caracteres);
+    $codigoString = '';
+    for ($i = 0; $i < $tamanho; $i++) {
+        $codigoString .= $caracteres[rand(0, $caracteresTamanho - 1)];
+    }
+    return $codigoString;
+}
+
+/**
+ * Remove um diretório e todo o seu conteúdo.
+ *
+ * @param string $dir O caminho do diretório a ser removido.
+ * @return bool Retorna true em caso de sucesso, false em caso de falha.
+ */
+function removeDirectory($dir) {
+    // Verifica se o diretório existe
+    if (!file_exists($dir)) {
+        return false;
+    }
+
+    // Verifica se é um diretório
+    if (!is_dir($dir)) {
+        return false;
+    }
+
+    // Abre o diretório
+    $dirHandle = opendir($dir);
+
+    // Percorre todos os arquivos e diretórios dentro do diretório
+    while (($file = readdir($dirHandle)) !== false) {
+        if ($file != '.' && $file != '..') {
+            $filePath = $dir . DIRECTORY_SEPARATOR . $file;
+
+            // Se for um diretório, chama a função recursivamente
+            if (is_dir($filePath)) {
+                removeDirectory($filePath);
+            } else {
+                // Se for um arquivo, remove o arquivo
+                unlink($filePath);
+            }
+        }
+    }
+
+    // Fecha o diretório
+    closedir($dirHandle);
+
+    // Remove o diretório
+    return rmdir($dir);
+}
 
 $cpf = $_POST['dcpf'];
 $cpfSemMascara = preg_replace('/\D/', '', $cpf);
@@ -18,9 +75,7 @@ try {
     $req->bindParam(":cpf", $cpf);
     $req->execute();
     $arrayBd = $req->fetchAll(PDO::FETCH_ASSOC)[0];
-    //echo "<pre>";
-    //print_r($arrayBd);
-    //echo "</pre>";
+
     $nome = $arrayBd['nome'];
     $telefone = $arrayBd['telefone'];
     $email = $arrayBd['email'];
@@ -39,12 +94,9 @@ $idBoleto = intval($idBoleto);
 
 $type = "DM";
 
-
 //Requisição Boleto
-//require_once('vendor/autoload.php'); // Caminho para o autoload do Composer
-//use setasign\Fpdi\Fpdi;
 
-function verificaBanco($bank)
+/*function verificaBanco($bank)
 {
     if ($bank == "b_brasil") {
         $code = 001;
@@ -60,13 +112,32 @@ function verificaBanco($bank)
         $code = 237;
     }
     return $code;
-}
+}*/
 
 $value = intval($_POST["valor"]);
+
+$regras = $stmt->query("SELECT dbr.min_boleto_uni FROM doacao_boleto_regras AS dbr JOIN doacao_boleto_info AS dbi ON (dbr.id = dbi.id_regras)");
+$regras = $regras->fetch(PDO::FETCH_ASSOC);
+
+if ($value < $regras['min_boleto_uni']) {
+    echo json_encode('O valor para uma doação está abaixo do mínimo requerido.');
+    exit();
+}
+
 //parcelar
 $qtd_p = intval($_POST['parcela']);
 
+if($qtd_p < 1){
+    echo json_encode('A quantidade de parcelas não pode ser menor que 1.');
+    exit();
+}
+
 $diaVencimento = intval($_POST['dia']);
+
+if($diaVencimento < 1){
+    echo json_encode('O dia de vencimento de uma parcela não pode ser menor que 1.');
+    exit();
+}
 
 // Criar um array para armazenar as datas de vencimento
 $datasVencimento = [];
@@ -124,13 +195,16 @@ try {
     die("Erro: Não foi possível buscar a venda no BD" . $e->getMessage() . ".");
 }
 
+$code = gerarCodigoAleatorio();
+
 //Boleto
 $boleto = [
     "items" => [
         [
             "amount" => $value * 100,
             "description" => "Donation",
-            "quantity" => 1
+            "quantity" => 1,
+            "code" => $code
         ]
     ],
     "customer" => [
@@ -168,7 +242,6 @@ $arquivos = [];
 for ($i = 0; $i < $qtd_p; $i++) {
     // Atualizar a data de vencimento para cada boleto
     $boleto['payments'][0]['boleto']['due_at'] = $datasVencimento[$i];
-    //echo $boleto['payments'][0]['boleto']['due_at'];
 
     // Transformar o boleto em JSON
     $boleto_json = json_encode($boleto);
@@ -199,33 +272,35 @@ for ($i = 0; $i < $qtd_p; $i++) {
     // Fecha a conexão cURL
     curl_close($ch);
 
-
     // Verifica o código de status HTTP
     if ($httpCode === 200 || $httpCode === 201) {
         $responseData = json_decode($response, true);
         $pdf_links[] = $responseData['charges'][0]['last_transaction']['pdf'];
         //$arquivos[] = $responseData['charges'][0]['last_transaction']['pdf'];
     } else {
-        echo 'Erro: A API retornou o código de status HTTP ' . $httpCode . '<br>';
+        echo json_encode('Erro: A API retornou o código de status HTTP ' . $httpCode);
         // Verifica se há mensagens de erro na resposta JSON
         $responseData = json_decode($response, true);
         if (isset($responseData['errors'])) {
-            echo 'Detalhes do erro:';
+            //echo 'Detalhes do erro:';
             foreach ($responseData['errors'] as $error) {
-                echo '<br> ' . htmlspecialchars($error['message']);
+                //echo '<br> ' . htmlspecialchars($error['message']);
             }
         }
     }
 }
 
-echo '<br>Até aqui okay 1<br>';
-
 // Diretório onde os arquivos serão armazenados
-$saveDir = './pdfs_temp/';
+$saveDir = '../../pdfs/';
+$saveDirTemp = $saveDir.'temp/';
 
 // Verifica se o diretório existe, se não, cria o diretório
 if (!is_dir($saveDir)) {
     mkdir($saveDir, 0755, true);
+}
+
+if (!is_dir($saveDirTemp)) {
+    mkdir($saveDirTemp, 0755, true);
 }
 
 foreach ($pdf_links as $indice => $url) {
@@ -234,7 +309,7 @@ foreach ($pdf_links as $indice => $url) {
     $fileName = $indice . '_' . $pathParts[count($pathParts) - 2] . '.pdf';
 
     // Caminho completo para salvar o arquivo
-    $savePath = $saveDir . $fileName;
+    $savePath = $saveDirTemp . $fileName;
 
     // Inicia uma sessão cURL
     $ch = curl_init($url);
@@ -264,19 +339,18 @@ foreach ($pdf_links as $indice => $url) {
             if (strpos($headers, 'Content-Type: application/pdf') !== false) {
                 // Salva o conteúdo do arquivo no diretório especificado
                 file_put_contents($savePath, $fileContent);
-                $arquivos []= $savePath; //echo "Arquivo salvo em: $savePath" . PHP_EOL; //trocar para colocar o caminho em um array
+                $arquivos []= $savePath;
             } else {
-                echo "Erro: O conteúdo da URL não é um PDF." . PHP_EOL;
+                //echo "Erro: O conteúdo da URL não é um PDF." . PHP_EOL;
             }
         } else {
-            echo "Erro ao baixar o arquivo: HTTP $httpCode" . PHP_EOL;
+            echo json_encode("Erro ao baixar o arquivo: HTTP $httpCode");
         }
     }
 
     // Fecha a sessão cURL
     curl_close($ch);
 }
-
 
 $pdf = new Fpdi();
 
@@ -293,10 +367,19 @@ foreach ($arquivos as $file) {
     }
 }
 
+$numeroAleatorio = gerarCodigoAleatorio();
+$ultimaDataVencimento = $datasVencimento[$qtd_p - 1];
+$ultimaDataVencimento = str_replace('-', '', $ultimaDataVencimento);
+
 // Salva o arquivo PDF unido
-$pdf->Output('F', './pdfs_temp/combined.pdf');
+$pdf->Output('F', '../../pdfs/'.$numeroAleatorio.'_'.$cpfSemMascara.'_'.$ultimaDataVencimento.'_'.$value.'.pdf');
 
+removeDirectory('../../pdfs/temp');
 
-echo '<br>Até aqui okay 2<br>';
+$pdf_link = WWW.'html/contribuicao/pdfs/'.$numeroAleatorio.'_'.$cpfSemMascara.'_'.$ultimaDataVencimento.'_'.$value.'.pdf';
 
-
+if($pdf_link){
+    echo json_encode(['boletoLink' => $pdf_link]);
+}else{
+    echo json_encode('Não foi possível guardar o PDF gerado.');
+}   
