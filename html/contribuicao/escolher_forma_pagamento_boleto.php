@@ -78,10 +78,10 @@ ini_set('display_startup_erros', 0);
 
 			<div id="pag1" class="wrap-input100">
 				<div id="doacao_boleto">
-					<h3>Escolha sua forma de pagamento:</h3>
+					<h3>Escolha sua forma de contribuição:</h3>
 
 					<a class="btn btn-secondary m-2" href="./doacao/index.php" role="button">Boleto Único</a>
-					<a class="btn btn-secondary m-2" href="./mensalidade/index.php" role="button">Carnê</a>
+					<a class="btn btn-secondary m-2" href="./mensalidade/index.php" role="button">Carnê de Mensalidades</a>
 
 				</div>
 			</div>
