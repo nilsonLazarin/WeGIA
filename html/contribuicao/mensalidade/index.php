@@ -150,9 +150,9 @@ ini_set('display_startup_erros', 0);
 						<input class="input100" type="text" name="dcpf" id="dcnpj" onkeyup="FormataCnpj(this,event)" maxlength="18" class="form-control input-md" ng-m placeholder="22.222.222/2222-22"><span id="avisa_cnpj"></span>
 					</div>
 					<div class="container-contact100-form-btn">
-						<span class="contact100-form-btn" id="volta_btn">
+						<button class="contact100-form-btn" id="volta_btn">
 							<i style="margin-right: 15px; " class="fa fa-long-arrow-left m-l-7" aria-hidden="true"></i> VOLTAR
-						</span>
+						</button>
 					</div>
 					<div class="container-contact100-form-btn">
 						<button class="contact100-form-btn" id="verifica_socio_btn" onClick="doc_cadastrado();">
@@ -233,9 +233,9 @@ ini_set('display_startup_erros', 0);
 
 					<br>
 					<div class="container-contact100-form-btn">
-						<span class="contact100-form-btn" id="volta">
+						<button class="contact100-form-btn" id="volta">
 							<i style="margin-right: 15px; " class="fa fa-long-arrow-left m-l-7" aria-hidden="true"></i> VOLTAR
-						</span>
+						</button>
 					</div>
 
 					<div class="container-contact100-form-btn">
@@ -312,10 +312,10 @@ ini_set('display_startup_erros', 0);
 					<p id="aviso"></p>
 
 					<div class="container-contact100-form-btn">
-						<span class="contact100-form-btn" id="volta2">
+						<button class="contact100-form-btn" id="volta2">
 							<i style="margin-right: 15px; " class="fa fa-long-arrow-left m-l-7" aria-hidden="true"></i>
 							VOLTAR
-						</span>
+						</button>
 					</div>
 					<div class="container-contact100-form-btn">
 						<span class="contact100-form-btn" id="salvar_infos">
