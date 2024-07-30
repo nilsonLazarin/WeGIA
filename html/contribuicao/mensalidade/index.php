@@ -85,6 +85,37 @@ ini_set('display_startup_erros', 0);
 			margin-left: auto;
 			margin-right: auto;
 		}
+
+		.loader {
+			border: 1px solid #f3f3f3;
+			border-radius: 50%;
+			border-top: 1px solid #3498db;
+			width: 20px;
+			height: 20px;
+			-webkit-animation: spin 2s linear infinite;
+			animation: spin 2s linear infinite;
+			margin: 0 auto !important;
+		}
+
+		@-webkit-keyframes spin {
+			0% {
+				-webkit-transform: rotate(0deg);
+			}
+
+			100% {
+				-webkit-transform: rotate(360deg);
+			}
+		}
+
+		@keyframes spin {
+			0% {
+				transform: rotate(0deg);
+			}
+
+			100% {
+				transform: rotate(360deg);
+			}
+		}
 	</style>
 </head>
 
@@ -456,6 +487,25 @@ ini_set('display_startup_erros', 0);
 		});
 
 		$("#op0").prop("checked", true);
+
+		function setLoader(btn) {
+			// Esconde o primeiro elemento filho (ícone)
+			btn.firstElementChild.style.display = "none";
+
+			// Remove o texto do botão sem remover os elementos filhos
+			btn.childNodes.forEach(node => {
+				if (node.nodeType === Node.TEXT_NODE) {
+					node.textContent = '';
+				}
+			});
+
+			// Adiciona o loader se não houver outros elementos filhos além do ícone
+			if (btn.childElementCount == 1) {
+				var loader = document.createElement("DIV");
+				loader.className = "loader";
+				btn.appendChild(loader);
+			}
+		}
 	</script>
 
 
