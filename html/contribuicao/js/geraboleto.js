@@ -65,11 +65,12 @@ function geraBoletoNovo(){
     }
 
     const valor = document.getElementById("v").value;
-    //const cpfCnpj = document.getElementById("dcpf").value;
+    
+    // Desativar o clique no span
+    $('#gerar_boleto').addClass('disabled');
+    $('#avanca3').addClass('disabled');
 
-    //console.log("Valor doação: "+valor);
-    //console.log("CPF/CNPJ: "+cpfCnpj);
-
+    
     $.post(url, {
         "dcpf": cpfCnpj,
         "valor": valor,
@@ -81,9 +82,6 @@ function geraBoletoNovo(){
             console.log(resposta.boletoLink);
             // Redirecionar o usuário para o link do boleto em uma nova aba
             window.open(resposta.boletoLink, '_blank');
-            // Desativar o clique no span
-            $('#gerar_boleto').addClass('disabled');
-            $('#avanca3').addClass('disabled');
         }else{
             alert("Ops! Ocorreu um problema na geração do seu boleto, tente novamente, se o erro persistir contate o suporte.");
         } 

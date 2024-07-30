@@ -103,7 +103,7 @@ ini_set('display_startup_erros', 0);
 
 						<div id="input" class="wrap-input100 validate-input bg1">
 							<span class="label-input100">Digite um valor</span>
-							<input class="input100" type='number' id='v' name='v' placeholder="Digite um valor de doação única." onblur="toReal(v);" required min="<?= $minvalunic ?>">
+							<input class="input100" type='number' id='v' name='v' placeholder="Digite um valor de doação mensal." onblur="toReal(v);" required min="<?= $minvalunic ?>">
 							<input type='hidden' id='valunic' value='<?php echo $minvalunic ?>'>
 
 							<p id="avisa_valor"></p>
@@ -123,6 +123,7 @@ ini_set('display_startup_erros', 0);
 						<div id="parcelas" class="wrap-input100 validate-input bg1">
 							<span class="label-input100">Quantidade de parcelas</span>
 							<input class="input100" type='number' id='input-parcelas' name='input-parcelas' placeholder="Digite a quantidade de parcelas aqui." required min="1">
+							<p id="avisa_parcelas"></p>
 						</div>
 
 						<div class="container-contact100-form-btn">
@@ -453,6 +454,8 @@ ini_set('display_startup_erros', 0);
 		$('#valores').change(function() {
 			$(".input-donation-method").hide();
 		});
+
+		$("#op0").prop("checked", true);
 	</script>
 
 

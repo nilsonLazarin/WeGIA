@@ -103,6 +103,8 @@ function verificarNovo(){
     valor = valor.split('.');
     val_min = parseInt(val_min);
     valor = parseInt(valor); 
+    let qtdParcelas = parseInt($("#input-parcelas").val());
+    console.log(qtdParcelas);
            
     if(isNaN(valor) || valor[0] == 0)
     {
@@ -112,10 +114,10 @@ function verificarNovo(){
     else
     {
         if(valor < val_min)
-        {
-                        
-            $("#avisa_valor").html("O valor mínimo para doação é <i>R$"+val_min+"</i>"); 
-                        
+        {         
+            $("#avisa_valor").html("O valor mínimo para doação é <i>R$"+val_min+"</i>");              
+        }else if(qtdParcelas < 1 || isNaN(qtdParcelas) || qtdParcelas > 12){
+            $("#avisa_parcelas").html("A quantidade de parcelas de um carnê deve ser um número entre 1 e 12.");
         }else{
                             
             $("#avisa_valor").html("");
