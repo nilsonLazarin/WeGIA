@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/script.js" defer></script>
+    <title>Pagamento PIX</title>
+</head>
+
+<body>
+    <div class="container-formulario">
+        <h1 class="h1-formulario" >Formulário de Pagamento PIX</h1>
+        <form action="process_payment.php" id="formulario" method="POST">
+            <div class="form-group">
+                <label class="label-formulario" for="name">Nome:</label>
+                <input class="input-formulario" type="text" id="name" name="name" placeholder="Ex: João da Silva" required>
+            </div>
+            <div class="form-group">
+                <label class="label-formulario" for="email">E-mail:</label>
+                <input class="input-formulario" type="email" id="email" name="email" placeholder="Ex: joao@exemplo.com" required>
+            </div>
+            <div class="form-group">
+                <label class="label-formulario" for="document">CPF:</label>
+                <input class="input-formulario" type="number" id="document" name="document" placeholder="CPF: 123.456.789-10" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" required>
+            </div>            
+            <div class="form-group">
+                <label class="label-formulario" for="phone">Telefone:</label>
+                <input class="input-formulario" type="number" id="phone" name="phone" placeholder="(11) 91234-5678" pattern="\(\d{2}\) \d{5}-\d{4}" required>
+            </div>
+            <div class="form-group">
+                <label class="label-formulario" for="amount">Valor (R$):</label>
+                <input class="input-formulario" type="number" step="0.01" id="amount" name="amount" placeholder="Ex: 100.00" required>
+            </div>
+            <div class="form-group">
+                <button class="button-formulario" type="submit">Realizar Pagamento</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
