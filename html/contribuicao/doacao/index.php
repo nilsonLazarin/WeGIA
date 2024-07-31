@@ -338,7 +338,7 @@ ini_set('display_startup_erros', 0);
 						</span>
 					</div>
 					<div class="container-contact100-form-btn">
-						<button class="contact100-form-btn" value="GERAR BOLETO" id="avanca3">GERAR BOLETO</button>
+						<button class="contact100-form-btn" value="GERAR BOLETO" id="avanca3" onClick="setLoader(this)"><i style="margin-right: 15px; " class="fa fa-long-arrow-right m-l-7"aria-hidden="true"></i>GERAR BOLETO</button>
 					</div>
 				</div>
 				<div class="pultima_div wrap-input100" id="form2"></div>
