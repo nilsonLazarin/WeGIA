@@ -1,7 +1,7 @@
-<script src="controller/script/socio.js"></script>
+<script src="./script/socio.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
-<script src="./controller/script/jquery.inputmask.js"></script>
+<script src="./script/jquery.inputmask.js"></script>
 <script type="text/javascript">
 var ctx1 = document.getElementById('grafico1');
 if(ctx1 != null && ctx1 != ""){
