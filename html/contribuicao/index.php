@@ -82,6 +82,7 @@ ini_set('display_startup_erros', 0);
 
 					<a class="btn btn-secondary m-2" href="./doacao/index.php" role="button">Boleto Único</a>
 					<a class="btn btn-secondary m-2" href="./mensalidade/index.php" role="button">Carnê de Mensalidades</a>
+					<a class="btn btn-secondary m-2" href="./pix/index.php" role="button">PIX</a>
 
 				</div>
 			</div>

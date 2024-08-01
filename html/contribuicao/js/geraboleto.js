@@ -37,7 +37,7 @@ function CadastraCobrancas(carneBoletos, id,valor){
 
 }   
 
-function geraBoletoNovo(){
+function geraFormaContribuicao(){
     console.log('Nova geração de boleto.');
     //Enviar um post para ./model/emitirBoleto.php com as informações do CPF e do valor da doação
 
@@ -52,16 +52,20 @@ function geraBoletoNovo(){
         cpfCnpj = document.getElementById("dcnpj").value;
     }
 
-    const boletoCarne = document.getElementById("boleto-carne").value;
+    const formaContribuicao = document.getElementById("forma-contribuicao").value;
 
-    if(boletoCarne == "boleto"){
+    //Considerar posteriormente a troca para um switch case caso surjam mais formas de contribuição
+    if(formaContribuicao == "boleto"){
         url = "./model/emitirBoleto.php";
-    }else if(boletoCarne == "carne"){
+    }else if(formaContribuicao == "carne"){
         url = "./model/carne.php";
         parcela = document.getElementById("input-parcelas").value;
         dia = document.querySelector("input[name='dta']:checked").value;
+    }else if(formaContribuicao == "pix"){
+        url = "./model/emitirQRCode.php";
     }else{
-        alert('O valor de boleto ou carne informado não é válido');
+        alert('A forma de contribuição informada não é válida.');
+        return;
     }
 
     const valor = document.getElementById("v").value;

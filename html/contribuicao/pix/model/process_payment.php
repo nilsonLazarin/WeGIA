@@ -7,7 +7,8 @@ function formatCPF($cpf) {
 }
 
 // Verifica se a solicitação é POST
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {//Trocar para uma alternativa que não está depreciada
+    //Os únicos dados que devem vir são o CPF e o valor, os demais dados devem ser buscados no banco de dados.
     // Coleta dos dados do formulário
     $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
     $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
@@ -28,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Configuração dos dados para a API
     $description = 'Doação';
     $expires_in = 3600;
-    $apiKey = 'pegar_do_banco_de_dados';
+    $apiKey = 'pegar_do_banco_de_dados';//Realizar uma query para buscar esses dados
     $url = 'pegar_do_banco_de_dados';
 
     $headers = [
@@ -38,12 +39,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ];
 
     //Configura os dados a serem enviados
+
+    //gerar um número aleatório para o parâmetro code
     $data = [
         'items' => [
             [
                 'amount' => intval($amount * 100),
                 'description' => $description,
-                'quantity' => 1
+                'quantity' => 1, //Adicionar o envio do parâmetro code abaixo
             ]
         ],
         'customer' => [
@@ -138,13 +141,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $qr_code = file_get_contents($qr_code_url);
     
         // Exibe a imagem do QR code
-        echo '<img class="imagem" src="data:image/jpeg;base64,' . base64_encode($qr_code) . '" />';
+        echo '<img class="imagem" src="data:image/jpeg;base64,' . base64_encode($qr_code) . '" />';//invés de exibir a imagem, enviar o QRcode em base64 via JSON para o front-end
     } else {
         echo "Houve um erro ao gerar o QR CODE de pagamento. Verifique se as informações fornecidas são válidas.";
     }
     
     // Caso a transação for realizada, envia uma mensagem de sucesso.
-    if($responseData['status'] === 'paid'){
+    if($responseData['status'] === 'paid'){//Considerar remoção
         echo "Transação realizada com sucesso.";
     }
 }
