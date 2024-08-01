@@ -184,4 +184,4 @@ if ($httpCode === 200 || $httpCode === 201) {
     }
 }
 
-echo json_encode(['boletoLink' => $pdf_link]);
+echo json_encode(['link' => $pdf_link]);

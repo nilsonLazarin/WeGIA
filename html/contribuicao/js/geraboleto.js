@@ -73,6 +73,7 @@ function geraFormaContribuicao(){
     // Desativar o clique no span
     $('#gerar_boleto').addClass('disabled');
     $('#avanca3').addClass('disabled');
+    $('#emitir_qrcode').addClass('disabled');
 
     
     $.post(url, {
@@ -82,12 +83,12 @@ function geraFormaContribuicao(){
         "dia": dia
     }).done(function(r){
         const resposta = JSON.parse(r);
-        if(resposta.boletoLink){
-            console.log(resposta.boletoLink);
+        if(resposta.link){
+            console.log(resposta.link);
             // Redirecionar o usuário para o link do boleto em uma nova aba
-            window.open(resposta.boletoLink, '_blank');
+            window.open(resposta.link, '_blank');
         }else{
-            alert("Ops! Ocorreu um problema na geração do seu boleto, tente novamente, se o erro persistir contate o suporte.");
+            alert("Ops! Ocorreu um problema na geração da sua forma de pagamento, tente novamente, se o erro persistir contate o suporte.");
         } 
     });
 }

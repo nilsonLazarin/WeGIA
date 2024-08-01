@@ -385,7 +385,7 @@ removeDirectory('../../pdfs/temp');
 $pdf_link = WWW.'html/contribuicao/pdfs/'.$numeroAleatorio.'_'.$cpfSemMascara.'_'.$ultimaDataVencimento.'_'.$value.'.pdf';
 
 if($pdf_link){
-    echo json_encode(['boletoLink' => $pdf_link]);
+    echo json_encode(['link' => $pdf_link]);
 }else{
     echo json_encode('Não foi possível guardar o PDF gerado.');
 }   
