@@ -338,7 +338,7 @@ ini_set('display_startup_erros', 0);
 						</span>
 					</div>
 					<div class="container-contact100-form-btn">
-						<button class="contact100-form-btn" value="gerar-qrcode" id="avanca3" onClick="setLoader(this)"><i style="margin-right: 15px; " class="fa fa-long-arrow-right m-l-7"aria-hidden="true"></i>EMITIR QRCODE</button>
+						<button class="contact100-form-btn" value="gerar-qrcode" id="avanca3" onClick="setLoader(this)"><i style="margin-right: 15px; " class="fa fa-long-arrow-right m-l-7"aria-hidden="true"></i>GERAR QRCODE</button>
 					</div>
 				</div>
 				<div class="pultima_div wrap-input100" id="form2"></div>
