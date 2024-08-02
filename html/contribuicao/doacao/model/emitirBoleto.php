@@ -174,6 +174,7 @@ if ($httpCode === 200 || $httpCode === 201) {
     $pdf_link = $responseData['charges'][0]['last_transaction']['pdf'];
 } else {
     echo json_encode('Erro: A API retornou o código de status HTTP ' . $httpCode . '<br>');
+    exit();
     // Verifica se há mensagens de erro na resposta JSON
     $responseData = json_decode($response, true);
     if (isset($responseData['errors'])) {

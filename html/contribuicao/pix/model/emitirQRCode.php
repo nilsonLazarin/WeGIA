@@ -56,7 +56,7 @@ $regras = $stmt->query("SELECT dbr.min_boleto_uni FROM doacao_boleto_regras AS d
 $regras = $regras->fetch(PDO::FETCH_ASSOC);
 
 if ($value < $regras['min_boleto_uni']) {
-    echo json_encode('O valor para uma doação está abaixo do mínimo requerido.');
+    echo json_encode(['erro' => 'O valor para uma doação está abaixo do mínimo requerido.']);
     exit();
 }
 
@@ -137,7 +137,7 @@ $response = curl_exec($ch);
 
 // Verifica por erros no cURL
 if (curl_errno($ch)) {
-    echo json_encode('Erro na requisição: ' . curl_error($ch));
+    echo json_encode(['erro' => curl_error($ch)]);
     curl_close($ch);
     exit;
 }
@@ -152,7 +152,8 @@ curl_close($ch);
 if ($httpCode === 200 || $httpCode === 201) {
     $responseData = json_decode($response, true);
 } else {
-    echo json_encode('Erro: A API retornou o código de status HTTP ' . $httpCode);
+    echo json_encode(['erro' => 'A API retornou o código de status HTTP ' . $httpCode]);
+    exit();
     // Verifica se há mensagens de erro na resposta JSON
     $responseData = json_decode($response, true);
     if (isset($responseData['errors'])) {
@@ -170,5 +171,5 @@ if ($responseData['status'] === 'pending') {
     //envia o link da url
     echo json_encode(['link' => $qr_code_url]);
 } else {
-    echo json_encode("Houve um erro ao gerar o QR CODE de pagamento. Verifique se as informações fornecidas são válidas.");
+    echo json_encode(["erro" => "Houve um erro ao gerar o QR CODE de pagamento. Verifique se as informações fornecidas são válidas."]);
 }

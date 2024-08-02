@@ -55,8 +55,9 @@
             $bairro = trim($pessoa['bairro']);
             $logradouro = trim($pessoa['logradouro']);
             $numeroEndereco = trim($pessoa['numero_endereco']);
+            $telefone = trim($pessoa['telefone']);
 
-            if(!$cep || empty($cep) || !$estado || empty($estado) || !$cidade || empty($cidade) || !$bairro || empty($bairro) || !$logradouro || empty($logradouro) || !$numeroEndereco || empty($numeroEndereco)){
+            if(!$cep || empty($cep) || !$estado || empty($estado) || !$cidade || empty($cidade) || !$bairro || empty($bairro) || !$logradouro || empty($logradouro) || !$numeroEndereco || empty($numeroEndereco) || !$telefone || empty($telefone)){
                 return false;
             }
 
