@@ -124,6 +124,13 @@ function editar_informacoes() {
     console.log("Tipo Pessoa: " + tipoPessoa);
     //console.log("Dados2 : ", dados);
     $.post("../php/editaSocio.php", { 'nome': nome, 'telefone': tel, 'email': email, 'doc': doc, 'datanascimento': data_n, 'cep': cep, 'log': rua, 'numero': numero, 'comp': compl, 'bairro': bairro, 'cidade': cidade, 'uf': uf, 'tipoPessoa': tipoPessoa }).done(function (data) {
+        const resposta = JSON.parse(data);
+
+        if(resposta.Erro){
+            alert('Não foi possível alterar as informações: '+resposta.Erro);
+            return;
+        }
+
         $("#form2").fadeIn();
         $("#form2").html('<h3> Dados atualizados com sucesso! </h3><br><br><div class="container-contact100-form-btn"><span class="contact100-form-btn" id = "dados_atualizados"><i style="margin-right: 15px; " class="fa fa-long-arrow m-l-7"aria-hidden="true"></i>OK</span></div>')
         $("#pag3").hide();
