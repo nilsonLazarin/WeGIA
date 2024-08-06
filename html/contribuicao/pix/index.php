@@ -126,7 +126,7 @@ ini_set('display_startup_erros', 0);
 				<span id="logo_img"><?php resgataImagem(); ?></span>
 				<span class="contact100-form-title" id="titulo_pag"><?php resgataParagrafo(); ?></span>
 
-				<input type="hidden" name="forma-contribuicao" id="forma-contribuicao" value="boleto">
+				<input type="hidden" name="forma-contribuicao" id="forma-contribuicao" value="pix">
 
 				<div id="pag1" class="wrap-input100">
 
@@ -134,7 +134,7 @@ ini_set('display_startup_erros', 0);
 
 						<div id="input" class="wrap-input100 validate-input bg1">
 							<span class="label-input100">Digite um valor</span>
-							<input class="input100" type='number' id='v' name='v' placeholder="Digite um valor de doação única." onblur="toReal(v);" required min="<?= $minvalunic ?>">
+							<input class="input100" type='number' id='v' name='v' placeholder="Digite um valor de doação por PIX." onblur="toReal(v);" required min="<?= $minvalunic ?>">
 							<input type='hidden' id='valunic' value='<?php echo $minvalunic ?>'>
 
 							<p id="avisa_valor"></p>
@@ -338,7 +338,7 @@ ini_set('display_startup_erros', 0);
 						</span>
 					</div>
 					<div class="container-contact100-form-btn">
-						<button class="contact100-form-btn" value="GERAR BOLETO" id="avanca3" onClick="setLoader(this)"><i style="margin-right: 15px; " class="fa fa-long-arrow-right m-l-7"aria-hidden="true"></i>GERAR BOLETO</button>
+						<button class="contact100-form-btn" value="gerar-qrcode" id="avanca3" onClick="setLoader(this)"><i style="margin-right: 15px; " class="fa fa-long-arrow-right m-l-7"aria-hidden="true"></i>GERAR QRCODE</button>
 					</div>
 				</div>
 				<div class="pultima_div wrap-input100" id="form2"></div>

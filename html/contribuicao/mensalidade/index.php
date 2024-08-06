@@ -126,7 +126,7 @@ ini_set('display_startup_erros', 0);
 				<span id="logo_img"><?php resgataImagem(); ?></span>
 				<span class="contact100-form-title" id="titulo_pag"><?php resgataParagrafo(); ?></span>
 
-				<input type="hidden" name="boleto-carne" id="boleto-carne" value="carne">
+				<input type="hidden" name="forma-contribuicao" id="forma-contribuicao" value="carne">
 
 				<div id="pag1" class="wrap-input100">
 

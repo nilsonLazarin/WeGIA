@@ -285,6 +285,7 @@ for ($i = 0; $i < $qtd_p; $i++) {
         //$arquivos[] = $responseData['charges'][0]['last_transaction']['pdf'];
     } else {
         echo json_encode('Erro: A API retornou o código de status HTTP ' . $httpCode);
+        exit();
         // Verifica se há mensagens de erro na resposta JSON
         $responseData = json_decode($response, true);
         if (isset($responseData['errors'])) {
@@ -331,6 +332,7 @@ foreach ($pdf_links as $indice => $url) {
     // Verifica se ocorreu algum erro durante a execução do cURL
     if (curl_errno($ch)) {
         echo json_encode('Erro ao baixar o arquivo.'); //. curl_error($ch) . PHP_EOL;
+        exit();
     } else {
         // Verifica o código de resposta HTTP
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -351,6 +353,7 @@ foreach ($pdf_links as $indice => $url) {
             }
         } else {
             echo json_encode("Erro ao baixar o arquivo: HTTP $httpCode");
+            exit();
         }
     }
 
@@ -385,7 +388,7 @@ removeDirectory('../../pdfs/temp');
 $pdf_link = WWW.'html/contribuicao/pdfs/'.$numeroAleatorio.'_'.$cpfSemMascara.'_'.$ultimaDataVencimento.'_'.$value.'.pdf';
 
 if($pdf_link){
-    echo json_encode(['boletoLink' => $pdf_link]);
+    echo json_encode(['link' => $pdf_link]);
 }else{
     echo json_encode('Não foi possível guardar o PDF gerado.');
 }   

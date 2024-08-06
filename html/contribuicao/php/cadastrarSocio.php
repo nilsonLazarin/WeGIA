@@ -5,7 +5,7 @@ $conexao = new Conexao;
 $pdo = $conexao->pdo;
 
 $nome = $_POST['nome'];
-$tel = $_POST['telefone'];
+$telefone = $_POST['telefone'];
 $email = $_POST['contato'];
 $tipo = $_POST['tipo'];
 $doc = $_POST['doc'];

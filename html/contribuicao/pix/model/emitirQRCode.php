@@ -33,7 +33,7 @@ try {
     //Verificação para validar se o banco de dados retornou algo ou se a resposta está vazia.
     if (!empty($arrayBd)) {
         $nome = $arrayBd['nome'];
-        $telefone = $arrayBd['telefone'];
+        $telefone = preg_replace('/\D/', '', $arrayBd['telefone']);
         $email = $arrayBd['email'];
         $estado = $arrayBd['estado'];
         $cidade = $arrayBd['cidade'];
@@ -50,114 +50,94 @@ try {
     die("Erro: Não foi possível buscar o sócio no BD" . $e->getMessage() . ".");
 }
 
-$idBoleto = rand(0, 9) . "" . rand(0, 9) . "" . rand(0, 9) . "" . rand(0, 9) . "" . rand(0, 9) . "" . rand(0, 9) . "" . rand(0, 9) . "" . rand(0, 9) . "" . rand(0, 9) . "" . rand(0, 9) . "" . rand(0, 9) . "" . rand(0, 9) . "" . rand(0, 9) . "" . rand(0, 9) . "" . rand(0, 9) . "" . rand(0, 9);
-$idBoleto = intval($idBoleto);
-
-$type = "DM";
-
-//Requisição Boleto
-
-//Validação do valor de um boleto
 $value = intval($_POST["valor"]);
 
 $regras = $stmt->query("SELECT dbr.min_boleto_uni FROM doacao_boleto_regras AS dbr JOIN doacao_boleto_info AS dbi ON (dbr.id = dbi.id_regras)");
 $regras = $regras->fetch(PDO::FETCH_ASSOC);
 
 if ($value < $regras['min_boleto_uni']) {
-    echo json_encode('O valor para uma doação está abaixo do mínimo requerido.');
+    echo json_encode(['erro' => 'O valor para uma doação está abaixo do mínimo requerido.']);
     exit();
 }
-
-//parcelar
-$qtd_p = 1;
-
-$dataAtual = new DateTime();
-$dataVencimento = $dataAtual->modify('+7 days');
-$dataVencimento = $dataVencimento->format('Y-m-d');
 
 try {
     $req = $stmt->prepare("SELECT doacao_boleto_info.api, doacao_boleto_info.token_api FROM doacao_boleto_info WHERE 1;");
     $req->execute();
     $arrayBd = $req->fetchAll(PDO::FETCH_ASSOC)[0];
-    $apikey = $arrayBd['token_api'];
+    $apiKey = $arrayBd['token_api'];
     $url = $arrayBd['api'];
 } catch (PDOException $e) {
     die("Erro: Não foi possível buscar a venda no BD" . $e->getMessage() . ".");
 }
 
+// Configuração dos dados para a API
+$description = 'Doação';
+$expires_in = 3600;
+
 $headers = [
-    'Authorization: Basic ' . base64_encode($apikey . ':'),
-    'Content-Type: application/json;charset=utf-8',
+    'Authorization: Basic ' . base64_encode($apiKey . ':'),
+    `uri: $url`,
+    'Content-Type: application/json;charset=UTF-8'
 ];
 
-try {
-    $req = $stmt->prepare("SELECT * FROM `doacao_boleto_regras` WHERE 1;");
-    $req->execute();
-    $arrayBd = $req->fetchAll(PDO::FETCH_ASSOC)[0];
-    $msg = $arrayBd['agradecimento'];
-} catch (PDOException $e) {
-    die("Erro: Não foi possível buscar a venda no BD" . $e->getMessage() . ".");
-}
+//Configura os dados a serem enviados
 
+//gerar um número aleatório para o parâmetro code
 $code = gerarCodigoAleatorio();
-
-//Boleto
-$boleto = [
-    "items" => [
+$data = [
+    'items' => [
         [
-            "amount" => $value * 100,
-            "description" => "Donation",
-            "quantity" => 1,
+            'amount' => intval($value * 100),
+            'description' => $description,
+            'quantity' => 1,
             "code" => $code
         ]
     ],
-    "customer" => [
-        "name" => $nome,
-        "email" => $email,
-        "document_type" => "CPF",
-        "document" => $cpfSemMascara,
-        "type" => "Individual",
-        "address" => [
-            "line_1" => $logradouro . ", n°" . $n_ender . ", " . $bairro,
-            "line_2" => $complemento,
-            "zip_code" => $cep,
-            "city" => $cidade,
-            "state" => $estado,
-            "country" => "BR"
+    'customer' => [
+        'name' => $nome,
+        'email' => $email,
+        'type' => 'individual',
+        'document' => $cpfSemMascara,
+        'phones' => [
+            'mobile_phone' => [
+                'country_code' => '55',
+                'area_code' => substr($telefone, 0, 2),
+                'number' => substr($telefone, 2)
+            ]
         ],
     ],
-    "payments" => [
+    'payments' => [
         [
-            "payment_method" => "boleto",
-            "boleto" => [
-                "instructions" => $msg,
-                "document_number" => $idBoleto,
-                "due_at" => $dataVencimento,
-                "type" => $type
+            'payment_method' => 'pix',
+            'pix' => [
+                'expires_in' => $expires_in,
+                'additional_information' => [
+                    [
+                        'name' => 'Teste',
+                        'value' => '1'
+                    ]
+                ]
             ]
         ]
     ]
 ];
 
-// Transformar o boleto em JSON
-$boleto_json = json_encode($boleto);
+// Converte os dados para JSON
+$jsonData = json_encode($data);
 
-// Iniciar a requisição cURL
+// Inicia a requisição cURL
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_POST, true);
 curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-curl_setopt($ch, CURLOPT_POSTFIELDS, $boleto_json);
+curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
 
-// Executar a requisição cURL
 $response = curl_exec($ch);
-
-// Lidar com a resposta da API (mesmo código de tratamento que você já possui)
 
 // Verifica por erros no cURL
 if (curl_errno($ch)) {
-    echo 'Erro na requisição: ' . curl_error($ch);
+    echo json_encode(['erro' => curl_error($ch)]);
     curl_close($ch);
     exit;
 }
@@ -171,18 +151,25 @@ curl_close($ch);
 // Verifica o código de status HTTP
 if ($httpCode === 200 || $httpCode === 201) {
     $responseData = json_decode($response, true);
-    $pdf_link = $responseData['charges'][0]['last_transaction']['pdf'];
-    echo json_encode(['link' => $pdf_link]);
 } else {
-    echo json_encode(['Erro' => 'A API retornou o código de status HTTP ' . $httpCode]);
+    echo json_encode(['erro' => 'A API retornou o código de status HTTP ' . $httpCode]);
+    exit();
     // Verifica se há mensagens de erro na resposta JSON
     $responseData = json_decode($response, true);
     if (isset($responseData['errors'])) {
         //echo 'Detalhes do erro:';
         foreach ($responseData['errors'] as $error) {
-            //echo '<br> ' . htmlspecialchars($error['message']);
+            //echo '<br>- ' . htmlspecialchars($error['message']);
         }
     }
 }
 
-
+//Verifica se o status é 'pending'
+if ($responseData['status'] === 'pending') {
+    // Gera um qr_code
+    $qr_code_url = $responseData['charges'][0]['last_transaction']['qr_code_url'];
+    //envia o link da url
+    echo json_encode(['link' => $qr_code_url]);
+} else {
+    echo json_encode(["erro" => "Houve um erro ao gerar o QR CODE de pagamento. Verifique se as informações fornecidas são válidas."]);
+}
