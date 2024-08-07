@@ -38,7 +38,7 @@ function CadastraCobrancas(carneBoletos, id,valor){
 }   
 
 function geraFormaContribuicao(){
-    console.log('Nova geração de boleto.');
+    //console.log('Nova geração de boleto.');
     //Enviar um post para ./model/emitirBoleto.php com as informações do CPF e do valor da doação
 
     let cpfCnpj;
@@ -51,6 +51,7 @@ function geraFormaContribuicao(){
     }else if($("#op_cnpj").prop('checked')){
         cpfCnpj = document.getElementById("dcnpj").value;
     }
+    const valor = document.getElementById("v").value;
 
     const formaContribuicao = document.getElementById("forma-contribuicao").value;
 
@@ -62,18 +63,17 @@ function geraFormaContribuicao(){
         parcela = document.getElementById("input-parcelas").value;
         dia = document.querySelector("input[name='dta']:checked").value;
     }else if(formaContribuicao == "pix"){
-        url = "./model/emitirQRCode.php";
+        geraQrCode(cpfCnpj, valor);
+        return;
     }else{
         alert('A forma de contribuição informada não é válida.');
         return;
     }
-
-    const valor = document.getElementById("v").value;
     
     // Desativar o clique no span
     $('#gerar_boleto').addClass('disabled');
     $('#avanca3').addClass('disabled');
-    $('#emitir_qrcode').addClass('disabled');
+    //$('#emitir_qrcode').addClass('disabled');
 
     
     $.post(url, {
@@ -91,6 +91,72 @@ function geraFormaContribuicao(){
             alert("Ops! Ocorreu um problema na geração da sua forma de pagamento, tente novamente, se o erro persistir contate o suporte.");
         } 
     });
+}
+
+function geraQrCode(cpfCnpj, valor){
+    const url = "./model/emitirQRCode.php";
+    $('#avanca3').addClass('disabled');
+    $('#emitir_qrcode').addClass('disabled');
+
+    //const btn = this;
+    //setLoader(btn);
+
+    $.post(url, {
+        "dcpf": cpfCnpj,
+        "valor": valor
+    }).done(function(r){
+        const resposta = JSON.parse(r);
+        if(resposta.qrcode){
+
+            // Criar um div para centralizar o conteúdo
+            let qrContainer = document.createElement("div");
+            qrContainer.style.textAlign = "center";
+
+            // Adicionar o QR Code como imagem
+            let qrcode = document.createElement("img");
+            qrcode.src = "data:image/jpeg;base64," + resposta.qrcode;
+            qrContainer.appendChild(qrcode);
+
+            // Adicionar um botão abaixo do QR Code
+            let copyButton = document.createElement("button");
+            copyButton.textContent = "Copiar Código QR";
+            copyButton.style.display = "block";
+            copyButton.style.marginTop = "10px";
+            qrContainer.appendChild(copyButton);
+
+            form3.appendChild(qrContainer);
+
+            // Ajustar a largura do botão após a imagem carregar
+            qrcode.onload = function() {
+                copyButton.style.width = qrcode.width*(0.75) + "px";
+            };
+
+            // Rolar a página para o form3
+            window.location.hash = '#form3';
+
+            // Adicionar o evento de clique no botão para copiar o código
+            copyButton.addEventListener('click', function() {
+                // Criar um elemento temporário para copiar o texto
+                let tempInput = document.createElement("input");
+                tempInput.value = resposta.qrcode;//substituir pelo código da área de transferência
+                document.body.appendChild(tempInput);
+
+                // Selecionar e copiar o texto
+                tempInput.select();
+                document.execCommand("copy");
+
+                // Remover o elemento temporário
+                document.body.removeChild(tempInput);
+
+                alert("Código QR copiado para a área de transferência!");
+            });
+
+        }else{
+            alert("Ops! Ocorreu um problema na geração da sua forma de pagamento, tente novamente, se o erro persistir contate o suporte.");
+        } 
+    });
+
+    //resetButton(btn);
 }
 
 function geraBoleto()
@@ -339,3 +405,5 @@ function retorna_parecela()
 
         return parcelas;
 }
+
+
