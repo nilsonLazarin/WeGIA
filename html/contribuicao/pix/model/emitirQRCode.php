@@ -168,8 +168,9 @@ if ($httpCode === 200 || $httpCode === 201) {
 if ($responseData['status'] === 'pending') {
     // Gera um qr_code
     $qr_code_url = $responseData['charges'][0]['last_transaction']['qr_code_url'];
+    $qr_code = file_get_contents($qr_code_url);
     //envia o link da url
-    echo json_encode(['link' => $qr_code_url]);
+    echo json_encode(['qrcode' => base64_encode($qr_code)]);//enviar posteriormente a cópia do QR para área de transferência junto
 } else {
     echo json_encode(["erro" => "Houve um erro ao gerar o QR CODE de pagamento. Verifique se as informações fornecidas são válidas."]);
 }

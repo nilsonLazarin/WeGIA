@@ -73,9 +73,14 @@ function socio_cadastrado(doc) {
                 const formaContribuicao = $("#forma-contribuicao").val();
 
                 if (formaContribuicao == 'pix') {
-                    $("#form2").html('<h3>Obrigado por contribuir mais uma vez, ' + dados.nome + '!</h3><br>Clique em "GERAR QRCODE" e aguarde o redirecionamento.<br><div class="container-contact100-form-btn"><button class="contact100-form-btn" id = "emitir_qrcode" onClick="setLoader(this)"><i style="margin-right: 15px; " class="fa fa-long-arrow-right m-l-7"aria-hidden="true"></i>GERAR QRCODE</button></div><div style="display: none" class="container-contact100-form-btn"><span class="contact100-form-btn" id = "editar_infos"><i style="margin-right: 15px; " class="fa fa-long-arrow-left m-l-7"aria-hidden="true"></i>EDITAR DADOS CADASTRADOS</span></div><div class="container-contact100-form-btn"><span class="contact100-form-btn"><i style="margin-right: 15px; " aria-hidden="true"></i><a class= "botao" href="../index.php">VOLTAR A PÁGINA INICIAL</a></span></div>');
+                    $("#form2").html('<h3>Obrigado por contribuir mais uma vez, ' + dados.nome + '!</h3><br>Clique em "GERAR QRCODE" e aguarde o redirecionamento.<br><div class="container-contact100-form-btn"><button class="contact100-form-btn" id = "emitir_qrcode"><i style="margin-right: 15px; " class="fa fa-long-arrow-right m-l-7"aria-hidden="true"></i>GERAR QRCODE</button></div><div style="display: none" class="container-contact100-form-btn"><span class="contact100-form-btn" id = "editar_infos"><i style="margin-right: 15px; " class="fa fa-long-arrow-left m-l-7"aria-hidden="true"></i>EDITAR DADOS CADASTRADOS</span></div><div class="container-contact100-form-btn"><span class="contact100-form-btn"><i style="margin-right: 15px; " aria-hidden="true"></i><a class= "botao" href="../index.php">VOLTAR A PÁGINA INICIAL</a></span></div>');
 
-                    $("#emitir_qrcode").click(function () { geraFormaContribuicao(); });
+                    $("#emitir_qrcode").click(function () { 
+                        //const btn = this;
+                        //setLoader(btn);
+                        geraFormaContribuicao(); 
+                        //resetButton(btn);
+                    });
                 } else {
                     $("#form2").html('<h3>Obrigado por contribuir mais uma vez, ' + dados.nome + '!</h3><br>Clique em "GERAR BOLETO" e aguarde o redirecionamento.<br><div class="container-contact100-form-btn"><button class="contact100-form-btn" id = "gerar_boleto" onClick="setLoader(this)"><i style="margin-right: 15px; " class="fa fa-long-arrow-right m-l-7"aria-hidden="true"></i>GERAR BOLETO</button></div><div style="display: none" class="container-contact100-form-btn"><span class="contact100-form-btn" id = "editar_infos"><i style="margin-right: 15px; " class="fa fa-long-arrow-left m-l-7"aria-hidden="true"></i>EDITAR DADOS CADASTRADOS</span></div><div class="container-contact100-form-btn"><span class="contact100-form-btn"><i style="margin-right: 15px; " aria-hidden="true"></i><a class= "botao" href="../index.php">VOLTAR A PÁGINA INICIAL</a></span></div>');
 
@@ -139,7 +144,7 @@ function editar_informacoes() {
             const formaContribuicao = $("#forma-contribuicao").val();
 
             if(formaContribuicao == "pix"){
-                $("#form2").html('<h3>Obrigado por contribuir mais uma vez, ' + nome + '!</h3><br>Clique em "GERAR QRCODE" e aguarde o redirecionamento.<br><div class="container-contact100-form-btn"><button class="contact100-form-btn" id = "emitir_qrcode" onClick="setLoader(this)"><i style="margin-right: 15px; " class="fa fa-long-arrow-right m-l-7"aria-hidden="true"></i>GERAR QRCODE</button></div><div style="display: none" class="container-contact100-form-btn"><span class="contact100-form-btn" id = "editar_infos"><i style="margin-right: 15px; " class="fa fa-long-arrow-left m-l-7"aria-hidden="true"></i>EDITAR DADOS CADASTRADOS</span></div><div class="container-contact100-form-btn"><span class="contact100-form-btn"><i style="margin-right: 15px; " aria-hidden="true"></i><a class= "botao" href="../index.php">VOLTAR A PÁGINA INICIAL</a></span></div>');
+                $("#form2").html('<h3>Obrigado por contribuir mais uma vez, ' + nome + '!</h3><br>Clique em "GERAR QRCODE" e aguarde o redirecionamento.<br><div class="container-contact100-form-btn"><button class="contact100-form-btn" id = "emitir_qrcode"><i style="margin-right: 15px; " class="fa fa-long-arrow-right m-l-7"aria-hidden="true"></i>GERAR QRCODE</button></div><div style="display: none" class="container-contact100-form-btn"><span class="contact100-form-btn" id = "editar_infos"><i style="margin-right: 15px; " class="fa fa-long-arrow-left m-l-7"aria-hidden="true"></i>EDITAR DADOS CADASTRADOS</span></div><div class="container-contact100-form-btn"><span class="contact100-form-btn"><i style="margin-right: 15px; " aria-hidden="true"></i><a class= "botao" href="../index.php">VOLTAR A PÁGINA INICIAL</a></span></div>');
                 $("#emitir_qrcode").click(function () { geraFormaContribuicao(); });
             }else{
                 $("#form2").html('<h3>Obrigado por contribuir mais uma vez, ' + nome + '!</h3><br>Clique em "GERAR BOLETO" e aguarde o redirecionamento.<br><div class="container-contact100-form-btn"><button class="contact100-form-btn" id = "gerar_boleto" onClick="setLoader(this)"><i style="margin-right: 15px; " class="fa fa-long-arrow-right m-l-7"aria-hidden="true"></i>GERAR BOLETO</button></div><div style="display: none" class="container-contact100-form-btn"><span class="contact100-form-btn" id = "editar_infos"><i style="margin-right: 15px; " class="fa fa-long-arrow-left m-l-7"aria-hidden="true"></i>EDITAR DADOS CADASTRADOS</span></div><div class="container-contact100-form-btn"><span class="contact100-form-btn"><i style="margin-right: 15px; " aria-hidden="true"></i><a class= "botao" href="../index.php">VOLTAR A PÁGINA INICIAL</a></span></div>');
@@ -222,6 +227,38 @@ function cadastra_socio() {
 
 
     }
+}
+
+
+function setLoader(btn) {
+    // Esconde o primeiro elemento filho (ícone)
+    btn.firstElementChild.style.display = "none";
+
+    // Remove o texto do botão sem remover os elementos filhos
+    btn.childNodes.forEach(node => {
+        if (node.nodeType === Node.TEXT_NODE) {
+            node.textContent = '';
+        }
+    });
+
+    // Adiciona o loader se não houver outros elementos filhos além do ícone
+    if (btn.childElementCount == 1) {
+        var loader = document.createElement("DIV");
+        loader.className = "loader";
+        btn.appendChild(loader);
+    }
+}
+
+function resetButton(btn) {
+    // Remove o loader
+    const loader = btn.querySelector('.loader');
+    if (loader) {
+        btn.removeChild(loader);
+    }
+
+    // Restaura o ícone e o texto original
+    btn.firstElementChild.style.display = "inline-block";
+    btn.appendChild(document.createTextNode('GERAR QRCode'));
 }
 
 function cad_log(socioTipo, reference) {

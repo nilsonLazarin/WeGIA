@@ -116,6 +116,44 @@ ini_set('display_startup_erros', 0);
 				transform: rotate(360deg);
 			}
 		}
+
+		#form3 {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			/* Opcional, use se quiser centralizar verticalmente também */
+			height: 100%;
+			/* Ajuste conforme necessário */
+			width: 100%;
+			/* Ajuste conforme necessário */
+			text-align: center;
+			/* Centraliza o texto dentro da div, se houver */
+		}
+
+		#form3 img {
+			max-width: 100%;
+			/* Isso faz com que a imagem não ultrapasse os limites da div */
+			height: auto;
+		}
+
+	#form3 button {
+    background-color: #4CAF50; /* Cor de fundo do botão */
+    color: white; /* Cor do texto */
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-top: 10px;
+    cursor: pointer;
+	margin: 10px auto 0; /* Centraliza o botão */
+}
+
+#form3 button:hover {
+    background-color: #45a049; /* Cor ao passar o mouse */
+}
+
 	</style>
 </head>
 
@@ -338,7 +376,7 @@ ini_set('display_startup_erros', 0);
 						</span>
 					</div>
 					<div class="container-contact100-form-btn">
-						<button class="contact100-form-btn" value="gerar-qrcode" id="avanca3" onClick="setLoader(this)"><i style="margin-right: 15px; " class="fa fa-long-arrow-right m-l-7"aria-hidden="true"></i>GERAR QRCODE</button>
+						<button class="contact100-form-btn" value="gerar-qrcode" id="avanca3"><i style="margin-right: 15px; " class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>GERAR QRCODE</button>
 					</div>
 				</div>
 				<div class="pultima_div wrap-input100" id="form2"></div>
@@ -469,7 +507,7 @@ ini_set('display_startup_erros', 0);
 			$(".input-donation-method").hide();
 		});
 
-		function setLoader(btn) {
+		/*function setLoader(btn) {
 			// Esconde o primeiro elemento filho (ícone)
 			btn.firstElementChild.style.display = "none";
 
@@ -486,7 +524,7 @@ ini_set('display_startup_erros', 0);
 				loader.className = "loader";
 				btn.appendChild(loader);
 			}
-		}
+		}*/
 	</script>
 
 
