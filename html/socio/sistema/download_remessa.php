@@ -11,7 +11,7 @@
         require_once($config_path);
     }
     if(isset($_GET['file'])){
-        $file = $_GET['file'];
+        $file = basename($_GET['file']);
         if(substr(BKP_DIR, -1) == "/"){
             $filepath = BKP_DIR."arquivos_rem/".$file;
         }
