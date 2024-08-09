@@ -1,6 +1,6 @@
 <?php
-//Refazer arquivo
 require_once('conexao.php');
+use Versao\Conexao;
 $conexao = new Conexao;
 $pdo = $conexao->pdo;
 

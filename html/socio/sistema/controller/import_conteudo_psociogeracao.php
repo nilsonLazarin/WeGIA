@@ -114,12 +114,47 @@
 			
 				</div>
 				<?php 
-						$socios = array();
-						$resultado = mysqli_query($conexao,"SELECT *, s.id_socio as socioid FROM socio AS s LEFT JOIN pessoa AS p ON s.id_pessoa = p.id_pessoa LEFT JOIN socio_tipo AS st ON s.id_sociotipo = st.id_sociotipo LEFT JOIN (SELECT id_socio, MAX(data) AS ultima_data_doacao FROM log_contribuicao GROUP BY id_socio) AS lc ON lc.id_socio = s.id_socio");
-						while($registro = mysqli_fetch_assoc($resultado)){
-							$socios[] = $registro['nome'].'|'.$registro['cpf'].'|'.$registro['socioid'];
+					$possible_paths = [
+						dirname(__FILE__) . '/../../../../dao/Conexao.php',
+						dirname(__FILE__) . '/../../../dao/Conexao.php',
+						dirname(__FILE__) . '/../../dao/Conexao.php',
+						dirname(__FILE__) . '/../dao/Conexao.php'
+					];
+	
+					foreach ($possible_paths as $path) {
+						if (file_exists($path)) {
+						  require_once realpath($path);
+						  break;
 						}
-					?>
+					}
+	
+					if (!class_exists('Conexao')) {
+						die('Erro: O arquivo conexao.php não foi encontrado em nenhum dos caminhos especificados.');
+					}
+	
+					$pdo = Conexao::connect();		
+
+					$stmt = $pdo->prepare("
+					  SELECT *, s.id_socio as socioid
+					  FROM socio AS s
+					  LEFT JOIN pessoa AS p ON s.id_pessoa = p.id_pessoa
+					  LEFT JOIN socio_tipo AS st ON s.id_sociotipo = st.id_sociotipo
+					  LEFT JOIN (
+						  SELECT id_socio, MAX(data) AS ultima_data_doacao
+						  FROM log_contribuicao
+						  GROUP BY id_socio
+					  ) AS lc ON lc.id_socio = s.id_socio
+				  ");
+				  
+				  // Executar a consulta
+				  $stmt->execute();
+				  
+				  // Buscar os resultados
+				  $socios = [];
+				  while ($registro = $stmt->fetch(PDO::FETCH_ASSOC)) {
+					  $socios[] = $registro['nome'].'|'.$registro['cpf'].'|'.$registro['socioid'];
+				  }
+				?>
 				
 				<script>
 					var socios = <?php

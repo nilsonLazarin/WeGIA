@@ -13,6 +13,7 @@
 	}
     extract($_REQUEST);
     $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+    $cobranca = mysqli_real_escape_string($conexao, $cobranca);
     $resultado = mysqli_query($conexao, "DELETE FROM `cobrancas` WHERE codigo=$cobranca");
     if(mysqli_affected_rows($conexao)){
         $_SESSION['msg'] = "Cobrança deletada com sucesso.";

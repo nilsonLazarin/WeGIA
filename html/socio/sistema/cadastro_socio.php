@@ -11,25 +11,25 @@ $cadastrado =  false;
 
 // extract($_REQUEST);
 
-$socio_nome = trim($_REQUEST['socio_nome']);
-$pessoa = trim($_REQUEST['pessoa']);
-$contribuinte = trim($_REQUEST['contribuinte']);
-$status = trim($_REQUEST['status']);
-$email = trim($_REQUEST['email']);
-$tag = trim($_REQUEST['tag']);
-$telefone = trim($_REQUEST['telefone']);
-$cpf_cnpj = trim($_REQUEST['cpf_cnpj']);
-$rua = trim($_REQUEST['rua']);
-$numero = trim($_REQUEST['numero']);
-$complemento = trim($_REQUEST['complemento']);
-$bairro = trim($_REQUEST['bairro']);
-$estado = trim($_REQUEST['estado']);
-$cidade = trim($_REQUEST['cidade']);
-$data_nasc = trim($_REQUEST['data_nasc']);
-$cep = trim($_REQUEST['cep']);
-$data_referencia = trim($_REQUEST['data_referencia']);
-$valor_periodo = trim($_REQUEST['valor_periodo']);
-$tipo_contribuicao = trim($_REQUEST['tipo_contribuicao']);
+$socio_nome = trim(htmlspecialchars($_POST['socio_nome'] ?? ''));
+$pessoa = trim(htmlspecialchars($_POST['pessoa'] ?? ''));
+$contribuinte = trim(htmlspecialchars($_POST['contribuinte'] ?? ''));
+$status = intval($_POST['status'] ?? 0);
+$email = trim(htmlspecialchars($_POST['email'] ?? ''));
+$tag = intval($_POST['tag'] ?? 0);
+$telefone = trim(htmlspecialchars($_POST['telefone'] ?? ''));
+$cpf_cnpj = trim(htmlspecialchars($_POST['cpf_cnpj'] ?? ''));
+$rua = trim(htmlspecialchars($_POST['rua'] ?? ''));
+$numero = trim(htmlspecialchars($_POST['numero'] ?? ''));
+$complemento = trim(htmlspecialchars($_POST['complemento'] ?? ''));
+$bairro = trim(htmlspecialchars($_POST['bairro'] ?? ''));
+$estado = trim(htmlspecialchars($_POST['estado'] ?? ''));
+$cidade = trim(htmlspecialchars($_POST['cidade'] ?? ''));
+$data_nasc = trim(htmlspecialchars($_POST['data_nasc'] ?? ''));
+$cep = trim(htmlspecialchars($_POST['cep'] ?? ''));
+$data_referencia = trim(htmlspecialchars($_POST['data_referencia'] ?? ''));
+$valor_periodo = floatval($_POST['valor_periodo'] ?? 0);
+$tipo_contribuicao = intval($_POST['tipo_contribuicao'] ?? 0);
 
 if (!$socio_nome || empty($socio_nome)) {
     http_response_code(400);

@@ -132,7 +132,7 @@
 
 # FUNÇOES
 
-if(!function_exists(limit))
+if(!function_exists('limit'))
 
 	{
 
@@ -166,7 +166,7 @@ if(!function_exists(limit))
 
 
 
-if(!function_exists(sequencial))
+if(!function_exists('sequencial'))
 
 	{
 
@@ -220,7 +220,7 @@ if(!function_exists(sequencial))
 
 
 
-if(!function_exists(zeros))
+if(!function_exists('zeros'))
 
 	{
 
@@ -246,7 +246,7 @@ if(!function_exists(zeros))
 
 
 
-if(!function_exists(complementoRegistro))
+if(!function_exists('complementoRegistro'))
 
 	{
 
@@ -296,7 +296,7 @@ if(!function_exists(complementoRegistro))
 
 
 
-if(!function_exists(formata_numdoc))
+if(!function_exists('formata_numdoc'))
 
 	{
 
@@ -330,17 +330,17 @@ if(!function_exists(formata_numdoc))
 
 	# DADOS PARA TESTE, COLOQUE OS DADOS DO EMISSOR DO BOLETO
 
-	$dados2[cpf_cnpj_con] = '00.068.903/0001-04';
+	$dados2["cpf_cnpj_con"] = '00.068.903/0001-04';
 
-	$dados2[agencia_con] = '2813-4';
+	$dados2["agencia_con"] = '2813-4';
 
-	$dados2[conta_con] = '30000-4';
+	$dados2["conta_con"] = '30000-4';
 
-	$dados2[carteira_con] = '09';
+	$dados2["carteira_con"] = '09';
 
-	$dados2[convenio_con] = '5718204';
+	$dados2["convenio_con"] = '5718204';
 
-	$dados2[cedente_con] = 'Lar Abrigo Amor a Jesus';
+	$dados2["cedente_con"] = 'Lar Abrigo Amor a Jesus';
 	$dados["cep_cli"] = $cep;
 
 
@@ -410,7 +410,7 @@ if(!function_exists(formata_numdoc))
 
 	# Pega configuraçoes da SRC Cred
 
-	$cnpj = str_replace('.','',$dados2[cpf_cnpj_con]);
+	$cnpj = str_replace('.','',$dados2["cpf_cnpj_con"]);
 
 	$cnpj = str_replace('-','',$cnpj);
 
@@ -418,7 +418,7 @@ if(!function_exists(formata_numdoc))
 
 															
 
-	$agencia = explode("-",$dados2[agencia_con]);
+	$agencia = explode("-",$dados2["agencia_con"]);
 
 	$agencia_digito = $agencia[1];
 
@@ -426,21 +426,21 @@ if(!function_exists(formata_numdoc))
 
 
 
-	$conta = explode("-",$dados2[conta_con]);
+	$conta = explode("-",$dados2["conta_con"]);
 
 	$conta_digito = $conta[1];
 
 	$conta = $conta[0];
 
-	$carteira = substr($dados2[carteira_con],1,1);
+	$carteira = substr($dados2["carteira_con"],1,1);
 
 
 
-	$convenio = $dados2[convenio_con];
+	$convenio = $dados2["convenio_con"];
 
 
 
-	$cedente_con = $dados2[cedente_con];
+	$cedente_con = $dados2["cedente_con"];
 
 	# Removendo acentuacao
 

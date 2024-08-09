@@ -1,10 +1,12 @@
 <?php
+    require_once('conexao.php');
+
+    use Versao\Conexao;
 
     boletoFacil();
 
     function boletoFacil()
     {
-        require_once('conexao.php');
         $query = new Conexao();
 
             $query->querydados("SELECT * FROM doacao_boleto_info AS bi JOIN sistema_pagamento AS sp ON (bi.id_sistema = sp.id) JOIN doacao_boleto_regras AS br ON (br.id = bi.id_regras)  WHERE nome_sistema = 'BOLETOFACIL'");

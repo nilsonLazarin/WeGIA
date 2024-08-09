@@ -1,4 +1,5 @@
 <?php
+namespace Versao;
 
 $config_path = "config.php";
 if(file_exists($config_path))
@@ -25,11 +26,11 @@ if(file_exists($config_path))
       public function __construct()
       {
          try {
-               $this->pdo = new PDO("mysql:host=".DB_HOST. ';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
+               $this->pdo = new \PDO("mysql:host=".DB_HOST. ';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
                $this->pdo->exec("set names utf8");
-               $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+               $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
               
-            }catch(PDOException $e) {
+            }catch(\PDOException $e) {
               
                echo"Não conectado ao banco de dados:".$e->getMessage();
             }

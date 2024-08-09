@@ -1,5 +1,6 @@
 <?php
-
+    require_once('conexao.php');
+    use Versao\Conexao;
     $dados = $_GET['dados'];
     $idSistema = $_GET['idSistema'];
     $idRegras = $_GET['idRegras'];
@@ -13,7 +14,6 @@
 
     function insereDados($idSistema)
     {
-        require_once('conexao.php');
         $banco = new Conexao;
 
         $MinValUnic = $_POST['minval'];
@@ -87,7 +87,6 @@
 
     function atualizaDados($idSistema, $idRegras)
     {
-        require_once('conexao.php');
         $banco = new Conexao;
 
         $MinValUnic = $_POST['minval'];

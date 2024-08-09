@@ -1,4 +1,6 @@
 <?php
+require_once('conexao.php');
+use Versao\Conexao;
 
 $dado = $_GET['dados'];
 $idSistema= $_GET['idSistema'];
@@ -11,7 +13,6 @@ $idSistema= $_GET['idSistema'];
 
 function insereDados($idSistema)
 {
-    require_once('conexao.php');
     $bd = new Conexao;
 
     $doacaoAvulsaLink = $_POST['avulso'];
@@ -39,7 +40,6 @@ function insereDados($idSistema)
 
 function atualizaDados($idSistema)
 {
-    require_once('conexao.php');
     $bd = new Conexao;
 
     $linkDoacaoAvulsa = $_POST['avulso'];
@@ -77,7 +77,6 @@ function atualizaDados($idSistema)
 
 function verificaDadoCartao($idSistema)
 {
-    require_once('conexao.php');
     $bd = new Conexao;
 
     $bd->query("SELECT url FROM doacao_cartao_avulso WHERE id_sistema = '$idSistema'");

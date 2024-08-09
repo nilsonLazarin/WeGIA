@@ -11,16 +11,25 @@
     require_once "./config_funcoes.php";
 
     /*Buscando arquivo de configuração.. */
+    // $config_path = "config.php";
+    // if(file_exists($config_path)){
+    //     require_once($config_path);
+    // } else {
+    //     while(true){
+    //         $config_path = "../" . $config_path;
+    //         if(file_exists($config_path)) break;
+    //     }
+    //     require_once($config_path);
+    // }
+
     $config_path = "config.php";
-    if(file_exists($config_path)){
-        require_once($config_path);
-    } else {
-        while(true){
-            $config_path = "../" . $config_path;
-            if(file_exists($config_path)) break;
-        }
-        require_once($config_path);
-    }
+	$base_path = "";
+
+	while(!file_exists($base_path . $config_path)) {
+		$base_path .= "../";
+	}
+
+	require_once($base_path . $config_path);
 
     define("REDIRECT", [
         "./configuracao_geral.php",
@@ -73,7 +82,7 @@
                 $outdated = "";
 
                 if ($local_release < $last_release){
-                    require "./geral/msg.php";
+                    require "../geral/msg.php";
                     setSessionMsg("O sistema possui atualizações disponíveis", "warn");
                     $outdated = " (desatualizado)";
                 }

@@ -16,7 +16,9 @@
     if(isset($_POST['chargeReference']) and $_POST['chargeReference'] != ''){
         date_default_timezone_set("America/Sao_Paulo");
         // Extraindo variáveis retornadas pela API (paymentToken, chargeReference e chargeCode)
-        extract($_POST);
+        $paymentToken = htmlspecialchars($_POST['paymentToken'], ENT_QUOTES, 'UTF-8');
+        $chargeReference = htmlspecialchars($_POST['chargeReference'], ENT_QUOTES, 'UTF-8');
+        $chargeCode = htmlspecialchars($_POST['chargeCode'], ENT_QUOTES, 'UTF-8');
 
         if($chargeReference == '' || $chargeCode == ''){
             exit;
@@ -33,7 +35,7 @@
             $xmlres = curl_exec($curl);
             $retorno = json_decode($xmlres, true);
             $codePag = $retorno['success'];
-            echo($retorno);
+            print_r($retorno);
             if($codePag == 'true'){
                 // precisa adicionar o campo referencia no bd e o campo status
                 $referencia = $retorno['data']['payment']['charge']['reference'];
