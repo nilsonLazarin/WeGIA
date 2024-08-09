@@ -37,40 +37,126 @@ function CadastraCobrancas(carneBoletos, id,valor){
 
 }   
 
-function geraBoletoNovo(){
-    console.log('Nova geração de boleto.');
+function geraFormaContribuicao(){
+    //console.log('Nova geração de boleto.');
     //Enviar um post para ./model/emitirBoleto.php com as informações do CPF e do valor da doação
 
     let cpfCnpj;
+    let url;
+    let parcela = 1;
+    let dia = 1;
 
     if($("#op_cpf").prop('checked')){
         cpfCnpj = document.getElementById("dcpf").value;
     }else if($("#op_cnpj").prop('checked')){
         cpfCnpj = document.getElementById("dcnpj").value;
     }
-
     const valor = document.getElementById("v").value;
-    //const cpfCnpj = document.getElementById("dcpf").value;
 
-    console.log("Valor doação: "+valor);
-    console.log("CPF/CNPJ: "+cpfCnpj);
+    const formaContribuicao = document.getElementById("forma-contribuicao").value;
 
-    $.post("./model/emitirBoleto.php", {
+    //Considerar posteriormente a troca para um switch case caso surjam mais formas de contribuição
+    if(formaContribuicao == "boleto"){
+        url = "./model/emitirBoleto.php";
+    }else if(formaContribuicao == "carne"){
+        url = "./model/carne.php";
+        parcela = document.getElementById("input-parcelas").value;
+        dia = document.querySelector("input[name='dta']:checked").value;
+    }else if(formaContribuicao == "pix"){
+        geraQrCode(cpfCnpj, valor);
+        return;
+    }else{
+        alert('A forma de contribuição informada não é válida.');
+        return;
+    }
+    
+    // Desativar o clique no span
+    $('#gerar_boleto').addClass('disabled');
+    $('#avanca3').addClass('disabled');
+    //$('#emitir_qrcode').addClass('disabled');
+
+    
+    $.post(url, {
+        "dcpf": cpfCnpj,
+        "valor": valor,
+        "parcela": parcela,
+        "dia": dia
+    }).done(function(r){
+        const resposta = JSON.parse(r);
+        if(resposta.link){
+            console.log(resposta.link);
+            // Redirecionar o usuário para o link do boleto em uma nova aba
+            window.open(resposta.link, '_blank');
+        }else{
+            alert("Ops! Ocorreu um problema na geração da sua forma de pagamento, tente novamente, se o erro persistir contate o suporte.");
+        } 
+    });
+}
+
+function geraQrCode(cpfCnpj, valor){
+    const url = "./model/emitirQRCode.php";
+    $('#avanca3').addClass('disabled');
+    $('#emitir_qrcode').addClass('disabled');
+
+    //const btn = this;
+    //setLoader(btn);
+
+    $.post(url, {
         "dcpf": cpfCnpj,
         "valor": valor
     }).done(function(r){
         const resposta = JSON.parse(r);
-        if(resposta.boletoLink){
-            console.log(resposta.boletoLink);
-            // Redirecionar o usuário para o link do boleto em uma nova aba
-            window.open(resposta.boletoLink, '_blank');
-            // Desativar o clique no span
-            $('#gerar_boleto').addClass('disabled');
-            $('#avanca3').addClass('disabled');
+        if(resposta.qrcode){
+
+            // Criar um div para centralizar o conteúdo
+            let qrContainer = document.createElement("div");
+            qrContainer.style.textAlign = "center";
+
+            // Adicionar o QR Code como imagem
+            let qrcode = document.createElement("img");
+            qrcode.src = "data:image/jpeg;base64," + resposta.qrcode;
+            qrContainer.appendChild(qrcode);
+
+            // Adicionar um botão abaixo do QR Code
+            let copyButton = document.createElement("button");
+            copyButton.textContent = "Copiar Código QR";
+            copyButton.style.display = "block";
+            copyButton.style.marginTop = "10px";
+            qrContainer.appendChild(copyButton);
+
+            form3.appendChild(qrContainer);
+
+            // Ajustar a largura do botão após a imagem carregar
+            qrcode.onload = function() {
+                copyButton.style.width = qrcode.width*(0.75) + "px";
+            };
+
+            // Rolar a página para o form3
+            window.location.hash = '#form3';
+
+            // Adicionar o evento de clique no botão para copiar o código
+            copyButton.addEventListener('click', function() {
+                // Criar um elemento temporário para copiar o texto
+                let tempInput = document.createElement("input");
+                tempInput.value = resposta.qrcode;//substituir pelo código da área de transferência
+                document.body.appendChild(tempInput);
+
+                // Selecionar e copiar o texto
+                tempInput.select();
+                document.execCommand("copy");
+
+                // Remover o elemento temporário
+                document.body.removeChild(tempInput);
+
+                alert("Código QR copiado para a área de transferência!");
+            });
+
         }else{
-            alert("Ops! Ocorreu um problema na geração do seu boleto, tente novamente, se o erro persistir contate o suporte.");
+            alert("Ops! Ocorreu um problema na geração da sua forma de pagamento, tente novamente, se o erro persistir contate o suporte.");
         } 
     });
+
+    //resetButton(btn);
 }
 
 function geraBoleto()
@@ -319,3 +405,5 @@ function retorna_parecela()
 
         return parcelas;
 }
+
+

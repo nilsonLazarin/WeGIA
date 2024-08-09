@@ -172,8 +172,9 @@ curl_close($ch);
 if ($httpCode === 200 || $httpCode === 201) {
     $responseData = json_decode($response, true);
     $pdf_link = $responseData['charges'][0]['last_transaction']['pdf'];
+    echo json_encode(['link' => $pdf_link]);
 } else {
-    echo json_encode('Erro: A API retornou o código de status HTTP ' . $httpCode . '<br>');
+    echo json_encode(['Erro' => 'A API retornou o código de status HTTP ' . $httpCode]);
     // Verifica se há mensagens de erro na resposta JSON
     $responseData = json_decode($response, true);
     if (isset($responseData['errors'])) {
@@ -184,4 +185,4 @@ if ($httpCode === 200 || $httpCode === 201) {
     }
 }
 
-echo json_encode(['boletoLink' => $pdf_link]);
+

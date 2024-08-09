@@ -103,30 +103,28 @@ function verificarNovo(){
     valor = valor.split('.');
     val_min = parseInt(val_min);
     valor = parseInt(valor); 
+    let qtdParcelas = parseInt($("#input-parcelas").val());
+    const formaContribuicao = $("#forma-contribuicao").val();
            
     if(isNaN(valor) || valor[0] == 0)
     {
         $("#avisa_valor").html("Digite um valor para doação");
-                   
+        return;    
     }
-    else
-    {
-        if(valor < val_min)
-        {
-                        
-            $("#avisa_valor").html("O valor mínimo para doação é <i>R$"+val_min+"</i>"); 
-                        
-        }else{
-                            
-            $("#avisa_valor").html("");
-            $("#verifica_socio").fadeIn();
-            $("#pag1").hide();      
-        }
-                   
-    }
+    
+    if(valor < val_min){         
+        $("#avisa_valor").html("O valor mínimo para doação é <i>R$"+val_min+"</i>"); 
+        return;             
+    } 
+    if((formaContribuicao == "carne") && (qtdParcelas < 1 || isNaN(qtdParcelas) || qtdParcelas > 12)){
+        $("#avisa_parcelas").html("A quantidade de parcelas de um carnê deve ser um número entre 1 e 12.");
+        return;
+    }           
+           
+    $("#avisa_valor").html("");
+    $("#verifica_socio").fadeIn();
+    $("#pag1").hide();      
 }
-
-
 
 function verifica2()
 {   
