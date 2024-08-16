@@ -1,0 +1,12 @@
+.hidden{
+    display: none;
+}
+
+.centralizar{
+    display: flex;
+    justify-content: center;
+}
+
+.label{
+    margin: 5px;
+}
