@@ -307,7 +307,7 @@ function desenharConteudoNaTabela(conteudo){
  * @param string texto 
  * @returns string
  */
-function mensagemBoletosNaoEncontrados(texto = "Nenhum boleto associado ao CPF informado foi encontrado."){
+function mensagemBoletosNaoEncontrados(texto = "Nenhum boleto associado ao documento informado foi encontrado."){
     const mensagem = `<div class="alert alert-warning text-center" role="alert">`+
                         `${texto}`
                     +`</div>`;
