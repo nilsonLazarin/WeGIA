@@ -113,16 +113,7 @@ function editar_informacoes() {
     }
     var nome = $("#nome").val();
     var cnpj_nome = $("#cnpj_nome").val();
-
-    const ano = $("#ano").val();
-    const mes = $("#mes").val();
-    const dia = $("#dia").val();
-
-    let data_n = null;
-    if(ano.length > 0 && mes.length > 0 && dia.length > 0){
-        data_n = ano.concat("-", mes, "-", dia);
-    }
-
+    var data_n = $("#ano").val() + "-" + $("#mes").val() + "-" + $("#dia_n").val();
     var tel = $("#telefone").val();
     var email = $("#email").val();
     var cep = $("#cep").val();
@@ -212,12 +203,7 @@ function cadastra_socio() {
         var ano = $("#ano").val();
         var doc = $("#dcpf").val();
         doc = formata_cpf_cnpj(doc);
-
-        let dataN = null;
-        if(ano.length > 0 && mes.length > 0 && dia.length > 0){
-            dataN = ano.concat("-", mes, "-", dia);
-        }
-        
+        var dataN = ano.concat("-", mes, "-", dia);
 
         $.post("../php/cadastrarSocio.php", { 'tipo': fisjur, 'nome': nome, 'sobrenome': sobrenome, 'telefone': telefone, 'cep': cep, 'log': log, 'comp': comp, 'bairro': bairro, 'cidade': cidade, 'uf': uf, 'numero': num, 'doc': doc, 'datanascimento': dataN, 'hora': hora, 'sistema': sistema, 'contato': email, 'id_sociotipo': id_sociotipo, 'status': status, 'datavencimento': data_vencimento, 'valor_doacao': valor_contribuicao }).done(function (data) {
             console.log(data)

@@ -190,7 +190,7 @@ ini_set('display_startup_erros', 0);
 					</div>
 
 					<div class="wrap-input100 validate-input bg1" style="height: 90px" id="nascimento">
-						<span class="label-input100">DATA DE NASCIMENTO <!--*--></span><br>
+						<span class="label-input100">DATA DE NASCIMENTO *</span><br>
 
 						<select style="width: 30%" class="wrap-input100 validate-input bg1" name="dia" id="dia_n" onblur="valida_data(f2.dia)" class="text required">
 							<option value="">Dia</option>
