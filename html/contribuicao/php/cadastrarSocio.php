@@ -9,7 +9,11 @@ $telefone = $_POST['telefone'];
 $email = $_POST['contato'];
 $tipo = $_POST['tipo'];
 $doc = $_POST['doc'];
-$dataNascimento = $_POST['datanascimento'];
+$dataNascimento = trim($_POST['datanascimento']);
+
+if(!$dataNascimento || empty($dataNascimento)){
+    $dataNascimento = null;
+}
 
 $cep = $_POST['cep'];
 $rua = $_POST['log'];

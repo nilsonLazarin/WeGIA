@@ -8,7 +8,11 @@ $nome = $_POST['nome'];
 $tel = $_POST['telefone'];
 $email = $_POST['email'];
 $doc = $_POST['doc'];
-$dataN = $_POST['datanascimento'];
+$dataN = trim($_POST['datanascimento']);
+
+if(!$dataN || empty($dataN)){
+   $dataN = null;
+}
 
 $cep = $_POST['cep'];
 $rua = $_POST['log'];
@@ -80,8 +84,29 @@ try {//Try catch para editar sócio
       $stmt3->execute();
    }
 
-   $query->query("UPDATE pessoa as p JOIN socio as s ON(p.id_pessoa = s.id_pessoa) SET nome = '$nome', telefone= '$tel', data_nascimento = '$dataN', cep = '$cep', logradouro = '$rua', numero_endereco = '$numero', complemento = '$compl', bairro = '$bairro', cidade = '$cidade', estado= '$uf', email = '$email' WHERE cpf = '$doc'");
-   echo json_encode(['Sucesso' => 'Alteração concluída com sucesso']);
+   $sqlAlterarPessoa = "UPDATE pessoa as p JOIN socio as s ON(p.id_pessoa = s.id_pessoa) SET nome = :nome, telefone=:tel, data_nascimento =:dataN, cep =:cep, logradouro =:rua, numero_endereco =:numero, complemento =:compl, bairro =:bairro, cidade =:cidade, estado=:uf, email =:email WHERE cpf =:doc";
+
+   $stmt4 = $pdo->prepare($sqlAlterarPessoa);
+   $stmt4->bindParam(':nome', $nome);
+   $stmt4->bindParam(':tel', $tel);
+   $stmt4->bindParam(':nome', $nome);
+   $stmt4->bindParam(':dataN', $dataN);
+   $stmt4->bindParam(':cep', $cep);
+   $stmt4->bindParam(':rua', $rua);
+   $stmt4->bindParam(':numero', $numero);
+   $stmt4->bindParam(':compl', $compl);
+   $stmt4->bindParam(':bairro', $bairro);
+   $stmt4->bindParam(':cidade', $cidade);
+   $stmt4->bindParam(':uf', $uf);
+   $stmt4->bindParam(':email', $email);
+   $stmt4->bindParam(':doc', $doc);
+
+   if($stmt4->execute()){
+      echo json_encode(['Sucesso' => 'Alteração concluída com sucesso']);
+   }else{
+      echo json_encode(['Erro' => 'Falha na Alteração do sócio']);
+   }
+   
 } catch (PDOException $e) {
-   echo 'Erro ao tentar alterar os dados de um sócio: ' . $e->getMessage();
+   echo json_encode(['ErroBD' => 'Falha na Alteração do sócio: '.$e->getMessage()]);
 }

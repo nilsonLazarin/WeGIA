@@ -138,8 +138,8 @@ function verifica2()
        var tel = $("#telefone").val();
        var email = $("#e_mail").val();
     
-        if(nome == '' || dia == '' || mes == '' || ano == '' || tel == '' || email == '' ||cpf == '')
-        {
+        if(nome == '' || /*dia == '' || mes == '' || ano == '' ||*/ tel == '' || email == '' ||cpf == '')
+        {//remover a verificação de dia, mes e ano
                 $("#avisoPf").fadeIn();
                 $("#avisoPf").html('Preencha todos os campos marcados com "*"');
         }
