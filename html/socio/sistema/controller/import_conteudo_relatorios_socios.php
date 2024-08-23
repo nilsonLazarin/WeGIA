@@ -122,15 +122,33 @@
 								<select id="tag">
 								<option value="x">Todas as Opções</option>
 								<?php
+										$possible_paths = [
+											dirname(__FILE__) . '/../../../../dao/Conexao.php',
+											dirname(__FILE__) . '/../../../dao/Conexao.php',
+											dirname(__FILE__) . '/../../dao/Conexao.php',
+											dirname(__FILE__) . '/../dao/Conexao.php'
+										];
+										
+										foreach ($possible_paths as $path) {
+											if (file_exists($path)) {
+												require_once realpath($path);
+												break;
+											}
+										}
+										
+										if (!class_exists('Conexao')) {
+											die('Erro: O arquivo conexao.php não foi encontrado em nenhum dos caminhos especificados.');
+										}
+								  
+										$pdo = Conexao::connect();
+									
 										$socio_tag = "socio_tag";
-										$stmt = $conexao->prepare("SELECT * FROM ?");
-										$stmt->bind_param("s", $socio_tag);
-										$stmt->execute();
-										$tags = $stmt->get_result();
+										$query = "SELECT * FROM " . $socio_tag;
+										$stmt = $pdo->query($query);
+										$tags = $stmt->fetchAll(PDO::FETCH_NUM);
 
-										while($row = $tags->fetch_array(MYSQLI_NUM))
-										{
-												echo("<option value=".htmlspecialchars($row[0]).">".htmlspecialchars($row[1])."</option>");
+										foreach ($tags as $row) {
+											echo("<option value=".htmlspecialchars($row[0]).">".htmlspecialchars($row[1])."</option>");
 										}
             					?>
 								</select>

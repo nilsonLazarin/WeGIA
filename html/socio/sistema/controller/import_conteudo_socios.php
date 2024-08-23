@@ -68,10 +68,32 @@
                           $mensal = 0;
                           $casual = 0;
                           $si_contrib = 0;
-                          $stmt = $conexao->prepare("SELECT *, s.id_socio as socioid FROM socio AS s LEFT JOIN pessoa AS p ON s.id_pessoa = p.id_pessoa LEFT JOIN socio_tipo AS st ON s.id_sociotipo = st.id_sociotipo LEFT JOIN (SELECT id_socio, MAX(data) AS ultima_data_doacao FROM log_contribuicao GROUP BY id_socio) AS lc ON lc.id_socio = s.id_socio");
+
+                          $possible_paths = [
+                            dirname(__FILE__) . '/../../../../dao/Conexao.php',
+                            dirname(__FILE__) . '/../../../dao/Conexao.php',
+                            dirname(__FILE__) . '/../../dao/Conexao.php',
+                            dirname(__FILE__) . '/../dao/Conexao.php'
+                          ];
+                          
+                          foreach ($possible_paths as $path) {
+                            if (file_exists($path)) {
+                              require_once realpath($path);
+                              break;
+                            }
+                          }
+                          
+                          if (!class_exists('Conexao')) {
+                            die('Erro: O arquivo conexao.php não foi encontrado em nenhum dos caminhos especificados.');
+                          }
+                        
+                          $pdo = Conexao::connect();
+                  
+                          $stmt = $pdo->prepare("SELECT *, s.id_socio as socioid FROM socio AS s LEFT JOIN pessoa AS p ON s.id_pessoa = p.id_pessoa LEFT JOIN socio_tipo AS st ON s.id_sociotipo = st.id_sociotipo LEFT JOIN (SELECT id_socio, MAX(data) AS ultima_data_doacao FROM log_contribuicao GROUP BY id_socio) AS lc ON lc.id_socio = s.id_socio");
                           $stmt->execute();
-                          $query = $stmt->get_result();
-                          while($resultado = mysqli_fetch_array($query)){
+                          $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                          foreach ($resultados as $resultado) {
                             switch($resultado['id_sociotipo']){
                               case 0: case 1: 
                                   $casual++;
@@ -148,10 +170,30 @@
                   </tfoot>
                 </table>
                 <?php 
-                  $stmt = $conexao->prepare("select * from socio");
-                  $stmt->execute();
-                  $resultado = $stmt->get_result();
-                  $num_socios = mysqli_num_rows($resultado); 
+
+                  $possible_paths = [
+                    dirname(__FILE__) . '/../../../../dao/Conexao.php',
+                    dirname(__FILE__) . '/../../../dao/Conexao.php',
+                    dirname(__FILE__) . '/../../dao/Conexao.php',
+                    dirname(__FILE__) . '/../dao/Conexao.php'
+                  ];
+
+                  foreach ($possible_paths as $path) {
+                    if (file_exists($path)) {
+                      require_once realpath($path);
+                      break;
+                    }
+                  }
+
+                  if (!class_exists('Conexao')) {
+                    die('Erro: O arquivo conexao.php não foi encontrado em nenhum dos caminhos especificados.');
+                  }
+
+                  $pdo = Conexao::connect();
+
+                  $stmt = $pdo->query("SELECT * FROM socio");
+                  $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                  $num_socios = count($resultado); 
                 ?>
                 <div class="row">
                 <a id="btn_add_socio" class="btn btn-app">
@@ -209,10 +251,30 @@
                           $mensal = 0;
                           $casual = 0;
                           $si_contrib = 0;
-                          $stmt = $conexao->prepare("SELECT *, sp.nome_sistema as sistema_pagamento, DATE_FORMAT(lc.data, '%d/%m/%Y') as data_geracao, DATE_FORMAT(lc.data_venc_boleto, '%d/%m/%Y') as data_vencimento, s.id_socio as socioid FROM socio AS s LEFT JOIN pessoa AS p ON s.id_pessoa = p.id_pessoa LEFT JOIN socio_tipo AS st ON s.id_sociotipo = st.id_sociotipo LEFT JOIN log_contribuicao AS lc ON lc.id_socio = s.id_socio LEFT JOIN sistema_pagamento as sp ON sp.id = lc.id_sistema WHERE s.id_socio");
-                          $stmt->execute();
-                          $query = $stmt->get_result();
-                          while($resultado = mysqli_fetch_assoc($query)){
+
+                          $possible_paths = [
+                            dirname(__FILE__) . '/../../../../dao/Conexao.php',
+                            dirname(__FILE__) . '/../../../dao/Conexao.php',
+                            dirname(__FILE__) . '/../../dao/Conexao.php',
+                            dirname(__FILE__) . '/../dao/Conexao.php'
+                          ];
+        
+                          foreach ($possible_paths as $path) {
+                            if (file_exists($path)) {
+                              require_once realpath($path);
+                              break;
+                            }
+                          }
+        
+                          if (!class_exists('Conexao')) {
+                            die('Erro: O arquivo conexao.php não foi encontrado em nenhum dos caminhos especificados.');
+                          }
+        
+                          $pdo = Conexao::connect();
+
+                          $query = "SELECT *, sp.nome_sistema as sistema_pagamento, DATE_FORMAT(lc.data, '%d/%m/%Y') as data_geracao, DATE_FORMAT(lc.data_venc_boleto, '%d/%m/%Y') as data_vencimento, s.id_socio as socioid FROM socio AS s LEFT JOIN pessoa AS p ON s.id_pessoa = p.id_pessoa LEFT JOIN socio_tipo AS st ON s.id_sociotipo = st.id_sociotipo LEFT JOIN log_contribuicao AS lc ON lc.id_socio = s.id_socio LEFT JOIN sistema_pagamento as sp ON sp.id = lc.id_sistema WHERE s.id_socio";
+                          $stmt = $pdo->query($query);
+                          while($resultado = $stmt->fetchAll(PDO::FETCH_ASSOC)){
                             $nome = $resultado['nome'];
                             $id_log = $resultado['id_log'];
                             $sistema_pag = $resultado['sistema_pagamento'];
@@ -269,6 +331,73 @@
 			</div>
 		</aside>
 	</section>
-</body>           
+</body>
+<script>
+	function gerarCargo(){
+          url = '../../dao/exibir_cargo.php';
+          $.ajax({
+          data: '',
+          type: "POST",
+          url: url,
+          success: function(response){
+            var cargo = response;
+            $('#cargo').empty();
+            $('#cargo').append('<option selected disabled>Selecionar</option>');
+            $.each(cargo,function(i,item){
+              $('#cargo').append('<option value="' + item.id_cargo + '">' + item.cargo + '</option>');
+            });
+          },
+          dataType: 'json'
+        });
+      }
+
+      function adicionar_cargo(){
+        url = '../../dao/adicionar_cargo.php';
+        var cargo = window.prompt("Cadastre um Novo Cargo:");
+        if(!cargo){return}
+        situacao = cargo.trim();
+        if(cargo == ''){return}              
+        
+          data = 'cargo=' +cargo; 
+          console.log(data);
+          $.ajax({
+          type: "POST",
+          url: url,
+          data: data,
+          success: function(response){
+            gerarCargo();
+          },
+          dataType: 'text'
+        })
+      }
+
+	  function verificar_recursos_cargo(cargo_id){
+          url = '../../dao/verificar_recursos_cargo.php';              
+          data = 'cargo=' +cargo_id; 
+          console.log(data);
+          $.ajax({
+          type: "POST",
+          url: url,
+          data: data,
+          success: function(response){
+			var recursos = JSON.parse(response);
+            console.log(response);
+			$(".recurso").prop("checked",false ).attr("disabled", false);
+			for(recurso of recursos){
+				$("#recurso_"+recurso).prop("checked",true ).attr("disabled", true);
+			}
+          },
+          dataType: 'text'
+        })
+      }
+
+	  $(document).ready(function(){
+		$("#cargo").change(function(){
+			verificar_recursos_cargo($(this).val());
+		});
+	  });
+</script>
+
+           
             <!-- /.box-body -->
  
