@@ -109,6 +109,10 @@ INSERT INTO `recurso` (`id_recurso`, `descricao`) VALUES
 ('6', 'Módulo Pet'),
 ('61', 'Cadastrar Pet'),
 ('62', 'Saúde Pet'),
+('7','Módulo Contribuição'),
+('71','Gateway'),
+('72','Meio'),
+('73','Regras'),
 ('9', 'Configurações'),
 ('91', 'Permissões');
 
@@ -119,7 +123,8 @@ INSERT INTO `modulos_visiveis` (`id_recurso`, `visivel`) VALUES
 (3, 1),
 (4, 1),
 (5, 1),
-(6, 1);
+(6, 1),
+(7, 1);
 
 INSERT INTO `permissao` (`id_cargo`, `id_acao`, `id_recurso`) VALUES
 (1, 7, 1),
@@ -128,6 +133,7 @@ INSERT INTO `permissao` (`id_cargo`, `id_acao`, `id_recurso`) VALUES
 (1, 7, 4),
 (1, 7, 5),
 (1, 7, 6),
+(1, 7, 7),
 (1, 7, 9),
 (1, 7, 11),
 (1, 7, 12),
@@ -141,6 +147,9 @@ INSERT INTO `permissao` (`id_cargo`, `id_acao`, `id_recurso`) VALUES
 (1, 7, 52),
 (1, 7, 61),
 (1, 7, 62),
+(1, 7, 71),
+(1, 7, 72),
+(1, 7, 73),
 (1, 7, 91);
 
 INSERT INTO `sistema_pagamento` (`id`, `nome_sistema`) VALUES 

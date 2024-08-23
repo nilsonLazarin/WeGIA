@@ -16,32 +16,47 @@ if(!isset($_SESSION['usuario'])){
     header ("Location: ".WWW."index.php");
 }
 
+// Cria conexão com o banco de dados usando mysqli
 $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+
+if (!$conexao) {
+    die("Erro de conexão: " . mysqli_connect_error());
+}
+
+// Obtém o ID da pessoa da sessão
 $id_pessoa = $_SESSION['id_pessoa'];
-$resultado = mysqli_query($conexao, "SELECT * FROM funcionario WHERE id_pessoa=$id_pessoa");
-if(!is_null($resultado)){
-	$id_cargo = mysqli_fetch_array($resultado);
-	if(!is_null($id_cargo)){
-		$id_cargo = $id_cargo['id_cargo'];
-	}
-	$resultado = mysqli_query($conexao, "SELECT * FROM permissao WHERE id_cargo=$id_cargo and id_recurso=3");
-	if(!is_bool($resultado) and mysqli_num_rows($resultado)){
-		$permissao = mysqli_fetch_array($resultado);
-		if($permissao['id_acao'] == 1){
+
+// Consulta segura usando prepared statements
+$stmt = $conexao->prepare("SELECT id_cargo FROM funcionario WHERE id_pessoa = ?");
+$stmt->bind_param("i", $id_pessoa);
+$stmt->execute();
+$resultado = $stmt->get_result();
+
+if ($resultado && $resultado->num_rows > 0) {
+    $id_cargo = $resultado->fetch_assoc()['id_cargo'];
+    
+    $stmt = $conexao->prepare("SELECT id_acao FROM permissao WHERE id_cargo = ? AND id_recurso = 3");
+    $stmt->bind_param("i", $id_cargo);
+    $stmt->execute();
+    $resultado = $stmt->get_result();
+
+    if ($resultado && $resultado->num_rows > 0) {
+        $permissao = $resultado->fetch_assoc();
+        if ($permissao['id_acao'] == 1) {
             $msg = "Você não tem as permissões necessárias para essa página.";
-            header("Location: ".WWW."html/home.php?msg_c=$msg");
-		}
-		$permissao = $permissao['id_acao'];
-	}else{
-        $permissao = 1;
+            header("Location: ".WWW."html/home.php?msg_c=" . htmlspecialchars($msg, ENT_QUOTES, 'UTF-8'));
+            exit();
+        }
+    } else {
         $msg = "Você não tem as permissões necessárias para essa página.";
-        header("Location: ".WWW."html/home.php?msg_c=$msg");
-	}	
-}else{
-	$permissao = 1;
+        header("Location: ".WWW."html/home.php?msg_c=" . htmlspecialchars($msg, ENT_QUOTES, 'UTF-8'));
+        exit();
+    }
+} else {
     $msg = "Você não tem as permissões necessárias para essa página.";
-    header("Location: ".WWW."html/home.php?msg_c=$msg");
-}	
+    header("Location: ".WWW."html/home.php?msg_c=" . htmlspecialchars($msg, ENT_QUOTES, 'UTF-8'));
+    exit();
+}
 
 require_once ROOT."/controle/FuncionarioControle.php";
 require_once ROOT."/controle/memorando/MemorandoControle.php";

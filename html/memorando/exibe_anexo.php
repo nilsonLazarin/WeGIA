@@ -25,6 +25,9 @@ $nome = $_GET['nome'];
 $AnexoControle = new AnexoControle;
 $AnexoControle->listarAnexo($id_anexo);
 
+$nome = preg_replace('/[^a-zA-Z0-9\.]/', '', $nome);
+$extensao = preg_replace('/[^a-zA-Z0-9]/', '', $extensao);
+
 header('Content-Type: application/force-download');
 header('Content-Disposition: attachment; filename="' . $nome . '.' . $extensao . '"');
 

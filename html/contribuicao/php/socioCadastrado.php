@@ -19,23 +19,15 @@
 
                     $query ->querydados("SELECT nome, sobrenome, telefone, data_nascimento, cep, estado, cidade, bairro, logradouro, numero_endereco, complemento, email FROM pessoa JOIN socio ON(pessoa.id_pessoa = socio.id_pessoa) WHERE pessoa.id_pessoa = '$id_pessoa'");
                     $result = $query->result();
-
-                    if(verificaEndereco($result)){
-                        echo (json_encode($result));
-                    }else{
-                        echo json_encode(['SEM_ENDERECO']);
-                    }   
+                    echo (json_encode($result));
+                    
                 }
         }else{
-            $result = $query->result();
-            $id_pessoa = $result['id_pessoa'];
-            $query -> querydados("SELECT nome, telefone, data_nascimento, cep, estado, cidade, bairro, logradouro, numero_endereco, complemento, email FROM pessoa JOIN socio ON(pessoa.id_pessoa = socio.id_pessoa) WHERE pessoa.id_pessoa = '$id_pessoa'");
-            $result = $query->result();
-            if(verificaEndereco($result)){
-                echo (json_encode($result));
-            }else{
-                echo json_encode(['SEM_ENDERECO']);
-            }   
+        $result = $query->result();
+        $id_pessoa = $result['id_pessoa'];
+        $query -> querydados("SELECT nome, telefone, data_nascimento, cep, estado, cidade, bairro, logradouro, numero_endereco, complemento, email FROM pessoa JOIN socio ON(pessoa.id_pessoa = socio.id_pessoa) WHERE pessoa.id_pessoa = '$id_pessoa'");
+        $result = $query->result();
+        echo (json_encode($result));
            
         }
     
@@ -46,23 +38,6 @@
             $doc = str_replace("-", "", $doc);
             $doc = str_replace("/", "",$doc);
             return $doc;
-        }
-
-        function verificaEndereco($pessoa){
-            $cep = trim($pessoa['cep']);
-            $estado = trim($pessoa['estado']);
-            $cidade = trim($pessoa['cidade']);
-            $bairro = trim($pessoa['bairro']);
-            $logradouro = trim($pessoa['logradouro']);
-            $numeroEndereco = trim($pessoa['numero_endereco']);
-            $telefone = trim($pessoa['telefone']);
-            $email = trim($pessoa['email']);
-
-            if(!$cep || empty($cep) || !$estado || empty($estado) || !$cidade || empty($cidade) || !$bairro || empty($bairro) || !$logradouro || empty($logradouro) || !$numeroEndereco || empty($numeroEndereco) || !$telefone || empty($telefone) || !$email || empty($email)){
-                return false;
-            }
-
-            return true;
         }
 
 /*$doc = $_POST['doc'];

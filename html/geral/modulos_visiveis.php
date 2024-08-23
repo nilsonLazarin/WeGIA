@@ -235,7 +235,10 @@ require_once ROOT."/html/personalizacao_display.php";
 		setTimeout(function(){
 			$(".alert").fadeOut();
 		}, 3000);
+
+		verificar_modulos();
 	});
+	
 	function gerarCargo(){
           url = '../../dao/exibir_cargo.php';
           $.ajax({
@@ -283,9 +286,6 @@ require_once ROOT."/html/personalizacao_display.php";
 		$("#editar").attr("class", "btn btn-primary").attr("onclick", "editar_modulo()").text("Editar");
 		$("#salvar").attr("type", "hidden");
 	  }
-	  $(document).ready(function(){
-		verificar_modulos();
-	  });
 </script>
 <script src="../geral/msg.js"></script>
 </html>

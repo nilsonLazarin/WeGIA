@@ -1,55 +1,70 @@
 <?php
 
 $config_path = "config.php";
-if(file_exists($config_path)){
+$valid_paths = ["config.php", "../personalizacao_display.php", "../../dao/Conexao.php"];
+if (in_array($config_path, $valid_paths) && file_exists($config_path)) {
     require_once($config_path);
-}else{
-    while(true){
+} else {
+    while (true) {
         $config_path = "../" . $config_path;
-        if(file_exists($config_path)) break;
+        if (file_exists($config_path) && in_array($config_path, $valid_paths)) {
+            require_once($config_path);
+            break;
+        }
     }
-    require_once($config_path);
 }
 
 session_start();
-if(!isset($_SESSION['usuario'])){
-	header ("Location: ".WWW."index.php");
+if (!isset($_SESSION['usuario'])) {
+    header("Location: " . WWW . "index.php");
+    exit();
 }
 
 $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 $id_pessoa = $_SESSION['id_pessoa'];
-$resultado = mysqli_query($conexao, "SELECT * FROM funcionario WHERE id_pessoa=$id_pessoa");
-if(!is_null($resultado)){
-	$id_cargo = mysqli_fetch_array($resultado);
-	if(!is_null($id_cargo)){
-		$id_cargo = $id_cargo['id_cargo'];
-	}
-	$resultado = mysqli_query($conexao, "SELECT * FROM permissao WHERE id_cargo=$id_cargo and id_recurso=3");
-	if(!is_bool($resultado) and mysqli_num_rows($resultado)){
-		$permissao = mysqli_fetch_array($resultado);
-		if($permissao['id_acao'] == 1){
-        	$msg = "Você não tem as permissões necessárias para essa página.";
-        	header("Location: ".WWW."html/home.php?msg_c=$msg");
-		}
-		$permissao = $permissao['id_acao'];
-	}else{
+
+// Prevenção de injeção de SQL
+$stmt = $conexao->prepare("SELECT * FROM funcionario WHERE id_pessoa = ?");
+$stmt->bind_param("i", $id_pessoa);
+$stmt->execute();
+$resultado = $stmt->get_result();
+
+if ($resultado->num_rows > 0) {
+    $id_cargo = $resultado->fetch_assoc()['id_cargo'];
+
+    // Prevenção de injeção de SQL
+    $stmt = $conexao->prepare("SELECT * FROM permissao WHERE id_cargo = ? AND id_recurso = 3");
+    $stmt->bind_param("i", $id_cargo);
+    $stmt->execute();
+    $resultado = $stmt->get_result();
+
+    if ($resultado->num_rows > 0) {
+        $permissao = $resultado->fetch_assoc();
+        if ($permissao['id_acao'] == 1) {
+            $msg = "Você não tem as permissões necessárias para essa página.";
+            header("Location: " . WWW . "html/home.php?msg_c=" . urlencode($msg));
+            exit();
+        }
+        $permissao = $permissao['id_acao'];
+    } else {
         $permissao = 1;
         $msg = "Você não tem as permissões necessárias para essa página.";
-        header("Location: ".WWW."html/home.php?msg_c=$msg");
-	}	
-}else{
-	$permissao = 1;
+        header("Location: " . WWW . "html/home.php?msg_c=" . urlencode($msg));
+        exit();
+    }
+} else {
+    $permissao = 1;
     $msg = "Você não tem as permissões necessárias para essa página.";
-    header("Location: ".WWW."html/home.php?msg_c=$msg");
-}	
+    header("Location: " . WWW . "html/home.php?msg_c=" . urlencode($msg));
+    exit();
+}
 
-require_once ROOT."/controle/memorando/MemorandoControle.php";
+require_once ROOT . "/controle/memorando/MemorandoControle.php";
 
 $memorandos = new MemorandoControle;
 $memorandos->listarTodosInativos();
-	
-// Adiciona a Função display_campo($nome_campo, $tipo_campo)
-require_once ROOT."/html/personalizacao_display.php";
+
+require_once ROOT . "/html/personalizacao_display.php";
 ?>
 
 <!DOCTYPE html>

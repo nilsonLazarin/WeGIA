@@ -20,7 +20,4 @@
         $i++;
     }
     echo json_encode($modulos);
-   
-
-
 ?>

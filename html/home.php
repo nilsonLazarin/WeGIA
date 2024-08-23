@@ -249,6 +249,7 @@
 						<div class="col-lg-2 col-md-8 i category-item" data-toggle="collapse" href="#pet">
 							<i  class="fa fa-paw"></i>
 							<h4>Pet</h4>
+							<h6 style="color:red">Em desenvolvimento</h6>
 						</div>
 					</a>
 
@@ -279,6 +280,13 @@
 					<div class="col-lg-2 col-md-8 i category-item" data-toggle="collapse" href="#saude">
 							<i class="fas fa-hospital-user"></i>
 							<h4>Saúde</h4>
+						</div>
+					</a>
+
+					<a id="home7" class="visivel" href="#" >
+					<div class="col-lg-2 col-md-8 i category-item" data-toggle="collapse" href="#contribuicao">
+							<i class="fa-solid fa-hand-holding-heart"></i>
+							<h4>Contribuição</h4>
 						</div>
 					</a>
 
@@ -700,6 +708,31 @@
 				</div>		
 
 				<!--fim da parte interna de #saude-->
+
+				<!--parte interna de #contribuicao-->
+				<div class="row">
+					<div  id="contribuicao" class="collapse">
+						<a href="../html/contribuicao/php/getaway_pagamento.php">
+							<div class="col-lg-2 col-md-8 i" >
+								<i class="fa-solid fa-building"></i>
+								<h4>Getaway de pagamentos</h4>
+							</div>
+						</a>
+						<a href="../html/contribuicao/php/meio_pagamento.php">
+							<div class="col-lg-2 col-md-8 i" >
+								<i class="fa-regular fa-credit-card"></i>
+								<h4>Meio de pagamento</h4>
+							</div>
+						</a>
+						<a href="../html/contribuicao/php/regras_pagamento.php">
+							<div class="col-lg-2 col-md-8 i" >
+								<i class="fa-solid fa-circle-exclamation"></i>
+								<h4>Regras de pagamento</h4>
+							</div>
+						</a>
+					</div>
+				</div>
+				<!--fim da parte interna de #contribuicao-->
 
 				<!--parte interna de #configuracao-->
 				<div class="row">

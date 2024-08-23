@@ -377,7 +377,7 @@ if(!is_null($resultado)){
                                             <br><br>
                                         <input type="button" class= "btn btn-primary" id="editar-pag" value="Editar">
                                         <input type="submit" class="btn btn-primary" id="btn-card-pag" value='Salvar'>
-                                        <a href="./doacao/index.php"><input type="button" class="btn btn-primary" value="Ir à Página de Contribuição"></a>  
+                                        <a href="../index.php"><input type="button" class="btn btn-primary" value="Ir à Página de Contribuição"></a>  
                                     </div> 
                                 </form>
                             </div>     

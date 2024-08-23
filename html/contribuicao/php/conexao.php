@@ -42,18 +42,10 @@ if(file_exists($config_path))
       }
       
       public function querydados($sql){
-         //Realiza a pesquisa
          $dados = $this->pdo->query($sql);
-
-         //Atribui o número de resultados
+         $this->array_dados = $dados->fetch();
          $this->rows = $dados->rowCount();
-
-         //Verifica o número de resultados para escolher o modo de retorno adequado
-         if($this->rows > 1){
-            $this->array_dados = $dados->fetchAll();
-         }else{
-            $this->array_dados = $dados->fetch();
-         }
+         $this->array_dados = $dados->fetchAll();
       }
       
       public function rows()
