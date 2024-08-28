@@ -54,11 +54,13 @@ $(document).ready(function(){
                         <th scope="col" width="25%">Nome</th>
                         <th scope="col">CPF/CPNJ</th>
                         <th scope="col">Telefone</th>
-                        <th scope="col" width="14%">Tipo Sócio</th>                            
+                        <th scope="col">E-mail</th>
+                        <th scope="col" width="14%">Tipo Sócio</th>
+                        <th scope="col" width="14%">TAG</th>                               
                         <th scope="col" width="12%" class="tot">Valor/Período</th>
                         <th scope="col" width="12%" class="tot">Status</th>
                         </tr>`
-                        tabela += `<tr><td>${socio.nome}</td><td>${socio.cpf}</td><td>${socio.telefone}</td><td>${socio.tipo}</td><td>${valor_periodo}</td><td>${socio.status}</td></tr>`
+                        tabela += `<tr><td>${socio.nome}</td><td>${socio.cpf}</td><td>${socio.telefone}</td><td>${socio.email}</td><td>${socio.tipo}</td><td>${socio.tag}</td><td>${valor_periodo}</td><td>${socio.status}</td></tr>`
                     }
                 }
                 $(".resultado").html(`

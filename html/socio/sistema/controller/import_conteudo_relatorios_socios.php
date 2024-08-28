@@ -63,7 +63,7 @@
 
                             <h4 class="mb-xlg">Parâmetros do relatório</h4>
 
-							<div class="form-group" id="orig" style="display: block;">
+							<!--<div class="form-group" id="orig" style="display: block;">
 								<label class="col-md-3 control-label">Sócios</label>
 								<div class="col-md-8">
 								<select id="tipo_socio" name="tipo_socio">
@@ -74,10 +74,10 @@
                                       <option value="s">Semestrais</option>
 								</select>
 								</div>
-							</div>
+							</div>-->
 
 							
-							<div class="form-group" style="display: block;">
+							<!--<div class="form-group" style="display: block;">
 								<label class="col-md-3 control-label">Pessoas</label>
 								<div class="col-md-8">
 								<select id="tipo_pessoa">
@@ -86,7 +86,7 @@
                                       <option value="j">Jurídicas</option>
 								</select>
 								</div>
-							</div>
+							</div>-->
 
 							<div class="form-group" style="display: block;">
 								<label class="col-md-3 control-label">Status</label>
@@ -122,9 +122,9 @@
 								<select id="tag">
 								<option value="x">Todas as Opções</option>
 								<?php
-										$socio_tag = "socio_tag";
-										$stmt = $conexao->prepare("SELECT * FROM ?");
-										$stmt->bind_param("s", $socio_tag);
+										//$socio_tag = "socio_tag";
+										$stmt = $conexao->prepare("SELECT * FROM socio_tag");
+										//$stmt->bind_param("s", $socio_tag);
 										$stmt->execute();
 										$tags = $stmt->get_result();
 
@@ -139,7 +139,7 @@
 
 							
 
-							<div class="form-group" style="display: block;">
+							<!--<div class="form-group" style="display: block;">
 								<label class="col-md-3 control-label">Supor periodicidade, (in)atividade e valor de contribuição dos sócios através das cobranças</label>
 								<div class="col-md-8">
 								<select id="sup">
@@ -147,10 +147,10 @@
                                       <option value="s">Sim</option>
 								</select>
 								</div>
-							</div>
+							</div>-->
 
                             <div style="margin-top: 2em" class="pull-right mt-2">
-							<button type="submit" id="btn_geracao_relatorio" class="btn btn-primary">Próximo</button>
+							<button type="submit" id="btn_geracao_relatorio" class="btn btn-primary">Gerar relatório</button>
 						</div>
 
                         </form>
