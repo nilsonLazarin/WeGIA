@@ -53,6 +53,29 @@ function montaConsultaValor(&$consulta, $valor, $operador, &$where)
     }
 }
 
+function montaConsultaTipoPessoa(&$consulta, $tipoPessoa, &$where){
+    $qtdCaracteres = 0;
+    switch ($tipoPessoa) {
+        case "f":
+            $qtdCaracteres = 14;
+            break;
+        case "j":
+            $qtdCaracteres = 18;
+            break;
+    }
+
+    if($qtdCaracteres === 0){
+        return;
+    }
+
+    if ($where === false) {
+        $consulta .= " WHERE LENGTH(p.cpf)=$qtdCaracteres";
+        $where = true;
+    } else {
+        $consulta .= " AND LENGTH(p.cpf)=$qtdCaracteres";
+    }
+}
+
 require("../conexao.php");
 if (!isset($_POST) or empty($_POST)) {
     $data = file_get_contents("php://input");
@@ -70,6 +93,7 @@ $consultaBasica = "SELECT p.nome, p.telefone, p.cpf, s.valor_periodo, s.email, s
 montaConsultaStatus($consultaBasica, $status, $where);
 montaConsultaTAG($consultaBasica, $tag, $where);
 montaConsultaValor($consultaBasica, $valor, $operador, $where);
+montaConsultaTipoPessoa($consultaBasica, $tipo_pessoa, $where);
 $consultaBasica .= " ORDER BY p.nome";
 
 //echo $consultaBasica;

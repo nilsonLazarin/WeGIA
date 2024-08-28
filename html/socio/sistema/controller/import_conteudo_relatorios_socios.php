@@ -76,8 +76,7 @@
 								</div>
 							</div>-->
 
-							
-							<!--<div class="form-group" style="display: block;">
+							<div class="form-group" style="display: block;">
 								<label class="col-md-3 control-label">Pessoas</label>
 								<div class="col-md-8">
 								<select id="tipo_pessoa">
@@ -86,7 +85,7 @@
                                       <option value="j">Jurídicas</option>
 								</select>
 								</div>
-							</div>-->
+							</div>
 
 							<div class="form-group" style="display: block;">
 								<label class="col-md-3 control-label">Status</label>
