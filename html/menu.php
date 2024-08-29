@@ -404,6 +404,35 @@
 						</ul>
 					</li>
 
+					<!--contribuiçao-->
+					<li class="nav-parent nav-active visivel">
+						<a>
+							<i class="fa-solid fa-building" aria-hidden="true"></i>
+							<span>Contribuição</span>
+						</a>
+						<ul class="nav nav-children">
+						<li >
+								<a href="<?= WWW ?>html/contribuicao/php/getaway_pagamento.php">
+									<i class="fa-solid fa-building"></i>
+									Getaway de pagamento
+								</a>
+							</li>
+							<li >
+								<a href="<?= WWW ?>html/contribuicao/php/meio_pagamento.php">
+									<i class="fa-regular fa-credit-card"></i>
+									Meio de pagamento
+								</a>
+							</li>
+							<li >
+								<a href="<?= WWW ?>html/contribuicao/php/regras_pagamento.php">
+									<i class="fa-solid fa-circle-exclamation"></i>
+									Regras de pagamento
+								</a>
+							</li>
+						</ul>
+					</li>
+					<!--fim contribuiçao-->
+
 					<li class="nav-parent nav-active visivel">
 						<a>
 							<i class="fa fa-cog" aria-hidden="true"></i>
