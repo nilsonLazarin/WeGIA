@@ -76,6 +76,29 @@ function montaConsultaTipoPessoa(&$consulta, $tipoPessoa, &$where){
     }
 }
 
+function montaConsultaTipoSocio(&$consulta, $tipoSocio, &$where){
+    $td = false;
+    switch($tipoSocio){
+        case "x": break; //Todos
+        case "c": $td = "0,1"; break; //Casuais
+        case "b": $td = "6,7"; break; //Bimestrais
+        case "t": $td = "8,9"; break; //Trimestrais
+        case "s": $td = "10,11"; break; //Semestrais
+        case "m": $td = "2,3"; break; //Mensais
+    }
+
+    if(!$td){
+        return;
+    }
+
+    if ($where === false) {
+        $consulta .= " WHERE s.id_sociotipo IN ($td)";
+        $where = true;
+    } else {
+        $consulta .= " AND s.id_sociotipo IN ($td)";
+    }
+}
+
 require("../conexao.php");
 if (!isset($_POST) or empty($_POST)) {
     $data = file_get_contents("php://input");
@@ -94,6 +117,7 @@ montaConsultaStatus($consultaBasica, $status, $where);
 montaConsultaTAG($consultaBasica, $tag, $where);
 montaConsultaValor($consultaBasica, $valor, $operador, $where);
 montaConsultaTipoPessoa($consultaBasica, $tipo_pessoa, $where);
+montaConsultaTipoSocio($consultaBasica, $tipo_socio, $where);
 $consultaBasica .= " ORDER BY p.nome";
 
 //echo $consultaBasica;

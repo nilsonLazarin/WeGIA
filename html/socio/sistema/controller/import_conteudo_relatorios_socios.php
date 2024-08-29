@@ -63,18 +63,19 @@
 
                             <h4 class="mb-xlg">Parâmetros do relatório</h4>
 
-							<!--<div class="form-group" id="orig" style="display: block;">
+							<div class="form-group" id="orig" style="display: block;">
 								<label class="col-md-3 control-label">Sócios</label>
 								<div class="col-md-8">
 								<select id="tipo_socio" name="tipo_socio">
 									  <option value="x">Todas as Opções</option>
+									  <option value="c">Casuais</option>
                                       <option value="m">Mensais</option>
                                       <option value="b">Bimestrais</option>
                                       <option value="t">Trimestrais</option>
                                       <option value="s">Semestrais</option>
 								</select>
 								</div>
-							</div>-->
+							</div>
 
 							<div class="form-group" style="display: block;">
 								<label class="col-md-3 control-label">Pessoas</label>
