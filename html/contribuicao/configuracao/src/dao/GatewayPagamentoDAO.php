@@ -1,6 +1,18 @@
 <?php
 //requisitar arquivo de conexão
-require_once '../../../php/conexao.php';
+
+$config_path = "config.php";
+if (file_exists($config_path)) {
+    require_once($config_path);
+} else {
+    while (true) {
+        $config_path = "../" . $config_path;
+        if (file_exists($config_path)) break;
+    }
+    require_once($config_path);
+}
+
+require_once ROOT . '/html/contribuicao/php/conexao.php';
 
 class GatewayPagamentoDAO{
 
@@ -12,6 +24,9 @@ class GatewayPagamentoDAO{
         $this->pdo = $conexao->pdo;
     }
 
+    /**
+     * Inseri um gateway de pagamento no banco de dados da aplicação
+     */
     public function cadastrar($nome, $endpoint, $token/*, $status*/){
         /*Lógica da aplicação */
         //definir consulta SQL
@@ -24,5 +39,17 @@ class GatewayPagamentoDAO{
         $stmt->bindParam(':token', $token);
         //executar
         $stmt->execute();
+    }
+
+    /**
+     * Busca os gateways de pagamento registrados no banco de dados da aplicação
+     */
+    public function buscaTodos(){
+        //definir consulta sql
+        $sqlBuscaTodos = "SELECT * from contribuicao_gatewayPagamento";
+        //executar
+        $resultado = $this->pdo->query($sqlBuscaTodos)->fetchAll(PDO::FETCH_ASSOC);
+        //retornar resultado
+        return $resultado;
     }
 }

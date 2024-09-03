@@ -1,6 +1,4 @@
 <?php
-require_once '../dao/GatewayPagamentoDAO.php';
-
 class GatewayPagamento{
 
     //atributos
@@ -25,6 +23,7 @@ class GatewayPagamento{
      * para inserir um Gateway de pagamento no sistema
      */
     public function cadastrar(){
+        require_once '../dao/GatewayPagamentoDAO.php';
         $gatewayPagamentoDao = new GatewayPagamentoDAO();
         $gatewayPagamentoDao->cadastrar($this->nome, $this->endpoint, $this->token/*, $this->status*/);
     }

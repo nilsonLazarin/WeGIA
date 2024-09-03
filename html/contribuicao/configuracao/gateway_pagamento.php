@@ -60,12 +60,11 @@ if(isset($_GET['msg'])){
     $msg = trim($_GET['msg']);
 }
 
-$gateways = [//substituir por dados do banco de dados
-    ['id' => 1, 'nome' => 'Teste 1', 'endpoint' => 'teste1/api/', 'token' => 'teste1_key_aB63z4', 'status' => 1],
-    ['id' => 2, 'nome' => 'Teste 2', 'endpoint' => 'teste2/api/', 'token' => 'teste2_key_m5z4Br1', 'status' => 0],
-    ['id' => 3, 'nome' => 'Teste 3', 'endpoint' => 'teste3/api/', 'token' => 'teste3_key_XjV3c5', 'status' => 0],
-    ['id' => 4, 'nome' => 'Teste 4', 'endpoint' => 'teste4/api/', 'token' => 'teste4_key_UtzB1', 'status' => 1],
-];
+require_once ('./src/controller/GatewayPagamentoController.php');
+
+$gatewayPagamentoController = new GatewayPagamentoController();
+$gateways = $gatewayPagamentoController->buscaTodos();
+
 ?>
 
 <!DOCTYPE html>
@@ -210,12 +209,12 @@ $gateways = [//substituir por dados do banco de dados
                                             <!--Carrega tabela dinamicamente-->
                                             <?php foreach($gateways as $gateway):?>
                                                 <tr>
-                                                    <td class="vertical-center"><?=$gateway['nome']?></td>
-                                                    <td class="vertical-center"><?=$gateway['endpoint']?></td>
+                                                    <td class="vertical-center"><?=$gateway['plataforma']?></td>
+                                                    <td class="vertical-center"><?=$gateway['endPoint']?></td>
                                                     <td class="vertical-center"><?=$gateway['token']?></td>
                                                     <td class="vertical-center">
                                                         <div class="toggle-switch">
-                                                            <?php if($gateway['status'] === 1):?>
+                                                            <?php if(isset($gateway['status']) && $gateway['status'] === 1):?>
                                                                 <input type="checkbox" id="toggle<?=$gateway['id']?>" class="toggle-input" checked>
                                                             <?php else:?>
                                                                 <input type="checkbox" id="toggle<?=$gateway['id']?>" class="toggle-input">
