@@ -7,22 +7,22 @@ ini_set('display_errors', 0);
 ini_set('display_startup_erros', 0);
 
 session_start();
-if(!isset($_SESSION['usuario'])){
-    header ("Location: ../../../index.php");
+if (!isset($_SESSION['usuario'])) {
+    header("Location: ../../../index.php");
 }
 
 $config_path = "config.php";
-if(file_exists($config_path)){
+if (file_exists($config_path)) {
     require_once($config_path);
 } else {
-    while(true) {
+    while (true) {
         $config_path = "../../../" . $config_path;
-        if(file_exists($config_path)) break;
+        if (file_exists($config_path)) break;
     }
     require_once($config_path);
 }
 
-$mysqli = new mysqli(DB_HOST,DB_USER,DB_PASSWORD,DB_NAME);
+$mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 $situacao = $mysqli->query("SELECT * FROM situacao");
 $cargo = $mysqli->query("SELECT * FROM cargo");
 //$beneficios = $mysqli->query("SELECT * FROM beneficios");
@@ -31,15 +31,15 @@ $cargo = $mysqli->query("SELECT * FROM cargo");
 $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 $id_pessoa = $_SESSION['id_pessoa'];
 $resultado = mysqli_query($conexao, "SELECT * FROM funcionario WHERE id_pessoa=$id_pessoa");
-if(!is_null($resultado)){
+if (!is_null($resultado)) {
     $id_cargo = mysqli_fetch_array($resultado);
-    if(!is_null($id_cargo)){
+    if (!is_null($id_cargo)) {
         $id_cargo = $id_cargo['id_cargo'];
     }
     $resultado = mysqli_query($conexao, "SELECT * FROM permissao WHERE id_cargo=$id_cargo and id_recurso=9");
-    if(!is_bool($resultado) and mysqli_num_rows($resultado)){
+    if (!is_bool($resultado) and mysqli_num_rows($resultado)) {
         $permissao = mysqli_fetch_array($resultado);
-        if($permissao['id_acao'] < 3){
+        if ($permissao['id_acao'] < 3) {
             $msg = "Você não tem as permissões necessárias para essa página.";
             header("Location: ../../home.php?msg_c=$msg");
         }
@@ -48,7 +48,7 @@ if(!is_null($resultado)){
         $permissao = 1;
         $msg = "Você não tem as permissões necessárias para essa página.";
         header("Location: ../../home.php?msg_c=$msg");
-    }	
+    }
 } else {
     $permissao = 1;
     $msg = "Você não tem as permissões necessárias para essa página.";
@@ -56,11 +56,11 @@ if(!is_null($resultado)){
 }
 
 //Captura mensagem passada na URL como parâmetro
-if(isset($_GET['msg'])){
+if (isset($_GET['msg'])) {
     $msg = trim($_GET['msg']);
 }
 
-require_once ('./src/controller/GatewayPagamentoController.php');
+require_once('./src/controller/GatewayPagamentoController.php');
 
 $gatewayPagamentoController = new GatewayPagamentoController();
 $gateways = $gatewayPagamentoController->buscaTodos();
@@ -97,7 +97,7 @@ $gateways = $gatewayPagamentoController->buscaTodos();
     <script src="../../../assets/javascripts/theme.js"></script>
     <script src="../../../assets/javascripts/theme.custom.js"></script>
     <script src="../../../assets/javascripts/theme.init.js"></script>
-    
+
 </head>
 
 <body>
@@ -130,22 +130,22 @@ $gateways = $gatewayPagamentoController->buscaTodos();
                                 </div>
                             </div>
                             <div class="panel-body">
-                                <div id="mensagem">
-                                    <?php if(isset($msg) && $msg == 'sucesso'):?>
+                                <div id="mensagem-cadastro">
+                                    <?php if (isset($msg) && $msg == 'cadastrar-sucesso'): ?>
                                         <div class="alert alert-success text-center alert-dismissible" role="alert">
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                             Gateway cadastrado com sucesso!
                                         </div>
-                                    <?php elseif(isset($msg) && $msg == 'falha'):?>
+                                    <?php elseif (isset($msg) && $msg == 'cadastrar-falha'): ?>
                                         <div class="alert alert-danger text-center alert-dismissible" role="alert">
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                             Falha no cadastro do gateway.
                                         </div>
-                                    <?php endif;?>
+                                    <?php endif; ?>
                                 </div>
-            
+
                                 <form method="POST" action="./src/controller/control.php">
-                                   
+
                                     <div class="form-group">
                                         <div class="col-md-10 col-md-offset-1">
                                             Os campos com <span class="text-danger">*</span> devem ser preenchidos antes de prosseguir.
@@ -190,13 +190,26 @@ $gateways = $gatewayPagamentoController->buscaTodos();
                                 </div>
                             </div>
                             <div class="panel-body">
+                                <div id="mensagem-tabela">
+                                    <?php if (isset($msg) && $msg == 'excluir-sucesso'): ?>
+                                        <div class="alert alert-success text-center alert-dismissible" role="alert">
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            Gateway excluído com sucesso!
+                                        </div>
+                                    <?php elseif (isset($msg) && $msg == 'excluir-falha'): ?>
+                                        <div class="alert alert-danger text-center alert-dismissible" role="alert">
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            Falha na exclusão do gateway.
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
 
-                                <?php if(!isset($gateways) || empty($gateways)):?>
+                                <?php if (!isset($gateways) || empty($gateways)): ?>
                                     <div class="alert alert-warning text-center alert-dismissible" role="alert">
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                            Não foi possível encontrar nenhum gateway cadastrado no sistema.
+                                        Não foi possível encontrar nenhum gateway cadastrado no sistema.
                                     </div>
-                                <?php else:?>
+                                <?php else: ?>
                                     <table class="table table-hover text-center">
                                         <thead>
                                             <th class="text-center">Plataforma</th>
@@ -207,30 +220,35 @@ $gateways = $gatewayPagamentoController->buscaTodos();
                                         </thead>
                                         <tbody>
                                             <!--Carrega tabela dinamicamente-->
-                                            <?php foreach($gateways as $gateway):?>
+                                            <?php foreach ($gateways as $gateway): ?>
                                                 <tr>
-                                                    <td class="vertical-center"><?=$gateway['plataforma']?></td>
-                                                    <td class="vertical-center"><?=$gateway['endPoint']?></td>
-                                                    <td class="vertical-center"><?=$gateway['token']?></td>
+                                                    <td class="vertical-center"><?= $gateway['plataforma'] ?></td>
+                                                    <td class="vertical-center"><?= $gateway['endPoint'] ?></td>
+                                                    <td class="vertical-center"><?= $gateway['token'] ?></td>
                                                     <td class="vertical-center">
                                                         <div class="toggle-switch">
-                                                            <?php if(isset($gateway['status']) && $gateway['status'] === 1):?>
-                                                                <input type="checkbox" id="toggle<?=$gateway['id']?>" class="toggle-input" checked>
-                                                            <?php else:?>
-                                                                <input type="checkbox" id="toggle<?=$gateway['id']?>" class="toggle-input">
-                                                            <?php endif;?>
-                                                            <label for="toggle<?=$gateway['id']?>" class="toggle-label" title="Alterar estado"></label>
+                                                            <?php if (isset($gateway['status']) && $gateway['status'] === 1): ?>
+                                                                <input type="checkbox" id="toggle<?= $gateway['id'] ?>" class="toggle-input" checked>
+                                                            <?php else: ?>
+                                                                <input type="checkbox" id="toggle<?= $gateway['id'] ?>" class="toggle-input">
+                                                            <?php endif; ?>
+                                                            <label for="toggle<?= $gateway['id'] ?>" class="toggle-label" title="Alterar estado"></label>
                                                         </div>
                                                     </td>
                                                     <td class="vertical-center">
-                                                        <button type="button" class="btn btn-default" title="Editar" data-id="<?=$gateway['id']?>"><i class="fa fa-edit"></i></button>
-                                                        <button type="button" class="btn btn-default" title="Excluir" data-id="<?=$gateway['id']?>"><i class="fa fa-remove text-danger"></i></button>
+                                                        <button type="button" class="btn btn-default" title="Editar" data-id="<?= $gateway['id'] ?>"><i class="fa fa-edit"></i></button>
+                                                        <form action="./src/controller/control.php" method="post" style="display: inline-block; margin: 0;" onsubmit="return confirmarExclusao();">
+                                                            <input type="hidden" name="nomeClasse" value="GatewayPagamentoController">
+                                                            <input type="hidden" name="metodo" value="excluirPorId">
+                                                            <input type="hidden" name="gateway-id" value="<?= $gateway['id'] ?>">
+                                                            <button type="submit" class="btn btn-default" title="Excluir" data-id="<?= $gateway['id'] ?>"><i class="fa fa-remove text-danger"></i></button>
+                                                        </form>
                                                     </td>
                                                 </tr>
-                                            <?php endforeach;?>
+                                            <?php endforeach; ?>
                                         </tbody>
                                     </table>
-                                <?php endif;?>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
@@ -244,10 +262,14 @@ $gateways = $gatewayPagamentoController->buscaTodos();
             $("#header").load("../../header.php");
             $(".menuu").load("../../menu.php");
         });
+
+        function confirmarExclusao() {
+            return confirm("Tem certeza que deseja excluir este item?");
+        }
     </script>
     <div align="right">
-	<iframe src="https://www.wegia.org/software/footer/saude.html" width="200" height="60" style="border:none;"></iframe>
-	</div>
+        <iframe src="https://www.wegia.org/software/footer/saude.html" width="200" height="60" style="border:none;"></iframe>
+    </div>
 </body>
 
 </html>

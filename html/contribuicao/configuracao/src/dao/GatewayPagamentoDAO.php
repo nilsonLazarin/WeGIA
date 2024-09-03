@@ -52,4 +52,21 @@ class GatewayPagamentoDAO{
         //retornar resultado
         return $resultado;
     }
+
+    public function excluirPorId($id){
+        //definir consulta sql
+        $sqlExcluirPorId = "DELETE FROM contribuicao_gatewayPagamento WHERE id=:id";
+        //utilizar prepared statements
+        $stmt = $this->pdo->prepare($sqlExcluirPorId);
+        $stmt->bindParam(':id', $id);
+        //executar
+        $stmt->execute();
+
+        //verificar se algum elemento foi de fato excluído
+        $gatewayExcluido = $stmt->rowCount();
+
+        if($gatewayExcluido < 1){
+            throw new Exception();
+        }
+    }
 }
