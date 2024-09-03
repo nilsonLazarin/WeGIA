@@ -55,6 +55,11 @@ if(!is_null($resultado)){
     header("Location: ../../home.php?msg_c=$msg");
 }
 
+//Captura mensagem passada na URL como parâmetro
+if(isset($_GET['msg'])){
+    $msg = trim($_GET['msg']);
+}
+
 $gateways = [//substituir por dados do banco de dados
     ['id' => 1, 'nome' => 'Teste 1', 'endpoint' => 'teste1/api/', 'token' => 'teste1_key_aB63z4', 'status' => 1],
     ['id' => 2, 'nome' => 'Teste 2', 'endpoint' => 'teste2/api/', 'token' => 'teste2_key_m5z4Br1', 'status' => 0],
@@ -121,25 +126,50 @@ $gateways = [//substituir por dados do banco de dados
                         <div class="panel panel-primary">
                             <div class="panel-heading">
                                 <h3 class="panel-title text-center">Cadastro de um novo Gateway</h3>
+                                <div class="panel-actions">
+                                    <a href="#" class="fa fa-caret-down"></a>
+                                </div>
                             </div>
                             <div class="panel-body">
-                                <form>
+                                <div id="mensagem">
+                                    <?php if(isset($msg) && $msg == 'sucesso'):?>
+                                        <div class="alert alert-success text-center alert-dismissible" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            Gateway cadastrado com sucesso!
+                                        </div>
+                                    <?php elseif(isset($msg) && $msg == 'falha'):?>
+                                        <div class="alert alert-danger text-center alert-dismissible" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            Falha no cadastro do gateway.
+                                        </div>
+                                    <?php endif;?>
+                                </div>
+            
+                                <form method="POST" action="./src/controller/control.php">
+                                   
                                     <div class="form-group">
                                         <div class="col-md-10 col-md-offset-1">
-                                            <label for="plataforma-nome">Nome da Plataforma</label>
-                                            <input type="text" class="form-control" id="plataforma-nome" placeholder="Insira aqui o nome da plataforma de gateway ...">
+                                            Os campos com <span class="text-danger">*</span> devem ser preenchidos antes de prosseguir.
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="nomeClasse" value="GatewayPagamentoController">
+                                    <input type="hidden" name="metodo" value="cadastrar">
+                                    <div class="form-group">
+                                        <div class="col-md-10 col-md-offset-1">
+                                            <label for="plataforma-nome">Nome da Plataforma <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="plataforma-nome" name="nome" placeholder="Insira aqui o nome da plataforma de gateway ..." required>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <div class="col-md-10 col-md-offset-1">
-                                            <label for="plataforma-endpoint">Endpoint</label>
-                                            <input type="text" class="form-control" id="plataforma-endpoint" placeholder="Insira aqui o endpoint da plataforma de gateway ...">
+                                            <label for="plataforma-endpoint">Endpoint <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="plataforma-endpoint" name="endpoint" placeholder="Insira aqui o endpoint da plataforma de gateway ..." required>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <div class="col-md-10 col-md-offset-1">
-                                            <label for="plataforma-chave">Token API</label>
-                                            <input type="text" class="form-control" id="plataforma-chave" placeholder="Insira aqui o token da API da plataforma de gateway ...">
+                                            <label for="plataforma-chave">Token API <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="plataforma-chave" name="token" placeholder="Insira aqui o token da API da plataforma de gateway ..." required>
                                         </div>
                                     </div>
                                     <div class="text-center">
@@ -156,41 +186,52 @@ $gateways = [//substituir por dados do banco de dados
                         <div class="panel panel-primary">
                             <div class="panel-heading">
                                 <h3 class="panel-title text-center">Gateways do Sistema</h3>
+                                <div class="panel-actions">
+                                    <a href="#" class="fa fa-caret-down"></a>
+                                </div>
                             </div>
                             <div class="panel-body">
-                                <table class="table table-hover text-center">
-                                    <thead>
-                                        <th class="text-center">Plataforma</th>
-                                        <th class="text-center">Endpoint</th>
-                                        <th class="text-center">Token API</th>
-                                        <th class="text-center">Ativo</th>
-                                        <th class="text-center">Ação</th>
-                                    </thead>
-                                    <tbody>
-                                        <!--Carrega tabela dinamicamente-->
-                                         <?php foreach($gateways as $gateway):?>
-                                            <tr>
-                                                <td class="vertical-center"><?=$gateway['nome']?></td>
-                                                <td class="vertical-center"><?=$gateway['endpoint']?></td>
-                                                <td class="vertical-center"><?=$gateway['token']?></td>
-                                                <td class="vertical-center">
-                                                    <div class="toggle-switch">
-                                                        <?php if($gateway['status'] === 1):?>
-                                                            <input type="checkbox" id="toggle<?=$gateway['id']?>" class="toggle-input" checked>
-                                                        <?php else:?>
-                                                            <input type="checkbox" id="toggle<?=$gateway['id']?>" class="toggle-input">
-                                                        <?php endif;?>
-                                                        <label for="toggle<?=$gateway['id']?>" class="toggle-label" title="Alterar estado"></label>
-                                                    </div>
-                                                </td>
-                                                <td class="vertical-center">
-                                                    <button type="button" class="btn btn-default" title="Editar" data-id="<?=$gateway['id']?>"><i class="fa fa-edit"></i></button>
-                                                    <button type="button" class="btn btn-default" title="Excluir" data-id="<?=$gateway['id']?>"><i class="fa fa-remove text-danger"></i></button>
-                                                </td>
-                                            </tr>
-                                        <?php endforeach;?>
-                                    </tbody>
-                                </table>
+
+                                <?php if(!isset($gateways) || empty($gateways)):?>
+                                    <div class="alert alert-warning text-center alert-dismissible" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            Não foi possível encontrar nenhum gateway cadastrado no sistema.
+                                    </div>
+                                <?php else:?>
+                                    <table class="table table-hover text-center">
+                                        <thead>
+                                            <th class="text-center">Plataforma</th>
+                                            <th class="text-center">Endpoint</th>
+                                            <th class="text-center">Token API</th>
+                                            <th class="text-center">Ativo</th>
+                                            <th class="text-center">Ação</th>
+                                        </thead>
+                                        <tbody>
+                                            <!--Carrega tabela dinamicamente-->
+                                            <?php foreach($gateways as $gateway):?>
+                                                <tr>
+                                                    <td class="vertical-center"><?=$gateway['nome']?></td>
+                                                    <td class="vertical-center"><?=$gateway['endpoint']?></td>
+                                                    <td class="vertical-center"><?=$gateway['token']?></td>
+                                                    <td class="vertical-center">
+                                                        <div class="toggle-switch">
+                                                            <?php if($gateway['status'] === 1):?>
+                                                                <input type="checkbox" id="toggle<?=$gateway['id']?>" class="toggle-input" checked>
+                                                            <?php else:?>
+                                                                <input type="checkbox" id="toggle<?=$gateway['id']?>" class="toggle-input">
+                                                            <?php endif;?>
+                                                            <label for="toggle<?=$gateway['id']?>" class="toggle-label" title="Alterar estado"></label>
+                                                        </div>
+                                                    </td>
+                                                    <td class="vertical-center">
+                                                        <button type="button" class="btn btn-default" title="Editar" data-id="<?=$gateway['id']?>"><i class="fa fa-edit"></i></button>
+                                                        <button type="button" class="btn btn-default" title="Excluir" data-id="<?=$gateway['id']?>"><i class="fa fa-remove text-danger"></i></button>
+                                                    </td>
+                                                </tr>
+                                            <?php endforeach;?>
+                                        </tbody>
+                                    </table>
+                                <?php endif;?>
                             </div>
                         </div>
                     </div>
@@ -205,7 +246,9 @@ $gateways = [//substituir por dados do banco de dados
             $(".menuu").load("../../menu.php");
         });
     </script>
-
+    <div align="right">
+	<iframe src="https://www.wegia.org/software/footer/saude.html" width="200" height="60" style="border:none;"></iframe>
+	</div>
 </body>
 
 </html>
