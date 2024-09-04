@@ -69,4 +69,27 @@ class GatewayPagamentoDAO{
             throw new Exception();
         }
     }
+
+    /**
+     * Modifica os campos da tabela contribuicao_gatewaypagamento relacionados ao id informado
+     */
+    public function editarPorId($id, $nome, $endpoint, $token){
+        //definir consulta sql
+        $sqlEditarPorId = "UPDATE contribuicao_gatewayPagamento SET plataforma =:nome, endpoint =:endpoint, token =:token WHERE id=:id";
+        //utilizar prepared statements
+        $stmt = $this->pdo->prepare($sqlEditarPorId);
+        $stmt->bindParam(':nome', $nome);
+        $stmt->bindParam(':endpoint', $endpoint);
+        $stmt->bindParam(':token', $token);
+        $stmt->bindParam(':id', $id);
+        //executar
+        $stmt->execute();
+
+        //verificar se algum elemento foi de fato alterado
+        $gatewayExcluido = $stmt->rowCount();
+
+        if($gatewayExcluido < 1){
+            throw new Exception();
+        }
+    }
 }

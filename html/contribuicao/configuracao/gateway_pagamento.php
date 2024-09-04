@@ -126,7 +126,7 @@ $gateways = $gatewayPagamentoController->buscaTodos();
                             <div class="panel-heading">
                                 <h3 class="panel-title text-center">Cadastro de um novo Gateway</h3>
                                 <div class="panel-actions">
-                                    <a href="#" class="fa fa-caret-down"></a>
+                                    <a href="#" class="fa fa-caret-down" title="Mostrar/ocultar"></a>
                                 </div>
                             </div>
                             <div class="panel-body">
@@ -186,7 +186,7 @@ $gateways = $gatewayPagamentoController->buscaTodos();
                             <div class="panel-heading">
                                 <h3 class="panel-title text-center">Gateways do Sistema</h3>
                                 <div class="panel-actions">
-                                    <a href="#" class="fa fa-caret-down"></a>
+                                    <a href="#" class="fa fa-caret-down" title="Mostrar/ocultar"></a>
                                 </div>
                             </div>
                             <div class="panel-body">
@@ -200,6 +200,16 @@ $gateways = $gatewayPagamentoController->buscaTodos();
                                         <div class="alert alert-danger text-center alert-dismissible" role="alert">
                                             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                             Falha na exclusão do gateway.
+                                        </div>
+                                    <?php elseif (isset($msg) && $msg == 'editar-sucesso'): ?>
+                                        <div class="alert alert-success text-center alert-dismissible" role="alert">
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            Gateway editado com sucesso!
+                                        </div>
+                                    <?php elseif (isset($msg) && $msg == 'editar-falha'): ?>
+                                        <div class="alert alert-danger text-center alert-dismissible" role="alert">
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            Falha na edição do gateway.
                                         </div>
                                     <?php endif; ?>
                                 </div>
@@ -258,19 +268,21 @@ $gateways = $gatewayPagamentoController->buscaTodos();
                                                     <h4 class="modal-title">Editar Gateway</h4>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <form id="editForm">
+                                                    <form id="editForm" method="POST" action="./src/controller/control.php">
                                                         <div class="form-group">
                                                             <label for="editNome">Nome da plataforma:</label>
-                                                            <input type="text" class="form-control" id="editNome" name="nome">
+                                                            <input type="text" class="form-control" id="editNome" name="nome" required>
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="editEndpoint">Endpoint:</label>
-                                                            <input type="text" class="form-control" id="editEndpoint" name="endpoint">
+                                                            <input type="text" class="form-control" id="editEndpoint" name="endpoint" required>
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="editToken">Token API:</label>
-                                                            <input type="text" class="form-control" id="editToken" name="token">
+                                                            <input type="text" class="form-control" id="editToken" name="token" required>
                                                         </div>
+                                                        <input type="hidden" name="nomeClasse" value="GatewayPagamentoController">
+                                                        <input type="hidden" name="metodo" value="editarPorId">
                                                         <input type="hidden" id="editId" name="id">
                                                         <button type="submit" class="btn btn-primary">Salvar Alterações</button>
                                                     </form>

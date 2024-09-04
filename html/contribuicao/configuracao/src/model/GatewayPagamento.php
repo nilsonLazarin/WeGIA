@@ -2,6 +2,7 @@
 class GatewayPagamento{
 
     //atributos
+    private $id;
     private $nome;
     private $endpoint;
     private $token;
@@ -26,6 +27,12 @@ class GatewayPagamento{
         require_once '../dao/GatewayPagamentoDAO.php';
         $gatewayPagamentoDao = new GatewayPagamentoDAO();
         $gatewayPagamentoDao->cadastrar($this->nome, $this->endpoint, $this->token/*, $this->status*/);
+    }
+
+    public function editar(){
+        require_once '../dao/GatewayPagamentoDAO.php';
+        $gatewayPagamentoDao = new GatewayPagamentoDAO();
+        $gatewayPagamentoDao->editarPorId($this->id, $this->nome, $this->endpoint, $this->token);
     }
 
     /**
@@ -128,6 +135,31 @@ class GatewayPagamento{
             throw new InvalidArgumentException('O nome de um gateway de pagamento não pode ser vazio.');
         }
         $this->nome = $nome;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of id
+     */ 
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set the value of id
+     *
+     * @return  self
+     */ 
+    public function setId($id)
+    {
+        $idLimpo = trim($id);
+
+        if(!$idLimpo || $idLimpo <1){
+            throw new InvalidArgumentException();
+        }
+        $this->id = $id;
 
         return $this;
     }

@@ -65,4 +65,21 @@ class GatewayPagamentoController
         }
         //echo 'O id do gateway que será excluído é: '.$gatewayId;
     }
+
+    public function editarPorId(){
+        $gatewayId = $_POST['id'];
+        $gatewayNome = $_POST['nome'];
+        $gatewayEndepoint = $_POST['endpoint'];
+        $gatewayToken = $_POST['token'];
+
+        try{
+            $gatewayPagamento = new GatewayPagamento($gatewayNome, $gatewayEndepoint, $gatewayToken);
+            $gatewayPagamento->setId($gatewayId);
+            $gatewayPagamento->editar();
+            header("Location: ../../gateway_pagamento.php?msg=editar-sucesso#mensagem-tabela");
+        }catch(Exception $e){
+            header("Location: ../../gateway_pagamento.php?msg=editar-falha#mensagem-tabela");
+        }
+        //echo 'Editando gateway de id: '.$gatewayId;
+    }
 }
