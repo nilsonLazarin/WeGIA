@@ -248,6 +248,40 @@ $gateways = $gatewayPagamentoController->buscaTodos();
                                             <?php endforeach; ?>
                                         </tbody>
                                     </table>
+
+                                    <!-- Modal de Edição -->
+                                    <div id="editModal" class="modal fade" role="dialog">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header modal-header-primary">
+                                                    <button type="button" class="close" data-dismiss="modal" title="Fechar">&times;</button>
+                                                    <h4 class="modal-title">Editar Gateway</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form id="editForm">
+                                                        <div class="form-group">
+                                                            <label for="editNome">Nome da plataforma:</label>
+                                                            <input type="text" class="form-control" id="editNome" name="nome">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="editEndpoint">Endpoint:</label>
+                                                            <input type="text" class="form-control" id="editEndpoint" name="endpoint">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="editToken">Token API:</label>
+                                                            <input type="text" class="form-control" id="editToken" name="token">
+                                                        </div>
+                                                        <input type="hidden" id="editId" name="id">
+                                                        <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 <?php endif; ?>
                             </div>
                         </div>
@@ -266,6 +300,29 @@ $gateways = $gatewayPagamentoController->buscaTodos();
         function confirmarExclusao() {
             return confirm("Tem certeza que deseja excluir este item?");
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Seletor para todos os botões de editar
+            const editButtons = document.querySelectorAll('button[title="Editar"]');
+
+            editButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    const nome = this.closest('tr').querySelector('td:nth-child(1)').textContent;
+                    const endpoint = this.closest('tr').querySelector('td:nth-child(2)').textContent;
+                    const token = this.closest('tr').querySelector('td:nth-child(3)').textContent;
+
+                    // Preenche o modal com os dados do gateway
+                    document.getElementById('editId').value = id;
+                    document.getElementById('editNome').value = nome;
+                    document.getElementById('editEndpoint').value = endpoint;
+                    document.getElementById('editToken').value = token;
+
+                    // Exibe o modal
+                    $('#editModal').modal('show');
+                });
+            });
+        });
     </script>
     <div align="right">
         <iframe src="https://www.wegia.org/software/footer/saude.html" width="200" height="60" style="border:none;"></iframe>

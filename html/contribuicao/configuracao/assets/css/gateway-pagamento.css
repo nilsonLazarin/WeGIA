@@ -54,3 +54,29 @@
 .vertical-center{
     vertical-align: middle!important;
 }
+
+/*Estilos do modal de edição*/
+.modal-header-primary {
+    background-color: #0088cc; /* Azul do panel-primary */
+    color: white;
+    border-bottom: 1px solid #2e6da4; /* Borda inferior azul escuro */
+}
+
+.modal-header-primary .modal-title {
+    font-size: 18px;
+    margin: 0;
+    padding: 10px 0;
+}
+
+.modal-header-primary .close {
+    color: #d2322d ; /* Define a cor vermelha */
+    opacity: 1; /* Torna o ícone completamente opaco */
+    text-shadow: 0 1px black;
+}
+
+.modal-header-primary .close:hover,
+.modal-header-primary .close:focus {
+    color: rgb(231, 15, 15); /* Altera a cor para vermelho escuro ao passar o mouse ou focar */
+    text-shadow: 0 1px red;
+}
+
