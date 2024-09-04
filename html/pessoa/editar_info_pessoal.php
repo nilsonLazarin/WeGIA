@@ -28,15 +28,26 @@ if ($action == "mudarInfoPessoal"){
     $data_nascimento = $_POST['data_nascimento'];
     $nome_pai = $_POST['nome_pai'];
     $nome_mae = $_POST['nome_mae'];
-    $sql = "UPDATE pessoa SET nome=$nome, sobrenome=$sobrenome, telefone=$telefone, sexo=$sexo, nome_pai=$nome_pai, nome_mae=$nome_mae, data_nascimento=$data_nascimento  WHERE id_pessoa=$id_pessoa;";
+
+    $sql = "UPDATE pessoa SET nome = :nome, sobrenome = :sobrenome, telefone = :telefone, sexo = :sexo, nome_pai = :nome_pai, nome_mae = :nome_mae, data_nascimento = :data_nascimento WHERE id_pessoa = :id_pessoa";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':id_pessoa', $id_pessoa);
+    $stmt->bindParam(':nome', $nome);
+    $stmt->bindParam(':sobrenome', $sobrenome);
+    $stmt->bindParam(':telefone', $telefone);
+    $stmt->bindParam(':sexo', $sexo);
+    $stmt->bindParam(':data_nascimento', $data_nascimento);
+    $stmt->bindParam(':nome_pai', $nome_pai);
+    $stmt->bindParam(':nome_mae', $nome_mae);
+
     try {
-        $pdo->query($sql);
-        echo json_encode($pdo->query($response_query)->fetchAll(PDO::FETCH_ASSOC));
+        $stmt->execute();
+        echo json_encode("Dados atualizados com sucesso");
     } catch (PDOException $th) {
-        echo json_encode($th);
+        echo json_encode($th->getMessage());
     }
 }
-
 
 
 // $nome = ($nome ? "'$nome'" : "NULL");
