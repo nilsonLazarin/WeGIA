@@ -412,9 +412,9 @@
 						</a>
 						<ul class="nav nav-children">
 						<li >
-								<a href="<?= WWW ?>html/contribuicao/php/getaway_pagamento.php">
+								<a href="<?= WWW ?>html/contribuicao/configuracao/gateway_pagamento.php">
 									<i class="fa-solid fa-building"></i>
-									Getaway de pagamento
+									Gateway de pagamento
 								</a>
 							</li>
 							<li >

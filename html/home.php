@@ -711,10 +711,10 @@
 				<!--parte interna de #contribuicao-->
 				<div class="row">
 					<div  id="contribuicao" class="collapse">
-						<a href="../html/contribuicao/php/getaway_pagamento.php">
+						<a href="../html/contribuicao/configuracao/gateway_pagamento.php">
 							<div class="col-lg-2 col-md-8 i" >
 								<i class="fa-solid fa-building"></i>
-								<h4>Getaway de pagamentos</h4>
+								<h4>Gateway de pagamentos</h4>
 							</div>
 						</a>
 						<a href="../html/contribuicao/php/meio_pagamento.php">
