@@ -1,8 +1,7 @@
 <?php
-//adicionar verificação de autenticação
+//verificação de autenticação
 require_once('../php/conexao.php');
 $banco = new Conexao;
-//require_once('dadosConfig.php');
 ini_set('display_errors', 0);
 ini_set('display_startup_erros', 0);
 
@@ -25,8 +24,6 @@ if (file_exists($config_path)) {
 $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 $situacao = $mysqli->query("SELECT * FROM situacao");
 $cargo = $mysqli->query("SELECT * FROM cargo");
-//$beneficios = $mysqli->query("SELECT * FROM beneficios");
-//$descricao_epi = $mysqli->query("SELECT * FROM epi");
 
 $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 $id_pessoa = $_SESSION['id_pessoa'];
@@ -60,6 +57,7 @@ if (isset($_GET['msg'])) {
     $msg = trim($_GET['msg']);
 }
 
+//carrega gateways salvos no banco de dados da aplicação
 require_once('./src/controller/GatewayPagamentoController.php');
 
 $gatewayPagamentoController = new GatewayPagamentoController();
@@ -303,39 +301,7 @@ $gateways = $gatewayPagamentoController->buscaTodos();
             </section>
         </div>
     </section>
-    <script>
-        $(function() {
-            $("#header").load("../../header.php");
-            $(".menuu").load("../../menu.php");
-        });
-
-        function confirmarExclusao() {
-            return confirm("Tem certeza que deseja excluir este item?");
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            // Seletor para todos os botões de editar
-            const editButtons = document.querySelectorAll('button[title="Editar"]');
-
-            editButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const id = this.getAttribute('data-id');
-                    const nome = this.closest('tr').querySelector('td:nth-child(1)').textContent;
-                    const endpoint = this.closest('tr').querySelector('td:nth-child(2)').textContent;
-                    const token = this.closest('tr').querySelector('td:nth-child(3)').textContent;
-
-                    // Preenche o modal com os dados do gateway
-                    document.getElementById('editId').value = id;
-                    document.getElementById('editNome').value = nome;
-                    document.getElementById('editEndpoint').value = endpoint;
-                    document.getElementById('editToken').value = token;
-
-                    // Exibe o modal
-                    $('#editModal').modal('show');
-                });
-            });
-        });
-    </script>
+    <script src="./assets/js/gatewayPagamento.js"></script>
     <div align="right">
         <iframe src="https://www.wegia.org/software/footer/saude.html" width="200" height="60" style="border:none;"></iframe>
     </div>
