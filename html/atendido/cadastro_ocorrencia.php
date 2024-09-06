@@ -23,13 +23,19 @@ if(!isset($_SESSION['usuario'])){
 
 $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 $id_pessoa = $_SESSION['id_pessoa'];
-$resultado = mysqli_query($conexao, "SELECT * FROM funcionario WHERE id_pessoa=$id_pessoa");
+$stmt = mysqli_prepare($conexao, "SELECT * FROM funcionario WHERE id_pessoa=?");
+mysqli_stmt_bind_param($stmt, 'i', $id_pessoa);
+mysqli_stmt_execute($stmt);
+$resultado = mysqli_stmt_get_result($stmt);
 if(!is_null($resultado)){
 	$id_cargo = mysqli_fetch_array($resultado);
 	if(!is_null($id_cargo)){
 		$id_cargo = $id_cargo['id_cargo'];
 	}
-	$resultado = mysqli_query($conexao, "SELECT * FROM permissao WHERE id_cargo=$id_cargo and id_recurso=3");
+    $stmt = mysqli_prepare($conexao, "SELECT * FROM permissao WHERE id_cargo=? and id_recurso=3");
+	mysqli_stmt_bind_param($stmt, 'i', $id_cargo);
+	mysqli_stmt_execute($stmt);
+	$resultado = mysqli_stmt_get_result($stmt);
 	if(!is_bool($resultado) and mysqli_num_rows($resultado)){
 		$permissao = mysqli_fetch_array($resultado);
 		if($permissao['id_acao'] == 1){
