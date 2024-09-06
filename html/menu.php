@@ -418,7 +418,7 @@
 								</a>
 							</li>
 							<li >
-								<a href="<?= WWW ?>html/contribuicao/php/meio_pagamento.php">
+								<a href="<?= WWW ?>html/contribuicao/configuracao/meio_pagamento.php">
 									<i class="fa-regular fa-credit-card"></i>
 									Meio de pagamento
 								</a>

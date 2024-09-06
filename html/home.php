@@ -717,7 +717,7 @@
 								<h4>Gateway de pagamentos</h4>
 							</div>
 						</a>
-						<a href="../html/contribuicao/php/meio_pagamento.php">
+						<a href="../html/contribuicao/configuracao/meio_pagamento.php">
 							<div class="col-lg-2 col-md-8 i" >
 								<i class="fa-regular fa-credit-card"></i>
 								<h4>Meio de pagamento</h4>
