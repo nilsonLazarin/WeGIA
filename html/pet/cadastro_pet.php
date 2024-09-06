@@ -327,21 +327,28 @@ if($_GET['msg']){
     /** Aqui começa a implementação das funções relacionada a "PET" */
 
     // funções relacionadas a datas
-    function verificarDataAcolhimento(){
-      let nasc = document.querySelector("#nascimento").value;
-      let acol = document.querySelector("#acolhimento").value;
+    function verificarDataAcolhimento(event) {
+    // Obtém os valores das datas dos campos de entrada
+    let nasc = document.querySelector("#nascimento").value;
+    let acol = document.querySelector("#acolhimento").value;
 
-      nasc = nasc.split('-');
-      nasc = nasc.join('');
+    // Cria objetos Date a partir das strings das datas
+    let dataNascimento = new Date(nasc);
+    let dataAcolhimento = new Date(acol);
 
-      acol = acol.split('-');
-      acol = acol.join('');
-
-      if( acol < nasc ){
-        alert("Data de acolhimento não pode ser anterior a data de nascimento!");
+    // Verifica se as datas são válidas
+    if (isNaN(dataNascimento.getTime()) || isNaN(dataAcolhimento.getTime())) {
+        alert("Uma ou ambas as datas fornecidas são inválidas.");
         event.preventDefault();
-      }
+        return;
     }
+
+    // Compara as datas
+    if (dataAcolhimento < dataNascimento) {
+        alert("Data de acolhimento não pode ser anterior à data de nascimento!");
+        event.preventDefault();
+    }
+}
     
     /*
     function noType(){
