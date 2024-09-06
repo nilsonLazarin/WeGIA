@@ -18,6 +18,7 @@ require_once ROOT . "/dao/memorando/MemorandoDAO.php";
 
 class DespachoDAO
 {
+	//Função para listar os memorandos
 	public function listarTodos($id_memorando)
 	{
 		try {
@@ -38,6 +39,7 @@ class DespachoDAO
 		return json_encode($Despachos);
 	}
 
+	//Lista todos os memorandos com anexo
 	public function listarTodosComAnexo($id_memorando)
 	{
 		try {
@@ -57,6 +59,7 @@ class DespachoDAO
 		return json_encode($Despachos);
 	}
 
+	//Função para incluir um despacho
 	public function incluir(Despacho $despacho)
 	{
 		try {
@@ -95,7 +98,7 @@ class DespachoDAO
 				$memorando->setId_memorando($id_memorando);
 				$memorando->setId_status_memorando(2);
 				$MemorandoDAO2 = new MemorandoDAO();
-				$id_status_memorando = 2;
+				//$id_status_memorando = 2;
 				$MemorandoDAO2->alterarIdStatusMemorando($memorando);
 			}
 
@@ -104,7 +107,7 @@ class DespachoDAO
 				$memorando->setId_memorando($id_memorando);
 				$memorando->setId_status_memorando(3);
 				$MemorandoDAO2 = new MemorandoDAO();
-				$id_status_memorando = 3;
+				//$id_status_memorando = 3;
 				$MemorandoDAO2->alterarIdStatusMemorando($memorando);
 			}
 		} catch (PDOException $e) {
@@ -113,6 +116,7 @@ class DespachoDAO
 		return $lastId;
 	}
 
+	//Função para pegar o id do despacho
 	public function getPorId(int $id){
 		$sql = 'SELECT * FROM despacho WHERE id_despacho=:idDespacho';
 		$pdo = Conexao::connect();

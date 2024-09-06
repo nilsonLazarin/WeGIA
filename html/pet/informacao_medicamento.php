@@ -1,7 +1,7 @@
 <?php
 
 ini_set('display_errors',1);
-ini_set('display_startup_erros',1);
+ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 extract($_REQUEST);
 session_start();
@@ -26,7 +26,10 @@ $pdo = Conexao::connect();
 
 $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 $id_pessoa = $_SESSION['id_pessoa'];
-$resultado = mysqli_query($conexao, "SELECT * FROM funcionario WHERE id_pessoa=$id_pessoa");
+$stmt = $conexao->prepare("SELECT * FROM funcionario WHERE id_pessoa = ?");
+$stmt->bind_param("i", $id_pessoa);
+$stmt->execute();
+$resultado = $stmt->get_result();
 if(!is_null($resultado)){
     $id_cargo = mysqli_fetch_array($resultado);
     if(!is_null($id_cargo)){
