@@ -45,7 +45,9 @@ class MeioPagamentoDAO{
      */
     public function buscaTodos(){
         //definir consulta sql
-        $sqlBuscaTodos = "SELECT * from contribuicao_meioPagamento";
+        $sqlBuscaTodos = "SELECT cmp.id, cmp.meio, cmp.id_plataforma, cgp.plataforma, cgp.endpoint 
+        FROM contribuicao_meioPagamento cmp
+        JOIN contribuicao_gatewayPagamento cgp ON (cgp.id=cmp.id_plataforma)";
         //executar
         $resultado = $this->pdo->query($sqlBuscaTodos)->fetchAll(PDO::FETCH_ASSOC);
         //retornar resultado
