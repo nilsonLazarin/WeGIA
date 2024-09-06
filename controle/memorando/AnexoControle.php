@@ -16,6 +16,7 @@ require_once ROOT . "/dao/memorando/AnexoDAO.php";
 
 class AnexoControle
 {
+	//Função para listar os memorandos
 	public function listarTodos($id_memorando)
 	{
 		$id_despacho = 0;
@@ -28,6 +29,7 @@ class AnexoControle
 		$_SESSION['arquivos'] = $anexos;
 	}
 
+	//Função para listar anexos
 	public function listarAnexo($id_anexo)
 	{
 		$AnexoDAO = new AnexoDAO();
@@ -38,16 +40,18 @@ class AnexoControle
 		$_SESSION['arq'] = $anexos;
 	}
 
+	//Função para comprimir uma string de dados
 	public function comprimir($anexoParaCompressao)
 	{
 		$arquivo_zip = gzcompress($anexoParaCompressao);
 		return $arquivo_zip;
 	}
 
+	//Função para incluir um anexo
 	public function incluir($anexo, $lastId)
 	{
 		extract($_REQUEST);
-		$total = count($anexo['name']);
+		//$total = count($anexo['name']);
 		$arq = $_FILES['anexo'];
 
 		$arq['name'] =  array_unique($arq['name']);
@@ -65,25 +69,10 @@ class AnexoControle
 		$novo_total = count($arq['name']);
 
 		for ($i = 0; $i < $novo_total; $i++) {
-			/*$zip = new ZipArchive();
-			if($zip->open('anexo_zip.zip', ZIPARCHIVE::CREATE) == TRUE)
-			{
-				$zip->addFile($arq['tmp_name'][$i], $nome.".".$extensao);
-			}
-			var_dump($zip);
-			$caminho=$zip->filename;
-			$zip->close();
-			$arquivo_zip = file_get_contents($caminho);
-			unlink('anexo_zip.zip');*/
-			/*$fp = fopen($_FILES['anexo']['tmp_name'][$i], "rb");
-			$conteudo = fread($fp, $tamanho_arquivo);
-			$conteudo = addslashes($conteudo);
-			fclose($fp);*/
-
 			$anexo_tmpName = $arq['tmp_name'];
 			$arquivo = file_get_contents($anexo_tmpName[$i]);
 			$arquivo1 = $arq['name'][$i];
-			$tamanho = strlen($arquivo1);
+			//$tamanho = strlen($arquivo1);
 			$pos = strpos($arquivo1, ".") + 1;
 			$extensao = substr($arquivo1, $pos, strlen($arquivo1) + 1);
 			$nome = substr($arquivo1, 0, $pos - 1);
@@ -91,6 +80,7 @@ class AnexoControle
 			$AnexoControle = new AnexoControle;
 			$arquivo_zip = $AnexoControle->comprimir($arquivo);
 
+			//Insere um novo anexo
 			try {
 				$anexo = new Anexo();
 				$anexo->setId_despacho($lastId);
@@ -101,6 +91,7 @@ class AnexoControle
 				echo "Erro ao tentar inserir anexo: " . $e->getMessage();
 			}
 
+			//Cria um novo despacho
 			try {
 				$anexoDAO = new AnexoDAO();
 				$anexoDAO->incluir($anexo);

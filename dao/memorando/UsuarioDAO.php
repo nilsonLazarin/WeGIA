@@ -16,9 +16,9 @@ class UsuarioDAO
 				$x++;
 			}
 		}
-		catch(PDOExeption $e)
+		catch(PDOException $e)
 		{
-			echo 'Error:' . $e->getMessage;
+			echo 'Error:' . $e->getMessage();
 		}
 		return $Usuario;
 	}

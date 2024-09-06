@@ -28,7 +28,7 @@ class MemorandoControle
 		$_SESSION['memorando']=$memorandos;
 	}
 
-    //LIstar memorando pelo Id
+    //Listar memorando pelo Id
     public function listarTodosId($id_memorando)
     {
         extract($_REQUEST);
@@ -37,7 +37,7 @@ class MemorandoControle
         $_SESSION['memorandoId'] = $memorandos;
     }
 
-    //LIstar memorandos inativos
+    //Listar memorandos inativos
     public function listarTodosInativos()
     {
         extract($_REQUEST);
@@ -46,6 +46,7 @@ class MemorandoControle
         $_SESSION['memorandoInativo'] = $memorandos;
     }
 
+    //Lista memorandos inativos pelo id
     public function listarIdTodosInativos()
     {
         extract($_REQUEST);
@@ -59,8 +60,6 @@ class MemorandoControle
     {
         $memorando = $this->verificarMemorando();
         $memorandoDAO = new MemorandoDAO();
-        
-
         
         try
         {

@@ -60,22 +60,26 @@ require_once ROOT.'/controle/memorando/StatusMemorandoControle.php';
 
 $id_memorando = $_GET['id_memorando'];
 
-
+//Cria novos objetos (Despachos)
 $despachos = new DespachoControle;
 $despachos->listarTodos();
 
 $despachos2 = new DespachoControle;
 $despachos2->listarTodosComAnexo();
 
+//Cria novo objeto (FuncionarioControle)
 $funcionarios = new FuncionarioControle;
 $funcionarios->listarTodos2();
 
+//Cria novo objeto (MemorandoControle)
 $ultimoDespacho =  new MemorandoControle;
 $ultimoDespacho->buscarUltimoDespacho($id_memorando);
 
+//Cria novo objeto (AnexoControle)
 $Anexos = new AnexoControle;
 $Anexos->listarTodos($id_memorando);
 
+//Cria novos objetos (MemorandoControle)
 $id_status = new MemorandoControle;
 $id_status->buscarIdStatusMemorando($id_memorando);
 
