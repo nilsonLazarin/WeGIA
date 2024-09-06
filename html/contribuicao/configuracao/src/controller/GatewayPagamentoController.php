@@ -69,6 +69,9 @@ class GatewayPagamentoController
         //echo 'O id do gateway que será excluído é: '.$gatewayId;
     }
 
+    /**
+     * Realiza os procedimentos necessários para alterar as informações de um gateway de pagamento do sistema
+     */
     public function editarPorId(){
         $gatewayId = $_POST['id'];
         $gatewayNome = $_POST['nome'];

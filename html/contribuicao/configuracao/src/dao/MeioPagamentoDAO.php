@@ -52,7 +52,9 @@ class MeioPagamentoDAO{
         return $resultado;
     }
 
-
+    /**
+     * Remover o meio de pagamento que possuí id equivalente no banco de dados da aplicação
+     */
     public function excluirPorId($id){
         //definir consulta sql
         $sqlExcluirPorId = "DELETE FROM contribuicao_meioPagamento WHERE id=:id";
@@ -68,5 +70,27 @@ class MeioPagamentoDAO{
         if($meioPagamentoExcluido < 1){
             throw new Exception();
         }
+    }
+
+    /**
+     * Edita o meio de pagamento que possuí id equivalente no banco de dados da aplicação
+     */
+    public function editarPorId($id, $descricao, $gatewayId){
+         //definir consulta sql
+         $sqlEditarPorId = "UPDATE contribuicao_meioPagamento SET meio =:descricao, id_plataforma =:gatewayId WHERE id=:id";
+         //utilizar prepared statements
+         $stmt = $this->pdo->prepare($sqlEditarPorId);
+         $stmt->bindParam(':descricao', $descricao);
+         $stmt->bindParam(':gatewayId', $gatewayId);
+         $stmt->bindParam(':id', $id);
+         //executar
+         $stmt->execute();
+ 
+         //verificar se algum elemento foi de fato alterado
+         $meioPagamentoExcluido = $stmt->rowCount();
+ 
+         if($meioPagamentoExcluido < 1){
+             throw new Exception();
+         }
     }
 }

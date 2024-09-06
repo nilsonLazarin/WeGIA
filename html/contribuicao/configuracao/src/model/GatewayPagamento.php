@@ -29,6 +29,9 @@ class GatewayPagamento{
         $gatewayPagamentoDao->cadastrar($this->nome, $this->endpoint, $this->token/*, $this->status*/);
     }
 
+    /**
+     * Altera os dados do sistema pelos novos fornecidos através dos atributos $nome e $endpoint e $token
+     */
     public function editar(){
         require_once '../dao/GatewayPagamentoDAO.php';
         $gatewayPagamentoDao = new GatewayPagamentoDAO();

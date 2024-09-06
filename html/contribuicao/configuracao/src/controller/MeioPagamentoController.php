@@ -61,4 +61,22 @@ class MeioPagamentoController{
             header("Location: ../../meio_pagamento.php?msg=excluir-falha#mensagem-tabela");
         }
     }
+
+    /**
+     * Realiza os procedimentos necessários para alterar as informações de um meio de pagamento do sistema
+     */
+    public function editarPorId(){
+        $descricao = $_POST['nome'];
+        $gatewayId = $_POST['plataforma'];
+        $meioPagamentoId = $_POST['id'];
+
+        try{
+            $meioPagamento = new MeioPagamento($descricao, $gatewayId);
+            $meioPagamento->setId($meioPagamentoId);
+            $meioPagamento->editar();
+            header("Location: ../../meio_pagamento.php?msg=editar-sucesso#mensagem-tabela");
+        }catch(Exception $e){
+            header("Location: ../../meio_pagamento.php?msg=editar-falha#mensagem-tabela");
+        }
+    }
 }

@@ -53,6 +53,9 @@ class GatewayPagamentoDAO{
         return $resultado;
     }
 
+    /**
+     * Remover o gateway de pagamento que possuí id equivalente no banco de dados da aplicação
+     */
     public function excluirPorId($id){
         //definir consulta sql
         $sqlExcluirPorId = "DELETE FROM contribuicao_gatewayPagamento WHERE id=:id";

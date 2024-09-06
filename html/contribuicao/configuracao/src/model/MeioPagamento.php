@@ -21,6 +21,15 @@ class MeioPagamento{
     }
 
     /**
+     * Altera os dados do sistema pelos novos fornecidos através dos atributos $descricao e $gatewayId
+     */
+    public function editar(){
+        require_once '../dao/MeioPagamentoDAO.php';
+        $meioPagamentoDao = new MeioPagamentoDAO();
+        $meioPagamentoDao->editarPorId($this->id, $this->descricao, $this->gatewayId);
+    }
+
+    /**
      * Get the value of descricao
      */ 
     public function getDescricao()
@@ -65,6 +74,31 @@ class MeioPagamento{
         }
 
         $this->gatewayId = $gatewayId;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of id
+     */ 
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set the value of id
+     *
+     * @return  self
+     */ 
+    public function setId($id)
+    {
+        $idLimpo = trim($id);
+
+        if(!$idLimpo || $idLimpo <1){
+            throw new InvalidArgumentException();
+        }
+        $this->id = $id;
 
         return $this;
     }

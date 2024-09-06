@@ -189,7 +189,7 @@ $meiosPagamento = $meioPagamentoController->buscaTodos();
                     <div class="col-md-10 col-md-offset-1">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
-                                <h3 class="panel-title text-center">Meio de pagamentos do sistema</h3>
+                                <h3 class="panel-title text-center">Meios de pagamento do sistema</h3>
                                 <div class="panel-actions">
                                     <a href="#" class="fa fa-caret-down" title="Mostrar/ocultar"></a>
                                 </div>
