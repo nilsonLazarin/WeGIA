@@ -46,11 +46,14 @@ class GatewayPagamentoController
         }
     }
 
+    /**
+     * Realiza os procedimentos necessários para remover um gateway de pagamento do sistema.
+     */
     public function excluirPorId()
     {
         $gatewayId = trim($_POST['gateway-id']);
 
-        if (!$gatewayId || empty($gatewayId)) {
+        if (!$gatewayId || empty($gatewayId) || $gatewayId < 1) {
             //parar operação
             header("Location: ../../gateway_pagamento.php?msg=excluir-falha#mensagem-tabela");
             exit();

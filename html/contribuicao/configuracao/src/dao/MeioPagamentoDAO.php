@@ -51,4 +51,22 @@ class MeioPagamentoDAO{
         //retornar resultado
         return $resultado;
     }
+
+
+    public function excluirPorId($id){
+        //definir consulta sql
+        $sqlExcluirPorId = "DELETE FROM contribuicao_meioPagamento WHERE id=:id";
+        //utilizar prepared statements
+        $stmt = $this->pdo->prepare($sqlExcluirPorId);
+        $stmt->bindParam(':id', $id);
+        //executar
+        $stmt->execute();
+
+        //verificar se algum elemento foi de fato excluído
+        $meioPagamentoExcluido = $stmt->rowCount();
+
+        if($meioPagamentoExcluido < 1){
+            throw new Exception();
+        }
+    }
 }

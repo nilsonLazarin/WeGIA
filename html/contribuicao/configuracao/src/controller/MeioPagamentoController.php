@@ -40,4 +40,25 @@ class MeioPagamentoController{
             echo 'Erro na busca de meios de pagamento: '.$e->getMessage();
         }
     }
+
+    /**
+     * Realiza os procedimentos necessários para remover um meio de pagamento do sistema.
+     */
+    public function excluirPorId(){
+        $meioPagamentoId = trim($_POST['meio-pagamento-id']);
+
+        if (!$meioPagamentoId || empty($meioPagamentoId) || $meioPagamentoId < 1) {
+            //parar operação
+            header("Location: ../../meio_pagamento.php?msg=excluir-falha#mensagem-tabela");
+            exit();
+        }
+
+        try{
+            $meioPagamentoDao = new MeioPagamentoDAO();
+            $meioPagamentoDao->excluirPorId($meioPagamentoId);
+            header("Location: ../../meio_pagamento.php?msg=excluir-sucesso#mensagem-tabela");
+        }catch(Exception $e){
+            header("Location: ../../meio_pagamento.php?msg=excluir-falha#mensagem-tabela");
+        }
+    }
 }
