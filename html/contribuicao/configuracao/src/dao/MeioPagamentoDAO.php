@@ -39,4 +39,16 @@ class MeioPagamentoDAO{
         //executar
         $stmt->execute();
     }
+
+    /**
+     * Retorna todos os meios de pagamentos registrados no banco de dados da aplicação
+     */
+    public function buscaTodos(){
+        //definir consulta sql
+        $sqlBuscaTodos = "SELECT * from contribuicao_meioPagamento";
+        //executar
+        $resultado = $this->pdo->query($sqlBuscaTodos)->fetchAll(PDO::FETCH_ASSOC);
+        //retornar resultado
+        return $resultado;
+    }
 }

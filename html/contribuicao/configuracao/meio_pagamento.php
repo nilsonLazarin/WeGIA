@@ -64,12 +64,11 @@ require_once('./src/controller/GatewayPagamentoController.php');
 $gatewayPagamentoController = new GatewayPagamentoController();
 $gateways = $gatewayPagamentoController->buscaTodos();
 
-//carrega meios de pagamentos
-$meiosPagamento = [
-    ['id' => 1, 'meio' => 'Boleto único', 'id_plataforma' => 21],
-    ['id' => 2, 'meio' => 'Boleto mensal', 'id_plataforma' => 23],
-    ['id' => 3, 'meio' => 'Pix', 'id_plataforma' => 21],
-];
+//carrega meios de pagamentos salvos no banco de dados da aplicação
+require_once('./src/controller/MeioPagamentoController.php');
+
+$meioPagamentoController = new MeioPagamentoController();
+$meiosPagamento = $meioPagamentoController->buscaTodos();
 ?>
 
 <!DOCTYPE html>
@@ -238,7 +237,7 @@ $meiosPagamento = [
                                             <?php foreach ($meiosPagamento as $meioPagamento): ?>
                                                 <tr>
                                                     <td class="vertical-center"><?= $meioPagamento['meio'] ?></td>
-                                                    <td class="vertical-center"><?= $meioPagamento['id_plataforma'] ?></td>
+                                                    <td class="vertical-center"><?= $meioPagamento['id_plataforma'] ?></td><!--Substituir impressão do id pelo nome da plataforma | endpoint-->
                                                     <td class="vertical-center">
                                                         <div class="toggle-switch">
                                                             <?php if (isset($meioPagamento['status']) && $meioPagamento['status'] === 1): ?>
