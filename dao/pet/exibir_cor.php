@@ -1,7 +1,6 @@
 <?php	
     require_once'../Conexao.php';
 	$pdo = Conexao::connect();
-
 	$sql = 'select * from pet_cor';
 	$stmt = $pdo->query($sql);
 	$resultado = array();
@@ -9,5 +8,4 @@
     	$resultado[] = array('id_cor'=>$row['id_pet_cor'],'cor'=>$row['descricao']);
 	}
 	echo json_encode($resultado);
-
 ?>
