@@ -169,7 +169,7 @@ $meiosPagamento = [
                                     <div class="form-group">
                                         <div class="col-md-10 col-md-offset-1">
                                             <label for="meio-pagamento-plataforma">Plataforma <span class="text-danger">*</span></label>
-                                            <select class="form-control" id="meio-pagamento-plataforma">
+                                            <select class="form-control" id="meio-pagamento-plataforma" name="meio-pagamento-plataforma">
                                                 <option selected disabled>Selecione a plataforma desejada ...</option>
                                                 <?php foreach ($gateways as $gateway): ?>
                                                     <option value="<?= $gateway['id'] ?>"><?= $gateway['plataforma'] ?></option>

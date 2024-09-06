@@ -1,0 +1,42 @@
+<?php
+
+//requisitar arquivo de conexão
+
+$config_path = "config.php";
+if (file_exists($config_path)) {
+    require_once($config_path);
+} else {
+    while (true) {
+        $config_path = "../" . $config_path;
+        if (file_exists($config_path)) break;
+    }
+    require_once($config_path);
+}
+
+require_once ROOT . '/html/contribuicao/php/conexao.php';
+
+class MeioPagamentoDAO{
+    private $pdo;
+
+    public function __construct()
+    {
+        $conexao = new Conexao();
+        $this->pdo = $conexao->pdo;
+    }
+
+    /**
+     * Inseri um meio de pagamento no banco de dados da aplicação
+     */
+    public function cadastrar($descricao, $gatewayId){
+        /*Lógica da aplicação */
+        //definir consulta SQL
+        $sqlCadastrar = "INSERT INTO contribuicao_meioPagamento (meio, id_plataforma) 
+        VALUES (:descricao, :gatewayId)";
+        //utilizar prepared statements
+        $stmt = $this->pdo->prepare($sqlCadastrar);
+        $stmt->bindParam(':descricao', $descricao);
+        $stmt->bindParam(':gatewayId', $gatewayId);
+        //executar
+        $stmt->execute();
+    }
+}
