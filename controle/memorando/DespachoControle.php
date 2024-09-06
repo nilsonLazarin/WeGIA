@@ -103,6 +103,7 @@ class DespachoControle
 		}
 	}
 
+	//Busca um despacho pelo id
 	public function getPorId(int $id){
 		try{
 			if($id < 1){

@@ -11,19 +11,25 @@ if(file_exists($config_path)){
     require_once($config_path);
 }
 
+//Inicia a sessão e redireciona o usuário para a página inicial
 session_start();
 if(!isset($_SESSION['usuario'])){
     header ("Location: ".WWW."index.php");
 }
 
+//Faz a conexão com o banco de dados
 $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 $id_pessoa = $_SESSION['id_pessoa'];
+
+//Lista os funcionários
 $resultado = mysqli_query($conexao, "SELECT * FROM funcionario WHERE id_pessoa=$id_pessoa");
 if(!is_null($resultado)){
 	$id_cargo = mysqli_fetch_array($resultado);
 	if(!is_null($id_cargo)){
 		$id_cargo = $id_cargo['id_cargo'];
 	}
+    
+    //Lista as permissões
 	$resultado = mysqli_query($conexao, "SELECT * FROM permissao WHERE id_cargo=$id_cargo and id_recurso=3");
 	if(!is_bool($resultado) and mysqli_num_rows($resultado)){
 		$permissao = mysqli_fetch_array($resultado);
@@ -242,40 +248,6 @@ require_once ROOT."/html/personalizacao_display.php";
                     '</span></li>'
                 );
                 $(".file-list").find("li:last").show(800);
-
-                //removal button handler
-                //manipulador de botão de remoção
-                // $(".removal-button").on("click", function (e) {
-                //     e.preventDefault();
-
-                //     //remove the corresponding hidden input
-                //     //remove a entrada oculta correspondente
-                //     $(
-                //     '.hidden-inputs input[data-uploadid="' +
-                //         $(this).data("uploadid") +
-                //         '"]'
-                //     ).remove();
-
-                //     //remove the name from file-list that corresponds to the button clicked
-                //     //remova o nome da lista de arquivos que corresponde ao botão clicado
-                //     $(this)
-                //     .parent()
-                //     .hide("puff")
-                //     .delay(10)
-                //     .queue(function () {
-                //         $(this).remove();
-                //     });
-
-                //     //if the list is now empty, change the text back
-                //     //se a lista estiver vazia, mude o texto de volta
-                //     if ($(".file-list li").length === 0) {
-                //     $(".file-uploader__message-area").text(
-                //         options.MessageAreaText || settings.MessageAreaText
-                //     );
-                //     }
-
-
-                // });
 
                 //so the event handler works on the new "real" one
                 //então o manipulador de eventos funciona no novo "real"
