@@ -53,4 +53,22 @@ class RegraPagamentoController{
             header("Location: ../../regra_pagamento.php?msg=cadastrar-falha");
         }
     }
+
+    public function excluirPorId(){
+        $regraPagamentoId = trim($_POST['regra-pagamento-id']);
+
+        if (!$regraPagamentoId || empty($regraPagamentoId) || $regraPagamentoId < 1) {
+            //parar operação
+            header("Location: ../../regra_pagamento.php?msg=excluir-falha#mensagem-tabela");
+            exit();
+        }
+
+        try{
+            $regraPagamentoDao = new RegraPagamentoDAO();
+            $regraPagamentoDao->excluirPorId($regraPagamentoId);
+            header("Location: ../../regra_pagamento.php?msg=excluir-sucesso#mensagem-tabela");
+        }catch(Exception $e){
+            header("Location: ../../regra_pagamento.php?msg=excluir-falha#mensagem-tabela");
+        }
+    }
 }

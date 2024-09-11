@@ -331,12 +331,7 @@ $conjuntoRegrasPagamento = $regraPagamentoController->buscaConjuntoRegrasPagamen
             </section>
         </div>
     </section>
-    <script>
-        $(function() {
-            $("#header").load("../../header.php");
-            $(".menuu").load("../../menu.php");
-        });
-    </script>
+    <script src="./assets/js/regraPagamento.js"></script>
 
     <div align="right">
         <iframe src="https://www.wegia.org/software/footer/saude.html" width="200" height="60" style="border:none;"></iframe>

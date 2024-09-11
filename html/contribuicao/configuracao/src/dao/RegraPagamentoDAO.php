@@ -64,4 +64,22 @@ class RegraPagamentoDAO{
         //executar
         $stmt->execute();
     }
+
+
+    public function excluirPorId($id){
+        //definir consulta sql
+        $sqlExcluirPorId = "DELETE FROM contribuicao_conjuntoRegras WHERE id=:id";
+        //utilizar prepared statements
+        $stmt = $this->pdo->prepare($sqlExcluirPorId);
+        $stmt->bindParam(':id', $id);
+        //executar
+        $stmt->execute();
+
+        //verificar se algum elemento foi de fato excluído
+        $conjuntoRegraPagamentoExcluido = $stmt->rowCount();
+
+        if($conjuntoRegraPagamentoExcluido < 1){
+            throw new Exception();
+        }
+    }
 }
