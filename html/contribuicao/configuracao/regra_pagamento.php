@@ -68,10 +68,15 @@ require_once('./src/controller/RegraPagamentoController.php');
 
 $regraPagamentoController = new RegraPagamentoController();
 $regrasContribuicao = $regraPagamentoController->buscaRegrasContribuicao();
+
+//carrega conjunto de regras de pagamento
+$conjuntoRegrasPagamento = $regraPagamentoController->buscaConjuntoRegrasPagamento();
+//print_r($conjuntoRegrasPagamento); 
 ?>
 
 <!DOCTYPE html>
 <html class="fixed">
+
 <head>
     <meta charset="UTF-8">
     <title>Regra de Pagamento</title>
@@ -96,35 +101,36 @@ $regrasContribuicao = $regraPagamentoController->buscaRegrasContribuicao();
     <script src="../../../assets/vendor/jquery-autosize/jquery.autosize.js"></script>
     <script src="../../../assets/vendor/modernizr/modernizr.js"></script>
     <script src="../../../assets/javascripts/theme.js"></script>
-    <script src="../../../assets/javascripts/theme.custom.js"></script>  
+    <script src="../../../assets/javascripts/theme.custom.js"></script>
     <script src="../../../assets/javascripts/theme.init.js"></script>
 
     <link rel="stylesheet" href="./assets/css/gateway-pagamento.css">
 
 </head>
-<body>
-<section class="body">
-    <div id="header"></div>
-    <div class="inner-wrapper">
-        <aside id="sidebar-left" class="sidebar-left menuu"></aside>
-        <section role="main" class="content-body">
-            <header class="page-header">
-                <h2>Regra de Pagamento</h2>
-                <div class="right-wrapper pull-right">
-                    <ol class="breadcrumbs">
-                        <li>
-                            <a href="../../home.php">
-                                <i class="fa fa-home"></i>
-                            </a>
-                        </li>
-                        <li><span>Regra de Pagamento</span></li>
-                    </ol>
-                    <a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
-                </div>
-            </header>
-            
 
-            <div class="row">
+<body>
+    <section class="body">
+        <div id="header"></div>
+        <div class="inner-wrapper">
+            <aside id="sidebar-left" class="sidebar-left menuu"></aside>
+            <section role="main" class="content-body">
+                <header class="page-header">
+                    <h2>Regra de Pagamento</h2>
+                    <div class="right-wrapper pull-right">
+                        <ol class="breadcrumbs">
+                            <li>
+                                <a href="../../home.php">
+                                    <i class="fa fa-home"></i>
+                                </a>
+                            </li>
+                            <li><span>Regra de Pagamento</span></li>
+                        </ol>
+                        <a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
+                    </div>
+                </header>
+
+
+                <div class="row">
                     <div class="col-md-10 col-md-offset-1">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
@@ -157,14 +163,14 @@ $regrasContribuicao = $regraPagamentoController->buscaRegrasContribuicao();
                                     </div>
                                     <input type="hidden" name="nomeClasse" value="RegraPagamentoController">
                                     <input type="hidden" name="metodo" value="cadastrar">
-                                   
+
                                     <div class="form-group">
                                         <div class="col-md-10 col-md-offset-1">
                                             <label for="meio-pagamento-plataforma">Meio de pagamento <span class="text-danger">*</span></label>
                                             <select class="form-control" id="meio-pagamento-plataforma" name="meio-pagamento-plataforma">
                                                 <option selected disabled>Selecione o meio de pagamento desejado ...</option>
                                                 <?php foreach ($meiosPagamento as $meioPagamento): ?>
-                                                    <option value="<?= $meioPagamento['id'] ?>"><?= $meioPagamento['meio'].' | '.$meioPagamento['plataforma'].' | '.$meioPagamento['endpoint'] ?></option>
+                                                    <option value="<?= $meioPagamento['id'] ?>"><?= $meioPagamento['meio'] . ' | ' . $meioPagamento['plataforma'] . ' | ' . $meioPagamento['endpoint'] ?></option>
                                                 <?php endforeach; ?>
                                             </select>
                                         </div>
@@ -177,7 +183,7 @@ $regrasContribuicao = $regraPagamentoController->buscaRegrasContribuicao();
                                             <select class="form-control" id="regra-pagamento" name="regra-pagamento">
                                                 <option selected disabled>Selecione a regra desejada ...</option>
                                                 <?php foreach ($regrasContribuicao as $regraContribuicao): ?>
-                                                    <option value="<?= $regraContribuicao['id'] ?>"><?= $regraContribuicao['regra']?></option>
+                                                    <option value="<?= $regraContribuicao['id'] ?>"><?= $regraContribuicao['regra'] ?></option>
                                                 <?php endforeach; ?>
                                             </select>
                                         </div>
@@ -212,62 +218,66 @@ $regrasContribuicao = $regraPagamentoController->buscaRegrasContribuicao();
                                     <?php if (isset($msg) && $msg == 'excluir-sucesso'): ?>
                                         <div class="alert alert-success text-center alert-dismissible" role="alert">
                                             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                            Meio de pagamento excluído com sucesso!
+                                            Regra de pagamento excluída com sucesso!
                                         </div>
                                     <?php elseif (isset($msg) && $msg == 'excluir-falha'): ?>
                                         <div class="alert alert-danger text-center alert-dismissible" role="alert">
                                             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                            Falha na exclusão do meio de pagamento.
+                                            Falha na exclusão da regra de pagamento.
                                         </div>
                                     <?php elseif (isset($msg) && $msg == 'editar-sucesso'): ?>
                                         <div class="alert alert-success text-center alert-dismissible" role="alert">
                                             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                            Meio de pagamento editado com sucesso!
+                                            Regra de pagamento editada com sucesso!
                                         </div>
                                     <?php elseif (isset($msg) && $msg == 'editar-falha'): ?>
                                         <div class="alert alert-danger text-center alert-dismissible" role="alert">
                                             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                            Falha na edição do meio de pagamento.
+                                            Falha na edição da regra de pagamento.
                                         </div>
                                     <?php endif; ?>
                                 </div>
 
-                                <?php if (!isset($meiosPagamento) || empty($meiosPagamento)): ?>
+                                <?php if (!isset($conjuntoRegrasPagamento) || empty($conjuntoRegrasPagamento)): ?>
                                     <div class="alert alert-warning text-center alert-dismissible" role="alert">
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                        Não foi possível encontrar nenhum meio de pagamento cadastrado no sistema.
+                                        Não foi possível encontrar nenhuma regra de pagamento cadastrada no sistema.
                                     </div>
                                 <?php else: ?>
                                     <table class="table table-hover text-center">
                                         <thead>
-                                            <th class="text-center">Descrição</th>
+                                            <th class="text-center">Meio de Pagamento</th>
                                             <th class="text-center">Plataforma | Endpoint</th>
+                                            <th class="text-center">Regra</th>
+                                            <th class="text-center">Valor</th>
                                             <th class="text-center">Ativo</th>
                                             <th class="text-center">Ação</th>
                                         </thead>
                                         <tbody>
                                             <!--Carrega tabela dinamicamente-->
-                                            <?php foreach ($meiosPagamento as $meioPagamento): ?>
+                                            <?php foreach ($conjuntoRegrasPagamento as $regraPagamento): ?>
                                                 <tr>
-                                                    <td class="vertical-center"><?= $meioPagamento['meio'] ?></td>
-                                                    <td class="vertical-center"><?= $meioPagamento['plataforma'].' | '.$meioPagamento['endpoint'] ?></td><!--Substituir impressão do id pelo nome da plataforma | endpoint-->
+                                                    <td class="vertical-center"><?= $regraPagamento['meio'] ?></td>
+                                                    <td class="vertical-center"><?= $regraPagamento['plataforma'] . ' | ' . $regraPagamento['endpoint'] ?></td>
+                                                    <td class="vertical-center"><?= $regraPagamento['regra'] ?></td>
+                                                    <td class="vertical-center"><?= $regraPagamento['valor'] ?></td>
                                                     <td class="vertical-center">
                                                         <div class="toggle-switch">
-                                                            <?php if (isset($meioPagamento['status']) && $meioPagamento['status'] === 1): ?>
-                                                                <input type="checkbox" id="toggle<?= $meioPagamento['id'] ?>" class="toggle-input" checked>
+                                                            <?php if (isset($regraPagamento['status']) && $regraPagamento['status'] === 1): ?>
+                                                                <input type="checkbox" id="toggle<?= $regraPagamento['id'] ?>" class="toggle-input" checked>
                                                             <?php else: ?>
-                                                                <input type="checkbox" id="toggle<?= $meioPagamento['id'] ?>" class="toggle-input">
+                                                                <input type="checkbox" id="toggle<?= $regraPagamento['id'] ?>" class="toggle-input">
                                                             <?php endif; ?>
-                                                            <label for="toggle<?= $meioPagamento['id'] ?>" class="toggle-label" title="Alterar estado"></label>
+                                                            <label for="toggle<?= $regraPagamento['id'] ?>" class="toggle-label" title="Alterar estado"></label>
                                                         </div>
                                                     </td>
                                                     <td class="vertical-center">
-                                                        <button type="button" class="btn btn-default" title="Editar" data-id="<?= $meioPagamento['id'] ?>" data-plataforma-id="<?= $meioPagamento['id_plataforma'] ?>"><i class="fa fa-edit"></i></button>
+                                                        <button type="button" class="btn btn-default" title="Editar" data-id="<?= $regraPagamento['id'] ?>"><i class="fa fa-edit"></i></button>
                                                         <form action="./src/controller/control.php" method="post" style="display: inline-block; margin: 0;" onsubmit="return confirmarExclusao();">
-                                                            <input type="hidden" name="nomeClasse" value="MeioPagamentoController">
+                                                            <input type="hidden" name="nomeClasse" value="RegraPagamentoController">
                                                             <input type="hidden" name="metodo" value="excluirPorId">
-                                                            <input type="hidden" name="meio-pagamento-id" value="<?= $meioPagamento['id'] ?>">
-                                                            <button type="submit" class="btn btn-default" title="Excluir" data-id="<?= $meioPagamento['id'] ?>"><i class="fa fa-remove text-danger"></i></button>
+                                                            <input type="hidden" name="regra-pagamento-id" value="<?= $regraPagamento['id'] ?>">
+                                                            <button type="submit" class="btn btn-default" title="Excluir" data-id="<?= $regraPagamento['id'] ?>"><i class="fa fa-remove text-danger"></i></button>
                                                         </form>
                                                     </td>
                                                 </tr>
@@ -295,12 +305,12 @@ $regrasContribuicao = $regraPagamentoController->buscaRegrasContribuicao();
                                                             <select class="form-control" id="editPlataforma" name="plataforma">
                                                                 <option selected disabled>Selecione a plataforma desejada ...</option>
                                                                 <?php foreach ($gateways as $gateway): ?>
-                                                                    <option value="<?= $gateway['id'] ?>"><?= $gateway['plataforma'].' | '.$gateway['endPoint'] ?></option>
+                                                                    <option value="<?= $gateway['id'] ?>"><?= $gateway['plataforma'] . ' | ' . $gateway['endPoint'] ?></option>
                                                                 <?php endforeach; ?>
                                                             </select>
                                                         </div>
 
-                                                        <input type="hidden" name="nomeClasse" value="MeioPagamentoController">
+                                                        <input type="hidden" name="nomeClasse" value="RegraPagamentoController">
                                                         <input type="hidden" name="metodo" value="editarPorId">
                                                         <input type="hidden" id="editId" name="id">
                                                         <button type="submit" class="btn btn-primary">Salvar Alterações</button>
@@ -318,17 +328,19 @@ $regrasContribuicao = $regraPagamentoController->buscaRegrasContribuicao();
                         </div>
                     </div>
                 </div>
-
-
-        </section>
-    </div>
-</section>
-<script>
-    $(function() {
+            </section>
+        </div>
+    </section>
+    <script>
+        $(function() {
             $("#header").load("../../header.php");
             $(".menuu").load("../../menu.php");
         });
-</script>
+    </script>
 
+    <div align="right">
+        <iframe src="https://www.wegia.org/software/footer/saude.html" width="200" height="60" style="border:none;"></iframe>
+    </div>
 </body>
+
 </html>

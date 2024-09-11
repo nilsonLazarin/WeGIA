@@ -24,6 +24,15 @@ class RegraPagamentoController{
     }
 
     /**
+     * Retorna o conjunto de regras de pagamento presentes no sistema
+     */
+    public function buscaConjuntoRegrasPagamento(){
+        $regraPagamentoDao = new RegraPagamentoDAO();
+        $conjuntoRegrasPagamento = $regraPagamentoDao->buscaConjuntoRegrasPagamento();
+        return $conjuntoRegrasPagamento;
+    }
+
+    /**
      * Extraí os dados do formulário e realiza os procedimentos necessários para inserir um novo
      * conjunto de regras no sistema.
      */
