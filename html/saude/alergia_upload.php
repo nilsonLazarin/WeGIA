@@ -6,7 +6,8 @@ ini_set('display_startup_erros',1);
 error_reporting(E_ALL);
 
 session_start();
-extract($_REQUEST);
+$id_CID_alergia = $_POST["id_CID_alergia"];
+$id_fichamedica = $_POST["id_fichamedica"];
 if (!isset($_SESSION["usuario"])){
     header("Location: ../../index.php");
 }
