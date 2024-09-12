@@ -82,7 +82,7 @@ $gateways = $gatewayPagamentoController->buscaTodos();
     <link rel="stylesheet" href="../../../assets/stylesheets/skins/default.css" />
     <link rel="stylesheet" href="../../../assets/stylesheets/theme-custom.css">
     <link rel="stylesheet" href="../../../css/personalizacao-theme.css" />
-    <link rel="stylesheet" href="./assets/css/gateway-pagamento.css">
+    <link rel="stylesheet" href="./assets/css/contribuicao-configuracao.css">
     <script src="../../../assets/vendor/jquery/jquery.min.js"></script>
     <script src="../../../assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
     <script src="../../../assets/vendor/bootstrap/js/bootstrap.js"></script>
