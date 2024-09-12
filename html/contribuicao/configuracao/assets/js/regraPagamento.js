@@ -13,23 +13,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     editButtons.forEach(button => {
         button.addEventListener('click', function () {
-            /*const id = this.getAttribute('data-id');
-            const nome = this.closest('tr').querySelector('td:nth-child(1)').textContent;
-            const plataformaId = this.getAttribute('data-plataforma-id');
+            const id = this.getAttribute('data-id');
+            const valor = this.closest('tr').querySelector('td:nth-child(4)').textContent;
 
             // Preenche o modal com os dados do gateway
             document.getElementById('editId').value = id;
-            document.getElementById('editNome').value = nome;
-            let plataformas = document.getElementById('editPlataforma');
-            plataformas.value = plataformaId;
-            const options = plataformas.options;
-
-            // Verifica se a opção foi selecionada corretamente
-            if (plataformas.value !== plataformaId) {
-                console.error('Erro ao selecionar a plataforma com ID:', plataformaId);
-            } else {
-                console.log('Plataforma selecionada:', plataformas.options[plataformas.selectedIndex].textContent);
-            }*/
+            document.getElementById('editValor').value = valor;
 
             $('#editModal').modal('show');
         });

@@ -291,25 +291,14 @@ $conjuntoRegrasPagamento = $regraPagamentoController->buscaConjuntoRegrasPagamen
                                             <div class="modal-content">
                                                 <div class="modal-header modal-header-primary">
                                                     <button type="button" class="close" data-dismiss="modal" title="Fechar">&times;</button>
-                                                    <h4 class="modal-title">Editar Meio de pagamento</h4>
+                                                    <h4 class="modal-title">Regra de pagamento</h4>
                                                 </div>
                                                 <div class="modal-body">
                                                     <form id="editForm" method="POST" action="./src/controller/control.php">
                                                         <div class="form-group">
-                                                            <label for="editNome">Descrição:</label>
-                                                            <input type="text" class="form-control" id="editNome" name="nome" required>
+                                                            <label for="editValor">Valor:</label>
+                                                            <input type="number" class="form-control" id="editValor" name="valor" required>
                                                         </div>
-
-                                                        <div class="form-group">
-                                                            <label for="meio-pagamento-plataforma">Plataforma</label>
-                                                            <select class="form-control" id="editPlataforma" name="plataforma">
-                                                                <option selected disabled>Selecione a plataforma desejada ...</option>
-                                                                <?php foreach ($gateways as $gateway): ?>
-                                                                    <option value="<?= $gateway['id'] ?>"><?= $gateway['plataforma'] . ' | ' . $gateway['endPoint'] ?></option>
-                                                                <?php endforeach; ?>
-                                                            </select>
-                                                        </div>
-
                                                         <input type="hidden" name="nomeClasse" value="RegraPagamentoController">
                                                         <input type="hidden" name="metodo" value="editarPorId">
                                                         <input type="hidden" id="editId" name="id">

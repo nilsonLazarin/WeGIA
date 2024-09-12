@@ -82,4 +82,25 @@ class RegraPagamentoDAO{
             throw new Exception();
         }
     }
+
+    /**
+     * Edita o meio de pagamento que possuí id equivalente no 
+     */
+    public function editarPorId($id, $valor){
+        //definir consulta sql
+        $sqlEditarPorId = "UPDATE contribuicao_conjuntoRegras SET valor =:valor WHERE id=:id";
+        //utilizar prepared statements
+        $stmt = $this->pdo->prepare($sqlEditarPorId);
+        $stmt->bindParam(':valor', $valor);
+        $stmt->bindParam(':id', $id);
+        //executar
+        $stmt->execute();
+
+        //verificar se algum elemento foi de fato alterado
+        $meioPagamentoExcluido = $stmt->rowCount();
+
+        if($meioPagamentoExcluido < 1){
+            throw new Exception();
+        }
+    }
 }

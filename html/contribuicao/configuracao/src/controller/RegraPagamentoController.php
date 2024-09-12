@@ -54,6 +54,9 @@ class RegraPagamentoController{
         }
     }
 
+    /**
+     * Realiza os procedimentos necessários para remover uma regra de pagamento do sistema.
+     */
     public function excluirPorId(){
         $regraPagamentoId = trim($_POST['regra-pagamento-id']);
 
@@ -69,6 +72,25 @@ class RegraPagamentoController{
             header("Location: ../../regra_pagamento.php?msg=excluir-sucesso#mensagem-tabela");
         }catch(Exception $e){
             header("Location: ../../regra_pagamento.php?msg=excluir-falha#mensagem-tabela");
+        }
+    }
+
+    /**
+     * Realiza os procedimentos necessários para alterar as informações de uma regra de pagamento do sistema
+     */
+    public function editarPorId(){
+        $valor = $_POST['valor'];
+        $regraPagamentoId = $_POST['id'];
+
+        try{
+            $regraPagamento = new RegraPagamento();
+            $regraPagamento
+                ->setId($regraPagamentoId)
+                ->setValor($valor)
+                ->editar();
+            header("Location: ../../regra_pagamento.php?msg=editar-sucesso#mensagem-tabela");
+        }catch(Exception $e){
+            header("Location: ../../regra_pagamento.php?msg=editar-falha#mensagem-tabela");
         }
     }
 }
