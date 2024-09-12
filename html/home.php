@@ -723,7 +723,7 @@
 								<h4>Meio de pagamento</h4>
 							</div>
 						</a>
-						<a href="../html/contribuicao/php/regras_pagamento.php">
+						<a href="../html/contribuicao/configuracao/regra_pagamento.php">
 							<div class="col-lg-2 col-md-8 i" >
 								<i class="fa-solid fa-circle-exclamation"></i>
 								<h4>Regras de pagamento</h4>

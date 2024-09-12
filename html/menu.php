@@ -424,7 +424,7 @@
 								</a>
 							</li>
 							<li >
-								<a href="<?= WWW ?>html/contribuicao/php/regras_pagamento.php">
+								<a href="<?= WWW ?>html/contribuicao/configuracao/regra_pagamento.php">
 									<i class="fa-solid fa-circle-exclamation"></i>
 									Regras de pagamento
 								</a>
