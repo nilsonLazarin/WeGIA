@@ -405,9 +405,9 @@
 					</li>
 
 					<!--contribuiçao-->
-					<li class="nav-parent nav-active visivel">
+					<li class="nav-parent nav-active" id="7">
 						<a>
-							<i class="fa-solid fa-building" aria-hidden="true"></i>
+							<i class="fa-solid fa-hand-holding-heart" aria-hidden="true"></i>
 							<span>Contribuição</span>
 						</a>
 						<ul class="nav nav-children">

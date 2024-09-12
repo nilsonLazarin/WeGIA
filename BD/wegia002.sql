@@ -107,6 +107,7 @@ INSERT INTO `recurso` (`id_recurso`, `descricao`) VALUES
 ('51', 'Criar ficha médica'),
 ('52', 'Ficha do paciente'),
 ('6', 'Módulo Pet'),
+('7', 'Módulo Contribuição'),
 ('61', 'Cadastrar Pet'),
 ('62', 'Saúde Pet'),
 ('9', 'Configurações'),
@@ -119,7 +120,8 @@ INSERT INTO `modulos_visiveis` (`id_recurso`, `visivel`) VALUES
 (3, 1),
 (4, 1),
 (5, 1),
-(6, 1);
+(6, 1),
+(7, 1),
 
 INSERT INTO `permissao` (`id_cargo`, `id_acao`, `id_recurso`) VALUES
 (1, 7, 1),

@@ -282,7 +282,7 @@
 						</div>
 					</a>
 
-					<a id="home7" class="visivel" href="#" >
+					<a id="home7" href="#" >
 					<div class="col-lg-2 col-md-8 i category-item" data-toggle="collapse" href="#contribuicao">
 							<i class="fa-solid fa-hand-holding-heart"></i>
 							<h4>Contribuição</h4>
