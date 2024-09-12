@@ -89,7 +89,6 @@
 
         public function nomeAdotante($rg){
             $pdo = Conexao::connect();
-
             $pd = $pdo->prepare("SELECT nome, sobrenome FROM pessoa WHERE registro_geral = :rg");
             $pd->bindValue(":rg", $rg);
             $pd->execute();
