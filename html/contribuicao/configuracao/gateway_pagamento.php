@@ -301,6 +301,7 @@ $gateways = $gatewayPagamentoController->buscaTodos();
             </section>
         </div>
     </section>
+    <script src="./assets/js/configuracoesGerais.js"></script>
     <script src="./assets/js/gatewayPagamento.js"></script>
     <div align="right">
         <iframe src="https://www.wegia.org/software/footer/saude.html" width="200" height="60" style="border:none;"></iframe>

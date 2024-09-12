@@ -308,6 +308,7 @@ $meiosPagamento = $meioPagamentoController->buscaTodos();
             </section>
         </div>
     </section>
+    <script src="./assets/js/configuracoesGerais.js"></script>
     <script src="./assets/js/meioPagamento.js"></script>
 
     <div align="right">

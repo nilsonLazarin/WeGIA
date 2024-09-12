@@ -320,6 +320,7 @@ $conjuntoRegrasPagamento = $regraPagamentoController->buscaConjuntoRegrasPagamen
             </section>
         </div>
     </section>
+    <script src="./assets/js/configuracoesGerais.js"></script>
     <script src="./assets/js/regraPagamento.js"></script>
 
     <div align="right">
