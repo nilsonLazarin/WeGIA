@@ -14,8 +14,8 @@
 		require_once($config_path);
 	}
 	$conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-	$id_pessoa = $_SESSION['id_pessoa'];
-	$resultado = mysqli_query($conexao, "SELECT * FROM funcionario WHERE id_pessoa=$id_pessoa");
+	$id_pessoa = mysqli_real_escape_string($conexao, $_SESSION['id_pessoa']);
+	$resultado = mysqli_query($conexao, "SELECT * FROM funcionario WHERE id_pessoa='$id_pessoa'");
 	if(!is_null($resultado)){
 		$id_cargo = mysqli_fetch_array($resultado);
 		if(!is_null($id_cargo)){
