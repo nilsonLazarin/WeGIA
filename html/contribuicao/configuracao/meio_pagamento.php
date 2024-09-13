@@ -101,7 +101,7 @@ $meiosPagamento = $meioPagamentoController->buscaTodos();
     <script src="../../../assets/javascripts/theme.custom.js"></script>
     <script src="../../../assets/javascripts/theme.init.js"></script>
 
-    <link rel="stylesheet" href="./assets/css/gateway-pagamento.css">
+    <link rel="stylesheet" href="./assets/css/contribuicao-configuracao.css">
 
 </head>
 
@@ -308,6 +308,7 @@ $meiosPagamento = $meioPagamentoController->buscaTodos();
             </section>
         </div>
     </section>
+    <script src="./assets/js/configuracoesGerais.js"></script>
     <script src="./assets/js/meioPagamento.js"></script>
 
     <div align="right">

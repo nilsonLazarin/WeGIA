@@ -405,9 +405,9 @@
 					</li>
 
 					<!--contribuiçao-->
-					<li class="nav-parent nav-active visivel">
+					<li class="nav-parent nav-active" id="7">
 						<a>
-							<i class="fa-solid fa-building" aria-hidden="true"></i>
+							<i class="fa-solid fa-hand-holding-heart" aria-hidden="true"></i>
 							<span>Contribuição</span>
 						</a>
 						<ul class="nav nav-children">
@@ -424,7 +424,7 @@
 								</a>
 							</li>
 							<li >
-								<a href="<?= WWW ?>html/contribuicao/php/regras_pagamento.php">
+								<a href="<?= WWW ?>html/contribuicao/configuracao/regra_pagamento.php">
 									<i class="fa-solid fa-circle-exclamation"></i>
 									Regras de pagamento
 								</a>
