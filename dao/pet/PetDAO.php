@@ -1,14 +1,20 @@
 <?php
 
-$Conexao_path = "dao/Conexao.php";
-if(file_exists($Conexao_path)){
+define('BASE_DIR', __DIR__);
+$Conexao_path = BASE_DIR . "/dao/Conexao.php";
+$max_levels = 10; // Limite de níveis para subir
+$level = 0;
+
+while (!file_exists($Conexao_path) && $level < $max_levels) {
+    $Conexao_path = dirname($Conexao_path) . "/../dao/Conexao.php";
+    $level++;
+}
+
+if (file_exists($Conexao_path)) {
     require_once($Conexao_path);
-}else{
-    while(true){
-        $Conexao_path = "../" . $Conexao_path;
-        if(file_exists($Conexao_path)) break;
-    }
-    require_once($Conexao_path);
+} else {
+    // Trate o erro de forma adequada
+    die("Arquivo de conexão não encontrado.");
 }
 
 class PetDAO{
@@ -96,9 +102,7 @@ class PetDAO{
         }
         return json_encode($pets);
     }
-    //===========================================================================================
-    // funcao de alterar foto
-    //===========================================================================================
+
     public function alterarFotoPet($arkivo, $nome, $extensao, $id_foto, $id_pet){
         $pdo = Conexao::connect();
         $pd = $pdo->prepare("SELECT id_pet_foto FROM pet WHERE id_pet =:id_pet");
