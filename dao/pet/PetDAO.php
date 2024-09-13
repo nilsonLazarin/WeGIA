@@ -13,7 +13,6 @@ while (!file_exists($Conexao_path) && $level < $max_levels) {
 if (file_exists($Conexao_path)) {
     require_once($Conexao_path);
 } else {
-    // Trate o erro de forma adequada
     die("Arquivo de conexão não encontrado.");
 }
 
