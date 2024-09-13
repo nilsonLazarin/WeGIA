@@ -10,7 +10,10 @@ require_once '../permissao/permissao.php';
 permissao($_SESSION['id_pessoa'], 11, 7);
 
 require_once "../../dao/Conexao.php";
-$sin_vit = $_POST["id_sinais_vitais"];
+if (isset($_POST["id_sinais_vitais"])) {
+    // A variável 'id_sinais_vitais' está presente no POST
+    $sin_vit = $_POST["id_sinais_vitais"];
+}
 
 try {
     $pdo = Conexao::connect();
@@ -29,6 +32,4 @@ try {
     }
 } catch (PDOException $e) {
     echo json_encode(array("erro" => "Ocorreu um erro ao excluir os sinais vitais: ". $e));
-} finally {
-    $pdo = null;
 }

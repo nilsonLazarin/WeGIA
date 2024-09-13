@@ -21,8 +21,10 @@ if (!isset($_SESSION["usuario"])){
     $id_fichamedica = $_POST['id_fichamedica'];
     try {
         $pdo = Conexao::connect();
-        $prep = $pdo->prepare("UPDATE saude_medicacao SET saude_medicacao_status_idsaude_medicacao_status = $saude_medicacao_status_idsaude_medicacao_status WHERE id_medicacao = '$id_medicacao'");
-
+        $prep = $pdo->prepare("UPDATE saude_medicacao SET saude_medicacao_status_idsaude_medicacao_status = :status WHERE id_medicacao = :id_medicacao");
+        $prep->bindParam(':status', $saude_medicacao_status_idsaude_medicacao_status, PDO::PARAM_INT);
+        $prep->bindParam(':id_medicacao', $id_medicacao, PDO::PARAM_INT);
+        $prep->execute();
         // UPDATE saude_enfermidades SET status = 0 WHERE id_CID = ".$this->getid_CID()." ;"
 
 
