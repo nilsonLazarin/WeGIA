@@ -121,7 +121,7 @@ INSERT INTO `modulos_visiveis` (`id_recurso`, `visivel`) VALUES
 (4, 1),
 (5, 1),
 (6, 1),
-(7, 1),
+(7, 1);
 
 INSERT INTO `permissao` (`id_cargo`, `id_acao`, `id_recurso`) VALUES
 (1, 7, 1),
