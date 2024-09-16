@@ -17,6 +17,7 @@ require_once ROOT."/Functions/funcoes.php";
 
 class AnexoDAO
 {
+	//Fução para listar os memorandos
 	public function listarTodos($id_memorando)
 	{
 		try{
@@ -39,6 +40,7 @@ class AnexoDAO
 		return json_encode($Anexos);
 	}
 
+	//Função para listar anexos
 	public function listarAnexo($id_anexo)
 	{
 		try
@@ -63,6 +65,7 @@ class AnexoDAO
 		return $Anexo;
 	}
 
+	//Função para incluir um anexo
 	public function incluir($anexo)
 	{
 		try

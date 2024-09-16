@@ -282,6 +282,13 @@
 						</div>
 					</a>
 
+					<a id="home7" href="#" >
+					<div class="col-lg-2 col-md-8 i category-item" data-toggle="collapse" href="#contribuicao">
+							<i class="fa-solid fa-hand-holding-heart"></i>
+							<h4>Contribuição</h4>
+						</div>
+					</a>
+
 					<a class="visivel" href="#">
 						<div class="col-lg-2 col-md-8 i category-item" data-toggle="collapse" href="#configuracao">
 							<i  class="fa fa-cogs"></i>
@@ -700,6 +707,31 @@
 				</div>		
 
 				<!--fim da parte interna de #saude-->
+
+				<!--parte interna de #contribuicao-->
+				<div class="row">
+					<div  id="contribuicao" class="collapse">
+						<a href="../html/contribuicao/configuracao/gateway_pagamento.php">
+							<div class="col-lg-2 col-md-8 i" >
+								<i class="fa-solid fa-building"></i>
+								<h4>Gateway de pagamentos</h4>
+							</div>
+						</a>
+						<a href="../html/contribuicao/configuracao/meio_pagamento.php">
+							<div class="col-lg-2 col-md-8 i" >
+								<i class="fa-regular fa-credit-card"></i>
+								<h4>Meio de pagamento</h4>
+							</div>
+						</a>
+						<a href="../html/contribuicao/configuracao/regra_pagamento.php">
+							<div class="col-lg-2 col-md-8 i" >
+								<i class="fa-solid fa-circle-exclamation"></i>
+								<h4>Regras de pagamento</h4>
+							</div>
+						</a>
+					</div>
+				</div>
+				<!--fim da parte interna de #contribuicao-->
 
 				<!--parte interna de #configuracao-->
 				<div class="row">

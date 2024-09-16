@@ -1,5 +1,6 @@
 <?php
 
+define('BASE_DIR', __DIR__);
 $Conexao_path = "dao/Conexao.php";
 if(file_exists($Conexao_path)){
     require_once($Conexao_path);
@@ -96,9 +97,7 @@ class PetDAO{
         }
         return json_encode($pets);
     }
-    //===========================================================================================
-    // funcao de alterar foto
-    //===========================================================================================
+
     public function alterarFotoPet($arkivo, $nome, $extensao, $id_foto, $id_pet){
         $pdo = Conexao::connect();
         $pd = $pdo->prepare("SELECT id_pet_foto FROM pet WHERE id_pet =:id_pet");

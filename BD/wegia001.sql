@@ -807,20 +807,13 @@ CREATE TABLE `wegia`.`contribuicao_meioPagamento` (
 -- Table `wegia`.`contribuicao_conjuntoRegras`
 -- -----------------------------------------------------
 CREATE TABLE `wegia`.`contribuicao_conjuntoRegras` (
-    `id_meio` INT NOT NULL,
-    `id_regra` INT NOT NULL,
-    `value` VARCHAR(45) NULL,
-    PRIMARY KEY (`id_meio`, `id_regra`),
-    CONSTRAINT `fk_contribuicao_meioPagamento_meio`
-        FOREIGN KEY (`id_meio`)
-        REFERENCES `wegia`.`contribuicao_meioPagamento` (`id`)
-        ON DELETE NO ACTION
-        ON UPDATE NO ACTION,
-    CONSTRAINT `fk_contribuicao_regras_regra`
-        FOREIGN KEY (`id_regra`)
-        REFERENCES `wegia`.`contribuicao_regras` (`id`)
-        ON DELETE NO ACTION
-        ON UPDATE NO ACTION
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `id_meioPagamento` INT,
+    `id_regra` INT,
+    `valor` DECIMAL(10, 2),
+    CONSTRAINT `fk_contribuicao_meioPagamento` FOREIGN KEY (`id_meioPagamento`) REFERENCES `wegia`.`contribuicao_meioPagamento`(`id`),
+    CONSTRAINT `fk_contribuicao_regras` FOREIGN KEY (`id_regra`) REFERENCES `wegia`.`contribuicao_regras`(`id`),
+    CONSTRAINT `unico_meioPagamento_regra` UNIQUE (`id_meioPagamento`, `id_regra`)
 ) ENGINE = InnoDB;
 
 

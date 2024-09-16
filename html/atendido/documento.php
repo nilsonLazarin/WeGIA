@@ -11,21 +11,45 @@ class DocumentoAtendido {
 
     // Constructor
 
+    // function __construct($id)
+    // {
+    //     $id = (int) $id;
+    //     $this->setid_fundocs($id);
+    //     try {
+    //         $pdo = Conexao::connect();
+    //         $query = $pdo->query("SELECT arquivo_extensao, arquivo_nome, arquivo FROM atendido_documentacao WHERE idatendido_documentacao = $id ;");
+    //         $query = $query->fetch(PDO::FETCH_ASSOC);
+    //         $this->setDocumento(base64_decode(gzuncompress($query["arquivo"])));
+    //         $this->setExtensao($query["arquivo_extensao"]);
+    //         $this->setNome($query["arquivo_nome"]);
+    //     } catch (PDOException $e) {
+    //         $this->setException("Houve um erro ao consultar o documento no banco de dados: $e");
+    //     }
+    // }
+
     function __construct($id)
     {
         $id = (int) $id;
         $this->setid_fundocs($id);
         try {
             $pdo = Conexao::connect();
-            $query = $pdo->query("SELECT arquivo_extensao, arquivo_nome, arquivo FROM atendido_documentacao WHERE idatendido_documentacao = $id ;");
-            $query = $query->fetch(PDO::FETCH_ASSOC);
-            $this->setDocumento(base64_decode(gzuncompress($query["arquivo"])));
-            $this->setExtensao($query["arquivo_extensao"]);
-            $this->setNome($query["arquivo_nome"]);
+            $prep = $pdo->prepare("SELECT arquivo_extensao, arquivo_nome, arquivo FROM atendido_documentacao WHERE idatendido_documentacao = :id;");
+            $prep->bindValue(':id', $id, PDO::PARAM_INT);
+            $prep->execute();
+            $query = $prep->fetch(PDO::FETCH_ASSOC);
+            
+            if ($query) {
+                $this->setDocumento(base64_decode(gzuncompress($query["arquivo"])));
+                $this->setExtensao($query["arquivo_extensao"]);
+                $this->setNome($query["arquivo_nome"]);
+            } else {
+                $this->setException("Documento não encontrado.");
+            }
         } catch (PDOException $e) {
-            $this->setException("Houve um erro ao consultar o documento no banco de dados: $e");
+            $this->setException("Houve um erro ao consultar o documento no banco de dados: " . $e->getMessage());
         }
     }
+
 
 
     // Getters & Setters
@@ -93,14 +117,30 @@ class DocumentoAtendido {
 
     // Metodos
 
+    // function delete(){
+    //     try {
+    //         $pdo = Conexao::connect();
+    //         $query = $pdo->query("DELETE FROM atendido_documentacao WHERE idatendido_documentacao = ".$this->getid_fundocs()." ;");
+    //         $query = $query->fetch(PDO::FETCH_ASSOC);
+    //     } catch (PDOException $e) {
+    //         $this->setException("Houve um erro ao remover o documento do banco de dados: $e");
+    //     }
+    // }
+
     function delete(){
         try {
             $pdo = Conexao::connect();
-            $query = $pdo->query("DELETE FROM atendido_documentacao WHERE idatendido_documentacao = ".$this->getid_fundocs()." ;");
-            $query = $query->fetch(PDO::FETCH_ASSOC);
+            $prep = $pdo->prepare("DELETE FROM atendido_documentacao WHERE idatendido_documentacao = :id;");
+            $prep->bindValue(':id', $this->getid_fundocs(), PDO::PARAM_INT);
+            $prep->execute();
+            
+            if ($prep->rowCount() > 0) {
+                // Deletado com sucesso
+            } else {
+                $this->setException("Documento não encontrado para exclusão.");
+            }
         } catch (PDOException $e) {
-            $this->setException("Houve um erro ao remover o documento do banco de dados: $e");
+            $this->setException("Houve um erro ao remover o documento do banco de dados: " . $e->getMessage());
         }
-    }
-
+    }    
 }

@@ -19,32 +19,72 @@
 		}
 		require_once($config_path);
 	}
-	$conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+
+	// Conecta ao banco de dados
+	$conexao = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+	
+	// Verifica se a conexão foi bem-sucedida
+	if ($conexao->connect_error) {
+		die("Falha na conexão: " . $conexao->connect_error);
+	}
+	
+	// Inicia a sessão
+	session_start();
+	
+	// Obtém o ID da pessoa da sessão
 	$id_pessoa = $_SESSION['id_pessoa'];
-	$resultado = mysqli_query($conexao, "SELECT * FROM funcionario WHERE id_pessoa=$id_pessoa");
-	if(!is_null($resultado)){
-		$id_cargo = mysqli_fetch_array($resultado);
-		if(!is_null($id_cargo)){
-			$id_cargo = $id_cargo['id_cargo'];
-		}
-		$resultado = mysqli_query($conexao, "SELECT * FROM permissao p JOIN acao a ON(p.id_acao=a.id_acao) JOIN recurso r ON(p.id_recurso=r.id_recurso) WHERE id_cargo=$id_cargo AND a.descricao = 'LER, GRAVAR E EXECUTAR' AND r.descricao='Módulo Saúde'");
-		if(!is_bool($resultado) and mysqli_num_rows($resultado)){
-			$permissao = mysqli_fetch_array($resultado);
-			if($permissao['id_acao'] < 5){
-        $msg = "Você não tem as permissões necessárias para essa página.";
-        header("Location: ../home.php?msg_c=$msg");
+	
+	// Prepara e executa a consulta para obter o id_cargo
+	$stmt = $conexao->prepare("SELECT id_cargo FROM funcionario WHERE id_pessoa = ?");
+	$stmt->bind_param("i", $id_pessoa);
+	$stmt->execute();
+	$resultado = $stmt->get_result();
+	
+	// Verifica se o resultado é válido
+	if ($resultado && $row = $resultado->fetch_assoc()) {
+		$id_cargo = $row['id_cargo'];
+	
+		// Prepara e executa a consulta para verificar permissões
+		$stmt = $conexao->prepare("
+			SELECT p.id_acao 
+			FROM permissao p 
+			JOIN acao a ON p.id_acao = a.id_acao 
+			JOIN recurso r ON p.id_recurso = r.id_recurso 
+			WHERE p.id_cargo = ? 
+			AND a.descricao = 'LER, GRAVAR E EXECUTAR' 
+			AND r.descricao = 'Módulo Saúde'
+		");
+		$stmt->bind_param("i", $id_cargo);
+		$stmt->execute();
+		$resultado = $stmt->get_result();
+	
+		if ($resultado && $row = $resultado->fetch_assoc()) {
+			// Verifica o nível de permissão
+			if ($row['id_acao'] < 5) {
+				$msg = "Você não tem as permissões necessárias para essa página.";
+				header("Location: ../home.php?msg_c=" . urlencode($msg));
+				exit;
 			}
-			$permissao = $permissao['id_acao'];
-		}else{
-        	$permissao = 1;
-          $msg = "Você não tem as permissões necessárias para essa página.";
-          header("Location: ../home.php?msg_c=$msg");
-		}	
-	}else{
+			$permissao = $row['id_acao'];
+		} else {
+			// Permissão não encontrada
+			$permissao = 1;
+			$msg = "Você não tem as permissões necessárias para essa página.";
+			header("Location: ../home.php?msg_c=" . urlencode($msg));
+			exit;
+		}
+	} else {
+		// ID da pessoa não encontrado
 		$permissao = 1;
 		$msg = "Você não tem as permissões necessárias para essa página.";
-		header("Location: ../../home.php?msg_c=$msg");
-	}	
+		header("Location: ../home.php?msg_c=" . urlencode($msg));
+		exit;
+	}
+	
+	// Fecha a declaração e a conexão
+	$stmt->close();
+	$conexao->close();
+	
 
 	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
 	require_once "../personalizacao_display.php";

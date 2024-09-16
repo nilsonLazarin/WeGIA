@@ -1006,32 +1006,38 @@
         }
       } 
      
-      function addTipoExame()
-      {
-        url = '../../dao/pet/adicionar_tipo_exame.php';
-        var tipo_exame = window.prompt("Cadastre um novo tipo de exame:");
-        if (!tipo_exame) 
-        {
-          return
-        }
-        tipo_exame = tipo_exame.trim();
-        if (tipo_exame == '') 
-        {
-          return
-        }
-        data = 'tipo_exame=' + tipo_exame;
-        $.ajax(
-        {
-          type: "POST",
-          url: url,
-          data: data,
-          success: function(response) 
-          {
-            gerarTipoExamePet(response);
-          },
-          dataType: 'text'
-        })
-      }
+  async function addTipoExame() {
+  const url = '../../dao/pet/adicionar_tipo_exame.php';
+  let tipoExame = window.prompt("Cadastre um novo tipo de exame:");
+  
+  if (!tipoExame) {
+    return;
+  }
+  
+  tipoExame = tipoExame.trim();
+  if (tipoExame === '') {
+    return;
+  }
+
+  const data = new URLSearchParams({ tipo_exame: tipoExame });
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      body: data,
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    });
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+
+    const responseText = await response.text();
+    gerarTipoExamePet(responseText);
+  } catch (error) {
+    console.error('Error adding tipo exame:', error);
+  }
+}
 
       function gerarTipoExamePet(response)
       {

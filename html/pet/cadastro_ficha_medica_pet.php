@@ -24,32 +24,71 @@ if(file_exists($config_path)){
 require_once "../../dao/Conexao.php";
 $pdo = Conexao::connect();
 
+
+// Database connection
 $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+
+// Check connection
+if (!$conexao) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+// Start the session
+session_start();
+
+// Get user ID from session
 $id_pessoa = $_SESSION['id_pessoa'];
-$resultado = mysqli_query($conexao, "SELECT * FROM funcionario WHERE id_pessoa=$id_pessoa");
-if(!is_null($resultado)){
-    $id_cargo = mysqli_fetch_array($resultado);
-    if(!is_null($id_cargo)){
-    $id_cargo = $id_cargo['id_cargo'];
-    }
-    $resultado = mysqli_query($conexao, "SELECT * FROM permissao p JOIN acao a ON(p.id_acao=a.id_acao) JOIN recurso r ON(p.id_recurso=r.id_recurso) WHERE id_cargo=$id_cargo AND a.descricao = 'LER, GRAVAR E EXECUTAR' AND r.descricao='Módulo Saúde'");
-    if(!is_bool($resultado) and mysqli_num_rows($resultado)){
-    $permissao = mysqli_fetch_array($resultado);
-    if($permissao['id_acao'] < 7){
-    $msg = "Você não tem as permissões necessárias para essa página.";
-    header("Location: ../home.php?msg_c=$msg");
-    }
-    $permissao = $permissao['id_acao'];
-    }else{
+
+// Prepare and execute the first query to get id_cargo
+$stmt = $conexao->prepare("SELECT id_cargo FROM funcionario WHERE id_pessoa = ?");
+$stmt->bind_param("i", $id_pessoa);
+$stmt->execute();
+$resultado = $stmt->get_result();
+
+// Check if we have a valid result
+if ($resultado && $row = $resultado->fetch_assoc()) {
+    $id_cargo = $row['id_cargo'];
+
+    // Prepare and execute the second query to check permissions
+    $stmt = $conexao->prepare(
+        "SELECT p.id_acao FROM permissao p 
+        JOIN acao a ON p.id_acao = a.id_acao 
+        JOIN recurso r ON p.id_recurso = r.id_recurso 
+        WHERE p.id_cargo = ? 
+        AND a.descricao = 'LER, GRAVAR E EXECUTAR' 
+        AND r.descricao = 'Módulo Saúde'"
+    );
+    $stmt->bind_param("i", $id_cargo);
+    $stmt->execute();
+    $resultado = $stmt->get_result();
+
+    if ($resultado && $row = $resultado->fetch_assoc()) {
+        // Check the permission level
+        if ($row['id_acao'] < 7) {
+            $msg = "Você não tem as permissões necessárias para essa página.";
+            header("Location: ../home.php?msg_c=" . urlencode($msg));
+            exit;
+        }
+        $permissao = $row['id_acao'];
+    } else {
+        // No valid permission found
         $permissao = 1;
         $msg = "Você não tem as permissões necessárias para essa página.";
-        header("Location: ../home.php?msg_c=$msg");
-    }	
-}else{
+        header("Location: ../home.php?msg_c=" . urlencode($msg));
+        exit;
+    }
+} else {
+    // No valid cargo found
     $permissao = 1;
-$msg = "Você não tem as permissões necessárias para essa página.";
-header("Location: ../home.php?msg_c=$msg");
-}	
+    $msg = "Você não tem as permissões necessárias para essa página.";
+    header("Location: ../home.php?msg_c=" . urlencode($msg));
+    exit;
+}
+
+// Close statement and connection
+$stmt->close();
+mysqli_close($conexao);
+
       
 
 

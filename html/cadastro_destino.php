@@ -99,28 +99,28 @@ require_once "personalizacao_display.php";
 		}
 
 		function FormataCnpj(campo, teclapres) {
-			var tecla = teclapres.keyCode;
-			var vr = new String(campo.value);
-			vr = vr.replace(".", "");
-			vr = vr.replace("/", "");
-			vr = vr.replace("-", "");
-			tam = vr.length + 1;
-			if (tecla != 14) {
-				if (tam == 3)
-					campo.value = vr.substr(0, 2) + '.';
-				if (tam == 6)
-					campo.value = vr.substr(0, 2) + '.' + vr.substr(2, 5) + '.';
-				if (tam == 10)
-					campo.value = vr.substr(0, 2) + '.' + vr.substr(2, 3) + '.' + vr.substr(6, 3) + '/';
-				if (tam == 15)
-					campo.value = vr.substr(0, 2) + '.' + vr.substr(2, 3) + '.' + vr.substr(6, 3) + '/' + vr.substr(9, 4) + '-' + vr.substr(13, 2);
-			}
+var tecla = teclapres.keyCode;
+var vr = campo.value.replace(/\D/g, ''); // Remove todos os caracteres não numéricos
+var tam = vr.length;
+
+if (tecla != 8) { // Ignora o backspace
+    if (tam <= 2) {
+        campo.value = vr; // Ex: 12
+    } else if (tam <= 5) {
+        campo.value = vr.substr(0, 2) + '.' + vr.substr(2); // Ex: 12.345
+    } else if (tam <= 8) {
+        campo.value = vr.substr(0, 2) + '.' + vr.substr(2, 3) + '.' + vr.substr(5); // Ex: 12.345.678
+    } else if (tam <= 12) {
+        campo.value = vr.substr(0, 2) + '.' + vr.substr(2, 3) + '.' + vr.substr(5, 3) + '/' + vr.substr(8); // Ex: 12.345.678/9012
+    } else {
+        campo.value = vr.substr(0, 2) + '.' + vr.substr(2, 3) + '.' + vr.substr(5, 3) + '/' + vr.substr(8, 4) + '-' + vr.substr(12, 2); // Ex: 12.345.678/9012-34
+    }
+}
 		}
 
 		function validarCNPJ(cnpj) {
 
 			cnpj = cnpj.replace(/[^\d]+/g, '');
-
 			if (cnpj == '') return false;
 			if (cnpj.length != 14)
 				return false;
@@ -178,6 +178,20 @@ require_once "personalizacao_display.php";
 				document.getElementById("enviar").disabled = false;
 			}
 		}
+		function permitirSomenteCNPJ(e) {
+			var tecla = e.key;
+
+		// Permite números (0-9), "/", "-", ".", e teclas de controle como Backspace, Delete, Tab, etc.
+			var regex = /^[0-9\/\.\-]$/;
+
+		// Se a tecla não for permitida, cancela o evento
+			if (!regex.test(tecla) && !['Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete'].includes(tecla)) {
+   			 e.preventDefault();
+	
+			}
+}
+
+
 	</script>
 	<script type="text/javascript">
 		function validar() {
@@ -250,7 +264,7 @@ require_once "personalizacao_display.php";
 											<div class="form-group">
 												<label class="col-md-3 control-label" for="profileCompany">Número do CNPJ</label>
 												<div class="col-md-6">
-													<input type="text" name="cnpj" id="cnpj" onkeyup="FormataCnpj(this,event)" onblur="calidarCNPJ(this.value)" maxlength="18" class="form-control input-md" ng-model="cadastro.cnpj" placeholder="Ex: 77.777.777/7777-77">
+												<input type="text" name="cnpj" id="cnpj" onkeyup="FormataCnpj(this,event)" onkeydown="permitirSomenteCNPJ(event)" onblur="validarCNPJ(this.value)" maxlength="18" class="form-control input-md" ng-model="cadastro.cnpj" placeholder="Ex: 77.777.777/7777-77">
 												</div>
 											</div>
 
@@ -286,7 +300,7 @@ require_once "personalizacao_display.php";
 												<div class="col-md-9 col-md-offset-3">
 													<button id="enviar" class="btn btn-primary" type="submit">Enviar</button>
 													<input type="reset" class="btn btn-default">
-													<a href="cadastro_entrada.php" color: white; text-decoration: none;>
+													<a href="cadastro_saida.php" color: white; text-decoration: none;>
 														<button type="button" class="btn btn-info">voltar</button>
 													</a>
 													<a href="listar_destino.php" style="color: white; text-decoration:none;"><button class="btn btn-success" type="button">Listar destinos</button></a>

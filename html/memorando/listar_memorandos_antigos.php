@@ -11,19 +11,25 @@ if(file_exists($config_path)){
     require_once($config_path);
 }
 
+//Incia a sessão e redireciona o usuário para a página inicial
 session_start();
 if(!isset($_SESSION['usuario'])){
 	header ("Location: ".WWW."index.php");
 }
 
+//Faz a conexão com banco de dados
 $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 $id_pessoa = $_SESSION['id_pessoa'];
+
+//Lista o funcionario
 $resultado = mysqli_query($conexao, "SELECT * FROM funcionario WHERE id_pessoa=$id_pessoa");
 if(!is_null($resultado)){
 	$id_cargo = mysqli_fetch_array($resultado);
 	if(!is_null($id_cargo)){
 		$id_cargo = $id_cargo['id_cargo'];
 	}
+
+	//Lista as permissões
 	$resultado = mysqli_query($conexao, "SELECT * FROM permissao WHERE id_cargo=$id_cargo and id_recurso=3");
 	if(!is_bool($resultado) and mysqli_num_rows($resultado)){
 		$permissao = mysqli_fetch_array($resultado);
