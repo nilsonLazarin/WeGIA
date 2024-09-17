@@ -27,16 +27,17 @@ class GatewayPagamentoDAO{
     /**
      * Inseri um gateway de pagamento no banco de dados da aplicação
      */
-    public function cadastrar($nome, $endpoint, $token/*, $status*/){
+    public function cadastrar($nome, $endpoint, $token, $status){
         /*Lógica da aplicação */
         //definir consulta SQL
-        $sqlCadastrar = "INSERT INTO contribuicao_gatewayPagamento (plataforma, endpoint, token) 
-        VALUES (:plataforma, :endpoint, :token)";
+        $sqlCadastrar = "INSERT INTO contribuicao_gatewayPagamento (plataforma, endpoint, token, status) 
+        VALUES (:plataforma, :endpoint, :token, :status)";
         //utilizar prepared statements
         $stmt = $this->pdo->prepare($sqlCadastrar);
         $stmt->bindParam(':plataforma', $nome);
         $stmt->bindParam(':endpoint', $endpoint);
         $stmt->bindParam(':token', $token);
+        $stmt->bindParam(':status', $status);
         //executar
         $stmt->execute();
     }

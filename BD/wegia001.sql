@@ -774,6 +774,7 @@ CREATE TABLE `wegia`.`contribuicao_gatewayPagamento` (
     `plataforma` VARCHAR(50) NOT NULL,
     `endPoint` VARCHAR(255) NOT NULL,
     `token` VARCHAR(100) NOT NULL,
+    `status` BOOLEAN NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB;
 
