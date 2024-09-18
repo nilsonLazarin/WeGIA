@@ -79,4 +79,35 @@ class MeioPagamentoController{
             header("Location: ../../meio_pagamento.php?msg=editar-falha#mensagem-tabela");
         }
     }
+
+    public function alterarStatus()
+    {
+        $meioPagamentoId = $_POST['id'];
+        $status = trim($_POST['status']);
+
+        if (!$meioPagamentoId || empty($meioPagamentoId)) {
+            http_response_code(400);
+            echo json_encode(['Erro' => 'O id deve ser maior ou igual a 1.']);exit;
+        }
+
+        if (!$status || empty($status)) {
+            http_response_code(400);
+            echo json_encode(['Erro' => 'O status informado não é válido.']);exit;
+        }
+
+        if ($status === 'true') {
+            $status = 1;
+        } elseif ($status === 'false') {
+            $status = 0;
+        }
+
+        try {
+            $meioPagamentoDao = new MeioPagamentoDAO();
+            $meioPagamentoDao->alterarStatusPorId($status, $meioPagamentoId);
+            echo json_encode(['Sucesso']);
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['Erro'=>'Ocorreu um problema no servidor.']);exit;
+        }
+    }
 }

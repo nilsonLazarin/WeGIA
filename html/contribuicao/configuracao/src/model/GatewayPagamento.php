@@ -16,7 +16,6 @@ class GatewayPagamento{
         }else{
             $this->setStatus($status);
         }
-        //echo json_encode('Funcionou o Gateway Pagamento');
     }
 
     /**

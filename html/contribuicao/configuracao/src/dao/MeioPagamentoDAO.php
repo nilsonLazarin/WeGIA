@@ -15,7 +15,8 @@ if (file_exists($config_path)) {
 
 require_once ROOT . '/html/contribuicao/php/conexao.php';
 
-class MeioPagamentoDAO{
+class MeioPagamentoDAO
+{
     private $pdo;
 
     public function __construct()
@@ -27,15 +28,17 @@ class MeioPagamentoDAO{
     /**
      * Inseri um meio de pagamento no banco de dados da aplicação
      */
-    public function cadastrar($descricao, $gatewayId){
+    public function cadastrar($descricao, $gatewayId, $status)
+    {
         /*Lógica da aplicação */
         //definir consulta SQL
-        $sqlCadastrar = "INSERT INTO contribuicao_meioPagamento (meio, id_plataforma) 
-        VALUES (:descricao, :gatewayId)";
+        $sqlCadastrar = "INSERT INTO contribuicao_meioPagamento (meio, id_plataforma, status) 
+        VALUES (:descricao, :gatewayId, :status)";
         //utilizar prepared statements
         $stmt = $this->pdo->prepare($sqlCadastrar);
         $stmt->bindParam(':descricao', $descricao);
         $stmt->bindParam(':gatewayId', $gatewayId);
+        $stmt->bindParam(':status', $status);
         //executar
         $stmt->execute();
     }
@@ -43,9 +46,10 @@ class MeioPagamentoDAO{
     /**
      * Retorna todos os meios de pagamentos registrados no banco de dados da aplicação
      */
-    public function buscaTodos(){
+    public function buscaTodos()
+    {
         //definir consulta sql
-        $sqlBuscaTodos = "SELECT cmp.id, cmp.meio, cmp.id_plataforma, cgp.plataforma, cgp.endpoint 
+        $sqlBuscaTodos = "SELECT cmp.id, cmp.meio, cmp.id_plataforma, cmp.status, cgp.plataforma, cgp.endpoint 
         FROM contribuicao_meioPagamento cmp
         JOIN contribuicao_gatewayPagamento cgp ON (cgp.id=cmp.id_plataforma)";
         //executar
@@ -57,7 +61,8 @@ class MeioPagamentoDAO{
     /**
      * Remover o meio de pagamento que possuí id equivalente no banco de dados da aplicação
      */
-    public function excluirPorId($id){
+    public function excluirPorId($id)
+    {
         //definir consulta sql
         $sqlExcluirPorId = "DELETE FROM contribuicao_meioPagamento WHERE id=:id";
         //utilizar prepared statements
@@ -69,7 +74,7 @@ class MeioPagamentoDAO{
         //verificar se algum elemento foi de fato excluído
         $meioPagamentoExcluido = $stmt->rowCount();
 
-        if($meioPagamentoExcluido < 1){
+        if ($meioPagamentoExcluido < 1) {
             throw new Exception();
         }
     }
@@ -77,22 +82,42 @@ class MeioPagamentoDAO{
     /**
      * Edita o meio de pagamento que possuí id equivalente no banco de dados da aplicação
      */
-    public function editarPorId($id, $descricao, $gatewayId){
-         //definir consulta sql
-         $sqlEditarPorId = "UPDATE contribuicao_meioPagamento SET meio =:descricao, id_plataforma =:gatewayId WHERE id=:id";
-         //utilizar prepared statements
-         $stmt = $this->pdo->prepare($sqlEditarPorId);
-         $stmt->bindParam(':descricao', $descricao);
-         $stmt->bindParam(':gatewayId', $gatewayId);
-         $stmt->bindParam(':id', $id);
-         //executar
-         $stmt->execute();
- 
-         //verificar se algum elemento foi de fato alterado
-         $meioPagamentoExcluido = $stmt->rowCount();
- 
-         if($meioPagamentoExcluido < 1){
-             throw new Exception();
-         }
+    public function editarPorId($id, $descricao, $gatewayId)
+    {
+        //definir consulta sql
+        $sqlEditarPorId = "UPDATE contribuicao_meioPagamento SET meio =:descricao, id_plataforma =:gatewayId WHERE id=:id";
+        //utilizar prepared statements
+        $stmt = $this->pdo->prepare($sqlEditarPorId);
+        $stmt->bindParam(':descricao', $descricao);
+        $stmt->bindParam(':gatewayId', $gatewayId);
+        $stmt->bindParam(':id', $id);
+        //executar
+        $stmt->execute();
+
+        //verificar se algum elemento foi de fato alterado
+        $meioPagamentoExcluido = $stmt->rowCount();
+
+        if ($meioPagamentoExcluido < 1) {
+            throw new Exception();
+        }
+    }
+
+    public function alterarStatusPorId($status, $meioPagamentoId)
+    {
+        //definir consulta sql
+        $sqlAlterarStatusPorId = "UPDATE contribuicao_meioPagamento SET status =:status WHERE id=:meioPagamentoId";
+        //utilizar prepared statements
+        $stmt = $this->pdo->prepare($sqlAlterarStatusPorId);
+        $stmt->bindParam(':status', $status);
+        $stmt->bindParam(':meioPagamentoId', $meioPagamentoId);
+        //executar
+        $stmt->execute();
+
+        //verificar se algum elemento foi de fato alterado
+        $meioAlterado = $stmt->rowCount();
+
+        if ($meioAlterado < 1) {
+            throw new Exception();
+        }
     }
 }
