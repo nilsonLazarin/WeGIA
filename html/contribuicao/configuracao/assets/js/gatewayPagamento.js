@@ -25,49 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     toggles.forEach(toggle => {
         toggle.addEventListener('change', function (ev) {
-            const toggleId = ev.target.id; // ID do toggle clicado
-            const isChecked = ev.target.checked; // Verifica se está marcado ou não
-
-            // Usando expressão regular para extrair o número
-            const idNumber = toggleId.match(/\d+/)[0]; // Extrai o número após 'toggle'
-            // Montar os dados para enviar no POST
-
-            data = new URLSearchParams();
-            data.append('id', idNumber);
-            data.append('status', isChecked);
-            data.append('nomeClasse', 'GatewayPagamentoController');
-            data.append('metodo', 'alterarStatus');
-            /*const data = {
-                id: idNumber,
-                status: isChecked,
-                nomeClasse: 'GatewayPagamentoController',
-                metodo: 'alterarStatus'
-            };*/
-
-            // Enviar dados via fetch (POST)
-            fetch('./src/controller/control.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: data.toString() // Converte o objeto em uma string URL-encoded
-            })
-                .then(response => {
-                    if (response.ok) {
-                        return response.json(); // Se necessário, processa a resposta
-                    } else {
-                        return response.json().then(errData => {
-                            // Lança o erro com a mensagem extraída do backend
-                            throw new Error(errData.Erro || 'Erro desconhecido no servidor');
-                        });
-                    }
-                })
-                .then(result => {
-                    console.log('Resultado:', result); // Processa a resposta do servidor, se houver
-                })
-                .catch(error => {
-                    alert(error);
-                });
+            alterarStatus(ev, './src/controller/control.php', 'GatewayPagamentoController');
         });
     });
 
