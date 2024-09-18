@@ -96,4 +96,22 @@ class GatewayPagamentoDAO{
             throw new Exception();
         }
     }
+
+    public function alterarStatusPorId($status, $gatewayId){
+        //definir consulta sql
+        $sqlAlterarStatusPorId = "UPDATE contribuicao_gatewayPagamento SET status =:status WHERE id=:gatewayId";
+        //utilizar prepared statements
+        $stmt = $this->pdo->prepare($sqlAlterarStatusPorId);
+        $stmt->bindParam(':status', $status);
+        $stmt->bindParam(':gatewayId', $gatewayId);
+        //executar
+        $stmt->execute();
+
+        //verificar se algum elemento foi de fato alterado
+        $gatewayAlterado = $stmt->rowCount();
+
+        if($gatewayAlterado < 1){
+            throw new Exception();
+        }
+    }
 }
