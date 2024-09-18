@@ -795,6 +795,7 @@ CREATE TABLE `wegia`.`contribuicao_meioPagamento` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `meio` VARCHAR(45) NOT NULL,
     `id_plataforma` INT NOT NULL,
+    `status` BOOLEAN NOT NULL,
     PRIMARY KEY (`id`),
     UNIQUE INDEX `meio_UNIQUE` (`meio` ASC) VISIBLE,
     CONSTRAINT `fk_contribuicao_gatewayPagamento_plataforma`
