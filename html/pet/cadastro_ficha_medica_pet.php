@@ -6,9 +6,7 @@ error_reporting(E_ALL);
 extract($_REQUEST);
 session_start();
 
-if(!isset($_SESSION['usuario'])){
-    header ("Location: ../index.php");
-}
+
 
 $config_path = "config.php";
 if(file_exists($config_path)){
