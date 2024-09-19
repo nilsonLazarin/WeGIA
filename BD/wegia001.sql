@@ -813,6 +813,7 @@ CREATE TABLE `wegia`.`contribuicao_conjuntoRegras` (
     `id_meioPagamento` INT,
     `id_regra` INT,
     `valor` DECIMAL(10, 2),
+    `status` BOOLEAN NOT NULL,
     CONSTRAINT `fk_contribuicao_meioPagamento` FOREIGN KEY (`id_meioPagamento`) REFERENCES `wegia`.`contribuicao_meioPagamento`(`id`),
     CONSTRAINT `fk_contribuicao_regras` FOREIGN KEY (`id_regra`) REFERENCES `wegia`.`contribuicao_regras`(`id`),
     CONSTRAINT `unico_meioPagamento_regra` UNIQUE (`id_meioPagamento`, `id_regra`)
