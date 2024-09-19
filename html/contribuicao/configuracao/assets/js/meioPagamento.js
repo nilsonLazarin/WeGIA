@@ -24,15 +24,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
             $('#editModal').modal('show');
         });
+    });
 
-        //Checkbox de ativar/desativar um gateway
-        const toggles = document.querySelectorAll('.toggle-input');
+    //Checkbox de ativar/desativar um meio de pagamento
+    const toggles = document.querySelectorAll('.toggle-input');
 
-        toggles.forEach(toggle => {
-            toggle.addEventListener('change', function (ev) {
-                console.log('teste');
-                alterarStatus(ev, './src/controller/control.php', 'MeioPagamentoController');
-            });
+    toggles.forEach(toggle => {
+        toggle.addEventListener('change', function (ev) {
+            alterarStatus(ev, './src/controller/control.php', 'MeioPagamentoController');
         });
     });
 });

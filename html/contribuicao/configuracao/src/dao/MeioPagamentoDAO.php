@@ -102,6 +102,9 @@ class MeioPagamentoDAO
         }
     }
 
+    /**
+     * Modifica o campo status da tabela contribuica_meioPagamento de acordo com o id fornecido
+     */
     public function alterarStatusPorId($status, $meioPagamentoId)
     {
         //definir consulta sql

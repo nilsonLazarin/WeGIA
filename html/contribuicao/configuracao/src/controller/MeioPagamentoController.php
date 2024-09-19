@@ -80,6 +80,9 @@ class MeioPagamentoController{
         }
     }
 
+     /**
+     * Realiza os procedimentos necessários para ativar/desativar um meio de pagamento no sistema
+     */
     public function alterarStatus()
     {
         $meioPagamentoId = $_POST['id'];

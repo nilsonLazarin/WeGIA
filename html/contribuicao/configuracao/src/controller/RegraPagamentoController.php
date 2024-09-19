@@ -47,6 +47,7 @@ class RegraPagamentoController{
                 ->setMeioPagamentoId($meioPagamentoId)
                 ->setRegraContribuicaoId($regraContribuicaoId)
                 ->setValor($valor)
+                ->setStatus(0)
                 ->cadastrar();
             header("Location: ../../regra_pagamento.php?msg=cadastrar-sucesso");
         }catch(Exception $e){
@@ -91,6 +92,40 @@ class RegraPagamentoController{
             header("Location: ../../regra_pagamento.php?msg=editar-sucesso#mensagem-tabela");
         }catch(Exception $e){
             header("Location: ../../regra_pagamento.php?msg=editar-falha#mensagem-tabela");
+        }
+    }
+
+     /**
+     * Realiza os procedimentos necessários para ativar/desativar uma regra de pagamento no sistema
+     */
+    public function alterarStatus()
+    {
+        $regraPagamentoId = $_POST['id'];
+        $status = trim($_POST['status']);
+
+        if (!$regraPagamentoId || empty($regraPagamentoId)) {
+            http_response_code(400);
+            echo json_encode(['Erro' => 'O id deve ser maior ou igual a 1.']);exit;
+        }
+
+        if (!$status || empty($status)) {
+            http_response_code(400);
+            echo json_encode(['Erro' => 'O status informado não é válido.']);exit;
+        }
+
+        if ($status === 'true') {
+            $status = 1;
+        } elseif ($status === 'false') {
+            $status = 0;
+        }
+
+        try {
+            $regraPagamentoDao = new RegraPagamentoDAO();
+            $regraPagamentoDao->alterarStatusPorId($status, $regraPagamentoId, $status);
+            echo json_encode(['Sucesso']);
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['Erro'=>'Ocorreu um problema no servidor.']);exit;
         }
     }
 }

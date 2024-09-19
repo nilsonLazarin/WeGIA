@@ -97,6 +97,9 @@ class GatewayPagamentoDAO{
         }
     }
 
+    /**
+     * Modifica o campo status da tabela contribuica_gatewayPagamento de acordo com o id fornecido
+     */
     public function alterarStatusPorId($status, $gatewayId){
         //definir consulta sql
         $sqlAlterarStatusPorId = "UPDATE contribuicao_gatewayPagamento SET status =:status WHERE id=:gatewayId";

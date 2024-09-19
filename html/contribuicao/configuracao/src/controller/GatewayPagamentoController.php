@@ -90,6 +90,9 @@ class GatewayPagamentoController
         //echo 'Editando gateway de id: '.$gatewayId;
     }
 
+    /**
+     * Realiza os procedimentos necessários para ativar/desativar um gateway de pagamento no sistema
+     */
     public function alterarStatus()
     {
         $gatewayId = $_POST['id'];

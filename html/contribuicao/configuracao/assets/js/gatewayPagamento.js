@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    //Checkbox de ativar/desativar um gateway
+    //Checkbox de ativar/desativar um gateway de pagamento
     const toggles = document.querySelectorAll('.toggle-input');
 
     toggles.forEach(toggle => {
