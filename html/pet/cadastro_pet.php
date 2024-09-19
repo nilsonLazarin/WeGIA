@@ -45,6 +45,7 @@ if (!is_null($resultado)) {
   $msg = "Você não tem as permissões necessárias para essa página.";
   //header("Location: ../home.php?msg_c=$msg");
 }
+//ret
 
 require_once ROOT . "/controle/FuncionarioControle.php";
 $listaCPF = new FuncionarioControle;
