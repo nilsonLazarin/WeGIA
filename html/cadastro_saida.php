@@ -1,47 +1,63 @@
 <?php
 session_start();
 if (!isset($_SESSION['usuario'])) {
-	header("Location: ../index.php");
+    header("Location: ../index.php");
+    exit();
 }
+
 $config_path = "config.php";
 if (file_exists($config_path)) {
-	require_once($config_path);
+    require_once($config_path);
 } else {
-	while (true) {
-		$config_path = "../" . $config_path;
-		if (file_exists($config_path)) break;
-	}
-	require_once($config_path);
+    while (true) {
+        $config_path = "../" . $config_path;
+        if (file_exists($config_path)) break;
+    }
+    require_once($config_path);
 }
+
 $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 $id_pessoa = $_SESSION['id_pessoa'];
-$resultado = mysqli_query($conexao, "SELECT * FROM funcionario WHERE id_pessoa=$id_pessoa");
-if (!is_null($resultado)) {
-	$id_cargo = mysqli_fetch_array($resultado);
-	if (!is_null($id_cargo)) {
-		$id_cargo = $id_cargo['id_cargo'];
-	}
-	$resultado = mysqli_query($conexao, "SELECT * FROM permissao WHERE id_cargo=$id_cargo and id_recurso=24");
-	if (!is_bool($resultado) and mysqli_num_rows($resultado)) {
-		$permissao = mysqli_fetch_array($resultado);
-		if ($permissao['id_acao'] < 3) {
-			$msg = "Você não tem as permissões necessárias para essa página.";
-			header("Location: ./home.php?msg_c=$msg");
-		}
-		$permissao = $permissao['id_acao'];
-	} else {
-		$permissao = 1;
-		$msg = "Você não tem as permissões necessárias para essa página.";
-		header("Location: ./home.php?msg_c=$msg");
-	}
+
+// Proteção contra injeção de SQL utilizando prepared statements
+$stmt = $conexao->prepare("SELECT id_cargo FROM funcionario WHERE id_pessoa = ?");
+$stmt->bind_param("i", $id_pessoa);
+$stmt->execute();
+$resultado = $stmt->get_result();
+
+if ($resultado && $resultado->num_rows > 0) {
+    $row = $resultado->fetch_assoc();
+    $id_cargo = $row['id_cargo'];
+
+    // Segunda consulta usando prepared statements
+    $stmt = $conexao->prepare("SELECT id_acao FROM permissao WHERE id_cargo = ? AND id_recurso = 24");
+    $stmt->bind_param("i", $id_cargo);
+    $stmt->execute();
+    $resultado = $stmt->get_result();
+
+    if ($resultado && $resultado->num_rows > 0) {
+        $permissao = $resultado->fetch_assoc();
+        if ($permissao['id_acao'] < 3) {
+            $msg = urlencode("Você não tem as permissões necessárias para essa página.");
+            header("Location: ./home.php?msg_c=$msg");
+            exit();
+        }
+        $permissao = $permissao['id_acao'];
+    } else {
+        $permissao = 1;
+        $msg = urlencode("Você não tem as permissões necessárias para essa página.");
+        header("Location: ./home.php?msg_c=$msg");
+        exit();
+    }
 } else {
-	$permissao = 1;
-	$msg = "Você não tem as permissões necessárias para essa página.";
-	header("Location: ./home.php?msg_c=$msg");
+    $permissao = 1;
+    $msg = urlencode("Você não tem as permissões necessárias para essa página.");
+    header("Location: ./home.php?msg_c=$msg");
+    exit();
 }
+
 // Adiciona a Função display_campo($nome_campo, $tipo_campo)
 require_once "personalizacao_display.php";
-
 require_once "../Functions/permissao/permissao.php";
 ?>
 
