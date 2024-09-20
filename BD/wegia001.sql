@@ -774,6 +774,7 @@ CREATE TABLE `wegia`.`contribuicao_gatewayPagamento` (
     `plataforma` VARCHAR(50) NOT NULL,
     `endPoint` VARCHAR(255) NOT NULL,
     `token` VARCHAR(100) NOT NULL,
+    `status` BOOLEAN NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB;
 
@@ -794,6 +795,7 @@ CREATE TABLE `wegia`.`contribuicao_meioPagamento` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `meio` VARCHAR(45) NOT NULL,
     `id_plataforma` INT NOT NULL,
+    `status` BOOLEAN NOT NULL,
     PRIMARY KEY (`id`),
     UNIQUE INDEX `meio_UNIQUE` (`meio` ASC) VISIBLE,
     CONSTRAINT `fk_contribuicao_gatewayPagamento_plataforma`
@@ -811,6 +813,7 @@ CREATE TABLE `wegia`.`contribuicao_conjuntoRegras` (
     `id_meioPagamento` INT,
     `id_regra` INT,
     `valor` DECIMAL(10, 2),
+    `status` BOOLEAN NOT NULL,
     CONSTRAINT `fk_contribuicao_meioPagamento` FOREIGN KEY (`id_meioPagamento`) REFERENCES `wegia`.`contribuicao_meioPagamento`(`id`),
     CONSTRAINT `fk_contribuicao_regras` FOREIGN KEY (`id_regra`) REFERENCES `wegia`.`contribuicao_regras`(`id`),
     CONSTRAINT `unico_meioPagamento_regra` UNIQUE (`id_meioPagamento`, `id_regra`)

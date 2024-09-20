@@ -3,11 +3,17 @@ class MeioPagamento{
     private $id;
     private $descricao;
     private $gatewayId;
+    private $status;
 
-    public function __construct($descricao, $gatewayId)
+    public function __construct($descricao, $gatewayId, $status=null)
     {
-        $this->setDescricao($descricao);
-        $this->setGatewayId($gatewayId);
+        $this->setDescricao($descricao)->setGatewayId($gatewayId);
+
+        if(!$status){
+            $this->setStatus(0);
+        }else{
+            $this->setStatus($status);
+        }
     }
 
     /**
@@ -17,7 +23,7 @@ class MeioPagamento{
     public function cadastrar(){
         require_once '../dao/MeioPagamentoDAO.php';
         $meioPagamentoDao = new MeioPagamentoDAO();
-        $meioPagamentoDao->cadastrar($this->descricao, $this->gatewayId);
+        $meioPagamentoDao->cadastrar($this->descricao, $this->gatewayId, $this->status);
     }
 
     /**
@@ -99,6 +105,33 @@ class MeioPagamento{
             throw new InvalidArgumentException();
         }
         $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of status
+     */ 
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set the value of status
+     *
+     * @return  self
+     */ 
+    public function setStatus($status)
+    {
+        $statusLimpo = trim($status);
+        //echo $statusLimpo;
+
+        if((!$statusLimpo || empty($statusLimpo)) && $statusLimpo != 0){
+            throw new InvalidArgumentException('O status de um meio de pagamento não pode ser vazio.');
+        }
+
+        $this->status = $status;
 
         return $this;
     }

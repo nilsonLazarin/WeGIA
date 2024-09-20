@@ -27,16 +27,17 @@ class GatewayPagamentoDAO{
     /**
      * Inseri um gateway de pagamento no banco de dados da aplicação
      */
-    public function cadastrar($nome, $endpoint, $token/*, $status*/){
+    public function cadastrar($nome, $endpoint, $token, $status){
         /*Lógica da aplicação */
         //definir consulta SQL
-        $sqlCadastrar = "INSERT INTO contribuicao_gatewayPagamento (plataforma, endpoint, token) 
-        VALUES (:plataforma, :endpoint, :token)";
+        $sqlCadastrar = "INSERT INTO contribuicao_gatewayPagamento (plataforma, endpoint, token, status) 
+        VALUES (:plataforma, :endpoint, :token, :status)";
         //utilizar prepared statements
         $stmt = $this->pdo->prepare($sqlCadastrar);
         $stmt->bindParam(':plataforma', $nome);
         $stmt->bindParam(':endpoint', $endpoint);
         $stmt->bindParam(':token', $token);
+        $stmt->bindParam(':status', $status);
         //executar
         $stmt->execute();
     }
@@ -92,6 +93,27 @@ class GatewayPagamentoDAO{
         $gatewayExcluido = $stmt->rowCount();
 
         if($gatewayExcluido < 1){
+            throw new Exception();
+        }
+    }
+
+    /**
+     * Modifica o campo status da tabela contribuica_gatewayPagamento de acordo com o id fornecido
+     */
+    public function alterarStatusPorId($status, $gatewayId){
+        //definir consulta sql
+        $sqlAlterarStatusPorId = "UPDATE contribuicao_gatewayPagamento SET status =:status WHERE id=:gatewayId";
+        //utilizar prepared statements
+        $stmt = $this->pdo->prepare($sqlAlterarStatusPorId);
+        $stmt->bindParam(':status', $status);
+        $stmt->bindParam(':gatewayId', $gatewayId);
+        //executar
+        $stmt->execute();
+
+        //verificar se algum elemento foi de fato alterado
+        $gatewayAlterado = $stmt->rowCount();
+
+        if($gatewayAlterado < 1){
             throw new Exception();
         }
     }

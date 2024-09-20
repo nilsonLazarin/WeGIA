@@ -6,12 +6,14 @@ error_reporting(E_ALL);
 extract($_REQUEST);
 session_start();
 
-    
-   	if(!isset($_POST['usuario'])){
+//print_r($_SESSION);exit;
+
+    //Mudar para session
+   	if(!isset($_SESSION['usuario'])){
    		header ("Location: ../index.php");
    	}
 
-     if(!isset($_POST['id_fichamedica']))	{
+    if(!isset($_SESSION['id_fichamedica']))	{
       header('Location: ../../controle/control.php?metodo=listarUm&nomeClasse=SaudeControle&nextPage=../html/saude/aplicar_medicamento.php');
     }
 
@@ -31,7 +33,7 @@ require_once "../../dao/Conexao.php";
 $pdo = Conexao::connect();
 
 $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-	$id_pessoa = $_POST['id_pessoa'];
+	$id_pessoa = $_SESSION['id_pessoa'];
 	$resultado = mysqli_query($conexao, "SELECT * FROM funcionario WHERE id_pessoa=$id_pessoa");
 	if(!is_null($resultado)){
 		$id_cargo = mysqli_fetch_array($resultado);

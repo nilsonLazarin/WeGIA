@@ -14,4 +14,13 @@ document.addEventListener('DOMContentLoaded', function () {
             $('#editModal').modal('show');
         });
     });
+
+    //Checkbox de ativar/desativar uma regra de pagamento
+    const toggles = document.querySelectorAll('.toggle-input');
+
+    toggles.forEach(toggle => {
+        toggle.addEventListener('change', function (ev) {
+            alterarStatus(ev, './src/controller/control.php', 'RegraPagamentoController');
+        });
+    });
 });
