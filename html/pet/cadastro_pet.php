@@ -16,64 +16,36 @@ if (file_exists($config_path)) {
   }
   require_once($config_path);
 }
-
-// Database connection
 $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-
-// Check connection
-if ($mysqli->connect_error) {
-    die("Connection failed: " . $mysqli->connect_error);
-}
-
-// Start the session
-session_start();
-
-// Get user ID from session
+$situacao = $mysqli->query("SELECT * FROM situacao");
+$cargo = $mysqli->query("SELECT * FROM cargo");
+$conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 $id_pessoa = $_SESSION['id_pessoa'];
-
-// Prepare and execute the first query to get id_cargo
-$stmt = $mysqli->prepare("SELECT id_cargo FROM funcionario WHERE id_pessoa = ?");
-$stmt->bind_param("i", $id_pessoa);
-$stmt->execute();
-$resultado = $stmt->get_result();
-
-// Check if we have a valid result
-if ($resultado && $row = $resultado->fetch_assoc()) {
-    $id_cargo = $row['id_cargo'];
-
-    // Prepare and execute the second query to check permissions
-    $stmt = $mysqli->prepare("SELECT id_acao FROM permissao WHERE id_cargo = ? AND id_recurso = 11");
-    $stmt->bind_param("i", $id_cargo);
-    $stmt->execute();
-    $resultado = $stmt->get_result();
-
-    if ($resultado && $row = $resultado->fetch_assoc()) {
-        // Check the permission level
-        if ($row['id_acao'] < 3) {
-            $msg = "Você não tem as permissões necessárias para essa página.";
-            header("Location: ../home.php?msg_c=" . urlencode($msg));
-            exit;
-        }
-        $permissao = $row['id_acao'];
-    } else {
-        // No valid permission found
-        $permissao = 1;
-        $msg = "Você não tem as permissões necessárias para essa página.";
-        header("Location: ../home.php?msg_c=" . urlencode($msg));
-        exit;
+$resultado = mysqli_query($conexao, "SELECT * FROM funcionario WHERE id_pessoa=$id_pessoa");
+if (!is_null($resultado)) {
+  $id_cargo = mysqli_fetch_array($resultado);
+  if (!is_null($id_cargo)) {
+    $id_cargo = $id_cargo['id_cargo'];
+  }
+  $resultado = mysqli_query($conexao, "SELECT * FROM permissao WHERE id_cargo=$id_cargo and id_recurso=11");
+  if (!is_bool($resultado) and mysqli_num_rows($resultado)) {
+    $permissao = mysqli_fetch_array($resultado);
+    if ($permissao['id_acao'] < 3) {
+      $msg = "Você não tem as permissões necessárias para essa página.";
+      //header("Location: ../home.php?msg_c=$msg");
     }
-} else {
-    // No valid cargo found
+    $permissao = $permissao['id_acao'];
+  } else {
     $permissao = 1;
     $msg = "Você não tem as permissões necessárias para essa página.";
-    header("Location: ../home.php?msg_c=" . urlencode($msg));
-    exit;
+    //header("Location: ../home.php?msg_c=$msg");
+  }
+} else {
+  $permissao = 1;
+  $msg = "Você não tem as permissões necessárias para essa página.";
+  //header("Location: ../home.php?msg_c=$msg");
 }
-
-// Close statement and connection
-$stmt->close();
-$mysqli->close();
-
+//ret
 
 require_once ROOT . "/controle/FuncionarioControle.php";
 $listaCPF = new FuncionarioControle;
@@ -356,28 +328,21 @@ if($_GET['msg']){
     /** Aqui começa a implementação das funções relacionada a "PET" */
 
     // funções relacionadas a datas
-    function verificarDataAcolhimento(event) {
-    // Obtém os valores das datas dos campos de entrada
-    let nasc = document.querySelector("#nascimento").value;
-    let acol = document.querySelector("#acolhimento").value;
+    function verificarDataAcolhimento(){
+      let nasc = document.querySelector("#nascimento").value;
+      let acol = document.querySelector("#acolhimento").value;
 
-    // Cria objetos Date a partir das strings das datas
-    let dataNascimento = new Date(nasc);
-    let dataAcolhimento = new Date(acol);
+      nasc = nasc.split('-');
+      nasc = nasc.join('');
 
-    // Verifica se as datas são válidas
-    if (isNaN(dataNascimento.getTime()) || isNaN(dataAcolhimento.getTime())) {
-        alert("Uma ou ambas as datas fornecidas são inválidas.");
+      acol = acol.split('-');
+      acol = acol.join('');
+
+      if( acol < nasc ){
+        alert("Data de acolhimento não pode ser anterior a data de nascimento!");
         event.preventDefault();
-        return;
+      }
     }
-
-    // Compara as datas
-    if (dataAcolhimento < dataNascimento) {
-        alert("Data de acolhimento não pode ser anterior à data de nascimento!");
-        event.preventDefault();
-    }
-}
     
     /*
     function noType(){
