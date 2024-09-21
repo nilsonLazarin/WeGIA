@@ -53,18 +53,53 @@ $cpf1->listarCPF();
 
 require_once "../geral/msg.php";
 
-$dependente = $pdo->query("SELECT *, ap.parentesco AS parentesco
-FROM atendido_familiares af
-LEFT JOIN pessoa p ON p.id_pessoa = af.pessoa_id_pessoa
-LEFT JOIN atendido_parentesco ap ON ap.idatendido_parentesco = af.atendido_parentesco_idatendido_parentesco
-WHERE af.idatendido_familiares = " . $_GET['id_dependente'] ?? null);
-$dependente = $dependente->fetch(PDO::FETCH_ASSOC);
-$dependente["nome_atendido"] = ($pdo->query("SELECT p.nome FROM atendido a LEFT JOIN pessoa p ON a.pessoa_id_pessoa = p.id_pessoa WHERE a.idatendido = " . $dependente["atendido_idatendido"] . ";")->fetch(PDO::FETCH_ASSOC))["nome"];
-$dependente["sobrenome_atendido"] = ($pdo->query("SELECT p.sobrenome FROM atendido a LEFT JOIN pessoa p ON a.pessoa_id_pessoa = p.id_pessoa WHERE a.idatendido = " . $dependente["atendido_idatendido"] . ";")->fetch(PDO::FETCH_ASSOC))["sobrenome"];
+$id_dependente = isset($_GET['id_dependente']) ? (int) $_GET['id_dependente'] : null;
 
-$id_pessoa = $dependente["id_pessoa"];
-$idatendido_familiares = $dependente["idatendido_familiares"];
-$JSON_dependente = json_encode($dependente);
+if ($id_dependente) {
+    $stmt = $pdo->prepare("
+        SELECT *, ap.parentesco AS parentesco
+        FROM atendido_familiares af
+        LEFT JOIN pessoa p ON p.id_pessoa = af.pessoa_id_pessoa
+        LEFT JOIN atendido_parentesco ap ON ap.idatendido_parentesco = af.atendido_parentesco_idatendido_parentesco
+        WHERE af.idatendido_familiares = :id_dependente
+    ");
+    
+    $stmt->bindParam(':id_dependente', $id_dependente, PDO::PARAM_INT);
+    $stmt->execute();
+    
+    $dependente = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($dependente) {
+        $stmtNome = $pdo->prepare("
+            SELECT p.nome FROM atendido a 
+            LEFT JOIN pessoa p ON a.pessoa_id_pessoa = p.id_pessoa 
+            WHERE a.idatendido = :idatendido
+        ");
+        $stmtNome->bindParam(':idatendido', $dependente["atendido_idatendido"], PDO::PARAM_INT);
+        $stmtNome->execute();
+        $nomeAtendido = $stmtNome->fetch(PDO::FETCH_ASSOC);
+        $dependente["nome_atendido"] = $nomeAtendido ? $nomeAtendido["nome"] : null;
+
+        $stmtSobrenome = $pdo->prepare("
+            SELECT p.sobrenome FROM atendido a 
+            LEFT JOIN pessoa p ON a.pessoa_id_pessoa = p.id_pessoa 
+            WHERE a.idatendido = :idatendido
+        ");
+        $stmtSobrenome->bindParam(':idatendido', $dependente["atendido_idatendido"], PDO::PARAM_INT);
+        $stmtSobrenome->execute();
+        $sobrenomeAtendido = $stmtSobrenome->fetch(PDO::FETCH_ASSOC);
+        $dependente["sobrenome_atendido"] = $sobrenomeAtendido ? $sobrenomeAtendido["sobrenome"] : null;
+
+        $id_pessoa = $dependente["id_pessoa"];
+        $idatendido_familiares = $dependente["idatendido_familiares"];
+        $JSON_dependente = json_encode($dependente);
+    } else {
+        echo "Dependente não encontrado.";
+    }
+} else {
+    echo "ID do dependente inválido ou não fornecido.";
+}
+
 
 ?>
 <!doctype html>
