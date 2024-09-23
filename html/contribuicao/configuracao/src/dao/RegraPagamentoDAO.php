@@ -37,7 +37,7 @@ class RegraPagamentoDAO{
 
     public function buscaConjuntoRegrasPagamento(){
          //definir consulta sql
-         $sqlBuscaTodos = "SELECT ccr.id, ccr.id_meioPagamento, ccr.id_regra, ccr.valor, cmp.meio, cr.regra, cgp.plataforma, cgp.endpoint   
+         $sqlBuscaTodos = "SELECT ccr.id, ccr.id_meioPagamento, ccr.id_regra, ccr.valor, ccr.status, cmp.meio, cr.regra, cgp.plataforma, cgp.endpoint   
          FROM contribuicao_conjuntoRegras ccr 
          JOIN contribuicao_meioPagamento cmp ON(cmp.id=ccr.id_meioPagamento) 
          JOIN contribuicao_gatewayPagamento cgp ON(cgp.id = cmp.id_plataforma) 
@@ -51,16 +51,17 @@ class RegraPagamentoDAO{
     /**
      * Inseri um novo conjunto de regras no banco de dados da aplicação
      */
-    public function cadastrar($meioPagamentoId, $regraContribuicaoId, $valor){
+    public function cadastrar($meioPagamentoId, $regraContribuicaoId, $valor, $status){
         /*Lógica da aplicação */
         //definir consulta SQL
-        $sqlCadastrar = "INSERT INTO contribuicao_conjuntoRegras (id_meioPagamento, id_regra, valor) 
-        VALUES (:meioPagamentoId, :regraContribuicaoId, :valor)";
+        $sqlCadastrar = "INSERT INTO contribuicao_conjuntoRegras (id_meioPagamento, id_regra, valor, status) 
+        VALUES (:meioPagamentoId, :regraContribuicaoId, :valor, :status)";
         //utilizar prepared statements
         $stmt = $this->pdo->prepare($sqlCadastrar);
         $stmt->bindParam(':meioPagamentoId', $meioPagamentoId);
         $stmt->bindParam(':regraContribuicaoId', $regraContribuicaoId);
         $stmt->bindParam(':valor', $valor);
+        $stmt->bindParam(':status', $status);
         //executar
         $stmt->execute();
     }
@@ -100,6 +101,28 @@ class RegraPagamentoDAO{
         $meioPagamentoExcluido = $stmt->rowCount();
 
         if($meioPagamentoExcluido < 1){
+            throw new Exception();
+        }
+    }
+
+    /**
+     * Modifica o campo status da tabela contribuicao_conjuntoRegras de acordo com o id fornecido
+     */
+    public function alterarStatusPorId($status, $regraPagamentoId)
+    {
+        //definir consulta sql
+        $sqlAlterarStatusPorId = "UPDATE contribuicao_conjuntoRegras SET status =:status WHERE id=:regraPagamentoId";
+        //utilizar prepared statements
+        $stmt = $this->pdo->prepare($sqlAlterarStatusPorId);
+        $stmt->bindParam(':status', $status);
+        $stmt->bindParam(':regraPagamentoId', $regraPagamentoId);
+        //executar
+        $stmt->execute();
+
+        //verificar se algum elemento foi de fato alterado
+        $regraAlterada = $stmt->rowCount();
+
+        if ($regraAlterada < 1) {
             throw new Exception();
         }
     }

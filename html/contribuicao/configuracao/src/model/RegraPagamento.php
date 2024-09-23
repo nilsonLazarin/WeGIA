@@ -5,6 +5,7 @@ class RegraPagamento
     private $meioPagamentoId;
     private $regraContribuicaoId;
     private $valor;
+    private $status;
 
     /**
      * Instancia um objeto do tipo RegraPagamentoDAO e chama o seu método de cadastrar passando os 
@@ -13,7 +14,7 @@ class RegraPagamento
     public function cadastrar(){
         require_once '../dao/RegraPagamentoDAO.php';
         $gatewayPagamentoDao = new RegraPagamentoDAO();
-        $gatewayPagamentoDao->cadastrar($this->meioPagamentoId, $this->regraContribuicaoId, $this->valor);
+        $gatewayPagamentoDao->cadastrar($this->meioPagamentoId, $this->regraContribuicaoId, $this->valor, $this->status);
     }
 
     /**
@@ -121,6 +122,32 @@ class RegraPagamento
         }
 
         $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of status
+     */ 
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set the value of status
+     *
+     * @return  self
+     */ 
+    public function setStatus($status)
+    {
+        $statusLimpo = trim($status);
+
+        if((!$statusLimpo || empty($statusLimpo)) && $statusLimpo != 0){
+            throw new InvalidArgumentException('O status de um meio de pagamento não pode ser vazio.');
+        }
+
+        $this->status = $status;
 
         return $this;
     }

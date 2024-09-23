@@ -72,20 +72,55 @@ class GatewayPagamentoController
     /**
      * Realiza os procedimentos necessários para alterar as informações de um gateway de pagamento do sistema
      */
-    public function editarPorId(){
+    public function editarPorId()
+    {
         $gatewayId = $_POST['id'];
         $gatewayNome = $_POST['nome'];
         $gatewayEndepoint = $_POST['endpoint'];
         $gatewayToken = $_POST['token'];
 
-        try{
+        try {
             $gatewayPagamento = new GatewayPagamento($gatewayNome, $gatewayEndepoint, $gatewayToken);
             $gatewayPagamento->setId($gatewayId);
             $gatewayPagamento->editar();
             header("Location: ../../gateway_pagamento.php?msg=editar-sucesso#mensagem-tabela");
-        }catch(Exception $e){
+        } catch (Exception $e) {
             header("Location: ../../gateway_pagamento.php?msg=editar-falha#mensagem-tabela");
         }
         //echo 'Editando gateway de id: '.$gatewayId;
+    }
+
+    /**
+     * Realiza os procedimentos necessários para ativar/desativar um gateway de pagamento no sistema
+     */
+    public function alterarStatus()
+    {
+        $gatewayId = $_POST['id'];
+        $status = trim($_POST['status']);
+
+        if (!$gatewayId || empty($gatewayId)) {
+            http_response_code(400);
+            echo json_encode(['Erro' => 'O id deve ser maior ou igual a 1.']);exit;
+        }
+
+        if (!$status || empty($status)) {
+            http_response_code(400);
+            echo json_encode(['Erro' => 'O status informado não é válido.']);exit;
+        }
+
+        if ($status === 'true') {
+            $status = 1;
+        } elseif ($status === 'false') {
+            $status = 0;
+        }
+
+        try {
+            $gatewayPagamentoDao = new GatewayPagamentoDAO();
+            $gatewayPagamentoDao->alterarStatusPorId($status, $gatewayId);
+            echo json_encode(['Sucesso']);
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['Erro'=>'Ocorreu um problema no servidor.']);exit;
+        }
     }
 }
