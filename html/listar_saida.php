@@ -1,63 +1,82 @@
 <?php
-	session_start();
-	if(!isset($_SESSION['usuario'])){
-		header ("Location: ../index.php");
-	}
+session_start();
+if (!isset($_SESSION['usuario'])) {
+    header("Location: ../index.php");
+    exit();
+}
 
-	$config_path = "config.php";
-	if(file_exists($config_path)){
-		require_once($config_path);
-	}else{
-		while(true){
-			$config_path = "../" . $config_path;
-			if(file_exists($config_path)) break;
-		}
-		require_once($config_path);
-	}
-	$conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-	$id_pessoa = $_SESSION['id_pessoa'];
-	$resultado = mysqli_query($conexao, "SELECT * FROM funcionario WHERE id_pessoa=$id_pessoa");
-	if(!is_null($resultado)){
-		$id_cargo = mysqli_fetch_array($resultado);
-		if(!is_null($id_cargo)){
-			$id_cargo = $id_cargo['id_cargo'];
-		}
-		$resultado = mysqli_query($conexao, "SELECT * FROM permissao WHERE id_cargo=$id_cargo and id_recurso=24");
-		if(!is_bool($resultado) and mysqli_num_rows($resultado)){
-			$permissao = mysqli_fetch_array($resultado);
-			if($permissao['id_acao'] < 5){
-        $msg = "Você não tem as permissões necessárias para essa página.";
-        header("Location: ./home.php?msg_c=$msg");
-			}
-			$permissao = $permissao['id_acao'];
-		}else{
-        	$permissao = 1;
-          $msg = "Você não tem as permissões necessárias para essa página.";
-          header("Location: ./home.php?msg_c=$msg");
-		}	
-	}else{
-		$permissao = 1;
-    $msg = "Você não tem as permissões necessárias para essa página.";
-    header("Location: ./home.php?msg_c=$msg");
-	}	
-	
-	// Adiciona a Função display_campo($nome_campo, $tipo_campo)
-	require_once "personalizacao_display.php";
+// Carregando configuração com segurança
+$config_path = "config.php";
+while (!file_exists($config_path)) {
+    $config_path = "../" . $config_path;
+}
+require_once($config_path);
+
+// Estabelecendo conexão segura
+$conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+if (!$conexao) {
+    die("Erro ao conectar ao banco de dados: " . mysqli_connect_error());
+}
+
+// Prevenindo injeção de SQL utilizando prepared statements
+$id_pessoa = $_SESSION['id_pessoa'];
+$stmt = $conexao->prepare("SELECT * FROM funcionario WHERE id_pessoa = ?");
+$stmt->bind_param("i", $id_pessoa);
+$stmt->execute();
+$resultado = $stmt->get_result();
+
+if ($resultado && $resultado->num_rows > 0) {
+    $id_cargo = $resultado->fetch_assoc()['id_cargo'];
+
+    // Prevenindo injeção de SQL em permissões
+    $stmt_permissao = $conexao->prepare("SELECT * FROM permissao WHERE id_cargo = ? AND id_recurso = 24");
+    $stmt_permissao->bind_param("i", $id_cargo);
+    $stmt_permissao->execute();
+    $resultado_permissao = $stmt_permissao->get_result();
+
+    if ($resultado_permissao && $resultado_permissao->num_rows > 0) {
+        $permissao = $resultado_permissao->fetch_assoc();
+
+        // Verificando permissões
+        if ($permissao['id_acao'] < 5) {
+            // Prevenindo XSS com htmlentities
+            $msg = htmlentities("Você não tem as permissões necessárias para essa página.");
+            header("Location: ./home.php?msg_c=" . urlencode($msg));
+            exit();
+        }
+        $permissao = $permissao['id_acao'];
+    } else {
+        // Caso não tenha permissão
+        $msg = htmlentities("Você não tem as permissões necessárias para essa página.");
+        header("Location: ./home.php?msg_c=" . urlencode($msg));
+        exit();
+    }
+} else {
+    // Caso o funcionário não seja encontrado
+    $msg = htmlentities("Você não tem as permissões necessárias para essa página.");
+    header("Location: ./home.php?msg_c=" . urlencode($msg));
+    exit();
+}
+
+// Incluindo arquivo de personalização de display
+require_once "personalizacao_display.php";
 ?>
 <!doctype html>
 <html class="fixed">
 <head>
 <?php
-	include_once '../dao/Conexao.php';
-  	include_once '../dao/SaidaDAO.php';
-  
-	if(!isset($_SESSION['saida'])){
-		header('Location: ../controle/control.php?metodo=listarTodos&nomeClasse=SaidaControle&nextPage=../html/listar_saida.php');
-	}
-	if(isset($_SESSION['saida'])){
-		$saida = $_SESSION['saida'];
-	    unset($_SESSION['saida']);  
-	}
+include_once '../dao/Conexao.php';
+include_once '../dao/SaidaDAO.php';
+
+// Validando sessão de saída
+if (!isset($_SESSION['saida'])) {
+    header('Location: ../controle/control.php?metodo=listarTodos&nomeClasse=SaidaControle&nextPage=../html/listar_saida.php');
+    exit();
+}
+if (isset($_SESSION['saida'])) {
+    $saida = $_SESSION['saida'];
+    unset($_SESSION['saida']);
+}
 ?>
 	<!-- Basic -->
 	<meta charset="UTF-8">

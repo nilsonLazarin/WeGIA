@@ -29,30 +29,40 @@ if (file_exists($config_path)) {
 }
 
 $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+
 $id_pessoa = $_SESSION['id_pessoa'];
-$resultado = mysqli_query($conexao, "SELECT * FROM funcionario WHERE id_pessoa=$id_pessoa");
-if (!is_null($resultado)) {
-    $id_cargo = mysqli_fetch_array($resultado);
-    if (!is_null($id_cargo)) {
-        $id_cargo = $id_cargo['id_cargo'];
-    }
-    $resultado = mysqli_query($conexao, "SELECT * FROM permissao WHERE id_cargo=$id_cargo and id_recurso=12");
-    if (!is_bool($resultado) and mysqli_num_rows($resultado)) {
+
+$stmt = mysqli_prepare($conexao, "SELECT id_cargo FROM funcionario WHERE id_pessoa = ?");
+mysqli_stmt_bind_param($stmt, 'i', $id_pessoa); 
+mysqli_stmt_execute($stmt);
+$resultado = mysqli_stmt_get_result($stmt);
+
+if ($resultado && mysqli_num_rows($resultado) > 0) {
+    $row = mysqli_fetch_array($resultado);
+    $id_cargo = $row['id_cargo'];
+
+    $stmt = mysqli_prepare($conexao, "SELECT id_acao FROM permissao WHERE id_cargo = ? AND id_recurso = 12");
+    mysqli_stmt_bind_param($stmt, 'i', $id_cargo);
+    mysqli_stmt_execute($stmt);
+    $resultado = mysqli_stmt_get_result($stmt);
+
+    if ($resultado && mysqli_num_rows($resultado) > 0) {
         $permissao = mysqli_fetch_array($resultado);
         if ($permissao['id_acao'] < 7) {
             $msg = "Você não tem as permissões necessárias para essa página.";
             header("Location: ../../home.php?msg_c=$msg");
+            exit;
         }
         $permissao = $permissao['id_acao'];
     } else {
-        $permissao = 1;
         $msg = "Você não tem as permissões necessárias para essa página.";
         header("Location: ../../home.php?msg_c=$msg");
+        exit;
     }
 } else {
-    $permissao = 1;
     $msg = "Você não tem as permissões necessárias para essa página.";
     header("Location: ./home.php?msg_c=$msg");
+    exit;
 }
 
 

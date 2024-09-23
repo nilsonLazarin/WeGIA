@@ -1,7 +1,7 @@
 <?php
 require_once "../Conexao.php";
 $pdo = Conexao::connect();
-// $cargo = $_POST["nome_docfuncional"];
+
 $tipo_exame = $_POST["tipo_exame"];
 
 $sql = "INSERT INTO pet_tipo_exame(descricao_exame) values('" .$tipo_exame ."')";
@@ -14,3 +14,4 @@ foreach ($p as $valor) {
 }
 
 echo json_encode($p);
+?>
