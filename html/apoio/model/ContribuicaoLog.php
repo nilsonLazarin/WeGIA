@@ -3,10 +3,10 @@ class ContribuicaoLog{
     private $id;
     private $valor;
     private $codigo;
-    private $data_geracao;
-    private $data_vencimento;
-    private $id_socio;
-    private $statusPagamento;
+    private $dataGeracao;
+    private $dataVencimento;
+    private $idSocio;
+    private $statusPagamento = 0;
 
     /**
      * Get the value of id
@@ -69,61 +69,61 @@ class ContribuicaoLog{
     }
 
     /**
-     * Get the value of data_geracao
+     * Get the value of dataGeracao
      */ 
-    public function getData_geracao()
+    public function getDataGeracao()
     {
-        return $this->data_geracao;
+        return $this->dataGeracao;
     }
 
     /**
-     * Set the value of data_geracao
+     * Set the value of dataGeracao
      *
      * @return  self
      */ 
-    public function setData_geracao($data_geracao)
+    public function setDataGeracao($dataGeracao)
     {
-        $this->data_geracao = $data_geracao;
+        $this->dataGeracao = $dataGeracao;
 
         return $this;
     }
 
     /**
-     * Get the value of data_vencimento
+     * Get the value of dataVencimento
      */ 
-    public function getData_vencimento()
+    public function getDataVencimento()
     {
-        return $this->data_vencimento;
+        return $this->dataVencimento;
     }
 
     /**
-     * Set the value of data_vencimento
+     * Set the value of dataVencimento
      *
      * @return  self
      */ 
-    public function setData_vencimento($data_vencimento)
+    public function setDataVencimento($dataVencimento)
     {
-        $this->data_vencimento = $data_vencimento;
+        $this->dataVencimento = $dataVencimento;
 
         return $this;
     }
 
     /**
-     * Get the value of id_socio
+     * Get the value of idSocio
      */ 
-    public function getId_socio()
+    public function getIdSocio()
     {
-        return $this->id_socio;
+        return $this->idSocio;
     }
 
     /**
-     * Set the value of id_socio
+     * Set the value of idSocio
      *
      * @return  self
      */ 
-    public function setId_socio($id_socio)
+    public function setIdSocio($idSocio)
     {
-        $this->id_socio = $id_socio;
+        $this->idSocio = $idSocio;
 
         return $this;
     }
