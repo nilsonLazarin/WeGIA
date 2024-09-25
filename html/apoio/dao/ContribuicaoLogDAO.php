@@ -14,7 +14,8 @@ class ContribuicaoLogDAO{
     }
 
     public function criar(ContribuicaoLog $contribuicaoLog){
-        $sqlInserirContribuicaoLog = "INSERT INTO contribuicao_log (
+        $sqlInserirContribuicaoLog = 
+            "INSERT INTO contribuicao_log (
                     id_socio, 
                     codigo, 
                     valor, 
@@ -39,6 +40,15 @@ class ContribuicaoLogDAO{
         $stmt->bindParam(':dataGeracao', $contribuicaoLog->getDataGeracao());
         $stmt->bindParam(':dataVencimento', $contribuicaoLog->getDataVencimento());
         $stmt->bindParam(':statusPagamento', $contribuicaoLog->getStatusPagamento());
+
+        $stmt->execute();
+    }
+
+    public function pagarPorId($id){
+        $sqlPagarPorId = "UPDATE contribuicao_log SET status_pagamento = 1 WHERE id=:id";
+        
+        $stmt = $this->pdo->prepare($sqlPagarPorId);
+        $stmt->bindParam(':id', $id);
 
         $stmt->execute();
     }
