@@ -351,7 +351,7 @@ if($_GET['msg']){
     */
     /** Função adicionar_raca */
     function gerarRaca() {
-      url = '../../../dao/pet/exibir_raca.php';
+      url = '../../dao/pet/exibir_raca.php';
       $.ajax({
         data: '',
         type: "POST",
@@ -405,7 +405,7 @@ if($_GET['msg']){
     /** Função adicionar_especie */
 
     function gerarEspecie() {
-      url = '../../../dao/pet/exibir_especie.php';
+      url = '../../dao/pet/exibir_especie.php';
       $.ajax({
         data: '',
         type: "POST",
@@ -460,7 +460,7 @@ if($_GET['msg']){
     /** Função adicionar_cor */
 
     function gerarCor() {
-      url = '../../../dao/pet/exibir_cor.php';
+      url = '../../dao/pet/exibir_cor.php';
       $.ajax({
         data: '',
         type: "POST",

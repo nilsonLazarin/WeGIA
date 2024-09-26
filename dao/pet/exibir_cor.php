@@ -1,5 +1,5 @@
-<?php	
-    require_once'../Conexao.php';
+<?php
+	require_once '../Conexao.php';
 	$pdo = Conexao::connect();
 	$sql = 'select * from pet_cor';
 	$stmt = $pdo->query($sql);
