@@ -1,5 +1,6 @@
 <?php
-class ContribuicaoLog{
+class ContribuicaoLog
+{
     private $id;
     private $valor;
     private $codigo;
@@ -9,8 +10,22 @@ class ContribuicaoLog{
     private $statusPagamento = 0;
 
     /**
+     * Recebe como parâmetro um inteiro e retorna um código de caracteres aleatórios do tamanho informado
+     */
+    public function gerarCodigo(int $tamanho = 16)
+    {
+        $caracteres = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $caracteresTamanho = strlen($caracteres);
+        $codigoString = '';
+        for ($i = 0; $i < $tamanho; $i++) {
+            $codigoString .= $caracteres[rand(0, $caracteresTamanho - 1)];
+        }
+        return $codigoString;
+    }
+
+    /**
      * Get the value of id
-     */ 
+     */
     public function getId()
     {
         return $this->id;
@@ -20,7 +35,7 @@ class ContribuicaoLog{
      * Set the value of id
      *
      * @return  self
-     */ 
+     */
     public function setId($id)
     {
         $this->id = $id;
@@ -30,7 +45,7 @@ class ContribuicaoLog{
 
     /**
      * Get the value of valor
-     */ 
+     */
     public function getValor()
     {
         return $this->valor;
@@ -40,7 +55,7 @@ class ContribuicaoLog{
      * Set the value of valor
      *
      * @return  self
-     */ 
+     */
     public function setValor($valor)
     {
         $this->valor = $valor;
@@ -50,7 +65,7 @@ class ContribuicaoLog{
 
     /**
      * Get the value of codigo
-     */ 
+     */
     public function getCodigo()
     {
         return $this->codigo;
@@ -60,7 +75,7 @@ class ContribuicaoLog{
      * Set the value of codigo
      *
      * @return  self
-     */ 
+     */
     public function setCodigo($codigo)
     {
         $this->codigo = $codigo;
@@ -70,7 +85,7 @@ class ContribuicaoLog{
 
     /**
      * Get the value of dataGeracao
-     */ 
+     */
     public function getDataGeracao()
     {
         return $this->dataGeracao;
@@ -80,7 +95,7 @@ class ContribuicaoLog{
      * Set the value of dataGeracao
      *
      * @return  self
-     */ 
+     */
     public function setDataGeracao($dataGeracao)
     {
         $this->dataGeracao = $dataGeracao;
@@ -90,7 +105,7 @@ class ContribuicaoLog{
 
     /**
      * Get the value of dataVencimento
-     */ 
+     */
     public function getDataVencimento()
     {
         return $this->dataVencimento;
@@ -100,7 +115,7 @@ class ContribuicaoLog{
      * Set the value of dataVencimento
      *
      * @return  self
-     */ 
+     */
     public function setDataVencimento($dataVencimento)
     {
         $this->dataVencimento = $dataVencimento;
@@ -110,7 +125,7 @@ class ContribuicaoLog{
 
     /**
      * Get the value of idSocio
-     */ 
+     */
     public function getIdSocio()
     {
         return $this->idSocio;
@@ -120,7 +135,7 @@ class ContribuicaoLog{
      * Set the value of idSocio
      *
      * @return  self
-     */ 
+     */
     public function setIdSocio($idSocio)
     {
         $this->idSocio = $idSocio;
@@ -130,7 +145,7 @@ class ContribuicaoLog{
 
     /**
      * Get the value of statusPagamento
-     */ 
+     */
     public function getStatusPagamento()
     {
         return $this->statusPagamento;
@@ -140,7 +155,7 @@ class ContribuicaoLog{
      * Set the value of statusPagamento
      *
      * @return  self
-     */ 
+     */
     public function setStatusPagamento($statusPagamento)
     {
         $this->statusPagamento = $statusPagamento;
