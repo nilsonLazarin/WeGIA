@@ -17,15 +17,15 @@
     $pdo = Conexao::connect();
 
 
-    $id = $_GET['id_pessoa'];
-    $cep = $_POST['cep'];
-    $estado = $_POST['uf'];
-    $cidade = $_POST['cidade'];
-    $bairro = $_POST['bairro'];
-    $rua = $_POST['rua'];
-    $numero = $_POST['numero_residencia'];
-    $complemento = $_POST['complemento'];
-    $ibge = $_POST['ibge'];
+    $id = filter_input(INPUT_GET, 'id_pessoa', FILTER_VALIDATE_INT);
+    $cep = filter_input(INPUT_POST, 'cep', FILTER_SANITIZE_STRING);
+    $estado = filter_input(INPUT_POST, 'uf', FILTER_SANITIZE_STRING);
+    $cidade = filter_input(INPUT_POST, 'cidade', FILTER_SANITIZE_STRING);
+    $bairro = filter_input(INPUT_POST, 'bairro', FILTER_SANITIZE_STRING);
+    $rua = filter_input(INPUT_POST, 'rua', FILTER_SANITIZE_STRING);
+    $numero = filter_input(INPUT_POST, 'numero_residencia', FILTER_SANITIZE_STRING);
+    $complemento = filter_input(INPUT_POST, 'complemento', FILTER_SANITIZE_STRING);
+    $ibge = filter_input(INPUT_POST, 'ibge', FILTER_SANITIZE_STRING);
 
     define("ALTERAR_END", "UPDATE pessoa SET cep=:cep, estado=:estado, cidade=:cidade, bairro=:bairro, logradouro=:rua, numero_endereco=:numero, complemento=:complemento, ibge=:ibge where id_pessoa = :id"); 
 
@@ -48,7 +48,12 @@
     }
 
 
-    $idatendido_familiares = $_GET['idatendido_familiares'];
+    $idatendido_familiares = filter_input(INPUT_GET, 'idatendido_familiares', FILTER_VALIDATE_INT);
+    if (!$idatendido_familiares) {
+        die('ID inválido para redirecionamento.');
+    }
+
     header("Location: profile_familiar.php?id_dependente=$idatendido_familiares");
+    exit();
 
 ?>
