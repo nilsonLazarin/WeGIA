@@ -115,7 +115,7 @@
 							<div class="tabs">
 								<ul class="nav nav-tabs tabs-primary">
 									<li class="active">
-										<a href="#overview" data-toggle="tab">Adicionar tipo entrada</a>
+										<a href="#overview" data-toggle="tab">Adicionar tipo</a>
 									</li>
 								</ul>
 								<div class="tab-content">
@@ -123,7 +123,7 @@
 										<fieldset>
 											<form method="post" id="formulario" action="../controle/control.php">
 												<div class="form-group"><br>
-													<label class="col-md-3 control-label">entrada</label>
+													<label class="col-md-3 control-label">Insira o novo tipo:</label>
 													<div class="col-md-8">
 														<input type="text" class="form-control" name="descricao" id="tipoentrada" required>
 													</div>

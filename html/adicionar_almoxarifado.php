@@ -169,29 +169,29 @@ require_once "personalizacao_display.php";
 								<div id="overview" class="tab-pane active">
 									<fieldset>
 										<form method="post" id="formulario" action="../controle/control.php">
-											<?php
-											if ($permissao == 1) {
-												echo ($msg);
-											} else {
-											?>
-												<div class="form-group"><br>
-													<label class="col-md-3 control-label">Almoxarifado</label>
-													<div class="col-md-8">
-														<input type="text" class="form-control" name="descricao_almoxarifado" id="descricao_almoxarifado" required>
-													</div>
-												</div><br />
-												<input type="hidden" name="nomeClasse" value="AlmoxarifadoControle">
-												<input type="hidden" name="metodo" value="incluir">
-												<div class="row">
-													<div class="col-md-9 col-md-offset-3">
-														<button id="enviar" class="btn btn-primary" type="submit">Enviar</button>
-														<input type="reset" class="btn btn-default">
-														<a href="cadastro_entrada.php" style="color: white; text-decoration: none;">
-															<button class="btn btn-info" type="button">Voltar</button>
-														</a>
-														<a href="listar_almox.php" style="color: white; text-decoration:none;">
-															<button class="btn btn-success" type="button">Listar almoxarifado</button></a>
-													</div>
+										<?php
+											if($permissao == 1){
+												echo($msg);
+											}else{
+										?>
+											<div class="form-group"><br>
+												<label class="col-md-3 control-label">Insira o nome do almoxarifado:</label>
+												<div class="col-md-8">
+													<input type="text" class="form-control" name="descricao_almoxarifado" id="descricao_almoxarifado" required>
+												</div>
+											</div><br/>
+											<input type="hidden" name="nomeClasse" value="AlmoxarifadoControle">
+											<input type="hidden" name="metodo" value="incluir">
+											<div class="row">
+												<div class="col-md-9 col-md-offset-3">
+													<button id="enviar" class="btn btn-primary" type="submit">Enviar</button>
+													<input type="reset" class="btn btn-default">
+													<a href="cadastro_entrada.php" style="color: white; text-decoration: none;">
+														<button class="btn btn-info" type="button">Voltar</button>
+													</a>
+													<a href="listar_almox.php" style="color: white; text-decoration:none;">
+														<button class="btn btn-success" type="button">Listar almoxarifado</button></a>
+                          </div>
 												</div>
 											<?php
 											}

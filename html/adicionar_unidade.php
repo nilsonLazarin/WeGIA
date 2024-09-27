@@ -163,8 +163,7 @@
 									<fieldset>
 										<form method="post" id="formulario" action="../controle/control.php">
 											<div class="form-group"><br>
-												<label class="col-md-3 control-label">Unidade
-												</label>
+												<label class="col-md-3 control-label">Insira a nova unidade:</label>
 												
 												<div class="col-md-8">
 													<input type="text" class="form-control" name="descricao_unidade" id="unidade" required>

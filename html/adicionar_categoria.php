@@ -165,7 +165,7 @@
 									<fieldset>
 										<form id="formulario" method="post" action="../controle/control.php">
 											<div class="form-group"><br>
-												<label class="col-md-3 control-label">Categoria</label>
+												<label class="col-md-3 control-label">Insira a nova categoria: </label>
 												<div class="col-md-8">
 													<input type="text" class="form-control" name="descricao_categoria" id="categoria" required>
 

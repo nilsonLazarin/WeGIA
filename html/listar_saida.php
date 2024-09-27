@@ -204,24 +204,36 @@ require_once "personalizacao_display.php";
 						</div>
 						<h2 class="panel-title">Saida</h2>
 					</header>
-					<div class="panel-body">
-						<table class="table table-bordered table-striped mb-none" id="datatable-default">
-							<thead>
-								<tr>
-									<th>Destino</th>
-									<th>Almoxarifado</th>
-									<th>Tipo</th>
-									<th>Resposável</th>
-									<th>Valor Total</th>
-									<th>Data</th>
-									<th>Hora</th>
-								</tr>
-							</thead>
-							<tbody id="tabela">
-							</tbody>
-						</table>
-					</div><br>
+					<!-- start: page -->
+					
+					<section class="panel">
+						<header class="panel-heading">
+							<div class="panel-actions">
+								<a href="#" class="fa fa-caret-down"></a>
+							</div>
+							<h2 class="panel-title">Saída</h2>
+						</header>
+						<div class="panel-body">
+							<table class="table table-bordered table-striped mb-none" id="datatable-default">
+								<thead>
+									<tr>
+										<th>Destino</th>
+										<th>Almoxarifado</th>
+										<th>Tipo</th>
+										<th>Responsável</th>
+										<th>Valor Total</th>
+										<th>Data</th>
+										<th>Hora</th>
+									</tr>
+								</thead>
+								<tbody id="tabela">	
+								</tbody>
+							</table>
+						</div><br>
+					</section>
+<!-- verificar -->
 				</section>
+<!-- verificar -->
 			</section>
 		</div>
 	</section>
