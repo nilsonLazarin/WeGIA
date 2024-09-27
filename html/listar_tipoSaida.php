@@ -154,14 +154,14 @@
                <div class="panel-actions">
                   <a href="#" class="fa fa-caret-down"></a>
                </div>
-               <h2 class="panel-title">tipo</h2>
+               <h2 class="panel-title">Tipo</h2>
             </header>
             <div class="panel-body">
                <table class="table table-bordered table-striped mb-none" id="datatable-default">
                   <thead>
                      <tr>
                         <th>Nome</th>
-                        <th>acao</th>
+                        <th>Ação</th>
                      </tr>
                   </thead>
                   <tbody id="tabela">	

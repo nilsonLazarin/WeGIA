@@ -169,7 +169,7 @@
 							<div id="overview" class="tab-pane active">
 								<form class="form-horizontal" method="post" id="formulario" onsubmit="return validar()" action="../controle/control.php" autocomplete="off">
 									<fieldset>
-										<div class="info-entrada" >
+										<div class="info-entrada">
 											<p>Atenção: Almoxarifados só serão exibidos como opção caso o usuário esteja cadastrado como almoxarife.</p>
 											<div class="form-group">
 												<label class="col-md-3 control-label" for="origem">Origem</label>
@@ -210,9 +210,9 @@
 															<a href="cadastro_produto.php" class="fas fa-plus w3-xlarge" style="float:right;" id="produto" class="produto">
 															</a>
 														</th>
-														<th>quantidade</th>
-														<th>valor unitário</th>
-														<th>incluir</th>
+														<th>Quantidade</th>
+														<th>Valor unitário</th>
+														<th>Incluir</th>
 													</tr>
 													<tr>
 														<td>

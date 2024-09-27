@@ -200,7 +200,7 @@ if (isset($_SESSION['saida'])) {
 							<div class="panel-actions">
 								<a href="#" class="fa fa-caret-down"></a>
 							</div>
-							<h2 class="panel-title">Saida</h2>
+							<h2 class="panel-title">Saída</h2>
 						</header>
 						<div class="panel-body">
 							<table class="table table-bordered table-striped mb-none" id="datatable-default">
@@ -209,7 +209,7 @@ if (isset($_SESSION['saida'])) {
 										<th>Destino</th>
 										<th>Almoxarifado</th>
 										<th>Tipo</th>
-										<th>Resposável</th>
+										<th>Responsável</th>
 										<th>Valor Total</th>
 										<th>Data</th>
 										<th>Hora</th>

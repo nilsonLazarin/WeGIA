@@ -389,9 +389,9 @@ require_once "../Functions/permissao/permissao.php";
 																	<a href="cadastro_produto.php" class="fas fa-plus w3-xlarge" style="float:right;" id="produto" class="produto">
 																	</a>
 																</th>
-																<th>quantidade</th>
-																<th>valor unitário</th>
-																<th>incluir</th>
+																<th>Quantidade</th>
+																<th>Valor unitário</th>
+																<th>Incluir</th>
 															</tr>
 															<tr>
 																<td>
@@ -402,7 +402,7 @@ require_once "../Functions/permissao/permissao.php";
 																<td><input type="number" name="quantidade" style="width: 74px;" value="1" min="1" id="quantidade"></td>
 																<td><input id="valor_unitario" type="number" name="quantidade" style="width: 74px;" step="any" value="0" min="0"></td>
 																<td>
-																	<button id="incluir" type="button" class="add-row">incluir</button>
+																	<button id="incluir" type="button" class="add-row">Adicionar produtos</button>
 																</td>
 															</tr>
 														</thead>

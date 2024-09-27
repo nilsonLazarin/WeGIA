@@ -170,7 +170,7 @@
 											}else{
 										?>
 											<div class="form-group"><br>
-												<label class="col-md-3 control-label">Almoxarifado</label>
+												<label class="col-md-3 control-label">Insira o nome do almoxarifado:</label>
 												<div class="col-md-8">
 													<input type="text" class="form-control" name="descricao_almoxarifado" id="descricao_almoxarifado" required>
 												</div>

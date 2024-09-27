@@ -200,7 +200,7 @@
 											<th>Origem</th>
 											<th>Almoxarifado</th>
 											<th>Tipo</th>
-											<th>Resposável</th>
+											<th>Responsável</th>
 											<th>Valor Total</th>
 											<th>Data</th>
 											<th>Hora</th>
