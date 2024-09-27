@@ -1,19 +1,19 @@
 <?php
 session_start();
 if (!isset($_SESSION['usuario'])) {
-    header("Location: ../index.php");
-    exit();
+	header("Location: ../index.php");
+	exit();
 }
 
 $config_path = "config.php";
 if (file_exists($config_path)) {
-    require_once($config_path);
+	require_once($config_path);
 } else {
-    while (true) {
-        $config_path = "../" . $config_path;
-        if (file_exists($config_path)) break;
-    }
-    require_once($config_path);
+	while (true) {
+		$config_path = "../" . $config_path;
+		if (file_exists($config_path)) break;
+	}
+	require_once($config_path);
 }
 
 $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
@@ -26,34 +26,34 @@ $stmt->execute();
 $resultado = $stmt->get_result();
 
 if ($resultado && $resultado->num_rows > 0) {
-    $row = $resultado->fetch_assoc();
-    $id_cargo = $row['id_cargo'];
+	$row = $resultado->fetch_assoc();
+	$id_cargo = $row['id_cargo'];
 
-    // Segunda consulta usando prepared statements
-    $stmt = $conexao->prepare("SELECT id_acao FROM permissao WHERE id_cargo = ? AND id_recurso = 24");
-    $stmt->bind_param("i", $id_cargo);
-    $stmt->execute();
-    $resultado = $stmt->get_result();
+	// Segunda consulta usando prepared statements
+	$stmt = $conexao->prepare("SELECT id_acao FROM permissao WHERE id_cargo = ? AND id_recurso = 24");
+	$stmt->bind_param("i", $id_cargo);
+	$stmt->execute();
+	$resultado = $stmt->get_result();
 
-    if ($resultado && $resultado->num_rows > 0) {
-        $permissao = $resultado->fetch_assoc();
-        if ($permissao['id_acao'] < 3) {
-            $msg = urlencode("Você não tem as permissões necessárias para essa página.");
-            header("Location: ./home.php?msg_c=$msg");
-            exit();
-        }
-        $permissao = $permissao['id_acao'];
-    } else {
-        $permissao = 1;
-        $msg = urlencode("Você não tem as permissões necessárias para essa página.");
-        header("Location: ./home.php?msg_c=$msg");
-        exit();
-    }
+	if ($resultado && $resultado->num_rows > 0) {
+		$permissao = $resultado->fetch_assoc();
+		if ($permissao['id_acao'] < 3) {
+			$msg = urlencode("Você não tem as permissões necessárias para essa página.");
+			header("Location: ./home.php?msg_c=$msg");
+			exit();
+		}
+		$permissao = $permissao['id_acao'];
+	} else {
+		$permissao = 1;
+		$msg = urlencode("Você não tem as permissões necessárias para essa página.");
+		header("Location: ./home.php?msg_c=$msg");
+		exit();
+	}
 } else {
-    $permissao = 1;
-    $msg = urlencode("Você não tem as permissões necessárias para essa página.");
-    header("Location: ./home.php?msg_c=$msg");
-    exit();
+	$permissao = 1;
+	$msg = urlencode("Você não tem as permissões necessárias para essa página.");
+	header("Location: ./home.php?msg_c=$msg");
+	exit();
 }
 
 // Adiciona a Função display_campo($nome_campo, $tipo_campo)
@@ -72,7 +72,7 @@ require_once "../Functions/permissao/permissao.php";
 	include_once '../dao/ProdutoDAO.php';
 
 	if (!isset($_SESSION['almoxarifado'])) {
-		header('Location: ../controle/control.php?metodo=listarTodos&nomeClasse=AlmoxarifadoControle&nextPage='.WWW.'/html/cadastro_saida.php');
+		header('Location: ../controle/control.php?metodo=listarTodos&nomeClasse=AlmoxarifadoControle&nextPage=' . WWW . '/html/cadastro_saida.php');
 	}
 	if (!isset($_SESSION['tipo_saida'])) {
 		header('Location: ../controle/control.php?metodo=listarTodos&nomeClasse=TipoSaidaControle&nextPage=../html/cadastro_saida.php');
@@ -158,7 +158,7 @@ require_once "../Functions/permissao/permissao.php";
 
 			$.each(produtos_autocomplete, function(i, item) {
 				//$('#produtos_autocomplete').append('<option value="' + item.id_produto + '|' + item.descricao + '">');
-				prods[i] = item.id_produto + '|' + item.descricao + '|' + item.codigo;//alterar aqui
+				prods[i] = item.id_produto + '|' + item.descricao + '|' + item.codigo; //alterar aqui
 			})
 
 			$("#input_produtos").autocomplete({
@@ -196,11 +196,12 @@ require_once "../Functions/permissao/permissao.php";
 
 				//As próximas 3 linhas de código são responsáveis por deixar a formatação compatível para a verificação na linha de código seguinte, uma vez que os dados vem de tabelas diferentes e a tabela de produtos não possuí o campo quantidade
 				let parts = val.split('|');
-				parts.splice(2,1);
+				parts.splice(2, 1);
 				val = parts.join('|')
-				
-				var obj = prods.find;(prod => prod === val);
-				
+
+				var obj = prods.find;
+				(prod => prod === val);
+
 				produto = produto.split("|");
 				if (obj != null && obj.length > 0) {
 					if (Number(produto[2]) >= Number($("#quantidade").val())) {
@@ -540,7 +541,7 @@ require_once "../Functions/permissao/permissao.php";
 	</script>
 	<script src="../assets/script/logistica.js"></script>
 	<div align="right">
-		<iframe src="https://www.wegia.org/software/footer/estoque.html" width="200" height="60" style="border:none;"></iframe>
+		<iframe src="https://www.wegia.org/software/footer/pet.html" width="200" height="60" style="border:none;"></iframe>
 	</div>
 </body>
 
