@@ -164,29 +164,29 @@ require_once "../Functions/permissao/permissao.php";
 					<div class="col-md-8 col-lg-8">
 						<div class="tabs">
 
-						<ul class="nav nav-tabs tabs-primary">
-							<li cla ss="active">
-								<a href="#overview" data-toggle="tab">Cadastro de Doação</a>
-							</li>
-						</ul>
-						<div class="tab-content">
-							<div id="overview" class="tab-pane active">
-								<form class="form-horizontal" method="post" id="formulario" onsubmit="return validar()" action="../controle/control.php" autocomplete="off">
-									<fieldset>
-										<div class="info-entrada">
-											<p>Atenção: Almoxarifados só serão exibidos como opção caso o usuário esteja cadastrado como almoxarife.</p>
-											<div class="form-group">
-												<label class="col-md-3 control-label" for="origem">Origem</label>
-												<a href="cadastro_doador.php"><i class="fas fa-plus w3-xlarge"></i></a>
-												<div class="col-md-8">
-													<input type="search" list="origens" id="origem" name="origem" class="form-control" autocomplete="off" required>
-													<datalist id="origens">
-													</datalist>
+							<ul class="nav nav-tabs tabs-primary">
+								<li cla ss="active">
+									<a href="#overview" data-toggle="tab">Cadastro de Doação</a>
+								</li>
+							</ul>
+							<div class="tab-content">
+								<div id="overview" class="tab-pane active">
+									<form class="form-horizontal" method="post" id="formulario" onsubmit="return validar()" action="../controle/control.php" autocomplete="off">
+										<fieldset>
+											<div class="info-entrada">
+												<p>Atenção: Almoxarifados só serão exibidos como opção caso o usuário esteja cadastrado como almoxarife.</p>
+												<div class="form-group">
+													<label class="col-md-3 control-label" for="origem">Origem</label>
+													<a href="cadastro_doador.php"><i class="fas fa-plus w3-xlarge"></i></a>
+													<div class="col-md-8">
+														<input type="search" list="origens" id="origem" name="origem" class="form-control" autocomplete="off" required>
+														<datalist id="origens">
+														</datalist>
 
-<!-- verificar -->
+
 													</div>
 												</div>
-<!-- verificar -->
+
 												<div class="form-group">
 													<label class="col-md-3 control-label" for="almoxarifado">Almoxarifado</label>
 													<a href="adicionar_almoxarifado.php"><i class="fas fa-plus w3-xlarge"></i></a>
@@ -205,87 +205,87 @@ require_once "../Functions/permissao/permissao.php";
 														</select>
 													</div>
 												</div>
-<!-- verificar -->											
-                      </div>
-										</div>
-<!-- verificar -->										
-										<div class="panel-body" >
-											<div class="table-responsive">
-											<table class="table table-bordered mb-none">
-												<thead>
-													<tr style="width: 768px;">
-														<th>Produto
-															<a href="cadastro_produto.php" class="fas fa-plus w3-xlarge" style="float:right;" id="produto" class="produto">
-															</a>
-														</th>
-														<th>Quantidade</th>
-														<th>Valor unitário</th>
-														<th>Incluir</th>
-													</tr>
-													<tr>
-														<td>
-															<input type="text" id="input_produtos" name="produtos_autocomplete" autocomplete="on" size="20" class="form-control">
-															<!-- <datalist id="produtos_autocomplete">
-															</datalist> -->
-																</td>
-																<td><input type="number" name="quantidade" style="width: 74px;" value="1" min="1" id="quantidade"></td>
-																<td><input id="valor_unitario" type="number" name="quantidade" style="width: 74px;" step="any" value="0" min="0"></td>
-																<td>
-																	<button id="incluir" type="button" class="add-row">incluir</button>
-																</td>
-															</tr>
-														</thead>
-													</table><br>
-												</div>
 
-												<div class="table-responsive">
-													<table class="table table-bordered mb-none table">
-														<thead>
-															<tr>
-
-																<th style="width: 160px;">Produto
-																<th style="width: 85px;">Quantidade</th>
-																<th>Preço</th>
-																<th>Total</th>
-																<th>Ação</th>
-															</tr>
-														</thead>
-														<tbody>
-														</tbody>
-														<tfoot>
-															<tr>
-																<td>Valor total:</td>
-																<td id="valor-total">
-																	<input type="number" id="total_total" name="total_total" readonly="readonly" required>
-																	<input type="hidden" id="conta" name="conta" readonly="readonly">
-																	<input type="hidden" id="verifica" disabled>
-																</td>
-
-															</tr>
-														</tfoot>
-													</table>
-												</div>
 											</div>
-											<!--<button id="array">Pegar valores da tabela</button>
+								</div>
+
+								<div class="panel-body">
+									<div class="table-responsive">
+										<table class="table table-bordered mb-none">
+											<thead>
+												<tr style="width: 768px;">
+													<th>Produto
+														<a href="cadastro_produto.php" class="fas fa-plus w3-xlarge" style="float:right;" id="produto" class="produto">
+														</a>
+													</th>
+													<th>Quantidade</th>
+													<th>Valor unitário</th>
+													<th>Incluir</th>
+												</tr>
+												<tr>
+													<td>
+														<input type="text" id="input_produtos" name="produtos_autocomplete" autocomplete="on" size="20" class="form-control">
+														<!-- <datalist id="produtos_autocomplete">
+															</datalist> -->
+													</td>
+													<td><input type="number" name="quantidade" style="width: 74px;" value="1" min="1" id="quantidade"></td>
+													<td><input id="valor_unitario" type="number" name="quantidade" style="width: 74px;" step="any" value="0" min="0"></td>
+													<td>
+														<button id="incluir" type="button" class="add-row">incluir</button>
+													</td>
+												</tr>
+											</thead>
+										</table><br>
+									</div>
+
+									<div class="table-responsive">
+										<table class="table table-bordered mb-none table">
+											<thead>
+												<tr>
+
+													<th style="width: 160px;">Produto
+													<th style="width: 85px;">Quantidade</th>
+													<th>Preço</th>
+													<th>Total</th>
+													<th>Ação</th>
+												</tr>
+											</thead>
+											<tbody>
+											</tbody>
+											<tfoot>
+												<tr>
+													<td>Valor total:</td>
+													<td id="valor-total">
+														<input type="number" id="total_total" name="total_total" readonly="readonly" required>
+														<input type="hidden" id="conta" name="conta" readonly="readonly">
+														<input type="hidden" id="verifica" disabled>
+													</td>
+
+												</tr>
+											</tfoot>
+										</table>
+									</div>
+								</div>
+								<!--<button id="array">Pegar valores da tabela</button>
 										<div id="resultado"></div>-->
 
-										</fieldset><br>
-										<div class="row">
-											<div class="col-md-9 col-md-offset-3">
-												<input type="hidden" name="nomeClasse" value="EntradaControle">
-												<input type="hidden" name="metodo" value="incluir">
-												<input type="submit" class="btn btn-primary">
-											</div>
-										</div>
-									</form>
+								</fieldset><br>
+								<div class="row">
+									<div class="col-md-9 col-md-offset-3">
+										<input type="hidden" name="nomeClasse" value="EntradaControle">
+										<input type="hidden" name="metodo" value="incluir">
+										<input type="submit" class="btn btn-primary">
+									</div>
 								</div>
+								</form>
 							</div>
 						</div>
 					</div>
 				</div>
-			</section>
 		</div>
-		<!-- end: page -->
+	</section>
+	</div>
+	<!-- end: page -->
 	</section>
 
 	<script type="text/javascript">
