@@ -192,61 +192,53 @@ require_once "personalizacao_display.php";
 							<a href="#" class="fa fa-caret-down"></a>
 						</div>
 
-						<!-- start: page -->
+						<h2 class="panel-title">Entrada</h2>
+					</header>
+					<div class="panel-body">
+						<table class="table table-bordered table-striped mb-none" id="datatable-default">
+							<thead>
+								<tr>
+									<th>Produto(s)</th>
+									<th>Origem</th>
+									<th>Almoxarifado</th>
+									<th>Tipo</th>
+									<th>Resposável</th>
+									<th>Valor Total</th>
+									<th>Data</th>
+									<th>Hora</th>
+								</tr>
+							</thead>
+							<tbody id="tabela">
+							</tbody>
+						</table>
+					</div><br>
+				</section>
+				<!-- end: page -->
 
-						<section class="panel">
-							<header class="panel-heading">
-								<div class="panel-actions">
-									<a href="#" class="fa fa-caret-down"></a>
-								</div>
+				<!-- Specific Page Vendor -->
+				<script src="../assets/vendor/select2/select2.js"></script>
+				<script src="../assets/vendor/jquery-datatables/media/js/jquery.dataTables.js"></script>
+				<script src="../assets/vendor/jquery-datatables/extras/TableTools/js/dataTables.tableTools.min.js"></script>
+				<script src="../assets/vendor/jquery-datatables-bs3/assets/js/datatables.js"></script>
 
-								<h2 class="panel-title">Entrada</h2>
-							</header>
-							<div class="panel-body">
-								<table class="table table-bordered table-striped mb-none" id="datatable-default">
-									<thead>
-										<tr>
-											<th>Produto(s)</th>
-											<th>Origem</th>
-											<th>Almoxarifado</th>
-											<th>Tipo</th>
-											<th>Responsável</th>
-											<th>Valor Total</th>
-											<th>Data</th>
-											<th>Hora</th>
-										</tr>
-									</thead>
-									<tbody id="tabela">
-									</tbody>
-								</table>
-							</div><br>
-						</section>
-						<!-- end: page -->
+				<!-- Theme Base, Components and Settings -->
+				<script src="../assets/javascripts/theme.js"></script>
 
-						<!-- Specific Page Vendor -->
-						<script src="../assets/vendor/select2/select2.js"></script>
-						<script src="../assets/vendor/jquery-datatables/media/js/jquery.dataTables.js"></script>
-						<script src="../assets/vendor/jquery-datatables/extras/TableTools/js/dataTables.tableTools.min.js"></script>
-						<script src="../assets/vendor/jquery-datatables-bs3/assets/js/datatables.js"></script>
+				<!-- Theme Custom -->
+				<script src="../assets/javascripts/theme.custom.js"></script>
 
-						<!-- Theme Base, Components and Settings -->
-						<script src="../assets/javascripts/theme.js"></script>
-
-						<!-- Theme Custom -->
-						<script src="../assets/javascripts/theme.custom.js"></script>
-
-						<!-- Theme Initialization Files -->
-						<script src="../assets/javascripts/theme.init.js"></script>
+				<!-- Theme Initialization Files -->
+				<script src="../assets/javascripts/theme.init.js"></script>
 
 
-						<!-- Examples -->
-						<script src="../assets/javascripts/tables/examples.datatables.default.js"></script>
-						<script src="../assets/javascripts/tables/examples.datatables.row.with.details.js"></script>
-						<script src="../assets/javascripts/tables/examples.datatables.tabletools.js"></script>
+				<!-- Examples -->
+				<script src="../assets/javascripts/tables/examples.datatables.default.js"></script>
+				<script src="../assets/javascripts/tables/examples.datatables.row.with.details.js"></script>
+				<script src="../assets/javascripts/tables/examples.datatables.tabletools.js"></script>
 
-						<div align="right">
-							<iframe src="https://www.wegia.org/software/footer/pet.html" width="200" height="60" style="border:none;"></iframe>
-						</div>
+				<div align="right">
+					<iframe src="https://www.wegia.org/software/footer/matPat.html" width="200" height="60" style="border:none;"></iframe>
+				</div>
 </body>
 
 </html>
