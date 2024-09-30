@@ -1,6 +1,8 @@
 <?php
 require_once '../model/ContribuicaoLog.php';
 require_once '../dao/ContribuicaoLogDAO.php';
+require_once '../model/Socio.php';
+require_once '../dao/SocioDAO.php';
 
 class ContribuicaoLogController
 {
@@ -8,6 +10,15 @@ class ContribuicaoLogController
     {
         $valor = filter_input(INPUT_POST, 'valor');
         $idSocio = filter_input(INPUT_POST, 'id_socio');
+
+        //Verificar se existe um sócio que possua de fato o id
+        $socioDao = new SocioDAO();
+        $socio = $socioDao->buscarPorId($idSocio);
+
+        if(is_null($socio)){
+            //Colocar uma mensagem para informar que o sócio não existe
+            exit();
+        }
 
         //$servicoPagamento = Verificar qual a melhor maneira de detectar o serviço de pagamento
 
@@ -21,7 +32,7 @@ class ContribuicaoLogController
             ->setCodigo($contribuicaoLog->gerarCodigo())
             ->setDataGeracao($dataGeracao)
             ->setDataVencimento($dataVencimento)
-            ->setIdSocio($idSocio);
+            ->setSocio($socio);
 
         try {
             $contribuicaoLogDao = new ContribuicaoLogDAO();

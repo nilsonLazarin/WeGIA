@@ -34,7 +34,7 @@ class ContribuicaoLogDAO{
             ";
         
         $stmt = $this->pdo->prepare($sqlInserirContribuicaoLog);
-        $stmt->bindParam(':idSocio', $contribuicaoLog->getIdSocio());
+        $stmt->bindParam(':idSocio', $contribuicaoLog->getSocio()->getId());
         $stmt->bindParam(':codigo', $contribuicaoLog->getCodigo());
         $stmt->bindParam(':valor', $contribuicaoLog->getValor());
         $stmt->bindParam(':dataGeracao', $contribuicaoLog->getDataGeracao());
