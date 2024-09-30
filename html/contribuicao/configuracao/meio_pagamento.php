@@ -171,7 +171,7 @@ $meiosPagamento = $meioPagamentoController->buscaTodos();
                                             <select class="form-control" id="meio-pagamento-plataforma" name="meio-pagamento-plataforma">
                                                 <option selected disabled>Selecione a plataforma desejada ...</option>
                                                 <?php foreach ($gateways as $gateway): ?>
-                                                    <option value="<?= $gateway['id'] ?>"><?= $gateway['plataforma'].' | '.$gateway['endPoint'] ?></option>
+                                                    <option value="<?= $gateway['id'] ?>"><?= $gateway['plataforma'] . ' | ' . $gateway['endPoint'] ?></option>
                                                 <?php endforeach; ?>
                                             </select>
                                         </div>
@@ -237,7 +237,7 @@ $meiosPagamento = $meioPagamentoController->buscaTodos();
                                             <?php foreach ($meiosPagamento as $meioPagamento): ?>
                                                 <tr>
                                                     <td class="vertical-center"><?= $meioPagamento['meio'] ?></td>
-                                                    <td class="vertical-center"><?= $meioPagamento['plataforma'].' | '.$meioPagamento['endpoint'] ?></td><!--Substituir impressão do id pelo nome da plataforma | endpoint-->
+                                                    <td class="vertical-center"><?= $meioPagamento['plataforma'] . ' | ' . $meioPagamento['endpoint'] ?></td><!--Substituir impressão do id pelo nome da plataforma | endpoint-->
                                                     <td class="vertical-center">
                                                         <div class="toggle-switch">
                                                             <?php if (isset($meioPagamento['status']) && $meioPagamento['status'] === 1): ?>
@@ -282,7 +282,7 @@ $meiosPagamento = $meioPagamentoController->buscaTodos();
                                                             <select class="form-control" id="editPlataforma" name="plataforma">
                                                                 <option selected disabled>Selecione a plataforma desejada ...</option>
                                                                 <?php foreach ($gateways as $gateway): ?>
-                                                                    <option value="<?= $gateway['id'] ?>"><?= $gateway['plataforma'].' | '.$gateway['endPoint'] ?></option>
+                                                                    <option value="<?= $gateway['id'] ?>"><?= $gateway['plataforma'] . ' | ' . $gateway['endPoint'] ?></option>
                                                                 <?php endforeach; ?>
                                                             </select>
                                                         </div>
@@ -312,7 +312,7 @@ $meiosPagamento = $meioPagamentoController->buscaTodos();
     <script src="./assets/js/meioPagamento.js"></script>
 
     <div align="right">
-        <iframe src="https://www.wegia.org/software/footer/saude.html" width="200" height="60" style="border:none;"></iframe>
+        <iframe src="https://www.wegia.org/software/footer/contribuicao.html" width="200" height="60" style="border:none;"></iframe>
     </div>
 </body>
 

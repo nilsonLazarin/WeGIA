@@ -950,53 +950,96 @@ $dependente = json_encode($dependente);
                         <input type="hidden" name="nomeClasse" value="FuncionarioControle">
                         <input type="hidden" name="metodo" value="alterarOutros">
                         <div class="form-group">
-                          <label class="col-md-3 control-label">PIS</label>
+                          <label for="pis" class="col-md-3 control-label">PIS (Número de Identificação do Trabalhador)</label>
                           <div class="col-md-6">
-                            <input type="text" id="pis" name="pis" class="form-control">
+                            <input type="text" id="pis" name="pis" class="form-control" 
+                                  pattern="\d{3}\.\d{5}\.\d{2}-\d{1}" maxlength="14" 
+                                  placeholder="123.45678.91-0" 
+                                  oninput="this.value = this.value.replace(/[^0-9.-]/g, '');" 
+                                  required>
+                            <small>Formato: 123.45678.91-0</small>
                           </div>
                         </div>
+
+                        <!-- Campo CTPS -->
                         <div class="form-group">
-                          <label class="col-md-3 control-label">CTPS</label>
+                          <label for="ctps" class="col-md-3 control-label">CTPS (Carteira de Trabalho e Previdência Social)</label>
                           <div class="col-md-6">
-                            <input type="text" id="ctps" name="ctps" class="form-control">
+                            <input type="text" id="ctps" name="ctps" class="form-control" 
+                                  pattern="\d{7}/\d{4}" maxlength="12" 
+                                  placeholder="1234567/8910" 
+                                  oninput="this.value = this.value.replace(/[^0-9\/]/g, '');" 
+                                  required>
+                            <small>Formato: 1234567/8910</small>
                           </div>
                         </div>
+
+                        <!-- Campo Estado CTPS -->
                         <div class="form-group">
                           <label class="col-md-3 control-label" for="uf">Estado CTPS</label>
                           <div class="col-md-6">
                             <input type="text" name="uf_ctps" size="60" class="form-control" id="uf_ctps">
                           </div>
                         </div>
+
+                        <!-- Campo Título de Eleitor -->
                         <div class="form-group">
-                          <label class="col-md-3 control-label">Título de eleitor</label>
+                          <label for="titulo_eleitor" class="col-md-3 control-label">Título de Eleitor</label>
                           <div class="col-md-6">
-                            <input type="text" name="titulo_eleitor" id="titulo_eleitor" class="form-control">
+                            <input type="text" name="titulo_eleitor" id="titulo_eleitor" class="form-control" 
+                                  pattern="\d{12}" maxlength="12" placeholder="123456789012" 
+                                  oninput="this.value = this.value.replace(/[^0-9]/g, '');" 
+                                  required>
+                            <small>Formato: 123456789012</small>
                           </div>
                         </div>
+
+                        <!-- Campo Zona Eleitoral -->
                         <div class="form-group">
-                          <label class="col-md-3 control-label">Zona eleitoral</label>
+                          <label for="zona_eleitoral" class="col-md-3 control-label">Zona Eleitoral</label>
                           <div class="col-md-6">
-                            <input type="text" name="zona_eleitoral" id="zona_eleitoral" class="form-control">
+                            <input type="text" name="zona_eleitoral" id="zona_eleitoral" class="form-control" 
+                                  pattern="\d{3}" maxlength="3" placeholder="123" 
+                                  oninput="this.value = this.value.replace(/[^0-9]/g, '');" 
+                                  required>
+                            <small>Formato: 123</small>
                           </div>
                         </div>
+
+                        <!-- Campo Seção Eleitoral -->
                         <div class="form-group">
-                          <label class="col-md-3 control-label">Seção do título de eleitor</label>
+                          <label for="secao_titulo_eleitor" class="col-md-3 control-label">Seção do Título de Eleitor</label>
                           <div class="col-md-6">
-                            <input type="text" name="secao_titulo_eleitor" id="secao_titulo_eleitor" class="form-control">
+                            <input type="text" name="secao_titulo_eleitor" id="secao_titulo_eleitor" class="form-control" 
+                                  pattern="\d{4}" maxlength="4" placeholder="1234" 
+                                  oninput="this.value = this.value.replace(/[^0-9]/g, '');" 
+                                  required>
+                            <small>Formato: 1234</small>
                           </div>
                         </div>
+
                         <div class="form-group" id="reservista1" style="display: none">
                           <label class="col-md-3 control-label">Número do certificado reservista</label>
                           <div class="col-md-6">
-                            <input type="text" id="certificado_reservista_numero" name="certificado_reservista_numero" class="form-control num_reservista">
+                            <input type="text" id="certificado_reservista_numero" name="certificado_reservista_numero" 
+                                  class="form-control num_reservista" maxlength="9" 
+                                  pattern="\d*" inputmode="numeric" placeholder="123456789" 
+                                  oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                            <small>Formato: 123456789</small>
                           </div>
                         </div>
+
                         <div class="form-group" id="reservista2" style="display: none">
                           <label class="col-md-3 control-label">Série do certificado reservista</label>
                           <div class="col-md-6">
-                            <input type="text" id="certificado_reservista_serie" name="certificado_reservista_serie" class="form-control serie_reservista">
+                            <input type="text" id="certificado_reservista_serie" name="certificado_reservista_serie" 
+                                  class="form-control serie_reservista" maxlength="3" 
+                                  pattern="\d*" inputmode="numeric" placeholder="001" 
+                                  oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                            <small>Formato: 001</small>
                           </div>
                         </div>
+                        
                         <div class="form-group">
                           <label class="col-md-3 control-label" for="profileCompany">Data de Admissão</label>
                           <div class="col-md-6">
