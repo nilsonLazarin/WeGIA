@@ -22,7 +22,7 @@ class ContribuicaoLogController
         $valor = filter_input(INPUT_POST, 'valor');
         $documento = filter_input(INPUT_POST, 'documento_socio');
 
-        //Verificar se existe um sócio que possua de fato o id
+        //Verificar se existe um sócio que possua de fato o documento
         $socioDao = new SocioDAO();
         $socio = $socioDao->buscarPorDocumento($documento);
 
