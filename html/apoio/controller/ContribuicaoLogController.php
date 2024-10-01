@@ -4,20 +4,31 @@ require_once '../dao/ContribuicaoLogDAO.php';
 require_once '../model/Socio.php';
 require_once '../dao/SocioDAO.php';
 
+//Fazer requisição dinâmica posteriormente
+require_once '../service/PagarMeBoletoService.php';
+
 class ContribuicaoLogController
 {
+
+    private $pdo;
+
+    public function __construct()
+    {
+        $this->pdo = ConexaoDAO::conectar();
+    }
+
     public function criar()
     {
         $valor = filter_input(INPUT_POST, 'valor');
-        $idSocio = filter_input(INPUT_POST, 'id_socio');
+        $documento = filter_input(INPUT_POST, 'documento_socio');
 
         //Verificar se existe um sócio que possua de fato o id
         $socioDao = new SocioDAO();
-        $socio = $socioDao->buscarPorId($idSocio);
+        $socio = $socioDao->buscarPorDocumento($documento);
 
         if(is_null($socio)){
             //Colocar uma mensagem para informar que o sócio não existe
-            exit();
+            exit('Sócio não encontrado');
         }
 
         //$servicoPagamento = Verificar qual a melhor maneira de detectar o serviço de pagamento
@@ -35,12 +46,18 @@ class ContribuicaoLogController
             ->setSocio($socio);
 
         try {
-            $contribuicaoLogDao = new ContribuicaoLogDAO();
-
             /*Implementar controle de transação para que o log só seja registrado
             caso o serviço de pagamento tenha sido executado*/
+            $this->pdo->beginTransaction();
+            $contribuicaoLogDao = new ContribuicaoLogDAO($this->pdo);
             $contribuicaoLogDao->criar($contribuicaoLog);
             //Fazer chamada do serviço de pagamento requisitado
+            $servicoPagamento = new PagarMeBoletoService();//Chamar dinamicamente
+            if(!$servicoPagamento->gerarBoleto($contribuicaoLog)){
+                $this->pdo->rollBack();
+            }else{
+                $this->pdo->commit();
+            }
         } catch (PDOException $e) {
             //implementar tratamento de erro
             echo 'Erro: '.$e->getMessage();

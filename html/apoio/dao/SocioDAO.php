@@ -7,9 +7,13 @@ require_once '../model/Socio.php';
 class SocioDAO{
     private $pdo;
 
-    public function __construct()
+    public function __construct(PDO $pdo = null)
     {
-        $this->pdo = ConexaoDAO::conectar();
+        if(is_null($pdo)){
+            $this->pdo = ConexaoDAO::conectar();
+        }else{
+            $this->pdo = $pdo;
+        }
     }
 
     public function montarSocio($socioArray){

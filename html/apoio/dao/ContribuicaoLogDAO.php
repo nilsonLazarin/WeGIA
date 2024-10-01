@@ -8,9 +8,13 @@ require_once '../model/ContribuicaoLog.php';
 class ContribuicaoLogDAO{
     private $pdo;
 
-    public function __construct()
+    public function __construct(PDO $pdo = null)
     {
-        $this->pdo = ConexaoDAO::conectar();
+        if(is_null($pdo)){
+            $this->pdo = ConexaoDAO::conectar();
+        }else{
+            $this->pdo = $pdo;
+        }
     }
 
     public function criar(ContribuicaoLog $contribuicaoLog){
