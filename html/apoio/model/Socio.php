@@ -12,6 +12,7 @@ class Socio{
     private $cep;
     private $numeroEndereco;
     private $logradouro;
+    private $documento;
 
     /**
      * Get the value of nome
@@ -231,6 +232,26 @@ class Socio{
     public function setId($id)
     {
         $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of documento
+     */ 
+    public function getDocumento()
+    {
+        return $this->documento;
+    }
+
+    /**
+     * Set the value of documento
+     *
+     * @return  self
+     */ 
+    public function setDocumento($documento)
+    {
+        $this->documento = $documento;
 
         return $this;
     }

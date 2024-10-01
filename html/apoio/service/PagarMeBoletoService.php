@@ -17,19 +17,66 @@ class PagarMeBoletoService implements ApiBoletoServiceInterface
         //Buscar Url da API e token no BD
         try {
             $gatewayPagamentoDao = new GatewayPagamentoDAO();
-            $gatewayPagamento = $gatewayPagamentoDao->buscarPorId(8);//Pegar valor do id dinamicamente
+            $gatewayPagamento = $gatewayPagamentoDao->buscarPorId(8); //Pegar valor do id dinamicamente
 
             //print_r($gatewayPagamento);
         } catch (PDOException $e) {
             //Implementar tratamento de erro
-            echo 'Erro: '.$e->getMessage();
+            echo 'Erro: ' . $e->getMessage();
         }
 
         //Buscar mensagem de agradecimento no BD
-
+        $msg = 'Agradecimento';
         //Configurar cabeçalho da requisição
+        $headers = [
+            'Authorization: Basic ' . base64_encode($gatewayPagamento['token'] . ':'),
+            'Content-Type: application/json;charset=utf-8',
+        ];
 
         //Montar array de Boleto
+
+        $cpfSemMascara = preg_replace('/\D/', '', $contribuicaoLog->getSocio()->getDocumento());
+
+        $boleto = [
+            "items" => [
+                [
+                    "amount" => $contribuicaoLog->getValor() * 100,
+                    "description" => "Donation",
+                    "quantity" => 1,
+                    "code" => $contribuicaoLog->getCodigo()
+                ]
+            ],
+            "customer" => [
+                "name" => $contribuicaoLog->getSocio()->getNome(),
+                "email" => $contribuicaoLog->getSocio()->getEmail(),
+                "document_type" => "CPF",
+                "document" => $cpfSemMascara,
+                "type" => "Individual",
+                "address" => [
+                    "line_1" => $contribuicaoLog->getSocio()->getLogradouro() . ", n°" . $contribuicaoLog->getSocio()->getNumeroEndereco() . ", " . $contribuicaoLog->getSocio()->getBairro(),
+                    "line_2" => $contribuicaoLog->getSocio()->getComplemento(),
+                    "zip_code" => $contribuicaoLog->getSocio()->getCep(),
+                    "city" => $contribuicaoLog->getSocio()->getCidade(),
+                    "state" => $contribuicaoLog->getSocio()->getEstado(),
+                    "country" => "BR"
+                ],
+            ],
+            "payments" => [
+                [
+                    "payment_method" => "boleto",
+                    "boleto" => [
+                        "instructions" => $msg,
+                        "document_number" => $numeroDocumento,
+                        "due_at" => $contribuicaoLog->getDataVencimento(),
+                        "type" => $type
+                    ]
+                ]
+            ]
+        ];
+
+        // Transformar o boleto em JSON
+        $boleto_json = json_encode($boleto);
+        echo $boleto_json;
         return true;
     }
     public function guardarSegundaVia() {}

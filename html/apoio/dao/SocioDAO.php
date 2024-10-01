@@ -30,7 +30,8 @@ class SocioDAO{
             ->setComplemento($socioArray['complemento'])
             ->setCep($socioArray['cep'])
             ->setNumeroEndereco($socioArray['numero_endereco'])
-            ->setLogradouro($socioArray['logradouro']);
+            ->setLogradouro($socioArray['logradouro'])
+            ->setDocumento($socioArray['cpf']);
 
         return $socio;
     }
@@ -48,6 +49,7 @@ class SocioDAO{
             pessoa.complemento, 
             pessoa.numero_endereco, 
             pessoa.logradouro, 
+            pessoa.cpf
             socio.id_socio, 
             socio.email 
         FROM pessoa, socio 
@@ -83,6 +85,7 @@ class SocioDAO{
             pessoa.complemento, 
             pessoa.numero_endereco, 
             pessoa.logradouro, 
+            pessoa.cpf,
             socio.id_socio, 
             socio.email 
         FROM pessoa, socio 
