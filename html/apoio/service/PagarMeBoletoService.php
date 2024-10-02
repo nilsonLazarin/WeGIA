@@ -77,6 +77,55 @@ class PagarMeBoletoService implements ApiBoletoServiceInterface
         // Transformar o boleto em JSON
         $boleto_json = json_encode($boleto);
         echo $boleto_json;
+
+        //Iniciar requisição
+
+        // Iniciar a requisição cURL
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $gatewayPagamento['endPoint']);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $boleto_json);
+
+        // Executar a requisição cURL
+        $response = curl_exec($ch);
+
+        // Lidar com a resposta da API (mesmo código de tratamento que você já possui)
+
+        // Verifica por erros no cURL
+        if (curl_errno($ch)) {
+            echo 'Erro na requisição: ' . curl_error($ch);
+            curl_close($ch);
+            return false;
+        }
+
+        // Obtém o código de status HTTP
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+        // Fecha a conexão cURL
+        curl_close($ch);
+
+        // Verifica o código de status HTTP
+        if ($httpCode === 200 || $httpCode === 201) {
+            $responseData = json_decode($response, true);
+            $pdf_link = $responseData['charges'][0]['last_transaction']['pdf'];
+
+            //envia resposta para o front-end
+            echo json_encode(['link' => $pdf_link]);
+        } else {
+            echo json_encode(['Erro' => 'A API retornou o código de status HTTP ' . $httpCode]);
+            return false;
+            // Verifica se há mensagens de erro na resposta JSON
+            $responseData = json_decode($response, true);
+            if (isset($responseData['errors'])) {
+                //echo 'Detalhes do erro:';
+                foreach ($responseData['errors'] as $error) {
+                    //echo '<br> ' . htmlspecialchars($error['message']);
+                }
+            }
+        }
+
         return true;
     }
     public function guardarSegundaVia() {}
