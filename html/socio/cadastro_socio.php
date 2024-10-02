@@ -97,7 +97,7 @@ ini_set('display_startup_erros', 0);
 
                 </div>
 
-                <div id="pag2" class="wrap-input100">
+                <div id="pag2" class="wrap-input100 hidden">
 
                     <div class="wrap-input100">
                         <label for="cpf" class="label-input100">Para prosseguirmos precisamos do seu CPF</label>
@@ -119,7 +119,7 @@ ini_set('display_startup_erros', 0);
 
                 </div>
 
-                <div id="pag3" class="wrap-input100">
+                <div id="pag3" class="wrap-input100 hidden">
 
                     <div class="wrap-input100">
                         <label for="nome" class="label-input100">Nome</label>
@@ -153,7 +153,7 @@ ini_set('display_startup_erros', 0);
 
                 </div>
 
-                <div id="pag4" class="wrap-input100">
+                <div id="pag4" class="wrap-input100 hidden">
                     <div class="wrap-input100">
                         <div class="select2-container">
                             <label for="nome" class="label-input100">Com qual frequência gostaria de contribuir?</label>
@@ -189,7 +189,7 @@ ini_set('display_startup_erros', 0);
 					</div>
                 </div>
 
-                <div id="pag5" class="wrap-input100">
+                <div id="pag5" class="wrap-input100 hidden">
 
                     <div class="wrap-input100">
                         <label for="cep" class="label-input100">CEP</label>
@@ -231,7 +231,7 @@ ini_set('display_startup_erros', 0);
 
                 </div>
 
-                <div id="pag6" class="wrap-input100">
+                <div id="pag6" class="wrap-input100 hidden">
 
                     <h3 class="text-center">Obrigado por apoiar nossa Instituição!</h3>
                     <div class="container-contact100-form-btn">
@@ -264,9 +264,11 @@ ini_set('display_startup_erros', 0);
     <script src="../contribuicao/outros/js/mascara.js"></script>
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
-
-
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
+
+    <!--Busca cep-->
+    <script src="../../Functions/busca_cep.js"></script>
+    <script src="./js/cadastro_socio.js"></script>
 
 </body>
 
