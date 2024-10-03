@@ -133,7 +133,7 @@ ini_set('display_startup_erros', 0);
                     </div>
                     <div class="wrap-input100">
                         <label for="data_nascimento" class="label-input100">Data de Nascimento</label>
-                        <input type="date" class="input100" name="data_nascimento" id="data_nascimento">
+                        <input type="date" class="input100" name="data_nascimento" id="data_nascimento" min="1900-01-01" max="<?=date('Y-m-d')?>">
                     </div>
                     <div class="wrap-input100">
                         <label for="email" class="label-input100">E-mail</label>
@@ -141,7 +141,7 @@ ini_set('display_startup_erros', 0);
                     </div>
                     <div class="wrap-input100">
                         <label for="telefone" class="label-input100">Telefone</label>
-                        <input type="text" class="input100" name="telefone" id="telefone" placeholder="Informe seu número de telefone para contato">
+                        <input type="text" class="input100" name="telefone" id="telefone" placeholder="Informe seu número de telefone para contato" onkeypress="mascara('(##)#####-####',this,event); return Onlynumbers(event)" maxlength="14">
                     </div>
                     <div class="container-contact100-form-btn">
                         <button class="contact100-form-btn" id="avanca-contato">

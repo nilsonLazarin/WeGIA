@@ -27,7 +27,7 @@ btnAvancaValor.addEventListener('click', (ev) => {
 
 btnAvancaCpf.addEventListener('click', (ev) => {
     ev.preventDefault();
-    if (!validarValorCpf()) {
+    if (!validarCpf()) {
         return;
     }
     mensagemDiv.innerHTML = '';
@@ -36,6 +36,10 @@ btnAvancaCpf.addEventListener('click', (ev) => {
 
 btnAvancaContato.addEventListener('click', (ev) => {
     ev.preventDefault();
+    if (!validarContato()) {
+        return;
+    }
+    mensagemDiv.innerHTML = '';
     trocarPagina('pag4', 'pag3');
 });
 
@@ -58,6 +62,7 @@ bntVoltaValor.addEventListener('click', (ev) => {
 
 btnVoltaCpf.addEventListener('click', (ev) => {
     ev.preventDefault();
+    mensagemDiv.innerHTML = '';
     trocarPagina('pag2', 'pag3');
 });
 
@@ -105,12 +110,68 @@ function validarValor() {
     return true;
 }
 
-function validarValorCpf() {
+/**
+ * Valida se o CPF está no formato correto e se é válido
+ * @returns 
+ */
+function validarCpf() {
     const cpf = document.getElementById('cpf').value;
     if (!testaCPF(cpf)) {
         mensagemDiv.innerHTML = `<div class="alert alert-danger text-center" role="alert">` +
             `O CPF informado não é valido.`
             + `</div>`;
+        return false;
+    }
+
+    return true;
+}
+
+function validarContato() {
+    //problemas detectados
+    let problemas = [];
+
+    //validar nome
+    const nome = document.getElementById('nome').value;
+
+    if (!nome || nome.length < 3) {
+        problemas.push('Nome: não pode ter menos que 3 letras.');
+    }
+
+    //validar data
+    const data = document.getElementById('data_nascimento').value;
+
+    if (!data) {
+        problemas.push('Data de nascimento: não pode ser vazia');
+    }
+
+    //validar email
+    const email = document.getElementById('email').value;
+
+    if (!email || email.length < 1) {
+        problemas.push('E-mail: não pode ser vazio');
+    }
+
+    //validar telefone
+    const telefone = document.getElementById('telefone').value;
+
+    if (!telefone || telefone.length < 1) {
+        //mensagem para telefone vazio
+        problemas.push('Telefone: não pode ser vazio');
+    } else if (telefone.length < 14) {
+        //mensagem para telefone fora do formato correto
+        problemas.push('Telefone: o número informado não possuí a quantidade de dígitos certa');
+    }
+
+    //console.log(problemas);
+    if (problemas.length > 0) {
+        let mensagem = `<div class="alert alert-danger text-center" role="alert"> Corrija os seguintes problemas antes de prosseguir: `;
+        problemas.forEach(problema => {
+            mensagem += `<p>${problema}</p>`
+        })
+        mensagem += `</div>`;
+
+        mensagemDiv.innerHTML = mensagem;
+        window.location.hash = '#mensagem';
         return false;
     }
 
