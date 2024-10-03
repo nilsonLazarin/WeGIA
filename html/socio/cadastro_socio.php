@@ -46,6 +46,7 @@ ini_set('display_startup_erros', 0);
 
     <script type="text/javascript" src="../../Functions/onlyNumbers.js"></script>
     <script type="text/javascript" src="../../Functions/testaCPF.js"></script>
+    <script src="../../Functions/busca_cep.js"></script>
     <script src="../contribuicao/outros/js/mascara.js"></script>
     <!--===============================================================================================-->
     <style>
@@ -87,7 +88,7 @@ ini_set('display_startup_erros', 0);
             <div id="mensagem">
 
             </div>
-            <form action="">
+            <form action="" name="cadastro">
                 <div id="pag1" class="wrap-input100">
 
                     <div class="wrap-input100">
@@ -107,7 +108,7 @@ ini_set('display_startup_erros', 0);
 
                     <div class="wrap-input100">
                         <label for="cpf" class="label-input100">Para prosseguirmos precisamos do seu CPF</label>
-                        <input type="text" class="input100" name="cpf" id="cpf" placeholder="Informe o seu CPF" onkeyup="return Onlynumbers(event)" onkeypress="mascara('###.###.###-##',this,event)" maxlength="14" >
+                        <input type="text" class="input100" name="cpf" id="cpf" placeholder="Informe o seu CPF" onkeyup="return Onlynumbers(event)" onkeypress="mascara('###.###.###-##',this,event)" maxlength="14">
                     </div>
                     <div class="container-contact100-form-btn">
                         <button class="contact100-form-btn" id="avanca-cpf">
@@ -117,11 +118,11 @@ ini_set('display_startup_erros', 0);
                     </div>
 
                     <div class="container-contact100-form-btn">
-						<button class="contact100-form-btn" id="volta-valor">
-							<i style="margin-right: 15px; " class="fa fa-long-arrow-left m-l-7" aria-hidden="true"></i>
-							VOLTAR
-						</button>
-					</div>
+                        <button class="contact100-form-btn" id="volta-valor">
+                            <i style="margin-right: 15px; " class="fa fa-long-arrow-left m-l-7" aria-hidden="true"></i>
+                            VOLTAR
+                        </button>
+                    </div>
 
                 </div>
 
@@ -133,7 +134,7 @@ ini_set('display_startup_erros', 0);
                     </div>
                     <div class="wrap-input100">
                         <label for="data_nascimento" class="label-input100">Data de Nascimento</label>
-                        <input type="date" class="input100" name="data_nascimento" id="data_nascimento" min="1900-01-01" max="<?=date('Y-m-d')?>">
+                        <input type="date" class="input100" name="data_nascimento" id="data_nascimento" min="1900-01-01" max="<?= date('Y-m-d') ?>">
                     </div>
                     <div class="wrap-input100">
                         <label for="email" class="label-input100">E-mail</label>
@@ -150,25 +151,22 @@ ini_set('display_startup_erros', 0);
                         </button>
 
                         <div class="container-contact100-form-btn">
-						<button class="contact100-form-btn" id="volta-cpf">
-							<i style="margin-right: 15px; " class="fa fa-long-arrow-left m-l-7" aria-hidden="true"></i>
-							VOLTAR
-						</button>
-					</div>
+                            <button class="contact100-form-btn" id="volta-cpf">
+                                <i style="margin-right: 15px; " class="fa fa-long-arrow-left m-l-7" aria-hidden="true"></i>
+                                VOLTAR
+                            </button>
+                        </div>
                     </div>
 
                 </div>
 
                 <div id="pag4" class="wrap-input100 hidden">
-                    <div class="wrap-input100">
-                        <div class="select2-container">
-                            <label for="nome" class="label-input100">Com qual frequência gostaria de contribuir?</label>
-                            <select name="periodicidade" id="periodicidade" class="select2-selection--single select2-selection__arrow ">
-                                <option value="" disabled selected>Selecione a periodicidade da contribuição</option>
-
-                                <option value="teste">Teste</option> <!-- Substituir pelas opções de período presentes no banco de dados da aplicação -->
-                            </select>
-                        </div>
+                    <div class="wrap-input100 validate-input bg1">
+                        <span class="label-input100">Com qual frequência gostaria de contribuir?</span>
+                        <select class="wrap-input100 validate-input bg1" id="periodicidade" name="periodicidade">
+                            <option value="" disabled selected>Selecione uma opção...</option>
+                            <option value="teste">Teste</option>
+                        </select>
                     </div>
 
 
@@ -190,30 +188,63 @@ ini_set('display_startup_erros', 0);
                     </div>
 
                     <div class="container-contact100-form-btn">
-						<button class="contact100-form-btn" id="volta-contato">
-							<i style="margin-right: 15px; " class="fa fa-long-arrow-left m-l-7" aria-hidden="true"></i>
-							VOLTAR
-						</button>
-					</div>
+                        <button class="contact100-form-btn" id="volta-contato">
+                            <i style="margin-right: 15px; " class="fa fa-long-arrow-left m-l-7" aria-hidden="true"></i>
+                            VOLTAR
+                        </button>
+                    </div>
                 </div>
 
                 <div id="pag5" class="wrap-input100 hidden">
 
                     <div class="wrap-input100">
                         <label for="cep" class="label-input100">CEP</label>
-                        <input type="text" class="input100" name="cep" id="cep" placeholder="Informe o CEP do seu endereço">
+                        <input type="text" class="input100" name="cep" id="cep" placeholder="Informe o CEP do seu endereço" onkeypress="$(this).mask('00000-000')" onblur="pesquisacep(this.value)">
                     </div>
                     <div class="wrap-input100">
                         <label for="rua" class="label-input100">Rua</label>
                         <input type="text" class="input100" name="rua" id="rua" placeholder="Informe o nome da sua rua">
                     </div>
                     <div class="wrap-input100">
+                        <label for="numero" class="label-input100">Número</label>
+                        <input type="text" class="input100" name="numero" id="numero" placeholder="Informe o nome da sua residência">
+                    </div>
+                    <div class="wrap-input100">
                         <label for="bairro" class="label-input100">Bairro</label>
                         <input type="text" class="input100" name="bairro" id="bairro" placeholder="Informe o nome do seu bairro">
                     </div>
-                    <div class="wrap-input100">
-                        <label for="estado" class="label-input100">Estado</label>
-                        <input type="text" class="input100" name="estado" id="estado" placeholder="Informe o nome do seu Estado">
+                    <div class="wrap-input100 validate-input bg1">
+                        <span class="label-input100">Estado</span>
+                        <select class="wrap-input100 validate-input bg1" id="uf" name="uf">
+                            <option value="Selecione sua unidade federativa" disabled></option>
+                            <option value="AC">Acre</option>
+                            <option value="AL">Alagoas</option>
+                            <option value="AP">Amapá</option>
+                            <option value="AM">Amazonas</option>
+                            <option value="BA">Bahia</option>
+                            <option value="CE">Ceará</option>
+                            <option value="DF">Distrito Federal</option>
+                            <option value="ES">Espírito Santo</option>
+                            <option value="GO">Goiás</option>
+                            <option value="MA">Maranhão</option>
+                            <option value="MT">Mato Grosso</option>
+                            <option value="MS">Mato Grosso do Sul</option>
+                            <option value="MG">Minas Gerais</option>
+                            <option value="PA">Pará</option>
+                            <option value="PB">Paraíba</option>
+                            <option value="PR">Paraná</option>
+                            <option value="PE">Pernambuco</option>
+                            <option value="PI">Piauí</option>
+                            <option value="RJ">Rio de Janeiro</option>
+                            <option value="RN">Rio Grande do Norte</option>
+                            <option value="RS">Rio Grande do Sul</option>
+                            <option value="RO">Rondônia</option>
+                            <option value="RR">Roraima</option>
+                            <option value="SC">Santa Catarina</option>
+                            <option value="SP">São Paulo</option>
+                            <option value="RS">Sergipe</option>
+                            <option value="TO">Tocantins</option>
+                        </select><br>
                     </div>
                     <div class="wrap-input100">
                         <label for="cidade" class="label-input100">Cidade</label>
@@ -223,6 +254,8 @@ ini_set('display_startup_erros', 0);
                         <label for="cidade" class="label-input100">Complemento</label>
                         <input type="text" class="input100" name="cidade" id="cidade" placeholder="Caso julgue interessante, forneça um complemento">
                     </div>
+
+                    <input type="hidden" name="ibge" id="ibge" value="">
                     <div class="container-contact100-form-btn">
                         <button class="contact100-form-btn" id="avanca-endereco">
                             AVANÇAR
@@ -231,11 +264,11 @@ ini_set('display_startup_erros', 0);
                     </div>
 
                     <div class="container-contact100-form-btn">
-						<button class="contact100-form-btn" id="volta-periodo">
-							<i style="margin-right: 15px; " class="fa fa-long-arrow-left m-l-7" aria-hidden="true"></i>
-							VOLTAR
-						</button>
-					</div>
+                        <button class="contact100-form-btn" id="volta-periodo">
+                            <i style="margin-right: 15px; " class="fa fa-long-arrow-left m-l-7" aria-hidden="true"></i>
+                            VOLTAR
+                        </button>
+                    </div>
 
                 </div>
 
@@ -250,11 +283,11 @@ ini_set('display_startup_erros', 0);
                     </div>
 
                     <div class="container-contact100-form-btn">
-						<button class="contact100-form-btn" id="volta-endereco">
-							<i style="margin-right: 15px; " class="fa fa-long-arrow-left m-l-7" aria-hidden="true"></i>
-							VOLTAR
-						</button>
-					</div>
+                        <button class="contact100-form-btn" id="volta-endereco">
+                            <i style="margin-right: 15px; " class="fa fa-long-arrow-left m-l-7" aria-hidden="true"></i>
+                            VOLTAR
+                        </button>
+                    </div>
 
                 </div>
             </form>

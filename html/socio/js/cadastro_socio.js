@@ -45,7 +45,7 @@ btnAvancaContato.addEventListener('click', (ev) => {
 
 btnAvancaPeriodo.addEventListener('click', (ev) => {
     ev.preventDefault();
-    if(!validarPeriodicidade()){
+    if (!validarPeriodicidade()) {
         return;
     }
     mensagemDiv.innerHTML = '';
@@ -183,21 +183,21 @@ function validarContato() {
     return true;
 }
 
-function validarPeriodicidade(){
+function validarPeriodicidade() {
     //problemas
     let problemas = [];
 
     //validar periodicidade
     const periodicidade = document.getElementById('periodicidade').value;
 
-    if(!periodicidade){
+    if (!periodicidade) {
         problemas.push('Periodicidade: é necessário selecionar uma opção');
     }
 
     //data de vencimento
     const datasVencimento = document.getElementsByName("data_vencimento");
     let vencimentoSelecionado = false;
-    
+
     for (let i = 0; i < datasVencimento.length; i++) {
         if (datasVencimento[i].checked) {
             vencimentoSelecionado = true;
