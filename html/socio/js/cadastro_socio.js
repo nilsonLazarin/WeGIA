@@ -1,3 +1,6 @@
+//Div de mensagens
+const mensagemDiv = document.getElementById('mensagem');
+
 //Botões de avançar
 const btnAvancaValor = document.getElementById('avanca-valor');
 const btnAvancaCpf = document.getElementById('avanca-cpf');
@@ -15,6 +18,10 @@ const bntVoltaEndereco = document.getElementById('volta-endereco');
 //Definição do comportamento de avançar
 btnAvancaValor.addEventListener('click', (ev) => {
     ev.preventDefault();
+    if (!validarValor()) {
+        return;
+    }
+    mensagemDiv.innerHTML = '';
     trocarPagina('pag2', 'pag1');
 });
 
@@ -39,27 +46,27 @@ btnAvancaEndereco.addEventListener('click', (ev) => {
 })
 
 //Definição do comportamento de voltar
-bntVoltaValor.addEventListener('click', (ev) =>{
+bntVoltaValor.addEventListener('click', (ev) => {
     ev.preventDefault();
     trocarPagina('pag1', 'pag2');
 });
 
-btnVoltaCpf.addEventListener('click', (ev) =>{
+btnVoltaCpf.addEventListener('click', (ev) => {
     ev.preventDefault();
     trocarPagina('pag2', 'pag3');
 });
 
-btnVoltaContato.addEventListener('click', (ev) =>{
+btnVoltaContato.addEventListener('click', (ev) => {
     ev.preventDefault();
     trocarPagina('pag3', 'pag4');
 });
 
-bntVoltaPeriodo.addEventListener('click', (ev) =>{
+bntVoltaPeriodo.addEventListener('click', (ev) => {
     ev.preventDefault();
     trocarPagina('pag4', 'pag5');
 });
 
-bntVoltaEndereco.addEventListener('click', (ev) =>{
+bntVoltaEndereco.addEventListener('click', (ev) => {
     ev.preventDefault();
     trocarPagina('pag5', 'pag6');
 });
@@ -70,10 +77,25 @@ bntVoltaEndereco.addEventListener('click', (ev) =>{
  * @param {*} idProxima 
  * @param {*} idAtual 
  */
-function trocarPagina(idProxima, idAtual){
+function trocarPagina(idProxima, idAtual) {
     const atual = document.getElementById(idAtual);
     const proxima = document.getElementById(idProxima);
 
     proxima.classList.remove('hidden');
     atual.classList.add('hidden');
+}
+
+/**
+ * Valida as informações do campo valor
+ */
+function validarValor() {
+    const valor = document.getElementById('valor').value;
+    if (!valor || valor < 30) {//Posteriormente pegar dinamicamente
+        mensagemDiv.innerHTML = `<div class="alert alert-danger text-center" role="alert">` +
+            `O valor mínimo de uma doação é de 30 reais.`
+            + `</div>`;
+        return false;
+    }
+
+    return true;
 }

@@ -81,6 +81,9 @@ ini_set('display_startup_erros', 0);
             <span class="contact100-form-title" id="titulo_pag"><?php resgataParagrafo(); ?></span>
 
             <h3 class="text-center">Formulário de cadastro</h3>
+            <div id="mensagem">
+                
+            </div>
             <form action="">
                 <div id="pag1" class="wrap-input100">
 
