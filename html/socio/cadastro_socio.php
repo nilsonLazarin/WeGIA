@@ -164,7 +164,9 @@ ini_set('display_startup_erros', 0);
                         <div class="select2-container">
                             <label for="nome" class="label-input100">Com qual frequência gostaria de contribuir?</label>
                             <select name="periodicidade" id="periodicidade" class="select2-selection--single select2-selection__arrow ">
-                                <option value="">Selecione a periodicidade da contribuição</option>
+                                <option value="" disabled selected>Selecione a periodicidade da contribuição</option>
+
+                                <option value="teste">Teste</option> <!-- Substituir pelas opções de período presentes no banco de dados da aplicação -->
                             </select>
                         </div>
                     </div>

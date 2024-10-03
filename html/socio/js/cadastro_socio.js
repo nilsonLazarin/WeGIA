@@ -45,6 +45,10 @@ btnAvancaContato.addEventListener('click', (ev) => {
 
 btnAvancaPeriodo.addEventListener('click', (ev) => {
     ev.preventDefault();
+    if(!validarPeriodicidade()){
+        return;
+    }
+    mensagemDiv.innerHTML = '';
     trocarPagina('pag5', 'pag4');
 });
 
@@ -68,6 +72,7 @@ btnVoltaCpf.addEventListener('click', (ev) => {
 
 btnVoltaContato.addEventListener('click', (ev) => {
     ev.preventDefault();
+    mensagemDiv.innerHTML = '';
     trocarPagina('pag3', 'pag4');
 });
 
@@ -162,7 +167,49 @@ function validarContato() {
         problemas.push('Telefone: o número informado não possuí a quantidade de dígitos certa');
     }
 
-    //console.log(problemas);
+    //verifica se algum problema foi detectado
+    if (problemas.length > 0) {
+        let mensagem = `<div class="alert alert-danger text-center" role="alert"> Corrija os seguintes problemas antes de prosseguir: `;
+        problemas.forEach(problema => {
+            mensagem += `<p>${problema}</p>`
+        })
+        mensagem += `</div>`;
+
+        mensagemDiv.innerHTML = mensagem;
+        window.location.hash = '#mensagem';
+        return false;
+    }
+
+    return true;
+}
+
+function validarPeriodicidade(){
+    //problemas
+    let problemas = [];
+
+    //validar periodicidade
+    const periodicidade = document.getElementById('periodicidade').value;
+
+    if(!periodicidade){
+        problemas.push('Periodicidade: é necessário selecionar uma opção');
+    }
+
+    //data de vencimento
+    const datasVencimento = document.getElementsByName("data_vencimento");
+    let vencimentoSelecionado = false;
+    
+    for (let i = 0; i < datasVencimento.length; i++) {
+        if (datasVencimento[i].checked) {
+            vencimentoSelecionado = true;
+            break;
+        }
+    }
+
+    if (!vencimentoSelecionado) {
+        problemas.push('Data de vencimento: é necessário marcar uma opção');
+    }
+
+    //verifica se algum problema foi detectado
     if (problemas.length > 0) {
         let mensagem = `<div class="alert alert-danger text-center" role="alert"> Corrija os seguintes problemas antes de prosseguir: `;
         problemas.forEach(problema => {
