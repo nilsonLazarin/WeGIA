@@ -207,7 +207,7 @@ ini_set('display_startup_erros', 0);
                     </div>
                     <div class="wrap-input100">
                         <label for="numero" class="label-input100">Número</label>
-                        <input type="text" class="input100" name="numero" id="numero" placeholder="Informe o nome da sua residência">
+                        <input type="text" class="input100" name="numero" id="numero" placeholder="Informe o número da sua residência">
                     </div>
                     <div class="wrap-input100">
                         <label for="bairro" class="label-input100">Bairro</label>

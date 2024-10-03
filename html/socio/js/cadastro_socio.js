@@ -54,6 +54,10 @@ btnAvancaPeriodo.addEventListener('click', (ev) => {
 
 btnAvancaEndereco.addEventListener('click', (ev) => {
     ev.preventDefault();
+    if (!validarEndereco()) {
+        return;
+    }
+    mensagemDiv.innerHTML = '';
     trocarPagina('pag6', 'pag5');
 })
 
@@ -78,11 +82,13 @@ btnVoltaContato.addEventListener('click', (ev) => {
 
 bntVoltaPeriodo.addEventListener('click', (ev) => {
     ev.preventDefault();
+    mensagemDiv.innerHTML = '';
     trocarPagina('pag4', 'pag5');
 });
 
 bntVoltaEndereco.addEventListener('click', (ev) => {
     ev.preventDefault();
+    mensagemDiv.innerHTML = '';
     trocarPagina('pag5', 'pag6');
 });
 
@@ -131,6 +137,10 @@ function validarCpf() {
     return true;
 }
 
+/**
+ * Valida se todos os campos de contato foram preenchidos
+ * @returns 
+ */
 function validarContato() {
     //problemas detectados
     let problemas = [];
@@ -162,7 +172,7 @@ function validarContato() {
     if (!telefone || telefone.length < 1) {
         //mensagem para telefone vazio
         problemas.push('Telefone: não pode ser vazio');
-    } else if (telefone.length < 14) {
+    } else if (telefone.length != 14) {
         //mensagem para telefone fora do formato correto
         problemas.push('Telefone: o número informado não possuí a quantidade de dígitos certa');
     }
@@ -183,6 +193,9 @@ function validarContato() {
     return true;
 }
 
+/**
+ * Valida se todos os campos referentes ao período de uma contribuição foram preenchidos
+ */
 function validarPeriodicidade() {
     //problemas
     let problemas = [];
@@ -207,6 +220,74 @@ function validarPeriodicidade() {
 
     if (!vencimentoSelecionado) {
         problemas.push('Data de vencimento: é necessário marcar uma opção');
+    }
+
+    //verifica se algum problema foi detectado
+    if (problemas.length > 0) {
+        let mensagem = `<div class="alert alert-danger text-center" role="alert"> Corrija os seguintes problemas antes de prosseguir: `;
+        problemas.forEach(problema => {
+            mensagem += `<p>${problema}</p>`
+        })
+        mensagem += `</div>`;
+
+        mensagemDiv.innerHTML = mensagem;
+        window.location.hash = '#mensagem';
+        return false;
+    }
+
+    return true;
+}
+
+/**
+ * Valida se todos os campos obrigatórios referentes a um endereço foram preenchidos
+ * @returns 
+ */
+function validarEndereco() {
+    //problemas detectados
+    let problemas = [];
+
+    //validar cep
+    const cep = document.getElementById('cep').value;
+
+    if (!cep || cep.length < 1) {
+        problemas.push('CEP: o cep não pode estar vazio.');
+    } else if (cep.length != 9) {
+        problemas.push('CEP: o cep não está no formato válido');
+    }
+
+    //validar rua
+    const rua = document.getElementById('rua').value;
+
+    if (!rua || rua.length < 1) {
+        problemas.push('Rua: a rua não pode estar vazia');
+    }
+
+    //validar número
+    const numero = document.getElementById('numero').value;
+
+    if (!numero || numero.length < 1) {
+        problemas.push('Número: o número da residência não pode estar vazio');
+    }
+
+    //validar bairro
+    const bairro = document.getElementById('bairro').value;
+
+    if (!bairro || bairro.length < 1) {
+        problemas.push('Bairro: o bairro não pode estar vazio');
+    }
+
+    //validar estado
+    const uf = document.getElementById('uf').value;
+
+    if (!uf) {
+        problemas.push('Estado: selecione um dos estados da federação');
+    }
+
+    //validar cidade
+    const cidade = document.getElementById('cidade').value;
+
+    if (!cidade || cidade.length < 1) {
+        problemas.push('Cidade: a cidade não pode estar vazia');
     }
 
     //verifica se algum problema foi detectado
