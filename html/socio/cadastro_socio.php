@@ -44,6 +44,9 @@ ini_set('display_startup_erros', 0);
     <link rel="stylesheet" type="text/css" href="../contribuicao/outros/css/main.css">
     <link rel="stylesheet" type="text/css" href="../contribuicao/outros/css/donation.css">
 
+    <script type="text/javascript" src="../../Functions/onlyNumbers.js"></script>
+    <script type="text/javascript" src="../../Functions/testaCPF.js"></script>
+    <script src="../contribuicao/outros/js/mascara.js"></script>
     <!--===============================================================================================-->
     <style>
         #logo_img {
@@ -82,7 +85,7 @@ ini_set('display_startup_erros', 0);
 
             <h3 class="text-center">Formulário de cadastro</h3>
             <div id="mensagem">
-                
+
             </div>
             <form action="">
                 <div id="pag1" class="wrap-input100">
@@ -104,7 +107,7 @@ ini_set('display_startup_erros', 0);
 
                     <div class="wrap-input100">
                         <label for="cpf" class="label-input100">Para prosseguirmos precisamos do seu CPF</label>
-                        <input type="text" class="input100" name="cpf" id="cpf" placeholder="Informe o seu CPF">
+                        <input type="text" class="input100" name="cpf" id="cpf" placeholder="Informe o seu CPF" onkeyup="return Onlynumbers(event)" onkeypress="mascara('###.###.###-##',this,event)" maxlength="14" >
                     </div>
                     <div class="container-contact100-form-btn">
                         <button class="contact100-form-btn" id="avanca-cpf">

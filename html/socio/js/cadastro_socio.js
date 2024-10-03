@@ -27,6 +27,10 @@ btnAvancaValor.addEventListener('click', (ev) => {
 
 btnAvancaCpf.addEventListener('click', (ev) => {
     ev.preventDefault();
+    if (!validarValorCpf()) {
+        return;
+    }
+    mensagemDiv.innerHTML = '';
     trocarPagina('pag3', 'pag2');
 });
 
@@ -48,6 +52,7 @@ btnAvancaEndereco.addEventListener('click', (ev) => {
 //Definição do comportamento de voltar
 bntVoltaValor.addEventListener('click', (ev) => {
     ev.preventDefault();
+    mensagemDiv.innerHTML = '';
     trocarPagina('pag1', 'pag2');
 });
 
@@ -93,6 +98,18 @@ function validarValor() {
     if (!valor || valor < 30) {//Posteriormente pegar dinamicamente
         mensagemDiv.innerHTML = `<div class="alert alert-danger text-center" role="alert">` +
             `O valor mínimo de uma doação é de 30 reais.`
+            + `</div>`;
+        return false;
+    }
+
+    return true;
+}
+
+function validarValorCpf() {
+    const cpf = document.getElementById('cpf').value;
+    if (!testaCPF(cpf)) {
+        mensagemDiv.innerHTML = `<div class="alert alert-danger text-center" role="alert">` +
+            `O CPF informado não é valido.`
             + `</div>`;
         return false;
     }
