@@ -251,8 +251,8 @@ ini_set('display_startup_erros', 0);
                         <input type="text" class="input100" name="cidade" id="cidade" placeholder="Informe o nome da sua cidade">
                     </div>
                     <div class="wrap-input100">
-                        <label for="cidade" class="label-input100">Complemento</label>
-                        <input type="text" class="input100" name="cidade" id="cidade" placeholder="Caso julgue interessante, forneça um complemento">
+                        <label for="complemento" class="label-input100">Complemento</label>
+                        <input type="text" class="input100" name="complemento" id="complemento" placeholder="Caso julgue interessante, forneça um complemento">
                     </div>
 
                     <input type="hidden" name="ibge" id="ibge" value="">
