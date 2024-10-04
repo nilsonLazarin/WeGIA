@@ -15,6 +15,9 @@ const btnVoltaContato = document.getElementById('volta-contato');
 const bntVoltaPeriodo = document.getElementById('volta-periodo');
 const bntVoltaEndereco = document.getElementById('volta-endereco');
 
+//Formulário
+const formCadastro = document.getElementById('form-cadastro');
+
 //Definição do comportamento de avançar
 btnAvancaValor.addEventListener('click', (ev) => {
     ev.preventDefault();
@@ -59,7 +62,34 @@ btnAvancaEndereco.addEventListener('click', (ev) => {
     }
     mensagemDiv.innerHTML = '';
     trocarPagina('pag6', 'pag5');
-})
+});
+
+//Definição do comportamento do formulário
+formCadastro.addEventListener('submit', (ev) =>{
+    ev.preventDefault();
+
+    // Dados do formulário
+    const formData = new FormData(formCadastro);
+    formData.append('acao', 'cadastrar'); // Adiciona a ação 'cadastrar'
+
+    // Realiza a requisição com o fetch
+    fetch('./sistema/processa_cadastro_socio.php', {
+        method: 'POST',
+        body: formData,
+    })
+    .then(response => response.json()) // Converte a resposta para JSON
+    .then(data => {
+        if (data.erro) {
+            alert(`Erro: ${data.erro}`);//trocar para o alert do bootstrap posteriormente
+        } else {
+            alert(`Sucesso: ${data.retorno}`);//trocar para o alert do bootstrap posteriormente
+        }
+    })
+    .catch(error => {
+        console.error('Erro:', error);
+        alert('Ocorreu um erro ao processar o cadastro.');//trocar para o alert do bootstrap posteriormente
+    });
+});
 
 //Definição do comportamento de voltar
 bntVoltaValor.addEventListener('click', (ev) => {

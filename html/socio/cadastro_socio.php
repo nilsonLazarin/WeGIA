@@ -88,7 +88,7 @@ ini_set('display_startup_erros', 0);
             <div id="mensagem">
 
             </div>
-            <form action="" name="cadastro">
+            <form action="" name="cadastro" id="form-cadastro">
                 <div id="pag1" class="wrap-input100">
 
                     <div class="wrap-input100">
