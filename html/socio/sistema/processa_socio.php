@@ -2,7 +2,7 @@
 //Considerar transformar em POO posteriormente
 
 //Escolher qual ação executar
-$acao = trim(filter_input(INPUT_POST, 'acao'));
+$acao = trim($_REQUEST['acao']);
 
 if (!$acao || empty($acao)) {
     http_response_code(400);
@@ -16,6 +16,9 @@ switch ($acao) {
         break;
     case 'atualizar':
         atualizar();
+        break;
+    case 'buscarPorCpf':
+        buscarPorCpf();
         break;
     default:
         echo json_encode(['erro' => 'Ação não válida']);
@@ -208,3 +211,57 @@ function cadastrar()
 }
 //Atualizar dados de sócio existente
 function atualizar() {}
+
+/**
+ * Retorna os dados de um sócio que possua um CPF equivalente ao informado
+ */
+function buscarPorCpf()
+{
+    //requisitar conexão com o BD
+    require_once('../../../dao/Conexao.php');
+
+    $cpf = trim(filter_input(INPUT_GET, 'cpf'));
+
+    if (!$cpf || empty($cpf)) {
+        http_response_code(400);
+        echo json_encode(['erro' => 'CPF não definido']);
+        exit();
+    }
+
+    try {
+        $pdo = Conexao::connect();
+
+        $socio = [];
+
+        $sqlBuscarPorCpf =
+            'SELECT 
+        p.nome, 
+        p.telefone, 
+        p.data_nascimento, 
+        p.cep, 
+        p.estado, 
+        p.cidade, 
+        p.bairro, 
+        p.logradouro, 
+        p.numero_endereco, 
+        p.complemento, 
+        p.ibge, 
+        s.email 
+    FROM pessoa p JOIN socio s ON(s.id_pessoa=p.id_pessoa) 
+    WHERE p.cpf=:cpf';
+
+        $stmt = $pdo->prepare($sqlBuscarPorCpf);
+        $stmt->bindParam(':cpf', $cpf);
+        $stmt->execute();
+
+        if ($stmt->rowCount() > 0) {
+            $socio = $stmt->fetch(PDO::FETCH_ASSOC);
+        }
+
+        echo json_encode(['retorno' => $socio]);
+    } catch (PDOException $e) {
+        http_response_code(500);
+        echo json_encode(['erro' => 'Erro ao buscar sócio no sistema']);
+        exit();
+    }
+}

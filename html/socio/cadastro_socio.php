@@ -89,6 +89,9 @@ ini_set('display_startup_erros', 0);
 
             </div>
             <form action="" name="cadastro" id="form-cadastro">
+
+                <input type="hidden" name="acao" id="acao" value="cadastrar">
+
                 <div id="pag1" class="wrap-input100">
 
                     <div class="wrap-input100">

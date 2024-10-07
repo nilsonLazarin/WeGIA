@@ -1,6 +1,9 @@
 //Div de mensagens
 const mensagemDiv = document.getElementById('mensagem');
 
+//acao
+const acao = document.getElementById('acao');
+
 //Botões de avançar
 const btnAvancaValor = document.getElementById('avanca-valor');
 const btnAvancaCpf = document.getElementById('avanca-cpf');
@@ -33,6 +36,38 @@ btnAvancaCpf.addEventListener('click', (ev) => {
     if (!validarCpf()) {
         return;
     }
+
+    //verificar se existe algum sócio com aquele cpf
+
+    const cpf = document.getElementById('cpf').value;
+
+    // Realiza a requisição com o fetch
+    fetch(`./sistema/processa_socio.php?cpf=${cpf}&acao=buscarPorCpf`, {
+        method: 'GET',
+    })
+        .then(response => response.json()) // Converte a resposta para JSON
+        .then(data => {
+            if (data.erro) {
+                alert(`Erro: ${data.erro}`);//trocar para o alert do bootstrap posteriormente
+            } else {
+
+                const socio = data.retorno;
+
+                if(!socio || socio.length < 1){
+                    acao.value = "cadastrar";
+                    alert ('Sócio não encontrado');//remover
+                }else{
+                    //adicionar preenchimento dos campos automático
+                    console.log(socio);
+                    alert(`Sucesso: ${data.retorno}`);//remover
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            alert('Ocorreu um erro ao processar o cadastro.');//trocar para o alert do bootstrap posteriormente
+        });
+
     mensagemDiv.innerHTML = '';
     trocarPagina('pag3', 'pag2');
 });
@@ -65,30 +100,29 @@ btnAvancaEndereco.addEventListener('click', (ev) => {
 });
 
 //Definição do comportamento do formulário
-formCadastro.addEventListener('submit', (ev) =>{
+formCadastro.addEventListener('submit', (ev) => {
     ev.preventDefault();
 
     // Dados do formulário
     const formData = new FormData(formCadastro);
-    formData.append('acao', 'cadastrar'); // Adiciona a ação 'cadastrar'
 
     // Realiza a requisição com o fetch
-    fetch('./sistema/processa_cadastro_socio.php', {
+    fetch('./sistema/processa_socio.php', {
         method: 'POST',
         body: formData,
     })
-    .then(response => response.json()) // Converte a resposta para JSON
-    .then(data => {
-        if (data.erro) {
-            alert(`Erro: ${data.erro}`);//trocar para o alert do bootstrap posteriormente
-        } else {
-            alert(`Sucesso: ${data.retorno}`);//trocar para o alert do bootstrap posteriormente
-        }
-    })
-    .catch(error => {
-        console.error('Erro:', error);
-        alert('Ocorreu um erro ao processar o cadastro.');//trocar para o alert do bootstrap posteriormente
-    });
+        .then(response => response.json()) // Converte a resposta para JSON
+        .then(data => {
+            if (data.erro) {
+                alert(`Erro: ${data.erro}`);//trocar para o alert do bootstrap posteriormente
+            } else {
+                alert(`Sucesso: ${data.retorno}`);//trocar para o alert do bootstrap posteriormente
+            }
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            alert('Ocorreu um erro ao processar o cadastro.');//trocar para o alert do bootstrap posteriormente
+        });
 });
 
 //Definição do comportamento de voltar
