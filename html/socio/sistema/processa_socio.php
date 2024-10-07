@@ -246,7 +246,8 @@ function buscarPorCpf()
         p.numero_endereco, 
         p.complemento, 
         p.ibge, 
-        s.email 
+        s.email, 
+        s.data_referencia 
     FROM pessoa p JOIN socio s ON(s.id_pessoa=p.id_pessoa) 
     WHERE p.cpf=:cpf';
 

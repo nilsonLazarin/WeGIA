@@ -53,13 +53,60 @@ btnAvancaCpf.addEventListener('click', (ev) => {
 
                 const socio = data.retorno;
 
-                if(!socio || socio.length < 1){
+                if (!socio || socio.length < 1) {
                     acao.value = "cadastrar";
-                    alert ('Sócio não encontrado');//remover
-                }else{
-                    //adicionar preenchimento dos campos automático
-                    console.log(socio);
-                    alert(`Sucesso: ${data.retorno}`);//remover
+                    mensagemDiv.innerHTML = '';
+                } else {
+                    acao.value = "atualizar";
+                    //Preenchimento automático dos campos 
+
+                    //informações da pag3
+                    const nome = document.getElementById('nome');
+                    const dataNascimento = document.getElementById('data_nascimento');
+                    const email = document.getElementById('email');
+                    const telefone = document.getElementById('telefone');
+
+                    nome.value = socio.nome;
+                    dataNascimento.value = socio.data_nascimento;
+                    email.value = socio.email;
+                    telefone.value = socio.telefone;
+
+                    //informações da pag4
+                    
+                    //posteriormente marcar a periodicidade correspondente
+
+                    // Extrai o dia da data_referencia
+                    const dataReferencia = socio.data_referencia;
+                    const diaMarcado = dataReferencia.split('-')[2]; // Pega o dia de vencimento
+
+                    // Seleciona e marca o radio button com o valor correspondente ao dia
+                    const radioToCheck = document.querySelector("input[name='data_vencimento'][value='" + diaMarcado + "']");
+                    if (radioToCheck) {
+                        radioToCheck.checked = true;
+                    }
+
+                    //informações da pag5
+                    const cep = document.getElementById('cep');
+                    const rua = document.getElementById('rua');
+                    const numero = document.getElementById('numero');
+                    const bairro = document.getElementById('bairro');
+                    const uf = document.getElementById('uf');
+                    const cidade = document.getElementById('cidade');
+                    const complemento = document.getElementById('complemento');
+
+                    cep.value = socio.cep;
+                    rua.value = socio.logradouro;
+                    numero.value = socio.numero_endereco;
+                    bairro.value = socio.bairro;
+                    uf.value = socio.estado;
+                    cidade.value = socio.cidade;
+                    complemento.value = socio.complemento;
+
+                    console.log(socio);//remover posteriormente
+
+                    mensagemDiv.innerHTML = `<div class="alert alert-info text-center" role="alert">` +
+                        `Verifique os dados a seguir e atualize os necessários.`
+                        + `</div>`;
                 }
             }
         })
@@ -68,7 +115,6 @@ btnAvancaCpf.addEventListener('click', (ev) => {
             alert('Ocorreu um erro ao processar o cadastro.');//trocar para o alert do bootstrap posteriormente
         });
 
-    mensagemDiv.innerHTML = '';
     trocarPagina('pag3', 'pag2');
 });
 
@@ -186,7 +232,7 @@ function validarValor() {
 }
 
 /**
- * Valida se o CPF está no formato correto e se é válido
+ * Verifica se o CPF está no formato correto e se é válido
  * @returns 
  */
 function validarCpf() {

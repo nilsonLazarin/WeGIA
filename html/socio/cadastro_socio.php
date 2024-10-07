@@ -178,7 +178,7 @@ ini_set('display_startup_erros', 0);
                         <?php
                         for ($i = 0; $i < 5; $i++) {
                             if ($arrayData[$i] != 0) {
-                                echo "<input type = 'radio' value ='" . $arrayData[$i] . "' name = 'data_vencimento' id='op" . $i . "'>" . "<span style='margin-right: 1.5em'>" . $arrayData[$i] . "</span>";
+                                echo "<input type = 'radio' value ='" . $arrayData[$i] . "' name = 'data_vencimento' id='data_vencimento" . $arrayData[$i] . "'>" . "<span style='margin-right: 1.5em'>" . $arrayData[$i] . "</span>";
                             }
                         }
                         ?>
