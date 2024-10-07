@@ -31,6 +31,156 @@ switch ($acao) {
  */
 function cadastrar()
 {
+
+    $dados = extrairPost();
+
+    //requisitar conexão com o BD
+    require_once('../../../dao/Conexao.php');
+    try {
+
+        $pdo = Conexao::connect();
+        $pdo->beginTransaction();
+
+        //criar pessoa
+        $sqlPessoa = 'INSERT INTO pessoa(cpf, nome, telefone, data_nascimento, cep, estado, cidade, bairro, logradouro, numero_endereco, complemento, ibge) VALUES(:cpf, :nome, :telefone, :dataNascimento, :cep, :estado, :cidade, :bairro, :logradouro, :numeroEndereco, :complemento, :ibge)';
+
+        $stmtPessoa = $pdo->prepare($sqlPessoa);
+
+        $stmtPessoa->bindParam(':cpf', $dados['cpf']);
+        $stmtPessoa->bindParam(':nome', $dados['nome']);
+        $stmtPessoa->bindParam(':telefone', $dados['telefone']);
+        $stmtPessoa->bindParam(':dataNascimento', $dados['dataNascimento']);
+        $stmtPessoa->bindParam(':cep', $dados['cep']);
+        $stmtPessoa->bindParam(':estado', $dados['uf']);
+        $stmtPessoa->bindParam(':cidade', $dados['cidade']);
+        $stmtPessoa->bindParam(':bairro', $dados['bairro']);
+        $stmtPessoa->bindParam(':logradouro', $dados['rua']);
+        $stmtPessoa->bindParam(':numeroEndereco', $dados['numero']);
+        $stmtPessoa->bindParam(':complemento', $dados['complemento']);
+        $stmtPessoa->bindParam(':ibge', $dados['ibge']);
+
+        $stmtPessoa->execute();
+        $idPessoa = $pdo->lastInsertId();
+
+        //criar socio
+        $idSocioStatus = 3;
+        $idSocioTipo = 2;
+        $idSocioTag = 1;
+
+        $dataAtual = new DateTime();
+
+        // Verificar se o dia informado já passou neste mês
+        if ($dados['dataVencimento'] <= $dataAtual->format('d')) {
+            // Se o dia informado já passou, começar a partir do próximo mês
+            $dataAtual->modify('first day of next month');
+        }
+
+        // Clonar a data atual para evitar modificar o objeto original
+        $dataReferencia = clone $dataAtual;
+
+        // Definir o dia do vencimento para o dia informado
+        $dataReferencia->setDate($dataReferencia->format('Y'), $dataReferencia->format('m'), $dados['dataVencimento']);
+
+        $dataReferencia = $dataReferencia->format('Y-m-d');
+
+        $sqlSocio = 'INSERT INTO socio(id_pessoa, id_sociostatus, id_sociotipo, id_sociotag, email, valor_periodo, data_referencia) VALUES(:idPessoa, :idSocioStatus, :idSocioTipo, :idSocioTag, :email, :valor, :dataReferencia)';
+
+        $stmtSocio = $pdo->prepare($sqlSocio);
+
+        $stmtSocio->bindParam(':idPessoa', $idPessoa);
+        $stmtSocio->bindParam(':idSocioStatus', $idSocioStatus);
+        $stmtSocio->bindParam(':idSocioTipo', $idSocioTipo);
+        $stmtSocio->bindParam(':idSocioTag', $idSocioTag);
+        $stmtSocio->bindParam(':email', $dados['email']);
+        $stmtSocio->bindParam(':valor', $dados['valor']);
+        $stmtSocio->bindParam(':dataReferencia', $dataReferencia);
+
+        if ($stmtSocio->execute()) {
+            $pdo->commit();
+            http_response_code(200);
+            echo json_encode(['retorno' => 'Sócio cadastrado']);
+            exit();
+        } else {
+            $pdo->rollBack();
+            http_response_code(500);
+            echo json_encode(['erro' => 'Erro ao cadastrar sócio no sistema']);
+            exit();
+        }
+    } catch (PDOException $e) {
+        http_response_code(500);
+        echo json_encode(['erro' => 'Erro ao cadastrar sócio no sistema']);
+        exit();
+    }
+}
+//Atualizar dados de sócio existente
+function atualizar()
+{
+
+
+
+    echo json_encode(['retorno' => 'atualizado com sucesso']);
+}
+
+/**
+ * Retorna os dados de um sócio que possua um CPF equivalente ao informado
+ */
+function buscarPorCpf()
+{
+    //requisitar conexão com o BD
+    require_once('../../../dao/Conexao.php');
+
+    $cpf = trim(filter_input(INPUT_GET, 'cpf'));
+
+    if (!$cpf || empty($cpf)) {
+        http_response_code(400);
+        echo json_encode(['erro' => 'CPF não definido']);
+        exit();
+    }
+
+    try {
+        $pdo = Conexao::connect();
+
+        $socio = [];
+
+        $sqlBuscarPorCpf =
+            'SELECT 
+        p.nome, 
+        p.telefone, 
+        p.data_nascimento, 
+        p.cep, 
+        p.estado, 
+        p.cidade, 
+        p.bairro, 
+        p.logradouro, 
+        p.numero_endereco, 
+        p.complemento, 
+        p.ibge, 
+        s.email, 
+        s.data_referencia 
+    FROM pessoa p JOIN socio s ON(s.id_pessoa=p.id_pessoa) 
+    WHERE p.cpf=:cpf';
+
+        $stmt = $pdo->prepare($sqlBuscarPorCpf);
+        $stmt->bindParam(':cpf', $cpf);
+        $stmt->execute();
+
+        if ($stmt->rowCount() > 0) {
+            $socio = $stmt->fetch(PDO::FETCH_ASSOC);
+        }
+
+        echo json_encode(['retorno' => $socio]);
+    } catch (PDOException $e) {
+        http_response_code(500);
+        echo json_encode(['erro' => 'Erro ao buscar sócio no sistema']);
+        exit();
+    }
+}
+
+/**
+ * Pega os dados do formulário e retorna um array caso todas as informações passem pelas validações
+ */
+function extrairPost()
+{
     //extrair dados da requisição (considerar separar em uma função própria)
     $cpf = trim(filter_input(INPUT_POST, 'cpf'));
     $nome = trim(filter_input(INPUT_POST, 'nome'));
@@ -131,138 +281,22 @@ function cadastrar()
         exit();
     }
 
-    //requisitar conexão com o BD
-    require_once('../../../dao/Conexao.php');
-    try {
-
-        $pdo = Conexao::connect();
-        $pdo->beginTransaction();
-
-        //criar pessoa
-        $sqlPessoa = 'INSERT INTO pessoa(cpf, nome, telefone, data_nascimento, cep, estado, cidade, bairro, logradouro, numero_endereco, complemento, ibge) VALUES(:cpf, :nome, :telefone, :dataNascimento, :cep, :estado, :cidade, :bairro, :logradouro, :numeroEndereco, :complemento, :ibge)';
-
-        $stmtPessoa = $pdo->prepare($sqlPessoa);
-
-        $stmtPessoa->bindParam(':cpf', $cpf);
-        $stmtPessoa->bindParam(':nome', $nome);
-        $stmtPessoa->bindParam(':telefone', $telefone);
-        $stmtPessoa->bindParam(':dataNascimento', $dataNascimento);
-        $stmtPessoa->bindParam(':cep', $cep);
-        $stmtPessoa->bindParam(':estado', $uf);
-        $stmtPessoa->bindParam(':cidade', $cidade);
-        $stmtPessoa->bindParam(':bairro', $bairro);
-        $stmtPessoa->bindParam(':logradouro', $rua);
-        $stmtPessoa->bindParam(':numeroEndereco', $numero);
-        $stmtPessoa->bindParam(':complemento', $complemento);
-        $stmtPessoa->bindParam(':ibge', $ibge);
-
-        $stmtPessoa->execute();
-        $idPessoa = $pdo->lastInsertId();
-
-        //criar socio
-        $idSocioStatus = 3;
-        $idSocioTipo = 2;
-        $idSocioTag = 1;
-
-        $dataAtual = new DateTime();
-
-        // Verificar se o dia informado já passou neste mês
-        if ($dataVencimento <= $dataAtual->format('d')) {
-            // Se o dia informado já passou, começar a partir do próximo mês
-            $dataAtual->modify('first day of next month');
-        }
-
-        // Clonar a data atual para evitar modificar o objeto original
-        $dataReferencia = clone $dataAtual;
-
-        // Definir o dia do vencimento para o dia informado
-        $dataReferencia->setDate($dataReferencia->format('Y'), $dataReferencia->format('m'), $dataVencimento);
-
-        $dataReferencia = $dataReferencia->format('Y-m-d');
-
-        $sqlSocio = 'INSERT INTO socio(id_pessoa, id_sociostatus, id_sociotipo, id_sociotag, email, valor_periodo, data_referencia) VALUES(:idPessoa, :idSocioStatus, :idSocioTipo, :idSocioTag, :email, :valor, :dataReferencia)';
-
-        $stmtSocio = $pdo->prepare($sqlSocio);
-
-        $stmtSocio->bindParam(':idPessoa', $idPessoa);
-        $stmtSocio->bindParam(':idSocioStatus', $idSocioStatus);
-        $stmtSocio->bindParam(':idSocioTipo', $idSocioTipo);
-        $stmtSocio->bindParam(':idSocioTag', $idSocioTag);
-        $stmtSocio->bindParam(':email', $email);
-        $stmtSocio->bindParam(':valor', $valor);
-        $stmtSocio->bindParam(':dataReferencia', $dataReferencia);
-
-        if ($stmtSocio->execute()) {
-            $pdo->commit();
-            http_response_code(200);
-            echo json_encode(['retorno' => 'Sócio cadastrado']);
-            exit();
-        } else {
-            $pdo->rollBack();
-            http_response_code(500);
-            echo json_encode(['erro' => 'Erro ao cadastrar sócio no sistema']);
-            exit();
-        }
-    } catch (PDOException $e) {
-        http_response_code(500);
-        echo json_encode(['erro' => 'Erro ao cadastrar sócio no sistema']);
-        exit();
-    }
-}
-//Atualizar dados de sócio existente
-function atualizar() {}
-
-/**
- * Retorna os dados de um sócio que possua um CPF equivalente ao informado
- */
-function buscarPorCpf()
-{
-    //requisitar conexão com o BD
-    require_once('../../../dao/Conexao.php');
-
-    $cpf = trim(filter_input(INPUT_GET, 'cpf'));
-
-    if (!$cpf || empty($cpf)) {
-        http_response_code(400);
-        echo json_encode(['erro' => 'CPF não definido']);
-        exit();
-    }
-
-    try {
-        $pdo = Conexao::connect();
-
-        $socio = [];
-
-        $sqlBuscarPorCpf =
-            'SELECT 
-        p.nome, 
-        p.telefone, 
-        p.data_nascimento, 
-        p.cep, 
-        p.estado, 
-        p.cidade, 
-        p.bairro, 
-        p.logradouro, 
-        p.numero_endereco, 
-        p.complemento, 
-        p.ibge, 
-        s.email, 
-        s.data_referencia 
-    FROM pessoa p JOIN socio s ON(s.id_pessoa=p.id_pessoa) 
-    WHERE p.cpf=:cpf';
-
-        $stmt = $pdo->prepare($sqlBuscarPorCpf);
-        $stmt->bindParam(':cpf', $cpf);
-        $stmt->execute();
-
-        if ($stmt->rowCount() > 0) {
-            $socio = $stmt->fetch(PDO::FETCH_ASSOC);
-        }
-
-        echo json_encode(['retorno' => $socio]);
-    } catch (PDOException $e) {
-        http_response_code(500);
-        echo json_encode(['erro' => 'Erro ao buscar sócio no sistema']);
-        exit();
-    }
+    return [
+        'cpf' => $cpf,
+        'nome' => $nome,
+        'telefone' => $telefone,
+        'dataNascimento' => $dataNascimento,
+        'cep' => $cep,
+        'rua' => $rua,
+        'bairro' => $bairro,
+        'uf' => $uf,
+        'cidade' => $cidade,
+        'complemento' => $complemento,
+        'numero' => $numero,
+        'ibge' => $ibge,
+        'email' => $email,
+        'valor' => $valor,
+        'periodicidade' => $periodicidade,
+        'dataVencimento' => $dataVencimento,
+    ];
 }
