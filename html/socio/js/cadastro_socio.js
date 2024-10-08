@@ -1,7 +1,7 @@
 //Div de mensagens
 const mensagemDiv = document.getElementById('mensagem');
 
-//acao
+//Ação
 const acao = document.getElementById('acao');
 
 //Botões de avançar
@@ -28,6 +28,7 @@ btnAvancaValor.addEventListener('click', (ev) => {
         return;
     }
     mensagemDiv.innerHTML = '';
+    window.location.hash = '#form-cadastro';
     trocarPagina('pag2', 'pag1');
 });
 
@@ -113,6 +114,7 @@ btnAvancaCpf.addEventListener('click', (ev) => {
                         + `</div>`;
                 }
 
+                window.location.hash = '#form-cadastro';
                 trocarPagina('pag3', 'pag2');
             }
         })
@@ -130,6 +132,7 @@ btnAvancaContato.addEventListener('click', (ev) => {
         return;
     }
     mensagemDiv.innerHTML = '';
+    window.location.hash = '#form-cadastro';
     trocarPagina('pag4', 'pag3');
 });
 
@@ -139,6 +142,7 @@ btnAvancaPeriodo.addEventListener('click', (ev) => {
         return;
     }
     mensagemDiv.innerHTML = '';
+    window.location.hash = '#form-cadastro';
     trocarPagina('pag5', 'pag4');
 });
 
@@ -148,6 +152,7 @@ btnAvancaEndereco.addEventListener('click', (ev) => {
         return;
     }
     mensagemDiv.innerHTML = '';
+    window.location.hash = '#form-cadastro';
     trocarPagina('pag6', 'pag5');
 });
 
@@ -158,6 +163,10 @@ formCadastro.addEventListener('submit', (ev) => {
     // Dados do formulário
     const formData = new FormData(formCadastro);
 
+    // Desabilita o botão de envio
+    const botaoEnvio = ev.submitter;
+    botaoEnvio.disabled = true;
+
     // Realiza a requisição com o fetch
     fetch('./sistema/processa_socio.php', {
         method: 'POST',
@@ -166,14 +175,25 @@ formCadastro.addEventListener('submit', (ev) => {
         .then(response => response.json()) // Converte a resposta para JSON
         .then(data => {
             if (data.erro) {
-                alert(`Erro: ${data.erro}`);//trocar para o alert do bootstrap posteriormente
+                mensagemDiv.innerHTML = `<div class="alert alert-danger text-center" role="alert">` +
+                `${data.erro}`
+                + `</div>`;
+            return;
             } else {
-                alert(`Sucesso: ${data.retorno}`);//trocar para o alert do bootstrap posteriormente
+                mensagemDiv.innerHTML = `<div class="alert alert-success text-center" role="alert">` +
+                `${data.retorno}`
+                + `</div>`;
             }
         })
         .catch(error => {
-            console.error('Erro:', error);
-            alert('Ocorreu um erro ao processar o cadastro.');//trocar para o alert do bootstrap posteriormente
+            mensagemDiv.innerHTML = `<div class="alert alert-danger text-center" role="alert">` +
+                `Ocorreu um erro ao realizar o cadastro.`
+                + `</div>`;
+            return;
+        })
+        .finally(() => {
+            // Reabilita o botão de envio após a resposta
+            botaoEnvio.disabled = false;
         });
 });
 
@@ -181,30 +201,35 @@ formCadastro.addEventListener('submit', (ev) => {
 bntVoltaValor.addEventListener('click', (ev) => {
     ev.preventDefault();
     mensagemDiv.innerHTML = '';
+    window.location.hash = '#form-cadastro';
     trocarPagina('pag1', 'pag2');
 });
 
 btnVoltaCpf.addEventListener('click', (ev) => {
     ev.preventDefault();
     mensagemDiv.innerHTML = '';
+    window.location.hash = '#form-cadastro';
     trocarPagina('pag2', 'pag3');
 });
 
 btnVoltaContato.addEventListener('click', (ev) => {
     ev.preventDefault();
     mensagemDiv.innerHTML = '';
+    window.location.hash = '#form-cadastro';
     trocarPagina('pag3', 'pag4');
 });
 
 bntVoltaPeriodo.addEventListener('click', (ev) => {
     ev.preventDefault();
     mensagemDiv.innerHTML = '';
+    window.location.hash = '#form-cadastro';
     trocarPagina('pag4', 'pag5');
 });
 
 bntVoltaEndereco.addEventListener('click', (ev) => {
     ev.preventDefault();
     mensagemDiv.innerHTML = '';
+    window.location.hash = '#form-cadastro';
     trocarPagina('pag5', 'pag6');
 });
 

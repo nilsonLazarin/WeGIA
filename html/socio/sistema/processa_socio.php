@@ -28,7 +28,6 @@ switch ($acao) {
         exit();
 }
 
-
 /**
  * Realiza os procedimentos necessários para inserir um novo sócio no banco de dados da aplicação
  */
@@ -98,7 +97,7 @@ function cadastrar()
         if ($stmtSocio->execute()) {
             $pdo->commit();
             http_response_code(200);
-            echo json_encode(['retorno' => 'Sócio cadastrado']);
+            echo json_encode(['retorno' => 'Cadastrado com sucesso!']);
             exit();
         } else {
             $pdo->rollBack();
@@ -202,7 +201,7 @@ function atualizar()
         if ($stmtSocio->execute()) {
             $pdo->commit();
             http_response_code(200);
-            echo json_encode(['retorno' => 'atualizado com sucesso']);
+            echo json_encode(['retorno' => 'Atualizado com sucesso!']);
             exit();
         } else {
             $pdo->rollBack();
