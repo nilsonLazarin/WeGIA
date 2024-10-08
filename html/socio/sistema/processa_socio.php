@@ -65,7 +65,6 @@ function cadastrar()
 
         //criar socio
         $idSocioStatus = 3; //Define o status do sócio como Inativo temporariamente
-        $idSocioTipo = 2; //Pegar dinamicamente através da análise da periodicidade
         $idSocioTag = 1; //Define o grupo do sócio como Solicitante
 
         $dataAtual = new DateTime();
@@ -90,7 +89,7 @@ function cadastrar()
 
         $stmtSocio->bindParam(':idPessoa', $idPessoa);
         $stmtSocio->bindParam(':idSocioStatus', $idSocioStatus);
-        $stmtSocio->bindParam(':idSocioTipo', $idSocioTipo);
+        $stmtSocio->bindParam(':idSocioTipo', $dados['periodicidade']);
         $stmtSocio->bindParam(':idSocioTag', $idSocioTag);
         $stmtSocio->bindParam(':email', $dados['email']);
         $stmtSocio->bindParam(':valor', $dados['valor']);
@@ -121,7 +120,7 @@ function atualizar()
     $dados = extrairPost();
 
     //Verifica se o sócio é um funcionário ou atendido
-    if(verificarInterno($dados['cpf'])){
+    if (verificarInterno($dados['cpf'])) {
         http_response_code(403);
         echo json_encode(['erro' => 'Você não possuí permissão para alterar os dados desse CPF']);
         exit();
@@ -166,13 +165,14 @@ function atualizar()
         $stmtPessoa->execute();
 
         //atualizar os dados de socio
-        $sqlAtualizarSocio = 
-        'UPDATE socio s 
+        $sqlAtualizarSocio =
+            'UPDATE socio s 
         JOIN pessoa p ON s.id_pessoa = p.id_pessoa
         SET 
             s.email = :email, 
             s.valor_periodo = :valor, 
-            s.data_referencia = :dataReferencia
+            s.data_referencia = :dataReferencia, 
+            s.id_sociotipo =:periodicidade
         WHERE p.cpf = :cpf';
 
         $dataAtual = new DateTime();
@@ -197,6 +197,7 @@ function atualizar()
         $stmtSocio->bindParam(':valor', $dados['valor']);
         $stmtSocio->bindParam(':dataReferencia', $dataReferencia);
         $stmtSocio->bindParam(':cpf', $dados['cpf']);
+        $stmtSocio->bindParam(':periodicidade', $dados['periodicidade']);
 
         if ($stmtSocio->execute()) {
             $pdo->commit();
@@ -230,7 +231,7 @@ function buscarPorCpf()
     }
 
     //Verifica se o sócio é um funcionário ou atendido
-    if(verificarInterno($cpf)){
+    if (verificarInterno($cpf)) {
         http_response_code(403);
         echo json_encode(['erro' => 'Você não possuí permissão para alterar os dados desse CPF']);
         exit();
@@ -255,7 +256,8 @@ function buscarPorCpf()
         p.complemento, 
         p.ibge, 
         s.email, 
-        s.data_referencia 
+        s.data_referencia, 
+        s.id_sociotipo 
     FROM pessoa p JOIN socio s ON(s.id_pessoa=p.id_pessoa) 
     WHERE p.cpf=:cpf';
 
@@ -278,22 +280,23 @@ function buscarPorCpf()
 /**
  * Verifica se um sócio é um funcionário ou um atendido
  */
-function verificarInterno(string $cpf){
+function verificarInterno(string $cpf)
+{
     $sqlVerificarInterno = 'SELECT p.id_pessoa FROM pessoa p JOIN socio s ON (s.id_pessoa=p.id_pessoa) LEFT JOIN atendido a ON(a.pessoa_id_pessoa=p.id_pessoa) LEFT JOIN funcionario f ON(f.id_pessoa=p.id_pessoa) WHERE p.cpf=:cpf AND (a.pessoa_id_pessoa IS NOT NULL OR f.id_pessoa IS NOT NULL)';
 
-    try{
+    try {
         $pdo = Conexao::connect();
 
         $stmt = $pdo->prepare($sqlVerificarInterno);
         $stmt->bindParam(':cpf', $cpf);
         $stmt->execute();
 
-        if($stmt->rowCount() > 0){
+        if ($stmt->rowCount() > 0) {
             return true;
         }
 
         return false;
-    }catch(PDOException $e){
+    } catch (PDOException $e) {
         http_response_code(500);
         echo json_encode(['erro' => 'Erro ao verificar sócio no sistema']);
         exit();
@@ -391,7 +394,12 @@ function extrairPost()
             throw new InvalidArgumentException('O valor informada deve ser de no mínimo 30 reais.');
         }
 
-        //validação da periodicidade (To-do)
+        //Validação da periodicidade
+        $periodosValidos = ['2', '6', '8', '10'];
+
+        if (!in_array($periodicidade, $periodosValidos)) {
+            throw new InvalidArgumentException('O período escolhido não é válido');
+        }
 
         //validação da data de vencimento
         $diasValidos = ['1', '5', '10', '15', '20'];

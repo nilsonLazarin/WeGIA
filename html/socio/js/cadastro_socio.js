@@ -76,7 +76,8 @@ btnAvancaCpf.addEventListener('click', (ev) => {
 
                     //informações da pag4
 
-                    //posteriormente marcar a periodicidade correspondente
+                    const periodicidade = document.getElementById('periodicidade');
+                    periodicidade.value = socio.id_sociotipo;
 
                     // Extrai o dia da data_referencia
                     const dataReferencia = socio.data_referencia;
