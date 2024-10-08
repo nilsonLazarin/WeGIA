@@ -48,7 +48,10 @@ btnAvancaCpf.addEventListener('click', (ev) => {
         .then(response => response.json()) // Converte a resposta para JSON
         .then(data => {
             if (data.erro) {
-                alert(`Erro: ${data.erro}`);//trocar para o alert do bootstrap posteriormente
+                mensagemDiv.innerHTML = `<div class="alert alert-danger text-center" role="alert">` +
+                    `${data.erro}`
+                    + `</div>`;
+                return;
             } else {
 
                 const socio = data.retorno;
@@ -72,12 +75,14 @@ btnAvancaCpf.addEventListener('click', (ev) => {
                     telefone.value = socio.telefone;
 
                     //informações da pag4
-                    
+
                     //posteriormente marcar a periodicidade correspondente
 
                     // Extrai o dia da data_referencia
                     const dataReferencia = socio.data_referencia;
                     const diaMarcado = dataReferencia.split('-')[2]; // Pega o dia de vencimento
+
+                    console.log('Dia marcado: ' + diaMarcado);
 
                     // Seleciona e marca o radio button com o valor correspondente ao dia
                     const radioToCheck = document.querySelector("input[name='data_vencimento'][value='" + diaMarcado + "']");
@@ -102,20 +107,20 @@ btnAvancaCpf.addEventListener('click', (ev) => {
                     cidade.value = socio.cidade;
                     complemento.value = socio.complemento;
 
-                    console.log(socio);//remover posteriormente
-
                     mensagemDiv.innerHTML = `<div class="alert alert-info text-center" role="alert">` +
                         `Verifique os dados a seguir e atualize os necessários.`
                         + `</div>`;
                 }
+
+                trocarPagina('pag3', 'pag2');
             }
         })
         .catch(error => {
-            console.error('Erro:', error);
-            alert('Ocorreu um erro ao processar o cadastro.');//trocar para o alert do bootstrap posteriormente
+            mensagemDiv.innerHTML = `<div class="alert alert-danger text-center" role="alert">` +
+                `Ocorreu um erro ao buscar o registro`
+                + `</div>`;
+            return;
         });
-
-    trocarPagina('pag3', 'pag2');
 });
 
 btnAvancaContato.addEventListener('click', (ev) => {

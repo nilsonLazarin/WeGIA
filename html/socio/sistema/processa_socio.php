@@ -120,6 +120,13 @@ function atualizar()
 {
     $dados = extrairPost();
 
+    //Verifica se o sócio é um funcionário ou atendido
+    if(verificarInterno($dados['cpf'])){
+        http_response_code(403);
+        echo json_encode(['erro' => 'Você não possuí permissão para alterar os dados desse CPF']);
+        exit();
+    }
+
     try {
         $pdo = Conexao::connect();
         $pdo->beginTransaction();
@@ -147,11 +154,11 @@ function atualizar()
         $stmtPessoa->bindParam(':telefone', $dados['telefone']);
         $stmtPessoa->bindParam(':dataNascimento', $dados['dataNascimento']);
         $stmtPessoa->bindParam(':cep', $dados['cep']);
-        $stmtPessoa->bindParam(':estado', $dados['estado']);
+        $stmtPessoa->bindParam(':estado', $dados['uf']);
         $stmtPessoa->bindParam(':cidade', $dados['cidade']);
         $stmtPessoa->bindParam(':bairro', $dados['bairro']);
-        $stmtPessoa->bindParam(':logradouro', $dados['logradouro']);
-        $stmtPessoa->bindParam(':numeroEndereco', $dados['numeroEndereco']);
+        $stmtPessoa->bindParam(':logradouro', $dados['rua']);
+        $stmtPessoa->bindParam(':numeroEndereco', $dados['numero']);
         $stmtPessoa->bindParam(':complemento', $dados['complemento']);
         $stmtPessoa->bindParam(':ibge', $dados['ibge']);
         $stmtPessoa->bindParam(':cpf', $dados['cpf']);
@@ -222,6 +229,13 @@ function buscarPorCpf()
         exit();
     }
 
+    //Verifica se o sócio é um funcionário ou atendido
+    if(verificarInterno($cpf)){
+        http_response_code(403);
+        echo json_encode(['erro' => 'Você não possuí permissão para alterar os dados desse CPF']);
+        exit();
+    }
+
     try {
         $pdo = Conexao::connect();
 
@@ -257,6 +271,31 @@ function buscarPorCpf()
     } catch (PDOException $e) {
         http_response_code(500);
         echo json_encode(['erro' => 'Erro ao buscar sócio no sistema']);
+        exit();
+    }
+}
+
+/**
+ * Verifica se um sócio é um funcionário ou um atendido
+ */
+function verificarInterno(string $cpf){
+    $sqlVerificarInterno = 'SELECT p.id_pessoa FROM pessoa p JOIN socio s ON (s.id_pessoa=p.id_pessoa) LEFT JOIN atendido a ON(a.pessoa_id_pessoa=p.id_pessoa) LEFT JOIN funcionario f ON(f.id_pessoa=p.id_pessoa) WHERE p.cpf=:cpf AND (a.pessoa_id_pessoa IS NOT NULL OR f.id_pessoa IS NOT NULL)';
+
+    try{
+        $pdo = Conexao::connect();
+
+        $stmt = $pdo->prepare($sqlVerificarInterno);
+        $stmt->bindParam(':cpf', $cpf);
+        $stmt->execute();
+
+        if($stmt->rowCount() > 0){
+            return true;
+        }
+
+        return false;
+    }catch(PDOException $e){
+        http_response_code(500);
+        echo json_encode(['erro' => 'Erro ao verificar sócio no sistema']);
         exit();
     }
 }

@@ -175,12 +175,18 @@ ini_set('display_startup_erros', 0);
 
                     <div id="vencimento" class="wrap-input100 validate-input bg1">
                         <span class="label-input100">Escolha uma data de vencimento *</span><br>
+                        <input type = 'radio' value ='01' name = 'data_vencimento' id='data_vencimento01'><span style='margin-right: 1.5em'>1</span>
+                        <input type = 'radio' value ='05' name = 'data_vencimento' id='data_vencimento05'><span style='margin-right: 1.5em'>5</span>
+                        <input type = 'radio' value ='10' name = 'data_vencimento' id='data_vencimento10'><span style='margin-right: 1.5em'>10</span>
+                        <input type = 'radio' value ='15' name = 'data_vencimento' id='data_vencimento15'><span style='margin-right: 1.5em'>15</span>
+                        <input type = 'radio' value ='20' name = 'data_vencimento' id='data_vencimento20'><span style='margin-right: 1.5em'>20</span>
+                        
                         <?php
-                        for ($i = 0; $i < 5; $i++) {
+                        /*for ($i = 0; $i < 5; $i++) {
                             if ($arrayData[$i] != 0) {
                                 echo "<input type = 'radio' value ='" . $arrayData[$i] . "' name = 'data_vencimento' id='data_vencimento" . $arrayData[$i] . "'>" . "<span style='margin-right: 1.5em'>" . $arrayData[$i] . "</span>";
                             }
-                        }
+                        }*/
                         ?>
                     </div>
                     <div class="container-contact100-form-btn">
