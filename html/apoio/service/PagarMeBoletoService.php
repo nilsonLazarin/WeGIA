@@ -17,7 +17,7 @@ class PagarMeBoletoService implements ApiBoletoServiceInterface
         //Buscar Url da API e token no BD
         try {
             $gatewayPagamentoDao = new GatewayPagamentoDAO();
-            $gatewayPagamento = $gatewayPagamentoDao->buscarPorId(8); //Pegar valor do id dinamicamente
+            $gatewayPagamento = $gatewayPagamentoDao->buscarPorId(1); //Pegar valor do id dinamicamente
 
             //print_r($gatewayPagamento);
         } catch (PDOException $e) {
@@ -76,7 +76,7 @@ class PagarMeBoletoService implements ApiBoletoServiceInterface
 
         // Transformar o boleto em JSON
         $boleto_json = json_encode($boleto);
-        echo $boleto_json;
+        //echo $boleto_json;
 
         //Iniciar requisição
 
@@ -111,6 +111,9 @@ class PagarMeBoletoService implements ApiBoletoServiceInterface
             $responseData = json_decode($response, true);
             $pdf_link = $responseData['charges'][0]['last_transaction']['pdf'];
 
+            //armazena copía para segunda via
+            $this->guardarSegundaVia($pdf_link, $contribuicaoLog);
+
             //envia resposta para o front-end
             echo json_encode(['link' => $pdf_link]);
         } else {
@@ -128,7 +131,65 @@ class PagarMeBoletoService implements ApiBoletoServiceInterface
 
         return true;
     }
-    public function guardarSegundaVia() {}
+    public function guardarSegundaVia($pdf_link, ContribuicaoLog $contribuicaoLog)
+    {
+        // Diretório onde os arquivos serão armazenados
+        $saveDir = '../pdfs/';
+
+        // Verifica se o diretório existe, se não, cria o diretório
+        if (!is_dir($saveDir)) {
+            mkdir($saveDir, 0755, true);
+        }
+
+        $cpfSemMascara = preg_replace('/\D/', '', $contribuicaoLog->getSocio()->getDocumento());
+
+        //$numeroAleatorio = gerarCodigoAleatorio();
+        $ultimaDataVencimento = $contribuicaoLog->getDataVencimento();
+        $ultimaDataVencimento = str_replace('-', '', $ultimaDataVencimento);
+        $nomeArquivo = $saveDir . $contribuicaoLog->getCodigo() . '_' . $cpfSemMascara . '_' . $ultimaDataVencimento . '_' . $contribuicaoLog->getValor() . '.pdf';
+
+        // Inicia uma sessão cURL
+        $ch = curl_init($pdf_link);
+
+        // Configurações da sessão cURL
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_HEADER, true);
+
+        // Executa a sessão cURL e obtém a resposta com cabeçalhos
+        $response = curl_exec($ch);
+
+        // Verifica se ocorreu algum erro durante a execução do cURL
+        if (curl_errno($ch)) {
+            echo json_encode('Erro ao baixar o arquivo.'); //. curl_error($ch) . PHP_EOL;
+            exit();
+        } else {
+            // Verifica o código de resposta HTTP
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+            if ($httpCode == 200) {
+                // Separa os cabeçalhos do corpo da resposta
+                $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+                $headers = substr($response, 0, $headerSize);
+                $fileContent = substr($response, $headerSize);
+
+                // Verifica o tipo de conteúdo
+                if (strpos($headers, 'Content-Type: application/pdf') !== false) {
+                    // Salva o conteúdo do arquivo no diretório especificado
+                    file_put_contents($nomeArquivo, $fileContent);
+                    //$arquivos []= $savePath;
+                } else {
+                    //echo "Erro: O conteúdo da URL não é um PDF." . PHP_EOL;
+                }
+            } else {
+                echo json_encode("Erro ao baixar o arquivo: HTTP $httpCode");
+                exit();
+            }
+        }
+
+        // Fecha a sessão cURL
+        curl_close($ch);
+    }
 
     /**
      * Retorna um número com a quantidade de algarismos informada no parâmetro
