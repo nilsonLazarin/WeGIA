@@ -9,6 +9,7 @@
     <form action="../controller/control.php" method="post">
         <input type="hidden" name="nomeClasse" value="ContribuicaoLogController">
         <input type="hidden" name="metodo" value="criar">
+        <input type="hidden" name="forma_pagamento" value="Boleto">
         <input type="number" name="valor" id="valor" placeholder="Insira aqui o valor">
         <input type="text" name="documento_socio" id="documento_socio" placeholder="Insira aqui o documento do sócio">
         <button type="submit">Testar</button>

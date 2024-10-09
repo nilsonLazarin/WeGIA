@@ -3,6 +3,7 @@ require_once '../model/ContribuicaoLog.php';
 require_once '../dao/ContribuicaoLogDAO.php';
 require_once '../model/Socio.php';
 require_once '../dao/SocioDAO.php';
+require_once '../dao/MeioPagamentoDAO.php';
 
 //Fazer requisição dinâmica posteriormente
 require_once '../service/PagarMeBoletoService.php';
@@ -21,17 +22,30 @@ class ContribuicaoLogController
     {
         $valor = filter_input(INPUT_POST, 'valor');
         $documento = filter_input(INPUT_POST, 'documento_socio');
+        $formaPagamento = filter_input(INPUT_POST, 'forma_pagamento');
 
         //Verificar se existe um sócio que possua de fato o documento
-        $socioDao = new SocioDAO();
-        $socio = $socioDao->buscarPorDocumento($documento);
+        try {
+            $socioDao = new SocioDAO();
+            $socio = $socioDao->buscarPorDocumento($documento);
 
-        if(is_null($socio)){
-            //Colocar uma mensagem para informar que o sócio não existe
-            exit('Sócio não encontrado');
+            if (is_null($socio)) {
+                //Colocar uma mensagem para informar que o sócio não existe
+                exit('Sócio não encontrado');
+            }
+
+            //$servicoPagamento = Verificar qual a melhor maneira de detectar o serviço de pagamento
+            $meioPagamentoDao = new MeioPagamentoDAO();
+            $meioPagamento = $meioPagamentoDao->buscarPorNome($formaPagamento);
+
+            if (is_null($meioPagamento)) {
+                //Colocar uma mensagem para informar que o meio de pagamento não existe
+                exit('Meio de pagamento não encontrado');
+            }
+        } catch (PDOException $e) {
+            //implementar tratamento de erro
+            echo 'Erro: ' . $e->getMessage();
         }
-
-        //$servicoPagamento = Verificar qual a melhor maneira de detectar o serviço de pagamento
 
         //Verificar qual fuso horário será utilizado posteriormente
         $dataGeracao = date('Y-m-d');
@@ -52,31 +66,32 @@ class ContribuicaoLogController
             $contribuicaoLogDao = new ContribuicaoLogDAO($this->pdo);
             $contribuicaoLogDao->criar($contribuicaoLog);
             //Fazer chamada do serviço de pagamento requisitado
-            $servicoPagamento = new PagarMeBoletoService();//Chamar dinamicamente
-            if(!$servicoPagamento->gerarBoleto($contribuicaoLog)){
+            $servicoPagamento = new PagarMeBoletoService(); //Chamar dinamicamente
+            if (!$servicoPagamento->gerarBoleto($contribuicaoLog)) {
                 $this->pdo->rollBack();
-            }else{
+            } else {
                 $this->pdo->commit();
             }
         } catch (PDOException $e) {
             //implementar tratamento de erro
-            echo 'Erro: '.$e->getMessage();
+            echo 'Erro: ' . $e->getMessage();
         }
     }
 
-    public function pagarPorId(){
+    public function pagarPorId()
+    {
         $idContribuicaoLog = filter_input(INPUT_POST, 'id_contribuicao');
 
-        if(!$idContribuicaoLog || $idContribuicaoLog < 1){
+        if (!$idContribuicaoLog || $idContribuicaoLog < 1) {
             http_response_code(400);
-            exit('O id fornecido não é válido');//substituir posteriormente por redirecionamento com mensagem de feedback
+            exit('O id fornecido não é válido'); //substituir posteriormente por redirecionamento com mensagem de feedback
         }
 
-        try{
+        try {
             $contribuicaoLogDao = new ContribuicaoLogDAO();
             $contribuicaoLogDao->pagarPorId($idContribuicaoLog);
-        }catch(PDOException $e){
-            echo 'Erro: '.$e->getMessage(); //substituir posteriormente por redirecionamento com mensagem de feedback
+        } catch (PDOException $e) {
+            echo 'Erro: ' . $e->getMessage(); //substituir posteriormente por redirecionamento com mensagem de feedback
         }
     }
 }
