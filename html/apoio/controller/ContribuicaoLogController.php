@@ -17,7 +17,7 @@ class ContribuicaoLogController
         $this->pdo = ConexaoDAO::conectar();
     }
 
-    public function criar()
+    public function criar()//Talvez seja melhor separar em: criarBoleto, criarCarne e criarPix
     {
         $valor = filter_input(INPUT_POST, 'valor');
         $documento = filter_input(INPUT_POST, 'documento_socio');
