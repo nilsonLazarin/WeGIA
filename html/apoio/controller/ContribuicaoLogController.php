@@ -4,9 +4,8 @@ require_once '../dao/ContribuicaoLogDAO.php';
 require_once '../model/Socio.php';
 require_once '../dao/SocioDAO.php';
 require_once '../dao/MeioPagamentoDAO.php';
-
-//Fazer requisição dinâmica posteriormente
-require_once '../service/PagarMeBoletoService.php';
+require_once '../dao/GatewayPagamentoDAO.php';
+require_once '../model/GatewayPagamento.php';
 
 class ContribuicaoLogController
 {
@@ -42,9 +41,34 @@ class ContribuicaoLogController
                 //Colocar uma mensagem para informar que o meio de pagamento não existe
                 exit('Meio de pagamento não encontrado');
             }
+
+            //Procura pelo serviço de pagamento através do id do gateway de pagamento
+            $gatewayPagamentoDao = new GatewayPagamentoDAO();
+            $gatewayPagamentoArray = $gatewayPagamentoDao->buscarPorId($meioPagamento->getGatewayId());
+            $gatewayPagamento = new GatewayPagamento($gatewayPagamentoArray['plataforma'], $gatewayPagamentoArray['endPoint'], $gatewayPagamentoArray['token'], $gatewayPagamentoArray['status']);
+
+            //Requisição dinâmica e instanciação da classe com base no nome do gateway de pagamento
+            $requisicaoServico = '../service/'.$gatewayPagamento->getNome().$formaPagamento.'Service'.'.php';
+
+            if(!file_exists($requisicaoServico)){
+                //implementar feedback
+                exit('Arquivo não encontrado');
+            }
+
+            require_once $requisicaoServico;
+            
+            $classeService = $gatewayPagamento->getNome().$formaPagamento.'Service';
+
+            if(!class_exists($classeService)){
+                //implementar feedback
+                exit('Classe não encontrada');
+            }
+
+            $servicoPagamento = new $classeService;
         } catch (PDOException $e) {
             //implementar tratamento de erro
             echo 'Erro: ' . $e->getMessage();
+            exit();
         }
 
         //Verificar qual fuso horário será utilizado posteriormente
@@ -60,13 +84,12 @@ class ContribuicaoLogController
             ->setSocio($socio);
 
         try {
-            /*Implementar controle de transação para que o log só seja registrado
+            /*Controle de transação para que o log só seja registrado
             caso o serviço de pagamento tenha sido executado*/
             $this->pdo->beginTransaction();
             $contribuicaoLogDao = new ContribuicaoLogDAO($this->pdo);
             $contribuicaoLogDao->criar($contribuicaoLog);
-            //Fazer chamada do serviço de pagamento requisitado
-            $servicoPagamento = new PagarMeBoletoService(); //Chamar dinamicamente
+            //Chamada do método de serviço de pagamento requisitado
             if (!$servicoPagamento->gerarBoleto($contribuicaoLog)) {
                 $this->pdo->rollBack();
             } else {
