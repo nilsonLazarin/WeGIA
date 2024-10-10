@@ -1,8 +1,10 @@
 <?php
 
 //requisitar arquivo de conexão
-
 require_once '../dao/ConexaoDAO.php';
+
+//requisitar model
+require_once '../model/MeioPagamento.php';
 
 class MeioPagamentoDAO
 {
@@ -44,6 +46,25 @@ class MeioPagamentoDAO
         $resultado = $this->pdo->query($sqlBuscaTodos)->fetchAll(PDO::FETCH_ASSOC);
         //retornar resultado
         return $resultado;
+    }
+
+    /**
+     * Retorna o meio de pagamento com nome equivalente ao passado como parâmetro
+     */
+    public function buscarPorNome(string $nome){
+        $sqlBuscarPorNome = 'SELECT meio, id_plataforma, status FROM contribuicao_meioPagamento WHERE meio=:nome';
+
+        $stmt = $this->pdo->prepare($sqlBuscarPorNome);
+        $stmt->bindParam(':nome', $nome);
+        $stmt->execute();
+
+        if($stmt->rowCount() < 1){
+            return null;
+        }
+
+        $meioPagamentoArray = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return new MeioPagamento($meioPagamentoArray['meio'], $meioPagamentoArray['id_plataforma'], $meioPagamentoArray['status']);
     }
 
     /**
