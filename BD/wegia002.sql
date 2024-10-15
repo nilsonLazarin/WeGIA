@@ -80,8 +80,8 @@ INSERT INTO `socio_status` (`id_sociostatus`, `status`) VALUES
 (3, 'Inativo Temporariamente'),
 (4, 'Sem informação');
 
-INSERT INTO `socio_tag` (`id_sociotag`, `tag`) VALUES
-(1, 'Solicitante');
+INSERT INTO `socio_tag` (`tag`) VALUES
+('Solicitante');
 
 INSERT INTO `status_memorando` (`status_atual`) VALUES ('Ativo'), ('Lido'), ('Não Lido'), ('Importante'), ('Pendente'), ('Arquivado');
 

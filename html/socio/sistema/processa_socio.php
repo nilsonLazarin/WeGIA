@@ -64,7 +64,10 @@ function cadastrar()
 
         //criar socio
         $idSocioStatus = 3; //Define o status do sócio como Inativo temporariamente
-        $idSocioTag = 1; //Define o grupo do sócio como Solicitante
+
+        $tagSolicitante = $pdo->query("SELECT * FROM socio_tag WHERE tag='Solicitante'")->fetch(PDO::FETCH_ASSOC);
+
+        $idSocioTag = $tagSolicitante['id_sociotag']; //Define o grupo do sócio como Solicitante
 
         $dataAtual = new DateTime();
 
