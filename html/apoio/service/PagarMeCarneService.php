@@ -78,22 +78,74 @@ class PagarMeCarneService implements ApiCarneServiceInterface
             ];
 
             // Transformar o boleto em JSON e inserir no array de parcelas
-            $parcelas []= json_encode($boleto);
+            $parcelas[] = json_encode($boleto);
         }
 
-        print_r($parcelas);
+        //print_r($parcelas);
 
         //Implementar requisição para API
+        $pdf_links = [];
 
+        // Iniciar a requisição cURL
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $gatewayPagamento['endPoint']);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+        foreach ($parcelas as $boleto_json) {
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $boleto_json);
+
+            // Executar a requisição cURL
+            $response = curl_exec($ch);
+
+            // Lidar com a resposta da API (mesmo código de tratamento que você já possui)
+
+            // Verifica por erros no cURL
+            if (curl_errno($ch)) {
+                echo 'Erro na requisição: ' . curl_error($ch);
+                curl_close($ch);
+                return false;
+            }
+
+            // Obtém o código de status HTTP
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+            // Fecha a conexão cURL
+            curl_close($ch);
+
+            // Verifica o código de status HTTP
+            if ($httpCode === 200 || $httpCode === 201) {
+                $responseData = json_decode($response, true);
+                $pdf_links []= $responseData['charges'][0]['last_transaction']['pdf'];
+            } else {
+                echo json_encode(['Erro' => 'A API retornou o código de status HTTP ' . $httpCode]);
+                return false;
+                // Verifica se há mensagens de erro na resposta JSON
+                $responseData = json_decode($response, true);
+                if (isset($responseData['errors'])) {
+                    //echo 'Detalhes do erro:';
+                    foreach ($responseData['errors'] as $error) {
+                        //echo '<br> ' . htmlspecialchars($error['message']);
+                    }
+                }
+            }
+        }
+
+        //print_r($pdf_links);
+
+        //Juntar pdfs em um único documento
+
+        //guardar segunda via
         return true;
     }
 
     public function guardarSegundaVia() {}
 
-     /**
+    /**
      * Retorna um número com a quantidade de algarismos informada no parâmetro
      */
-    public function gerarNumeroDocumento($tamanho)//Transformar em utilitário
+    public function gerarNumeroDocumento($tamanho) //Transformar em utilitário
     {
         $numeroDocumento = '';
 
