@@ -1,5 +1,7 @@
 <?php
 class Socio{
+
+    private $id;
     private $nome;
     private $telefone;
     private $email;
@@ -10,6 +12,7 @@ class Socio{
     private $cep;
     private $numeroEndereco;
     private $logradouro;
+    private $documento;
 
     /**
      * Get the value of nome
@@ -209,6 +212,46 @@ class Socio{
     public function setLogradouro($logradouro)
     {
         $this->logradouro = $logradouro;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of id
+     */ 
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set the value of id
+     *
+     * @return  self
+     */ 
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of documento
+     */ 
+    public function getDocumento()
+    {
+        return $this->documento;
+    }
+
+    /**
+     * Set the value of documento
+     *
+     * @return  self
+     */ 
+    public function setDocumento($documento)
+    {
+        $this->documento = $documento;
 
         return $this;
     }

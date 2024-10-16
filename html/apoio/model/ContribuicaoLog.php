@@ -1,4 +1,6 @@
 <?php
+require_once '../model/Socio.php';
+
 class ContribuicaoLog
 {
     private $id;
@@ -6,7 +8,7 @@ class ContribuicaoLog
     private $codigo;
     private $dataGeracao;
     private $dataVencimento;
-    private $idSocio;
+    private Socio $socio;
     private $statusPagamento = 0;
 
     /**
@@ -126,9 +128,9 @@ class ContribuicaoLog
     /**
      * Get the value of idSocio
      */
-    public function getIdSocio()
+    public function getSocio()
     {
-        return $this->idSocio;
+        return $this->socio;
     }
 
     /**
@@ -136,9 +138,9 @@ class ContribuicaoLog
      *
      * @return  self
      */
-    public function setIdSocio($idSocio)
+    public function setSocio(Socio $socio)
     {
-        $this->idSocio = $idSocio;
+        $this->socio = $socio;
 
         return $this;
     }
