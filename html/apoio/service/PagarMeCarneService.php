@@ -9,7 +9,7 @@ class PagarMeCarneService implements ApiCarneServiceInterface
     {
         //definir constantes que serão usadas em todas as parcelas
 
-        $cpfSemMascara = Util::limpaCpf($contribuicaoLogCollection->getIterator()->current()->getSocio()->getDocumento());//Ignorar erro do VSCode para método não definida em ->current() caso esteja utilizando intelephense
+        $cpfSemMascara = Util::limpaCpf($contribuicaoLogCollection->getIterator()->current()->getSocio()->getDocumento()); //Ignorar erro do VSCode para método não definida em ->current() caso esteja utilizando intelephense
 
         //Tipo do boleto
         $type = 'DM';
@@ -118,7 +118,7 @@ class PagarMeCarneService implements ApiCarneServiceInterface
             // Verifica o código de status HTTP
             if ($httpCode === 200 || $httpCode === 201) {
                 $responseData = json_decode($response, true);
-                $pdf_links []= $responseData['charges'][0]['last_transaction']['pdf'];
+                $pdf_links[] = $responseData['charges'][0]['last_transaction']['pdf'];
             } else {
                 echo json_encode(['Erro' => 'A API retornou o código de status HTTP ' . $httpCode]);
                 return false;
@@ -134,11 +134,79 @@ class PagarMeCarneService implements ApiCarneServiceInterface
         }
 
         //print_r($pdf_links);
+        $this->salvarTemp($pdf_links);
 
         //Juntar pdfs em um único documento
 
         //guardar segunda via
         return true;
+    }
+
+    public function salvarTemp($pdf_links)
+    {
+        // Diretório onde os arquivos serão armazenados
+        $saveDir = '../pdfs/';
+        $saveDirTemp = $saveDir . 'temp/';
+
+        // Verifica se o diretório existe, se não, cria o diretório
+        if (!is_dir($saveDir)) {
+            mkdir($saveDir, 0755, true);
+        }
+
+        if (!is_dir($saveDirTemp)) {
+            mkdir($saveDirTemp, 0755, true);
+        }
+
+        foreach ($pdf_links as $indice => $url) {
+            // Extrai o nome do arquivo a partir da URL
+            $pathParts = explode('/', $url);
+            $fileName = $indice . '_' . $pathParts[count($pathParts) - 2] . '.pdf';
+
+            // Caminho completo para salvar o arquivo
+            $savePath = $saveDirTemp . $fileName;
+
+            // Inicia uma sessão cURL
+            $ch = curl_init($url);
+
+            // Configurações da sessão cURL
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt($ch, CURLOPT_HEADER, true);
+
+            // Executa a sessão cURL e obtém a resposta com cabeçalhos
+            $response = curl_exec($ch);
+
+            // Verifica se ocorreu algum erro durante a execução do cURL
+            if (curl_errno($ch)) {
+                echo json_encode('Erro ao baixar o arquivo.'); //. curl_error($ch) . PHP_EOL;
+                exit();
+            } else {
+                // Verifica o código de resposta HTTP
+                $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+                if ($httpCode == 200) {
+                    // Separa os cabeçalhos do corpo da resposta
+                    $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+                    $headers = substr($response, 0, $headerSize);
+                    $fileContent = substr($response, $headerSize);
+
+                    // Verifica o tipo de conteúdo
+                    if (strpos($headers, 'Content-Type: application/pdf') !== false) {
+                        // Salva o conteúdo do arquivo no diretório especificado
+                        file_put_contents($savePath, $fileContent);
+                        $arquivos[] = $savePath;
+                    } else {
+                        //echo "Erro: O conteúdo da URL não é um PDF." . PHP_EOL;
+                    }
+                } else {
+                    echo json_encode("Erro ao baixar o arquivo: HTTP $httpCode");
+                    exit();
+                }
+            }
+
+            // Fecha a sessão cURL
+            curl_close($ch);
+        }
     }
 
     public function guardarSegundaVia() {}
