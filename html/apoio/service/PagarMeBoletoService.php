@@ -2,12 +2,13 @@
 require_once 'ApiBoletoServiceInterface.php';
 require_once '../model/ContribuicaoLog.php';
 require_once '../dao/GatewayPagamentoDAO.php';
+require_once '../helper/Util.php';
 class PagarMeBoletoService implements ApiBoletoServiceInterface
 {
     public function gerarBoleto(ContribuicaoLog $contribuicaoLog)
     {
         //gerar um número para o documento
-        $numeroDocumento = $this->gerarNumeroDocumento(16);
+        $numeroDocumento = Util::gerarNumeroDocumento(16);
 
         //Tipo do boleto
         $type = 'DM';
@@ -18,8 +19,6 @@ class PagarMeBoletoService implements ApiBoletoServiceInterface
         try {
             $gatewayPagamentoDao = new GatewayPagamentoDAO();
             $gatewayPagamento = $gatewayPagamentoDao->buscarPorId(1); //Pegar valor do id dinamicamente
-
-            //print_r($gatewayPagamento);
         } catch (PDOException $e) {
             //Implementar tratamento de erro
             echo 'Erro: ' . $e->getMessage();
@@ -35,7 +34,7 @@ class PagarMeBoletoService implements ApiBoletoServiceInterface
 
         //Montar array de Boleto
 
-        $cpfSemMascara = preg_replace('/\D/', '', $contribuicaoLog->getSocio()->getDocumento());
+        $cpfSemMascara = Util::limpaCpf($contribuicaoLog->getSocio()->getDocumento());//preg_replace('/\D/', '', $contribuicaoLog->getSocio()->getDocumento());
 
         $boleto = [
             "items" => [
@@ -141,7 +140,7 @@ class PagarMeBoletoService implements ApiBoletoServiceInterface
             mkdir($saveDir, 0755, true);
         }
 
-        $cpfSemMascara = preg_replace('/\D/', '', $contribuicaoLog->getSocio()->getDocumento());
+        $cpfSemMascara = Util::limpaCpf($contribuicaoLog->getSocio()->getDocumento());//preg_replace('/\D/', '', $contribuicaoLog->getSocio()->getDocumento());
 
         //$numeroAleatorio = gerarCodigoAleatorio();
         $ultimaDataVencimento = $contribuicaoLog->getDataVencimento();
@@ -189,19 +188,5 @@ class PagarMeBoletoService implements ApiBoletoServiceInterface
 
         // Fecha a sessão cURL
         curl_close($ch);
-    }
-
-    /**
-     * Retorna um número com a quantidade de algarismos informada no parâmetro
-     */
-    public function gerarNumeroDocumento($tamanho)
-    {
-        $numeroDocumento = '';
-
-        for ($i = 0; $i < $tamanho; $i++) {
-            $numeroDocumento .= rand(0, 9);
-        }
-
-        return intval($numeroDocumento);
     }
 }

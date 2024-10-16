@@ -8,7 +8,7 @@
 <body>
     <form action="../controller/control.php" method="post">
         <input type="hidden" name="nomeClasse" value="ContribuicaoLogController">
-        <input type="hidden" name="metodo" value="criarCarne">
+        <input type="hidden" name="metodo" value="criarBoleto">
         <input type="number" name="parcelas" id="parcelas" placeholder="Insira aqui a quantidade de parcelas">
         <input type="number" name="dia-vencimento" id="dia-vencimento" placeholder="Insira aqui o dia de vencimento">
         <input type="number" name="valor" id="valor" placeholder="Insira aqui o valor">

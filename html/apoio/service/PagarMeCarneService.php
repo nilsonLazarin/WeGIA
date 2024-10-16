@@ -1,6 +1,7 @@
 <?php
 require_once '../model/ContribuicaoLogCollection.php';
 require_once '../model/ContribuicaoLog.php';
+require_once '../helper/Util.php';
 require_once 'ApiCarneServiceInterface.php';
 class PagarMeCarneService implements ApiCarneServiceInterface
 {
@@ -8,7 +9,7 @@ class PagarMeCarneService implements ApiCarneServiceInterface
     {
         //definir constantes que serão usadas em todas as parcelas
 
-        $cpfSemMascara = preg_replace('/\D/', '', $contribuicaoLogCollection->getIterator()->current()->getSocio()->getDocumento()); //Ignorar erro do VSCode para método não definida em ->current() caso esteja utilizando intelephense
+        $cpfSemMascara = Util::limpaCpf($contribuicaoLogCollection->getIterator()->current()->getSocio()->getDocumento());//Ignorar erro do VSCode para método não definida em ->current() caso esteja utilizando intelephense
 
         //Tipo do boleto
         $type = 'DM';
@@ -35,11 +36,11 @@ class PagarMeCarneService implements ApiCarneServiceInterface
         ];
 
         //Montar array de parcelas
-        $parcela = [];
+        $parcelas = [];
 
         foreach ($contribuicaoLogCollection as $contribuicaoLog) {
             //gerar um número para o documento
-            $numeroDocumento = $this->gerarNumeroDocumento(16);
+            $numeroDocumento = Util::gerarNumeroDocumento(16);
             $boleto = [
                 "items" => [
                     [
@@ -141,18 +142,4 @@ class PagarMeCarneService implements ApiCarneServiceInterface
     }
 
     public function guardarSegundaVia() {}
-
-    /**
-     * Retorna um número com a quantidade de algarismos informada no parâmetro
-     */
-    public function gerarNumeroDocumento($tamanho) //Transformar em utilitário
-    {
-        $numeroDocumento = '';
-
-        for ($i = 0; $i < $tamanho; $i++) {
-            $numeroDocumento .= rand(0, 9);
-        }
-
-        return intval($numeroDocumento);
-    }
 }
