@@ -63,12 +63,17 @@ $(document).ready(function(){
                         tabela += `<tr><td>${socio.nome}</td><td>${socio.cpf}</td><td>${socio.telefone}</td><td>${socio.email}</td><td>${socio.tipo}</td><td>${socio.tag}</td><td>${valor_periodo}</td><td>${socio.status}</td></tr>`
                     }
                 }
+                let valor = $('#valor').val();
+
+                if(!valor || valor === ''){
+                    valor = '0';
+                }
                 $(".resultado").html(`
                 <div class="tab-content">
                 <div class="descricao">
                     <p>
                         </p>
-                            <h3>Relatório de Sócios</h3><ul>Sócios: ${$("#tipo_socio option:selected").text()}</ul><ul>Pessoas: ${$("#tipo_pessoa option:selected").text()}</ul><ul>Valor: ${$("#operador option:selected").text()} ${$("#valor").val()}</ul>							</li>
+                            <h3>Relatório de Sócios</h3><ul>Sócios: ${$("#tipo_socio option:selected").text()}</ul><ul>Pessoas: ${$("#tipo_pessoa option:selected").text()}</ul><ul>Quantidade: ${socios.length}</ul><ul>Valor: ${$("#operador option:selected").text()} R$ ${valor}</ul>							</li>
                     <p></p>
                     <button style="float: right;" class="mb-xs mt-xs mr-xs btn btn-default print-button" onclick="window.print();">Imprimir</button>
                 </div>
