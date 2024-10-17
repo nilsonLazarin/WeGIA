@@ -80,16 +80,19 @@ btnAvancaCpf.addEventListener('click', (ev) => {
                     const periodicidade = document.getElementById('periodicidade');
                     periodicidade.value = socio.id_sociotipo;
 
-                    // Extrai o dia da data_referencia
+                    // Extrai o dia da data_referencia caso um sócio possua essa informação
                     const dataReferencia = socio.data_referencia;
-                    const diaMarcado = dataReferencia.split('-')[2]; // Pega o dia de vencimento
 
-                    console.log('Dia marcado: ' + diaMarcado);
+                    if (dataReferencia != null) {
+                        const diaMarcado = dataReferencia.split('-')[2]; // Pega o dia de vencimento
+                        //console.log('Dia marcado: ' + diaMarcado);
 
-                    // Seleciona e marca o radio button com o valor correspondente ao dia
-                    const radioToCheck = document.querySelector("input[name='data_vencimento'][value='" + diaMarcado + "']");
-                    if (radioToCheck) {
-                        radioToCheck.checked = true;
+                        // Seleciona e marca o radio button com o valor correspondente ao dia
+                        const radioToCheck = document.querySelector("input[name='data_vencimento'][value='" + diaMarcado + "']");
+                        if (radioToCheck) {
+                            radioToCheck.checked = true;
+                        }
+
                     }
 
                     //informações da pag5
@@ -122,6 +125,8 @@ btnAvancaCpf.addEventListener('click', (ev) => {
             mensagemDiv.innerHTML = `<div class="alert alert-danger text-center" role="alert">` +
                 `Ocorreu um erro ao buscar o registro`
                 + `</div>`;
+
+            //console.error(error);
             return;
         });
 });
@@ -176,13 +181,13 @@ formCadastro.addEventListener('submit', (ev) => {
         .then(data => {
             if (data.erro) {
                 mensagemDiv.innerHTML = `<div class="alert alert-danger text-center" role="alert">` +
-                `${data.erro}`
-                + `</div>`;
-            return;
+                    `${data.erro}`
+                    + `</div>`;
+                return;
             } else {
                 mensagemDiv.innerHTML = `<div class="alert alert-success text-center" role="alert">` +
-                `${data.retorno}`
-                + `</div>`;
+                    `${data.retorno}`
+                    + `</div>`;
             }
         })
         .catch(error => {
