@@ -193,7 +193,7 @@ formCadastro.addEventListener('submit', (ev) => {
             } else {
                 mensagemDiv.innerHTML = `<div class="alert alert-success text-center" role="alert">` +
                     `${data.retorno}`
-                    + `</div>`;
+                    + `</div>` + `<h3 class="text-center">Obrigado por apoiar nossa Instituição!</h3>`;
 
                 const btnVoltar = document.getElementById('volta-endereco');
                 btnVoltar.classList.add('hidden');
