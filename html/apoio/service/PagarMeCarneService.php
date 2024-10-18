@@ -3,6 +3,10 @@ require_once '../model/ContribuicaoLogCollection.php';
 require_once '../model/ContribuicaoLog.php';
 require_once '../helper/Util.php';
 require_once 'ApiCarneServiceInterface.php';
+require_once '../vendor/autoload.php';
+
+use setasign\Fpdi\Fpdi;
+
 class PagarMeCarneService implements ApiCarneServiceInterface
 {
     public function gerarCarne(ContribuicaoLogCollection $contribuicaoLogCollection)
@@ -134,11 +138,10 @@ class PagarMeCarneService implements ApiCarneServiceInterface
         }
 
         //print_r($pdf_links);
-        $this->salvarTemp($pdf_links);
-
-        //Juntar pdfs em um único documento
+        $arquivos = $this->salvarTemp($pdf_links);
 
         //guardar segunda via
+        $this->guardarSegundaVia($arquivos);
         return true;
     }
 
@@ -207,7 +210,17 @@ class PagarMeCarneService implements ApiCarneServiceInterface
             // Fecha a sessão cURL
             curl_close($ch);
         }
+
+        return $arquivos;
     }
 
-    public function guardarSegundaVia() {}
+    public function guardarSegundaVia($arquivos)
+    {
+        $pdf = new Fpdi();
+
+        // Itera sobre cada arquivo PDF
+        foreach ($arquivos as $file) {
+           echo $file.'<br>';
+        }
+    }
 }
