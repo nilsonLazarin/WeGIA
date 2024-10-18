@@ -76,16 +76,21 @@ ini_set('display_startup_erros', 0);
             display: none;
         }
 
-        span.obrigatorio{
+        span.obrigatorio {
             color: red;
         }
 
-        .btn-voltar{
+        .btn-voltar {
             font-size: .9rem;
         }
 
-        .btn-voltar:hover{
+        .btn-voltar:hover {
             font-size: 1rem;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
     </style>
 </head>
