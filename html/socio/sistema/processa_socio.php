@@ -167,6 +167,10 @@ function atualizar()
         $stmtPessoa->execute();
 
         //atualizar os dados de socio
+
+        $tagSolicitante = $pdo->query("SELECT * FROM socio_tag WHERE tag='Solicitante'")->fetch(PDO::FETCH_ASSOC);
+        $idSocioTag = $tagSolicitante['id_sociotag']; //Define o grupo do sócio como Solicitante
+
         $sqlAtualizarSocio =
             'UPDATE socio s 
         JOIN pessoa p ON s.id_pessoa = p.id_pessoa
@@ -174,7 +178,8 @@ function atualizar()
             s.email = :email, 
             s.valor_periodo = :valor, 
             s.data_referencia = :dataReferencia, 
-            s.id_sociotipo =:periodicidade
+            s.id_sociotipo =:periodicidade, 
+            s.id_sociotag =:tag
         WHERE p.cpf = :cpf';
 
         $dataAtual = new DateTime();
@@ -200,6 +205,7 @@ function atualizar()
         $stmtSocio->bindParam(':dataReferencia', $dataReferencia);
         $stmtSocio->bindParam(':cpf', $dados['cpf']);
         $stmtSocio->bindParam(':periodicidade', $dados['periodicidade']);
+        $stmtSocio->bindParam(':tag', $idSocioTag);
 
         if ($stmtSocio->execute()) {
             $pdo->commit();
