@@ -168,8 +168,19 @@ function atualizar()
 
         //atualizar os dados de socio
 
-        $tagSolicitante = $pdo->query("SELECT * FROM socio_tag WHERE tag='Solicitante'")->fetch(PDO::FETCH_ASSOC);
-        $idSocioTag = $tagSolicitante['id_sociotag']; //Define o grupo do sócio como Solicitante
+        //verificar se possuí o status de Ativo
+        $sqlBuscaAtivo = "SELECT s.id_sociotag FROM socio s JOIN pessoa p ON (s.id_pessoa=p.id_pessoa) WHERE cpf=:cpf AND s.id_sociostatus =0";
+
+        $stmtStatusAtivo = $pdo->prepare($sqlBuscaAtivo);
+        $stmtStatusAtivo->bindParam(':cpf', $dados['cpf']);
+        $stmtStatusAtivo->execute();
+
+        if ($stmtStatusAtivo->rowCount() > 0) {
+            $idSocioTag = $stmtStatusAtivo->fetch(PDO::FETCH_ASSOC)['id_sociotag'];
+        } else {
+            $tagSolicitante = $pdo->query("SELECT * FROM socio_tag WHERE tag='Solicitante'")->fetch(PDO::FETCH_ASSOC);
+            $idSocioTag = $tagSolicitante['id_sociotag']; //Define o grupo do sócio como Solicitante
+        }
 
         $sqlAtualizarSocio =
             'UPDATE socio s 
