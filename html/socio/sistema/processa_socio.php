@@ -97,7 +97,18 @@ function cadastrar()
         $stmtSocio->bindParam(':valor', $dados['valor']);
         $stmtSocio->bindParam(':dataReferencia', $dataReferencia);
 
-        if ($stmtSocio->execute()) {
+        $stmtSocio->execute();
+
+        //registrar no socio_log
+        $idSocio = $pdo->lastInsertId();
+
+        $sqlRegistrarSocioLog = "INSERT INTO socio_log (id_socio, descricao)
+        VALUES (:idSocio,'Inscrição recente')";
+
+        $stmtSocioLog = $pdo->prepare($sqlRegistrarSocioLog);
+        $stmtSocioLog->bindParam(':idSocio', $idSocio);
+
+        if ($stmtSocioLog->execute()) {
             $pdo->commit();
             http_response_code(200);
             echo json_encode(['retorno' => 'Cadastrado com sucesso!']);
@@ -131,6 +142,21 @@ function atualizar()
     try {
         $pdo = Conexao::connect();
         $pdo->beginTransaction();
+
+        //registrar no socio_log
+
+        $sqlRegistrarSocioLog = "INSERT INTO socio_log (id_socio, descricao)
+        VALUES (
+            (SELECT s.id_socio
+             FROM socio s
+             JOIN pessoa p ON s.id_pessoa = p.id_pessoa
+             WHERE p.cpf =:cpf),
+            'Atualização recente'
+        )";
+
+        $stmtSocioLog = $pdo->prepare($sqlRegistrarSocioLog);
+        $stmtSocioLog->bindParam(':cpf', $dados['cpf']);
+        $stmtSocioLog->execute();
 
         //atualizar os dados de pessoa
         $sqlAtualizarPessoa =
