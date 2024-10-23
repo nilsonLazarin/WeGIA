@@ -141,7 +141,9 @@ class PagarMeCarneService implements ApiCarneServiceInterface
         $arquivos = $this->salvarTemp($pdf_links);
 
         //guardar segunda via
-        $this->guardarSegundaVia($arquivos);
+        $logArray = $contribuicaoLogCollection->getIterator()->getArrayCopy();
+        $ultimaParcela = end($logArray);
+        $this->guardarSegundaVia($arquivos, $cpfSemMascara, $ultimaParcela);
         return true;
     }
 
@@ -214,13 +216,29 @@ class PagarMeCarneService implements ApiCarneServiceInterface
         return $arquivos;
     }
 
-    public function guardarSegundaVia($arquivos)
+    public function guardarSegundaVia($arquivos, $cpfSemMascara, $ultimaParcela)
     {
         $pdf = new Fpdi();
 
         // Itera sobre cada arquivo PDF
         foreach ($arquivos as $file) {
-           echo $file.'<br>';
+            $pageCount = $pdf->setSourceFile($file);
+            // Itera sobre cada página do PDF atual
+            for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
+                $templateId = $pdf->importPage($pageNo);
+                $size = $pdf->getTemplateSize($templateId);
+
+                $pdf->AddPage($size['orientation'], [$size['width'], $size['height']]);
+                $pdf->useTemplate($templateId);
+            }
         }
+
+
+        $numeroAleatorio = $ultimaParcela->getCodigo();
+        $ultimaDataVencimento = $ultimaParcela->getDataVencimento();
+        $ultimaDataVencimento = str_replace('-', '', $ultimaDataVencimento);
+
+        // Salva o arquivo PDF unido
+        $pdf->Output('F', '../pdfs/' . $numeroAleatorio . '_' . $cpfSemMascara . '_' . $ultimaDataVencimento . '_' . $ultimaParcela->getValor() . '.pdf');
     }
 }
