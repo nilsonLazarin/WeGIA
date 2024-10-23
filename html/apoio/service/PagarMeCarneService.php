@@ -144,6 +144,7 @@ class PagarMeCarneService implements ApiCarneServiceInterface
         $logArray = $contribuicaoLogCollection->getIterator()->getArrayCopy();
         $ultimaParcela = end($logArray);
         $this->guardarSegundaVia($arquivos, $cpfSemMascara, $ultimaParcela);
+        $this->removerTemp();
         return true;
     }
 
@@ -214,6 +215,44 @@ class PagarMeCarneService implements ApiCarneServiceInterface
         }
 
         return $arquivos;
+    }
+
+    public function removerTemp()
+    {
+        $dir = '../pdfs/temp';
+        // Verifica se o diretório existe
+        if (!file_exists($dir)) {
+            return false;
+        }
+
+        // Verifica se é um diretório
+        if (!is_dir($dir)) {
+            return false;
+        }
+
+        // Abre o diretório
+        $dirHandle = opendir($dir);
+
+        // Percorre todos os arquivos e diretórios dentro do diretório
+        while (($file = readdir($dirHandle)) !== false) {
+            if ($file != '.' && $file != '..') {
+                $filePath = $dir . DIRECTORY_SEPARATOR . $file;
+
+                // Se for um diretório, chama a função recursivamente
+                if (is_dir($filePath)) {
+                    removeDirectory($filePath);
+                } else {
+                    // Se for um arquivo, remove o arquivo
+                    unlink($filePath);
+                }
+            }
+        }
+
+        // Fecha o diretório
+        closedir($dirHandle);
+
+        // Remove o diretório
+        return rmdir($dir);
     }
 
     public function guardarSegundaVia($arquivos, $cpfSemMascara, $ultimaParcela)
