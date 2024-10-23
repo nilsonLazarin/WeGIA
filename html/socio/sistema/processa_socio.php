@@ -97,7 +97,18 @@ function cadastrar()
         $stmtSocio->bindParam(':valor', $dados['valor']);
         $stmtSocio->bindParam(':dataReferencia', $dataReferencia);
 
-        if ($stmtSocio->execute()) {
+        $stmtSocio->execute();
+
+        //registrar no socio_log
+        $idSocio = $pdo->lastInsertId();
+
+        $sqlRegistrarSocioLog = "INSERT INTO socio_log (id_socio, descricao)
+        VALUES (:idSocio,'Inscrição recente')";
+
+        $stmtSocioLog = $pdo->prepare($sqlRegistrarSocioLog);
+        $stmtSocioLog->bindParam(':idSocio', $idSocio);
+
+        if ($stmtSocioLog->execute()) {
             $pdo->commit();
             http_response_code(200);
             echo json_encode(['retorno' => 'Cadastrado com sucesso!']);
@@ -131,6 +142,21 @@ function atualizar()
     try {
         $pdo = Conexao::connect();
         $pdo->beginTransaction();
+
+        //registrar no socio_log
+
+        $sqlRegistrarSocioLog = "INSERT INTO socio_log (id_socio, descricao)
+        VALUES (
+            (SELECT s.id_socio
+             FROM socio s
+             JOIN pessoa p ON s.id_pessoa = p.id_pessoa
+             WHERE p.cpf =:cpf),
+            'Atualização recente'
+        )";
+
+        $stmtSocioLog = $pdo->prepare($sqlRegistrarSocioLog);
+        $stmtSocioLog->bindParam(':cpf', $dados['cpf']);
+        $stmtSocioLog->execute();
 
         //atualizar os dados de pessoa
         $sqlAtualizarPessoa =
@@ -167,6 +193,21 @@ function atualizar()
         $stmtPessoa->execute();
 
         //atualizar os dados de socio
+
+        //verificar se possuí o status de Ativo
+        $sqlBuscaAtivo = "SELECT s.id_sociotag FROM socio s JOIN pessoa p ON (s.id_pessoa=p.id_pessoa) WHERE cpf=:cpf AND s.id_sociostatus =0";
+
+        $stmtStatusAtivo = $pdo->prepare($sqlBuscaAtivo);
+        $stmtStatusAtivo->bindParam(':cpf', $dados['cpf']);
+        $stmtStatusAtivo->execute();
+
+        if ($stmtStatusAtivo->rowCount() > 0) {
+            $idSocioTag = $stmtStatusAtivo->fetch(PDO::FETCH_ASSOC)['id_sociotag'];
+        } else {
+            $tagSolicitante = $pdo->query("SELECT * FROM socio_tag WHERE tag='Solicitante'")->fetch(PDO::FETCH_ASSOC);
+            $idSocioTag = $tagSolicitante['id_sociotag']; //Define o grupo do sócio como Solicitante
+        }
+
         $sqlAtualizarSocio =
             'UPDATE socio s 
         JOIN pessoa p ON s.id_pessoa = p.id_pessoa
@@ -174,7 +215,8 @@ function atualizar()
             s.email = :email, 
             s.valor_periodo = :valor, 
             s.data_referencia = :dataReferencia, 
-            s.id_sociotipo =:periodicidade
+            s.id_sociotipo =:periodicidade, 
+            s.id_sociotag =:tag
         WHERE p.cpf = :cpf';
 
         $dataAtual = new DateTime();
@@ -200,6 +242,7 @@ function atualizar()
         $stmtSocio->bindParam(':dataReferencia', $dataReferencia);
         $stmtSocio->bindParam(':cpf', $dados['cpf']);
         $stmtSocio->bindParam(':periodicidade', $dados['periodicidade']);
+        $stmtSocio->bindParam(':tag', $idSocioTag);
 
         if ($stmtSocio->execute()) {
             $pdo->commit();

@@ -76,16 +76,21 @@ ini_set('display_startup_erros', 0);
             display: none;
         }
 
-        span.obrigatorio{
+        span.obrigatorio {
             color: red;
         }
 
-        .btn-voltar{
+        .btn-voltar {
             font-size: .9rem;
         }
 
-        .btn-voltar:hover{
+        .btn-voltar:hover {
             font-size: 1rem;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
     </style>
 </head>
@@ -291,7 +296,6 @@ ini_set('display_startup_erros', 0);
 
                 <div id="pag6" class="wrap-input100 hidden">
 
-                    <h3 class="text-center">Obrigado por apoiar nossa Instituição!</h3>
                     <div class="container-contact100-form-btn">
                         <button class="contact100-form-btn" id="avanca-terminar">
                             Inscrever-se como sócio apoiador.

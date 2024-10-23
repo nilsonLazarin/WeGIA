@@ -62,6 +62,11 @@ btnAvancaCpf.addEventListener('click', (ev) => {
                     mensagemDiv.innerHTML = '';
                 } else {
                     acao.value = "atualizar";
+
+                    //Alteração do texto do botão de submite
+                    const botaoEnvio = document.getElementById('avanca-terminar');
+                    botaoEnvio.textContent = 'Atualizar dados';
+
                     //Preenchimento automático dos campos 
 
                     //informações da pag3
@@ -169,7 +174,7 @@ formCadastro.addEventListener('submit', (ev) => {
     const formData = new FormData(formCadastro);
 
     // Desabilita o botão de envio
-    const botaoEnvio = ev.submitter;
+    const botaoEnvio = document.getElementById('avanca-terminar');
     botaoEnvio.disabled = true;
 
     // Realiza a requisição com o fetch
@@ -183,23 +188,25 @@ formCadastro.addEventListener('submit', (ev) => {
                 mensagemDiv.innerHTML = `<div class="alert alert-danger text-center" role="alert">` +
                     `${data.erro}`
                     + `</div>`;
+                botaoEnvio.disabled = false;
                 return;
             } else {
                 mensagemDiv.innerHTML = `<div class="alert alert-success text-center" role="alert">` +
                     `${data.retorno}`
-                    + `</div>`;
+                    + `</div>` + `<h3 class="text-center">Obrigado por apoiar nossa Instituição!</h3>`;
+
+                const btnVoltar = document.getElementById('volta-endereco');
+                btnVoltar.classList.add('hidden');
             }
         })
         .catch(error => {
             mensagemDiv.innerHTML = `<div class="alert alert-danger text-center" role="alert">` +
                 `Ocorreu um erro ao realizar o cadastro.`
                 + `</div>`;
+            console.error(error);
+            botaoEnvio.disabled = false;
             return;
         })
-        .finally(() => {
-            // Reabilita o botão de envio após a resposta
-            botaoEnvio.disabled = false;
-        });
 });
 
 //Definição do comportamento de voltar

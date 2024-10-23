@@ -891,6 +891,17 @@ CREATE TABLE IF NOT EXISTS `wegia`.`socio` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+-- -----------------------------------------------------
+-- Table `wegia`.`socio_log`
+-- -----------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `wegia`.`socio_log` (
+  `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `id_socio` INT,
+  `data` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `descricao` VARCHAR(255) NOT NULL,
+  FOREIGN KEY (`id_socio`) REFERENCES `socio`(`id_socio`)
+)ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `wegia`.`log_contribuicao`
