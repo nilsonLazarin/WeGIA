@@ -14,14 +14,13 @@
   else if (!isset($_SESSION['pet'])) 
   {
     $id_pet = $_GET['id_pet'];
-    header('Location: ../../controle/control.php?modulo=pet&metodo=listarUm&nomeClasse=PetControle&nextPage=../html/pet/profile_pet.php?id_pet=' . $id_pet . '&id_pet=' . $id_pet);
+    header('Location: ../../controle/control.php?modulo=pet&metodo=listarUm&nomeClasse=PetControle&nextPage=../../html/pet/profile_pet.php?id_pet=' . $id_pet . '&id_pet=' . $id_pet);
   } 
   else 
   {
     $petDados = $_SESSION['pet'];
     unset($_SESSION['pet']);
     $pet = json_encode($petDados);
- 
   }
   $config_path = "config.php";
   if (file_exists($config_path)) 
@@ -573,7 +572,7 @@
                           }else{
                             echo <<<HTML
                               <p>É necessário que o animal possua uma ficha médica para poder registrar os exames!</p>
-                              <a href="./cadastro_ficha_medica_pet.php?id_pet=$_GET[id_pet]"><input class ="btn btn-primary" 
+                              <a href="../cadastro_ficha_medica_pet.php?id_pet=$_GET[id_pet]"><input class ="btn btn-primary" 
                               type="button" value='Cadastrar Ficha médica'></a>
                             HTML;
                           }

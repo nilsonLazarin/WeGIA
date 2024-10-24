@@ -274,7 +274,7 @@ if ($_GET['msg']) {
                     </div>
                   </div>
                 </form>
-                <iframe name="frame"></iframe>
+                <!--<iframe name="frame"></iframe>!-->
                 <!-- end: page -->
     </section>
   </div>
@@ -378,7 +378,7 @@ if ($_GET['msg']) {
         return
       }
       //=============================
-      let r = raca.replace(/[A-ZÁÉÍÓÚáéíóúâêîôûàèìòùÇç ]/gi, '');
+      let r = raca.replace(/[A-ZÁÉÍÓÚáéíóúâêîôûàèìòùÃÕãõÇç ]/gi, '');
       r = r.replaceAll('-', '');
 
       if (r.length != 0) {
@@ -432,7 +432,7 @@ if ($_GET['msg']) {
         return
       }
       //===========================
-      let e = especie.replace(/[A-ZÁÉÍÓÚáéíóúâêîôûàèìòùÇç ]/gi, '');
+      let e = especie.replace(/[A-ZÁÉÍÓÚáéíóúâêîôûàèìòùÃÕãõÇç ]/gi, '');    
       e = e.replaceAll('-', '');
 
       if (e.length != 0) {
@@ -488,7 +488,7 @@ if ($_GET['msg']) {
       }
 
       //====================================
-      let c = cor.replace(/[A-ZÁÉÍÓÚáéíóúâêîôûàèìòùÇç ]/gi, '');
+      let c = cor.replace(/[A-ZÁÉÍÓÚáéíóúâêîôûàèìòùÃÕãõÇç ]/gi, '');
       c = c.replaceAll('-', '');
 
       if (c.length != 0) {
