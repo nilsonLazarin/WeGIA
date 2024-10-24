@@ -290,7 +290,7 @@ class ContribuicaoLogController
 
         //Verificar qual fuso horário será utilizado posteriormente
         $dataGeracao = date('Y-m-d');
-        $dataVencimento = date_modify(new DateTime(), '+7 day')->format('Y-m-d');
+        $dataVencimento = date_modify(new DateTime(), '+1 day')->format('Y-m-d');
 
         $contribuicaoLog = new ContribuicaoLog();
         $contribuicaoLog
