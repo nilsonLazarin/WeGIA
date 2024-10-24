@@ -32,7 +32,7 @@ class PagarMePixService implements ApiPixServiceInterface
         //gerar um número aleatório para o parâmetro code
         $code = $contribuicaoLog->getCodigo();
         $cpfSemMascara = Util::limpaCpf($contribuicaoLog->getSocio()->getDocumento());
-        $telefone = preg_replace('/\D/', '', $contribuicaoLog->getSocio()->getTelefone());
+        $telefone = Util::limpaTelefone($contribuicaoLog->getSocio()->getTelefone());
 
         $data = [
             'items' => [

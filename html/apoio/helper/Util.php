@@ -22,4 +22,11 @@ class Util
     {
         return preg_replace('/\D/', '', $cpf);
     }
+
+    /**
+     * Retorna apenas os números de um telefone
+     */
+    public static function limpaTelefone(string $telefone){
+        return preg_replace('/\D/', '', $telefone);
+    }
 }
