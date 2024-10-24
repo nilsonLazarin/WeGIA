@@ -27,6 +27,18 @@
     $complemento = $_POST['complemento'];
     $ibge = $_POST['ibge'];
 
+    if (!preg_match('/^\d{5}-\d{3}$/', $cep)) {
+        die("CEP inválido");
+    }
+
+    if (!is_numeric($numero)) {
+        die("Número de residência inválido");
+    }
+
+    if (empty($estado) || empty($cidade) || empty($bairro) || empty($rua)) {
+        die("Preencha todos os campos obrigatórios.");
+    }
+
     define("ALTERAR_END", "UPDATE pessoa SET cep=:cep, estado=:estado, cidade=:cidade, bairro=:bairro, logradouro=:rua, numero_endereco=:numero, complemento=:complemento, ibge=:ibge where id_pessoa = :id"); 
 
 
