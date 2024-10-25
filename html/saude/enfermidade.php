@@ -62,11 +62,12 @@ class EnfermidadeSaude {
             $pdo = Conexao::connect();
             
 		    $stmt = $pdo->prepare($sql);
-		    $stmt->execute();
+            $stmt->bindValue(':id_CID', $this->getid_CID());
+            $stmt->execute();
 
             $query = $stmt->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            $this->setException("Houve um erro ao remover o documento do banco de dados: $e");
+            $this->setException("Houve um erro ao remover o documento do banco de dados: " . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8'));
         }
     }
 
