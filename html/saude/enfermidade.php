@@ -13,6 +13,18 @@ class EnfermidadeSaude {
         $this->setid_CID($id);
         try {
             $pdo = Conexao::connect();
+            $query = $pdo->prepare("SELECT id_CID, data_diagnostico, status FROM saude_enfermidades WHERE id_CID = :id_CID;");
+            $query->bindValue(':id_CID', $id);
+            $query->execute();
+
+            // Verifica se algum resultado foi retornado
+            if ($query->rowCount() > 0) {
+                $result = $query->fetch(PDO::FETCH_ASSOC);
+                $this->data_diagnostico = $result['data_diagnostico'];
+                $this->status = $result['status'];
+            } else {
+                $this->setException("Nenhum dado encontrado para o ID: $id");
+            }
             $query = $pdo->query("SELECT id_CID, data_diagnostico, status FROM saude_enfermidades WHERE id_CID = $id;");
         } catch (PDOException $e) {
             $this->setException("Houve um erro ao consultar o documento no banco de dados: $e");
