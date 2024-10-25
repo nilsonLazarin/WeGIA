@@ -13,18 +13,6 @@ class EnfermidadeSaude {
         $this->setid_CID($id);
         try {
             $pdo = Conexao::connect();
-            $query = $pdo->prepare("SELECT id_CID, data_diagnostico, status FROM saude_enfermidades WHERE id_CID = :id_CID;");
-            $query->bindValue(':id_CID', $id);
-            $query->execute();
-
-            // Verifica se algum resultado foi retornado
-            if ($query->rowCount() > 0) {
-                $result = $query->fetch(PDO::FETCH_ASSOC);
-                $this->data_diagnostico = $result['data_diagnostico'];
-                $this->status = $result['status'];
-            } else {
-                $this->setException("Nenhum dado encontrado para o ID: $id");
-            }
             $query = $pdo->query("SELECT id_CID, data_diagnostico, status FROM saude_enfermidades WHERE id_CID = $id;");
         } catch (PDOException $e) {
             $this->setException("Houve um erro ao consultar o documento no banco de dados: $e");
@@ -74,12 +62,11 @@ class EnfermidadeSaude {
             $pdo = Conexao::connect();
             
 		    $stmt = $pdo->prepare($sql);
-            $stmt->bindValue(':id_CID', $this->getid_CID());
             $stmt->execute();
 
             $query = $stmt->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            $this->setException("Houve um erro ao remover o documento do banco de dados: " . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8'));
+            $this->setException("Houve um erro ao remover o documento do banco de dados: $e");
         }
     }
 
