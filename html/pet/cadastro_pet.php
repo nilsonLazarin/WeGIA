@@ -274,7 +274,7 @@ if ($_GET['msg']) {
                     </div>
                   </div>
                 </form>
-                <iframe name="frame"></iframe>
+                <!--<iframe name="frame"></iframe>!-->
                 <!-- end: page -->
     </section>
   </div>
@@ -324,23 +324,27 @@ if ($_GET['msg']) {
   <script type="text/javascript">
     //Pedro
     /** Aqui começa a implementação das funções relacionada a "PET" */
-
     // funções relacionadas a datas
     function verificarDataAcolhimento() {
-      let nasc = document.querySelector("#nascimento").value;
-      let acol = document.querySelector("#acolhimento").value;
+    let nasc = document.querySelector("#nascimento").value;
+    let acol = document.querySelector("#acolhimento").value;
 
-      nasc = nasc.split('-');
-      nasc = nasc.join('');
+    nasc = nasc.split('-').join('');
+    acol = acol.split('-').join('');
 
-      acol = acol.split('-');
-      acol = acol.join('');
+    let anoLimite = 1990;
 
-      if (acol < nasc) {
+    if (parseInt(nasc.substring(0, 4)) < anoLimite) {
+        alert("Ano de nascimento não pode ser anterior ao ano limite de " + anoLimite + "!");
+        event.preventDefault();
+        return;
+    }
+
+    if (acol < nasc) {
         alert("Data de acolhimento não pode ser anterior a data de nascimento!");
         event.preventDefault();
-      }
     }
+}
 
     /*
     function noType(){
@@ -378,7 +382,7 @@ if ($_GET['msg']) {
         return
       }
       //=============================
-      let r = raca.replace(/[A-ZÁÉÍÓÚáéíóúâêîôûàèìòùÇç ]/gi, '');
+      let r = raca.replace(/[A-ZÁÉÍÓÚáéíóúâêîôûàèìòùÃÕãõÇç ]/gi, '');
       r = r.replaceAll('-', '');
 
       if (r.length != 0) {
@@ -432,7 +436,7 @@ if ($_GET['msg']) {
         return
       }
       //===========================
-      let e = especie.replace(/[A-ZÁÉÍÓÚáéíóúâêîôûàèìòùÇç ]/gi, '');
+      let e = especie.replace(/[A-ZÁÉÍÓÚáéíóúâêîôûàèìòùÃÕãõÇç ]/gi, '');    
       e = e.replaceAll('-', '');
 
       if (e.length != 0) {
@@ -488,7 +492,7 @@ if ($_GET['msg']) {
       }
 
       //====================================
-      let c = cor.replace(/[A-ZÁÉÍÓÚáéíóúâêîôûàèìòùÇç ]/gi, '');
+      let c = cor.replace(/[A-ZÁÉÍÓÚáéíóúâêîôûàèìòùÃÕãõÇç ]/gi, '');
       c = c.replaceAll('-', '');
 
       if (c.length != 0) {

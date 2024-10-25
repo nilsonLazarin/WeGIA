@@ -33,9 +33,6 @@ if (!$conexao) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-// Start the session
-session_start();
-
 // Get user ID from session
 $id_pessoa = $_SESSION['id_pessoa'];
 
