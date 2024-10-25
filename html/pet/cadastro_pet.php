@@ -324,23 +324,27 @@ if ($_GET['msg']) {
   <script type="text/javascript">
     //Pedro
     /** Aqui começa a implementação das funções relacionada a "PET" */
-
     // funções relacionadas a datas
     function verificarDataAcolhimento() {
-      let nasc = document.querySelector("#nascimento").value;
-      let acol = document.querySelector("#acolhimento").value;
+    let nasc = document.querySelector("#nascimento").value;
+    let acol = document.querySelector("#acolhimento").value;
 
-      nasc = nasc.split('-');
-      nasc = nasc.join('');
+    nasc = nasc.split('-').join('');
+    acol = acol.split('-').join('');
 
-      acol = acol.split('-');
-      acol = acol.join('');
+    let anoLimite = 1990;
 
-      if (acol < nasc) {
+    if (parseInt(nasc.substring(0, 4)) < anoLimite) {
+        alert("Ano de nascimento não pode ser anterior ao ano limite de " + anoLimite + "!");
+        event.preventDefault();
+        return;
+    }
+
+    if (acol < nasc) {
         alert("Data de acolhimento não pode ser anterior a data de nascimento!");
         event.preventDefault();
-      }
     }
+}
 
     /*
     function noType(){
