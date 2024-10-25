@@ -30,17 +30,25 @@ class Atendido_ocorrenciaDoc
 
 	public function getNome()
 	{
-		return $this->nome;
+		return htmlspecialchars($this->nome, ENT_QUOTES, 'UTF-8'); 
 	}
 
 	public function setIdatendido_ocorrencia_doc($idatendido_ocorrencia_doc)
 	{
-		$this->idatendido_ocorrencia_doc = $idatendido_ocorrencia_doc;
+		if (is_int($idatendido_ocorrencia_doc)) {
+			$this->idatendido_ocorrencia_doc = $idatendido_ocorrencia_doc;
+		} else {
+			throw new InvalidArgumentException("ID inválido");
+		}
 	}
 
 	public function setAtentido_ocorrencia_idatentido_ocorrencias($atentido_ocorrencia_idatentido_ocorrencias)
 	{
-		$this->atentido_ocorrencia_idatentido_ocorrencias = $atentido_ocorrencia_idatentido_ocorrencias;
+		if (is_int($atentido_ocorrencia_idatentido_ocorrencias)) {
+			$this->atentido_ocorrencia_idatentido_ocorrencias = $atentido_ocorrencia_idatentido_ocorrencias;
+		} else {
+			throw new InvalidArgumentException("ID da ocorrência inválido");
+		}
 	}
 
 	public function setAnexo($anexo)
@@ -50,12 +58,17 @@ class Atendido_ocorrenciaDoc
 
 	public function setExtensao($extensao)
 	{
-		$this->extensao = $extensao;
+		$extensoesPermitidas = ['jpg', 'jpeg', 'png', 'pdf'];
+		if (in_array(strtolower($extensao), $extensoesPermitidas)) {
+			$this->extensao = $extensao;
+		} else {
+			throw new InvalidArgumentException("Extensão de arquivo inválida");
+		}
 	}
 
 	public function setNome($nome)
 	{
-		$this->nome = $nome;
+		$this->nome = filter_var($nome, FILTER_SANITIZE_STRING);
 	}
 }
 ?>
