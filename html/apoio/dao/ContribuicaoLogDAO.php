@@ -8,9 +8,13 @@ require_once '../model/ContribuicaoLog.php';
 class ContribuicaoLogDAO{
     private $pdo;
 
-    public function __construct()
+    public function __construct(PDO $pdo = null)
     {
-        $this->pdo = ConexaoDAO::conectar();
+        if(is_null($pdo)){
+            $this->pdo = ConexaoDAO::conectar();
+        }else{
+            $this->pdo = $pdo;
+        }
     }
 
     public function criar(ContribuicaoLog $contribuicaoLog){
@@ -34,7 +38,7 @@ class ContribuicaoLogDAO{
             ";
         
         $stmt = $this->pdo->prepare($sqlInserirContribuicaoLog);
-        $stmt->bindParam(':idSocio', $contribuicaoLog->getIdSocio());
+        $stmt->bindParam(':idSocio', $contribuicaoLog->getSocio()->getId());
         $stmt->bindParam(':codigo', $contribuicaoLog->getCodigo());
         $stmt->bindParam(':valor', $contribuicaoLog->getValor());
         $stmt->bindParam(':dataGeracao', $contribuicaoLog->getDataGeracao());

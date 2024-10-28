@@ -7,9 +7,69 @@ require_once '../model/Socio.php';
 class SocioDAO{
     private $pdo;
 
-    public function __construct()
+    public function __construct(PDO $pdo = null)
     {
-        $this->pdo = ConexaoDAO::conectar();
+        if(is_null($pdo)){
+            $this->pdo = ConexaoDAO::conectar();
+        }else{
+            $this->pdo = $pdo;
+        }
+    }
+
+    public function montarSocio($socioArray){
+        $socio = new Socio();
+        $socio
+            ->setId($socioArray['id_socio'])
+            ->setNome($socioArray['nome'])
+            ->setTelefone($socioArray['telefone'])
+            ->setEmail($socioArray['email'])
+            ->setEstado($socioArray['estado'])
+            ->setTelefone($socioArray['telefone'])
+            ->setCidade($socioArray['cidade'])
+            ->setBairro($socioArray['bairro'])
+            ->setComplemento($socioArray['complemento'])
+            ->setCep($socioArray['cep'])
+            ->setNumeroEndereco($socioArray['numero_endereco'])
+            ->setLogradouro($socioArray['logradouro'])
+            ->setDocumento($socioArray['cpf']);
+
+        return $socio;
+    }
+
+    public function buscarPorId($id){
+        $sqlBuscaPorDocumento = 
+        "SELECT 
+            pessoa.id_pessoa, 
+            pessoa.nome, 
+            pessoa.telefone, 
+            pessoa.cep, 
+            pessoa.estado, 
+            pessoa.cidade, 
+            pessoa.bairro, 
+            pessoa.complemento, 
+            pessoa.numero_endereco, 
+            pessoa.logradouro, 
+            pessoa.cpf
+            socio.id_socio, 
+            socio.email 
+        FROM pessoa, socio 
+        WHERE pessoa.id_pessoa = socio.id_pessoa 
+        AND socio.id_socio=:id";
+
+        $stmt = $this->pdo->prepare($sqlBuscaPorDocumento);
+        $stmt->bindParam(':id', $id);
+
+        $stmt->execute();
+
+        if($stmt->rowCount() === 0){
+            return null;
+        }
+
+        $socioArray = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $socio = $this->montarSocio($socioArray);
+
+        return $socio;
     }
 
     public function buscarPorDocumento($documento){
@@ -25,7 +85,8 @@ class SocioDAO{
             pessoa.complemento, 
             pessoa.numero_endereco, 
             pessoa.logradouro, 
-            socio.id_pessoa, 
+            pessoa.cpf,
+            socio.id_socio, 
             socio.email 
         FROM pessoa, socio 
         WHERE pessoa.id_pessoa = socio.id_pessoa 
@@ -42,19 +103,7 @@ class SocioDAO{
 
         $socioArray = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $socio = new Socio();
-        $socio
-            ->setNome($socioArray['nome'])
-            ->setTelefone($socioArray['telefone'])
-            ->setEmail($socioArray['email'])
-            ->setEstado($socioArray['estado'])
-            ->setTelefone($socioArray['telefone'])
-            ->setCidade($socioArray['cidade'])
-            ->setBairro($socioArray['bairro'])
-            ->setComplemento($socioArray['complemento'])
-            ->setCep($socioArray['cep'])
-            ->setNumeroEndereco($socioArray['numero_endereco'])
-            ->setLogradouro($socioArray['logradouro']);
+        $socio = $this->montarSocio($socioArray);
 
         return $socio;
     }
