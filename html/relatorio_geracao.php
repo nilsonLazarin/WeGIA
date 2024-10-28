@@ -279,11 +279,16 @@ function quickQuery($query, $column)
 									}
 
 									if (isset($post[4]['inicio'])) {
-										echo ("<ul>A partir de: " . $post[4]['inicio'] . "</ul>");
+										$dataInicio = $post[4]['inicio'];
+										$modeloBrasileiro = 'd/m/Y';
+										$dataInicioFormatada = date_format(date_create($dataInicio), $modeloBrasileiro);
+										echo ("<ul>A partir de: " . $dataInicioFormatada . "</ul>");
 									}
 
 									if (isset($post[4]['fim'])) {
-										echo ("<ul>Até: " . $post[4]['fim'] . "</ul>");
+										$dataFim = $post[4]['fim'];
+										$dataFimFormatada = date_format(date_create($dataFim), $modeloBrasileiro);
+										echo ("<ul>Até: " . $dataFimFormatada . "</ul>");
 									}
 
 									if (isset($post[5])) {

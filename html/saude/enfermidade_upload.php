@@ -27,7 +27,8 @@ if ($_POST){
         
         header("Location: profile_paciente.php?id_fichamedica=$id_fichamedica");
     } catch (PDOException $e) {
-        echo("Houve um erro ao realizar o cadastro da enfermidade:<br><br>$e");
+        // Exibe mensagem de erro de forma segura
+        echo "Houve um erro ao realizar o cadastro da enfermidade:<br><br>" . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8');
     }
 
 

@@ -58,9 +58,13 @@ class EnfermidadeSaude {
     // o excluir enfermidade é basicamente tornar o status da tabela inativo, por isso um update //
     function delete(){
         try {
+            $sql = "UPDATE saude_enfermidades SET status = 0 WHERE id_CID = ".$this->getid_CID()." ;";
             $pdo = Conexao::connect();
-            $query = $pdo->query("UPDATE saude_enfermidades SET status = 0 WHERE id_CID = ".$this->getid_CID()." ;");
-            $query = $query->fetch(PDO::FETCH_ASSOC);
+            
+		    $stmt = $pdo->prepare($sql);
+            $stmt->execute();
+
+            $query = $stmt->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             $this->setException("Houve um erro ao remover o documento do banco de dados: $e");
         }
