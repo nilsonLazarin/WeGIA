@@ -285,7 +285,7 @@ require_once "personalizacao_display.php";
 													<button id="enviar" class="btn btn-primary" type="submit">Enviar</button>
 													<input type="reset" class="btn btn-default">
 													<a href="cadastro_entrada.php" color: white; text-decoration: none;>
-														<button type="button" class="btn btn-info">voltar</button>
+														<button type="button" class="btn btn-info">Voltar</button>
 													</a>
 													<a href="listar_origem.php" style="color: white; text-decoration:none;"><button class="btn btn-success" type="button">Listar doadores</button></a>
 												</div>

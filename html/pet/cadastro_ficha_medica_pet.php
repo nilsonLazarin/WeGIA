@@ -33,9 +33,6 @@ if (!$conexao) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-// Start the session
-session_start();
-
 // Get user ID from session
 $id_pessoa = $_SESSION['id_pessoa'];
 
@@ -484,6 +481,9 @@ require_once ROOT."/html/personalizacao_display.php";
             }
 
         </script>
+            <div align="right">
+	            <iframe src="https://www.wegia.org/software/footer/pet.html" width="200" height="60" style="border:none;"></iframe>
+            </div>
         <!--fim-->
     </body>
 </html>

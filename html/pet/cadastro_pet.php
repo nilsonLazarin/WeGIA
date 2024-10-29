@@ -70,7 +70,7 @@ $raca = $mysqli->query("select * from pet_raca");
 
 /* fim */
 //Pedro
-if($_GET['msg']){
+if ($_GET['msg']) {
   echo <<<HTML
       <script>
         alert('$_GET[msg]');
@@ -96,10 +96,10 @@ if($_GET['msg']){
   <!-- Vendor CSS -->
   <link rel="stylesheet" href="../../assets/vendor/bootstrap/css/bootstrap.css" />
   <link rel="stylesheet" href="../../assets/vendor/font-awesome/css/font-awesome.css" />
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.1.1/css/all.css" >
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.1.1/css/all.css">
   <link rel="stylesheet" href="../../assets/vendor/magnific-popup/magnific-popup.css" />
   <link rel="stylesheet" href="../../assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
-<link rel="icon" href="<?php display_campo("Logo",'file');?>" type="image/x-icon">
+  <link rel="icon" href="<?php display_campo("Logo", 'file'); ?>" type="image/x-icon">
 
   <!-- Theme CSS -->
   <link rel="stylesheet" href="../../assets/stylesheets/theme.css" />
@@ -113,6 +113,7 @@ if($_GET['msg']){
 </head>
 
 <body>
+
   <!-- start: header -->
   <div id="header"></div>
   <!-- end: header -->
@@ -138,32 +139,32 @@ if($_GET['msg']){
       </header>
       <!-- start: page -->
       <div class="row" id="formulario">
-      <form action="#" method="POST" id="formsubmit" enctype="multipart/form-data" target="frame">
-        <div class="col-md-4 col-lg-3">
-          <section class="panel">
-            <div class="panel-body">
-              <div class="thumb-info mb-md">
-              <?php
-                if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                  if (isset($_FILES['imgperfil'])) {
-                    $image = file_get_contents($_FILES['imgperfil']['tmp_name']);
-                    $_SESSION['nome_imagem'] = $_FILES['imgperfil']['name'];
-                    $_SESSION['imagem'] = $image;
-                    echo '<img src="data:image/gif;base64,' . base64_encode($image) . '" class="rounded img-responsive" alt="John Doe">';
+        <form action="#" method="POST" id="formsubmit" enctype="multipart/form-data" target="frame">
+          <div class="col-md-4 col-lg-3">
+            <section class="panel">
+              <div class="panel-body">
+                <div class="thumb-info mb-md">
+                  <?php
+                  if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                    if (isset($_FILES['imgperfil'])) {
+                      $image = file_get_contents($_FILES['imgperfil']['tmp_name']);
+                      $_SESSION['nome_imagem'] = $_FILES['imgperfil']['name'];
+                      $_SESSION['imagem'] = $image;
+                      echo '<img src="data:image/gif;base64,' . base64_encode($image) . '" class="rounded img-responsive" alt="John Doe">';
+                    }
                   }
-                }
-                ?>
-              <input type="file" class="image_input form-control" onclick="okDisplay()" name="imgperfil"  id="imgform">
-              <div id="display_image" class="thumb-info mb-md"></div>
-              <div id="botima">
-              <h5 id="okText"></h5>
-              <input type="submit" class="btn btn-primary stylebutton" onclick="submitButtonStyle(this)" id="okButton" id="botima" value="Ok"> 
+                  ?>
+                  <input type="file" class="image_input form-control" onclick="okDisplay()" name="imgperfil" id="imgform">
+                  <div id="display_image" class="thumb-info mb-md"></div>
+                  <div id="botima">
+                    <h5 id="okText"></h5>
+                    <input type="submit" class="btn btn-primary stylebutton" onclick="submitButtonStyle(this)" id="okButton" id="botima" value="Ok">
+                  </div>
+                </div>
               </div>
-              </div>
-            </div>
-          </section>
-        </div>
-      </form>
+            </section>
+          </div>
+        </form>
         <div class="col-md-8 col-lg-8">
           <div class="tabs">
             <ul class="nav nav-tabs tabs-primary">
@@ -173,7 +174,7 @@ if($_GET['msg']){
             </ul>
             <div class="tab-content">
               <div id="overview" class="tab-pane active">
-              <form class="form-horizontal" method="POST" action="../../controle/pet/controlPet.php" onsubmit="verificarDataAcolhimento()">
+                <form class="form-horizontal" method="POST" action="../../controle/pet/controlPet.php" onsubmit="verificarDataAcolhimento()">
                   <h4 class="mb-xlg">Informações do Pet</h4>
                   <h5 class="obrig">Campos Obrigatórios(*)</h5>
                   <div class="form-group">
@@ -190,15 +191,15 @@ if($_GET['msg']){
                       <select class="form-control input-lg mb-md" name="cor" id="cor" required="required">
                         <option selected disabled>Selecionar</option>
                         <?php
-                          while ($row = $cor->fetch_array(MYSQLI_NUM)) {
-                            echo "<option value=" . $row[0] . ">" . $row[1] . "</option>";
-                          }  
+                        while ($row = $cor->fetch_array(MYSQLI_NUM)) {
+                          echo "<option value=" . $row[0] . ">" . $row[1] . "</option>";
+                        }
                         ?>
                         <!-- <option value=1>cor1</option>
                         <option value=2>cor2</option>
                         <option value=3>cor3</option> -->
                       </select>
-                      <?php 
+                      <?php
                       ?>
                     </div>
                   </div>
@@ -210,9 +211,9 @@ if($_GET['msg']){
                       <select class="form-control input-lg mb-md" name="especie" id="especie" required="required">
                         <option selected disabled>Selecionar</option>
                         <?php
-                          while ($row = $especie->fetch_array(MYSQLI_NUM)) {
-                            echo "<option value=" . $row[0] . ">" . $row[1] . "</option>";
-                          }  
+                        while ($row = $especie->fetch_array(MYSQLI_NUM)) {
+                          echo "<option value=" . $row[0] . ">" . $row[1] . "</option>";
+                        }
                         ?>
                       </select>
                     </div>
@@ -225,9 +226,9 @@ if($_GET['msg']){
                       <select class="form-control input-lg mb-md" name="raca" id="raca" required="required">
                         <option selected disabled>Selecionar</option>
                         <?php
-                          while ($row = $raca->fetch_array(MYSQLI_NUM)) {
-                            echo "<option value=" . $row[0] . ">" . $row[1] . "</option>";
-                          }  
+                        while ($row = $raca->fetch_array(MYSQLI_NUM)) {
+                          echo "<option value=" . $row[0] . ">" . $row[1] . "</option>";
+                        }
                         ?>
                       </select>
                     </div>
@@ -236,7 +237,7 @@ if($_GET['msg']){
                     <label class="col-md-3 control-label" for="gender">Sexo<sup class="obrig">*</sup></label>
                     <div class="col-md-8">
                       <label><input type="radio" name="gender" id="radioM" value="m" style="margin-top: 10px; margin-left: 15px;margin-right: 5px;" required><i class="fa fa-mars" style="font-size: 20px;"></i></label>
-                      <label><input type="radio" name="gender" id="radioF" id="F" value="f" style="margin-top: 10px; margin-left: 15px;margin-right: 5px;" ><i class="fa fa-venus" style="font-size: 20px;"></i> </label>
+                      <label><input type="radio" name="gender" id="radioF" id="F" value="f" style="margin-top: 10px; margin-left: 15px;margin-right: 5px;"><i class="fa fa-venus" style="font-size: 20px;"></i> </label>
                     </div>
                   </div>
                   <div class="form-group">
@@ -264,20 +265,23 @@ if($_GET['msg']){
                       <div class="col-md-9 col-md-offset-3">
                         <input type="hidden" name="nomeClasse" value="PetControle">
                         <!--<input type="hidden" name="nomeClasse" value="FuncionarioControle">-->
-                        <!--<input type="hidden" name="cpf" value="<?php  echo $cpf ?>">-->
+                        <!--<input type="hidden" name="cpf" value="<?php echo $cpf ?>">-->
                         <input type="hidden" name="metodo" value="incluir">
                         <!--<input type="hidden" name="nomeFoto" value="<?php echo $imagem ?>">-->
-                        <input id="enviar" type="submit" class="btn btn-primary"  value="Salvar" onclick="validarFuncionario()" >
+                        <input id="enviar" type="submit" class="btn btn-primary" value="Salvar" onclick="validarFuncionario()">
                         <input type="reset" class="btn btn-default">
                       </div>
                     </div>
                   </div>
                 </form>
-                <iframe name="frame"></iframe>
-              <!-- end: page -->
+                <!--<iframe name="frame"></iframe>!-->
+                <!-- end: page -->
     </section>
   </div>
+
+
   </section>
+
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
   <!-- JQuery Online -->
@@ -299,12 +303,8 @@ if($_GET['msg']){
       color: rgb(255, 0, 0);
     }
 
-    iframe{
-      display: none;
-    }
+    #display_image {
 
-    #display_image{
-      
       min-height: 250px;
       margin: 0 auto;
       border: 1px solid black;
@@ -314,36 +314,38 @@ if($_GET['msg']){
     }
 
 
-    #display_image:after{
-      
+    #display_image:after {
+
       content: "";
       display: block;
       padding-bottom: 100%;
     }
-
-
   </style>
   <script type="text/javascript">
     //Pedro
     /** Aqui começa a implementação das funções relacionada a "PET" */
-
     // funções relacionadas a datas
-    function verificarDataAcolhimento(){
-      let nasc = document.querySelector("#nascimento").value;
-      let acol = document.querySelector("#acolhimento").value;
+    function verificarDataAcolhimento() {
+    let nasc = document.querySelector("#nascimento").value;
+    let acol = document.querySelector("#acolhimento").value;
 
-      nasc = nasc.split('-');
-      nasc = nasc.join('');
+    nasc = nasc.split('-').join('');
+    acol = acol.split('-').join('');
 
-      acol = acol.split('-');
-      acol = acol.join('');
+    let anoLimite = 1990;
 
-      if( acol < nasc ){
+    if (parseInt(nasc.substring(0, 4)) < anoLimite) {
+        alert("Ano de nascimento não pode ser anterior ao ano limite de " + anoLimite + "!");
+        event.preventDefault();
+        return;
+    }
+
+    if (acol < nasc) {
         alert("Data de acolhimento não pode ser anterior a data de nascimento!");
         event.preventDefault();
-      }
     }
-    
+}
+
     /*
     function noType(){
       event.preventDefault();
@@ -351,7 +353,7 @@ if($_GET['msg']){
     */
     /** Função adicionar_raca */
     function gerarRaca() {
-      url = '../../../dao/pet/exibir_raca.php';
+      url = '../../dao/pet/exibir_raca.php';
       $.ajax({
         data: '',
         type: "POST",
@@ -380,10 +382,10 @@ if($_GET['msg']){
         return
       }
       //=============================
-      let r = raca.replace(/[A-ZÁÉÍÓÚáéíóúâêîôûàèìòùÇç ]/gi, '');
+      let r = raca.replace(/[A-ZÁÉÍÓÚáéíóúâêîôûàèìòùÃÕãõÇç ]/gi, '');
       r = r.replaceAll('-', '');
 
-      if(r.length != 0){
+      if (r.length != 0) {
         alert("Caracteres inválidos encontrados. Tente novamente.");
         adicionar_raca();
         return;
@@ -405,7 +407,7 @@ if($_GET['msg']){
     /** Função adicionar_especie */
 
     function gerarEspecie() {
-      url = '../../../dao/pet/exibir_especie.php';
+      url = '../../dao/pet/exibir_especie.php';
       $.ajax({
         data: '',
         type: "POST",
@@ -434,10 +436,10 @@ if($_GET['msg']){
         return
       }
       //===========================
-      let e = especie.replace(/[A-ZÁÉÍÓÚáéíóúâêîôûàèìòùÇç ]/gi, '');
+      let e = especie.replace(/[A-ZÁÉÍÓÚáéíóúâêîôûàèìòùÃÕãõÇç ]/gi, '');    
       e = e.replaceAll('-', '');
 
-      if(e.length != 0){
+      if (e.length != 0) {
         alert("Caracteres inválidos encontrados. Tente novamente.");
         adicionar_especie();
         return;
@@ -460,7 +462,7 @@ if($_GET['msg']){
     /** Função adicionar_cor */
 
     function gerarCor() {
-      url = '../../../dao/pet/exibir_cor.php';
+      url = '../../dao/pet/exibir_cor.php';
       $.ajax({
         data: '',
         type: "POST",
@@ -490,10 +492,10 @@ if($_GET['msg']){
       }
 
       //====================================
-      let c = cor.replace(/[A-ZÁÉÍÓÚáéíóúâêîôûàèìòùÇç ]/gi, '');
+      let c = cor.replace(/[A-ZÁÉÍÓÚáéíóúâêîôûàèìòùÃÕãõÇç ]/gi, '');
       c = c.replaceAll('-', '');
 
-      if(c.length != 0){
+      if (c.length != 0) {
         alert("Caracteres inválidos encontrados. Tente novamente.");
         alert(c);
         adicionar_cor();
@@ -516,18 +518,18 @@ if($_GET['msg']){
 
 
     /** Aqui termina a implementação das funções relacionada a "PET" */
-    
+
 
     var clickcont = 0;
     $("#botima").toggle();
-    $("#imgform").click(function(e){ 
-      if(clickcont == 0){
+    $("#imgform").click(function(e) {
+      if (clickcont == 0) {
         $("#botima").toggle();
       }
       clickcont = clickcont + 1;
     });
-    
-    function okDisplay(){
+
+    function okDisplay() {
       document.getElementById("okButton").style.backgroundColor = "#0275d8"; //azul
       document.getElementById("okText").textContent = "Confirme o arquivo selecionado";
       $("#nome").prop('disabled', true);
@@ -574,13 +576,13 @@ if($_GET['msg']){
           send.attr('disabled', 'disabled');
         }
       });
-      
+
       if (apoio == 0) {
         alert("Cadastrado com sucesso!");
       }
     }
 
-    function validarFuncionario(){
+    function validarFuncionario() {
       var btn = $("#enviar");
       var cpf_cadastrado = (<?php echo $_SESSION['cpf_funcionario']; ?>).concat(<?php echo $_SESSION['cpf_interno']; ?>);
       var cpf_cadastrado = (<?php echo $_SESSION['cpf_funcionario']; ?>);
@@ -593,38 +595,38 @@ if($_GET['msg']){
           return false;
         }
       });
-      
-        var nome = document.getElementById('profileFirstName').value;
 
-        var sobrenome = document.getElementById('sobrenome').value;
+      var nome = document.getElementById('profileFirstName').value;
 
-        var sexo = document.querySelector('input[name="gender"]:checked').value;
+      var sobrenome = document.getElementById('sobrenome').value;
 
-        var telefone = document.getElementById('telefone').value;
+      var sexo = document.querySelector('input[name="gender"]:checked').value;
 
-        var dt_nasc = document.getElementById('nascimento').value;
-      
-        var rg = document.getElementById('rg').value;
+      var telefone = document.getElementById('telefone').value;
 
-        var orgao_emissor = document.getElementById('orgao_emissor').value;
+      var dt_nasc = document.getElementById('nascimento').value;
 
-        var dt_expedicao = document.getElementById('data_expedicao').value;
+      var rg = document.getElementById('rg').value;
 
-        var dt_admissao = document.getElementById('data_admissao').value;
+      var orgao_emissor = document.getElementById('orgao_emissor').value;
 
-        var a = document.getElementById('situacao');
-        var situacao = a.options[a.selectedIndex].text;
+      var dt_expedicao = document.getElementById('data_expedicao').value;
 
-        var b = document.getElementById('cargo');
-        var cargo = b.options[b.selectedIndex].text;
+      var dt_admissao = document.getElementById('data_admissao').value;
 
-        var c = document.getElementById('escala_input');
-        var escala = c.options[c.selectedIndex].text;
+      var a = document.getElementById('situacao');
+      var situacao = a.options[a.selectedIndex].text;
 
-        var d = document.getElementById('tipoCargaHoraria_input');
-        var tipo = d.options[d.selectedIndex].text;
+      var b = document.getElementById('cargo');
+      var cargo = b.options[b.selectedIndex].text;
 
-      if(nome && sobrenome && sexo && telefone && dt_nasc && rg && orgao_emissor && dt_expedicao && dt_admissao && situacao && cargo && escala && tipo){
+      var c = document.getElementById('escala_input');
+      var escala = c.options[c.selectedIndex].text;
+
+      var d = document.getElementById('tipoCargaHoraria_input');
+      var tipo = d.options[d.selectedIndex].text;
+
+      if (nome && sobrenome && sexo && telefone && dt_nasc && rg && orgao_emissor && dt_expedicao && dt_admissao && situacao && cargo && escala && tipo) {
         alert("Cadastrado com sucesso!");
       }
     }
@@ -645,11 +647,10 @@ if($_GET['msg']){
     }
 
     $(function() {
-     
+
       $("#header").load("../header.php");
       $(".menuu").load("../menu.php");
     });
-    
   </script>
   <!-- Head Libs -->
   <script src="../../assets/vendor/modernizr/modernizr.js"></script>
@@ -684,8 +685,9 @@ if($_GET['msg']){
       reader.readAsDataURL(this.files[0]);
     });
   </script>
+
   <div align="right">
-	  <iframe src="https://www.wegia.org/software/footer/funcionario.html" width="200" height="60" style="border:none;"></iframe>
+    <iframe src="https://www.wegia.org/software/footer/pet.html" width="200" height="60" style="border:none;"></iframe>
   </div>
 </body>
 
