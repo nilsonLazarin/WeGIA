@@ -62,8 +62,7 @@ if (!$cpf_cnpj || empty($cpf_cnpj)) { //posteriormente adicionar validações de
 }
 
 if (!$data_nasc || empty($data_nasc)) { //posteiormente adicionar validações de formato
-    http_response_code(400);
-    exit('A data de nascimento não pode ser vazia.');
+   $data_nasc = null;
 }
 
 if (!$data_referencia || empty($data_referencia)) { //Posteriormente adicionar validações de formato
