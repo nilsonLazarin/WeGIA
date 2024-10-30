@@ -154,18 +154,34 @@ $(document).ready(function () {
 
                     $("#btn_geracao_unica").click(function (event) {
                         //Ligação com a nova API, posteriormente passar a URL indicando para a refatoração em POO
-                        let url = '../../contribuicao/doacao/model/emitirBoleto.php';
+                        const tipoGeracao = document.getElementById('tipo_geracao').value;
+
+                        let url = '';
+
+                        switch(tipoGeracao){
+                            case '0': url = '../../contribuicao/doacao/model/emitirBoleto.php'; break;
+                            case '1': url = '../../contribuicao/mensalidade/model/carne.php'; break; 
+                            case '2': url = '../../contribuicao/mensalidade/model/carne.php'; break; 
+                            case '3': url = '../../contribuicao/mensalidade/model/carne.php'; break; 
+                            case '6': url = '../../contribuicao/mensalidade/model/carne.php'; break; 
+                            default: alert('O tipo de geração escolhido é inválido'); return;
+                        }
 
                         const valor = document.getElementById('valor_u').value;
                         const socio = document.getElementById('id_pesquisa').value;
                         const dia = document.getElementById('data_vencimento').value;
+                        const parcela = document.getElementById('num_parcelas').value;
 
                         const cpfCnpj = socio.split('|')[1];
+
+                        console.log(dia);
 
                         $.post(url, {
                             "dcpf": cpfCnpj,
                             "valor": valor,
-                            "dia": dia
+                            "dia": dia,
+                            "parcela": parcela,
+                            "tipoGeracao": tipoGeracao
                         }).done(function (r) {
                             const resposta = JSON.parse(r);
                             if (resposta.link) {
