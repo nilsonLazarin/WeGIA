@@ -8,13 +8,15 @@ $(document).ready(function () {
             .done(function (dados) {
                 var socios = JSON.parse(dados);
                 if (socios) {
-                    function montaTabelaInicial(data_inicial, data_inicial_br, periodicidade_socio, parcelas, valor, nome_socio) {
+                    function montaTabelaInicial(data_inicial, periodicidade_socio, parcelas, valor, nome_socio) {
+
+                        console.log('Data selecionada: ' + data_inicial);
 
                         function dataAtualFormatada(data_r) {
                             var data = new Date(data_r),
                                 dia = data.getDate().toString(),
                                 diaF = (dia.length == 1) ? '0' + dia : dia,
-                                mes = (data.getMonth() + 1).toString(), //+1 pois no getMonth Janeiro começa com zero.
+                                mes = (data.getMonth()+1).toString(), //+1 pois no getMonth Janeiro começa com zero.
                                 mesF = (mes.length == 1) ? '0' + mes : mes,
                                 anoF = data.getFullYear();
                             return diaF + "/" + mesF + "/" + anoF;
@@ -27,26 +29,30 @@ $(document).ready(function () {
                         $("#btn_geracao_unica").text("Confirmar geração");
                         referenciaAccordion = nome_socio.replace(/[^a-zA-Zs]/g, "") + Math.round(Math.random() * 100000000);
                         var tabela = ``;
-                        var dataV = data_inicial_br;
                         var dataV_formatada = data_inicial;
 
                         var arrayDataSegmentsA = dataV_formatada.split('-');
-                        var mesAA = arrayDataSegmentsA[1] - 1;
-                        var total = 0;
+                        let mesAA = parseInt(arrayDataSegmentsA[1]) - 1;
+
+                        let total = 0;
 
                         for (i = 0; i < parcelas; i++) {
-                            tabela += `<tr><td>${i + 1}/${parcelas}</td><td>${dataV}</td><td>R$ ${valor}</td></tr>`
-                            // var arrayDataSegments = dataV_formatada.split('-');
-                            // var mes = arrayDataSegments[1]-1;
 
-                            var novaData = new Date(arrayDataSegmentsA[0], mesAA, arrayDataSegmentsA[2]);
+                            console.log(mesAA);
+                            let data = new Date(arrayDataSegmentsA[0], mesAA, arrayDataSegmentsA[2]);
 
-                            novaData.setMonth(novaData.getMonth() + periodicidade_socio);
-                            dataV_formatada = `${novaData.getFullYear()}-${novaData.getMonth()}-${novaData.getDate()}`;
-                            dataV = `${dataAtualFormatada(novaData)}`;
+                            //Incrementar meses
+                            data.setMonth(data.getMonth() + i*periodicidade_socio);
+
+                            if(data.getDate() != arrayDataSegmentsA[2]){
+                                data.setDate(0);
+                            }
+
+                            const dataFormatada = dataAtualFormatada(data);
+
+                            tabela += `<tr><td>${i + 1}/${parcelas}</td><td>${dataFormatada}</td><td>R$ ${valor}</td></tr>`;
+
                             total += valor;
-
-                            mesAA += periodicidade_socio;
                         }
                         tabela += `<tr><td colspan='2'>Total: </td><td>R$ ${total}</td></tr>`;
                         $(".detalhes_unico").append(`
@@ -139,13 +145,10 @@ $(document).ready(function () {
                         tipo = Number(tipo_boleto);
                         periodicidade_socio = 1;
 
-                        var teste = inputData.split('-');
-                        var dataTipoBr = teste[2] + "/" + teste[1] + "/" + teste[0];
-
                         if (inputParcelas <= 0 || inputParcelas == null || inputValor <= 0 || inputValor == null || inputData == '') {
                             alert("Dados inválidos, tente novamente!");
                         }
-                        montaTabelaInicial(inputData, dataTipoBr, tipo, inputParcelas, Number($("#valor_u").val()), socios[0].nome);
+                        montaTabelaInicial(inputData, tipo, inputParcelas, Number($("#valor_u").val()), socios[0].nome);
                     })
 
                     montaTabelaInicialAlterado('', '', '', '', '', socios[0].nome);
