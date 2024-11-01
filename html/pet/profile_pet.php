@@ -14,7 +14,7 @@
   else if (!isset($_SESSION['pet'])) 
   {
     $id_pet = $_GET['id_pet'];
-    header('Location: ../../controle/control.php?modulo=pet&metodo=listarUm&nomeClasse=PetControle&nextPage=' . WWW . 'html/pet/profile_pet.php?id_pet=' . $id_pet . '&id_pet=' . $id_pet);
+    header('Location: ../../controle/control.php?modulo=pet&metodo=listarUm&nomeClasse=PetControle&nextPage='. WWW. '/html/pet/profile_pet.php?id_pet=' . $id_pet . '&id_pet=' . $id_pet);
   }  
   else 
   {
