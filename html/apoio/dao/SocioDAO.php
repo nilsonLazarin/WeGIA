@@ -107,4 +107,15 @@ class SocioDAO{
 
         return $socio;
     }
+
+    public function registrarLog(Socio $socio, string $mensagem){
+        $sqlRegistrarSocioLog = "INSERT INTO socio_log (id_socio, descricao)
+        VALUES (:idSocio, :mensagem)";
+
+        $stmt = $this->pdo->prepare($sqlRegistrarSocioLog);
+        $stmt->bindParam(':idSocio', $socio->getId());
+        $stmt->bindParam(':mensagem', $mensagem);
+
+        return $stmt->execute();
+    }
 }

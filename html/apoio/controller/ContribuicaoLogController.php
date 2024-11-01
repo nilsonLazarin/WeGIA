@@ -31,7 +31,7 @@ class ContribuicaoLogController
 
         //Verificar se existe um sócio que possua de fato o documento
         try {
-            $socioDao = new SocioDAO();
+            $socioDao = new SocioDAO($this->pdo);
             $socio = $socioDao->buscarPorDocumento($documento);
 
             if (is_null($socio)) {
@@ -94,6 +94,11 @@ class ContribuicaoLogController
             $this->pdo->beginTransaction();
             $contribuicaoLogDao = new ContribuicaoLogDAO($this->pdo);
             $contribuicaoLogDao->criar($contribuicaoLog);
+
+            //Registrar na tabela de socio_log
+            $mensagem = "Boleto gerado recentemente";
+            $socioDao->registrarLog($contribuicaoLog->getSocio(), $mensagem);
+
             //Chamada do método de serviço de pagamento requisitado
             if (!$servicoPagamento->gerarBoleto($contribuicaoLog)) {
                 $this->pdo->rollBack();
@@ -219,6 +224,10 @@ class ContribuicaoLogController
                 $contribuicaoLogDao->criar($contribuicaoLog);
             }
 
+            //Registrar na tabela de socio_log
+            $mensagem = "Carnê gerado recentemente";
+            $socioDao->registrarLog($contribuicaoLog->getSocio(), $mensagem);
+
             //Chamada do método de serviço de pagamento requisitado
             if (!$servicoPagamento->gerarCarne($contribuicaoLogCollection)) {
                 $this->pdo->rollBack();
@@ -306,6 +315,11 @@ class ContribuicaoLogController
             $this->pdo->beginTransaction();
             $contribuicaoLogDao = new ContribuicaoLogDAO($this->pdo);
             $contribuicaoLogDao->criar($contribuicaoLog);
+
+            //Registrar na tabela de socio_log
+            $mensagem = "Pix gerado recentemente";
+            $socioDao->registrarLog($contribuicaoLog->getSocio(), $mensagem);
+
             //Chamada do método de serviço de pagamento requisitado
             if (!$servicoPagamento->gerarQrCode($contribuicaoLog)) {
                 $this->pdo->rollBack();

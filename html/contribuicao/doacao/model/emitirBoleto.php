@@ -71,9 +71,19 @@ if ($value < $regras['min_boleto_uni']) {
 //parcelar
 $qtd_p = 1;
 
-$dataAtual = new DateTime();
-$dataVencimento = $dataAtual->modify('+7 days');
-$dataVencimento = $dataVencimento->format('Y-m-d');
+//Permite a escolha do dia do boleto caso seja gerado por um funcionário
+if (isset($_POST['dia']) && !empty($_POST['dia'])) {
+    require_once '../../../permissao/permissao.php';
+    
+    session_start();
+    permissao($_SESSION['id_pessoa'], 4);
+
+    $dataVencimento = $_POST['dia'];
+} else {
+    $dataAtual = new DateTime();
+    $dataVencimento = $dataAtual->modify('+7 days');
+    $dataVencimento = $dataVencimento->format('Y-m-d');
+}
 
 try {
     $req = $stmt->prepare("SELECT doacao_boleto_info.api, doacao_boleto_info.token_api FROM doacao_boleto_info WHERE 1;");
@@ -186,7 +196,7 @@ if ($httpCode === 200 || $httpCode === 201) {
     $numeroAleatorio = gerarCodigoAleatorio();
     $ultimaDataVencimento = $dataVencimento;
     $ultimaDataVencimento = str_replace('-', '', $ultimaDataVencimento);
-    $nomeArquivo = $saveDir . $numeroAleatorio .'_'. $cpfSemMascara .'_'. $ultimaDataVencimento .'_'. $value . '.pdf';
+    $nomeArquivo = $saveDir . $numeroAleatorio . '_' . $cpfSemMascara . '_' . $ultimaDataVencimento . '_' . $value . '.pdf';
 
     // Inicia uma sessão cURL
     $ch = curl_init($pdf_link);

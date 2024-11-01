@@ -27,7 +27,8 @@ function gerarCodigoAleatorio($tamanho = 16)
  * @param string $dir O caminho do diretório a ser removido.
  * @return bool Retorna true em caso de sucesso, false em caso de falha.
  */
-function removeDirectory($dir) {
+function removeDirectory($dir)
+{
     // Verifica se o diretório existe
     if (!file_exists($dir)) {
         return false;
@@ -128,53 +129,75 @@ if ($value < $regras['min_boleto_uni']) {
 //parcelar
 $qtd_p = intval($_POST['parcela']);
 
-if($qtd_p < 1){
+if ($qtd_p < 1) {
     echo json_encode('A quantidade de parcelas não pode ser menor que 1.');
     exit();
 }
 
-if($qtd_p > 12){
+if ($qtd_p > 12) {
     echo json_encode('A quantidade de parcelas não pode ser maior que 12.');
-    exit();
-}
-
-$diaVencimento = intval($_POST['dia']);
-
-if($diaVencimento < 1){
-    echo json_encode('O dia de vencimento de uma parcela não pode ser menor que 1.');
     exit();
 }
 
 // Criar um array para armazenar as datas de vencimento
 $datasVencimento = [];
 
-// Pegar a data atual
-$dataAtual = new DateTime();
+if (isset($_POST['tipoGeracao']) && !empty($_POST['tipoGeracao'])) {
+    //verificar autenticação do funcionário
+    require_once '../../../permissao/permissao.php';
+    
+    session_start();
+    permissao($_SESSION['id_pessoa'], 4);
 
-// Verificar se o dia informado já passou neste mês
-if ($diaVencimento <= $dataAtual->format('d')) {
-    // Se o dia informado já passou, começar a partir do próximo mês
-    $dataAtual->modify('first day of next month');
-}
+    //escolher qual ação tomar
+    $tipoGeracao = $_POST['tipoGeracao'];
 
-// Iterar sobre a quantidade de parcelas
-for ($i = 0; $i < $qtd_p; $i++) {
-    // Clonar a data atual para evitar modificar o objeto original
-    $dataVencimento = clone $dataAtual;
+    //chamar funções
+    require_once './carneInterno.php';
 
-    // Adicionar os meses de acordo com o índice da parcela
-    $dataVencimento->modify("+{$i} month");
+    switch($tipoGeracao){
+        case '1': $datasVencimento = mensalidadeInterna(1); break;
+        case '2': $datasVencimento = mensalidadeInterna(2); break;
+        case '3': $datasVencimento = mensalidadeInterna(3); break;
+        case '6': $datasVencimento = mensalidadeInterna(6); break;
+        default: echo json_encode('O tipo de geração é inválido.'); exit();
+    }
+} else {
+    $diaVencimento = intval($_POST['dia']);
 
-    // Definir o dia do vencimento para o dia informado
-    $dataVencimento->setDate($dataVencimento->format('Y'), $dataVencimento->format('m'), $diaVencimento);
-
-    // Ajustar a data caso o mês não tenha o dia informado (por exemplo, 30 de fevereiro)
-    if ($dataVencimento->format('d') != $diaVencimento) {
-        $dataVencimento->modify('last day of previous month');
+    if ($diaVencimento < 1) {
+        echo json_encode('O dia de vencimento de uma parcela não pode ser menor que 1.');
+        exit();
     }
 
-    // Adicionar a data formatada ao array
-    $datasVencimento[] = $dataVencimento->format('Y-m-d');
+    // Pegar a data atual
+    $dataAtual = new DateTime();
+
+    // Verificar se o dia informado já passou neste mês
+    if ($diaVencimento <= $dataAtual->format('d')) {
+        // Se o dia informado já passou, começar a partir do próximo mês
+        $dataAtual->modify('first day of next month');
+    }
+
+    // Iterar sobre a quantidade de parcelas
+    for ($i = 0; $i < $qtd_p; $i++) {
+        // Clonar a data atual para evitar modificar o objeto original
+        $dataVencimento = clone $dataAtual;
+
+        // Adicionar os meses de acordo com o índice da parcela
+        $dataVencimento->modify("+{$i} month");
+
+        // Definir o dia do vencimento para o dia informado
+        $dataVencimento->setDate($dataVencimento->format('Y'), $dataVencimento->format('m'), $diaVencimento);
+
+        // Ajustar a data caso o mês não tenha o dia informado (por exemplo, 30 de fevereiro)
+        if ($dataVencimento->format('d') != $diaVencimento) {
+            $dataVencimento->modify('last day of previous month');
+        }
+
+        // Adicionar a data formatada ao array
+        $datasVencimento[] = $dataVencimento->format('Y-m-d');
+    }
 }
 
 try {
@@ -299,7 +322,7 @@ for ($i = 0; $i < $qtd_p; $i++) {
 
 // Diretório onde os arquivos serão armazenados
 $saveDir = '../../pdfs/';
-$saveDirTemp = $saveDir.'temp/';
+$saveDirTemp = $saveDir . 'temp/';
 
 // Verifica se o diretório existe, se não, cria o diretório
 if (!is_dir($saveDir)) {
@@ -347,7 +370,7 @@ foreach ($pdf_links as $indice => $url) {
             if (strpos($headers, 'Content-Type: application/pdf') !== false) {
                 // Salva o conteúdo do arquivo no diretório especificado
                 file_put_contents($savePath, $fileContent);
-                $arquivos []= $savePath;
+                $arquivos[] = $savePath;
             } else {
                 //echo "Erro: O conteúdo da URL não é um PDF." . PHP_EOL;
             }
@@ -381,14 +404,14 @@ $ultimaDataVencimento = $datasVencimento[$qtd_p - 1];
 $ultimaDataVencimento = str_replace('-', '', $ultimaDataVencimento);
 
 // Salva o arquivo PDF unido
-$pdf->Output('F', '../../pdfs/'.$numeroAleatorio.'_'.$cpfSemMascara.'_'.$ultimaDataVencimento.'_'.$value.'.pdf');
+$pdf->Output('F', '../../pdfs/' . $numeroAleatorio . '_' . $cpfSemMascara . '_' . $ultimaDataVencimento . '_' . $value . '.pdf');
 
 removeDirectory('../../pdfs/temp');
 
-$pdf_link = WWW.'html/contribuicao/pdfs/'.$numeroAleatorio.'_'.$cpfSemMascara.'_'.$ultimaDataVencimento.'_'.$value.'.pdf';
+$pdf_link = WWW . 'html/contribuicao/pdfs/' . $numeroAleatorio . '_' . $cpfSemMascara . '_' . $ultimaDataVencimento . '_' . $value . '.pdf';
 
-if($pdf_link){
+if ($pdf_link) {
     echo json_encode(['link' => $pdf_link]);
-}else{
+} else {
     echo json_encode('Não foi possível guardar o PDF gerado.');
-}   
+}
