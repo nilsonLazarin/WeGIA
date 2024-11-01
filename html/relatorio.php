@@ -185,12 +185,13 @@ require_once "personalizacao_display.php";
 										<option value="entrada">Relatório de Entrada</option>
 										<option value="estoque">Relatório de Estoque</option>
 										<option value="saida">Relatório de Saída</option>
+										<option value="produto">Relatório de Produtos</option>
 									</select>
 								</div>
 							</div>
 
 							<h4 class="mb-xlg">Parâmetros do relatório</h4>
-
+							
 							<div class="form-group" id='orig'>
 								<label class="col-md-3 control-label">Origem</label>
 								<div class="col-md-8">
@@ -295,19 +296,42 @@ require_once "personalizacao_display.php";
 								</div>
 							</div>
 
-							<div class="form-group">
+							<div class="form-group" id="almoxarifado">
 								<label class="col-md-3 control-label">Almoxarifado</label>
 								<div class="col-md-8">
-									<select name="almoxarifado">
+									<select name="almoxarifado" id="almoxarifadoSelect" onchange="verificaAlmoxarifado()">
 										<option value="">Todas as Opções</option>
 										<?php
 										$pdo = Conexao::connect();
-										$res = $pdo->query("select * from almoxarifado;");
-										$almoxarifado = $res->fetchAll(PDO::FETCH_ASSOC);
-										foreach ($almoxarifado as $value) {
-											echo ('
-												<option value="' . $value['id_almoxarifado'] . '">' . $value['descricao_almoxarifado'] . '</option>
-												');
+										try {
+											$res = $pdo->query("SELECT * FROM almoxarifado ORDER BY descricao_almoxarifado;");
+											$almoxarifados = $res->fetchAll(PDO::FETCH_ASSOC);
+											foreach ($almoxarifados as $value) {
+												echo '<option value="' . $value['id_almoxarifado'] . '">' . htmlspecialchars($value['descricao_almoxarifado']) . '</option>';
+											}
+										} catch (PDOException $e) {
+											echo '<option value="">Erro ao carregar almoxarifados</option>';
+										}
+										?>
+									</select>
+								</div>
+							</div>
+
+							<div class="form-group" id="produto">
+								<label class="col-md-3 control-label">Produtos</label>
+								<div class="col-md-8">
+									<select name="produto" id="produtoSelect" onchange="verificaSelecao(); removerOpcao();">
+										<option value="">Selecione um Produto</option>
+										<?php
+										$pdo = Conexao::connect();
+										try {
+											$res = $pdo->query("SELECT * FROM produto ORDER BY descricao;");
+											$produtos = $res->fetchAll(PDO::FETCH_ASSOC);
+											foreach ($produtos as $value) {
+												echo '<option value="' . $value['id_produto'] . '">' . htmlspecialchars($value['descricao']) . '</option>';
+											}
+										} catch (PDOException $e) {
+											echo '<option value="">Erro ao carregar produtos</option>';
 										}
 										?>
 									</select>
@@ -323,11 +347,14 @@ require_once "personalizacao_display.php";
 
 							<div class="form-group">
 								<div class="center-content">
-									<input type="submit" value="Gerar" class="btn btn-primary" style="width: fit-content;">
+									<input type="submit" value="Gerar" id="gerar" class="btn btn-primary" style="width: fit-content;">									
 								</div>
 							</div>
 
 						</form>
+
+						<button class="btn btn-primary" id="botaoRelatProd" style="width: fit-content; display: none; margin: 0 auto; text-align: center; position: relative;" onclick="gerarRelatorio()">Gerar</button>
+
 					</div>
 				</div>
 				<!--end: page-->
@@ -338,6 +365,38 @@ require_once "personalizacao_display.php";
 		<iframe src="https://www.wegia.org/software/footer/pet.html" width="200" height="60" style="border:none;"></iframe>
 	</div>
 </body>
+<script>
+	function removerOpcao() {
+		const select = document.getElementById('produtoSelect');
+		
+		if (select.options[0].value === "") {
+			select.remove(0);
+		}
+	}
+
+	function verificaSelecao() {
+		var produtoSelect = document.getElementById("produtoSelect");
+		var almoxarifadoSelect = document.getElementById("almoxarifadoSelect");
+		var button = document.getElementById("botaoRelatProd");
+		
+		button.style.display = (produtoSelect.value || almoxarifadoSelect.value) ? 'block' : 'none';
+	}
+
+	function gerarRelatorio() {
+		const produtoSelect = document.getElementById("produtoSelect");
+		const almoxarifadoSelect = document.getElementById("almoxarifadoSelect");
+		
+		const idProduto = produtoSelect.value;
+		const idAlmoxarifado = almoxarifadoSelect.value;
+
+		if (idProduto && idAlmoxarifado) {
+			window.location.href = 'relatorio_geracao_produto.php?id_produto=' + idProduto + '&id_almoxarifado=' + idAlmoxarifado;
+		}
+	}
+
+
+
+</script>
 <script src="./relatorios/relatorio.js"></script>
 
 </html>

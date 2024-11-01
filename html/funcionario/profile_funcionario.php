@@ -937,6 +937,19 @@ $dependente = json_encode($dependente);
                   </section>
                 </div>
                 <!--Outros-->
+                <script>
+                  function formatPIS(input) {
+                    let value = input.value.replace(/\D/g, '');
+                    if (value.length > 11) value = value.substring(0, 11);
+                    input.value = value.replace(/(\d{3})(\d{5})(\d{2})(\d{1})/, '$1.$2.$3-$4');
+                  }
+
+                  function formatCTPS(input) {
+                    let value = input.value.replace(/\D/g, '');
+                    if (value.length > 11) value = value.substring(0, 11);
+                    input.value = value.replace(/(\d{7})(\d{4})/, '$1/$2');
+                  }
+                </script>
                 <div id="outros" class="tab-pane">
                   <section class="panel">
                     <header class="panel-heading">
@@ -952,24 +965,19 @@ $dependente = json_encode($dependente);
                         <div class="form-group">
                           <label for="pis" class="col-md-3 control-label">PIS (Número de Identificação do Trabalhador)</label>
                           <div class="col-md-6">
-                            <input type="text" id="pis" name="pis" class="form-control" 
-                                  pattern="\d{3}\.\d{5}\.\d{2}-\d{1}" maxlength="14" 
+                            <input type="text" id="pis" name="pis" class="form-control" maxlength="14" 
                                   placeholder="123.45678.91-0" 
-                                  oninput="this.value = this.value.replace(/[^0-9.-]/g, '');" 
-                                  required>
+                                  oninput="formatPIS(this)" required>
                             <small>Formato: 123.45678.91-0</small>
                           </div>
                         </div>
 
-                        <!-- Campo CTPS -->
                         <div class="form-group">
                           <label for="ctps" class="col-md-3 control-label">CTPS (Carteira de Trabalho e Previdência Social)</label>
                           <div class="col-md-6">
-                            <input type="text" id="ctps" name="ctps" class="form-control" 
-                                  pattern="\d{7}/\d{4}" maxlength="12" 
+                            <input type="text" id="ctps" name="ctps" class="form-control" maxlength="12" 
                                   placeholder="1234567/8910" 
-                                  oninput="this.value = this.value.replace(/[^0-9\/]/g, '');" 
-                                  required>
+                                  oninput="formatCTPS(this)" required>
                             <small>Formato: 1234567/8910</small>
                           </div>
                         </div>

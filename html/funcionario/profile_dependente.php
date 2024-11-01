@@ -525,6 +525,13 @@ $JSON_dependente = json_encode($dependente);
                                                     <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="nascimento" id="nascimento" max="<?php echo date('Y-m-d'); ?>">
                                                 </div>
                                             </div>
+                                            <script>
+                                                function Onlychars(e) {
+                                                    var input = e.target;
+                                                    input.value = input.value.replace(/[^a-zA-ZÀ-ÿ\s]/g, '');
+                                                    console.log("Filtered Input:", input.value); 
+                                                }
+                                            </script>
                                             <div class="form-group">
                                                 <label class="col-md-3 control-label" for="pai">Nome do pai</label>
                                                 <div class="col-md-8">
