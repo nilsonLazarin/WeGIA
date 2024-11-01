@@ -1,43 +1,60 @@
-function isEstoque(is_estoque){
-    Display = is_estoque ? 'none' : 'block';
-    Hide = is_estoque ? 'block' : 'none';
+function isEstoque(is_estoque) {
+    const display = is_estoque ? 'none' : 'block';
+    const hide = is_estoque ? 'block' : 'none';
 
-    document.getElementById('dest').style.display = Display;
-    document.getElementById('orig').style.display = Display;
-    document.getElementById('resp').style.display = Display;
-    document.getElementById('per').style.display = Display;
-    document.getElementById('tipo-entrada').style.display = Display;
-    document.getElementById('tipo-saida').style.display = Display;
-    document.getElementById('panel-mostrarZerados').style.display = Hide;
+    document.getElementById('dest').style.display = display;
+    document.getElementById('orig').style.display = display;
+    document.getElementById('resp').style.display = display;
+    document.getElementById('per').style.display = display;
+    document.getElementById('tipo-entrada').style.display = display;
+    document.getElementById('tipo-saida').style.display = display;
+    document.getElementById('panel-mostrarZerados').style.display = hide;
+    document.getElementById('produto').style.display = 'none';
 }
 
-function isEntrada(is_entrada){
-    Display = is_entrada ? 'block' : 'none';
-    Hide = is_entrada ? 'none' : 'block';
+function isEntrada(is_entrada) {
+    const display = is_entrada ? 'block' : 'none';
+    const hide = is_entrada ? 'none' : 'block';
 
-    document.getElementById('tipo-entrada').style.display = Display;
-    document.getElementById('tipo-saida').style.display = Hide;
+    document.getElementById('tipo-entrada').style.display = display;
+    document.getElementById('tipo-saida').style.display = hide;
+    document.getElementById('orig').style.display = display;
+    document.getElementById('dest').style.display = hide;
+    document.getElementById('produto').style.display = 'none';
 
-    document.getElementById('orig').style.display = Display;
-    document.getElementById('dest').style.display = Hide;
-
-    
     document.querySelector("#tipo-entrada > div > select").name = is_entrada ? 'tipo' : '';
     document.querySelector("#tipo-saida > div > select").name = is_entrada ? '' : 'tipo';
-
-
 }
 
-function changeType(selection){
-    if (selection == 'estoque'){
+function isProduto(is_produto) {
+    const displayValue = is_produto ? 'block' : 'none';
+
+    document.getElementById('tipo-entrada').style.display = 'none';
+    document.getElementById('tipo-saida').style.display = 'none';
+    document.getElementById('orig').style.display = 'none';
+    document.getElementById('dest').style.display = 'none';
+    document.getElementById('resp').style.display = 'none';
+    document.getElementById('per').style.display = 'none';
+    document.getElementById('gerar').style.display = 'none';
+    
+    document.getElementById('almoxarifado').style.display = displayValue;
+    document.getElementById("botaoRelatProd").style.display = displayValue;
+    document.getElementById('produto').style.display = displayValue;
+}
+
+function changeType(selection) {
+    if (selection === 'estoque') {
         isEstoque(true);
-    }else{
+    } else if (selection === 'produto') {
         isEstoque(false);
-        isEntrada(selection == 'entrada');
+        isProduto(true);
+    } else {
+        isEstoque(false);
+        isEntrada(selection === 'entrada');
     }
 }
 
-$(document).ready(function(){
-    tipo_relat = $('#tipo-relat').val()
-    changeType(tipo_relat)
+$(document).ready(function() {
+    const tipo_relat = $('#tipo-relat').val();
+    changeType(tipo_relat);
 });
