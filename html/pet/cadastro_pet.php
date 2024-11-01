@@ -74,7 +74,7 @@ if ($_GET['msg']) {
   echo <<<HTML
       <script>
         alert('$_GET[msg]');
-        window.location.href = "../..//html/pet/cadastro_pet.php";
+        window.location.href = "../../html/pet/cadastro_pet.php";
       </script>
     HTML;
 }
