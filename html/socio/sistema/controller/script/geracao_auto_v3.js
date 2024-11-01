@@ -159,6 +159,10 @@ $(document).ready(function () {
                         //Ligação com a nova API, posteriormente passar a URL indicando para a refatoração em POO
                         const tipoGeracao = document.getElementById('tipo_geracao').value;
 
+                        const btnGeracaoUnica = event.target;
+
+                        btnGeracaoUnica.disabled = true;
+
                         let url = '';
 
                         switch(tipoGeracao){
@@ -194,6 +198,8 @@ $(document).ready(function () {
                             } else {
                                 alert("Ops! Ocorreu um problema na geração da sua forma de pagamento, tente novamente, se o erro persistir contate o suporte.");
                             }
+
+                            btnGeracaoUnica.disabled = false;
                         });
                     });
                 } else {
