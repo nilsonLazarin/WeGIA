@@ -77,8 +77,19 @@ class ContribuicaoLogController
         }
 
         //Verificar qual fuso horário será utilizado posteriormente
-        $dataGeracao = date('Y-m-d');
-        $dataVencimento = date_modify(new DateTime(), '+7 day')->format('Y-m-d');
+
+        if (isset($_POST['dia']) && !empty($_POST['dia'])) {
+            require_once '../../permissao/permissao.php';
+            
+            session_start();
+            permissao($_SESSION['id_pessoa'], 4);
+        
+            $dataGeracao = date('Y-m-d');
+            $dataVencimento = $_POST['dia'];
+        }else{
+            $dataGeracao = date('Y-m-d');
+            $dataVencimento = date_modify(new DateTime(), '+7 day')->format('Y-m-d');
+        }
 
         $contribuicaoLog = new ContribuicaoLog();
         $contribuicaoLog

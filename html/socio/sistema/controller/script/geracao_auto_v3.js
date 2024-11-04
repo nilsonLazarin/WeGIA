@@ -166,7 +166,7 @@ $(document).ready(function () {
                         let url = '';
 
                         switch(tipoGeracao){
-                            case '0': url = '../../contribuicao/doacao/model/emitirBoleto.php'; break;
+                            case '0': url = '../../apoio/controller/control.php?nomeClasse=ContribuicaoLogController&metodo=criarBoleto'; break;
                             case '1': url = '../../contribuicao/mensalidade/model/carne.php'; break; 
                             case '2': url = '../../contribuicao/mensalidade/model/carne.php'; break; 
                             case '3': url = '../../contribuicao/mensalidade/model/carne.php'; break; 
@@ -184,7 +184,7 @@ $(document).ready(function () {
                         console.log(dia);
 
                         $.post(url, {
-                            "dcpf": cpfCnpj,
+                            "documento_socio": cpfCnpj,
                             "valor": valor,
                             "dia": dia,
                             "parcela": parcela,
