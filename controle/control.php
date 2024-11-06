@@ -3,6 +3,7 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_erros', 1);
 error_reporting(E_ALL);
+session_start();
 
 function processaRequisicao($nomeClasse, $metodo, $modulo = null){
 	if ($nomeClasse && $metodo) {
@@ -11,6 +12,11 @@ function processaRequisicao($nomeClasse, $metodo, $modulo = null){
         } else {
             include_once $nomeClasse . ".php";
         }
+
+		if(!isset($_SESSION['id_pessoa'])){
+			http_response_code(401);
+			exit('Operação negada: Cliente não autorizado');
+		}
 
         // Cria uma instância da classe e chama o método
         $objeto = new $nomeClasse();
