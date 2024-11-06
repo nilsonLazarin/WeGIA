@@ -200,9 +200,9 @@ $gateways = $gatewayPagamentoController->buscaTodos();
                                             <!--Carrega tabela dinamicamente-->
                                             <?php foreach ($gateways as $gateway): ?>
                                                 <tr>
-                                                    <td class="vertical-center"><?= $gateway['plataforma'] ?></td>
-                                                    <td class="vertical-center"><?= $gateway['endPoint'] ?></td>
-                                                    <td class="vertical-center"><?= $gateway['token'] ?></td>
+                                                    <td class="vertical-center"><?= htmlspecialchars($gateway['plataforma']) ?></td>
+                                                    <td class="vertical-center"><?= htmlspecialchars($gateway['endPoint']) ?></td>
+                                                    <td class="vertical-center"><?= htmlspecialchars($gateway['token']) ?></td>
                                                     <td class="vertical-center">
                                                         <div class="toggle-switch">
                                                             <?php if (isset($gateway['status']) && $gateway['status'] === 1): ?>

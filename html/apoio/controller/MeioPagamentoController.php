@@ -6,8 +6,8 @@ require_once '../dao/MeioPagamentoDAO.php';
 class MeioPagamentoController{
     public function cadastrar(){
         //Implementar restante da lógica do código...
-        $descricao = $_POST['nome'];
-        $gatewayId = $_POST['meio-pagamento-plataforma'];
+        $descricao = filter_input(INPUT_POST, 'nome', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $gatewayId = filter_input(INPUT_POST, 'meio-pagamento-plataforma', FILTER_SANITIZE_NUMBER_INT);
         try{
             $meioPagamento = new MeioPagamento($descricao, $gatewayId);
             $meioPagamento->cadastrar();

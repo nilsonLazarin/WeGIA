@@ -8,9 +8,9 @@ class GatewayPagamentoController
     /**Realiza os procedimentos necessários para inserir um Gateway de pagamento na aplicação */
     public function cadastrar()
     {
-        $nome = $_POST['nome'];
-        $endpoint = $_POST['endpoint'];
-        $token = $_POST['token'];
+        $nome = filter_input(INPUT_POST, 'nome', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $endpoint = filter_input(INPUT_POST, 'endpoint', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $token = filter_input(INPUT_POST, 'token', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
         try {
             $gatewayPagamento = new GatewayPagamento($nome, $endpoint, $token);
