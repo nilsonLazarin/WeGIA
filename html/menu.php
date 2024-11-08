@@ -62,7 +62,6 @@
 							<i class="far fa-address-book"></i>
 							<span>Pessoas</span>
 						</a>
-						
 						<ul class="nav nav-children">
 							<li class="nav-parent nav-active">
 								<a>
@@ -176,6 +175,24 @@
 											</li>
 										</ul>
 
+									</li>
+								</ul>
+							</li>
+							<li class="nav-parent nav-active">
+								<a>
+									<i class="fa fa-user"></i></i><i class="fas fa-paw"></i>
+									<span>Padrinhos</span>
+								</a>
+								<ul class="nav nav-children">
+									<li>
+										<a href="<?= WWW ?>html/atendido/pre_cadastro_atendido.php">
+											<span>Cadastrar Padrinho</span>
+										</a>
+									</li>
+									<li>
+										<a href="<?= WWW ?>controle/control.php?metodo=listarTodos&nomeClasse=AtendidoControle&nextPage=<?= WWW ?>html/atendido/Informacao_Atendido.php">
+											<span>Informações Padrinho</span>
+										</a>
 									</li>
 								</ul>
 							</li>
@@ -517,4 +534,3 @@
 	
 	<!-- Theme Initialization Files -->
 	<script src="<?= WWW ?>assets/javascripts/theme.init.js"></script>
-
