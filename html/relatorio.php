@@ -299,8 +299,29 @@ require_once "personalizacao_display.php";
 							<div class="form-group" id="almoxarifado">
 								<label class="col-md-3 control-label">Almoxarifado</label>
 								<div class="col-md-8">
-									<select name="almoxarifado" id="almoxarifadoSelect" onchange="verificaAlmoxarifado()">
+									<select name="almoxarifado">
 										<option value="">Todas as Opções</option>
+										<?php
+										$pdo = Conexao::connect();
+										try {
+											$res = $pdo->query("SELECT * FROM almoxarifado ORDER BY descricao_almoxarifado;");
+											$almoxarifados = $res->fetchAll(PDO::FETCH_ASSOC);
+											foreach ($almoxarifados as $value) {
+												echo '<option value="' . $value['id_almoxarifado'] . '">' . htmlspecialchars($value['descricao_almoxarifado']) . '</option>';
+											}
+										} catch (PDOException $e) {
+											echo '<option value="">Erro ao carregar almoxarifados</option>';
+										}
+										?>
+									</select>
+								</div>
+							</div>
+							
+							<div class="form-group" id="almoxarifado2">
+								<label class="col-md-3 control-label">Almoxarifado</label>
+								<div class="col-md-8">
+									<select name="almoxarifado2" id="almoxarifadoSelect" onchange="carregarProdutos();">
+										<option value="">Selecione o almoxarifado</option>
 										<?php
 										$pdo = Conexao::connect();
 										try {
@@ -320,20 +341,8 @@ require_once "personalizacao_display.php";
 							<div class="form-group" id="produto">
 								<label class="col-md-3 control-label">Produtos</label>
 								<div class="col-md-8">
-									<select name="produto" id="produtoSelect" onchange="verificaSelecao(); removerOpcao();">
+									<select name="produto" id="produtoSelect">
 										<option value="">Selecione um Produto</option>
-										<?php
-										$pdo = Conexao::connect();
-										try {
-											$res = $pdo->query("SELECT * FROM produto ORDER BY descricao;");
-											$produtos = $res->fetchAll(PDO::FETCH_ASSOC);
-											foreach ($produtos as $value) {
-												echo '<option value="' . $value['id_produto'] . '">' . htmlspecialchars($value['descricao']) . '</option>';
-											}
-										} catch (PDOException $e) {
-											echo '<option value="">Erro ao carregar produtos</option>';
-										}
-										?>
 									</select>
 								</div>
 							</div>
@@ -366,7 +375,17 @@ require_once "personalizacao_display.php";
 	</div>
 </body>
 <script>
-	function removerOpcao() {
+	const selectAlmoxarifado = document.getElementById("almoxarifadoSelect");
+	selectAlmoxarifado.addEventListener("click", function(){
+		removerPrimeiraOpcaoAlmoxarifado();
+	})
+
+	const selectProduto = document.getElementById("produtoSelect");
+	selectProduto.addEventListener("click", function(){
+		removerPrimeiraOpcaoProduto();
+	})
+
+	function removerPrimeiraOpcaoProduto() {
 		const select = document.getElementById('produtoSelect');
 		
 		if (select.options[0].value === "") {
@@ -374,13 +393,45 @@ require_once "personalizacao_display.php";
 		}
 	}
 
-	function verificaSelecao() {
-		var produtoSelect = document.getElementById("produtoSelect");
-		var almoxarifadoSelect = document.getElementById("almoxarifadoSelect");
-		var button = document.getElementById("botaoRelatProd");
+	function removerPrimeiraOpcaoAlmoxarifado() {
+		const select = document.getElementById('almoxarifadoSelect');
 		
-		button.style.display = (produtoSelect.value || almoxarifadoSelect.value) ? 'block' : 'none';
+		if (select.options[0].value === "") {
+			select.remove(0);
+		}
 	}
+
+	function carregarProdutos() {
+    var almoxarifadoId = document.getElementById("almoxarifadoSelect").value;
+    var produtoSelect = document.getElementById("produtoSelect");
+    produtoSelect.innerHTML = '<option value="">Selecione um Produto</option>';
+
+    if (almoxarifadoId === "") {
+        return;
+    }
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "carregar_produtos.php?almoxarifado_id=" + almoxarifadoId, true);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            var produtos = JSON.parse(xhr.responseText);
+            if (produtos.length > 0) {
+                produtos.forEach(function(produto) {
+                    var option = document.createElement("option");
+                    option.value = produto.id_produto;
+                    option.textContent = produto.descricao;
+                    produtoSelect.appendChild(option);
+                });
+            } else {
+                var option = document.createElement("option");
+                option.value = "";
+                option.textContent = "Nenhum produto encontrado";
+                produtoSelect.appendChild(option);
+            }
+        }
+    };
+    xhr.send();
+}
 
 	function gerarRelatorio() {
 		const produtoSelect = document.getElementById("produtoSelect");
@@ -393,10 +444,6 @@ require_once "personalizacao_display.php";
 			window.location.href = 'relatorio_geracao_produto.php?id_produto=' + idProduto + '&id_almoxarifado=' + idAlmoxarifado;
 		}
 	}
-
-
-
 </script>
 <script src="./relatorios/relatorio.js"></script>
-
 </html>

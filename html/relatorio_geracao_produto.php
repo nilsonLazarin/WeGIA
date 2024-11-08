@@ -189,71 +189,81 @@ function quickQuery($query, $column)
 					<div class="descricao">
 						<p>
 							<li>
-                                <h3>Geração de Produto</h3>								
+                                <h3>Geração de Produto</h3>		
+								
 							</li>
 						</p>
 						<button style="float: right;" class="mb-xs mt-xs mr-xs btn btn-default print-button" onclick="window.print();">Imprimir</button>
 					</div>
-					<h4>Resultado</h4>
 
 					<table class="table table-striped">
-					<thead class="thead-dark">
+						<thead class="thead-dark">
 						<tr>
-							<th scope="col" width="11%">Almoxarifado</th>
-							<th scope="col" width="11%">Produto</th>
-							<th scope="col" width="11%">Data de entrada</th>
-							<th scope="col" width="11%">Data de saída</th>
-						</tr>
-					</thead>
-					<tbody>
+								<th scope="col" width="11%">Produto</th>		
+								<th scope="col" width="11%">Categoria</th>
+								<th scope="col" width="11%">Unidade</th>
+								<th scope="col" width="11%">Estoque</th>
+								<th scope="col" width="11%">Almoxarifado</th>				
+								<th scope="col" width="11%">Data de entrada</th>
+								<th scope="col" width="11%">Data de saída</th>
+							</tr>
+						</thead>
+						<tbody>
 						<?php
-						$pdo = Conexao::connect();
-
-						// Captura os IDs passados via GET
-						$idProduto = isset($_GET['id_produto']) ? $_GET['id_produto'] : null;
-						$idAlmoxarifado = isset($_GET['id_almoxarifado']) ? $_GET['id_almoxarifado'] : null;
-
-						// Busca informações do produto
-						if ($idProduto) {
-							$stmt = $pdo->prepare("SELECT * FROM produto WHERE id_produto = :id");
-							$stmt->bindParam(':id', $idProduto, PDO::PARAM_INT);
-							if ($stmt->execute()) {
-								$produto = $stmt->fetch(PDO::FETCH_ASSOC);
+							$pdo = Conexao::connect();
+							
+							$idProduto = isset($_GET['id_produto']) ? $_GET['id_produto'] : null;
+							$idAlmoxarifado = isset($_GET['id_almoxarifado']) ? $_GET['id_almoxarifado'] : null;
+							
+							if ($idProduto && $idAlmoxarifado) {
+								$stmt = $pdo->prepare("
+									SELECT 
+										p.descricao AS produto_descricao, 
+										a.descricao_almoxarifado, 
+										e.data AS data_entrada, e.hora AS hora_entrada, 
+										s.data AS data_saida, s.hora AS hora_saida,
+										u.descricao_unidade,
+										est.qtd,
+										c.descricao_categoria  -- Novo campo adicionado
+									FROM produto p
+									JOIN ientrada ie ON p.id_produto = ie.id_produto
+									JOIN entrada e ON ie.id_entrada = e.id_entrada
+									JOIN isaida isd ON p.id_produto = isd.id_produto
+									JOIN saida s ON isd.id_saida = s.id_saida
+									JOIN almoxarifado a ON s.id_almoxarifado = a.id_almoxarifado
+									JOIN unidade u ON p.id_unidade = u.id_unidade  -- JOIN com a tabela unidade
+									JOIN estoque est ON p.id_produto = est.id_produto  -- JOIN com a tabela estoque
+									JOIN categoria_produto c ON p.id_categoria_produto = c.id_categoria_produto  -- JOIN com a tabela categoria_produto
+									WHERE p.id_produto = :id_produto AND a.id_almoxarifado = :id_almoxarifado
+								");					
+								$stmt->bindParam(':id_produto', $idProduto, PDO::PARAM_INT);
+								$stmt->bindParam(':id_almoxarifado', $idAlmoxarifado, PDO::PARAM_INT);
+							
+								if ($stmt->execute()) {
+									$row = $stmt->fetch(PDO::FETCH_ASSOC);
+								
+									if ($row) {
+										echo "<tr>";
+										echo "<td>" . htmlspecialchars($row['produto_descricao']) . "</td>"; 
+										echo "<td>" . htmlspecialchars($row['descricao_categoria']) . "</td>";
+										echo "<td>" . htmlspecialchars($row['descricao_unidade']) . "</td>";
+										echo "<td>" . htmlspecialchars($row['qtd']) . "</td>";
+										echo "<td>" . htmlspecialchars($row['descricao_almoxarifado']) . "</td>"; 
+										echo "<td>" . date('d/m/Y', strtotime($row['data_entrada'])) . " " . date('H:i', strtotime($row['hora_entrada'])) . "</td>";
+										echo "<td>" . date('d/m/Y', strtotime($row['data_saida'])) . " " . date('H:i', strtotime($row['hora_saida'])) . "</td>";
+										echo "</tr>";
+									} else {
+										echo "<tr><td colspan='7' style='text-align: center; vertical-align: middle;'>Produto ou Almoxarifado não encontrado.</td></tr>";
+									}
+								} else {
+									echo "<tr><td colspan='7'>Erro ao buscar os dados.</td></tr>";
+								}													
 							} else {
-								echo "<p>Erro ao buscar produto.</p>";
+								echo "<tr><td colspan='4'>ID do produto ou almoxarifado não fornecido.</td></tr>";
 							}
-						} else {
-							echo "<p>ID do produto não fornecido.</p>";
-						}
-
-						// Busca informações do almoxarifado
-						if ($idAlmoxarifado) {
-							$stmt = $pdo->prepare("SELECT * FROM almoxarifado WHERE id_almoxarifado = :id");
-							$stmt->bindParam(':id', $idAlmoxarifado, PDO::PARAM_INT);
-							if ($stmt->execute()) {
-								$almoxarifado = $stmt->fetch(PDO::FETCH_ASSOC);
-							} else {
-								echo "<p>Erro ao buscar almoxarifado.</p>";
-							}
-						} else {
-							echo "<p>ID do almoxarifado não fornecido.</p>";
-						}
-
-						// Exibe os dados na tabela
-						if ($produto && $almoxarifado) {
-							echo "<tr>";
-							echo "<td>" . htmlspecialchars($almoxarifado['descricao_almoxarifado']) . "</td>"; // Almoxarifado
-							echo "<td>" . htmlspecialchars($produto['descricao']) . "</td>"; // Produto
-							echo "<td><!-- Data de entrada --></td>"; // Coluna para Data de Entrada
-							echo "<td><!-- Data de saída --></td>"; // Coluna para Data de Saída
-							echo "</tr>";
-						} else {
-							echo "<tr><td colspan='4'>Produto ou Almoxarifado não encontrado.</td></tr>";
-						}
 						?>
-					</tbody>
-				</table>
-
+						</tbody>
+					</table>
 				</div>
 				<!--end: page-->
 			</section>
