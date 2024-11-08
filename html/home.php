@@ -421,13 +421,13 @@
 				</div>
 				<div class="row category-row-third">
 					<div  id="padrinhos" class="removeIn collapse">
-						<a href="../html/padrinho/cadastro_padrinho.php">	
+						<a href="../html/pet/padrinho/cadastro_padrinho.php">	
 							<div class="col-lg-2 col-md-8 i">
 								<i  class="fa fa-address-book"></i>
 								<h4>Cadastrar Padrinhos</h4>
 							</div>
 						</a>
-						<a href="padrinho/informacao_padrinho.php">	
+						<a href="../html/pet/padrinho/informacao_padrinho.php">	
 							<div class="col-lg-2 col-md-8 i">
 								<i  class="far fa-address-card"></i>
 								<h4>Informações Padrinhos</h4>

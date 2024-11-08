@@ -185,7 +185,7 @@
 								</a>
 								<ul class="nav nav-children">
 									<li>
-										<a href="<?= WWW ?>html/atendido/pre_cadastro_atendido.php">
+										<a href="<?= WWW ?>html/pet/padrinho/cadastro_padrinho.php">
 											<span>Cadastrar Padrinho</span>
 										</a>
 									</li>
