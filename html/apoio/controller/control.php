@@ -9,7 +9,7 @@ try {
     }
 
     //Blocks execution for unauthorized access
-    if($controller !='ContribuicaoLogController' || $function == 'pagarPorId'){
+    if(($controller !='ContribuicaoLogController' && $function !='exibirBoletosPorCpf') || $function == 'pagarPorId'){
         session_start();
         if(!isset($_SESSION['id_pessoa'])){
             throw new Exception('Violação de acesso');

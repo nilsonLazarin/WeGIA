@@ -231,13 +231,11 @@ function prepararDadosParaTabela(dados) {
     });
     //ordenar array pela data
     const arrayOrdenado = ordenarPelaData(dadosSeparados);
-    console.log(arrayOrdenado);
     //formatar data e valor
     arrayOrdenado.forEach((boleto, index) => {
         arrayOrdenado[index][2] = formatarDataEmBrasileiro(boleto[2]);
         arrayOrdenado[index][3] = formatarValorEmReais(boleto[3]);
     });
-    console.log(arrayOrdenado);
     return arrayOrdenado;
 }
 

@@ -67,4 +67,23 @@ class Util
         }
         return $datasVencimento;
     }
+
+    /**
+     * Recebe como parâmetro o caminho de um diretório e retorna a lista dos caminhos dos arquivos internos
+     */
+    public static function listarArquivos(string $diretorio)
+    {
+        // Verifica se o diretório existe
+        if (!is_dir($diretorio)) {
+            return false;
+        }
+
+        // Abre o diretório
+        $arquivos = scandir($diretorio);
+
+        // Remove os diretórios '.' e '..' da lista de arquivos
+        $arquivos = array_diff($arquivos, array('.', '..'));
+
+        return $arquivos;
+    }
 }
