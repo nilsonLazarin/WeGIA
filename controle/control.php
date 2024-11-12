@@ -17,16 +17,16 @@ function processaRequisicao($nomeClasse, $metodo, $modulo = null)
 
 		//Controladoras permitidas
 		$controladorasRecursos = [
-			'AlmoxarifadoControle' => [21],
-			'AlmoxarifeControle' => [21],
+			'AlmoxarifadoControle' => [2, 21, 22, 23, 24, 91],
+			'AlmoxarifeControle' => [91],
 			'Atendido_ocorrenciaControle' => [12],
 			'Atendido_ocorrenciaDocControle' => [12],
 			'AtendidoControle' => [12],
 			'AvisoControle' => [5],
 			'AvisoNotificacaoControle' => [5],
 			'CargoControle' => [11],
-			'CategoriaControle' => [21],
-			'DestinoControle' => [21],
+			'CategoriaControle' => [21, 2],
+			'DestinoControle' => [21, 2],
 			'DocumentoControle' => [5],
 			'EnderecoControle' => [9, 12],
 			'EntradaControle' => [23],
