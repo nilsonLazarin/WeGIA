@@ -850,6 +850,22 @@ class FuncionarioControle
     public function alterarSenha()
     {
         extract($_REQUEST); 
+
+    
+        $funcionarioDAO=new FuncionarioDAO();
+       
+        if($id_pessoa != $_SESSION['id_pessoa']){
+            try{
+                if(!$funcionarioDAO->verificaAdm($_SESSION['id_pessoa'])){
+                    http_response_code(401);
+                    exit('Operação negada: O usuário logado não é o mesmo de que se deseja alterar a senha');
+                }
+            }catch(PDOException $e){
+                echo $e->getMessage();
+                exit();
+            }
+        }
+
         $nova_senha=hash('sha256', $nova_senha);
         if(isset($redir)){
             $page = $redir;
@@ -864,7 +880,6 @@ class FuncionarioControle
         }elseif ($verificacao==2) {
             header("Location: ".WWW."html/$page?verificacao=".$verificacao);
         }else{
-            $funcionarioDAO=new FuncionarioDAO();
             try {
                 $funcionarioDAO->alterarSenha($id_pessoa, $nova_senha);
                  $conexao =  mysqli_connect(DB_HOST,DB_USER,DB_PASSWORD,DB_NAME);

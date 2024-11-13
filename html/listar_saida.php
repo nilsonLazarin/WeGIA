@@ -206,13 +206,6 @@ require_once "personalizacao_display.php";
 					</header>
 					<!-- start: page -->
 					
-					<section class="panel">
-						<header class="panel-heading">
-							<div class="panel-actions">
-								<a href="#" class="fa fa-caret-down"></a>
-							</div>
-							<h2 class="panel-title">Saída</h2>
-						</header>
 						<div class="panel-body">
 							<table class="table table-bordered table-striped mb-none" id="datatable-default">
 								<thead>
@@ -230,7 +223,7 @@ require_once "personalizacao_display.php";
 								</tbody>
 							</table>
 						</div><br>
-					</section>
+				
 <!-- verificar -->
 				</section>
 <!-- verificar -->

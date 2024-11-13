@@ -32,7 +32,8 @@
     }
 
     if (!is_numeric($numero)) {
-        die("Número de residência inválido");
+        //die("Número de residência inválido");
+        $numero = '';
     }
 
     if (empty($estado) || empty($cidade) || empty($bairro) || empty($rua)) {
