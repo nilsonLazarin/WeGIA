@@ -205,8 +205,8 @@ $meiosPagamento = $meioPagamentoController->buscaTodos();
                                             <!--Carrega tabela dinamicamente-->
                                             <?php foreach ($meiosPagamento as $meioPagamento): ?>
                                                 <tr>
-                                                    <td class="vertical-center"><?= $meioPagamento['meio'] ?></td>
-                                                    <td class="vertical-center"><?= $meioPagamento['plataforma'].' | '.$meioPagamento['endpoint'] ?></td><!--Substituir impressão do id pelo nome da plataforma | endpoint-->
+                                                    <td class="vertical-center"><?= htmlspecialchars($meioPagamento['meio']) ?></td>
+                                                    <td class="vertical-center"><?=htmlspecialchars($meioPagamento['plataforma']).' | '.htmlspecialchars($meioPagamento['endpoint']) ?></td><!--Substituir impressão do id pelo nome da plataforma | endpoint-->
                                                     <td class="vertical-center">
                                                         <div class="toggle-switch">
                                                             <?php if (isset($meioPagamento['status']) && $meioPagamento['status'] === 1): ?>

@@ -8,6 +8,7 @@ require_once '../dao/MeioPagamentoDAO.php';
 require_once '../dao/GatewayPagamentoDAO.php';
 require_once '../model/GatewayPagamento.php';
 require_once '../model/ContribuicaoLogCollection.php';
+require_once '../../../config.php';
 
 class ContribuicaoLogController
 {
@@ -16,7 +17,7 @@ class ContribuicaoLogController
 
     public function __construct()
     {
-        $this->pdo = ConexaoDAO::conectar();//Considerar implementar injeção de dependência caso a aplicação precise de mais flexibilidade
+        $this->pdo = ConexaoDAO::conectar(); //Considerar implementar injeção de dependência caso a aplicação precise de mais flexibilidade
     }
 
     /**
@@ -35,16 +36,16 @@ class ContribuicaoLogController
             $socio = $socioDao->buscarPorDocumento($documento);
 
             if (is_null($socio)) {
-                //Colocar uma mensagem para informar que o sócio não existe
-                exit('Sócio não encontrado');
+                echo json_encode(['erro' => 'Sócio não encontrado']);
+                exit();
             }
 
             $meioPagamentoDao = new MeioPagamentoDAO();
             $meioPagamento = $meioPagamentoDao->buscarPorNome($formaPagamento);
 
             if (is_null($meioPagamento)) {
-                //Colocar uma mensagem para informar que o meio de pagamento não existe
-                exit('Meio de pagamento não encontrado');
+                echo json_encode(['erro' => 'Meio de pagamento não encontrado']);
+                exit();
             }
 
             //Procura pelo serviço de pagamento através do id do gateway de pagamento
@@ -56,8 +57,8 @@ class ContribuicaoLogController
             $requisicaoServico = '../service/' . $gatewayPagamento->getNome() . $formaPagamento . 'Service' . '.php';
 
             if (!file_exists($requisicaoServico)) {
-                //implementar feedback
-                exit('Arquivo não encontrado');
+                echo json_encode(['erro' => 'Arquivo não encontrado']);
+                exit();
             }
 
             require_once $requisicaoServico;
@@ -65,20 +66,31 @@ class ContribuicaoLogController
             $classeService = $gatewayPagamento->getNome() . $formaPagamento . 'Service';
 
             if (!class_exists($classeService)) {
-                //implementar feedback
-                exit('Classe não encontrada');
+                echo json_encode(['erro' => 'Classe não encontrada']);
+                exit();
             }
 
             $servicoPagamento = new $classeService;
         } catch (PDOException $e) {
             //implementar tratamento de erro
-            echo 'Erro: ' . $e->getMessage();
+            echo json_encode(['erro' => $e->getMessage()]);
             exit();
         }
 
         //Verificar qual fuso horário será utilizado posteriormente
-        $dataGeracao = date('Y-m-d');
-        $dataVencimento = date_modify(new DateTime(), '+7 day')->format('Y-m-d');
+
+        if (isset($_POST['dia']) && !empty($_POST['dia'])) {
+            require_once '../../permissao/permissao.php';
+
+            session_start();
+            permissao($_SESSION['id_pessoa'], 4);
+
+            $dataGeracao = date('Y-m-d');
+            $dataVencimento = $_POST['dia'];
+        } else {
+            $dataGeracao = date('Y-m-d');
+            $dataVencimento = date_modify(new DateTime(), '+7 day')->format('Y-m-d');
+        }
 
         $contribuicaoLog = new ContribuicaoLog();
         $contribuicaoLog
@@ -107,7 +119,7 @@ class ContribuicaoLogController
             }
         } catch (PDOException $e) {
             //implementar tratamento de erro
-            echo 'Erro: ' . $e->getMessage();
+            echo json_encode(['erro' => $e->getMessage()]);
         }
     }
 
@@ -120,25 +132,25 @@ class ContribuicaoLogController
         $valor = filter_input(INPUT_POST, 'valor', FILTER_VALIDATE_FLOAT);
         $documento = filter_input(INPUT_POST, 'documento_socio');
         $qtdParcelas = filter_input(INPUT_POST, 'parcelas', FILTER_VALIDATE_INT);
-        $diaVencimento = filter_input(INPUT_POST, 'dia-vencimento', FILTER_VALIDATE_INT);
+        $diaVencimento = filter_input(INPUT_POST, 'dia', FILTER_VALIDATE_INT);
         $formaPagamento = 'Carne';
 
         //Verificar se existe um sócio que possua de fato o documento
         try {
-            $socioDao = new SocioDAO();
+            $socioDao = new SocioDAO($this->pdo);
             $socio = $socioDao->buscarPorDocumento($documento);
 
             if (is_null($socio)) {
-                //Colocar uma mensagem para informar que o sócio não existe
-                exit('Sócio não encontrado');
+                echo json_encode(['erro' => 'Sócio não encontrado']);
+                exit();
             }
 
             $meioPagamentoDao = new MeioPagamentoDAO();
             $meioPagamento = $meioPagamentoDao->buscarPorNome($formaPagamento);
 
             if (is_null($meioPagamento)) {
-                //Colocar uma mensagem para informar que o meio de pagamento não existe
-                exit('Meio de pagamento não encontrado');
+                echo json_encode(['erro' => 'Meio de pagamento não encontrado']);
+                exit();
             }
 
             //Procura pelo serviço de pagamento através do id do gateway de pagamento
@@ -150,8 +162,8 @@ class ContribuicaoLogController
             $requisicaoServico = '../service/' . $gatewayPagamento->getNome() . $formaPagamento . 'Service' . '.php';
 
             if (!file_exists($requisicaoServico)) {
-                //implementar feedback
-                exit('Arquivo não encontrado');
+                echo json_encode(['erro' => 'Arquivo não encontrado']);
+                exit();
             }
 
             require_once $requisicaoServico;
@@ -159,14 +171,14 @@ class ContribuicaoLogController
             $classeService = $gatewayPagamento->getNome() . $formaPagamento . 'Service';
 
             if (!class_exists($classeService)) {
-                //implementar feedback
-                exit('Classe não encontrada');
+                echo json_encode(['erro' => 'Classe não encontrada']);    
+                exit();
             }
 
             $servicoPagamento = new $classeService;
         } catch (PDOException $e) {
             //implementar tratamento de erro
-            echo 'Erro: ' . $e->getMessage();
+            echo json_encode(['erro' => $e->getMessage()]);
             exit();
         }
 
@@ -181,37 +193,89 @@ class ContribuicaoLogController
         // Pegar a data atual
         $dataAtual = new DateTime();
 
-        // Verificar se o dia informado já passou neste mês
-        if ($diaVencimento <= $dataAtual->format('d')) {
-            // Se o dia informado já passou, começar a partir do próximo mês
-            $dataAtual->modify('first day of next month');
-        }
+        if (isset($_POST['tipoGeracao']) && !empty($_POST['tipoGeracao'])) {
+            //verificar autenticação do funcionário
+            require_once '../../permissao/permissao.php';
 
-        for ($i = 0; $i < $qtdParcelas; $i++) {
-            // Clonar a data atual para evitar modificar o objeto original
-            $dataVencimento = clone $dataAtual;
+            session_start();
+            permissao($_SESSION['id_pessoa'], 4);
 
-            // Adicionar os meses de acordo com o índice da parcela
-            $dataVencimento->modify("+{$i} month");
+            //escolher qual ação tomar
+            $tipoGeracao = $_POST['tipoGeracao'];
 
-            // Definir o dia do vencimento para o dia informado
-            $dataVencimento->setDate($dataVencimento->format('Y'), $dataVencimento->format('m'), $diaVencimento);
+            //chamar funções
+            require_once '../helper/Util.php';
 
-            // Ajustar a data caso o mês não tenha o dia informado (por exemplo, 30 de fevereiro)
-            if ($dataVencimento->format('d') != $diaVencimento) {
-                $dataVencimento->modify('last day of previous month');
+            $datasVencimento;
+
+            $diaVencimento = ($_POST['dia']);
+
+            $qtd_p = intval($_POST['parcelas']);
+
+            switch ($tipoGeracao) {
+                case '1':
+                    $datasVencimento = Util::mensalidadeInterna(1, $qtd_p, $diaVencimento);
+                    break;
+                case '2':
+                    $datasVencimento = Util::mensalidadeInterna(2, $qtd_p, $diaVencimento);
+                    break;
+                case '3':
+                    $datasVencimento = Util::mensalidadeInterna(3, $qtd_p, $diaVencimento);
+                    break;
+                case '6':
+                    $datasVencimento = Util::mensalidadeInterna(6, $qtd_p, $diaVencimento);
+                    break;
+                default:
+                    echo json_encode(['erro' => 'O tipo de geração é inválido.']);
+                    exit();
             }
 
-            $contribuicaoLog = new ContribuicaoLog();
-            $contribuicaoLog
-                ->setValor($valor)
-                ->setCodigo($contribuicaoLog->gerarCodigo())
-                ->setDataGeracao($dataAtual->format('Y-m-d'))
-                ->setDataVencimento($dataVencimento->format('Y-m-d'))
-                ->setSocio($socio);
+            foreach ($datasVencimento as $dataVencimento) {
+                $contribuicaoLog = new ContribuicaoLog();
+                $contribuicaoLog
+                    ->setValor($valor)
+                    ->setCodigo($contribuicaoLog->gerarCodigo())
+                    ->setDataGeracao($dataAtual->format('Y-m-d'))
+                    ->setDataVencimento($dataVencimento)
+                    ->setSocio($socio);
 
-            //Inserir na coleção
-            $contribuicaoLogCollection->add($contribuicaoLog);
+                //Inserir na coleção
+                $contribuicaoLogCollection->add($contribuicaoLog);
+            }
+        } else {
+
+            // Verificar se o dia informado já passou neste mês
+            if ($diaVencimento <= $dataAtual->format('d')) {
+                // Se o dia informado já passou, começar a partir do próximo mês
+                $dataAtual->modify('first day of next month');
+            }
+
+            for ($i = 0; $i < $qtdParcelas; $i++) {
+                // Clonar a data atual para evitar modificar o objeto original
+                $dataVencimento = clone $dataAtual;
+
+                // Adicionar os meses de acordo com o índice da parcela
+                $dataVencimento->modify("+{$i} month");
+
+                // Definir o dia do vencimento para o dia informado
+                $dataVencimento->setDate($dataVencimento->format('Y'), $dataVencimento->format('m'), $diaVencimento);
+
+                // Ajustar a data caso o mês não tenha o dia informado (por exemplo, 30 de fevereiro)
+                if ($dataVencimento->format('d') != $diaVencimento) {
+                    $dataVencimento->modify('last day of previous month');
+                }
+
+                $contribuicaoLog = new ContribuicaoLog();
+                $contribuicaoLog
+                    ->setValor($valor)
+                    ->setCodigo($contribuicaoLog->gerarCodigo())
+                    ->setDataGeracao($dataAtual->format('Y-m-d'))
+                    ->setDataVencimento($dataVencimento->format('Y-m-d'))
+                    ->setSocio($socio);
+
+                //Inserir na coleção
+                $contribuicaoLogCollection->add($contribuicaoLog);
+            }
         }
 
         try {
@@ -229,14 +293,17 @@ class ContribuicaoLogController
             $socioDao->registrarLog($contribuicaoLog->getSocio(), $mensagem);
 
             //Chamada do método de serviço de pagamento requisitado
-            if (!$servicoPagamento->gerarCarne($contribuicaoLogCollection)) {
+            $caminhoCarne = $servicoPagamento->gerarCarne($contribuicaoLogCollection); 
+            if (!$caminhoCarne || empty($caminhoCarne)) {
                 $this->pdo->rollBack();
             } else {
                 $this->pdo->commit();
+
+                echo json_encode(['link' => WWW . 'html/apoio/' . $caminhoCarne]);
             }
         } catch (PDOException $e) {
             //implementar tratamento de erro
-            echo 'Erro: ' . $e->getMessage();
+            echo json_encode(['erro' => $e->getMessage()]);
         }
     }
 

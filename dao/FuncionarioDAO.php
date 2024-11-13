@@ -15,6 +15,24 @@ require_once ROOT . "/Functions/funcoes.php";
 
 class FuncionarioDAO
 {
+
+    public function verificaAdm($id){
+        $pdo = Conexao::connect();
+
+        $buscaAdm = 'SELECT * FROM pessoa WHERE id_pessoa=:id AND adm_configurado=1';
+
+        $stmt = $pdo->prepare($buscaAdm);
+        $stmt->bindParam(':id', $id);
+
+        $stmt->execute();
+
+        if($stmt->rowCount() == 1){
+            return true;
+        }
+
+        return false;
+    }
+
     public function retornarIdPessoa($id_funcionario)
     {
         try {

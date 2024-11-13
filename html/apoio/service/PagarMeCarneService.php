@@ -143,9 +143,14 @@ class PagarMeCarneService implements ApiCarneServiceInterface
         //guardar segunda via
         $logArray = $contribuicaoLogCollection->getIterator()->getArrayCopy();
         $ultimaParcela = end($logArray);
-        $this->guardarSegundaVia($arquivos, $cpfSemMascara, $ultimaParcela);
+        $caminho = $this->guardarSegundaVia($arquivos, $cpfSemMascara, $ultimaParcela);
         $this->removerTemp();
-        return true;
+
+        if(!$caminho || empty($caminho)){
+            return false;
+        }
+
+        return $caminho;
     }
 
     public function salvarTemp($pdf_links)
@@ -279,5 +284,7 @@ class PagarMeCarneService implements ApiCarneServiceInterface
 
         // Salva o arquivo PDF unido
         $pdf->Output('F', '../pdfs/' . $numeroAleatorio . '_' . $cpfSemMascara . '_' . $ultimaDataVencimento . '_' . $ultimaParcela->getValor() . '.pdf');
+
+        return 'pdfs/'. $numeroAleatorio . '_' . $cpfSemMascara . '_' . $ultimaDataVencimento . '_' . $ultimaParcela->getValor() . '.pdf';
     }
 }

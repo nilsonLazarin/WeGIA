@@ -140,7 +140,7 @@ $conjuntoRegrasPagamento = $regraPagamentoController->buscaConjuntoRegrasPagamen
                                             <select class="form-control" id="meio-pagamento-plataforma" name="meio-pagamento-plataforma">
                                                 <option selected disabled>Selecione o meio de pagamento desejado ...</option>
                                                 <?php foreach ($meiosPagamento as $meioPagamento): ?>
-                                                    <option value="<?= $meioPagamento['id'] ?>"><?= $meioPagamento['meio'] . ' | ' . $meioPagamento['plataforma'] . ' | ' . $meioPagamento['endpoint'] ?></option>
+                                                    <option value="<?= $meioPagamento['id'] ?>"><?= htmlspecialchars($meioPagamento['meio']) . ' | ' . htmlspecialchars($meioPagamento['plataforma']) . ' | ' . htmlspecialchars($meioPagamento['endpoint']) ?></option>
                                                 <?php endforeach; ?>
                                             </select>
                                         </div>

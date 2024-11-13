@@ -44,7 +44,7 @@ function geraFormaContribuicao(){
     let cpfCnpj;
     let url;
     let parcela = 1;
-    let dia = 1;
+    let dia;
 
     if($("#op_cpf").prop('checked')){
         cpfCnpj = document.getElementById("dcpf").value;
