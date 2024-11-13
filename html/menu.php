@@ -185,12 +185,12 @@
 								</a>
 								<ul class="nav nav-children">
 									<li>
-										<a href="<?= WWW ?>html/pet/padrinho/cadastro_padrinho.php">
+										<a href="<?= WWW ?>html/pet/padrinho/pre_cadastro_padrinho.php">
 											<span>Cadastrar Padrinho</span>
 										</a>
 									</li>
 									<li>
-										<a href="<?= WWW ?>controle/control.php?metodo=listarTodos&nomeClasse=AtendidoControle&nextPage=<?= WWW ?>html/atendido/Informacao_Atendido.php">
+										<a href="<?= WWW ?>controle/control.php?metodo=listarTodos&nomeClasse=PadrinhoControle&nextPage=<?= WWW ?>html/pet/padrinho/informacao_padrinho.php">
 											<span>Informações Padrinho</span>
 										</a>
 									</li>
