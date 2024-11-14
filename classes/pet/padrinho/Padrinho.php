@@ -1,5 +1,5 @@
 <?php
- require_once '../../Pessoa.php';
+ require_once __DIR__ . '/../../Pessoa.php';
 
  class Padrinho extends Pessoa
 {
