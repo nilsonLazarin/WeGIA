@@ -8,11 +8,17 @@ try {
         throw new InvalidArgumentException('Operação Inválida, controladora e função não definidas');
     }
 
+    $whiteList = 
+    [
+        'exibirBoletosPorCpf',
+        'buscarPorDocumento',
+    ];
+
     //Blocks execution for unauthorized access
-    if(($controller !='ContribuicaoLogController' && $function !='exibirBoletosPorCpf') || $function == 'pagarPorId'){
+    if(($controller !='ContribuicaoLogController' && !in_array($function, $whiteList)) || $function == 'pagarPorId'){
         session_start();
         if(!isset($_SESSION['id_pessoa'])){
-            throw new Exception('Violação de acesso');
+            throw new Exception('Violação de acesso: '.$function);
         }
 
         require_once '../../permissao/permissao.php';

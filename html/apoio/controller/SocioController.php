@@ -26,7 +26,9 @@ class SocioController
                 exit;
             }
 
-            print_r($socio); //Averiguar a melhor maneira de retornar um sócio para o requisitante
+            //print_r($socio); //Averiguar a melhor maneira de retornar um sócio para o requisitante
+            echo json_encode($socio);
+            exit();
         } catch (PDOException $e) {
             http_response_code(500);
             echo json_encode(['Erro' => $e->getMessage()]);

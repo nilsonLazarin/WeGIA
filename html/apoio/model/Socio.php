@@ -1,5 +1,5 @@
 <?php
-class Socio{
+class Socio implements JsonSerializable{
 
     private $id;
     private $nome;
@@ -13,6 +13,26 @@ class Socio{
     private $numeroEndereco;
     private $logradouro;
     private $documento;
+
+    //métodos de lógica
+
+    public function jsonSerialize(): mixed
+    {
+        return [
+            'id' => $this->id,
+            'nome' => $this->nome,
+            'telefone' => $this->telefone,
+            'email' => $this->email,
+            'estado' => $this->estado,
+            'cidade' => $this->cidade,
+            'bairro' => $this->bairro,
+            'complemento' => $this->complemento,
+            'cep' => $this->cep,
+            'numeroEndereco' => $this->numeroEndereco,
+            'logradouro' => $this->logradouro,
+            'documento' => $this->documento,
+        ];
+    }
 
     /**
      * Get the value of nome
