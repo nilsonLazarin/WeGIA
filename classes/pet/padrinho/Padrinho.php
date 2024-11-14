@@ -1,5 +1,7 @@
 <?php
- class Pessoa extends Pessoa
+ require_once '../../Pessoa.php';
+
+ class Padrinho extends Pessoa
 {
     private $id_pessoa;
     private $cpf;
