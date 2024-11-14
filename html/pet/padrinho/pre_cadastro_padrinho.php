@@ -27,11 +27,8 @@ $padrinhos->listarTodos();  // Listar todos os padrinhos
 // Conectar ao banco de dados
 $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
-//
-
 // Carregar controle do Padrinho
 require_once ROOT."/controle/pet/padrinho/PadrinhoControle.php";
-
 
 
 // Adiciona a Função display_campo($nome_campo, $tipo_campo)
@@ -46,7 +43,7 @@ require_once ROOT."/html/personalizacao_display.php";
     <!-- Basic -->
     <meta charset="UTF-8">
 
-    <title>Cadastro de Funcionário</title>
+    <title>Cadastro de Padrinhos</title>
         
     <!-- Mobile Metas -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />

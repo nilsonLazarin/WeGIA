@@ -177,18 +177,6 @@ class PadrinhoControle
             echo $e->getMessage(); // Caso haja erro, exibe a mensagem
         }
     }
-    
-    public function adicionar_permissao(){
-        extract($_REQUEST);
-        try {
-            $permissao = new PermissaoDAO();
-            $adicao_permissao = $permissao->adicionarPermissao($cargo, $acao, $recurso);
-            header('Location:'.$nextPage.'?msg_c=Permissão efetivada com sucesso.');
-        } catch (PDOException $e) {
-            echo $e->getMessage();
-        }
-    }
-
     public function selecionarCadastro(){
         $cpf = $_GET['cpf']; // Obtém o CPF da requisição GET
         $validador = new Util(); // Instancia a classe de validação (presumivelmente para validar CPF)

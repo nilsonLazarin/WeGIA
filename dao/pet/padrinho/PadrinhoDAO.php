@@ -119,7 +119,7 @@ class PadrinhoDAO
     {
         try {
             // Chamada ao procedimento armazenado (stored procedure)
-            $sql = 'CALL cadpessoa(:nome, :sobrenome, :cpf, :sexo, :telefone, :data_nascimento, :cep, :estado, :cidade, :bairro, :logradouro, :numero_endereco, :complemento,:id_cargo)';
+            $sql = 'CALL cadpessoa(:nome, :sobrenome, :cpf, :sexo, :telefone, :data_nascimento, :cep, :estado, :cidade, :bairro, :logradouro, :numero_endereco, :complemento)';
 
             // Conectar ao banco de dados
             $pdo = Conexao::connect();
@@ -139,7 +139,6 @@ class PadrinhoDAO
             $logradouro = $padrinho->getLogradouro();
             $numeroEndereco = $padrinho->getNumeroEndereco();
             $complemento = $padrinho->getComplemento();
-            $cargo = $funcionario->getId_cargo();
 
 
             // Vincular os parâmetros
@@ -157,7 +156,6 @@ class PadrinhoDAO
             $stmt->bindParam(':logradouro', $logradouro);
             $stmt->bindParam(':numero_endereco', $numeroEndereco);
             $stmt->bindParam(':complemento', $complemento);
-            $stmt->bindParam(':id_cargo', $cargo);
 
             // Executar a consulta
             $stmt->execute();

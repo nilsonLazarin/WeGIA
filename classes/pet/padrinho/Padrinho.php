@@ -29,17 +29,6 @@
         $this->id_pessoa = $id_pessoa;
     }
     
-    //Get e Set Cargo
-    public function getId_cargo()
-    {
-        return $this->id_cargo;
-    }
-
-    public function setId_cargo($id_cargo)
-    {
-        $this->id_cargo = $id_cargo;
-    }
-    
      //Get e Set CPF
     public function getCpf()
     {
