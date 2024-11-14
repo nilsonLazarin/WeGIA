@@ -4,6 +4,7 @@
  class Padrinho extends Pessoa
 {
     private $id_pessoa;
+    private $id_cargo;
     private $cpf;
     private $nome;
     private $sobrenome;
@@ -26,6 +27,17 @@
     public function setId_pessoa($id_pessoa)
     {
         $this->id_pessoa = $id_pessoa;
+    }
+    
+    //Get e Set Cargo
+    public function getId_cargo()
+    {
+        return $this->id_cargo;
+    }
+
+    public function setId_cargo($id_cargo)
+    {
+        $this->id_cargo = $id_cargo;
     }
     
      //Get e Set CPF

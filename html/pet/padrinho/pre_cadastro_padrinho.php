@@ -1,5 +1,7 @@
 <?php
-
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 $config_path = "config.php";
 if(file_exists($config_path)){
     require_once($config_path);
@@ -25,49 +27,10 @@ $padrinhos->listarTodos();  // Listar todos os padrinhos
 // Conectar ao banco de dados
 $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
-// Verificar se o id_pessoa está na sessão
-$id_pessoa = $_SESSION['id_pessoa'];
-
-// Buscar os dados do padrinho baseado no id_pessoa
-$resultado = mysqli_query($conexao, "SELECT * FROM pessoa WHERE id_pessoa=$id_pessoa");
-if (!is_null($resultado)) {
-    $id_cargo = mysqli_fetch_array($resultado);
-    
-    if (!is_null($id_cargo)) {
-        $id_cargo = $id_cargo['id_cargo'];  // Obter o id do cargo
-
-        // Verificar permissões baseadas no cargo
-        $resultado = mysqli_query($conexao, "SELECT * FROM permissao WHERE id_cargo=$id_cargo and id_recurso=11");
-        
-        if (!is_bool($resultado) && mysqli_num_rows($resultado)) {
-            $permissao = mysqli_fetch_array($resultado);
-            if ($permissao['id_acao'] == 1) {
-                // Caso o usuário não tenha permissão para acessar a página
-                $msg = "Você não tem as permissões necessárias para essa página.";
-                header("Location: ".WWW."html/home.php?msg_c=$msg");
-            }
-            $permissao = $permissao['id_acao'];  // Atribui a permissão obtida
-        } else {
-            // Caso o usuário não tenha permissão para o recurso
-            $permissao = 1;
-            $msg = "Você não tem as permissões necessárias para essa página.";
-            header("Location: ".WWW."html/home.php?msg_c=$msg");
-        }
-    } else {
-        // Caso o resultado de id_cargo seja nulo
-        $permissao = 1;
-        $msg = "Você não tem as permissões necessárias para essa página.";
-        header("Location: ".WWW."html/home.php?msg_c=$msg");
-    }
-} else {
-    // Caso a consulta para o id_pessoa retorne nulo
-    $permissao = 1;
-    $msg = "Você não tem as permissões necessárias para essa página.";
-    header("Location: ".WWW."html/home.php?msg_c=$msg");
-}
+//
 
 // Carregar controle do Padrinho
-require_once ROOT."/controle/PadrinhoControle.php";
+require_once ROOT."/controle/pet/padrinho/PadrinhoControle.php";
 
 
 
