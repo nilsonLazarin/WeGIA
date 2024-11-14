@@ -9,16 +9,28 @@ $brand = $brandController->getBrand();
 <div class="container-contact100">
     <div class="wrap-contact100">
 
-        <span id="logo_img"><?php if (!is_null($brand)) {
-                                echo $brand->getImagem()->getHtml();
-                            } ?></span>
-        <span class="contact100-form-title" id="titulo_pag"><?php if (!is_null($brand)) {
-                                                                echo $brand->getMensagem();
-                                                            } ?></span>
+        <span id="logo_img">
+            <?php 
+                if (!is_null($brand)) {
+                    echo $brand->getImagem()->getHtml();
+                } 
+            ?>
+        </span>
+        <span class="contact100-form-title" id="titulo_pag">
+            <?php 
+                if (!is_null($brand)) {
+                    echo $brand->getMensagem();
+                } 
+            ?>
+        </span>
 
         <input type="hidden" name="forma-contribuicao" id="forma-contribuicao" value="boleto">
 
         <div id="pag1" class="wrap-input100">
+            <?php include('./components/contribuicao_valor.php');?>
+        </div>
+
+        <div id="pag2" class="wrap-input100">
 
             <div class="centralizar">
                 <input class="radio" type="radio" id="op_cpf" value="fisica" name="opcao" checked><label class="label" for="op_cpf">PESSOA FÍSICA</label>
@@ -40,10 +52,6 @@ $brand = $brandController->getBrand();
                     <i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
                 </button>
             </div>
-        </div>
-
-        <div id="pag2" class="wrap-input100 hidden">
-            <div id="tabela-boletos"></div>
             <div class="container-contact100-form-btn">
                 <button class="contact100-form-btn" id="voltar-btn">
                     <i style="margin-right: 15px; " class="fa fa-long-arrow-left m-l-7" aria-hidden="true"></i> VOLTAR
