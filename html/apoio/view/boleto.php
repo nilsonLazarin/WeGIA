@@ -1,36 +1,23 @@
 <?php
 $title = 'Emitir boleto';
 require_once './templates/header.php';
-require_once '../controller/BrandController.php';
 
-$brandController = new BrandController();
-$brand = $brandController->getBrand();
 ?>
 <div class="container-contact100">
     <div class="wrap-contact100">
 
-        <span id="logo_img">
-            <?php
-            if (!is_null($brand)) {
-                echo $brand->getImagem()->getHtml();
-            }
-            ?>
-        </span>
-        <span class="contact100-form-title" id="titulo_pag">
-            <?php
-            if (!is_null($brand)) {
-                echo $brand->getMensagem();
-            }
-            ?>
-        </span>
+        <!--Adiciona a logo e o título ao topo da página-->
+        <?php include('./components/contribuicao_brand.php'); ?>
 
         <input type="hidden" name="forma-contribuicao" id="forma-contribuicao" value="boleto">
 
         <div id="pag1" class="wrap-input100">
+            <!--Adiciona a página de valor de contribuição-->
             <?php include('./components/contribuicao_valor.php'); ?>
         </div>
 
         <div id="pag2" class="wrap-input100">
+            <!--Adiciona a página para identificação de Sócios PJ e PF-->
             <?php include('./components/contribuicao_documento.php'); ?>
         </div>
     </div>
