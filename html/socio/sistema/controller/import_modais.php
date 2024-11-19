@@ -53,7 +53,7 @@ try {
                     <input type="checkbox" class="form-check-input" id="check_veri_cpf">
                     <label class="form-check-label" for="exampleCheck1">Deslig. Verif. Cpf</label>
                   </div>
-                  <input type="text" class="form-control" id="cpf_cnpj" name="cpf" required>
+                  <input type="text" class="form-control" id="cpf_cnpj" name="cpf">
                 </div>
               </div>
               <div class="row">
