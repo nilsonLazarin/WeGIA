@@ -25,6 +25,11 @@ require_once './templates/header.php';
             <!--Adiciona a página para coleta do nome, data de nascimento, telefone e e-mail-->
             <?php include('./components/contribuicao_contato.php'); ?>
         </div>
+
+        <div id="pag4" class="wrap-input100">
+            <!--Adiciona a página para coleta do CEP, rua, número, bairro, estado, cidade e complemento-->
+            <?php include('./components/contribuicao_endereco.php'); ?>
+        </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
