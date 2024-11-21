@@ -123,3 +123,47 @@ function configurarConsulta(funcao) {
         funcao();
     })
 }
+
+/**
+ * Verifica se o valor passado como parâmetro está dentro dos limites estipulados para uma doação
+ * @param {*} valor 
+ * @returns 
+ */
+function verificarValor(valor) {
+    //Substituir para fazer uma busca dinâmica sobre o valor mínimo de uma doação
+    if (!valor || valor < 30) {
+        return false;
+    }
+
+    return true;
+}
+
+/**
+ * Recebe como parâmetro uma função de validação de números e atribuí a sua execução como processo do comportamento do botão avanca-valor
+ * @param {*} funcao 
+ */
+function configurarAvancaValor(funcao) {
+    const btnAvancaValor = document.getElementById('avanca-valor');
+
+    btnAvancaValor.addEventListener('click', () => {
+        const valor = document.getElementById('valor').value;
+
+        if (!funcao(valor)) {
+            alert('O valor informado está abaixo do mínimo permitido.');
+            return;
+        }
+
+        alternarPaginas('pag2', 'pag1');
+    });
+}
+
+/**
+ * Configura o comportamento do botão volta-valor
+ */
+function configurarVoltaValor(){
+    const btnVoltaValor = document.getElementById('volta-valor');
+
+    btnVoltaValor.addEventListener('click', ()=>{
+        alternarPaginas('pag1', 'pag2');
+    });
+}

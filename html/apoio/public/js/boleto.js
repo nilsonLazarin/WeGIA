@@ -37,5 +37,7 @@ function buscarSocio() {
     console.log("Consulta realizada");
 }
 
+configurarAvancaValor(verificarValor);
+configurarVoltaValor();
 configurarMudancaOpcao(alternarPfPj);
 configurarConsulta(buscarSocio);

@@ -19,7 +19,7 @@
     </button>
 </div>
 <div class="container-contact100-form-btn">
-    <button class="contact100-form-btn" id="voltar-btn">
+    <button class="contact100-form-btn" id="volta-valor">
         <i style="margin-right: 15px; " class="fa fa-long-arrow-left m-l-7" aria-hidden="true"></i> VOLTAR
     </button>
 </div>

@@ -19,22 +19,22 @@ $tipoContribuicao = 'BOLETO';
             <?php include('./components/contribuicao_valor.php'); ?>
         </div>
 
-        <div id="pag2" class="wrap-input100">
+        <div id="pag2" class="wrap-input100 hidden">
             <!--Adiciona a página para identificação de Sócios PJ e PF-->
             <?php include('./components/contribuicao_documento.php'); ?>
         </div>
 
-        <div id="pag3" class="wrap-input100">
+        <div id="pag3" class="wrap-input100 hidden">
             <!--Adiciona a página para coleta do nome, data de nascimento, telefone e e-mail-->
             <?php include('./components/contribuicao_contato.php'); ?>
         </div>
 
-        <div id="pag4" class="wrap-input100">
+        <div id="pag4" class="wrap-input100 hidden">
             <!--Adiciona a página para coleta do CEP, rua, número, bairro, estado, cidade e complemento-->
             <?php include('./components/contribuicao_endereco.php'); ?>
         </div>
 
-        <div id="pag4" class="wrap-input100">
+        <div id="pag5" class="wrap-input100 hidden">
             <!--Adiciona a página para agradecimento e confirmação da geração do boleto-->
             <?php include('./components/contribuicao_confirmacao.php'); ?>
         </div>
