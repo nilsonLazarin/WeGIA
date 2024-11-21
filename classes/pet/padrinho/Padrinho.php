@@ -4,7 +4,6 @@
  class Padrinho extends Pessoa
 {
     private $id_pessoa;
-    private $id_cargo;
     private $cpf;
     private $nome;
     private $sobrenome;
@@ -157,5 +156,19 @@
     public function setComplemento($complemento)
     {
         $this->complemento = $complemento;
+    }
+
+    static public function getDataNascimentoMaxima()
+    {
+        $idadeMinima = 18;
+        $data = date('Y-m-d', strtotime("-$idadeMinima years"));
+        return $data;
+    }
+
+    static public function getDataNascimentoMinima()
+    {
+        $idadeMaxima = 100;
+        $data = date('Y-m-d', strtotime("-$idadeMaxima years"));
+        return $data;
     }
 }
