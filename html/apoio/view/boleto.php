@@ -48,6 +48,8 @@ $tipoContribuicao = 'BOLETO';
     <script src="../public/js/mascara.js"></script>
     <script src="../public/js/util.js"></script>
     <script src="../public/js/boleto.js"></script>
+     <!--Busca cep-->
+     <script src="../../../Functions/busca_cep.js"></script>
     <?php
     require_once './templates/footer.php';
     ?>
