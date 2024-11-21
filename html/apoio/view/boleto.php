@@ -2,6 +2,9 @@
 $title = 'Emitir boleto';
 require_once './templates/header.php';
 
+$textoTipoContribuicao = 'GERAR BOLETO';
+$tipoContribuicao = 'BOLETO';
+
 ?>
 <div class="container-contact100">
     <div class="wrap-contact100">
@@ -29,6 +32,11 @@ require_once './templates/header.php';
         <div id="pag4" class="wrap-input100">
             <!--Adiciona a página para coleta do CEP, rua, número, bairro, estado, cidade e complemento-->
             <?php include('./components/contribuicao_endereco.php'); ?>
+        </div>
+
+        <div id="pag4" class="wrap-input100">
+            <!--Adiciona a página para agradecimento e confirmação da geração do boleto-->
+            <?php include('./components/contribuicao_confirmacao.php'); ?>
         </div>
     </div>
 
