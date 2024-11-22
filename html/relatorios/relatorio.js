@@ -9,6 +9,9 @@ function isEstoque(is_estoque) {
     document.getElementById('tipo-entrada').style.display = display;
     document.getElementById('tipo-saida').style.display = display;
     document.getElementById('panel-mostrarZerados').style.display = hide;
+
+    document.getElementById('gerar2').style.display = 'none';
+    document.getElementById('per2').style.display = 'none';
     document.getElementById('produto').style.display = 'none';
     document.getElementById('almoxarifado2').style.display = 'none';
 }
@@ -37,12 +40,13 @@ function isProduto(is_produto) {
     document.getElementById('dest').style.display = 'none';
     document.getElementById('resp').style.display = 'none';
     document.getElementById('per').style.display = 'none';
-    document.getElementById('gerar').style.display = 'none';
+    document.getElementById('gerar').style.display = 'none'; 
     document.getElementById('almoxarifado').style.display = 'none';
 
     document.getElementById('almoxarifado2').style.display = displayValue;
-    document.getElementById("botaoRelatProd").style.display = displayValue;
+    document.getElementById('per2').style.display = displayValue;
     document.getElementById('produto').style.display = displayValue;
+    document.getElementById('gerar2').style.display = displayValue;
 }
 
 function changeType(selection) {
@@ -50,12 +54,12 @@ function changeType(selection) {
         isEstoque(true);
     } else if (selection === 'produto') {
         isEstoque(false);
-        isProduto(true); 
+        isProduto(true);
     } else {
         isEstoque(false);
+        isEntrada(selection === 'entrada');
     }
 }
-
 
 $(document).ready(function() {
     const tipo_relat = $('#tipo-relat').val();

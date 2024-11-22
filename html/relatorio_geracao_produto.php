@@ -1,5 +1,8 @@
 <?php
 session_start();
+ini_set('display_errors', true);
+error_reporting(E_ALL);
+
 if (!isset($_SESSION['usuario'])) {
 	header("Location: ../index.php");
 }
@@ -189,81 +192,158 @@ function quickQuery($query, $column)
 					<div class="descricao">
 						<p>
 							<li>
-                                <h3>Geração de Produto</h3>		
-								
+                                <h2>Geração de Produto</h2>		
 							</li>
 						</p>
 						<button style="float: right;" class="mb-xs mt-xs mr-xs btn btn-default print-button" onclick="window.print();">Imprimir</button>
 					</div>
 
+					<?php
+					$pdo = Conexao::connect();
+
+					if($_SERVER["REQUEST_METHOD"] == "POST"){
+						$idAlmoxarifado = isset($_POST['almoxarifado']) ? $_POST['almoxarifado'] : null;
+						$idProduto = isset($_POST['produto']) ? $_POST['produto'] : null;
+						
+						$dataInicio = isset($_POST['data_inicio']) ? $_POST['data_inicio'] : null;
+						$dataFim = isset($_POST['data_fim']) ? $_POST['data_fim'] : null;
+
+						$modeloBrasileiro = 'd/m/Y';
+						$dataInicioFormatada = date_format(date_create($dataInicio), $modeloBrasileiro);
+						$dataFimFormatada = date_format(date_create($dataFim), $modeloBrasileiro);
+
+						if ($idProduto && $idAlmoxarifado) {
+							$stmt = $pdo->prepare("
+								SELECT 
+									ientrada.id_entrada,
+									entrada.data AS data_entrada,
+									entrada.hora AS hora_entrada,
+									almoxarifado.descricao_almoxarifado,
+									produto.descricao,
+									categoria_produto.descricao_categoria,
+									ientrada.qtd AS quantidade_entrada,
+									isaida.id_saida,
+									saida.data AS data_saida,
+									saida.hora AS hora_saida,
+									isaida.qtd AS quantidade_saida,
+									tipo_entrada.descricao AS descricao_tipo_entrada,
+									tipo_saida.descricao AS descricao_tipo_saida,
+									estoque.qtd AS estoque_atual,  -- Estoque atual da tabela estoque
+									entrada.id_entrada AS id_entrada,  -- Adicionando id_entrada
+									saida.id_saida AS id_saida  -- Adicionando id_saida
+								FROM 
+									ientrada
+								JOIN 
+									entrada ON ientrada.id_entrada = entrada.id_entrada
+								JOIN 
+									almoxarifado ON entrada.id_almoxarifado = almoxarifado.id_almoxarifado
+								JOIN 
+									produto ON ientrada.id_produto = produto.id_produto
+								LEFT JOIN 
+									categoria_produto ON produto.id_categoria_produto = categoria_produto.id_categoria_produto
+								LEFT JOIN 
+									isaida ON isaida.id_produto = ientrada.id_produto
+								LEFT JOIN 
+									saida ON isaida.id_saida = saida.id_saida
+								LEFT JOIN 
+									tipo_entrada ON entrada.id_tipo = tipo_entrada.id_tipo
+								LEFT JOIN 
+									tipo_saida ON saida.id_tipo = tipo_saida.id_tipo
+								LEFT JOIN
+									estoque ON estoque.id_produto = produto.id_produto 
+									AND estoque.id_almoxarifado = almoxarifado.id_almoxarifado
+								WHERE 
+									almoxarifado.id_almoxarifado = :idAlmoxarifado
+									AND produto.id_produto = :idProduto
+						");
+	
+	
+							$stmt->bindParam(':idProduto', $idProduto, PDO::PARAM_INT);
+							$stmt->bindParam(':idAlmoxarifado', $idAlmoxarifado, PDO::PARAM_INT);
+	
+							$stmt->execute();
+	
+							$resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+						}
+					}
+					?>
+
 					<table class="table table-striped">
 						<thead class="thead-dark">
-						<tr>
-								<th scope="col" width="11%">Produto</th>		
-								<th scope="col" width="11%">Categoria</th>
-								<th scope="col" width="11%">Unidade</th>
-								<th scope="col" width="11%">Estoque</th>
-								<th scope="col" width="11%">Almoxarifado</th>				
-								<th scope="col" width="11%">Data de entrada</th>
-								<th scope="col" width="11%">Data de saída</th>
+							<tr>
+								<th scope="col" colspan="4" style="font-size: large;">INFORMAÇÕES DO PRODUTO</th>        
 							</tr>
 						</thead>
 						<tbody>
-						<?php
-							$pdo = Conexao::connect();
-							
-							$idProduto = isset($_GET['id_produto']) ? $_GET['id_produto'] : null;
-							$idAlmoxarifado = isset($_GET['id_almoxarifado']) ? $_GET['id_almoxarifado'] : null;
-							
-							if ($idProduto && $idAlmoxarifado) {
-								$stmt = $pdo->prepare("
-									SELECT 
-										p.descricao AS produto_descricao, 
-										a.descricao_almoxarifado, 
-										e.data AS data_entrada, e.hora AS hora_entrada, 
-										s.data AS data_saida, s.hora AS hora_saida,
-										u.descricao_unidade,
-										est.qtd,
-										c.descricao_categoria  -- Novo campo adicionado
-									FROM produto p
-									JOIN ientrada ie ON p.id_produto = ie.id_produto
-									JOIN entrada e ON ie.id_entrada = e.id_entrada
-									JOIN isaida isd ON p.id_produto = isd.id_produto
-									JOIN saida s ON isd.id_saida = s.id_saida
-									JOIN almoxarifado a ON s.id_almoxarifado = a.id_almoxarifado
-									JOIN unidade u ON p.id_unidade = u.id_unidade  -- JOIN com a tabela unidade
-									JOIN estoque est ON p.id_produto = est.id_produto  -- JOIN com a tabela estoque
-									JOIN categoria_produto c ON p.id_categoria_produto = c.id_categoria_produto  -- JOIN com a tabela categoria_produto
-									WHERE p.id_produto = :id_produto AND a.id_almoxarifado = :id_almoxarifado
-								");					
-								$stmt->bindParam(':id_produto', $idProduto, PDO::PARAM_INT);
-								$stmt->bindParam(':id_almoxarifado', $idAlmoxarifado, PDO::PARAM_INT);
-							
-								if ($stmt->execute()) {
-									$row = $stmt->fetch(PDO::FETCH_ASSOC);
-								
-									if ($row) {
-										echo "<tr>";
-										echo "<td>" . htmlspecialchars($row['produto_descricao']) . "</td>"; 
-										echo "<td>" . htmlspecialchars($row['descricao_categoria']) . "</td>";
-										echo "<td>" . htmlspecialchars($row['descricao_unidade']) . "</td>";
-										echo "<td>" . htmlspecialchars($row['qtd']) . "</td>";
-										echo "<td>" . htmlspecialchars($row['descricao_almoxarifado']) . "</td>"; 
-										echo "<td>" . date('d/m/Y', strtotime($row['data_entrada'])) . " " . date('H:i', strtotime($row['hora_entrada'])) . "</td>";
-										echo "<td>" . date('d/m/Y', strtotime($row['data_saida'])) . " " . date('H:i', strtotime($row['hora_saida'])) . "</td>";
-										echo "</tr>";
-									} else {
-										echo "<tr><td colspan='7' style='text-align: center; vertical-align: middle;'>Produto ou Almoxarifado não encontrado.</td></tr>";
-									}
-								} else {
-									echo "<tr><td colspan='7'>Erro ao buscar os dados.</td></tr>";
-								}													
-							} else {
-								echo "<tr><td colspan='4'>ID do produto ou almoxarifado não fornecido.</td></tr>";
-							}
-						?>
+							<tr>
+								<td>PRODUTO: <?php echo !empty($resultado['descricao']) ? htmlspecialchars($resultado['descricao']) : 'Não registrado'; ?></td>        
+							</tr>
+							<tr>
+								<td>ALMOXARIFADO: <?php echo !empty($resultado['descricao_almoxarifado']) ? htmlspecialchars($resultado['descricao_almoxarifado']) : 'Não registrado'; ?></td>
+							</tr>
+							<tr>
+								<td>CATEGORIA: <?php echo !empty($resultado['descricao_categoria']) ? htmlspecialchars($resultado['descricao_categoria']) : 'Não registrado'; ?></td>
+							</tr>    
+							<tr>
+								<td>ESTOQUE ATUAL: <?php echo !empty($resultado['estoque_atual']) ? htmlspecialchars($resultado['estoque_atual']) : 'Não registrado'; ?></td>
+							</tr>    
+							<tr>
+								<td>PERÍODO DO RELATÓRIO: <?php echo !empty($dataInicioFormatada) && !empty($dataFimFormatada) ? "<br> A partir de: " . $dataInicioFormatada . "<br>" . "Até: " . $dataFimFormatada : 'Não registrado'; ?></td>
+							</tr>
 						</tbody>
 					</table>
+
+
+					<table class="table table-striped">
+					<thead class="thead-dark">
+						<tr>
+							<th scope="col" colspan="4" style="font-size: large;">ENTRADAS</th>
+						</tr>
+						<tr>
+							<th scope="col" style="font-weight: 600;">DATA</th>
+							<th scope="col" style="font-weight: 600;">CÓDIGO</th>
+							<th scope="col" style="font-weight: 600;">TIPO</th>
+							<th scope="col" style="font-weight: 600;">QTD</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<?php 
+								$dataEntrada = date('d/m/Y H:i', strtotime($resultado['data_entrada'] . ' ' . $resultado['hora_entrada'])); 
+								echo "<td>" . $dataEntrada . "</td>"; 
+							?>
+							<td><?php echo htmlspecialchars(trim($resultado['id_entrada'])); ?></td> 
+							<td><?php echo htmlspecialchars(trim($resultado['descricao_tipo_entrada'])); ?></td> 
+							<td><?php echo htmlspecialchars(trim($resultado['quantidade_entrada'])); ?></td> 
+						</tr>
+					</tbody>
+				</table>
+
+				<table class="table table-striped">
+					<thead class="thead-dark">
+						<tr>
+							<th scope="col" colspan="4" style="font-size: large;">SAÍDAS</th>
+						</tr>
+						<tr>
+							<th scope="col" style="font-weight: 600;">DATA</th>
+							<th scope="col" style="font-weight: 600;">CÓDIGO</th>
+							<th scope="col" style="font-weight: 600;">TIPO</th>
+							<th scope="col" style="font-weight: 600;">QTD</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<?php 
+								$dataSaida = date('d/m/Y H:i', strtotime($resultado['data_saida'] . ' ' . $resultado['hora_saida'])); 
+								echo "<td>" . $dataSaida . "</td>";
+							?>
+							<td><?php echo !empty($resultado['id_saida']) ? htmlspecialchars(trim($resultado['id_saida'])) : 'Não registrado'; ?></td> 
+							<td><?php echo !empty($resultado['descricao_tipo_saida']) ? htmlspecialchars(trim($resultado['descricao_tipo_saida'])) : 'Não registrado'; ?></td> 
+							<td><?php echo !empty($resultado['quantidade_saida']) ? htmlspecialchars(trim($resultado['quantidade_saida'])) : 'Não registrado'; ?></td> 
+						</tr>
+					</tbody>
+				</table>
+
 				</div>
 				<!--end: page-->
 			</section>

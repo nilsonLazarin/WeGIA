@@ -190,7 +190,7 @@ require_once "personalizacao_display.php";
 								</div>
 							</div>
 
-							<h4 class="mb-xlg">Parâmetros do relatório</h4>
+							<h4 class="mb-xlg" id="param-relat">Parâmetros do relatório</h4>
 							
 							<div class="form-group" id='orig'>
 								<label class="col-md-3 control-label">Origem</label>
@@ -316,12 +316,39 @@ require_once "personalizacao_display.php";
 									</select>
 								</div>
 							</div>
-							
+
+							<div class="form-group" id="panel-mostrarZerados">
+								<label for="mostrarZerados" class="col-md-3 control-label">Mostrar produtos sem movimentação</label>
+								<div class="col-md-8">
+									<input id="mostrarZerados" type="checkbox" name="mostrarZerados" style="margin: 10px 0;">
+								</div>
+							</div>
+
+							<div class="form-group">
+								<div class="center-content">
+									<input type="submit" value="Gerar" id="gerar" class="btn btn-primary" style="width: fit-content;">									
+								</div>
+							</div>
+
+						</form>
+
+						<!-- Formulário de produtos !-->
+						<form class="form-horizontal" method="post" action="relatorio_geracao_produto.php">
+
+							<div class="form-group" id='per2'>
+								<label class="col-md-3 control-label" for="profileCompany">Período</label>
+								<div class="col-md-8">
+									<input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data_inicio" max="9999-12-31">
+									<br>
+									<input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data_fim" max="9999-12-31">
+								</div>
+							</div>
+
 							<div class="form-group" id="almoxarifado2">
 								<label class="col-md-3 control-label">Almoxarifado</label>
 								<div class="col-md-8">
-									<select name="almoxarifado2" id="almoxarifadoSelect" onchange="carregarProdutos();">
-										<option value="">Selecione o almoxarifado</option>
+									<select name="almoxarifado" id="almoxarifadoSelect">
+										<option value="">Selecionar almoxarifado</option>
 										<?php
 										$pdo = Conexao::connect();
 										try {
@@ -347,22 +374,13 @@ require_once "personalizacao_display.php";
 								</div>
 							</div>
 
-							<div class="form-group" id="panel-mostrarZerados">
-								<label for="mostrarZerados" class="col-md-3 control-label">Mostrar produtos sem movimentação</label>
-								<div class="col-md-8">
-									<input id="mostrarZerados" type="checkbox" name="mostrarZerados" style="margin: 10px 0;">
-								</div>
-							</div>
-
 							<div class="form-group">
 								<div class="center-content">
-									<input type="submit" value="Gerar" id="gerar" class="btn btn-primary" style="width: fit-content;">									
+									<input type="submit" value="Gerar" id="gerar2" class="btn btn-primary" style="width: fit-content;">									
 								</div>
 							</div>
 
 						</form>
-
-						<button class="btn btn-primary" id="botaoRelatProd" style="width: fit-content; display: none; margin: 0 auto; text-align: center; position: relative;" onclick="gerarRelatorio()">Gerar</button>
 
 					</div>
 				</div>
@@ -401,49 +419,36 @@ require_once "personalizacao_display.php";
 		}
 	}
 
-	function carregarProdutos() {
-    var almoxarifadoId = document.getElementById("almoxarifadoSelect").value;
-    var produtoSelect = document.getElementById("produtoSelect");
-    produtoSelect.innerHTML = '<option value="">Selecione um Produto</option>';
+	document.getElementById('almoxarifadoSelect').addEventListener('change', function() {
+		var idAlmoxarifado = this.value;
+		console.log("Almoxarifado selecionado: ", idAlmoxarifado);
 
-    if (almoxarifadoId === "") {
-        return;
-    }
-
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", "carregar_produtos.php?almoxarifado_id=" + almoxarifadoId, true);
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            var produtos = JSON.parse(xhr.responseText);
-            if (produtos.length > 0) {
-                produtos.forEach(function(produto) {
-                    var option = document.createElement("option");
-                    option.value = produto.id_produto;
-                    option.textContent = produto.descricao;
-                    produtoSelect.appendChild(option);
-                });
-            } else {
-                var option = document.createElement("option");
-                option.value = "";
-                option.textContent = "Nenhum produto encontrado";
-                produtoSelect.appendChild(option);
-            }
-        }
-    };
-    xhr.send();
-}
-
-	function gerarRelatorio() {
-		const produtoSelect = document.getElementById("produtoSelect");
-		const almoxarifadoSelect = document.getElementById("almoxarifadoSelect");
-		
-		const idProduto = produtoSelect.value;
-		const idAlmoxarifado = almoxarifadoSelect.value;
-
-		if (idProduto && idAlmoxarifado) {
-			window.location.href = 'relatorio_geracao_produto.php?id_produto=' + idProduto + '&id_almoxarifado=' + idAlmoxarifado;
+		if (idAlmoxarifado) {
+			var xhr = new XMLHttpRequest();
+			xhr.open('GET', 'get_produtos.php?id_almoxarifado=' + idAlmoxarifado, true);
+			xhr.onload = function() {
+				if (xhr.status === 200) {
+					console.log(xhr.responseText);  
+					var produtos = JSON.parse(xhr.responseText);
+					var selectProduto = document.getElementById('produtoSelect');
+					selectProduto.innerHTML = '<option value="">Selecione um Produto</option>';
+					
+					produtos.forEach(function(produto) {
+						var option = document.createElement('option');
+						option.value = produto.id_produto;
+						option.textContent = produto.descricao;
+						selectProduto.appendChild(option);
+					});
+				} else {
+					console.error('Erro na requisição:', xhr.status);
+				}
+			};
+			xhr.send();
+		} else {
+			document.getElementById('produtoSelect').innerHTML = '<option value="">Selecione um Produto</option>';
 		}
-	}
+	});
+
 </script>
 <script src="./relatorios/relatorio.js"></script>
 </html>
