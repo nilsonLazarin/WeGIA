@@ -22,7 +22,7 @@ require_once ROOT."/controle/pet/padrinho/PadrinhoControle.php";  // Controle do
 
 // Criar objetos das classes de controle
 $padrinhos = new PadrinhoControle;
-$padrinhos->listarTodos();  // Listar todos os padrinhos
+$padrinhos->listarCpf();  // Listar todos os padrinhos
 
 // Conectar ao banco de dados
 $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
@@ -55,7 +55,7 @@ require_once ROOT."/html/personalizacao_display.php";
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.1.1/css/all.css">
     <link rel="stylesheet" href="<?php echo WWW;?>assets/vendor/magnific-popup/magnific-popup.css" />
     <link rel="stylesheet" href="<?php echo WWW;?>assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
-    <link rel="icon" href="<?php display_campo("Logo",'file');?>" type="image/x-icon" id="logo-icon">
+    
 
     <!-- Specific Page Vendor CSS -->
     <link rel="stylesheet" href="<?php echo WWW;?>assets/vendor/select2/select2.css" />
@@ -242,7 +242,7 @@ require_once ROOT."/html/personalizacao_display.php";
                                     <input type="text" class="form-control" id="cpf" id="cpf" name="cpf" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##',this,event)" required>
                                     <p id="cpfInvalido" style="display: none; color: #b30000">CPF INVÁLIDO!</p>
                                     <br>
-                                    <input type="hidden" name="nomeClasse" value="FuncionarioControle">
+                                    <input type="hidden" name="nomeClasse" value="PadrinhoControle">
                                     <input type="hidden" name="metodo" value="selecionarCadastro">
                                     <input type='submit' value='Enviar' name='enviar' id='enviar' class='mb-xs mt-xs mr-xs btn btn-primary'> 
                                 </form>

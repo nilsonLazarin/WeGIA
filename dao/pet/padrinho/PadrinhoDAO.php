@@ -15,6 +15,22 @@ require_once ROOT . "/Functions/funcoes.php";
 
 class PadrinhoDAO
 {
+    /*public function retornarIdPessoa($id_)
+    {
+        try {
+            $pessoa = array();
+            $pdo = Conexao::connect();
+            $consulta = $pdo->query("SELECT f.id_funcionario FROM pessoa p INNER JOIN funcionario f ON p.id_pessoa = f.id_pessoa WHERE f.id_funcionario='$id_funcionario'");
+            $x = 0;
+            while ($linha = $consulta->fetch(PDO::FETCH_ASSOC)) {
+                $pessoa[$x] = $linha['id_funcionario'];
+                $x++;
+            }
+        } catch (PDOException $e) {
+            echo 'Error:' . $e->getMessage();
+        }
+        return $pessoa;
+    }*/
     public function listarIdPessoa($cpf)
     {
         try {

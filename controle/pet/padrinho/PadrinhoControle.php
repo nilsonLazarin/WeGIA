@@ -157,7 +157,7 @@ class PadrinhoControle
     {
         extract($_REQUEST);
         $padrinhoDAO = new PadrinhoDAO(); // Usando PadrinhoDAO
-        $padrinhosCpf = $padrinhoDAO->listarCpf(); // Retorna todos os cpfs dos padrinhos
+        $padrinhosCpf = $padrinhoDAO->listarCPFPessoas(); // Retorna todos os cpfs dos padrinhos
         $_SESSION['cpf_padrinho'] = $padrinhosCpf; // Armazena os cpfs na sessão
     }
 
