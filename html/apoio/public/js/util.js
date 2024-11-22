@@ -167,3 +167,59 @@ function configurarVoltaValor(){
         alternarPaginas('pag1', 'pag2');
     });
 }
+
+/**
+ * Verifica se alguma propriedade de um objeto do tipo Socio está vazia
+ */
+function verificarSocio({bairro, cep, cidade, complemento, documento, email, estado, id, logradouro, nome, numeroEndereco, telefone}){
+    //verificar propriedades
+    if(!bairro || bairro.length < 1){
+        return false;
+    }
+
+    if(!cep || cep.length < 1){
+        return false;
+    }
+
+    if(!cidade || cidade.length < 1){
+        return false;
+    }
+
+    /*if(!complemento || complemento.length < 1){
+        return false;
+    }*/
+
+    if(!documento || documento.length < 1){
+        return false;
+    }
+
+    if(!email || email.length < 1){
+        return false;
+    }
+
+    if(!estado || estado.length < 1){
+        return false;
+    }
+
+    if(!id || id.length < 1){
+        return false;
+    }
+
+    if(!logradouro || logradouro.length < 1){
+        return false;
+    }
+
+    if(!nome || nome.length < 1){
+        return false;
+    }
+
+    if(!numeroEndereco || numeroEndereco.length < 1){
+        return false;
+    }
+
+    if(!telefone || telefone.length < 1){
+        return false;
+    }
+
+    return true;
+}

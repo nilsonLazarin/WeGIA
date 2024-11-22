@@ -20,12 +20,17 @@ function buscarSocio() {
         .then(data => {
             // Manipula os dados recebidos do back-end
             //verificar se existem elementos no data
-            if (data.length < 1) {
-                //Exibir mensagem de aviso
-                //desenharConteudoNaTabela(mensagemBoletosNaoEncontrados());
+            if (data.resultado && typeof data.resultado === 'object') {
+
+                //Autocompletar campos do formulário
+                if (!verificarSocio(data.resultado)) {
+                    //Exibir o sócio
+                    console.log(data);
+                }else{//Enviar para a página de confirmação de geração de boletos
+                    alternarPaginas('pag5', 'pag2');
+                }
             } else {
-                //Exibir o sócio
-                console.log(data);
+                console.log(data.resultado);
             }
 
             //alternarPaginas('pag2');
