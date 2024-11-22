@@ -223,3 +223,35 @@ function verificarSocio({bairro, cep, cidade, complemento, documento, email, est
 
     return true;
 }
+
+/**
+ * Recebe como parâmetro um objeto do tipo Socio e preenche os campos do formulário automaticamente
+ * @param {*} param0 
+ */
+function formAutocomplete({bairro, cep, cidade, complemento, documento, email, estado, id, logradouro, nome, numeroEndereco, telefone}){
+
+    //Definir elementos do HTML
+    const nomeObject = document.getElementById('nome');
+    //const dataNascimento = document.getElementById('data_nascimento');
+    const emailObject = document.getElementById('email');
+    const telefoneObject = document.getElementById('telefone');
+    const cepObject = document.getElementById('cep');
+    const ruaObject = document.getElementById('rua');
+    const numeroEnderecoObject = document.getElementById('numero');
+    const bairroObject = document.getElementById('bairro');
+    const ufObject = document.getElementById('uf');
+    const cidadeObject = document.getElementById('cidade');
+    const complementoObject = document.getElementById('complemento');
+
+    //Atribuir valor aos campos
+    nomeObject.value = nome;
+    emailObject.value = email;
+    telefoneObject.value = telefone;
+    cepObject.value = cep;
+    ruaObject.value = logradouro;
+    numeroEnderecoObject.value = numeroEndereco;
+    bairroObject.value = bairro;
+    ufObject.value = estado;
+    cidadeObject.value = cidade;
+    complementoObject.value = complemento;
+}

@@ -26,6 +26,7 @@ function buscarSocio() {
                 if (!verificarSocio(data.resultado)) {
                     //Exibir o sócio
                     console.log(data);
+                    formAutocomplete(data.resultado);
                 }else{//Enviar para a página de confirmação de geração de boletos
                     alternarPaginas('pag5', 'pag2');
                 }
