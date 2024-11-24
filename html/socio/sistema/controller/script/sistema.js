@@ -391,6 +391,17 @@ $(document).ready(function(){
             });
         }else{
             if(DesabilitaverificaCpf == true){
+
+                //adicionar verificação se cpf_cnpj está preenchido
+                if(!cpf_cnpj){
+                    //gerar número de cpf_cnpj aleatório
+                    cpf_cnpj = '';
+                    for(let i = 0; i<14; i++){
+                        cpf_cnpj += Math.floor(Math.random() * 9).toString();
+                    }
+                    console.log('O documento é: '+cpf_cnpj);
+                }
+                
                 $.post("./cadastro_socio.php",{
                     "socio_nome": socio_nome,
                     "pessoa": pessoa_tipo,

@@ -22,11 +22,13 @@ class SocioController
             $socio = $socioDao->buscarPorDocumento($documento);
 
             if (!$socio || is_null($socio)) {
-                echo json_encode(['Resultado' => 'Sócio não encontrado']);
+                echo json_encode(['resultado' => 'Sócio não encontrado']);
                 exit;
             }
 
-            print_r($socio); //Averiguar a melhor maneira de retornar um sócio para o requisitante
+            //print_r($socio); //Averiguar a melhor maneira de retornar um sócio para o requisitante
+            echo json_encode(['resultado' => $socio]);
+            exit();
         } catch (PDOException $e) {
             http_response_code(500);
             echo json_encode(['Erro' => $e->getMessage()]);
