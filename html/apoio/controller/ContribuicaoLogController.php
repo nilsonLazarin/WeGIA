@@ -52,6 +52,7 @@ class ContribuicaoLogController
             $gatewayPagamentoDao = new GatewayPagamentoDAO();
             $gatewayPagamentoArray = $gatewayPagamentoDao->buscarPorId($meioPagamento->getGatewayId());
             $gatewayPagamento = new GatewayPagamento($gatewayPagamentoArray['plataforma'], $gatewayPagamentoArray['endPoint'], $gatewayPagamentoArray['token'], $gatewayPagamentoArray['status']);
+            $gatewayPagamento->setId($meioPagamento->getGatewayId());
 
             //Requisição dinâmica e instanciação da classe com base no nome do gateway de pagamento
             $requisicaoServico = '../service/' . $gatewayPagamento->getNome() . $formaPagamento . 'Service' . '.php';
@@ -98,7 +99,9 @@ class ContribuicaoLogController
             ->setCodigo($contribuicaoLog->gerarCodigo())
             ->setDataGeracao($dataGeracao)
             ->setDataVencimento($dataVencimento)
-            ->setSocio($socio);
+            ->setSocio($socio)
+            ->setGatewayPagamento($gatewayPagamento)
+            ->setMeioPagamento($meioPagamento);
 
         try {
             /*Controle de transação para que o log só seja registrado

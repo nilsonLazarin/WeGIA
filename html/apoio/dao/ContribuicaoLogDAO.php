@@ -20,7 +20,9 @@ class ContribuicaoLogDAO{
     public function criar(ContribuicaoLog $contribuicaoLog){
         $sqlInserirContribuicaoLog = 
             "INSERT INTO contribuicao_log (
-                    id_socio, 
+                    id_socio,
+                    id_gateway,
+                    id_meio_pagamento, 
                     codigo, 
                     valor, 
                     data_geracao, 
@@ -29,6 +31,8 @@ class ContribuicaoLogDAO{
                 ) 
                 VALUES (
                     :idSocio, 
+                    :idGateway,
+                    :idMeioPagamento,
                     :codigo, 
                     :valor, 
                     :dataGeracao, 
@@ -39,6 +43,8 @@ class ContribuicaoLogDAO{
         
         $stmt = $this->pdo->prepare($sqlInserirContribuicaoLog);
         $stmt->bindParam(':idSocio', $contribuicaoLog->getSocio()->getId());
+        $stmt->bindParam(':idGateway', $contribuicaoLog->getGatewayPagamento()->getId());
+        $stmt->bindParam(':idMeioPagamento', $contribuicaoLog->getMeioPagamento()->getId());
         $stmt->bindParam(':codigo', $contribuicaoLog->getCodigo());
         $stmt->bindParam(':valor', $contribuicaoLog->getValor());
         $stmt->bindParam(':dataGeracao', $contribuicaoLog->getDataGeracao());
