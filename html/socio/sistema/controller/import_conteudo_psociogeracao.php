@@ -85,8 +85,12 @@
 			<div class="form-group mb-2 col-xs-6">
            
 		   <div class="data">
+			<?php
+				$dataVencimento = new DateTime();
+				$dataVencimento = $dataVencimento->modify('+7 days')->format('Y-m-d'); 
+			?>
 		   <label for="data_vencimento">Data de vencimento (se não for boleto único será a data de vencimento da primeira parcela)</label>
-		   <input type="date" class="form-control" min=<?php echo date('Y-m-d'); ?> id="data_vencimento" name="data_vencimento" placeholder="Data vencimento" required>
+		   <input type="date" class="form-control" min=<?php echo date('Y-m-d'); ?> id="data_vencimento" name="data_vencimento" placeholder="Data vencimento" value="<?=$dataVencimento?>" required>
 		   </div>
 
 		   </div>
