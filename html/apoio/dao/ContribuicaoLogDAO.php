@@ -52,6 +52,21 @@ class ContribuicaoLogDAO{
         $stmt->bindParam(':statusPagamento', $contribuicaoLog->getStatusPagamento());
 
         $stmt->execute();
+
+        $ultimoId = $this->pdo->lastInsertId();
+        $contribuicaoLog->setId($ultimoId);
+
+        return $contribuicaoLog;
+    }
+
+    public function alterarCodigoPorId($codigo, $id){
+        $sqlPagarPorId = "UPDATE contribuicao_log SET codigo =:codigo WHERE id=:id";
+        
+        $stmt = $this->pdo->prepare($sqlPagarPorId);
+        $stmt->bindParam(':codigo', $codigo);
+        $stmt->bindParam(':id', $id);
+
+        $stmt->execute();
     }
 
     public function pagarPorId($id){

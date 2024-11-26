@@ -108,16 +108,19 @@ class ContribuicaoLogController
             caso o serviço de pagamento tenha sido executado*/
             $this->pdo->beginTransaction();
             $contribuicaoLogDao = new ContribuicaoLogDAO($this->pdo);
-            $contribuicaoLogDao->criar($contribuicaoLog);
+            $contribuicaoLog = $contribuicaoLogDao->criar($contribuicaoLog);
 
             //Registrar na tabela de socio_log
             $mensagem = "Boleto gerado recentemente";
             $socioDao->registrarLog($contribuicaoLog->getSocio(), $mensagem);
 
+            $codigoApi = $servicoPagamento->gerarBoleto($contribuicaoLog);
+
             //Chamada do método de serviço de pagamento requisitado
-            if (!$servicoPagamento->gerarBoleto($contribuicaoLog)) {
+            if (!$codigoApi) {
                 $this->pdo->rollBack();
             } else {
+                $contribuicaoLogDao->alterarCodigoPorId($codigoApi, $contribuicaoLog->getId());
                 $this->pdo->commit();
             }
         } catch (PDOException $e) {
