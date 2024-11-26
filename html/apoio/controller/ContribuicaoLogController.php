@@ -160,6 +160,7 @@ class ContribuicaoLogController
             $gatewayPagamentoDao = new GatewayPagamentoDAO();
             $gatewayPagamentoArray = $gatewayPagamentoDao->buscarPorId($meioPagamento->getGatewayId());
             $gatewayPagamento = new GatewayPagamento($gatewayPagamentoArray['plataforma'], $gatewayPagamentoArray['endPoint'], $gatewayPagamentoArray['token'], $gatewayPagamentoArray['status']);
+            $gatewayPagamento->setId($meioPagamento->getGatewayId());
 
             //Requisição dinâmica e instanciação da classe com base no nome do gateway de pagamento
             $requisicaoServico = '../service/' . $gatewayPagamento->getNome() . $formaPagamento . 'Service' . '.php';
@@ -174,7 +175,7 @@ class ContribuicaoLogController
             $classeService = $gatewayPagamento->getNome() . $formaPagamento . 'Service';
 
             if (!class_exists($classeService)) {
-                echo json_encode(['erro' => 'Classe não encontrada']);    
+                echo json_encode(['erro' => 'Classe não encontrada']);
                 exit();
             }
 
@@ -240,7 +241,9 @@ class ContribuicaoLogController
                     ->setCodigo($contribuicaoLog->gerarCodigo())
                     ->setDataGeracao($dataAtual->format('Y-m-d'))
                     ->setDataVencimento($dataVencimento)
-                    ->setSocio($socio);
+                    ->setSocio($socio)
+                    ->setGatewayPagamento($gatewayPagamento)
+                    ->setMeioPagamento($meioPagamento);
 
                 //Inserir na coleção
                 $contribuicaoLogCollection->add($contribuicaoLog);
@@ -274,7 +277,9 @@ class ContribuicaoLogController
                     ->setCodigo($contribuicaoLog->gerarCodigo())
                     ->setDataGeracao($dataAtual->format('Y-m-d'))
                     ->setDataVencimento($dataVencimento->format('Y-m-d'))
-                    ->setSocio($socio);
+                    ->setSocio($socio)
+                    ->setGatewayPagamento($gatewayPagamento)
+                    ->setMeioPagamento($meioPagamento);
 
                 //Inserir na coleção
                 $contribuicaoLogCollection->add($contribuicaoLog);
@@ -296,7 +301,7 @@ class ContribuicaoLogController
             $socioDao->registrarLog($contribuicaoLog->getSocio(), $mensagem);
 
             //Chamada do método de serviço de pagamento requisitado
-            $caminhoCarne = $servicoPagamento->gerarCarne($contribuicaoLogCollection); 
+            $caminhoCarne = $servicoPagamento->gerarCarne($contribuicaoLogCollection);
             if (!$caminhoCarne || empty($caminhoCarne)) {
                 $this->pdo->rollBack();
             } else {
@@ -342,6 +347,7 @@ class ContribuicaoLogController
             $gatewayPagamentoDao = new GatewayPagamentoDAO();
             $gatewayPagamentoArray = $gatewayPagamentoDao->buscarPorId($meioPagamento->getGatewayId());
             $gatewayPagamento = new GatewayPagamento($gatewayPagamentoArray['plataforma'], $gatewayPagamentoArray['endPoint'], $gatewayPagamentoArray['token'], $gatewayPagamentoArray['status']);
+            $gatewayPagamento->setId($meioPagamento->getGatewayId());
 
             //Requisição dinâmica e instanciação da classe com base no nome do gateway de pagamento
             $requisicaoServico = '../service/' . $gatewayPagamento->getNome() . $formaPagamento . 'Service' . '.php';
@@ -377,7 +383,9 @@ class ContribuicaoLogController
             ->setCodigo($contribuicaoLog->gerarCodigo())
             ->setDataGeracao($dataGeracao)
             ->setDataVencimento($dataVencimento)
-            ->setSocio($socio);
+            ->setSocio($socio)
+            ->setGatewayPagamento($gatewayPagamento)
+            ->setMeioPagamento($meioPagamento);
 
         try {
             /*Controle de transação para que o log só seja registrado
