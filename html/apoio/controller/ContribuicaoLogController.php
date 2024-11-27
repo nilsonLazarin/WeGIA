@@ -183,120 +183,115 @@ class ContribuicaoLogController
             }
 
             $servicoPagamento = new $classeService;
-        } catch (PDOException $e) {
-            //implementar tratamento de erro
-            echo json_encode(['erro' => $e->getMessage()]);
-            exit();
-        }
 
-        //Criar coleção de contribuições
-        $contribuicaoLogCollection = new ContribuicaoLogCollection();
-
-        if (!$qtdParcelas || $qtdParcelas < 2) {
-            //implementar mensagem de erro
-            exit('O mínimo de parcelas deve ser 2');
-        }
-
-        // Pegar a data atual
-        $dataAtual = new DateTime();
-
-        if (isset($_POST['tipoGeracao']) && !empty($_POST['tipoGeracao'])) {
-            //verificar autenticação do funcionário
-            require_once '../../permissao/permissao.php';
-
-            session_start();
-            permissao($_SESSION['id_pessoa'], 4);
-
-            //escolher qual ação tomar
-            $tipoGeracao = $_POST['tipoGeracao'];
-
-            //chamar funções
-            require_once '../helper/Util.php';
-
-            $datasVencimento;
-
-            $diaVencimento = ($_POST['dia']);
-
-            $qtd_p = intval($_POST['parcelas']);
-
-            switch ($tipoGeracao) {
-                case '1':
-                    $datasVencimento = Util::mensalidadeInterna(1, $qtd_p, $diaVencimento);
-                    break;
-                case '2':
-                    $datasVencimento = Util::mensalidadeInterna(2, $qtd_p, $diaVencimento);
-                    break;
-                case '3':
-                    $datasVencimento = Util::mensalidadeInterna(3, $qtd_p, $diaVencimento);
-                    break;
-                case '6':
-                    $datasVencimento = Util::mensalidadeInterna(6, $qtd_p, $diaVencimento);
-                    break;
-                default:
-                    echo json_encode(['erro' => 'O tipo de geração é inválido.']);
-                    exit();
-            }
-
-            foreach ($datasVencimento as $dataVencimento) {
-                $contribuicaoLog = new ContribuicaoLog();
-                $contribuicaoLog
-                    ->setValor($valor)
-                    ->setCodigo($contribuicaoLog->gerarCodigo())
-                    ->setDataGeracao($dataAtual->format('Y-m-d'))
-                    ->setDataVencimento($dataVencimento)
-                    ->setSocio($socio)
-                    ->setGatewayPagamento($gatewayPagamento)
-                    ->setMeioPagamento($meioPagamento);
-
-                //Inserir na coleção
-                $contribuicaoLogCollection->add($contribuicaoLog);
-            }
-        } else {
-
-            // Verificar se o dia informado já passou neste mês
-            if ($diaVencimento <= $dataAtual->format('d')) {
-                // Se o dia informado já passou, começar a partir do próximo mês
-                $dataAtual->modify('first day of next month');
-            }
-
-            for ($i = 0; $i < $qtdParcelas; $i++) {
-                // Clonar a data atual para evitar modificar o objeto original
-                $dataVencimento = clone $dataAtual;
-
-                // Adicionar os meses de acordo com o índice da parcela
-                $dataVencimento->modify("+{$i} month");
-
-                // Definir o dia do vencimento para o dia informado
-                $dataVencimento->setDate($dataVencimento->format('Y'), $dataVencimento->format('m'), $diaVencimento);
-
-                // Ajustar a data caso o mês não tenha o dia informado (por exemplo, 30 de fevereiro)
-                if ($dataVencimento->format('d') != $diaVencimento) {
-                    $dataVencimento->modify('last day of previous month');
-                }
-
-                $contribuicaoLog = new ContribuicaoLog();
-                $contribuicaoLog
-                    ->setValor($valor)
-                    ->setCodigo($contribuicaoLog->gerarCodigo())
-                    ->setDataGeracao($dataAtual->format('Y-m-d'))
-                    ->setDataVencimento($dataVencimento->format('Y-m-d'))
-                    ->setSocio($socio)
-                    ->setGatewayPagamento($gatewayPagamento)
-                    ->setMeioPagamento($meioPagamento);
-
-                //Inserir na coleção
-                $contribuicaoLogCollection->add($contribuicaoLog);
-            }
-        }
-
-        try {
             /*Controle de transação para que o log só seja registrado
             caso o serviço de pagamento tenha sido executado*/
             $this->pdo->beginTransaction();
 
-            foreach ($contribuicaoLogCollection as $contribuicaoLog) {
-                $contribuicaoLogDao = new ContribuicaoLogDAO($this->pdo);
-                $contribuicaoLogDao->criar($contribuicaoLog);
+            $contribuicaoLogDao = new ContribuicaoLogDAO($this->pdo);
+
+            //Criar coleção de contribuições
+            $contribuicaoLogCollection = new ContribuicaoLogCollection();
+
+            if (!$qtdParcelas || $qtdParcelas < 2) {
+                //implementar mensagem de erro
+                exit('O mínimo de parcelas deve ser 2');
+            }
+
+            // Pegar a data atual
+            $dataAtual = new DateTime();
+
+            if (isset($_POST['tipoGeracao']) && !empty($_POST['tipoGeracao'])) {
+                //verificar autenticação do funcionário
+                require_once '../../permissao/permissao.php';
+
+                session_start();
+                permissao($_SESSION['id_pessoa'], 4);
+
+                //escolher qual ação tomar
+                $tipoGeracao = $_POST['tipoGeracao'];
+
+                //chamar funções
+                require_once '../helper/Util.php';
+
+                $datasVencimento;
+
+                $diaVencimento = ($_POST['dia']);
+
+                $qtd_p = intval($_POST['parcelas']);
+
+                switch ($tipoGeracao) {
+                    case '1':
+                        $datasVencimento = Util::mensalidadeInterna(1, $qtd_p, $diaVencimento);
+                        break;
+                    case '2':
+                        $datasVencimento = Util::mensalidadeInterna(2, $qtd_p, $diaVencimento);
+                        break;
+                    case '3':
+                        $datasVencimento = Util::mensalidadeInterna(3, $qtd_p, $diaVencimento);
+                        break;
+                    case '6':
+                        $datasVencimento = Util::mensalidadeInterna(6, $qtd_p, $diaVencimento);
+                        break;
+                    default:
+                        echo json_encode(['erro' => 'O tipo de geração é inválido.']);
+                        exit();
+                }
+
+                foreach ($datasVencimento as $dataVencimento) {
+                    $contribuicaoLog = new ContribuicaoLog();
+                    $contribuicaoLog
+                        ->setValor($valor)
+                        ->setCodigo($contribuicaoLog->gerarCodigo())
+                        ->setDataGeracao($dataAtual->format('Y-m-d'))
+                        ->setDataVencimento($dataVencimento)
+                        ->setSocio($socio)
+                        ->setGatewayPagamento($gatewayPagamento)
+                        ->setMeioPagamento($meioPagamento);
+
+                    //inserir na collection o resultado do método criar de contribuicaoDao 
+                    $contribuicaoLog = $contribuicaoLogDao->criar($contribuicaoLog);
+
+                    $contribuicaoLogCollection->add($contribuicaoLog);
+                }
+            } else {
+
+                // Verificar se o dia informado já passou neste mês
+                if ($diaVencimento <= $dataAtual->format('d')) {
+                    // Se o dia informado já passou, começar a partir do próximo mês
+                    $dataAtual->modify('first day of next month');
+                }
+
+                for ($i = 0; $i < $qtdParcelas; $i++) {
+                    // Clonar a data atual para evitar modificar o objeto original
+                    $dataVencimento = clone $dataAtual;
+
+                    // Adicionar os meses de acordo com o índice da parcela
+                    $dataVencimento->modify("+{$i} month");
+
+                    // Definir o dia do vencimento para o dia informado
+                    $dataVencimento->setDate($dataVencimento->format('Y'), $dataVencimento->format('m'), $diaVencimento);
+
+                    // Ajustar a data caso o mês não tenha o dia informado (por exemplo, 30 de fevereiro)
+                    if ($dataVencimento->format('d') != $diaVencimento) {
+                        $dataVencimento->modify('last day of previous month');
+                    }
+
+                    $contribuicaoLog = new ContribuicaoLog();
+                    $contribuicaoLog
+                        ->setValor($valor)
+                        ->setCodigo($contribuicaoLog->gerarCodigo())
+                        ->setDataGeracao($dataAtual->format('Y-m-d'))
+                        ->setDataVencimento($dataVencimento->format('Y-m-d'))
+                        ->setSocio($socio)
+                        ->setGatewayPagamento($gatewayPagamento)
+                        ->setMeioPagamento($meioPagamento);
+
+                    //inserir na collection o resultado do método criar de contribuicaoDao 
+                    $contribuicaoLog = $contribuicaoLogDao->criar($contribuicaoLog);
+
+                    $contribuicaoLogCollection->add($contribuicaoLog);
+                }
             }
 
             //Registrar na tabela de socio_log
@@ -304,13 +299,20 @@ class ContribuicaoLogController
             $socioDao->registrarLog($contribuicaoLog->getSocio(), $mensagem);
 
             //Chamada do método de serviço de pagamento requisitado
-            $caminhoCarne = $servicoPagamento->gerarCarne($contribuicaoLogCollection);
-            if (!$caminhoCarne || empty($caminhoCarne)) {
+
+            //Método deverá retornar o caminho do carne e um array de contribuicões log
+            $resultado = $servicoPagamento->gerarCarne($contribuicaoLogCollection);
+            if (!$resultado || empty($resultado)) {
                 $this->pdo->rollBack();
             } else {
+                //loop foreach para alterar o código no banco de dados das respectivas contribuições recebidas
+                foreach($resultado['contribuicoes'] as $contribuicao){
+                    $contribuicaoLogDao->alterarCodigoPorId($contribuicao->getCodigo(), $contribuicao->getId());
+                }
+
                 $this->pdo->commit();
 
-                echo json_encode(['link' => WWW . 'html/apoio/' . $caminhoCarne]);
+                echo json_encode(['link' => WWW . 'html/apoio/' . $resultado['link']]);
             }
         } catch (PDOException $e) {
             //implementar tratamento de erro
