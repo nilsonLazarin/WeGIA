@@ -175,6 +175,13 @@ function configurarVoltaCpf(){
      });
 }
 
+function configurarVoltaContato(){
+    const btnVoltaContato = document.getElementById('volta-contato');
+    btnVoltaContato.addEventListener('click', ()=>{
+        alternarPaginas('pag3', 'pag4');
+    });
+}
+
 function configurarAvancaContato(funcao){
     const btnAvancaContato = document.getElementById('avanca-contato');
     btnAvancaContato.addEventListener('click', ()=>{
@@ -184,6 +191,17 @@ function configurarAvancaContato(funcao){
 
         alternarPaginas('pag4', 'pag3');
     })
+}
+
+function configurarAvancaEndereco(funcao){
+    const btnAvancaEndereco = document.getElementById('avanca-endereco');
+    btnAvancaEndereco.addEventListener('click', ()=>{
+        if(!funcao()){
+            return;
+        }
+
+        alternarPaginas('pag5', 'pag4');
+    });
 }
 
 /**
@@ -236,6 +254,47 @@ function verificarSocio({bairro, cep, cidade, complemento, documento, email, est
     }
 
     if(!telefone || telefone.length < 1){
+        return false;
+    }
+
+    return true;
+}
+
+function verificarEndereco(){
+    const cep = document.getElementById('cep').value;
+    const rua = document.getElementById('rua').value;
+    const numeroEndereco = document.getElementById('numero');
+    const bairro = document.getElementById('bairro');
+    const uf = document.getElementById('uf');
+    const cidade = document.getElementById('cidade');
+
+    if(!cep || cep.length != 9){
+        alert ('O CEP informado não está no formato válido');
+        return false;
+    }
+
+    if(!rua || rua.length < 1){
+        alert('A rua não pode estar vazia.');
+        return false;
+    }
+
+    if(!numeroEndereco || numeroEndereco.length < 1){
+        alert('O número de endereço não pode estar vazio.');
+        return false;
+    }
+
+    if(!bairro || bairro.length < 1){
+        alert('O bairro não pode estar vazio.');
+        return false;
+    }
+
+    if(!uf || uf.length < 1){
+        alert('O estado não pode estar vazio.');
+        return false;
+    }
+
+    if(!cidade || cidade.length < 1){
+        alert('A cidade não pode estar vazia.');
         return false;
     }
 

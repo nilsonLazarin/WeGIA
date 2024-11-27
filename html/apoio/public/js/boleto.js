@@ -48,6 +48,8 @@ function buscarSocio() {
 configurarAvancaValor(verificarValor);
 configurarVoltaValor();
 configurarVoltaCpf();
+configurarVoltaContato();
+configurarAvancaEndereco(verificarEndereco);
 configurarAvancaContato(verificarContato);
 configurarMudancaOpcao(alternarPfPj);
 configurarConsulta(buscarSocio);
