@@ -15,22 +15,22 @@ require_once ROOT . "/Functions/funcoes.php";
 
 class PadrinhoDAO
 {
-    /*public function retornarIdPessoa($id_)
+    public function retornarIdPessoa($id_pessoa)
     {
         try {
             $pessoa = array();
             $pdo = Conexao::connect();
-            $consulta = $pdo->query("SELECT f.id_funcionario FROM pessoa p INNER JOIN funcionario f ON p.id_pessoa = f.id_pessoa WHERE f.id_funcionario='$id_funcionario'");
+            $consulta = $pdo->query("SELECT id_pessoa FROM pessoa WHERE id_pessoa='$id_pesssoa'");
             $x = 0;
             while ($linha = $consulta->fetch(PDO::FETCH_ASSOC)) {
-                $pessoa[$x] = $linha['id_funcionario'];
+                $pessoa[$x] = $linha['id_pessoa'];
                 $x++;
             }
         } catch (PDOException $e) {
             echo 'Error:' . $e->getMessage();
         }
         return $pessoa;
-    }*/
+    }
     public function listarIdPessoa($cpf)
     {
         try {
@@ -105,7 +105,7 @@ class PadrinhoDAO
             
             if ($consulta) {
                 // Caso o CPF já esteja cadastrado, redirecionar para a página de erro
-                header("Location: ../html/pet/padrinho/pre_cadastro_padrinho.php?msg_e=Erro, Padrinho já cadastrado no sistema.");
+                header("Location: " . ROOT . "/html/pet/padrinho/cadastro_padrinho_pessoa_existente.php?msg_e=Erro, Padrinho já cadastrado no sistema.");
                 exit; // Após redirecionamento, é importante usar 'exit' para garantir que o script pare
             }
 
@@ -116,10 +116,10 @@ class PadrinhoDAO
 
             // Se não encontrar nenhum CPF, redirecionar para o cadastro
             if ($stmt->rowCount() == 0) {
-                header("Location: ../html/pet/padrinho/cadastro_padrinhp.php?cpf=$cpf");
+                header("Location: " . ROOT . "/html/pet/padrinho/cadastro_padrinhp.php?cpf=$cpf");
             } else {
                 // Se o CPF já está na tabela, redirecionar para página de cadastro existente
-                header("Location: ./html/pet/padrinho/cadastro_padrinho_pessoa_existente.php?cpf=$cpf");
+                header("Location: " . ROOT . "/html/pet/padrinho/cadastro_padrinho_pessoa_existente.php?msg_e=Erro, Padrinho já cadastrado no sistema.");
             }
 
             exit; // Parar a execução do script após o redirecionamento

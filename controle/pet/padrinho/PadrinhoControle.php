@@ -188,8 +188,7 @@ class PadrinhoControle
         $padrinhoDAO = new PadrinhoDAO(); // Instancia o PadrinhoDAO
         $padrinhoDAO->selecionarCadastro($cpf); // Chama o método para selecionar o cadastro do padrinho
     
-        // Redirecionamento opcional, caso necessário, pode-se adicionar um header:
-        // header("Location: ../html/padrinho/cadastro_padrinho.php");
+         //header("Location: ../html/padrinho/cadastro_padrinho.php");
     }
     
 
@@ -223,10 +222,10 @@ class PadrinhoControle
     
             // Armazena as informações da próxima ação no session
             $_SESSION['proxima'] = "Cadastrar outro padrinho";
-            $_SESSION['link'] = "../html/pet/padrinho/cadastro_padrinho.php";
+            $_SESSION['link'] = "../../../html/pet/padrinho/cadastro_padrinho.php";
             
             // Redireciona para a página de informações do padrinho
-            header("Location: ../html/pet/padrinho/informacao_padrinho.php");
+            header("Location: ".WWW. "/html/pet/padrinho/informacao_padrinho.php");
     
         } catch (PDOException $e) {
             // Caso ocorra erro, exibe a mensagem
@@ -278,7 +277,7 @@ class PadrinhoControle
             // Altera as informações pessoais do padrinho
             $padrinhoDAO->alterarInfPessoal($padrinho);
             // Redireciona para o perfil do padrinho
-            header("Location: ../../../html/pet/padrinho/profile_padrinho.php?id_pessoa=" . $id_pessoa);
+            header("Location:" . ROOT . "/html/pet/padrinho/profile_padrinho.php?id_pessoa=" . $id_pessoa);
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -299,7 +298,7 @@ class PadrinhoControle
             // Altera os dados de documentação do padrinho
             $padrinhoDAO->alterarDocumentacao($padrinho);
             // Redireciona para o perfil do padrinho
-            header("Location: ../../../html/pet/padrinho/profile_padrinho.php?id_pessoa=" . $id_pessoa);
+            header("Location:" . ROOT . "/html/pet/padrinho/profile_padrinho.php?id_pessoa=" . $id_pessoa);
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -325,7 +324,7 @@ class PadrinhoControle
             // Altera os dados de endereço do padrinho
             $padrinhoDAO->alterarEndereco($padrinho);
             // Redireciona para o perfil do padrinho
-            header("Location: ../../../html/pet/padrinho/profile_padrinho.php?id_pessoa=" . $id_pessoa);
+            header("Location:" . ROOT . "/html/pet/padrinho/profile_padrinho.php?id_pessoa=" . $id_pessoa);
         } catch (PDOException $e) {
             echo $e->getMessage();
         }

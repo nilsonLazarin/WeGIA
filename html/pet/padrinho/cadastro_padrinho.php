@@ -19,8 +19,9 @@ if (file_exists($config_path)) {
 
 // Requerimentos essenciais
 require_once ROOT . "/controle/pet/padrinho/PadrinhoControle.php";
-require_once ROOT . "/classes/Funcionario.php";
+require_once ROOT . "/classes/Padrinho.php";
 require_once ROOT . "/html/personalizacao_display.php";
+require_once ROOT . "/dao/Conexao.php";
 
 // Inicialização e chamada de métodos
 $padrinhoControle = new PadrinhoControle();
@@ -34,8 +35,8 @@ if ($cpf) {
 }
 
 // Definição de limites de datas
-$dataNascimentoMaxima = Funcionario::getDataNascimentoMaxima();
-$dataNascimentoMinima = Funcionario::getDataNascimentoMinima();
+$dataNascimentoMaxima = Padrinho::getDataNascimentoMaxima();
+$dataNascimentoMinima = Padrinho::getDataNascimentoMinima();
 
 
 // Definição de limites de datas
@@ -275,8 +276,7 @@ $dataNascimentoMinima = Padrinho::getDataNascimentoMinima();
         var btn = $("#enviar");
         var cpfCadastrado = <?php
             echo json_encode(array_merge(
-                $padrinhoDAO->listarCpfPessoas(),
-                $outraFonte->listarCpf()
+                $padrinhoDAO->listarCpfPessoas()
             ));
         ?>;
         var cpf = limparCPF($("#cpf").val());
