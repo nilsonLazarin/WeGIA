@@ -27,11 +27,13 @@ function buscarSocio() {
                     //Exibir o sócio
                     console.log(data);
                     formAutocomplete(data.resultado);
+                    alternarPaginas('pag3', 'pag2');
                 }else{//Enviar para a página de confirmação de geração de boletos
                     alternarPaginas('pag5', 'pag2');
                 }
             } else {
                 console.log(data.resultado);
+                alternarPaginas('pag3', 'pag2');
             }
 
             //alternarPaginas('pag2');
@@ -45,5 +47,7 @@ function buscarSocio() {
 
 configurarAvancaValor(verificarValor);
 configurarVoltaValor();
+configurarVoltaCpf();
+configurarAvancaContato(verificarContato);
 configurarMudancaOpcao(alternarPfPj);
 configurarConsulta(buscarSocio);

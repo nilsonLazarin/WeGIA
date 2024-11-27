@@ -168,6 +168,24 @@ function configurarVoltaValor(){
     });
 }
 
+function configurarVoltaCpf(){
+    const btnVoltaCpf = document.getElementById('volta-cpf');
+     btnVoltaCpf.addEventListener('click', ()=>{
+        alternarPaginas('pag2', 'pag3');
+     });
+}
+
+function configurarAvancaContato(funcao){
+    const btnAvancaContato = document.getElementById('avanca-contato');
+    btnAvancaContato.addEventListener('click', ()=>{
+        if(!funcao()){
+            return;
+        }
+
+        alternarPaginas('pag4', 'pag3');
+    })
+}
+
 /**
  * Verifica se alguma propriedade de um objeto do tipo Socio está vazia
  */
@@ -218,6 +236,35 @@ function verificarSocio({bairro, cep, cidade, complemento, documento, email, est
     }
 
     if(!telefone || telefone.length < 1){
+        return false;
+    }
+
+    return true;
+}
+
+function verificarContato(){
+    const nome = document.getElementById('nome').value;
+    const dataNascimento = document.getElementById('data_nascimento').value;
+    const email = document.getElementById('email').value;
+    const telefone = document.getElementById('telefone').value;
+
+    if(!nome || nome.length < 3){
+        alert('O nome não pode estar vazio.');
+        return false;
+    }
+
+    if(!dataNascimento){
+        alert('A data de nascimento não pode estar vazia');
+        return false;
+    }
+
+    if(!email){
+        alert('O e-mail não pode estar vazio.');
+        return false;
+    }
+
+    if(!telefone){
+        alert('O telefone não pode estar vazio.');
         return false;
     }
 
