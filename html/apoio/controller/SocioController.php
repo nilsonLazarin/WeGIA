@@ -4,6 +4,12 @@ require_once '../dao/SocioDAO.php';
 require_once '../helper/Util.php';
 class SocioController
 {
+
+    public function criarSocio(){
+        $request = $_REQUEST;
+        echo json_encode(['mensagem' => 'Recebido com sucesso', 'data' => $request]);
+    }
+
     /**
      * Extraí o documento de um sócio da requisição e retorna os dados pertecentes a esse sócio.
      */

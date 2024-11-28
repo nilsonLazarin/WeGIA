@@ -52,7 +52,7 @@ function buscarSocio() {
 function decidirAcao() {
     switch (acao) {
         case 'boleto': gerarBoleto(); break;
-        case 'cadastrar': console.log('Cadastrar Sócio'); break;//colocar chamada para função de cadastrar sócio
+        case 'cadastrar': cadastrarSocio(); break;//colocar chamada para função de cadastrar sócio
         case 'atualizar': console.log('Atualizar Sócio'); break;//colocar chamada para função de atualizar sócio
         default: console.log('Ação indefinida');
     }
