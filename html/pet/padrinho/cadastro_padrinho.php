@@ -1,9 +1,9 @@
 <?php
 
-include_once("conexao.php");
+include_once("../../../dao/Conexao.php");
 session_start();
 if (!isset($_SESSION['usuario'])) {
-  header("Location: ../index.php");
+  header("Location: ../../index.php");
 }
 
 $config_path = "config.php";
@@ -19,7 +19,7 @@ if (file_exists($config_path)) {
 
 // Requerimentos essenciais
 require_once ROOT . "/controle/PadrinhoControle.php";
-require_once ROOT . "/classes/Padrinho.php";
+require_once ROOT . "/classes/pet/padrinho/Padrinho.php";
 require_once ROOT . "/html/personalizacao_display.php";
 require_once ROOT . "/dao/Conexao.php";
 
