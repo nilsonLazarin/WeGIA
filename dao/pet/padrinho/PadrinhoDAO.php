@@ -105,7 +105,7 @@ class PadrinhoDAO
             
             if ($consulta) {
                 // Caso o CPF já esteja cadastrado, redirecionar para a página de erro
-                header("Location: " . ROOT . "/html/pet/padrinho/cadastro_padrinho_pessoa_existente.php?msg_e=Erro, Padrinho já cadastrado no sistema.");
+                header("Location: " . WWW . "/html/pet/padrinho/cadastro_padrinho_pessoa_existente.php?msg_e=Erro, Padrinho já cadastrado no sistema.");
                 exit; // Após redirecionamento, é importante usar 'exit' para garantir que o script pare
             }
 
@@ -116,10 +116,10 @@ class PadrinhoDAO
 
             // Se não encontrar nenhum CPF, redirecionar para o cadastro
             if ($stmt->rowCount() == 0) {
-                header("Location: " . ROOT . "/html/pet/padrinho/cadastro_padrinhp.php?cpf=$cpf");
+                header("Location: " . WWW . "/html/pet/padrinho/cadastro_padrinho.php?cpf=$cpf");
             } else {
                 // Se o CPF já está na tabela, redirecionar para página de cadastro existente
-                header("Location: " . ROOT . "/html/pet/padrinho/cadastro_padrinho_pessoa_existente.php?msg_e=Erro, Padrinho já cadastrado no sistema.");
+                header("Location: " . WWW . "/html/pet/padrinho/cadastro_padrinho_pessoa_existente.php?msg_e=Erro, Padrinho já cadastrado no sistema.");
             }
 
             exit; // Parar a execução do script após o redirecionamento

@@ -36,31 +36,31 @@ class PadrinhoControle
         // Validações de campos obrigatórios
         if (empty($nome)) {
             $msg = "Nome do padrinho não informado. Por favor, informe um nome!";
-            header('Location: ../html/padrinho.html?msg=' . urlencode($msg));
+            header('Location: ../../../html/padrinho.html?msg=' . urlencode($msg));
             exit;
         }
 
         if (empty($sobrenome)) {
             $msg = "Sobrenome do padrinho não informado. Por favor, informe um sobrenome!";
-            header('Location: ../html/padrinho.html?msg=' . urlencode($msg));
+            header('Location: ../../../html/padrinho.html?msg=' . urlencode($msg));
             exit;
         }
 
         if (empty($sexo)) {
             $msg = "Sexo do padrinho não informado. Por favor, informe um sexo!";
-            header('Location: ../html/padrinho.html?msg=' . urlencode($msg));
+            header('Location: ../../../html/padrinho.html?msg=' . urlencode($msg));
             exit;
         }
 
         if (empty($cpf)) {
             $msg = "CPF do padrinho não informado. Por favor, informe um CPF!";
-            header('Location: ../html/padrinho.html?msg=' . urlencode($msg));
+            header('Location: ../../../html/padrinho.html?msg=' . urlencode($msg));
             exit;
         }
 
         if (empty($nascimento)) {
             $msg = "Data de nascimento do padrinho não informada. Por favor, informe uma data de nascimento!";
-            header('Location: ../html/padrinho.html?msg=' . urlencode($msg));
+            header('Location: ../../../html/padrinho.html?msg=' . urlencode($msg));
             exit;
         }
 
@@ -250,10 +250,10 @@ class PadrinhoControle
     
             // Armazena as informações da próxima ação no session
             $_SESSION['proxima'] = "Cadastrar outro padrinho";
-            $_SESSION['link'] = "../html/padrinho/cadastro_padrinho.php";
+            $_SESSION['link'] = "../../../html/pet/padrinho/cadastro_padrinho.php";
             
             // Redireciona para a página de informações do padrinho
-            header("Location: ../html/padrinho/informacao_padrinho.php");
+            header("Location: ".WWW. "/html/pet/padrinho/informacao_padrinho.php");
     
         } catch (PDOException $e) {
             // Caso ocorra erro, exibe a mensagem

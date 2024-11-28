@@ -18,7 +18,7 @@ if (file_exists($config_path)) {
 }
 
 // Requerimentos essenciais
-require_once ROOT . "/controle/pet/padrinho/PadrinhoControle.php";
+require_once ROOT . "/controle/PadrinhoControle.php";
 require_once ROOT . "/classes/Padrinho.php";
 require_once ROOT . "/html/personalizacao_display.php";
 require_once ROOT . "/dao/Conexao.php";

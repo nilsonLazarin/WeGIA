@@ -18,7 +18,7 @@ if(!isset($_SESSION['usuario'])){
 }
 
 // Carregar as classes necessárias
-require_once ROOT."/controle/pet/padrinho/PadrinhoControle.php";  // Controle do Padrinho
+require_once ROOT."/controle/PadrinhoControle.php";  // Controle do Padrinho
 
 // Criar objetos das classes de controle
 $padrinhos = new PadrinhoControle;
@@ -28,7 +28,7 @@ $padrinhos->listarCpf();  // Listar todos os padrinhos
 $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
 // Carregar controle do Padrinho
-require_once ROOT."/controle/pet/padrinho/PadrinhoControle.php";
+require_once ROOT."/controle/PadrinhoControle.php";
 
 
 
@@ -231,14 +231,7 @@ require_once ROOT."/html/personalizacao_display.php";
                             </header>
                             <div class="panel-body">
                            
-                                <form method="GET" action="../../controle/control.php">
-                                    <!-- <input type="text" id="assunto" name="assunto" required placeholder="Título do Novo Memorando" class="form-control">
-                                    <input type="hidden" name="nomeClasse" value="MemorandoControle" id="memorandocontrole">
-                                    <input type="hidden" id="incluir" name="metodo" value="incluir">
-                                    <input type='hidden' id="modulo" value='memorando' name='modulo'>
-                                    <input type='submit'  form= "form1" value='Criar memorando'   name='enviar' id='enviar' class='mb-xs mt-xs mr-xs btn btn-default'> -->
-
-                                    <!-- <label class="col-md-3 control-label" for="cpf">Número do CPF<sup class="obrig">*</sup></label> -->
+                                <form method="GET" action="../../../controle/control.php">
                                     <input type="text" class="form-control" id="cpf" id="cpf" name="cpf" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##',this,event)" required>
                                     <p id="cpfInvalido" style="display: none; color: #b30000">CPF INVÁLIDO!</p>
                                     <br>
