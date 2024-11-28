@@ -59,20 +59,20 @@ $dataNascimentoMinima = Padrinho::getDataNascimentoMinima();
   <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">
 
   <!-- Vendor CSS -->
-  <link rel="stylesheet" href="../../assets/vendor/bootstrap/css/bootstrap.css" />
-  <link rel="stylesheet" href="../../assets/vendor/font-awesome/css/font-awesome.css" />
+  <link rel="stylesheet" href="../../../assets/vendor/bootstrap/css/bootstrap.css" />
+  <link rel="stylesheet" href="../../../assets/vendor/font-awesome/css/font-awesome.css" />
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.1.1/css/all.css">
-  <link rel="stylesheet" href="../../assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
-  <link rel="icon" href="<?php display_campo("Logo", 'file'); ?>" type="image/x-icon">
+  <link rel="stylesheet" href="../../../assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
+  
 
   <!-- Theme CSS -->
-  <link rel="stylesheet" href="../../assets/stylesheets/theme.css" />
+  <link rel="stylesheet" href="../../../assets/stylesheets/theme.css" />
 
   <!-- Skin CSS -->
-  <link rel="stylesheet" href="../../assets/stylesheets/skins/default.css" />
+  <link rel="stylesheet" href="../../../assets/stylesheets/skins/default.css" />
 
   <!-- Theme Custom CSS -->
-  <link rel="stylesheet" href="../../assets/stylesheets/theme-custom.css">
+  <link rel="stylesheet" href="../../../assets/stylesheets/theme-custom.css">
 
   <?php echo $informacoesPadrinho ?>; 
      
@@ -185,7 +185,7 @@ $dataNascimentoMinima = Padrinho::getDataNascimentoMinima();
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
   <!-- JQuery Local -->
-  <script src="../../assets/vendor/jquery/jquery.min.js"></script>
+  <script src="../../../assets/vendor/jquery/jquery.min.js"></script>
   <script src="https://requirejs.org/docs/release/2.3.6/r.js"></script>
   <style type="text/css">
     .btn span.fa-check {
@@ -428,10 +428,10 @@ $dataNascimentoMinima = Padrinho::getDataNascimentoMinima();
   <script src="../../assets/vendor/modernizr/modernizr.js"></script>
 
   <!-- javascript functions -->
-  <script src="../../Functions/onlyNumbers.js"></script>
-  <script src="../../Functions/onlyChars.js"></script>
-  <script src="../../Functions/mascara.js"></script>
-  <script src="../../Functions/lista.js"></script>
+  <script src="../../../Functions/onlyNumbers.js"></script>
+  <script src="../../../Functions/onlyChars.js"></script>
+  <script src="../../../Functions/mascara.js"></script>
+  <script src="../../../Functions/lista.js"></script>
   <script src="<?php echo WWW; ?>Functions/testaCPF.js"></script>
   <script language="JavaScript">
     var numValidos = "0123456789-()";
@@ -459,13 +459,13 @@ $dataNascimentoMinima = Padrinho::getDataNascimentoMinima();
     }
   </script>
   <!-- Vendor -->
-  <script src="../../assets/vendor/jquery/jquery.js"></script>
-  <script src="../../assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
-  <script src="../../assets/vendor/bootstrap/js/bootstrap.js"></script>
-  <script src="../../assets/vendor/nanoscroller/nanoscroller.js"></script>
-  <script src="../../assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-  <script src="../../assets/vendor/magnific-popup/magnific-popup.js"></script>
-  <script src="../../assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
+  <script src="../../../assets/vendor/jquery/jquery.js"></script>
+  <script src="../../../assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
+  <script src="../../../assets/vendor/bootstrap/js/bootstrap.js"></script>
+  <script src="../../../assets/vendor/nanoscroller/nanoscroller.js"></script>
+  <script src="../../../assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+  <script src="../../../assets/vendor/magnific-popup/magnific-popup.js"></script>
+  <script src="../../../assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
 
   <!-- img form -->
   <script>
