@@ -190,7 +190,7 @@
 										</a>
 									</li>
 									<li>
-										<a href="<?= WWW ?>controle/control.php?metodo=listarTodos&nomeClasse=PadrinhoControle&nextPage=<?= WWW ?>html/pet/padrinho/informacao_padrinho.php">
+										<a href="<?= WWW ?>controle/control.php?metodo=listarTodos&nomeClasse=PadrinhoControle&nextPage=./html/pet/padrinho/informacao_padrinho.php">
 											<span>Informações Padrinho</span>
 										</a>
 									</li>

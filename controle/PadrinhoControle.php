@@ -222,7 +222,7 @@ class PadrinhoControle
     
             // Armazena as informações da próxima ação no session
             $_SESSION['proxima'] = "Cadastrar outro padrinho";
-            $_SESSION['link'] = "../../../html/pet/padrinho/cadastro_padrinho.php";
+            $_SESSION['link'] = "../html/pet/padrinho/cadastro_padrinho.php";
             
             // Redireciona para a página de informações do padrinho
             header("Location: ".WWW. "/html/pet/padrinho/informacao_padrinho.php");

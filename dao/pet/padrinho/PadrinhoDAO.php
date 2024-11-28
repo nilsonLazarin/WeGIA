@@ -350,6 +350,7 @@ class PadrinhoDAO
     public function listarTodos()
         {
             try {
+                session_start();
                 // Obter o ID do usuário atual da sessão
                 require_once ROOT . "/dao/memorando/UsuarioDAO.php";
                 $usuario = new UsuarioDAO();

@@ -114,7 +114,7 @@ $dataNascimentoMinima = Padrinho::getDataNascimentoMinima();
             </ul>
             <div class="tab-content">
               <div id="overview" class="tab-pane active">
-                <form class="form-horizontal" method="GET" action="../../controle/control.php">
+                <form class="form-horizontal" method="GET" action="../../../controle/control.php">
                   <h4 class="mb-xlg">Informações Pessoais</h4>
                   <h5 class="obrig">Campos Obrigatórios(*)</h5>
                   <div class="form-group">
@@ -258,10 +258,11 @@ $dataNascimentoMinima = Padrinho::getDataNascimentoMinima();
 }
 
 
-document.querySelector("#enviar").addEventListener("submit" , validarPadrinho)
+document.querySelector("#enviar").addEventListener("click" , validarPadrinho)
 
 function validarPadrinho(ev) {
-  ev.preventDefault()
+  ev.preventDefault() 
+
    if(validar()){
     var btn = $("#enviar");
     var cpfCadastrado = <?php
@@ -276,6 +277,7 @@ function validarPadrinho(ev) {
             return false; // Para sair do loop
         }
     });
+    do
   }
 }
 
@@ -303,7 +305,7 @@ function limparCPF(cpf) {
 
   var sobrenome = document.getElementById('sobrenome').value;
 
-  var sexo = document.querySelector('input[name="gender"]:checked').value;
+  var sexo = document.querySelector('input[name="gender"]:checked')?.value;
 
   var telefone = document.getElementById('telefone').value;
 
@@ -318,6 +320,7 @@ function limparCPF(cpf) {
   dt_nasc = dt_nasc.replaceAll('-', '');
    
   if(!validarTelefone()) {
+
     alert('Telefone invalido')
     return false;
   }
@@ -436,25 +439,26 @@ function validarCPF(strCPF) {
 var numValidos = "0123456789-()";
     var num1invalido = "78";
     var i;
-
+    let  telefone = document.getElementById('telefone');
     function validarTelefone() {
+      console.log(telefone.value)
       //Verificando quantos dígitos existem no campo, para controlarmos o looping;
-      digitos = document.form1.telefone.value.length;
+      digitos = telefone.value.length;
 
       for (i = 0; i < digitos; i++) {
-        if (numValidos.indexOf(document.form1.telefone.value.charAt(i), 0) == -1) {
+        if (numValidos.indexOf(telefone.value.charAt(i), 0) == -1) {
           alert("Apenas números são permitidos no campo Telefone!");
-          document.form1.telefone.select();
+          telefone.select();
           return false;
         }
         if (i == 0) {
-          if (num1invalido.indexOf(document.form1.telefone.value.charAt(i), 0) != -1) {
+          if (num1invalido.indexOf(telefone.value.charAt(i), 0) != -1) {
             alert("Número de telefone inválido!");
-            document.form1.telefone.select();
+            telefone.select();
             return false;
           }
         }
-      }
+      } return true
     }
    
   </script>
