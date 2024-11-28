@@ -75,7 +75,9 @@ $dataNascimentoMinima = Padrinho::getDataNascimentoMinima();
   <link rel="stylesheet" href="../../../assets/stylesheets/theme-custom.css">
 
   <?php echo $informacoesPadrinho ?>; 
-     
+    
+   
+
 </head>
 
 <body>
@@ -130,8 +132,8 @@ $dataNascimentoMinima = Padrinho::getDataNascimentoMinima();
                   <div class="form-group">
                     <label class="col-md-3 control-label" for="profileLastName">Sexo<sup class="obrig">*</sup></label>
                     <div class="col-md-8">
-                      <label><input type="radio" name="gender" id="radioM" id="M" value="m" style="margin-top: 10px; margin-left: 15px;" onclick="return exibir_reservista()" required><i class="fa fa-male" style="font-size: 20px;"></i></label>
-                      <label><input type="radio" name="gender" id="radioF" id="F" value="f" style="margin-top: 10px; margin-left: 15px;" onclick="return esconder_reservista()"><i class="fa fa-female" style="font-size: 20px;"></i> </label>
+                      <label><input type="radio" name="gender" id="radioM" id="M" value="m" style="margin-top: 10px; margin-left: 15px;" required><i class="fa fa-male" style="font-size: 20px;"></i></label>
+                      <label><input type="radio" name="gender" id="radioF" id="F" value="f" style="margin-top: 10px; margin-left: 15px;" ><i class="fa fa-female" style="font-size: 20px;"></i> </label>
                     </div>
                   </div>
                   <div class="form-group">
@@ -168,7 +170,7 @@ $dataNascimentoMinima = Padrinho::getDataNascimentoMinima();
                       <div class="col-md-9 col-md-offset-3">
                         <input type="hidden" name="nomeClasse" value="PadrinhoControle">
                         <input type="hidden" name="metodo" value="incluir">
-                        <input id="enviar" type="submit" class="btn btn-primary" value="Salvar" onclick="validarPadrinho()">
+                        <input id="enviar" type="submit" class="btn btn-primary" value="Salvar">
                         <input type="reset" class="btn btn-default">
                       </div>
                     </div>
@@ -179,7 +181,7 @@ $dataNascimentoMinima = Padrinho::getDataNascimentoMinima();
     </section>
   </div>
   </section>
-  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+   <!-- <<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>-->
 
   <!-- JQuery Online -->
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -222,219 +224,216 @@ $dataNascimentoMinima = Padrinho::getDataNascimentoMinima();
       padding-bottom: 100%;
     }
   </style>
- <script type="text/javascript">
-    var clickcont = 0;
-    $("#botima").toggle();
-    $("#imgform").click(function(e) {
-        if (clickcont == 0) {
-            $("#botima").toggle();
-        }
-        clickcont += 1;
+  <script>
+   console.log("teste 3")
+   $(function() {
+      $("#header").load("../../header.php");
+      $(".menuu").load("../../menu.php");
     });
-
-    function okDisplay() {
-        document.getElementById("okButton").style.backgroundColor = "#0275d8"; // azul
-        document.getElementById("okText").textContent = "Confirme o arquivo selecionado";
-        $("#profileFirstName, #sobrenome, #telefone, #nascimento").prop('disabled', true);
-    }
-
-    function submitButtonStyle(_this) {
-        _this.style.backgroundColor = "#5cb85c"; // verde
-        document.getElementById("okText").textContent = "Arquivo confirmado";
-        $("#profileFirstName, #sobrenome, #telefone, #nascimento").prop('disabled', false);
-    }
-
-    function limparCPF(cpf) {
-        return cpf.replaceAll(".", "").replaceAll("-", "");
-    }
-
     function funcao1() {
-        var send = $("#enviar");
-        var cpfs = <?php
-            require_once ROOT . "/dao/pet/padrinho/PadrinhoDAO.php";
-            $padrinhoDAO = new PadrinhoDAO();
-            echo json_encode($padrinhoDAO->listarCpfPessoas());
-        ?>;
-        var cpfFuncionario = limparCPF($("#cpf").val());
-        var apoio = 0;
+  
+    var send = $("#enviar");
+    var cpfs = <?php
+        require_once ROOT . "/dao/pet/padrinho/PadrinhoDAO.php";
+        $padrinhoDAO = new PadrinhoDAO();
+        echo json_encode($padrinhoDAO->listarCPFPessoas());
+    ?>;
+    var cpfFuncionario = limparCPF($("#cpf").val());
+    var apoio = 0;
 
-        $.each(cpfs, function(i, item) {
-            if (item.cpf === cpfFuncionario) {
-                alert("Cadastro não realizado! O CPF informado já está cadastrado no sistema");
-                apoio = 1;
-                send.attr('disabled', 'disabled');
-                return false; // Para sair do loop
-            }
-        });
-
-        if (apoio === 0) {
-            alert("Cadastrado com sucesso!");
+    $.each(cpfs, function(i, item) {
+        if (item.cpf === cpfFuncionario) {
+            alert("Cadastro não realizado! O CPF informado já está cadastrado no sistema");
+            apoio = 1;
+            send.attr('disabled', 'disabled');
+            return false; // Para sair do loop
         }
-    }
-
-    function validarPadrinho() {
-        var btn = $("#enviar");
-        var cpfCadastrado = <?php
-            echo json_encode(array_merge(
-                $padrinhoDAO->listarCpfPessoas()
-            ));
-        ?>;
-        var cpf = limparCPF($("#cpf").val());
-
-        $.each(cpfCadastrado, function(i, item) {
-            if (item.cpf === cpf) {
-                alert("Cadastro não realizado! O CPF informado já está cadastrado no sistema");
-                btn.attr('disabled', 'disabled');
-                return false; // Para sair do loop
-            }
-        });
-    }
-
-      var nome = document.getElementById('profileFirstName').value;
-
-      var sobrenome = document.getElementById('sobrenome').value;
-
-      var sexo = document.querySelector('input[name="gender"]:checked').value;
-
-      var telefone = document.getElementById('telefone').value;
-
-      var dt_nasc = document.getElementById('nascimento').value;
-
-      let dataNascimentoMaxima = "<?=$dataNascimentoMaxima?>";
-      dataNascimentoMaxima = dataNascimentoMaxima.replaceAll('-', '');
-
-      let dataNascimentoMinima = "<?=$dataNascimentoMinima?>";
-      dataNascimentoMinima = dataNascimentoMinima.replaceAll('-', '');
-
-      dt_nasc = dt_nasc.replaceAll('-', '');
-
-      if(dt_nasc > dataNascimentoMaxima){
-        return false;
-      }
-
-      if(dt_nasc < dataNascimentoMinima){
-        return false;
-      }
-
-
-      if (nome && sobrenome && sexo && telefone && dt_nasc) {
-        alert("Cadastrado com sucesso!");
-      }
-
-
-
-    function numero_residencial() {
-
-      if ($("#numResidencial").prop('checked')) {
-
-        document.getElementById("numero_residencia").disabled = true;
-
-      } else {
-
-        document.getElementById("numero_residencia").disabled = false;
-
-      }
-    }
-
-    function limpa_formulário_cep() {
-      //Limpa valores do formulário de cep.
-      document.getElementById('rua').value = ("");
-      document.getElementById('bairro').value = ("");
-      document.getElementById('cidade').value = ("");
-      document.getElementById('uf').value = ("");
-      document.getElementById('ibge').value = ("");
-    }
-
-    function meu_callback(conteudo) {
-      if (!("erro" in conteudo)) {
-        //Atualiza os campos com os valores.
-        document.getElementById('rua').value = (conteudo.logradouro);
-        document.getElementById('bairro').value = (conteudo.bairro);
-        document.getElementById('cidade').value = (conteudo.localidade);
-        document.getElementById('uf').value = (conteudo.uf);
-        document.getElementById('ibge').value = (conteudo.ibge);
-      } //end if.
-      else {
-        //CEP não Encontrado.
-        limpa_formulário_cep();
-        alert("CEP não encontrado.");
-      }
-    }
-
-    function pesquisacep(valor) {
-
-      //Nova variável "cep" somente com dígitos.
-      var cep = valor.replace(/\D/g, '');
-
-      //Verifica se campo cep possui valor informado.
-      if (cep != "") {
-
-        //Expressão regular para validar o CEP.
-        var validacep = /^[0-9]{8}$/;
-
-        //Valida o formato do CEP.
-        if (validacep.test(cep)) {
-
-          //Preenche os campos com "..." enquanto consulta webservice.
-          document.getElementById('rua').value = "...";
-          document.getElementById('bairro').value = "...";
-          document.getElementById('cidade').value = "...";
-          document.getElementById('uf').value = "...";
-          document.getElementById('ibge').value = "...";
-
-          //Cria um elemento javascript.
-          var script = document.createElement('script');
-
-          //Sincroniza com o callback.
-          script.src = 'https://viacep.com.br/ws/' + cep + '/json/?callback=meu_callback';
-
-          //Insere script no documento e carrega o conteúdo.
-          document.body.appendChild(script);
-
-        } //end if.
-        else {
-          //cep é inválido.
-          limpa_formulário_cep();
-          alert("Formato de CEP inválido.");
-        }
-      } //end if.
-      else {
-        //cep sem valor, limpa formulário.
-        limpa_formulário_cep();
-      }
-
-    };
-
-    function validarCPF(strCPF) {
-
-      if (!testaCPF(strCPF)) {
-        $('#cpfInvalido').show();
-        document.getElementById("enviar").disabled = true;
-
-      } else {
-        $('#cpfInvalido').hide();
-
-        document.getElementById("enviar").disabled = false;
-      }
-    }
-
-    $(function() {
-
-      $("#header").load("../header.php");
-      $(".menuu").load("../menu.php");
     });
-  </script>
-  <!-- Head Libs -->
-  <script src="../../assets/vendor/modernizr/modernizr.js"></script>
 
-  <!-- javascript functions -->
-  <script src="../../../Functions/onlyNumbers.js"></script>
-  <script src="../../../Functions/onlyChars.js"></script>
-  <script src="../../../Functions/mascara.js"></script>
-  <script src="../../../Functions/lista.js"></script>
-  <script src="<?php echo WWW; ?>Functions/testaCPF.js"></script>
-  <script language="JavaScript">
-    var numValidos = "0123456789-()";
+    if (apoio === 0) {
+        alert("Cadastrado com sucesso!");
+    }
+
+      
+}
+
+
+document.querySelector("#enviar").addEventListener("submit" , validarPadrinho)
+
+function validarPadrinho(ev) {
+  ev.preventDefault()
+   if(validar()){
+    var btn = $("#enviar");
+    var cpfCadastrado = <?php
+        echo json_encode($padrinhoDAO->listarCPFPessoas());
+    ?>;
+    var cpf = limparCPF($("#cpf").val());
+
+    $.each(cpfCadastrado, function(i, item) {
+        if (item.cpf === cpf) {
+            alert("Cadastro não realizado! O CPF informado já está cadastrado no sistema");
+            btn.attr('disabled', 'disabled');
+            return false; // Para sair do loop
+        }
+    });
+  }
+}
+
+
+
+function okDisplay() {
+    document.getElementById("okButton").style.backgroundColor = "#0275d8"; // azul
+    document.getElementById("okText").textContent = "Confirme o arquivo selecionado";
+    $("#profileFirstName, #sobrenome, #telefone, #nascimento").prop('disabled', true);
+}
+
+function submitButtonStyle(_this) {
+    _this.style.backgroundColor = "#5cb85c"; // verde
+    document.getElementById("okText").textContent = "Arquivo confirmado";
+    $("#profileFirstName, #sobrenome, #telefone, #nascimento").prop('disabled', false);
+}
+
+function limparCPF(cpf) {
+    return cpf.replaceAll(".", "").replaceAll("-", "");
+}
+
+ function validar() {
+
+  var nome = document.getElementById('profileFirstName').value;
+
+  var sobrenome = document.getElementById('sobrenome').value;
+
+  var sexo = document.querySelector('input[name="gender"]:checked').value;
+
+  var telefone = document.getElementById('telefone').value;
+
+  var dt_nasc = document.getElementById('nascimento').value;
+
+  let dataNascimentoMaxima = "<?=$dataNascimentoMaxima?>";
+  dataNascimentoMaxima = dataNascimentoMaxima.replaceAll('-', '');
+
+  let dataNascimentoMinima = "<?=$dataNascimentoMinima?>";
+  dataNascimentoMinima = dataNascimentoMinima.replaceAll('-', '');
+
+  dt_nasc = dt_nasc.replaceAll('-', '');
+   
+  if(!validarTelefone()) {
+    alert('Telefone invalido')
+    return false;
+  }
+  if(dt_nasc > dataNascimentoMaxima){
+    alert('data de nascimento invalida')
+    return false;
+  }
+
+  if(dt_nasc < dataNascimentoMinima){
+    alert('data de nascimento invalida')
+    return false;
+  }
+
+
+  if (nome && sobrenome && sexo && telefone && dt_nasc) {
+    alert("Cadastrado com sucesso!");
+    return true
+  }
+
+}
+
+function numero_residencial() {
+
+  if ($("#numResidencial").prop('checked')) {
+
+    document.getElementById("numero_residencia").disabled = true;
+
+  } else {
+
+    document.getElementById("numero_residencia").disabled = false;
+
+  }
+}
+
+function limpa_formulário_cep() {
+  //Limpa valores do formulário de cep.
+  document.getElementById('rua').value = ("");
+  document.getElementById('bairro').value = ("");
+  document.getElementById('cidade').value = ("");
+  document.getElementById('uf').value = ("");
+  document.getElementById('ibge').value = ("");
+}
+
+function meu_callback(conteudo) {
+  if (!("erro" in conteudo)) {
+    //Atualiza os campos com os valores.
+    document.getElementById('rua').value = (conteudo.logradouro);
+    document.getElementById('bairro').value = (conteudo.bairro);
+    document.getElementById('cidade').value = (conteudo.localidade);
+    document.getElementById('uf').value = (conteudo.uf);
+    document.getElementById('ibge').value = (conteudo.ibge);
+  } //end if.
+  else {
+    //CEP não Encontrado.
+    limpa_formulário_cep();
+    alert("CEP não encontrado.");
+  }
+}
+
+function pesquisacep(valor) {
+
+  //Nova variável "cep" somente com dígitos.
+  var cep = valor.replace(/\D/g, '');
+
+  //Verifica se campo cep possui valor informado.
+  if (cep != "") {
+
+    //Expressão regular para validar o CEP.
+    var validacep = /^[0-9]{8}$/;
+
+    //Valida o formato do CEP.
+    if (validacep.test(cep)) {
+
+      //Preenche os campos com "..." enquanto consulta webservice.
+      document.getElementById('rua').value = "...";
+      document.getElementById('bairro').value = "...";
+      document.getElementById('cidade').value = "...";
+      document.getElementById('uf').value = "...";
+      document.getElementById('ibge').value = "...";
+
+      //Cria um elemento javascript.
+      var script = document.createElement('script');
+
+      //Sincroniza com o callback.
+      script.src = 'https://viacep.com.br/ws/' + cep + '/json/?callback=meu_callback';
+
+      //Insere script no documento e carrega o conteúdo.
+      document.body.appendChild(script);
+
+    } //end if.
+    else {
+      //cep é inválido.
+      limpa_formulário_cep();
+      alert("Formato de CEP inválido.");
+    }
+  } //end if.
+  else {
+    //cep sem valor, limpa formulário.
+    limpa_formulário_cep();
+  }
+
+};
+
+function validarCPF(strCPF) {
+
+  if (!testaCPF(strCPF)) {
+    $('#cpfInvalido').show(); 
+    document.getElementById("enviar").disabled = true;
+
+  } else {
+    $('#cpfInvalido').hide();
+
+    document.getElementById("enviar").disabled = false;
+  }
+}
+var numValidos = "0123456789-()";
     var num1invalido = "78";
     var i;
 
@@ -457,7 +456,19 @@ $dataNascimentoMinima = Padrinho::getDataNascimentoMinima();
         }
       }
     }
+   
   </script>
+
+  <!-- Head Libs -->
+  <script src="../../assets/vendor/modernizr/modernizr.js"></script>
+
+  <!-- javascript functions -->
+  <script src="../../../Functions/onlyNumbers.js"></script>
+  <script src="../../../Functions/onlyChars.js"></script>
+  <script src="../../../Functions/mascara.js"></script>
+  <script src="../../../Functions/lista.js"></script>
+  <script src="<?php echo WWW; ?>Functions/testaCPF.js"></script>
+
   <!-- Vendor -->
   <script src="../../../assets/vendor/jquery/jquery.js"></script>
   <script src="../../../assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
@@ -467,23 +478,10 @@ $dataNascimentoMinima = Padrinho::getDataNascimentoMinima();
   <script src="../../../assets/vendor/magnific-popup/magnific-popup.js"></script>
   <script src="../../../assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
 
-  <!-- img form -->
-  <script>
-    const image_input = document.querySelector(".image_input");
-    var uploaded_image;
-
-    image_input.addEventListener('change', function() {
-      const reader = new FileReader();
-      reader.addEventListener('load', () => {
-        uploaded_image = reader.result;
-        document.querySelector("#display_image").style.backgroundImage = `url(${uploaded_image})`;
-      });
-      reader.readAsDataURL(this.files[0]);
-    });
-  </script>
   <div align="right">
     <iframe src="https://www.wegia.org/software/footer/funcionario.html" width="200" height="60" style="border:none;"></iframe>
   </div>
+  <script src="./script/cadastro_padrinho.js" type="module"></script>
 </body>
 
 </html>
