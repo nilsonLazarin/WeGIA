@@ -119,7 +119,8 @@ function alternarPaginas(idProxima, idAtual) {
  */
 function configurarConsulta(funcao) {
     const btnConsulta = document.getElementById("consultar-btn");
-    btnConsulta.addEventListener("click", function () {
+    btnConsulta.addEventListener("click", function (ev) {
+        ev.preventDefault();
         funcao();
     })
 }
@@ -201,6 +202,17 @@ function configurarAvancaEndereco(funcao){
         }
 
         alternarPaginas('pag5', 'pag4');
+    });
+}
+
+function configurarAvancaTerminar(funcao){
+    const btnAvancaTerminar = document.getElementById('avanca-terminar');
+    btnAvancaTerminar.addEventListener('click', (ev)=>{
+        ev.preventDefault();
+        btnAvancaTerminar.disabled = true;
+        btnAvancaTerminar.classList.add('disabled');
+        setLoader(btnAvancaTerminar);
+        funcao();
     });
 }
 
@@ -360,4 +372,23 @@ function formAutocomplete({bairro, cep, cidade, complemento, documento, email, e
     ufObject.value = estado;
     cidadeObject.value = cidade;
     complementoObject.value = complemento;
+}
+
+function setLoader(btn) {
+    // Esconde o primeiro elemento filho (ícone)
+    btn.firstElementChild.style.display = "none";
+
+    // Remove o texto do botão sem remover os elementos filhos
+    btn.childNodes.forEach(node => {
+        if (node.nodeType === Node.TEXT_NODE) {
+            node.textContent = '';
+        }
+    });
+
+    // Adiciona o loader se não houver outros elementos filhos além do ícone
+    if (btn.childElementCount == 1) {
+        var loader = document.createElement("DIV");
+        loader.className = "loader";
+        btn.appendChild(loader);
+    }
 }
