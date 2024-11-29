@@ -114,7 +114,7 @@ $dataNascimentoMinima = Padrinho::getDataNascimentoMinima();
             </ul>
             <div class="tab-content">
               <div id="overview" class="tab-pane active">
-                <form class="form-horizontal" method="POST" action="../../../controle/control.php">
+                <form class="form-horizontal" method="GET" action="../../../controle/control.php">
                   <h4 class="mb-xlg">Informações Pessoais</h4>
                   <h5 class="obrig">Campos Obrigatórios(*)</h5>
                   <div class="form-group">
@@ -318,6 +318,14 @@ function limparCPF(cpf) {
   dataNascimentoMinima = dataNascimentoMinima.replaceAll('-', '');
 
   dt_nasc = dt_nasc.replaceAll('-', '');
+
+  if (nome && sobrenome && sexo && telefone && dt_nasc) {
+    alert("Cadastrado com sucesso!");
+    
+    return true
+  }else{
+    alert("Insira todas as informações!");
+  }
    
   if(!validarTelefone()) {
 
@@ -325,20 +333,13 @@ function limparCPF(cpf) {
     return false;
   }
   if(dt_nasc > dataNascimentoMaxima){
-    alert('data de nascimento invalida')
+    alert('Data de Nascimento inválida')
     return false;
   }
 
   if(dt_nasc < dataNascimentoMinima){
-    alert('data de nascimento invalida')
+    alert('Data de Nascimento inválida')
     return false;
-  }
-
-
-  if (nome && sobrenome && sexo && telefone && dt_nasc) {
-    alert("Cadastrado com sucesso!");
- 
-    return true
   }
 
  //cpf,$nome,$sobrenome,$sexo,$dataNascimento,$registroGeral,$orgaoEmissor,$dataExpedicao,$nomeMae,$nomePai,$tipoSanguineo,$senha,$telefone,$imagem,$cep,$estado,$cidade,$bairro,$logradouro,$numeroEndereco,$complemento,$ibge

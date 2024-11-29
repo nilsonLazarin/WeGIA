@@ -48,50 +48,49 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
   <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">
   <!-- <link rel="icon" href=" <?php  //display_campo("Logo", 'file'); ?>" type="image/x-icon" id="logo-icon">  -->
   <!-- Vendor CSS -->
-  <link rel="stylesheet" href="../../assets/vendor/bootstrap/css/bootstrap.css" />
-  <link rel="stylesheet" href="../../assets/vendor/font-awesome/css/font-awesome.css" />
+  <link rel="stylesheet" href="../../../assets/vendor/bootstrap/css/bootstrap.css" />
+  <link rel="stylesheet" href="../../../assets/vendor/font-awesome/css/font-awesome.css" />
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.1.1/css/all.css">
-  <link rel="stylesheet" href="../../assets/vendor/magnific-popup/magnific-popup.css" />
-  <link rel="stylesheet" href="../../assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
-  <link rel="icon" href="<?php display_campo("Logo", 'file'); ?>" type="image/x-icon" id="logo-icon">
+  <link rel="stylesheet" href="../../../assets/vendor/magnific-popup/magnific-popup.css" />
+  <link rel="stylesheet" href="../../../assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
   <!-- Theme CSS -->
-  <link rel="stylesheet" href="../../assets/stylesheets/theme.css" />
+  <link rel="stylesheet" href="../../../assets/stylesheets/theme.css" />
   <!-- Skin CSS -->
-  <link rel="stylesheet" href="../../assets/stylesheets/skins/default.css" />
+  <link rel="stylesheet" href="../../../assets/stylesheets/skins/default.css" />
   <!-- Theme Custom CSS -->
-  <link rel="stylesheet" href="../../assets/stylesheets/theme-custom.css">
-  <link rel="stylesheet" href="../../css/profile-theme.css" />
+  <link rel="stylesheet" href="../../../assets/stylesheets/theme-custom.css">
+  <link rel="stylesheet" href="../../../css/profile-theme.css" />
   <!-- Head Libs -->
-  <script src="../../assets/vendor/modernizr/modernizr.js"></script>
-  <script src="../../Functions/onlyNumbers.js"></script>
-  <script src="../../Functions/onlyChars.js"></script>
-  <script src="../../Functions/mascara.js"></script>
-  <script src="../../Functions/lista.js"></script>
+  <script src="../../../assets/vendor/modernizr/modernizr.js"></script>
+  <script src="../../../Functions/onlyNumbers.js"></script>
+  <script src="../../../Functions/onlyChars.js"></script>
+  <script src="../../../Functions/mascara.js"></script>
+  <script src="../../../Functions/lista.js"></script>
   <script src="<?php echo WWW; ?>Functions/testaCPF.js"></script>
 
-  <link rel="stylesheet" href="../../assets/vendor/bootstrap/css/bootstrap.css" />
-  <link rel="stylesheet" href="../../assets/vendor/magnific-popup/magnific-popup.css" />
-  <link rel="stylesheet" href="../../assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
+  <link rel="stylesheet" href="../../../assets/vendor/bootstrap/css/bootstrap.css" />
+  <link rel="stylesheet" href="../../../assets/vendor/magnific-popup/magnific-popup.css" />
+  <link rel="stylesheet" href="../../../assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
   <!-- <link rel="icon" href=" <?php  //display_campo("Logo", 'file'); ?>" type="image/x-icon" id="logo-icon">  -->
   <!-- Specific Page Vendor CSS -->
-  <link rel="stylesheet" href="../../assets/vendor/select2/select2.css" />
-  <link rel="stylesheet" href="../../assets/vendor/jquery-datatables-bs3/assets/css/datatables.css" />
+  <link rel="stylesheet" href="../../../assets/vendor/select2/select2.css" />
+  <link rel="stylesheet" href="../../../assets/vendor/jquery-datatables-bs3/assets/css/datatables.css" />
   <!-- Theme CSS -->
-  <link rel="stylesheet" href="../../assets/stylesheets/theme.css" />
+  <link rel="stylesheet" href="../../../assets/stylesheets/theme.css" />
   <!-- Skin CSS -->
-  <link rel="stylesheet" href="../../assets/stylesheets/skins/default.css" />
+  <link rel="stylesheet" href="../../../assets/stylesheets/skins/default.css" />
   <!-- Theme Custom CSS -->
-  <link rel="stylesheet" href="../../assets/stylesheets/theme-custom.css">
+  <link rel="stylesheet" href="../../../assets/stylesheets/theme-custom.css">
   <!-- Head Libs -->
-  <script src="../../assets/vendor/modernizr/modernizr.js"></script>
+  <script src="../../../assets/vendor/modernizr/modernizr.js"></script>
   <!-- Vendor -->
-  <script src="../../assets/vendor/jquery/jquery.min.js"></script>
-  <script src="../../assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
-  <script src="../../assets/vendor/bootstrap/js/bootstrap.js"></script>
-  <script src="../../assets/vendor/nanoscroller/nanoscroller.js"></script>
-  <script src="../../assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-  <script src="../../assets/vendor/magnific-popup/magnific-popup.js"></script>
-  <script src="../../assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
+  <script src="../../../assets/vendor/jquery/jquery.min.js"></script>
+  <script src="../../../assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
+  <script src="../../../assets/vendor/bootstrap/js/bootstrap.js"></script>
+  <script src="../../../assets/vendor/nanoscroller/nanoscroller.js"></script>
+  <script src="../../../assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+  <script src="../../../assets/vendor/magnific-popup/magnific-popup.js"></script>
+  <script src="../../../assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
   <style type="text/css">
     .btn span.fa-check {
       opacity: 0;
@@ -489,7 +488,7 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
               <div class="tab-content">
                 <!--Aba de Informações Pessoais-->
                 <div id="overview" class="tab-pane active">
-                  <form class="form-horizontal" method="post" action="../../controle/control.php">
+                  <form class="form-horizontal" method="post" action="../../../controle/control.php">
                     <input type="hidden" name="nomeClasse" value="FuncionarioControle">
                     <input type="hidden" name="metodo" value="alterarInfPessoal">
                     <h4 class="mb-xlg">Informações Pessoais</h4>
@@ -548,7 +547,7 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
                         </div>
                         <div class="modal-body">
                           <p> Tem certeza que deseja excluir esse padrinho? Essa ação não poderá ser desfeita e todas as informações referentes a esse padrinho serão perdidas!</p>
-                          <a href="../../controle/control.php?metodo=excluir&nomeClasse=PadrinhoControle&id_pessoa=<?php echo $_GET['id_pessoa']; ?>"><button button type="button" class="btn btn-success">Confirmar</button></a>
+                          <a href="../../../controle/control.php?metodo=excluir&nomeClasse=PadrinhoControle&id_pessoa=<?php echo $_GET['id_pessoa']; ?>"><button button type="button" class="btn btn-success">Confirmar</button></a>
                           <button button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                         </div>
                       </div>
@@ -581,7 +580,7 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
                     <div class="panel-body">
                       <!--Documentação-->
                       <hr class="dotted short">
-                      <form class="form-horizontal" method="post" action="../../controle/control.php">
+                      <form class="form-horizontal" method="post" action="../../../controle/control.php">
                         <input type="hidden" name="nomeClasse" value="FuncionarioControle">
                         <input type="hidden" name="metodo" value="alterarDocumentacao">
                         <div class="form-group">
@@ -615,7 +614,7 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
                     <div class="panel-body">
                       <!--Endereço-->
                       <hr class="dotted short">
-                      <form class="form-horizontal" method="post" action="../../controle/control.php">
+                      <form class="form-horizontal" method="post" action="../../../controle/control.php">
                         <input type="hidden" name="nomeClasse" value="FuncionarioControle">
                         <input type="hidden" name="metodo" value="alterarEndereco">
                         <div class="form-group">
@@ -689,23 +688,23 @@ $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
   </div>
   </section>
   <!-- Vendor -->
-  <script src="../../assets/vendor/select2/select2.js"></script>
-  <script src="../../assets/vendor/jquery-datatables/media/js/jquery.dataTables.js"></script>
-  <script src="../../assets/vendor/jquery-datatables/extras/TableTools/js/dataTables.tableTools.min.js"></script>
-  <script src="../../assets/vendor/jquery-datatables-bs3/assets/js/datatables.js"></script>
-  <script src="../../assets/vendor/nanoscroller/nanoscroller.js"></script>
+  <script src="../../../assets/vendor/select2/select2.js"></script>
+  <script src="../../../assets/vendor/jquery-datatables/media/js/jquery.dataTables.js"></script>
+  <script src="../../../assets/vendor/jquery-datatables/extras/TableTools/js/dataTables.tableTools.min.js"></script>
+  <script src="../../../assets/vendor/jquery-datatables-bs3/assets/js/datatables.js"></script>
+  <script src="../../../assets/vendor/nanoscroller/nanoscroller.js"></script>
   <!-- Theme Base, Components and Settings -->
-  <script src="../../assets/javascripts/theme.js"></script>
+  <script src="../../../assets/javascripts/theme.js"></script>
   <!-- Theme Custom -->
-  <script src="../../assets/javascripts/theme.custom.js"></script>
+  <script src="../../../assets/javascripts/theme.custom.js"></script>
   <!-- Metodo Post -->
   <script src="../geral/post.js"></script>
   <!-- Theme Initialization Files -->
-  <script src="../../assets/javascripts/theme.init.js"></script>
+  <script src="../../../assets/javascripts/theme.init.js"></script>
   <!-- Examples -->
-  <script src="../../assets/javascripts/tables/examples.datatables.default.js"></script>
-  <script src="../../assets/javascripts/tables/examples.datatables.row.with.details.js"></script>
-  <script src="../../assets/javascripts/tables/examples.datatables.tabletools.js"></script>
+  <script src="../../../assets/javascripts/tables/examples.datatables.default.js"></script>
+  <script src="../../../assets/javascripts/tables/examples.datatables.row.with.details.js"></script>
+  <script src="../../../assets/javascripts/tables/examples.datatables.tabletools.js"></script>
   <script>
     function submitForm(idForm, callback = function() {
       return true;

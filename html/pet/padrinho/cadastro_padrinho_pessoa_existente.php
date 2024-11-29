@@ -62,7 +62,6 @@ $sobrenome = $padrinho->listarSobrenome($cpf);
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.1.1/css/all.css">
   <link rel="stylesheet" href="../../assets/vendor/magnific-popup/magnific-popup.css" />
   <link rel="stylesheet" href="../../assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
-  <link rel="icon" href="<?php display_campo("Logo", 'file'); ?>" type="image/x-icon">
 
   <!-- Theme CSS -->
   <link rel="stylesheet" href="../../assets/stylesheets/theme.css" />
@@ -260,8 +259,8 @@ $sobrenome = $padrinho->listarSobrenome($cpf);
 
     function validarPadrinho() {
       var btn = $("#enviar");
-      var cpf_cadastrado = (<?php echo $_SESSION['cpf_padrinho']; ?>).concat(<?php echo $_SESSION['cpf_interno']; ?>);
-      var cpf_cadastrado = (<?php echo $_SESSION['cpf_padrinho']; ?>);
+      var cpf_cadastrado = (<?php echo $_SESSION['cpf_pessoao']; ?>).concat(<?php echo $_SESSION['cpf_interno']; ?>);
+      var cpf_cadastrado = (<?php echo $_SESSION['cpf_pessoa']; ?>);
       var cpf = (($("#cpf").val()).replaceAll(".", "")).replaceAll("-", "");
       console.log(this);
       $.each(cpf_cadastrado, function(i, item) {
@@ -376,18 +375,18 @@ $sobrenome = $padrinho->listarSobrenome($cpf);
 
     $(function() {
 
-      $("#header").load("../header.php");
-      $(".menuu").load("../menu.php");
+      $("#header").load("../../header.php");
+      $(".menuu").load("../../menu.php");
     });
   </script>
   <!-- Head Libs -->
   <script src="../../assets/vendor/modernizr/modernizr.js"></script>
 
   <!-- javascript functions -->
-  <script src="../../Functions/onlyNumbers.js"></script>
-  <script src="../../Functions/onlyChars.js"></script>
-  <script src="../../Functions/mascara.js"></script>
-  <script src="../../Functions/lista.js"></script>
+  <script src="../../../Functions/onlyNumbers.js"></script>
+  <script src="../../../Functions/onlyChars.js"></script>
+  <script src="../../../Functions/mascara.js"></script>
+  <script src="../../../Functions/lista.js"></script>
   <script src="<?php echo WWW; ?>Functions/testaCPF.js"></script>
   <script language="JavaScript">
     var numValidos = "0123456789-()";
@@ -415,13 +414,13 @@ $sobrenome = $padrinho->listarSobrenome($cpf);
     }
   </script>
   <!-- Vendor -->
-  <script src="../../assets/vendor/jquery/jquery.js"></script>
-  <script src="../../assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
-  <script src="../../assets/vendor/bootstrap/js/bootstrap.js"></script>
-  <script src="../../assets/vendor/nanoscroller/nanoscroller.js"></script>
-  <script src="../../assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-  <script src="../../assets/vendor/magnific-popup/magnific-popup.js"></script>
-  <script src="../../assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
+  <script src="../../../assets/vendor/jquery/jquery.js"></script>
+  <script src="../../../assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
+  <script src="../../../assets/vendor/bootstrap/js/bootstrap.js"></script>
+  <script src="../../../assets/vendor/nanoscroller/nanoscroller.js"></script>
+  <script src="../../../assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+  <script src="../../../assets/vendor/magnific-popup/magnific-popup.js"></script>
+  <script src="../../../assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
 
   <div align="right">
     <iframe src="https://www.wegia.org/software/footer/padrinho.html" width="200" height="60" style="border:none;"></iframe>

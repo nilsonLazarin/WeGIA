@@ -393,7 +393,7 @@ class PadrinhoDAO
             $pdo = Conexao::connect();
         
             // Alteração da consulta SQL para pegar apenas dados da tabela pessoa
-            $consulta = $pdo->query("SELECT p.id_pessoa, p.cpf FROM pessoa p");
+            $consulta = $pdo->query("SELECT id_pessoa, cpf FROM pessoa ");
         
             $x = 0;
             while ($linha = $consulta->fetch(PDO::FETCH_ASSOC)) {
