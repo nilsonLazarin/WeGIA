@@ -12,7 +12,6 @@ if (file_exists("classes/Personalizacao_display.php")){
      require_once "../../classes/Personalizacao_display.php";
 }
 function display_campo($campo, $tipo){
-
     /*
 
     Esta função recebe como parametro:
