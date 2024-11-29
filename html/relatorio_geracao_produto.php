@@ -204,13 +204,56 @@ function quickQuery($query, $column)
 					if($_SERVER["REQUEST_METHOD"] == "POST"){
 						$idAlmoxarifado = isset($_POST['almoxarifado']) ? $_POST['almoxarifado'] : null;
 						$idProduto = isset($_POST['produto']) ? $_POST['produto'] : null;
-						
 						$dataInicio = isset($_POST['data_inicio']) ? $_POST['data_inicio'] : null;
 						$dataFim = isset($_POST['data_fim']) ? $_POST['data_fim'] : null;
 
 						$modeloBrasileiro = 'd/m/Y';
-						$dataInicioFormatada = date_format(date_create($dataInicio), $modeloBrasileiro);
-						$dataFimFormatada = date_format(date_create($dataFim), $modeloBrasileiro);
+						if(!empty($dataInicio))
+							$dataInicioFormatada = date_format(date_create($dataInicio), $modeloBrasileiro);
+						else
+							$dataInicioFormatada = null;
+
+						if(!empty($dataFim))
+							$dataFimFormatada = date_format(date_create($dataFim), $modeloBrasileiro);
+						else
+							$dataFimFormatada = null;
+
+						$query = "
+							SELECT e.data
+							FROM entrada e
+							JOIN ientrada ie ON e.id_entrada = ie.id_entrada
+							JOIN produto p ON ie.id_produto = p.id_produto
+							WHERE p.id_produto = :id_produto
+							AND e.id_almoxarifado = :id_almoxarifado
+						";
+						
+						if ($dataInicio && $dataFim) {
+							$query .= " AND e.data BETWEEN :data_inicio AND :data_fim";
+						} elseif ($dataInicio) {
+							$query .= " AND e.data >= :data_inicio";
+						} elseif ($dataFim) {
+							$query .= " AND e.data <= :data_fim";
+						}
+						
+						$stmtDatas = $pdo->prepare($query);
+						
+						$stmtDatas->bindParam(':id_almoxarifado', $idAlmoxarifado, PDO::PARAM_INT);
+						$stmtDatas->bindParam(':id_produto', $idProduto, PDO::PARAM_INT);
+						
+						if ($dataInicio) {
+							$stmtDatas->bindParam(':data_inicio', $dataInicio, PDO::PARAM_STR);
+						}
+						if ($dataFim) {
+							$stmtDatas->bindParam(':data_fim', $dataFim, PDO::PARAM_STR);
+						}
+						
+						$stmtDatas->execute();						
+						$resultadoDatas = $stmtDatas->fetchAll(PDO::FETCH_ASSOC);
+
+						$datasArray = [];
+						foreach ($resultadoDatas as $linha) {
+							$datasArray[] = $linha['data']; 
+						}
 
 						if ($idProduto && $idAlmoxarifado) {
 							$stmt = $pdo->prepare("
@@ -256,16 +299,110 @@ function quickQuery($query, $column)
 									almoxarifado.id_almoxarifado = :idAlmoxarifado
 									AND produto.id_produto = :idProduto
 						");
-	
-	
 							$stmt->bindParam(':idProduto', $idProduto, PDO::PARAM_INT);
 							$stmt->bindParam(':idAlmoxarifado', $idAlmoxarifado, PDO::PARAM_INT);
 	
 							$stmt->execute();
 	
-							$resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+							$resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
 						}
 					}
+					?>
+
+					<?php
+						if ($idProduto && $idAlmoxarifado) {
+							$stmtEntradas = $pdo->prepare("
+								SELECT 
+									entrada.data AS data_entrada,
+									entrada.hora AS hora_entrada,
+									almoxarifado.descricao_almoxarifado,
+									produto.descricao,
+									categoria_produto.descricao_categoria,
+									ientrada.qtd AS quantidade_entrada,
+									tipo_entrada.descricao AS descricao_tipo_entrada,
+									estoque.qtd AS estoque_atual
+								FROM 
+									ientrada
+								JOIN 
+									entrada ON ientrada.id_entrada = entrada.id_entrada
+								JOIN 
+									almoxarifado ON entrada.id_almoxarifado = almoxarifado.id_almoxarifado
+								JOIN 
+									produto ON ientrada.id_produto = produto.id_produto
+								LEFT JOIN 
+									categoria_produto ON produto.id_categoria_produto = categoria_produto.id_categoria_produto
+								LEFT JOIN 
+									tipo_entrada ON entrada.id_tipo = tipo_entrada.id_tipo
+								LEFT JOIN
+									estoque ON estoque.id_produto = produto.id_produto 
+									AND estoque.id_almoxarifado = almoxarifado.id_almoxarifado
+								WHERE 
+									almoxarifado.id_almoxarifado = :idAlmoxarifado
+									AND produto.id_produto = :idProduto
+									AND entrada.data IN (" . implode(', ', array_map(function ($index) {
+										return ":data_entrada_$index";
+									}, array_keys($datasArray))) . ")
+							");
+							$stmtEntradas->bindParam(':idProduto', $idProduto, PDO::PARAM_INT);
+							$stmtEntradas->bindParam(':idAlmoxarifado', $idAlmoxarifado, PDO::PARAM_INT);
+						
+							foreach ($datasArray as $index => $data) {
+								$stmtEntradas->bindValue(":data_entrada_$index", $data, PDO::PARAM_STR);
+							}
+						
+							$stmtEntradas->execute();
+						
+							if ($stmtEntradas->rowCount() > 0) {
+								$entradas = $stmtEntradas->fetchAll(PDO::FETCH_ASSOC);
+							} else {
+								$entradas = [];
+							}
+						}
+						
+					
+					$stmtSaidas = $pdo->prepare("
+						SELECT 
+							saida.data AS data_saida,
+							saida.hora AS hora_saida,
+							almoxarifado.descricao_almoxarifado,
+							produto.descricao,
+							categoria_produto.descricao_categoria,
+							isaida.qtd AS quantidade_saida,
+							tipo_saida.descricao AS descricao_tipo_saida
+						FROM 
+							isaida
+						JOIN 
+							saida ON isaida.id_saida = saida.id_saida
+						JOIN 
+							almoxarifado ON saida.id_almoxarifado = almoxarifado.id_almoxarifado
+						JOIN 
+							produto ON isaida.id_produto = produto.id_produto
+						LEFT JOIN 
+							categoria_produto ON produto.id_categoria_produto = categoria_produto.id_categoria_produto
+						LEFT JOIN 
+							tipo_saida ON saida.id_tipo = tipo_saida.id_tipo
+						WHERE 
+							almoxarifado.id_almoxarifado = :idAlmoxarifado
+							AND produto.id_produto = :idProduto
+							AND saida.data IN (" . implode(', ', array_map(function ($index) {
+										return ":data_saida_$index";
+									}, array_keys($datasArray))) . ")
+					");
+					
+					$stmtSaidas->bindParam(':idProduto', $idProduto, PDO::PARAM_INT);
+					$stmtSaidas->bindParam(':idAlmoxarifado', $idAlmoxarifado, PDO::PARAM_INT);
+
+					foreach ($datasArray as $index => $data) {
+						$stmtSaidas->bindValue(":data_saida_$index", $data, PDO::PARAM_STR);
+					}
+
+					$stmtSaidas->execute();
+					if ($stmtSaidas->rowCount() > 0) {
+						$saidas = $stmtSaidas->fetchAll(PDO::FETCH_ASSOC);
+					} else {
+						$saidas = [];
+					}
+
 					?>
 
 					<table class="table table-striped">
@@ -276,73 +413,87 @@ function quickQuery($query, $column)
 						</thead>
 						<tbody>
 							<tr>
-								<td>PRODUTO: <?php echo !empty($resultado['descricao']) ? htmlspecialchars($resultado['descricao']) : 'Não registrado'; ?></td>        
+								<td>PRODUTO: <?php echo !empty($entradas[0]['descricao']) ? htmlspecialchars($entradas[0]['descricao']) : 'Não registrado'; ?></td>        
 							</tr>
 							<tr>
-								<td>ALMOXARIFADO: <?php echo !empty($resultado['descricao_almoxarifado']) ? htmlspecialchars($resultado['descricao_almoxarifado']) : 'Não registrado'; ?></td>
+								<td>ALMOXARIFADO: <?php echo !empty($entradas[0]['descricao_almoxarifado']) ? htmlspecialchars($entradas[0]['descricao_almoxarifado']) : 'Não registrado'; ?></td>
 							</tr>
 							<tr>
-								<td>CATEGORIA: <?php echo !empty($resultado['descricao_categoria']) ? htmlspecialchars($resultado['descricao_categoria']) : 'Não registrado'; ?></td>
+								<td>CATEGORIA: <?php echo !empty($entradas[0]['descricao_categoria']) ? htmlspecialchars($entradas[0]['descricao_categoria']) : 'Não registrado'; ?></td>
 							</tr>    
 							<tr>
-								<td>ESTOQUE ATUAL: <?php echo !empty($resultado['estoque_atual']) ? htmlspecialchars($resultado['estoque_atual']) : 'Não registrado'; ?></td>
+								<td>ESTOQUE ATUAL: <?php echo !empty($entradas[0]['estoque_atual']) ? htmlspecialchars($entradas[0]['estoque_atual']) : 'Não registrado'; ?></td>
 							</tr>    
 							<tr>
-								<td>PERÍODO DO RELATÓRIO: <?php echo !empty($dataInicioFormatada) && !empty($dataFimFormatada) ? "<br> A partir de: " . $dataInicioFormatada . "<br>" . "Até: " . $dataFimFormatada : 'Não registrado'; ?></td>
+								<td>PERÍODO DO RELATÓRIO:
+									<?php
+									if (empty($dataInicio) && empty($dataFim)) {
+										echo "TODAS AS DATAS";
+									} elseif (!empty($dataInicio) && !empty($dataFim)) {
+										echo "<br> A partir do dia: " . $dataInicioFormatada . "<br>" . "Até: " . $dataFimFormatada;
+									} elseif (!empty($dataInicio)) {
+										echo "A partir do dia: " . $dataInicioFormatada;
+									} elseif (!empty($dataFim)) {
+										echo "Até: " . $dataFimFormatada;
+									} else {
+										echo 'Não registrado';
+									}
+									?>
+								</td>
 							</tr>
 						</tbody>
 					</table>
 
+					<table class="table table-striped">
+						<thead class="thead-dark">
+							<tr>
+								<th scope="col" colspan="4" style="font-size: large;">ENTRADAS</th>
+							</tr>
+							<tr>
+								<th scope="col" style="font-weight: 600;">DATA</th>
+								<th scope="col" style="font-weight: 600;">TIPO</th>
+								<th scope="col" style="font-weight: 600;">QTD</th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php 
+							foreach ($entradas as $entrada) {
+								$dataEntrada = date('d/m/Y H:i', strtotime($entrada['data_entrada'] . ' ' . $entrada['hora_entrada']));
+							?>
+								<tr>
+									<td><?php echo $dataEntrada; ?></td>
+									<td><?php echo htmlspecialchars(trim($entrada['descricao_tipo_entrada'])); ?></td>
+									<td><?php echo htmlspecialchars(trim($entrada['quantidade_entrada'])); ?></td>
+								</tr>
+							<?php } ?>
+						</tbody>
+					</table>
 
 					<table class="table table-striped">
-					<thead class="thead-dark">
-						<tr>
-							<th scope="col" colspan="4" style="font-size: large;">ENTRADAS</th>
-						</tr>
-						<tr>
-							<th scope="col" style="font-weight: 600;">DATA</th>
-							<th scope="col" style="font-weight: 600;">CÓDIGO</th>
-							<th scope="col" style="font-weight: 600;">TIPO</th>
-							<th scope="col" style="font-weight: 600;">QTD</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
+						<thead class="thead-dark">
+							<tr>
+								<th scope="col" colspan="4" style="font-size: large;">SAÍDAS</th>
+							</tr>
+							<tr>
+								<th scope="col" style="font-weight: 600;">DATA</th>
+								<th scope="col" style="font-weight: 600;">TIPO</th>
+								<th scope="col" style="font-weight: 600;">QTD</th>
+							</tr>
+						</thead>
+						<tbody>
 							<?php 
-								$dataEntrada = date('d/m/Y H:i', strtotime($resultado['data_entrada'] . ' ' . $resultado['hora_entrada'])); 
-								echo "<td>" . $dataEntrada . "</td>"; 
+							foreach ($saidas as $saida) {
+								$dataSaida = date('d/m/Y H:i', strtotime($saida['data_saida'] . ' ' . $saida['hora_saida']));
 							?>
-							<td><?php echo htmlspecialchars(trim($resultado['id_entrada'])); ?></td> 
-							<td><?php echo htmlspecialchars(trim($resultado['descricao_tipo_entrada'])); ?></td> 
-							<td><?php echo htmlspecialchars(trim($resultado['quantidade_entrada'])); ?></td> 
-						</tr>
-					</tbody>
-				</table>
+								<tr>
+									<td><?php echo $dataSaida; ?></td>
+									<td><?php echo htmlspecialchars(trim($saida['descricao_tipo_saida'])); ?></td>
+									<td><?php echo htmlspecialchars(trim($saida['quantidade_saida'])); ?></td>
+								</tr>
+							<?php } ?>
+						</tbody>
+					</table>
 
-				<table class="table table-striped">
-					<thead class="thead-dark">
-						<tr>
-							<th scope="col" colspan="4" style="font-size: large;">SAÍDAS</th>
-						</tr>
-						<tr>
-							<th scope="col" style="font-weight: 600;">DATA</th>
-							<th scope="col" style="font-weight: 600;">CÓDIGO</th>
-							<th scope="col" style="font-weight: 600;">TIPO</th>
-							<th scope="col" style="font-weight: 600;">QTD</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<?php 
-								$dataSaida = date('d/m/Y H:i', strtotime($resultado['data_saida'] . ' ' . $resultado['hora_saida'])); 
-								echo "<td>" . $dataSaida . "</td>";
-							?>
-							<td><?php echo !empty($resultado['id_saida']) ? htmlspecialchars(trim($resultado['id_saida'])) : 'Não registrado'; ?></td> 
-							<td><?php echo !empty($resultado['descricao_tipo_saida']) ? htmlspecialchars(trim($resultado['descricao_tipo_saida'])) : 'Não registrado'; ?></td> 
-							<td><?php echo !empty($resultado['quantidade_saida']) ? htmlspecialchars(trim($resultado['quantidade_saida'])) : 'Não registrado'; ?></td> 
-						</tr>
-					</tbody>
-				</table>
 
 				</div>
 				<!--end: page-->
