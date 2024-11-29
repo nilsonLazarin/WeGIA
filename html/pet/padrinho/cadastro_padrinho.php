@@ -114,7 +114,7 @@ $dataNascimentoMinima = Padrinho::getDataNascimentoMinima();
             </ul>
             <div class="tab-content">
               <div id="overview" class="tab-pane active">
-                <form class="form-horizontal" method="GET" action="../../../controle/control.php">
+                <form class="form-horizontal" method="POST" action="../../../controle/control.php">
                   <h4 class="mb-xlg">Informações Pessoais</h4>
                   <h5 class="obrig">Campos Obrigatórios(*)</h5>
                   <div class="form-group">
@@ -225,7 +225,7 @@ $dataNascimentoMinima = Padrinho::getDataNascimentoMinima();
     }
   </style>
   <script>
-   console.log("teste 3")
+ 
    $(function() {
       $("#header").load("../../header.php");
       $(".menuu").load("../../menu.php");
@@ -277,7 +277,7 @@ function validarPadrinho(ev) {
             return false; // Para sair do loop
         }
     });
-    do
+  
   }
 }
 
@@ -337,8 +337,11 @@ function limparCPF(cpf) {
 
   if (nome && sobrenome && sexo && telefone && dt_nasc) {
     alert("Cadastrado com sucesso!");
+ 
     return true
   }
+
+ //cpf,$nome,$sobrenome,$sexo,$dataNascimento,$registroGeral,$orgaoEmissor,$dataExpedicao,$nomeMae,$nomePai,$tipoSanguineo,$senha,$telefone,$imagem,$cep,$estado,$cidade,$bairro,$logradouro,$numeroEndereco,$complemento,$ibge
 
 }
 

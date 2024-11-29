@@ -351,9 +351,11 @@ class PadrinhoDAO
         {
             try {
                 session_start();
+             
                 // Obter o ID do usuário atual da sessão
                 require_once ROOT . "/dao/memorando/UsuarioDAO.php";
                 $usuario = new UsuarioDAO();
+            
                 $id_usuario = $usuario->obterUsuario($_SESSION['usuario'])[0]["id_pessoa"];
                 
                 $pessoas = array();
@@ -374,6 +376,7 @@ class PadrinhoDAO
                     );
                     $x++;
                 }
+                var_dump($consulta->fetchAll(PDO::FETCH_ASSOC));
             } catch (PDOException $e) {
                 echo 'Error: ' . $e->getMessage();
             }
