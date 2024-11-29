@@ -190,8 +190,26 @@ require_once "personalizacao_display.php";
 								</div>
 							</div>
 
-							<h4 class="mb-xlg">Parâmetros do relatório</h4>
+							<h4 class="mb-xlg" id="param-relat">Parâmetros do relatório</h4>
 							
+							<div class="form-group" id="per" style="text-align: center;">
+								<button type="button" id="btn-7dias" class="btn btn-primary" style="width: fit-content;" onclick="botao7Dias()">Últimos 7 dias</button>
+								<button type="button" id="btn-30dias" class="btn btn-primary" style="width: fit-content;" onclick="botao30Dias()">Últimos 30 dias</button>
+								<button type="button" id="btn-180dias" class="btn btn-primary" style="width: fit-content;" onclick="botao180Dias()">Últimos 180 dias</button>
+								<button type="button" id="btn-365dias" class="btn btn-primary" style="width: fit-content;" onclick="botao365Dias()">Últimos 365 dias</button>
+								<br><br>
+								<button type="button" id="btn-semana" class="btn btn-primary" style="width: fit-content;" onclick="botaoSemana()">Essa semana</button>
+								<button type="button" id="btn-mes" class="btn btn-primary" style="width: fit-content;" onclick="botaoMes()">Esse mês</button>
+								<button type="button" id="btn-ano" class="btn btn-primary" style="width: fit-content;" onclick="botaoAno()">Esse ano</button>
+								<br><br>
+								<label class="col-md-3 control-label" for="profileCompany">Período</label>
+								<div class="col-md-8">
+									<input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" id="data_inicio" name="data_inicio" max="9999-12-31">
+									<br>
+									<input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" id="data_fim" name="data_fim" max="9999-12-31">
+								</div>
+							</div>
+
 							<div class="form-group" id='orig'>
 								<label class="col-md-3 control-label">Origem</label>
 								<div class="col-md-8">
@@ -287,19 +305,10 @@ require_once "personalizacao_display.php";
 								</div>
 							</div>
 
-							<div class="form-group" id='per'>
-								<label class="col-md-3 control-label" for="profileCompany">Período</label>
-								<div class="col-md-8">
-									<input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data_inicio" max="9999-12-31">
-									<br>
-									<input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data_fim" max="9999-12-31">
-								</div>
-							</div>
-
 							<div class="form-group" id="almoxarifado">
 								<label class="col-md-3 control-label">Almoxarifado</label>
 								<div class="col-md-8">
-									<select name="almoxarifado" id="almoxarifadoSelect" onchange="verificaAlmoxarifado()">
+									<select name="almoxarifado">
 										<option value="">Todas as Opções</option>
 										<?php
 										$pdo = Conexao::connect();
@@ -311,27 +320,6 @@ require_once "personalizacao_display.php";
 											}
 										} catch (PDOException $e) {
 											echo '<option value="">Erro ao carregar almoxarifados</option>';
-										}
-										?>
-									</select>
-								</div>
-							</div>
-
-							<div class="form-group" id="produto">
-								<label class="col-md-3 control-label">Produtos</label>
-								<div class="col-md-8">
-									<select name="produto" id="produtoSelect" onchange="verificaSelecao(); removerOpcao();">
-										<option value="">Selecione um Produto</option>
-										<?php
-										$pdo = Conexao::connect();
-										try {
-											$res = $pdo->query("SELECT * FROM produto ORDER BY descricao;");
-											$produtos = $res->fetchAll(PDO::FETCH_ASSOC);
-											foreach ($produtos as $value) {
-												echo '<option value="' . $value['id_produto'] . '">' . htmlspecialchars($value['descricao']) . '</option>';
-											}
-										} catch (PDOException $e) {
-											echo '<option value="">Erro ao carregar produtos</option>';
 										}
 										?>
 									</select>
@@ -351,9 +339,63 @@ require_once "personalizacao_display.php";
 								</div>
 							</div>
 
+							<div class="form-group">
+								<div class="center-content">
+									<input type="submit" value="Gerar" id="gerar3" class="btn btn-primary" style="width: fit-content;">									
+								</div>
+							</div>
+
 						</form>
 
-						<button class="btn btn-primary" id="botaoRelatProd" style="width: fit-content; display: none; margin: 0 auto; text-align: center; position: relative;" onclick="gerarRelatorio()">Gerar</button>
+						<!-- Formulário de produtos !-->
+						<form class="form-horizontal" method="post" action="relatorio_geracao_produto.php">
+
+							<div class="form-group" id='per2'>
+								<label class="col-md-3 control-label" for="profileCompany">Período</label>
+								<div class="col-md-8">
+									<input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" id="data_inicio" name="data_inicio" max="9999-12-31">
+									<br>
+									<input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" id="data_fim" name="data_fim" max="9999-12-31">
+								</div>
+							</div>
+
+							<div class="form-group" id="almoxarifado2">
+								<label class="col-md-3 control-label">Almoxarifado</label>
+								<div class="col-md-8">
+									<select name="almoxarifado" id="almoxarifadoSelect">
+										<option value="">Selecionar almoxarifado</option>
+										<?php
+										$pdo = Conexao::connect();
+										try {
+											$res = $pdo->query("SELECT * FROM almoxarifado ORDER BY descricao_almoxarifado;");
+											$almoxarifados = $res->fetchAll(PDO::FETCH_ASSOC);
+											foreach ($almoxarifados as $value) {
+												echo '<option value="' . $value['id_almoxarifado'] . '">' . htmlspecialchars($value['descricao_almoxarifado']) . '</option>';
+											}
+										} catch (PDOException $e) {
+											echo '<option value="">Erro ao carregar almoxarifados</option>';
+										}
+										?>
+									</select>
+								</div>
+							</div>
+
+							<div class="form-group" id="produto">
+								<label class="col-md-3 control-label">Produtos</label>
+								<div class="col-md-8">
+									<select name="produto" id="produtoSelect">
+										<option value="">Selecione um Produto</option>
+									</select>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<div class="center-content">
+									<input type="submit" value="Gerar" id="gerar2" class="btn btn-primary" style="width: fit-content;">									
+								</div>
+							</div>
+
+						</form>
 
 					</div>
 				</div>
@@ -366,7 +408,197 @@ require_once "personalizacao_display.php";
 	</div>
 </body>
 <script>
-	function removerOpcao() {
+	//FUNÇÃO PARA CALCULAR AS LISTAGENS DE 7 DIAS
+	function botao7Dias() {
+		const btn7Dias = document.getElementById("btn-7dias");
+		let dataInicio = document.getElementById("data_inicio");
+		let dataFim = document.getElementById("data_fim");
+
+		//Pega a data atual
+		var dataAtual = new Date();
+		var ano = dataAtual.getFullYear();
+		var mes = String(dataAtual.getMonth() + 1).padStart(2, '0');
+		var dia = String(dataAtual.getDate()).padStart(2, '0');
+
+		const dataAtualFormatada = `${ano}-${mes}-${dia}`;
+
+		dataFim.value = dataAtualFormatada;
+
+		// Calcula a data de 7 dias atrás
+		dataAtual.setDate(dataAtual.getDate() - 7); 
+		ano = dataAtual.getFullYear();
+		mes = String(dataAtual.getMonth() + 1).padStart(2, '0');
+		dia = String(dataAtual.getDate()).padStart(2, '0');
+
+		const data7DiasAtras = `${ano}-${mes}-${dia}`;
+
+		dataInicio.value = data7DiasAtras;
+	}
+
+	//FUNÇÃO PARA CALCULAR AS LISTAGENS DE 30 DIAS
+	function botao30Dias() {
+		const btn30Dias = document.getElementById("btn-30dias");
+		let dataInicio = document.getElementById("data_inicio");
+		let dataFim = document.getElementById("data_fim");
+
+		//Pega a data atual
+		var dataAtual = new Date();
+		var ano = dataAtual.getFullYear();
+		var mes = String(dataAtual.getMonth() + 1).padStart(2, '0');
+		var dia = String(dataAtual.getDate()).padStart(2, '0');
+
+		const dataAtualFormatada = `${ano}-${mes}-${dia}`;
+
+		dataFim.value = dataAtualFormatada;
+
+		// Calcula a data de 30 dias atrás
+		dataAtual.setDate(dataAtual.getDate() - 30); 
+		ano = dataAtual.getFullYear();
+		mes = String(dataAtual.getMonth() + 1).padStart(2, '0');
+		dia = String(dataAtual.getDate()).padStart(2, '0');
+
+		const data30DiasAtras = `${ano}-${mes}-${dia}`;
+
+		dataInicio.value = data30DiasAtras;
+	}
+
+	//FUNÇÃO PARA CALCULAR AS LISTAGENS DE 180 DIAS
+	function botao180Dias() {
+		const btn180Dias = document.getElementById("btn-180dias");
+		let dataInicio = document.getElementById("data_inicio");
+		let dataFim = document.getElementById("data_fim");
+
+		//Pega a data atual
+		var dataAtual = new Date();
+		var ano = dataAtual.getFullYear();
+		var mes = String(dataAtual.getMonth() + 1).padStart(2, '0');
+		var dia = String(dataAtual.getDate()).padStart(2, '0');
+
+		const dataAtualFormatada = `${ano}-${mes}-${dia}`;
+
+		dataFim.value = dataAtualFormatada;
+
+		// Calcula a data de 180 dias atrás
+		dataAtual.setDate(dataAtual.getDate() - 180); 
+		ano = dataAtual.getFullYear();
+		mes = String(dataAtual.getMonth() + 1).padStart(2, '0');
+		dia = String(dataAtual.getDate()).padStart(2, '0');
+
+		const data180DiasAtras = `${ano}-${mes}-${dia}`;
+
+		dataInicio.value = data180DiasAtras;
+	}
+
+	//FUNÇÃO PARA CALCULAR AS LISTAGENS DE 365 DIAS
+	function botao365Dias() {
+		const btn365Dias = document.getElementById("btn-365dias");
+		let dataInicio = document.getElementById("data_inicio");
+		let dataFim = document.getElementById("data_fim");
+
+		//Pega a data atual
+		var dataAtual = new Date();
+		var ano = dataAtual.getFullYear();
+		var mes = String(dataAtual.getMonth() + 1).padStart(2, '0');
+		var dia = String(dataAtual.getDate()).padStart(2, '0');
+
+		const dataAtualFormatada = `${ano}-${mes}-${dia}`;
+
+		dataFim.value = dataAtualFormatada;
+
+		// Calcula a data de 365 dias atrás
+		dataAtual.setDate(dataAtual.getDate() - 365); 
+		ano = dataAtual.getFullYear();
+		mes = String(dataAtual.getMonth() + 1).padStart(2, '0');
+		dia = String(dataAtual.getDate()).padStart(2, '0');
+
+		const data365DiasAtras = `${ano}-${mes}-${dia}`;
+
+		dataInicio.value = data365DiasAtras;
+	}
+
+	//FUNÇÃO PARA CALCULAR AS LISTAGENS DA SEMANA
+	function botaoSemana() {
+		const btnSemana = document.getElementById("btn-semana");
+		let dataInicio = document.getElementById("data_inicio");
+		let dataFim = document.getElementById("data_fim");
+
+		var dataAtual = new Date();
+		var diaSemana = dataAtual.getDay();
+
+		var diasParaSegunda = diaSemana === 0 ? -6 : 1 - diaSemana; 
+		dataAtual.setDate(dataAtual.getDate() + diasParaSegunda);
+
+		// Formata a data de início (segunda-feira)
+		var ano = dataAtual.getFullYear();
+		var mes = String(dataAtual.getMonth() + 1).padStart(2, '0');
+		var dia = String(dataAtual.getDate()).padStart(2, '0');
+		const dataDaSemana = `${ano}-${mes}-${dia}`;
+
+		dataInicio.value = dataDaSemana;
+
+		dataAtual.setDate(dataAtual.getDate() + 6); 
+
+		// Formata a data de fim (domingo)
+		ano = dataAtual.getFullYear();
+		mes = String(dataAtual.getMonth() + 1).padStart(2, '0');
+		dia = String(dataAtual.getDate()).padStart(2, '0');
+		const dataFimSemana = `${ano}-${mes}-${dia}`;
+
+		dataFim.value = dataFimSemana;
+	}
+
+	//FUNÇÃO PARA CALCULAR AS LISTAGENS DO MÊS
+	function botaoMes() {
+		const btnMes = document.getElementById("btn-mes");
+		let dataInicio = document.getElementById("data_inicio");
+		let dataFim = document.getElementById("data_fim");
+
+		var dataAtual = new Date();
+
+		var ano = dataAtual.getFullYear();
+		var mes = String(dataAtual.getMonth() + 1).padStart(2, '0'); 
+		var dia = '01'; 
+		const inicioMes = `${ano}-${mes}-${dia}`;
+
+		dataInicio.value = inicioMes;
+
+		var proximoMes = new Date(ano, dataAtual.getMonth() + 1, 0);
+		var fimMesAno = proximoMes.getFullYear();
+		var fimMesMes = String(proximoMes.getMonth() + 1).padStart(2, '0');
+		var fimMesDia = String(proximoMes.getDate()).padStart(2, '0');
+		const fimMes = `${fimMesAno}-${fimMesMes}-${fimMesDia}`;
+
+		dataFim.value = fimMes;
+	}
+	//FUNÇÃO PARA CALCULAR AS LISTAGENS DO ANO
+	function botaoAno() {
+		const btnAno = document.getElementById("btn-ano");
+		let dataInicio = document.getElementById("data_inicio");
+		let dataFim = document.getElementById("data_fim");
+
+		var dataAtual = new Date();
+
+		var ano = dataAtual.getFullYear();
+		var inicioAno = `${ano}-01-01`; 
+
+		dataInicio.value = inicioAno;
+
+		var fimAno = `${ano}-12-31`; 
+
+		dataFim.value = fimAno;
+	}
+
+	const selectAlmoxarifado = document.getElementById("almoxarifadoSelect");
+	selectAlmoxarifado.addEventListener("click", function(){
+		removerPrimeiraOpcaoAlmoxarifado();
+	})
+
+	const selectProduto = document.getElementById("produtoSelect");
+	selectProduto.addEventListener("click", function(){
+		removerPrimeiraOpcaoProduto();
+	})
+
+	function removerPrimeiraOpcaoProduto() {
 		const select = document.getElementById('produtoSelect');
 		
 		if (select.options[0].value === "") {
@@ -374,29 +606,44 @@ require_once "personalizacao_display.php";
 		}
 	}
 
-	function verificaSelecao() {
-		var produtoSelect = document.getElementById("produtoSelect");
-		var almoxarifadoSelect = document.getElementById("almoxarifadoSelect");
-		var button = document.getElementById("botaoRelatProd");
+	function removerPrimeiraOpcaoAlmoxarifado() {
+		const select = document.getElementById('almoxarifadoSelect');
 		
-		button.style.display = (produtoSelect.value || almoxarifadoSelect.value) ? 'block' : 'none';
-	}
-
-	function gerarRelatorio() {
-		const produtoSelect = document.getElementById("produtoSelect");
-		const almoxarifadoSelect = document.getElementById("almoxarifadoSelect");
-		
-		const idProduto = produtoSelect.value;
-		const idAlmoxarifado = almoxarifadoSelect.value;
-
-		if (idProduto && idAlmoxarifado) {
-			window.location.href = 'relatorio_geracao_produto.php?id_produto=' + idProduto + '&id_almoxarifado=' + idAlmoxarifado;
+		if (select.options[0].value === "") {
+			select.remove(0);
 		}
 	}
 
+	document.getElementById('almoxarifadoSelect').addEventListener('change', function() {
+		var idAlmoxarifado = this.value;
+		console.log("Almoxarifado selecionado: ", idAlmoxarifado);
 
+		if (idAlmoxarifado) {
+			var xhr = new XMLHttpRequest();
+			xhr.open('GET', 'get_produtos.php?id_almoxarifado=' + idAlmoxarifado, true);
+			xhr.onload = function() {
+				if (xhr.status === 200) {
+					console.log(xhr.responseText);  
+					var produtos = JSON.parse(xhr.responseText);
+					var selectProduto = document.getElementById('produtoSelect');
+					selectProduto.innerHTML = '<option value="">Selecione um Produto</option>';
+					
+					produtos.forEach(function(produto) {
+						var option = document.createElement('option');
+						option.value = produto.id_produto;
+						option.textContent = produto.descricao;
+						selectProduto.appendChild(option);
+					});
+				} else {
+					console.error('Erro na requisição:', xhr.status);
+				}
+			};
+			xhr.send();
+		} else {
+			document.getElementById('produtoSelect').innerHTML = '<option value="">Selecione um Produto</option>';
+		}
+	});
 
 </script>
-<script src="./relatorios/relatorio.js"></script>
-
+<script src="./relatorios/relatorio.js" defer></script>
 </html>
