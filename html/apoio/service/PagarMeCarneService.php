@@ -124,7 +124,7 @@ class PagarMeCarneService implements ApiCarneServiceInterface
             if ($httpCode === 200 || $httpCode === 201) {
                 $responseData = json_decode($response, true);
                 $pdf_links[] = $responseData['charges'][0]['last_transaction']['pdf'];
-                $codigosAPI[] = $responseData['code'];
+                $codigosAPI[] = $responseData['id'];
             } else {
                 echo json_encode(['Erro' => 'A API retornou o código de status HTTP ' . $httpCode]);
                 return false;

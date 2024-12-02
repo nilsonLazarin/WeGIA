@@ -110,8 +110,8 @@ class PagarMeBoletoService implements ApiBoletoServiceInterface
             $responseData = json_decode($response, true);
             $pdf_link = $responseData['charges'][0]['last_transaction']['pdf'];
 
-            //pegar o código da plataforma
-            $codigoPagarMe = $responseData['code'];
+            //pegar o id do pedido na plataforma
+            $idPagarMe = $responseData['id'];
 
             //armazena copía para segunda via
             $this->guardarSegundaVia($pdf_link, $contribuicaoLog);
@@ -131,7 +131,7 @@ class PagarMeBoletoService implements ApiBoletoServiceInterface
             }
         }
 
-        return $codigoPagarMe;
+        return $idPagarMe;
     }
     public function guardarSegundaVia($pdf_link, ContribuicaoLog $contribuicaoLog)
     {
