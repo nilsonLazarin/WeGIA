@@ -2,8 +2,15 @@
 require_once '../model/Socio.php';
 require_once '../dao/SocioDAO.php';
 require_once '../helper/Util.php';
+require_once '../dao/ConexaoDAO.php';
 class SocioController
 {
+    private PDO $pdo;
+
+    public function __construct()
+    {
+        $this->pdo = ConexaoDAO::conectar();
+    }
 
     public function criarSocio()
     {
@@ -25,15 +32,67 @@ class SocioController
             ->setIbge($dados['ibge'])
             ->setValor($dados['valor']);
 
-        try{
+        try {
             $socioDao = new SocioDAO();
             $socioDao->criarSocio($socio);
 
             http_response_code(200);
             echo json_encode(['mensagem' => 'Sócio criado com sucesso!']);
-        }catch(PDOException $e){
+        } catch (PDOException $e) {
             http_response_code(500);
             echo json_encode(['erro' => $e->getMessage()]);
+        }
+    }
+
+    public function atualizarSocio()
+    {
+        $dados = $this->extrairPost();
+        $socio = new Socio();
+        $socio
+            ->setNome($dados['nome'])
+            ->setDataNascimento($dados['dataNascimento'])
+            ->setTelefone($dados['telefone'])
+            ->setEmail($dados['email'])
+            ->setEstado($dados['uf'])
+            ->setCidade($dados['cidade'])
+            ->setBairro($dados['bairro'])
+            ->setComplemento($dados['complemento'])
+            ->setCep($dados['cep'])
+            ->setNumeroEndereco($dados['numero'])
+            ->setLogradouro($dados['rua'])
+            ->setDocumento($dados['cpf'])
+            ->setIbge($dados['ibge'])
+            ->setValor($dados['valor']);
+
+        try {
+            $socioDao = new SocioDAO($this->pdo);
+
+            //Verifica se o sócio é um funcionário ou atendido
+            if ($socioDao->verificarInternoPorDocumento($socio->getDocumento())) {
+                http_response_code(403);
+                echo json_encode(['erro' => 'Você não possuí permissão para alterar os dados desse CPF']);
+                exit();
+            }
+
+            $this->pdo->beginTransaction();
+            $socioDao->registrarLogPorDocumento($socio->getDocumento(), 'Atualização recente');
+
+            if($socioDao->atualizarSocio($socio)){
+                $this->pdo->commit();
+                http_response_code(200);
+                echo json_encode(['mensagem' => 'Atualizado com sucesso!']);
+                exit();
+            }else{
+                $this->pdo->rollBack();
+                http_response_code(500);
+                echo json_encode(['erro' => 'Erro ao atualizar sócio no sistema']);
+                exit();
+            }
+            
+        } catch (PDOException $e) {
+            http_response_code(500);
+            echo json_encode(['erro' => $e->getMessage()]);
+            exit();
         }
     }
 
@@ -125,7 +184,6 @@ class SocioController
             if (!$valor || $valor < 30) { //Pegar o valor de maneira dinâmica posteriormente
                 throw new InvalidArgumentException('O valor informado deve ser de no mínimo 30 reais.');
             }
-
         } catch (InvalidArgumentException $e) {
             http_response_code(400);
             echo json_encode(['erro' => $e->getMessage()]);

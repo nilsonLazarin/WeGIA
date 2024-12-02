@@ -24,6 +24,7 @@ class Socio implements JsonSerializable{
         return [
             'id' => $this->id,
             'nome' => $this->nome,
+            'dataNascimento' => $this->dataNascimento,
             'telefone' => $this->telefone,
             'email' => $this->email,
             'estado' => $this->estado,

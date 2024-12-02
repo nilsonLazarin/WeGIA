@@ -311,6 +311,39 @@ function cadastrarSocio() {
         });
 }
 
+function atualizarSocio() {
+    const form = document.getElementById('formulario');
+    const formData = new FormData(form);
+
+    const documento = pegarDocumento();
+
+    formData.append('nomeClasse', 'SocioController');
+    formData.append('metodo', 'atualizarSocio');
+    formData.append('documento_socio', documento);
+
+    fetch("../controller/control.php", {
+        method: "POST",
+        body: formData
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Erro na requisição: " + response.status);
+            }
+            return response.json(); // Converte a resposta para JSON
+        })
+        .then(resposta => {
+            if (resposta.mensagem) {
+                console.log(resposta.mensagem);
+            } else {
+                alert("Ops! Ocorreu um problema durante o seu cadastro, se o erro persistir contate o suporte.");
+            }
+
+        })
+        .catch(error => {
+            console.error("Erro:", error);
+        });
+}
+
 function verificarEndereco() {
     const cep = document.getElementById('cep').value;
     const rua = document.getElementById('rua').value;
@@ -385,11 +418,11 @@ function verificarContato() {
  * Recebe como parâmetro um objeto do tipo Socio e preenche os campos do formulário automaticamente
  * @param {*} param0 
  */
-function formAutocomplete({ bairro, cep, cidade, complemento, documento, email, estado, id, logradouro, nome, numeroEndereco, telefone }) {
+function formAutocomplete({ bairro, cep, cidade, complemento, dataNascimento, documento, email, estado, id, logradouro, nome, numeroEndereco, telefone }) {
 
     //Definir elementos do HTML
     const nomeObject = document.getElementById('nome');
-    //const dataNascimento = document.getElementById('data_nascimento');
+    const dataNascimentoObject = document.getElementById('data_nascimento');
     const emailObject = document.getElementById('email');
     const telefoneObject = document.getElementById('telefone');
     const cepObject = document.getElementById('cep');
@@ -402,6 +435,7 @@ function formAutocomplete({ bairro, cep, cidade, complemento, documento, email, 
 
     //Atribuir valor aos campos
     nomeObject.value = nome;
+    dataNascimentoObject.value = dataNascimento;
     emailObject.value = email;
     telefoneObject.value = telefone;
     cepObject.value = cep;

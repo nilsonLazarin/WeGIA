@@ -53,7 +53,7 @@ function decidirAcao() {
     switch (acao) {
         case 'boleto': gerarBoleto(); break;
         case 'cadastrar': cadastrarSocio(); break;//colocar chamada para função de cadastrar sócio
-        case 'atualizar': console.log('Atualizar Sócio'); break;//colocar chamada para função de atualizar sócio
+        case 'atualizar': atualizarSocio(); break;//colocar chamada para função de atualizar sócio
         default: console.log('Ação indefinida');
     }
 }
