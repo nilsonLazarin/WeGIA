@@ -1,6 +1,6 @@
 -- Posteriormente adicionar as tabelas desse arquivo ao banco de dados central do sistema
 CREATE TABLE IF NOT EXISTS `wegia`.`contribuicao_log` (
-  `id` INT NULL DEFAULT NULL AUTO_INCREMENT,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `id_socio` INT(11) NOT NULL,
   `id_gateway` INT(11) NOT NULL,
   `id_meio_pagamento` INT(11) NOT NULL,
