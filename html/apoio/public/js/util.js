@@ -278,7 +278,7 @@ function verificarSocio({ bairro, cep, cidade, complemento, documento, email, es
     return true;
 }
 
-function cadastrarSocio() {
+async function cadastrarSocio() {
     const form = document.getElementById('formulario');
     const formData = new FormData(form);
 
@@ -288,30 +288,29 @@ function cadastrarSocio() {
     formData.append('metodo', 'criarSocio');
     formData.append('documento_socio', documento);
 
-    fetch("../controller/control.php", {
-        method: "POST",
-        body: formData
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Erro na requisição: " + response.status);
-            }
-            return response.json(); // Converte a resposta para JSON
-        })
-        .then(resposta => {
-            if (resposta.mensagem) {
-                console.log(resposta.mensagem);
-            } else {
-                alert("Ops! Ocorreu um problema durante o seu cadastro, se o erro persistir contate o suporte.");
-            }
-
-        })
-        .catch(error => {
-            console.error("Erro:", error);
+    try {
+        const response = await fetch("../controller/control.php", {
+            method: "POST",
+            body: formData
         });
+
+        if (!response.ok) {
+            throw new Error("Erro na requisição: " + response.status);
+        }
+
+        const resposta = await response.json(); // Converte a resposta para JSON
+
+        if (resposta.mensagem) {
+            console.log(resposta.mensagem);
+        } else {
+            alert("Ops! Ocorreu um problema durante o seu cadastro, se o erro persistir contate o suporte.");
+        }
+    } catch (error) {
+        console.error("Erro:", error);
+    }
 }
 
-function atualizarSocio() {
+async function atualizarSocio() {
     const form = document.getElementById('formulario');
     const formData = new FormData(form);
 
@@ -321,27 +320,26 @@ function atualizarSocio() {
     formData.append('metodo', 'atualizarSocio');
     formData.append('documento_socio', documento);
 
-    fetch("../controller/control.php", {
-        method: "POST",
-        body: formData
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Erro na requisição: " + response.status);
-            }
-            return response.json(); // Converte a resposta para JSON
-        })
-        .then(resposta => {
-            if (resposta.mensagem) {
-                console.log(resposta.mensagem);
-            } else {
-                alert("Ops! Ocorreu um problema durante o seu cadastro, se o erro persistir contate o suporte.");
-            }
-
-        })
-        .catch(error => {
-            console.error("Erro:", error);
+    try {
+        const response = await fetch("../controller/control.php", {
+            method: "POST",
+            body: formData
         });
+
+        if (!response.ok) {
+            throw new Error("Erro na requisição: " + response.status);
+        }
+
+        const resposta = await response.json(); // Converte a resposta para JSON
+
+        if (resposta.mensagem) {
+            console.log(resposta.mensagem);
+        } else {
+            alert("Ops! Ocorreu um problema durante o seu cadastro, se o erro persistir contate o suporte.");
+        }
+    } catch (error) {
+        console.error("Erro:", error);
+    }
 }
 
 function verificarEndereco() {

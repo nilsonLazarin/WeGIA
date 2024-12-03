@@ -49,11 +49,11 @@ function buscarSocio() {
     console.log("Consulta realizada");
 }
 
-function decidirAcao() {
+async function decidirAcao() {
     switch (acao) {
         case 'boleto': gerarBoleto(); break;
-        case 'cadastrar': cadastrarSocio(); break;//colocar chamada para função de cadastrar sócio
-        case 'atualizar': atualizarSocio(); break;//colocar chamada para função de atualizar sócio
+        case 'cadastrar': await cadastrarSocio(); gerarBoleto(); break;//colocar chamada para função de cadastrar sócio
+        case 'atualizar': await atualizarSocio(); gerarBoleto(); break;//colocar chamada para função de atualizar sócio
         default: console.log('Ação indefinida');
     }
 }
