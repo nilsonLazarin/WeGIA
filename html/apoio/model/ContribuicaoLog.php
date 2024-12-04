@@ -1,5 +1,7 @@
 <?php
 require_once '../model/Socio.php';
+require_once '../model/GatewayPagamento.php';
+require_once '../model/MeioPagamento.php';
 
 class ContribuicaoLog
 {
@@ -9,6 +11,8 @@ class ContribuicaoLog
     private $dataGeracao;
     private $dataVencimento;
     private Socio $socio;
+    private GatewayPagamento $gatewayPagamento;
+    private MeioPagamento $meioPagamento;
     private $statusPagamento = 0;
 
     /**
@@ -161,6 +165,46 @@ class ContribuicaoLog
     public function setStatusPagamento($statusPagamento)
     {
         $this->statusPagamento = $statusPagamento;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of gatewayPagamento
+     */ 
+    public function getGatewayPagamento()
+    {
+        return $this->gatewayPagamento;
+    }
+
+    /**
+     * Set the value of gatewayPagamento
+     *
+     * @return  self
+     */ 
+    public function setGatewayPagamento(GatewayPagamento $gatewayPagamento)
+    {
+        $this->gatewayPagamento = $gatewayPagamento;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of meioPagamento
+     */ 
+    public function getMeioPagamento()
+    {
+        return $this->meioPagamento;
+    }
+
+    /**
+     * Set the value of meioPagamento
+     *
+     * @return  self
+     */ 
+    public function setMeioPagamento(MeioPagamento $meioPagamento)
+    {
+        $this->meioPagamento = $meioPagamento;
 
         return $this;
     }
