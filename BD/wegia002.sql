@@ -278,3 +278,7 @@ INSERT INTO `saude_tabelacid` (`CID`, `descricao`) VALUES ('B34.2', 'Infecção 
 INSERT INTO `contribuicao_regras` (`regra`) VALUES 
 ('MIN_VALUE'), 
 ('MAX_VALUE');
+
+INSERT INTO `contribuicao_gatewayPagamento` (plataforma,endPoint,token,status) VALUES ("NAO DEFINIDA","https://localhost/api","coloque o token aqui",0);
+
+INSERT INTO `contribuicao_meioPagamento` (meio,id_plataforma,status) VALUES ("Boleto",1,0), ("Pix",1,0), ("Carne",1,0);
