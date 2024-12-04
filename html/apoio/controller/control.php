@@ -12,6 +12,8 @@ try {
     [
         'exibirBoletosPorCpf',
         'buscarPorDocumento',
+        'criarSocio',
+        'atualizarSocio',
     ];
 
     //Blocks execution for unauthorized access

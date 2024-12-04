@@ -30,7 +30,8 @@ function configurarMudancaOpcao(funcao) {
  */
 function configurarConsulta(funcao) {
     const btnConsulta = document.getElementById("consultar-btn");
-    btnConsulta.addEventListener("click", function () {
+    btnConsulta.addEventListener("click", function (ev) {
+        ev.preventDefault();
         funcao();
     })
 }
@@ -119,7 +120,8 @@ function alternarPaginas(idProxima, idAtual) {
  */
 function configurarConsulta(funcao) {
     const btnConsulta = document.getElementById("consultar-btn");
-    btnConsulta.addEventListener("click", function () {
+    btnConsulta.addEventListener("click", function (ev) {
+        ev.preventDefault();
         funcao();
     })
 }
@@ -145,9 +147,9 @@ function verificarValor(valor) {
 function configurarAvancaValor(funcao) {
     const btnAvancaValor = document.getElementById('avanca-valor');
 
-    btnAvancaValor.addEventListener('click', () => {
+    btnAvancaValor.addEventListener('click', (ev) => {
         const valor = document.getElementById('valor').value;
-
+        ev.preventDefault();
         if (!funcao(valor)) {
             alert('O valor informado está abaixo do mínimo permitido.');
             return;
@@ -160,28 +162,80 @@ function configurarAvancaValor(funcao) {
 /**
  * Configura o comportamento do botão volta-valor
  */
-function configurarVoltaValor(){
+function configurarVoltaValor() {
     const btnVoltaValor = document.getElementById('volta-valor');
 
-    btnVoltaValor.addEventListener('click', ()=>{
+    btnVoltaValor.addEventListener('click', (ev) => {
+        ev.preventDefault();
         alternarPaginas('pag1', 'pag2');
+    });
+}
+
+function configurarVoltaCpf() {
+    const btnVoltaCpf = document.getElementById('volta-cpf');
+    btnVoltaCpf.addEventListener('click', (ev) => {
+        ev.preventDefault();
+        alternarPaginas('pag2', 'pag3');
+    });
+}
+
+function configurarVoltaContato() {
+    const btnVoltaContato = document.getElementById('volta-contato');
+    btnVoltaContato.addEventListener('click', (ev) => {
+        ev.preventDefault();
+        alternarPaginas('pag3', 'pag4');
+    });
+}
+
+function configurarAvancaContato(funcao) {
+    const btnAvancaContato = document.getElementById('avanca-contato');
+    btnAvancaContato.addEventListener('click', (ev) => {
+        ev.preventDefault();
+        if (!funcao()) {
+            return;
+        }
+
+        alternarPaginas('pag4', 'pag3');
+    })
+}
+
+function configurarAvancaEndereco(funcao) {
+    const btnAvancaEndereco = document.getElementById('avanca-endereco');
+    btnAvancaEndereco.addEventListener('click', (ev) => {
+        ev.preventDefault();
+        if (!funcao()) {
+            return;
+        }
+
+        alternarPaginas('pag5', 'pag4');
+    });
+}
+
+function configurarAvancaTerminar(funcao) {
+    const btnAvancaTerminar = document.getElementById('avanca-terminar');
+    btnAvancaTerminar.addEventListener('click', (ev) => {
+        ev.preventDefault();
+        btnAvancaTerminar.disabled = true;
+        btnAvancaTerminar.classList.add('disabled');
+        setLoader(btnAvancaTerminar);
+        funcao();
     });
 }
 
 /**
  * Verifica se alguma propriedade de um objeto do tipo Socio está vazia
  */
-function verificarSocio({bairro, cep, cidade, complemento, documento, email, estado, id, logradouro, nome, numeroEndereco, telefone}){
+function verificarSocio({ bairro, cep, cidade, complemento, documento, email, estado, id, logradouro, nome, numeroEndereco, telefone }) {
     //verificar propriedades
-    if(!bairro || bairro.length < 1){
+    if (!bairro || bairro.length < 1) {
         return false;
     }
 
-    if(!cep || cep.length < 1){
+    if (!cep || cep.length < 1) {
         return false;
     }
 
-    if(!cidade || cidade.length < 1){
+    if (!cidade || cidade.length < 1) {
         return false;
     }
 
@@ -189,35 +243,169 @@ function verificarSocio({bairro, cep, cidade, complemento, documento, email, est
         return false;
     }*/
 
-    if(!documento || documento.length < 1){
+    if (!documento || documento.length < 1) {
         return false;
     }
 
-    if(!email || email.length < 1){
+    if (!email || email.length < 1) {
         return false;
     }
 
-    if(!estado || estado.length < 1){
+    if (!estado || estado.length < 1) {
         return false;
     }
 
-    if(!id || id.length < 1){
+    if (!id || id.length < 1) {
         return false;
     }
 
-    if(!logradouro || logradouro.length < 1){
+    if (!logradouro || logradouro.length < 1) {
         return false;
     }
 
-    if(!nome || nome.length < 1){
+    if (!nome || nome.length < 1) {
         return false;
     }
 
-    if(!numeroEndereco || numeroEndereco.length < 1){
+    if (!numeroEndereco || numeroEndereco.length < 1) {
         return false;
     }
 
-    if(!telefone || telefone.length < 1){
+    if (!telefone || telefone.length < 1) {
+        return false;
+    }
+
+    return true;
+}
+
+async function cadastrarSocio() {
+    const form = document.getElementById('formulario');
+    const formData = new FormData(form);
+
+    const documento = pegarDocumento();
+
+    formData.append('nomeClasse', 'SocioController');
+    formData.append('metodo', 'criarSocio');
+    formData.append('documento_socio', documento);
+
+    try {
+        const response = await fetch("../controller/control.php", {
+            method: "POST",
+            body: formData
+        });
+
+        if (!response.ok) {
+            throw new Error("Erro na requisição: " + response.status);
+        }
+
+        const resposta = await response.json(); // Converte a resposta para JSON
+
+        if (resposta.mensagem) {
+            console.log(resposta.mensagem);
+        } else {
+            alert("Ops! Ocorreu um problema durante o seu cadastro, se o erro persistir contate o suporte.");
+        }
+    } catch (error) {
+        console.error("Erro:", error);
+    }
+}
+
+async function atualizarSocio() {
+    const form = document.getElementById('formulario');
+    const formData = new FormData(form);
+
+    const documento = pegarDocumento();
+
+    formData.append('nomeClasse', 'SocioController');
+    formData.append('metodo', 'atualizarSocio');
+    formData.append('documento_socio', documento);
+
+    try {
+        const response = await fetch("../controller/control.php", {
+            method: "POST",
+            body: formData
+        });
+
+        if (!response.ok) {
+            throw new Error("Erro na requisição: " + response.status);
+        }
+
+        const resposta = await response.json(); // Converte a resposta para JSON
+
+        if (resposta.mensagem) {
+            console.log(resposta.mensagem);
+        } else {
+            alert("Ops! Ocorreu um problema durante o seu cadastro, se o erro persistir contate o suporte.");
+        }
+    } catch (error) {
+        console.error("Erro:", error);
+    }
+}
+
+function verificarEndereco() {
+    const cep = document.getElementById('cep').value;
+    const rua = document.getElementById('rua').value;
+    const numeroEndereco = document.getElementById('numero');
+    const bairro = document.getElementById('bairro');
+    const uf = document.getElementById('uf');
+    const cidade = document.getElementById('cidade');
+
+    if (!cep || cep.length != 9) {
+        alert('O CEP informado não está no formato válido');
+        return false;
+    }
+
+    if (!rua || rua.length < 1) {
+        alert('A rua não pode estar vazia.');
+        return false;
+    }
+
+    if (!numeroEndereco || numeroEndereco.length < 1) {
+        alert('O número de endereço não pode estar vazio.');
+        return false;
+    }
+
+    if (!bairro || bairro.length < 1) {
+        alert('O bairro não pode estar vazio.');
+        return false;
+    }
+
+    if (!uf || uf.length < 1) {
+        alert('O estado não pode estar vazio.');
+        return false;
+    }
+
+    if (!cidade || cidade.length < 1) {
+        alert('A cidade não pode estar vazia.');
+        return false;
+    }
+
+    return true;
+}
+
+function verificarContato() {
+    const nome = document.getElementById('nome').value;
+    const dataNascimento = document.getElementById('data_nascimento').value;
+    const email = document.getElementById('email').value;
+    const telefone = document.getElementById('telefone').value;
+
+    if (!nome || nome.length < 3) {
+        alert('O nome não pode estar vazio.');
+        return false;
+    }
+
+    if (!dataNascimento) {
+        alert('A data de nascimento não pode estar vazia');
+        return false;
+    }
+
+    if (!email) {
+        alert('O e-mail não pode estar vazio.');
+        return false;
+    }
+
+    if (!telefone) {
+        alert('O telefone não pode estar vazio.');
         return false;
     }
 
@@ -228,11 +416,11 @@ function verificarSocio({bairro, cep, cidade, complemento, documento, email, est
  * Recebe como parâmetro um objeto do tipo Socio e preenche os campos do formulário automaticamente
  * @param {*} param0 
  */
-function formAutocomplete({bairro, cep, cidade, complemento, documento, email, estado, id, logradouro, nome, numeroEndereco, telefone}){
+function formAutocomplete({ bairro, cep, cidade, complemento, dataNascimento, documento, email, estado, id, logradouro, nome, numeroEndereco, telefone }) {
 
     //Definir elementos do HTML
     const nomeObject = document.getElementById('nome');
-    //const dataNascimento = document.getElementById('data_nascimento');
+    const dataNascimentoObject = document.getElementById('data_nascimento');
     const emailObject = document.getElementById('email');
     const telefoneObject = document.getElementById('telefone');
     const cepObject = document.getElementById('cep');
@@ -245,6 +433,7 @@ function formAutocomplete({bairro, cep, cidade, complemento, documento, email, e
 
     //Atribuir valor aos campos
     nomeObject.value = nome;
+    dataNascimentoObject.value = dataNascimento;
     emailObject.value = email;
     telefoneObject.value = telefone;
     cepObject.value = cep;
@@ -254,4 +443,23 @@ function formAutocomplete({bairro, cep, cidade, complemento, documento, email, e
     ufObject.value = estado;
     cidadeObject.value = cidade;
     complementoObject.value = complemento;
+}
+
+function setLoader(btn) {
+    // Esconde o primeiro elemento filho (ícone)
+    btn.firstElementChild.style.display = "none";
+
+    // Remove o texto do botão sem remover os elementos filhos
+    btn.childNodes.forEach(node => {
+        if (node.nodeType === Node.TEXT_NODE) {
+            node.textContent = '';
+        }
+    });
+
+    // Adiciona o loader se não houver outros elementos filhos além do ícone
+    if (btn.childElementCount == 1) {
+        var loader = document.createElement("DIV");
+        loader.className = "loader";
+        btn.appendChild(loader);
+    }
 }

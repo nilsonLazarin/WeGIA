@@ -52,7 +52,7 @@ class MeioPagamentoDAO
      * Retorna o meio de pagamento com nome equivalente ao passado como parâmetro
      */
     public function buscarPorNome(string $nome){
-        $sqlBuscarPorNome = 'SELECT meio, id_plataforma, status FROM contribuicao_meioPagamento WHERE meio=:nome';
+        $sqlBuscarPorNome = 'SELECT id, meio, id_plataforma, status FROM contribuicao_meioPagamento WHERE meio=:nome';
 
         $stmt = $this->pdo->prepare($sqlBuscarPorNome);
         $stmt->bindParam(':nome', $nome);
@@ -64,7 +64,10 @@ class MeioPagamentoDAO
 
         $meioPagamentoArray = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        return new MeioPagamento($meioPagamentoArray['meio'], $meioPagamentoArray['id_plataforma'], $meioPagamentoArray['status']);
+        $meioPagamento = new MeioPagamento($meioPagamentoArray['meio'], $meioPagamentoArray['id_plataforma'], $meioPagamentoArray['status']);
+        $meioPagamento->setId($meioPagamentoArray['id']);
+
+        return $meioPagamento;
     }
 
     /**

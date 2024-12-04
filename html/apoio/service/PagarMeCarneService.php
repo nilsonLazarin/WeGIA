@@ -90,6 +90,7 @@ class PagarMeCarneService implements ApiCarneServiceInterface
 
         //Implementar requisição para API
         $pdf_links = [];
+        $codigosAPI = [];
 
         // Iniciar a requisição cURL
         $ch = curl_init();
@@ -123,6 +124,7 @@ class PagarMeCarneService implements ApiCarneServiceInterface
             if ($httpCode === 200 || $httpCode === 201) {
                 $responseData = json_decode($response, true);
                 $pdf_links[] = $responseData['charges'][0]['last_transaction']['pdf'];
+                $codigosAPI[] = $responseData['id'];
             } else {
                 echo json_encode(['Erro' => 'A API retornou o código de status HTTP ' . $httpCode]);
                 return false;
@@ -150,7 +152,13 @@ class PagarMeCarneService implements ApiCarneServiceInterface
             return false;
         }
 
-        return $caminho;
+        //Pega os códigos retornados pela API e atribuí na propriedade codigo das contribuicoes de contribuicaoLogCollection
+        foreach($contribuicaoLogCollection as $index => $contribuicaoLog){
+            $contribuicaoLog->setCodigo($codigosAPI[$index]);
+        }
+
+        //Retorna o link e a coleção de contribuições
+        return ['link' => $caminho, 'contribuicoes' => $contribuicaoLogCollection];
     }
 
     public function salvarTemp($pdf_links)

@@ -3,6 +3,7 @@ class Socio implements JsonSerializable{
 
     private $id;
     private $nome;
+    private $dataNascimento;
     private $telefone;
     private $email;
     private $estado;
@@ -13,6 +14,8 @@ class Socio implements JsonSerializable{
     private $numeroEndereco;
     private $logradouro;
     private $documento;
+    private $ibge;
+    private $valor;
 
     //métodos de lógica
 
@@ -21,6 +24,7 @@ class Socio implements JsonSerializable{
         return [
             'id' => $this->id,
             'nome' => $this->nome,
+            'dataNascimento' => $this->dataNascimento,
             'telefone' => $this->telefone,
             'email' => $this->email,
             'estado' => $this->estado,
@@ -272,6 +276,66 @@ class Socio implements JsonSerializable{
     public function setDocumento($documento)
     {
         $this->documento = $documento;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of dataNascimento
+     */ 
+    public function getDataNascimento()
+    {
+        return $this->dataNascimento;
+    }
+
+    /**
+     * Set the value of dataNascimento
+     *
+     * @return  self
+     */ 
+    public function setDataNascimento($dataNascimento)
+    {
+        $this->dataNascimento = $dataNascimento;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of ibge
+     */ 
+    public function getIbge()
+    {
+        return $this->ibge;
+    }
+
+    /**
+     * Set the value of ibge
+     *
+     * @return  self
+     */ 
+    public function setIbge($ibge)
+    {
+        $this->ibge = $ibge;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of valor
+     */ 
+    public function getValor()
+    {
+        return $this->valor;
+    }
+
+    /**
+     * Set the value of valor
+     *
+     * @return  self
+     */ 
+    public function setValor($valor)
+    {
+        $this->valor = $valor;
 
         return $this;
     }
