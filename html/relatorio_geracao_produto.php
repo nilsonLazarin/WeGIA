@@ -310,57 +310,61 @@ function quickQuery($query, $column)
 					?>
 
 					<?php
-						if ($idProduto && $idAlmoxarifado) {
-							$stmtEntradas = $pdo->prepare("
-								SELECT 
-									entrada.data AS data_entrada,
-									entrada.hora AS hora_entrada,
-									almoxarifado.descricao_almoxarifado,
-									produto.descricao,
-									categoria_produto.descricao_categoria,
-									ientrada.qtd AS quantidade_entrada,
-									tipo_entrada.descricao AS descricao_tipo_entrada,
-									estoque.qtd AS estoque_atual
-								FROM 
-									ientrada
-								JOIN 
-									entrada ON ientrada.id_entrada = entrada.id_entrada
-								JOIN 
-									almoxarifado ON entrada.id_almoxarifado = almoxarifado.id_almoxarifado
-								JOIN 
-									produto ON ientrada.id_produto = produto.id_produto
-								LEFT JOIN 
-									categoria_produto ON produto.id_categoria_produto = categoria_produto.id_categoria_produto
-								LEFT JOIN 
-									tipo_entrada ON entrada.id_tipo = tipo_entrada.id_tipo
-								LEFT JOIN
-									estoque ON estoque.id_produto = produto.id_produto 
-									AND estoque.id_almoxarifado = almoxarifado.id_almoxarifado
-								WHERE 
-									almoxarifado.id_almoxarifado = :idAlmoxarifado
-									AND produto.id_produto = :idProduto
-									AND entrada.data IN (" . implode(', ', array_map(function ($index) {
-										return ":data_entrada_$index";
-									}, array_keys($datasArray))) . ")
-							");
-							$stmtEntradas->bindParam(':idProduto', $idProduto, PDO::PARAM_INT);
-							$stmtEntradas->bindParam(':idAlmoxarifado', $idAlmoxarifado, PDO::PARAM_INT);
-						
-							foreach ($datasArray as $index => $data) {
-								$stmtEntradas->bindValue(":data_entrada_$index", $data, PDO::PARAM_STR);
+						try{
+							if ($idProduto && $idAlmoxarifado) {
+								$stmtEntradas = $pdo->prepare("
+									SELECT 
+										entrada.data AS data_entrada,
+										entrada.hora AS hora_entrada,
+										almoxarifado.descricao_almoxarifado,
+										produto.descricao,
+										categoria_produto.descricao_categoria,
+										ientrada.qtd AS quantidade_entrada,
+										tipo_entrada.descricao AS descricao_tipo_entrada,
+										estoque.qtd AS estoque_atual
+									FROM 
+										ientrada
+									JOIN 
+										entrada ON ientrada.id_entrada = entrada.id_entrada
+									JOIN 
+										almoxarifado ON entrada.id_almoxarifado = almoxarifado.id_almoxarifado
+									JOIN 
+										produto ON ientrada.id_produto = produto.id_produto
+									LEFT JOIN 
+										categoria_produto ON produto.id_categoria_produto = categoria_produto.id_categoria_produto
+									LEFT JOIN 
+										tipo_entrada ON entrada.id_tipo = tipo_entrada.id_tipo
+									LEFT JOIN
+										estoque ON estoque.id_produto = produto.id_produto 
+										AND estoque.id_almoxarifado = almoxarifado.id_almoxarifado
+									WHERE 
+										almoxarifado.id_almoxarifado = :idAlmoxarifado
+										AND produto.id_produto = :idProduto
+										AND entrada.data IN (" . implode(', ', array_map(function ($index) {
+											return ":data_entrada_$index";
+										}, array_keys($datasArray))) . ")
+								");
+								$stmtEntradas->bindParam(':idProduto', $idProduto, PDO::PARAM_INT);
+								$stmtEntradas->bindParam(':idAlmoxarifado', $idAlmoxarifado, PDO::PARAM_INT);
+							
+								foreach ($datasArray as $index => $data) {
+									$stmtEntradas->bindValue(":data_entrada_$index", $data, PDO::PARAM_STR);
+								}
+							
+								$stmtEntradas->execute();
+							
+								if ($stmtEntradas->rowCount() > 0) {
+									$entradas = $stmtEntradas->fetchAll(PDO::FETCH_ASSOC);
+								} else {
+									$entradas = [];
+								}
 							}
-						
-							$stmtEntradas->execute();
-						
-							if ($stmtEntradas->rowCount() > 0) {
-								$entradas = $stmtEntradas->fetchAll(PDO::FETCH_ASSOC);
-							} else {
-								$entradas = [];
-							}
+						} catch(PDOException $e){
+							echo "Não registrado" . $e->getMessage();
 						}
 						
-					
-					$stmtSaidas = $pdo->prepare("
+					try{
+						$stmtSaidas = $pdo->prepare("
 						SELECT 
 							saida.data AS data_saida,
 							saida.hora AS hora_saida,
@@ -403,6 +407,9 @@ function quickQuery($query, $column)
 						$saidas = [];
 					}
 
+					} catch(PDOException $e){
+						echo"Não registrado" . $e->getMessage();
+					}
 					?>
 
 					<table class="table table-striped">
@@ -458,12 +465,12 @@ function quickQuery($query, $column)
 						<tbody>
 							<?php 
 							foreach ($entradas as $entrada) {
-								$dataEntrada = date('d/m/Y H:i', strtotime($entrada['data_entrada'] . ' ' . $entrada['hora_entrada']));
+								$dataEntrada = !empty($entrada['data_entrada']) && !empty($entrada['hora_entrada']) ? date('d/m/Y H:i', strtotime($entrada['data_entrada'] . ' ' . $entrada['hora_entrada'])) : "Não registrado.";
 							?>
 								<tr>
 									<td><?php echo $dataEntrada; ?></td>
-									<td><?php echo htmlspecialchars(trim($entrada['descricao_tipo_entrada'])); ?></td>
-									<td><?php echo htmlspecialchars(trim($entrada['quantidade_entrada'])); ?></td>
+									<td><?php echo !empty($entrada['descricao_tipo_entrada']) ? htmlspecialchars(trim($entrada['descricao_tipo_entrada'])) : "Não registrado."; ?></td>
+									<td><?php echo !empty($entrada['quantidade_entrada']) ? htmlspecialchars(trim($entrada['quantidade_entrada'])) : "Não registrado."; ?></td>
 								</tr>
 							<?php } ?>
 						</tbody>
@@ -482,15 +489,17 @@ function quickQuery($query, $column)
 						</thead>
 						<tbody>
 							<?php 
-							foreach ($saidas as $saida) {
-								$dataSaida = date('d/m/Y H:i', strtotime($saida['data_saida'] . ' ' . $saida['hora_saida']));
-							?>
-								<tr>
-									<td><?php echo $dataSaida; ?></td>
-									<td><?php echo htmlspecialchars(trim($saida['descricao_tipo_saida'])); ?></td>
-									<td><?php echo htmlspecialchars(trim($saida['quantidade_saida'])); ?></td>
-								</tr>
-							<?php } ?>
+								foreach ($saidas as $saida) {
+									$dataSaida = (!empty($saida['data_saida']) && !empty($saida['hora_saida'])) ? date('d/m/Y H:i', strtotime($saida['data_saida'] . ' ' . $saida['hora_saida'])) : "Não registrado.";
+									$descricaoTipoSaida = !empty($saida['descricao_tipo_saida']) ? htmlspecialchars(trim($saida['descricao_tipo_saida'])) : "Não registrado.";
+									$quantidadeSaida = !empty($saida['quantidade_saida']) ? htmlspecialchars(trim($saida['quantidade_saida'])) : "Não registrado.";
+								?>
+									<tr>
+										<td><?php echo $dataSaida; ?></td>
+										<td><?php echo $descricaoTipoSaida; ?></td>
+										<td><?php echo $quantidadeSaida; ?></td>
+									</tr>
+								<?php } ?>
 						</tbody>
 					</table>
 
