@@ -329,8 +329,7 @@
 								<i class="fas fa-address-book"></i>
 								<h4>Ocorrências</h4>
 							</div>
-						</a>
-					</div>
+						</div>
 				</div>
 
 				<div class="row category-row-third">
@@ -358,14 +357,7 @@
 								<h4>Cadastrar Atendido</h4>
 							</div>
 						</a>
-						<a href="../controle/control.php?metodo=listarTodos&nomeClasse=AtendidoControle&nextPage=../html/atendido/Informacao_Atendido.php">
-							<div class="col-lg-2 col-md-8 i">
-								<form id="listarAtendido" method="POST" action="../controle/control.php">
-									<i  class="far fa-address-card" id="listarAtendido"></i>
-									<h4>Informações Atendidos</h4>
-								</form>
-							</div>
-						</a>
+						=
 					</div>
 				</div>
 
@@ -410,6 +402,28 @@
 							<div class="col-lg-2 col-md-8 i category-item-second" data-toggle="collapse" href="#saudePet">
 								<i class="fa fa-ambulance"></i>
 								<h4>Saúde Pet</h4>
+							</div>
+						</a>
+						<a href="#">
+							<div class="col-lg-2 col-md-8 i category-item-second" data-toggle="collapse" href="#padrinhos">
+								<i class="fa fa-user"></i></i><i class="fas fa-paw"></i>
+								<h4>Padrinhos</h4>
+							</div>
+						</a>
+					</div>
+				</div>
+				<div class="row category-row-third">
+					<div  id="padrinhos" class="removeIn collapse">
+						<a href="../html/pet/padrinho/pre_cadastro_padrinho.php">	
+							<div class="col-lg-2 col-md-8 i">
+								<i  class="fa fa-address-book"></i>
+								<h4>Cadastrar Padrinhos</h4>
+							</div>
+						</a>
+						<a href="../controle/control.php?metodo=listarTodos&nomeClasse=PadrinhoControle&nextPage=./html/pet/padrinho/informacao_padrinho.php">
+							<div class="col-lg-2 col-md-8 i">
+								<i  class="far fa-address-card"></i>
+								<h4>Informações Padrinhos</h4>
 							</div>
 						</a>
 					</div>

@@ -1723,9 +1723,9 @@ CREATE TABLE IF NOT EXISTS `wegia`.`pet` (
 ENGINE = InnoDB;
 
 -- ----------------------------------------------------------
--- Table `wegia`.`adocao`
+-- Table `wegia`.`pet_adocao`
 -- ----------------------------------------------------------
-CREATE TABLE IF NOT EXISTS `wegia`.`adocao` (
+CREATE TABLE IF NOT EXISTS `wegia`.`pet_adocao` (
     `id_adocao` INT NOT NULL AUTO_INCREMENT,
     `id_pessoa` INT(11) NOT NULL,
     `id_pet` INT(11) NOT NULL,

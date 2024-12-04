@@ -1,5 +1,8 @@
 <?php
 session_start();
+ini_set('display_errors', true);
+error_reporting(E_ALL);
+
 if (!isset($_SESSION['usuario'])) {
 	header("Location: ../index.php");
 }
@@ -189,70 +192,317 @@ function quickQuery($query, $column)
 					<div class="descricao">
 						<p>
 							<li>
-                                <h3>Geração de Produto</h3>								
+                                <h2>Geração de Produto</h2>		
 							</li>
 						</p>
 						<button style="float: right;" class="mb-xs mt-xs mr-xs btn btn-default print-button" onclick="window.print();">Imprimir</button>
 					</div>
-					<h4>Resultado</h4>
+
+					<?php
+					$pdo = Conexao::connect();
+
+					if($_SERVER["REQUEST_METHOD"] == "POST"){
+						$idAlmoxarifado = isset($_POST['almoxarifado']) ? $_POST['almoxarifado'] : null;
+						$idProduto = isset($_POST['produto']) ? $_POST['produto'] : null;
+						$dataInicio = isset($_POST['data_inicio']) ? $_POST['data_inicio'] : null;
+						$dataFim = isset($_POST['data_fim']) ? $_POST['data_fim'] : null;
+
+						$modeloBrasileiro = 'd/m/Y';
+						if(!empty($dataInicio))
+							$dataInicioFormatada = date_format(date_create($dataInicio), $modeloBrasileiro);
+						else
+							$dataInicioFormatada = null;
+
+						if(!empty($dataFim))
+							$dataFimFormatada = date_format(date_create($dataFim), $modeloBrasileiro);
+						else
+							$dataFimFormatada = null;
+
+						$query = "
+							SELECT e.data
+							FROM entrada e
+							JOIN ientrada ie ON e.id_entrada = ie.id_entrada
+							JOIN produto p ON ie.id_produto = p.id_produto
+							WHERE p.id_produto = :id_produto
+							AND e.id_almoxarifado = :id_almoxarifado
+						";
+						
+						if ($dataInicio && $dataFim) {
+							$query .= " AND e.data BETWEEN :data_inicio AND :data_fim";
+						} elseif ($dataInicio) {
+							$query .= " AND e.data >= :data_inicio";
+						} elseif ($dataFim) {
+							$query .= " AND e.data <= :data_fim";
+						}
+						
+						$stmtDatas = $pdo->prepare($query);
+						
+						$stmtDatas->bindParam(':id_almoxarifado', $idAlmoxarifado, PDO::PARAM_INT);
+						$stmtDatas->bindParam(':id_produto', $idProduto, PDO::PARAM_INT);
+						
+						if ($dataInicio) {
+							$stmtDatas->bindParam(':data_inicio', $dataInicio, PDO::PARAM_STR);
+						}
+						if ($dataFim) {
+							$stmtDatas->bindParam(':data_fim', $dataFim, PDO::PARAM_STR);
+						}
+						
+						$stmtDatas->execute();						
+						$resultadoDatas = $stmtDatas->fetchAll(PDO::FETCH_ASSOC);
+
+						$datasArray = [];
+						foreach ($resultadoDatas as $linha) {
+							$datasArray[] = $linha['data']; 
+						}
+
+						if ($idProduto && $idAlmoxarifado) {
+							$stmt = $pdo->prepare("
+								SELECT 
+									ientrada.id_entrada,
+									entrada.data AS data_entrada,
+									entrada.hora AS hora_entrada,
+									almoxarifado.descricao_almoxarifado,
+									produto.descricao,
+									categoria_produto.descricao_categoria,
+									ientrada.qtd AS quantidade_entrada,
+									isaida.id_saida,
+									saida.data AS data_saida,
+									saida.hora AS hora_saida,
+									isaida.qtd AS quantidade_saida,
+									tipo_entrada.descricao AS descricao_tipo_entrada,
+									tipo_saida.descricao AS descricao_tipo_saida,
+									estoque.qtd AS estoque_atual,  -- Estoque atual da tabela estoque
+									entrada.id_entrada AS id_entrada,  -- Adicionando id_entrada
+									saida.id_saida AS id_saida  -- Adicionando id_saida
+								FROM 
+									ientrada
+								JOIN 
+									entrada ON ientrada.id_entrada = entrada.id_entrada
+								JOIN 
+									almoxarifado ON entrada.id_almoxarifado = almoxarifado.id_almoxarifado
+								JOIN 
+									produto ON ientrada.id_produto = produto.id_produto
+								LEFT JOIN 
+									categoria_produto ON produto.id_categoria_produto = categoria_produto.id_categoria_produto
+								LEFT JOIN 
+									isaida ON isaida.id_produto = ientrada.id_produto
+								LEFT JOIN 
+									saida ON isaida.id_saida = saida.id_saida
+								LEFT JOIN 
+									tipo_entrada ON entrada.id_tipo = tipo_entrada.id_tipo
+								LEFT JOIN 
+									tipo_saida ON saida.id_tipo = tipo_saida.id_tipo
+								LEFT JOIN
+									estoque ON estoque.id_produto = produto.id_produto 
+									AND estoque.id_almoxarifado = almoxarifado.id_almoxarifado
+								WHERE 
+									almoxarifado.id_almoxarifado = :idAlmoxarifado
+									AND produto.id_produto = :idProduto
+						");
+							$stmt->bindParam(':idProduto', $idProduto, PDO::PARAM_INT);
+							$stmt->bindParam(':idAlmoxarifado', $idAlmoxarifado, PDO::PARAM_INT);
+	
+							$stmt->execute();
+	
+							$resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+						}
+					}
+					?>
+
+					<?php
+						try{
+							if ($idProduto && $idAlmoxarifado) {
+								$stmtEntradas = $pdo->prepare("
+									SELECT 
+										entrada.data AS data_entrada,
+										entrada.hora AS hora_entrada,
+										almoxarifado.descricao_almoxarifado,
+										produto.descricao,
+										categoria_produto.descricao_categoria,
+										ientrada.qtd AS quantidade_entrada,
+										tipo_entrada.descricao AS descricao_tipo_entrada,
+										estoque.qtd AS estoque_atual
+									FROM 
+										ientrada
+									JOIN 
+										entrada ON ientrada.id_entrada = entrada.id_entrada
+									JOIN 
+										almoxarifado ON entrada.id_almoxarifado = almoxarifado.id_almoxarifado
+									JOIN 
+										produto ON ientrada.id_produto = produto.id_produto
+									LEFT JOIN 
+										categoria_produto ON produto.id_categoria_produto = categoria_produto.id_categoria_produto
+									LEFT JOIN 
+										tipo_entrada ON entrada.id_tipo = tipo_entrada.id_tipo
+									LEFT JOIN
+										estoque ON estoque.id_produto = produto.id_produto 
+										AND estoque.id_almoxarifado = almoxarifado.id_almoxarifado
+									WHERE 
+										almoxarifado.id_almoxarifado = :idAlmoxarifado
+										AND produto.id_produto = :idProduto
+										AND entrada.data IN (" . implode(', ', array_map(function ($index) {
+											return ":data_entrada_$index";
+										}, array_keys($datasArray))) . ")
+								");
+								$stmtEntradas->bindParam(':idProduto', $idProduto, PDO::PARAM_INT);
+								$stmtEntradas->bindParam(':idAlmoxarifado', $idAlmoxarifado, PDO::PARAM_INT);
+							
+								foreach ($datasArray as $index => $data) {
+									$stmtEntradas->bindValue(":data_entrada_$index", $data, PDO::PARAM_STR);
+								}
+							
+								$stmtEntradas->execute();
+							
+								if ($stmtEntradas->rowCount() > 0) {
+									$entradas = $stmtEntradas->fetchAll(PDO::FETCH_ASSOC);
+								} else {
+									$entradas = [];
+								}
+							}
+						} catch(PDOException $e){
+							echo "Não registrado" . $e->getMessage();
+						}
+						
+					try{
+						$stmtSaidas = $pdo->prepare("
+						SELECT 
+							saida.data AS data_saida,
+							saida.hora AS hora_saida,
+							almoxarifado.descricao_almoxarifado,
+							produto.descricao,
+							categoria_produto.descricao_categoria,
+							isaida.qtd AS quantidade_saida,
+							tipo_saida.descricao AS descricao_tipo_saida
+						FROM 
+							isaida
+						JOIN 
+							saida ON isaida.id_saida = saida.id_saida
+						JOIN 
+							almoxarifado ON saida.id_almoxarifado = almoxarifado.id_almoxarifado
+						JOIN 
+							produto ON isaida.id_produto = produto.id_produto
+						LEFT JOIN 
+							categoria_produto ON produto.id_categoria_produto = categoria_produto.id_categoria_produto
+						LEFT JOIN 
+							tipo_saida ON saida.id_tipo = tipo_saida.id_tipo
+						WHERE 
+							almoxarifado.id_almoxarifado = :idAlmoxarifado
+							AND produto.id_produto = :idProduto
+							AND saida.data IN (" . implode(', ', array_map(function ($index) {
+										return ":data_saida_$index";
+									}, array_keys($datasArray))) . ")
+					");
+					
+					$stmtSaidas->bindParam(':idProduto', $idProduto, PDO::PARAM_INT);
+					$stmtSaidas->bindParam(':idAlmoxarifado', $idAlmoxarifado, PDO::PARAM_INT);
+
+					foreach ($datasArray as $index => $data) {
+						$stmtSaidas->bindValue(":data_saida_$index", $data, PDO::PARAM_STR);
+					}
+
+					$stmtSaidas->execute();
+					if ($stmtSaidas->rowCount() > 0) {
+						$saidas = $stmtSaidas->fetchAll(PDO::FETCH_ASSOC);
+					} else {
+						$saidas = [];
+					}
+
+					} catch(PDOException $e){
+						echo"Não registrado" . $e->getMessage();
+					}
+					?>
 
 					<table class="table table-striped">
-					<thead class="thead-dark">
-						<tr>
-							<th scope="col" width="11%">Almoxarifado</th>
-							<th scope="col" width="11%">Produto</th>
-							<th scope="col" width="11%">Data de entrada</th>
-							<th scope="col" width="11%">Data de saída</th>
-						</tr>
-					</thead>
-					<tbody>
-						<?php
-						$pdo = Conexao::connect();
+						<thead class="thead-dark">
+							<tr>
+								<th scope="col" colspan="4" style="font-size: large;">INFORMAÇÕES DO PRODUTO</th>        
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>PRODUTO: <?php echo !empty($entradas[0]['descricao']) ? htmlspecialchars($entradas[0]['descricao']) : 'Não registrado'; ?></td>        
+							</tr>
+							<tr>
+								<td>ALMOXARIFADO: <?php echo !empty($entradas[0]['descricao_almoxarifado']) ? htmlspecialchars($entradas[0]['descricao_almoxarifado']) : 'Não registrado'; ?></td>
+							</tr>
+							<tr>
+								<td>CATEGORIA: <?php echo !empty($entradas[0]['descricao_categoria']) ? htmlspecialchars($entradas[0]['descricao_categoria']) : 'Não registrado'; ?></td>
+							</tr>    
+							<tr>
+								<td>ESTOQUE ATUAL: <?php echo !empty($entradas[0]['estoque_atual']) ? htmlspecialchars($entradas[0]['estoque_atual']) : 'Não registrado'; ?></td>
+							</tr>    
+							<tr>
+								<td>PERÍODO DO RELATÓRIO:
+									<?php
+									if (empty($dataInicio) && empty($dataFim)) {
+										echo "TODAS AS DATAS";
+									} elseif (!empty($dataInicio) && !empty($dataFim)) {
+										echo "<br> A partir do dia: " . $dataInicioFormatada . "<br>" . "Até: " . $dataFimFormatada;
+									} elseif (!empty($dataInicio)) {
+										echo "A partir do dia: " . $dataInicioFormatada;
+									} elseif (!empty($dataFim)) {
+										echo "Até: " . $dataFimFormatada;
+									} else {
+										echo 'Não registrado';
+									}
+									?>
+								</td>
+							</tr>
+						</tbody>
+					</table>
 
-						// Captura os IDs passados via GET
-						$idProduto = isset($_GET['id_produto']) ? $_GET['id_produto'] : null;
-						$idAlmoxarifado = isset($_GET['id_almoxarifado']) ? $_GET['id_almoxarifado'] : null;
+					<table class="table table-striped">
+						<thead class="thead-dark">
+							<tr>
+								<th scope="col" colspan="4" style="font-size: large;">ENTRADAS</th>
+							</tr>
+							<tr>
+								<th scope="col" style="font-weight: 600;">DATA</th>
+								<th scope="col" style="font-weight: 600;">TIPO</th>
+								<th scope="col" style="font-weight: 600;">QTD</th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php 
+							foreach ($entradas as $entrada) {
+								$dataEntrada = !empty($entrada['data_entrada']) && !empty($entrada['hora_entrada']) ? date('d/m/Y H:i', strtotime($entrada['data_entrada'] . ' ' . $entrada['hora_entrada'])) : "Não registrado.";
+							?>
+								<tr>
+									<td><?php echo $dataEntrada; ?></td>
+									<td><?php echo !empty($entrada['descricao_tipo_entrada']) ? htmlspecialchars(trim($entrada['descricao_tipo_entrada'])) : "Não registrado."; ?></td>
+									<td><?php echo !empty($entrada['quantidade_entrada']) ? htmlspecialchars(trim($entrada['quantidade_entrada'])) : "Não registrado."; ?></td>
+								</tr>
+							<?php } ?>
+						</tbody>
+					</table>
 
-						// Busca informações do produto
-						if ($idProduto) {
-							$stmt = $pdo->prepare("SELECT * FROM produto WHERE id_produto = :id");
-							$stmt->bindParam(':id', $idProduto, PDO::PARAM_INT);
-							if ($stmt->execute()) {
-								$produto = $stmt->fetch(PDO::FETCH_ASSOC);
-							} else {
-								echo "<p>Erro ao buscar produto.</p>";
-							}
-						} else {
-							echo "<p>ID do produto não fornecido.</p>";
-						}
+					<table class="table table-striped">
+						<thead class="thead-dark">
+							<tr>
+								<th scope="col" colspan="4" style="font-size: large;">SAÍDAS</th>
+							</tr>
+							<tr>
+								<th scope="col" style="font-weight: 600;">DATA</th>
+								<th scope="col" style="font-weight: 600;">TIPO</th>
+								<th scope="col" style="font-weight: 600;">QTD</th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php 
+								foreach ($saidas as $saida) {
+									$dataSaida = (!empty($saida['data_saida']) && !empty($saida['hora_saida'])) ? date('d/m/Y H:i', strtotime($saida['data_saida'] . ' ' . $saida['hora_saida'])) : "Não registrado.";
+									$descricaoTipoSaida = !empty($saida['descricao_tipo_saida']) ? htmlspecialchars(trim($saida['descricao_tipo_saida'])) : "Não registrado.";
+									$quantidadeSaida = !empty($saida['quantidade_saida']) ? htmlspecialchars(trim($saida['quantidade_saida'])) : "Não registrado.";
+								?>
+									<tr>
+										<td><?php echo $dataSaida; ?></td>
+										<td><?php echo $descricaoTipoSaida; ?></td>
+										<td><?php echo $quantidadeSaida; ?></td>
+									</tr>
+								<?php } ?>
+						</tbody>
+					</table>
 
-						// Busca informações do almoxarifado
-						if ($idAlmoxarifado) {
-							$stmt = $pdo->prepare("SELECT * FROM almoxarifado WHERE id_almoxarifado = :id");
-							$stmt->bindParam(':id', $idAlmoxarifado, PDO::PARAM_INT);
-							if ($stmt->execute()) {
-								$almoxarifado = $stmt->fetch(PDO::FETCH_ASSOC);
-							} else {
-								echo "<p>Erro ao buscar almoxarifado.</p>";
-							}
-						} else {
-							echo "<p>ID do almoxarifado não fornecido.</p>";
-						}
-
-						// Exibe os dados na tabela
-						if ($produto && $almoxarifado) {
-							echo "<tr>";
-							echo "<td>" . htmlspecialchars($almoxarifado['descricao_almoxarifado']) . "</td>"; // Almoxarifado
-							echo "<td>" . htmlspecialchars($produto['descricao']) . "</td>"; // Produto
-							echo "<td><!-- Data de entrada --></td>"; // Coluna para Data de Entrada
-							echo "<td><!-- Data de saída --></td>"; // Coluna para Data de Saída
-							echo "</tr>";
-						} else {
-							echo "<tr><td colspan='4'>Produto ou Almoxarifado não encontrado.</td></tr>";
-						}
-						?>
-					</tbody>
-				</table>
 
 				</div>
 				<!--end: page-->
