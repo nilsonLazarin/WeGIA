@@ -350,7 +350,16 @@ require_once "personalizacao_display.php";
 						<!-- Formulário de produtos !-->
 						<form class="form-horizontal" method="post" action="relatorio_geracao_produto.php">
 
-							<div class="form-group" id='per2'>
+							<div class="form-group" id='per2' style="text-align: center;">
+								<button type="button" id="btn-7dias2" class="btn btn-primary" style="width: fit-content;" onclick="botao7Dias()">Últimos 7 dias</button>
+								<button type="button" id="btn-30dias2" class="btn btn-primary" style="width: fit-content;" onclick="botao30Dias()">Últimos 30 dias</button>
+								<button type="button" id="btn-180dias2" class="btn btn-primary" style="width: fit-content;" onclick="botao180Dias()">Últimos 180 dias</button>
+								<button type="button" id="btn-365dias2" class="btn btn-primary" style="width: fit-content;" onclick="botao365Dias()">Últimos 365 dias</button>
+								<br><br>
+								<button type="button" id="btn-semana2" class="btn btn-primary" style="width: fit-content;" onclick="botaoSemana()">Essa semana</button>
+								<button type="button" id="btn-mes2" class="btn btn-primary" style="width: fit-content;" onclick="botaoMes()">Esse mês</button>
+								<button type="button" id="btn-ano2" class="btn btn-primary" style="width: fit-content;" onclick="botaoAno()">Esse ano</button>
+								<br><br>
 								<label class="col-md-3 control-label" for="profileCompany">Período</label>
 								<div class="col-md-8">
 									<input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" id="data_inicio" name="data_inicio" max="9999-12-31">
@@ -410,9 +419,8 @@ require_once "personalizacao_display.php";
 <script>
 	//FUNÇÃO PARA CALCULAR AS LISTAGENS DE 7 DIAS
 	function botao7Dias() {
-		const btn7Dias = document.getElementById("btn-7dias");
-		let dataInicio = document.getElementById("data_inicio");
-		let dataFim = document.getElementById("data_fim");
+		let dataInicio = document.querySelectorAll("#data_inicio");
+		let dataFim = document.querySelectorAll("#data_fim");
 
 		//Pega a data atual
 		var dataAtual = new Date();
@@ -422,7 +430,9 @@ require_once "personalizacao_display.php";
 
 		const dataAtualFormatada = `${ano}-${mes}-${dia}`;
 
-		dataFim.value = dataAtualFormatada;
+		dataFim.forEach(function(dataFim){
+			dataFim.value = dataAtualFormatada;
+		})
 
 		// Calcula a data de 7 dias atrás
 		dataAtual.setDate(dataAtual.getDate() - 7); 
@@ -432,14 +442,15 @@ require_once "personalizacao_display.php";
 
 		const data7DiasAtras = `${ano}-${mes}-${dia}`;
 
-		dataInicio.value = data7DiasAtras;
+		dataInicio.forEach(function(dataInicio){
+			dataInicio.value = data7DiasAtras;
+		})
 	}
 
 	//FUNÇÃO PARA CALCULAR AS LISTAGENS DE 30 DIAS
 	function botao30Dias() {
-		const btn30Dias = document.getElementById("btn-30dias");
-		let dataInicio = document.getElementById("data_inicio");
-		let dataFim = document.getElementById("data_fim");
+		let dataInicio = document.querySelectorAll("#data_inicio");
+		let dataFim = document.querySelectorAll("#data_fim");
 
 		//Pega a data atual
 		var dataAtual = new Date();
@@ -449,7 +460,9 @@ require_once "personalizacao_display.php";
 
 		const dataAtualFormatada = `${ano}-${mes}-${dia}`;
 
-		dataFim.value = dataAtualFormatada;
+		dataFim.forEach(function(dataFim){
+			dataFim.value = dataAtualFormatada;
+		});
 
 		// Calcula a data de 30 dias atrás
 		dataAtual.setDate(dataAtual.getDate() - 30); 
@@ -459,14 +472,15 @@ require_once "personalizacao_display.php";
 
 		const data30DiasAtras = `${ano}-${mes}-${dia}`;
 
-		dataInicio.value = data30DiasAtras;
+		dataInicio.forEach(function(dataInicio){
+			dataInicio.value = data30DiasAtras;
+		});
 	}
 
 	//FUNÇÃO PARA CALCULAR AS LISTAGENS DE 180 DIAS
 	function botao180Dias() {
-		const btn180Dias = document.getElementById("btn-180dias");
-		let dataInicio = document.getElementById("data_inicio");
-		let dataFim = document.getElementById("data_fim");
+		let dataInicio = document.querySelectorAll("#data_inicio");
+		let dataFim = document.querySelectorAll("#data_fim");
 
 		//Pega a data atual
 		var dataAtual = new Date();
@@ -476,7 +490,9 @@ require_once "personalizacao_display.php";
 
 		const dataAtualFormatada = `${ano}-${mes}-${dia}`;
 
-		dataFim.value = dataAtualFormatada;
+		dataFim.forEach(function(dataFim){
+			dataFim.value = dataAtualFormatada;
+		});
 
 		// Calcula a data de 180 dias atrás
 		dataAtual.setDate(dataAtual.getDate() - 180); 
@@ -486,16 +502,17 @@ require_once "personalizacao_display.php";
 
 		const data180DiasAtras = `${ano}-${mes}-${dia}`;
 
-		dataInicio.value = data180DiasAtras;
+		dataInicio.forEach(function(dataInicio){
+			dataInicio.value = data180DiasAtras;
+		})
 	}
 
 	//FUNÇÃO PARA CALCULAR AS LISTAGENS DE 365 DIAS
 	function botao365Dias() {
-		const btn365Dias = document.getElementById("btn-365dias");
-		let dataInicio = document.getElementById("data_inicio");
-		let dataFim = document.getElementById("data_fim");
+		let dataInicio = document.querySelectorAll("#data_inicio");
+		let dataFim = document.querySelectorAll("#data_fim");
 
-		//Pega a data atual
+		// Pega a data atual
 		var dataAtual = new Date();
 		var ano = dataAtual.getFullYear();
 		var mes = String(dataAtual.getMonth() + 1).padStart(2, '0');
@@ -503,7 +520,9 @@ require_once "personalizacao_display.php";
 
 		const dataAtualFormatada = `${ano}-${mes}-${dia}`;
 
-		dataFim.value = dataAtualFormatada;
+		dataFim.forEach(function(dataFim) {
+			dataFim.value = dataAtualFormatada;
+		});
 
 		// Calcula a data de 365 dias atrás
 		dataAtual.setDate(dataAtual.getDate() - 365); 
@@ -513,14 +532,16 @@ require_once "personalizacao_display.php";
 
 		const data365DiasAtras = `${ano}-${mes}-${dia}`;
 
-		dataInicio.value = data365DiasAtras;
+		// Itera sobre todos os elementos de data_inicio e atribui o valor
+		dataInicio.forEach(function(dataInicio) {
+			dataInicio.value = data365DiasAtras;
+		});
 	}
 
 	//FUNÇÃO PARA CALCULAR AS LISTAGENS DA SEMANA
 	function botaoSemana() {
-		const btnSemana = document.getElementById("btn-semana");
-		let dataInicio = document.getElementById("data_inicio");
-		let dataFim = document.getElementById("data_fim");
+		let dataInicio = document.querySelectorAll("#data_inicio");
+		let dataFim = document.querySelectorAll("#data_fim");
 
 		var dataAtual = new Date();
 		var diaSemana = dataAtual.getDay();
@@ -534,7 +555,9 @@ require_once "personalizacao_display.php";
 		var dia = String(dataAtual.getDate()).padStart(2, '0');
 		const dataDaSemana = `${ano}-${mes}-${dia}`;
 
-		dataInicio.value = dataDaSemana;
+		dataInicio.forEach(function(dataInicio){
+			dataInicio.value = dataDaSemana;
+		});
 
 		dataAtual.setDate(dataAtual.getDate() + 6); 
 
@@ -544,14 +567,15 @@ require_once "personalizacao_display.php";
 		dia = String(dataAtual.getDate()).padStart(2, '0');
 		const dataFimSemana = `${ano}-${mes}-${dia}`;
 
-		dataFim.value = dataFimSemana;
+		dataFim.forEach(function(dataFim){
+			dataFim.value = dataFimSemana;
+		});
 	}
 
 	//FUNÇÃO PARA CALCULAR AS LISTAGENS DO MÊS
 	function botaoMes() {
-		const btnMes = document.getElementById("btn-mes");
-		let dataInicio = document.getElementById("data_inicio");
-		let dataFim = document.getElementById("data_fim");
+		let dataInicio = document.querySelectorAll("#data_inicio");
+		let dataFim = document.querySelectorAll("#data_fim");
 
 		var dataAtual = new Date();
 
@@ -560,7 +584,9 @@ require_once "personalizacao_display.php";
 		var dia = '01'; 
 		const inicioMes = `${ano}-${mes}-${dia}`;
 
-		dataInicio.value = inicioMes;
+		dataInicio.forEach(function(dataInicio){
+			dataInicio.value = inicioMes;
+		});
 
 		var proximoMes = new Date(ano, dataAtual.getMonth() + 1, 0);
 		var fimMesAno = proximoMes.getFullYear();
@@ -568,24 +594,29 @@ require_once "personalizacao_display.php";
 		var fimMesDia = String(proximoMes.getDate()).padStart(2, '0');
 		const fimMes = `${fimMesAno}-${fimMesMes}-${fimMesDia}`;
 
-		dataFim.value = fimMes;
+		dataFim.forEach(function(dataFim){
+			dataFim.value = fimMes;
+		})
 	}
 	//FUNÇÃO PARA CALCULAR AS LISTAGENS DO ANO
 	function botaoAno() {
-		const btnAno = document.getElementById("btn-ano");
-		let dataInicio = document.getElementById("data_inicio");
-		let dataFim = document.getElementById("data_fim");
+		let dataInicio = document.querySelectorAll("#data_inicio");
+		let dataFim = document.querySelectorAll("#data_fim");
 
 		var dataAtual = new Date();
 
 		var ano = dataAtual.getFullYear();
 		var inicioAno = `${ano}-01-01`; 
 
-		dataInicio.value = inicioAno;
+		dataInicio.forEach(function(dataInicio){
+			dataInicio.value = inicioAno;
+		});
 
 		var fimAno = `${ano}-12-31`; 
 
-		dataFim.value = fimAno;
+		dataFim.forEach(function(dataFim){
+			dataFim.value = fimAno;
+		});
 	}
 
 	const selectAlmoxarifado = document.getElementById("almoxarifadoSelect");
