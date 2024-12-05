@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-if (!isset($_SESSION["usuario"])){
+if (!isset($_SESSION["usuario"])) {
     header("Location: ../../index.php");
 }
 
@@ -9,74 +9,196 @@ if (!isset($_SESSION["usuario"])){
 require_once '../permissao/permissao.php';
 permissao($_SESSION['id_pessoa'], 11, 7);
 
-
-require_once "../../dao/Conexao.php";
-$pdo = Conexao::connect();
 extract($_REQUEST);
 
-if ($action == "tipo_adicionar"){
-    $descricao = addslashes($descricao);
-    $query = "SELECT * FROM funcionario_remuneracao_tipo WHERE descricao = '$descricao'";
+try {
+    require_once "../../dao/Conexao.php";
+    $pdo = Conexao::connect();
+} catch (PDOException $e) {
+    http_response_code(500);
+    echo json_encode(['erro' => 'Erro ao estabelecer conexão no banco de dados do servidor.']);
+    exit();
+}
+
+if ($action == "tipo_adicionar") {
+    //$descricao = addslashes($descricao);
+    $query = "SELECT * FROM funcionario_remuneracao_tipo WHERE descricao = :descricao";
     $sql = "INSERT INTO funcionario_remuneracao_tipo VALUES (default , :descricao)";
     try {
-        $query = $pdo->query($query);
-        $query = $query->fetch(PDO::FETCH_ASSOC);
-        if ($query){
+        $stmt = $pdo->prepare($query);
+        $stmt->bindParam(':descricao', $descricao);
+        $stmt->execute();
+
+        if ($stmt->rowCount() > 0) {
             echo '{"aviso": true, "msg": "Tipo de remuneração já existe!"}';
             die();
         }
+
         $prep = $pdo->prepare($sql);
         $prep->bindValue(":descricao", $descricao);
         $prep->execute();
         $response = $pdo->query("SELECT idfuncionario_remuneracao_tipo as id, descricao FROM funcionario_remuneracao_tipo;");
         echo json_encode($response->fetchAll(PDO::FETCH_ASSOC));
-    } catch (PDOException $th) {
-        echo json_encode($th);
+    } catch (PDOException $e) {
+        http_response_code(500);
+        echo json_encode(['erro' => 'Erro ao adicionar um tipo de remuneração no banco de dados do servidor.']);
+        exit();
     }
     die();
 }
 
-if ($action == "remuneracao_adicionar"){
-    $id_funcionario = $_POST['id_funcionario'];
-    $id_tipo = $_POST['id_tipo'];
-    $valor = $_POST['valor'];
-    $inicio = $_POST["inicio"] ? "'".$_POST["inicio"]."'" : "NULL";
-    $fim = $_POST["fim"] ? "'".$_POST["fim"]."'" : "NULL";
-    $sql = "INSERT INTO funcionario_remuneracao VALUES (default , $id_funcionario, $id_tipo, $valor, $inicio, $fim );";
-    $pdo->query($sql);
+if ($action == "remuneracao_adicionar") {
+    $idFuncionario = trim(filter_input(INPUT_POST, 'id_funcionario', FILTER_VALIDATE_INT));
+    $idTipo = trim(filter_input(INPUT_POST, 'id_tipo', FILTER_VALIDATE_INT));
+    $valor = trim(filter_input(INPUT_POST, 'valor', FILTER_VALIDATE_FLOAT));
+    $inicio = trim(filter_input(INPUT_POST, 'inicio', FILTER_SANITIZE_STRING));
+    $fim = trim(filter_input(INPUT_POST, 'fim', FILTER_SANITIZE_STRING));
+
+    if (!$idFuncionario || !is_numeric($idFuncionario) || $idFuncionario < 1) {
+        http_response_code(400);
+        echo json_encode(['erro' => 'O id de um funcionário deve ser um inteiro positivo.']);
+    }
+
+    if (!$idTipo || !is_numeric($idTipo) || $idTipo < 1) {
+        http_response_code(400);
+        echo json_encode(['erro' => 'O id de um tipo deve ser um inteiro positivo.']);
+    }
+
+    if (!$valor || !is_numeric($valor) || $valor < 0) {
+        http_response_code(400);
+        echo json_encode(['erro' => 'O id de um funcionário deve ser um inteiro positivo.']);
+    }
+
+    $inicioDateArray = explode('-', $inicio);
+    $fimDateArray = explode('-', $fim);
+
+    if (!checkdate(intval($inicioDateArray[1]), intval($inicioDateArray[2]), intval($inicioDateArray[0]))) {
+        http_response_code(400);
+        echo json_encode(['erro' => 'A data de início informada não é válida.']);
+    }
+
+    if (!checkdate(intval($fimDateArray[1]), intval($fimDateArray[2]), intval($fimDateArray[0]))) {
+        http_response_code(400);
+        echo json_encode(['erro' => 'A data de fim informada não é válida.']);
+    }
+
+    $sql = "INSERT INTO funcionario_remuneracao VALUES (default , :idFuncionario, :idTipo, :valor, :inicio, :fim);";
+
+    try {
+        $stmt = $pdo->prepare($sql);
+
+        $stmt->bindParam(':idFuncionario', $idFuncionario);
+        $stmt->bindParam(':idTipo', $idTipo);
+        $stmt->bindParam(':valor', $valor);
+        $stmt->bindParam(':inicio', $inicio);
+        $stmt->bindParam(':fim', $fim);
+
+        $stmt->execute();
+    } catch (PDOException $e) {
+        http_response_code(500);
+        echo json_encode(['erro' => 'Erro ao adicionar uma remuneração no banco de dados.']);
+        exit();
+    }
+
     $action = "listar";
-    // echo('{"sql": "'.$sql.'"}');
 }
 
 if ($action == "remuneracao_editar") {
-    $id_remuneracao = $_POST["id_remuneracao"] ? $_POST["id_remuneracao"] : null;
-    $inicio = $_POST["inicio"] ? "'".$_POST["inicio"]."'" : "NULL";
-    $fim = $_POST["fim"] ? "'".$_POST["fim"]."'" : "NULL";
-    $sql = "UPDATE funcionario_remuneracao SET funcionario_remuneracao_tipo_idfuncionario_remuneracao_tipo=$id_tipo, valor=$valor, inicio=$inicio, fim=$fim;";
+    $idRemuneracao = trim(filter_input(INPUT_POST, 'id_remuneracao', FILTER_VALIDATE_INT));
+    $inicio = trim(filter_input(INPUT_POST, 'inicio', FILTER_SANITIZE_STRING));
+    $fim = trim(filter_input(INPUT_POST, 'fim', FILTER_SANITIZE_STRING));
+    $idFuncionarioRemuneracao = trim(filter_input(INPUT_POST, 'id_funcionario_remuneracao', FILTER_VALIDATE_INT));
 
-}
+    if (!$idRemuneracao || !is_numeric($idRemuneracao) || $idRemuneracao < 1) {
+        http_response_code(400);
+        echo json_encode(['erro' => 'O id de uma remuneração deve ser um inteiro positivo.']);
+    }
 
-if ($action == "remover"){
+    if (!$idFuncionarioRemuneracao || !is_numeric($idFuncionarioRemuneracao) || $idFuncionarioRemuneracao < 1) {
+        http_response_code(400);
+        echo json_encode(['erro' => 'O id de uma remuneração deve ser um inteiro positivo.']);
+    }
+
+    $inicioDateArray = explode('-', $inicio);
+    $fimDateArray = explode('-', $fim);
+
+    if (!checkdate(intval($inicioDateArray[1]), intval($inicioDateArray[2]), intval($inicioDateArray[0]))) {
+        http_response_code(400);
+        echo json_encode(['erro' => 'A data de início informada não é válida.']);
+    }
+
+    if (!checkdate(intval($fimDateArray[1]), intval($fimDateArray[2]), intval($fimDateArray[0]))) {
+        http_response_code(400);
+        echo json_encode(['erro' => 'A data de fim informada não é válida.']);
+    }
+
     try {
-        $pdo->query("DELETE FROM funcionario_remuneracao WHERE idfuncionario_remuneracao = $id_remuneracao;");
-        $action = "listar";
-    } catch (\Throwable $th) {
-        //throw $th;
+        $sql = "UPDATE funcionario_remuneracao SET funcionario_remuneracao_tipo_idfuncionario_remuneracao_tipo=:idRemuneracao, valor=:valor, inicio=:inicio, fim=:fim WHERE idfuncionario_remuneracao=:idFuncionarioRemuneracao";
+
+        $stmt = $pdo->prepare($sql);
+
+        $stmt->bindParam(':idRemuneracao', $idRemuneracao);
+        $stmt->bindParam(':valor', $valor);
+        $stmt->bindParam(':inicio', $inicio);
+        $stmt->bindParam(':fim', $fim);
+        $stmt->bindParam(':idFuncionarioRemuneracao', $idFuncionarioRemuneracao);
+
+        $stmt->execute();
+    } catch (PDOException $e) {
+        http_response_code(500);
+        echo json_encode(['erro' => 'Erro ao editar uma remuneração no banco de dados.']);
+        exit();
     }
 }
 
-if ($action == "listar"){
+if ($action == "remover") {
+    try {
+
+        if (!$id_remuneracao || !is_numeric($id_remuneracao) || $id_remuneracao < 1) {
+            http_response_code(400);
+            echo json_encode(['erro' => 'O id de uma remuneração deve ser um inteiro positivo.']);
+            exit();
+        }
+
+        $sqlRemover = "DELETE FROM funcionario_remuneracao WHERE idfuncionario_remuneracao =:idRemuneracao";
+
+        $stmt = $pdo->prepare($sqlRemover);
+
+        $stmt->bindParam(':idRemuneracao', $id_remuneracao);
+
+        $stmt->execute();
+
+        $action = "listar";
+    } catch (PDOException $e) {
+        http_response_code(500);
+        echo json_encode(['erro' => 'Erro ao remover uma remuneração no banco de dados.']);
+        exit();
+    }
+}
+
+if ($action == "listar") {
+
+    if (!$id_funcionario || !is_numeric($id_funcionario) || $id_funcionario < 1) {
+        http_response_code(400);
+        echo json_encode(['erro' => 'O id de uma remuneração deve ser um inteiro positivo.']);
+        exit();
+    }
+
     try {
         $sql = "SELECT 
         rem.idfuncionario_remuneracao as id_remuneracao, rem.funcionario_remuneracao_tipo_idfuncionario_remuneracao_tipo as id_tipo, tipo.descricao, rem.inicio, rem.fim, rem.valor
         FROM funcionario_remuneracao rem 
         JOIN funcionario_remuneracao_tipo tipo ON tipo.idfuncionario_remuneracao_tipo = rem.funcionario_remuneracao_tipo_idfuncionario_remuneracao_tipo 
-        WHERE rem.funcionario_id_funcionario = $id_funcionario;";
-    
-        $lista = ($pdo->query($sql))->fetchAll(PDO::FETCH_ASSOC);
+        WHERE rem.funcionario_id_funcionario =:idFuncionario";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':idFuncionario', $id_funcionario);
+        $stmt->execute();
+
+        $lista = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         //Formata data para o formato brasileiro
-        foreach($lista as $num => $remuneracao){
+        foreach ($lista as $num => $remuneracao) {
             $dataInicio = new DateTime($remuneracao['inicio']);
             $dataFim = new DateTime($remuneracao['fim']);
 
@@ -84,7 +206,9 @@ if ($action == "listar"){
             $lista[$num]['fim'] = $dataFim->format('d/m/Y');
         }
         echo json_encode($lista);
-    } catch (\Throwable $th) {
-        echo json_encode($th);
+    } catch (PDOException $e) {
+        http_response_code(500);
+        echo json_encode(['erro' => 'Erro ao listar as remunerações do banco de dados.']);
+        exit();
     }
 }
