@@ -1519,7 +1519,7 @@ $dependente = json_encode($dependente);
                                       <option selected disabled>Selecionar...</option>
                                       <?php
                                       foreach ($pdo->query("SELECT * FROM funcionario_docfuncional ORDER BY nome_docfuncional ASC;")->fetchAll(PDO::FETCH_ASSOC) as $item) {
-                                        echo ("<option value='" . $item["id_docfuncional"] . "' >" . $item["nome_docfuncional"] . "</option>");
+                                        echo ("<option value='" . htmlspecialchars($item["id_docfuncional"]) . "' >" . htmlspecialchars($item["nome_docfuncional"]) . "</option>");
                                       }
                                       ?>
                                     </select>
