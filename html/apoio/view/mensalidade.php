@@ -1,9 +1,9 @@
 <?php
-$title = 'Emitir boleto';
+$title = 'Emitir mensalidade';
 require_once './templates/header.php';
 
 $textoTipoContribuicao = 'GERAR MENSALIDADE';
-$tipoContribuicao = 'CARNE';
+$tipoContribuicao = 'MENSALIDADE';
 
 ?>
 <div class="container-contact100">

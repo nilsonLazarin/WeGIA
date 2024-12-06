@@ -256,6 +256,14 @@ class ContribuicaoLogController
                 }
             } else {
 
+                $diasPermitidos = [1, 5, 10, 15, 20, 25];
+
+                if(!in_array($diaVencimento, $diasPermitidos)){
+                    http_response_code(400);
+                    echo json_encode(['erro' => 'Dia de vencimento inválido']);
+                    exit();
+                }
+
                 // Verificar se o dia informado já passou neste mês
                 if ($diaVencimento <= $dataAtual->format('d')) {
                     // Se o dia informado já passou, começar a partir do próximo mês
