@@ -1102,11 +1102,11 @@ $dependente = json_encode($dependente);
                           $infoAdd = $pdo->query("SELECT * FROM funcionario_outrasinfo WHERE funcionario_id_funcionario = '$id_funcionario';")->fetchAll(PDO::FETCH_ASSOC);
                           $tam = count($infoAdd);
                           for ($i = 0; $i < $tam; $i++) {
-                            $dado = $infoAdd[$i]['dado'];
-                            $desc_id = $infoAdd[$i]['funcionario_listainfo_idfuncionario_listainfo'];
-                            $idInfoAdicional = $infoAdd[$i]['idfunncionario_outrasinfo'];
+                            $dado = htmlspecialchars($infoAdd[$i]['dado']);
+                            $desc_id = htmlspecialchars($infoAdd[$i]['funcionario_listainfo_idfuncionario_listainfo']);
+                            $idInfoAdicional = htmlspecialchars($infoAdd[$i]['idfunncionario_outrasinfo']);
                             $descricao = $pdo->query("SELECT descricao FROM funcionario_listainfo WHERE idfuncionario_listainfo = '$desc_id';")->fetchAll(PDO::FETCH_ASSOC);
-                            $nome_desc = $descricao[0]['descricao'];
+                            $nome_desc = htmlspecialchars($descricao[0]['descricao']);
                             echo
                             "
                                   <tr id='$idInfoAdicional'>
