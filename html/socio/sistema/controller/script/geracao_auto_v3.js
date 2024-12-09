@@ -2,8 +2,8 @@ $(document).ready(function () {
 
     // Geração para sócio único
     function procurar_desejado(id_socio) {
-        $.post("./controller/query_geracao_auto.php", {
-            "query": `SELECT * FROM socio s JOIN pessoa p ON p.id_pessoa = s.id_pessoa WHERE s.id_socio = ${id_socio}`
+        $.get("./get_socio.php", {
+            "id": id_socio
         })
             .done(function (dados) {
                 var socios = JSON.parse(dados);
