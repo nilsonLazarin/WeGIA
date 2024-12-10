@@ -332,7 +332,7 @@ class ContribuicaoLogController
      * Cria um objeto do tipo ContribuicaoLog, chama o serviço de pix registrado no banco de dados
      * e insere a operação na tabela de contribuicao_log caso o serviço seja executado com sucesso.
      */
-    public function criarQrCode()
+    public function criarQRCode()
     {
         $valor = filter_input(INPUT_POST, 'valor');
         $documento = filter_input(INPUT_POST, 'documento_socio');
@@ -412,9 +412,13 @@ class ContribuicaoLogController
             $socioDao->registrarLog($contribuicaoLog->getSocio(), $mensagem);
 
             //Chamada do método de serviço de pagamento requisitado
-            if (!$servicoPagamento->gerarQrCode($contribuicaoLog)) {
+
+            $codigoApi = $servicoPagamento->gerarQrCode($contribuicaoLog);
+
+            if (!$codigoApi) {
                 $this->pdo->rollBack();
             } else {
+                $contribuicaoLogDao->alterarCodigoPorId($codigoApi, $contribuicaoLog->getId());
                 $this->pdo->commit();
             }
         } catch (PDOException $e) {
