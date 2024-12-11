@@ -18,7 +18,7 @@
         public function exibirAdotante($idPet){
             $pdo = Conexao::connect();
 
-            $pd = $pdo->prepare("SELECT * FROM adocao WHERE id_pet = :id_pet");
+            $pd = $pdo->prepare("SELECT * FROM pet_adocao WHERE id_pet = :id_pet");
             $pd->bindValue('id_pet', $idPet);
             $pd->execute();
             $p = $pd->fetchAll();
@@ -52,7 +52,7 @@
 
         public function inserirAdocao($id_pet, $rg, $data_adocao){
             $pdo = Conexao::connect();
-            $pd = $pdo->prepare("SELECT COUNT(*) AS 'total' FROM adocao WHERE id_pet = :id_pet");
+            $pd = $pdo->prepare("SELECT COUNT(*) AS 'total' FROM pet_adocao WHERE id_pet = :id_pet");
             $pd->bindValue('id_pet', $id_pet);
             $pd->execute();
             $p = $pd->fetchAll();
@@ -71,14 +71,14 @@
             }
 
             if($total == 0){
-                $pd = $pdo->prepare("INSERT INTO adocao(id_pessoa, id_pet, data_adocao) 
+                $pd = $pdo->prepare("INSERT INTO pet_adocao(id_pessoa, id_pet, data_adocao) 
                 VALUES(:id_pessoa, :id_pet, :data_adocao)");
                 $pd->bindValue(":id_pessoa", $id_pessoa);
                 $pd->bindValue(":id_pet", $id_pet);
                 $pd->bindValue(":data_adocao", $data_adocao);
                 $pd->execute();                
             }else{
-                $pd = $pdo->prepare("UPDATE adocao SET id_pessoa = :id_pessoa, 
+                $pd = $pdo->prepare("UPDATE pet_adocao SET id_pessoa = :id_pessoa, 
                 data_adocao = :data_adocao WHERE id_pet = :id_pet");
                 $pd->bindValue(":id_pessoa", $id_pessoa);
                 $pd->bindValue(":id_pet", $id_pet);
@@ -103,7 +103,7 @@
         public function excluirAdocao($id_pet){
             $pdo = Conexao::connect();
 
-            $pd = $pdo->prepare("DELETE FROM adocao WHERE id_pet = :id_pet");
+            $pd = $pdo->prepare("DELETE FROM pet_adocao WHERE id_pet = :id_pet");
             $pd->bindValue('id_pet', $id_pet);
             $pd->execute();
             return 1;

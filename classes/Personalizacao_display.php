@@ -77,19 +77,20 @@ class Display_campo{
         return $res->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    //Começar por aqui
     public function display_txt(){
         $result = $this->getQuery("select * from selecao_paragrafo where nome_campo='" . $this->getCampo() . "';");
         if (count($result) == 1){
             $this->setConteudo($result[0]['paragrafo']);
             echo('
             <div><h1>' . $this->getCampo() . '</h1></div>
-            <p>' . nl2br($this->getConteudo()) . '</p>
+            <p>' . nl2br(htmlspecialchars($this->getConteudo())) . '</p>
             ');
         }else{
             $this->setConteudo(NO_DATA);
             echo('
             <div><h1>' . $this->getCampo() . '</h1></div>
-            <p>' . nl2br($this->getConteudo()) . '</p>
+            <p>' . nl2br(htmlspecialchars($this->getConteudo())) . '</p>
             ');
         }
     }
@@ -98,10 +99,10 @@ class Display_campo{
         $result = $this->getQuery("select * from selecao_paragrafo where nome_campo='" . $this->getCampo() . "';");
         if (count($result) == 1){
             $this->setConteudo($result[0]['paragrafo']);
-            echo(nl2br($this->getConteudo()));
+            echo(nl2br(htmlspecialchars($this->getConteudo())));
         }else{
             $this->setConteudo(NO_DATA);
-            echo(nl2br($this->getConteudo()));
+            echo(nl2br(htmlspecialchars($this->getConteudo())));
         }
     }
 

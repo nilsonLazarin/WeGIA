@@ -134,6 +134,7 @@ function configurarConsulta(funcao) {
 function verificarValor(valor) {
     //Substituir para fazer uma busca dinâmica sobre o valor mínimo de uma doação
     if (!valor || valor < 30) {
+        alert('O valor informado está abaixo do mínimo permitido.');
         return false;
     }
 
@@ -151,7 +152,6 @@ function configurarAvancaValor(funcao) {
         const valor = document.getElementById('valor').value;
         ev.preventDefault();
         if (!funcao(valor)) {
-            alert('O valor informado está abaixo do mínimo permitido.');
             return;
         }
 
@@ -443,6 +443,55 @@ function formAutocomplete({ bairro, cep, cidade, complemento, dataNascimento, do
     ufObject.value = estado;
     cidadeObject.value = cidade;
     complementoObject.value = complemento;
+}
+
+function buscarSocio() {
+    const documento = pegarDocumento();
+
+    if (!validarDocumento(documento)) {
+        alert("O documento informado não está em um formato válido");
+        return;
+    }
+
+    console.log("Buscando sócio ...");
+
+    const url = `../controller/control.php?nomeClasse=SocioController&metodo=buscarPorDocumento&documento=${encodeURIComponent(documento)}`;
+
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erro na consulta: ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Manipula os dados recebidos do back-end
+            //verificar se existem elementos no data
+            if (data.resultado && typeof data.resultado === 'object') {
+
+                //Autocompletar campos do formulário
+                if (!verificarSocio(data.resultado)) {
+                    //Exibir o sócio
+                    console.log(data);
+                    formAutocomplete(data.resultado);
+                    acao = 'atualizar';
+                    alternarPaginas('pag3', 'pag2');
+                } else {//Enviar para a página de confirmação de geração de boletos
+                    alternarPaginas('pag5', 'pag2');
+                }
+            } else {
+                console.log(data.resultado);
+                acao = 'cadastrar';
+                alternarPaginas('pag3', 'pag2');
+            }
+
+            //alternarPaginas('pag2');
+        })
+        .catch(error => {
+            console.error('Erro ao realizar a consulta:', error);
+        });
+
+    console.log("Consulta realizada");
 }
 
 function setLoader(btn) {

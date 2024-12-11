@@ -229,7 +229,7 @@ require_once ROOT."/html/personalizacao_display.php";
 											$id_cargo = $row['id_docfuncional'];
 											$cargo = $row['nome_docfuncional'];
 											if($id_cargo != 1 && $id_cargo != 2)
-                                            echo "<tr><td>$id_cargo</td><td><input id='$id_cargo' type='text' value='$cargo' disabled></td><td><a class='btn btn-danger' href='deletar_documento.php?id_cargo=$id_cargo'>Deletar</a></td></tr>";
+                                            echo "<tr><td>$id_cargo</td><td><input id='$id_cargo' type='text' value='".htmlspecialchars($cargo)."' disabled></td><td><a class='btn btn-danger' href='deletar_documento.php?id_cargo=$id_cargo'>Deletar</a></td></tr>";
                                         }         
 									?>
 								</tbody>
