@@ -1,9 +1,9 @@
 <?php
-$title = 'Emitir boleto';
+$title = 'Emitir QRCode';
 require_once './templates/header.php';
 
-$textoTipoContribuicao = 'GERAR BOLETO';
-$tipoContribuicao = 'BOLETO';
+$textoTipoContribuicao = 'GERAR QRCode';
+$tipoContribuicao = 'QRCode';
 
 ?>
 <div class="container-contact100">
@@ -19,7 +19,8 @@ $tipoContribuicao = 'BOLETO';
             <div id="pag1" class="wrap-input100">
                 <!--Adiciona a página de valor de contribuição-->
                 <?php include('./components/contribuicao_valor.php'); ?>
-                <?php $tipoAvanca = 'valor'; include('./components/btn_avanca.php'); ?>
+                <?php $tipoAvanca = 'valor';
+                include('./components/btn_avanca.php'); ?>
             </div>
 
             <div id="pag2" class="wrap-input100 hidden">
@@ -45,6 +46,11 @@ $tipoContribuicao = 'BOLETO';
 
     </form>
 
+    <div class="wrap-contact100 mt-5 hidden text-center" id="qrcode-div">
+        <h4>Escaneie seu QRCode, <br> ou então clique no nosso copia e cola!</h4>
+       
+    </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
 
     <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
@@ -52,7 +58,7 @@ $tipoContribuicao = 'BOLETO';
     <script src="../vendor/select2/select2.min.js"></script>
     <script src="../public/js/mascara.js"></script>
     <script src="../public/js/util.js"></script>
-    <script src="../public/js/boleto.js"></script>
+    <script src="../public/js/pix.js"></script>
     <!--Busca cep-->
     <script src="../../../Functions/busca_cep.js"></script>
     <?php

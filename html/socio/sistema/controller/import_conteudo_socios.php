@@ -214,68 +214,7 @@
           </div>
           <!-- /.box-body -->
         </div>
-        <div class="box box-warning">
-          <div class="box-header with-border">
-            <h3 class="box-title">Últimas doações</h3>
-
-            <div class="box-tools pull-right">
-              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-              </button>
-            </div>
-            <!-- /.box-tools -->
-          </div>
-          <!-- /.box-header -->
-          <div class="box-body" style="">
-            <table id="tbDoacoes" class="table table-hover" style="width: 100%">
-              <thead>
-                <tr>
-                  <th>Nome</th>
-                  <th>Sistema</th>
-                  <th>Data geração</th>
-                  <th>Valor</th>
-                  <th>Data de vencimento</th>
-                </tr>
-              </thead>
-              <tbody>
-                <?php
-                $fisica = 0;
-                $juridica = 0;
-                $socios_atrasados = 0;
-                $mensal = 0;
-                $casual = 0;
-                $si_contrib = 0;
-                $stmt = $conexao->prepare("SELECT *, sp.nome_sistema as sistema_pagamento, DATE_FORMAT(lc.data, '%d/%m/%Y') as data_geracao, DATE_FORMAT(lc.data_venc_boleto, '%d/%m/%Y') as data_vencimento, s.id_socio as socioid FROM socio AS s LEFT JOIN pessoa AS p ON s.id_pessoa = p.id_pessoa LEFT JOIN socio_tipo AS st ON s.id_sociotipo = st.id_sociotipo LEFT JOIN log_contribuicao AS lc ON lc.id_socio = s.id_socio LEFT JOIN sistema_pagamento as sp ON sp.id = lc.id_sistema WHERE s.id_socio");
-                $stmt->execute();
-                $query = $stmt->get_result();
-                while ($resultado = mysqli_fetch_assoc($query)) {
-                  $nome = $resultado['nome'];
-                  $id_log = $resultado['id_log'];
-                  $sistema_pag = $resultado['sistema_pagamento'];
-                  if (is_null($id_log)) {
-                    break;
-                  }
-                  $data_geracao = $resultado['data_geracao'];
-                  $valor = $resultado['valor_boleto'];
-                  $data_vencimento =  $resultado['data_vencimento'];
-                  echo ("<tr><td>$nome</td><td>$sistema_pag</td><td>$data_geracao</td><td>R$ $valor</td><td>$data_vencimento</td></tr>");
-                }
-                ?>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Nome</th>
-                  <th>Sistema</th>
-                  <th>Data geração</th>
-                  <th>Valor</th>
-                  <th>Data de vencimento</th>
-                </tr>
-              </tfoot>
-            </table>
-
-
-          </div>
-          <!-- /.box-body -->
-        </div>
+        
       </div>
       <!-- end: page -->
       <div class="row">

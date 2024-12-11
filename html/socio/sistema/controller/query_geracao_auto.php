@@ -1,4 +1,5 @@
 <?php
+/*
     require("../../conexao.php");
     if(!isset($_POST) or empty($_POST)){
         $data = file_get_contents( "php://input" );
@@ -21,5 +22,20 @@
     // });
     if(isset($dados)){
         echo json_encode($dados);
-    }else echo json_encode(false);
-?>
+    }else */
+
+// Obtendo informações sobre a requisição
+$referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : 'Referer não disponível';
+
+// Mensagem de erro
+$mensagem = [
+    "erro" => true,
+    "mensagem" => "query_geracao_auto.php foi descontinuada. A execução de queries diretamente como parâmetro de requisição não é mais permitida por razões de segurança.",
+    "solucao" => "Atualize sua aplicação para utilizar métodos seguros de acesso ao banco de dados.",
+    "referer" => $referer
+];
+
+// Retorno da mensagem
+header('Content-Type: application/json');
+echo json_encode($mensagem);
+exit;

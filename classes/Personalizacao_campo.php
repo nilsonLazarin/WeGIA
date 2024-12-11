@@ -87,6 +87,7 @@ class Campo {
         </tr>');
     }
 
+    //Começar por aqui
     public function display_txt(){
          // Caso o tipo seja um Texto
          echo('
@@ -99,7 +100,7 @@ class Campo {
                      </div>
                  </td>
                  <td class="v-center"><div>' . $this->getNome() . '</div></td>
-                 <td>' . $this->getConteudo() . '</td>
+                 <td>' . htmlspecialchars($this->getConteudo()) . '</td>
                  <td style="display: none;"><textarea name="txt" class="text-area" rows="5"></textarea><input style="display: none;" name="id" value="' . $this->getId() . '" readonly></td>
              </tr>
          </form>');

@@ -1,9 +1,9 @@
 <?php
-$title = 'Emitir boleto';
+$title = 'Emitir mensalidade';
 require_once './templates/header.php';
 
-$textoTipoContribuicao = 'GERAR BOLETO';
-$tipoContribuicao = 'BOLETO';
+$textoTipoContribuicao = 'GERAR MENSALIDADE';
+$tipoContribuicao = 'MENSALIDADE';
 
 ?>
 <div class="container-contact100">
@@ -17,8 +17,11 @@ $tipoContribuicao = 'BOLETO';
             <input type="hidden" name="forma-contribuicao" id="forma-contribuicao" value="boleto">
 
             <div id="pag1" class="wrap-input100">
-                <!--Adiciona a página de valor de contribuição-->
+                <!--Adiciona a página de valor de contribuição, quantidade de parcelas e dia de vencimento-->
                 <?php include('./components/contribuicao_valor.php'); ?>
+                <?php include('./components/contribuicao_parcelas.php'); ?>
+                <?php include('./components/contribuicao_dia_vencimento.php'); ?>
+
                 <?php $tipoAvanca = 'valor'; include('./components/btn_avanca.php'); ?>
             </div>
 
@@ -52,7 +55,7 @@ $tipoContribuicao = 'BOLETO';
     <script src="../vendor/select2/select2.min.js"></script>
     <script src="../public/js/mascara.js"></script>
     <script src="../public/js/util.js"></script>
-    <script src="../public/js/boleto.js"></script>
+    <script src="../public/js/mensalidade.js"></script>
     <!--Busca cep-->
     <script src="../../../Functions/busca_cep.js"></script>
     <?php
