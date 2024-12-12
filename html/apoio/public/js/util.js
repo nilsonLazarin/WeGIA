@@ -90,6 +90,10 @@ function validarDocumento(documento) {
         if (documentoSomenteNumeros.length != 11) {
             return false;
         }
+
+        if(!testaCPF(documentoSomenteNumeros)){
+            return false;
+        }
     } else if (opcao == 'juridica') {
         if (documentoSomenteNumeros.length != 14) {
             return false;
@@ -134,7 +138,7 @@ function configurarConsulta(funcao) {
 function verificarValor(valor) {
     //Substituir para fazer uma busca dinâmica sobre o valor mínimo de uma doação
     if (!valor || valor < 30) {
-        alert('O valor informado está abaixo do mínimo permitido.');
+        alert('O valor informado está abaixo do mínimo de 30 reais permitido.');
         return false;
     }
 
@@ -345,10 +349,10 @@ async function atualizarSocio() {
 function verificarEndereco() {
     const cep = document.getElementById('cep').value;
     const rua = document.getElementById('rua').value;
-    const numeroEndereco = document.getElementById('numero');
-    const bairro = document.getElementById('bairro');
-    const uf = document.getElementById('uf');
-    const cidade = document.getElementById('cidade');
+    const numeroEndereco = document.getElementById('numero').value;
+    const bairro = document.getElementById('bairro').value;
+    const uf = document.getElementById('uf').value;
+    const cidade = document.getElementById('cidade').value;
 
     if (!cep || cep.length != 9) {
         alert('O CEP informado não está no formato válido');
@@ -449,7 +453,7 @@ function buscarSocio() {
     const documento = pegarDocumento();
 
     if (!validarDocumento(documento)) {
-        alert("O documento informado não está em um formato válido");
+        alert("O documento informado não é válido");
         return;
     }
 
@@ -479,10 +483,19 @@ function buscarSocio() {
                 } else {//Enviar para a página de confirmação de geração de boletos
                     alternarPaginas('pag5', 'pag2');
                 }
+
+                //Pegar o nome do sócio e o exibir na página de confirmação de geração do boleto
+                let nomeSocio = data.resultado.nome;
+
+                const divAgradecimento = document.getElementById('div-agradecimento');
+                divAgradecimento.innerHTML = `<h3>Obrigado por contribuir mais uma vez, ${nomeSocio}!<h3>`;
             } else {
                 console.log(data.resultado);
                 acao = 'cadastrar';
                 alternarPaginas('pag3', 'pag2');
+
+                const divAgradecimento = document.getElementById('div-agradecimento');
+                divAgradecimento.innerHTML = `<h3>Obrigado pela sua contribuição!<h3>`;
             }
 
             //alternarPaginas('pag2');

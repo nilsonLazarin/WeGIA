@@ -11,7 +11,7 @@ require_once "../../personalizacao_display.php";
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $title ?></title>
-    <link rel="icon" href="<?php display_campo("Logo","file");?>" type="image/x-icon">
+    <link rel="icon" href="<?php display_campo("Logo", "file"); ?>" type="image/x-icon">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script type="text/javascript" src="../../../Functions/onlyNumbers.js"></script>
@@ -47,6 +47,9 @@ require_once "../../personalizacao_display.php";
     <link rel="stylesheet" type="text/css" href="../public/css/main.css">
     <link rel="stylesheet" type="text/css" href="../public/css/donation.css">
     <link rel="stylesheet" type="text/css" href="../public/css/segundaVia.css">
+
+    <!-- Função para validar CPF -->
+    <script src="../../../Functions/testaCPF.js"></script>
 
     <style>
         #logo_img {
@@ -92,7 +95,9 @@ require_once "../../personalizacao_display.php";
             margin: 0 auto !important;
         }
 
-       
+        span.obrigatorio {
+            color: red;
+        }
 
         @-webkit-keyframes spin {
             0% {
@@ -118,4 +123,3 @@ require_once "../../personalizacao_display.php";
 </head>
 
 <body>
-

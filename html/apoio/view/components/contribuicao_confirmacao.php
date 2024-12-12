@@ -1,5 +1,5 @@
 <div class="text-center">
-    <h3>Obrigado por contribuir mais uma vez</h3>
+    <div id="div-agradecimento"><h3>Obrigado pela sua contribuição</h3></div>
     <br>Clique em "<?=$textoTipoContribuicao?>" e aguarde o redirecionamento.<br>
 </div>
 
