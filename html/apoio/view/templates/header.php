@@ -99,6 +99,12 @@ require_once "../../personalizacao_display.php";
             color: red;
         }
 
+        .doacao_boleto{
+            justify-content: center;
+            border-radius: 20px;
+            text-align: center;
+        }
+
         @-webkit-keyframes spin {
             0% {
                 -webkit-transform: rotate(0deg);
