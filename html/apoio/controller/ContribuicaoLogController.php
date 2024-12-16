@@ -51,6 +51,12 @@ class ContribuicaoLogController
             //Procura pelo serviço de pagamento através do id do gateway de pagamento
             $gatewayPagamentoDao = new GatewayPagamentoDAO();
             $gatewayPagamentoArray = $gatewayPagamentoDao->buscarPorId($meioPagamento->getGatewayId());
+
+            if(!$gatewayPagamentoArray || count($gatewayPagamentoArray) < 1){
+                echo json_encode(['erro' => 'Gateway de pagamento não encontrado']);
+                exit();
+            }
+
             $gatewayPagamento = new GatewayPagamento($gatewayPagamentoArray['plataforma'], $gatewayPagamentoArray['endPoint'], $gatewayPagamentoArray['token'], $gatewayPagamentoArray['status']);
             $gatewayPagamento->setId($meioPagamento->getGatewayId());
 
@@ -162,6 +168,12 @@ class ContribuicaoLogController
             //Procura pelo serviço de pagamento através do id do gateway de pagamento
             $gatewayPagamentoDao = new GatewayPagamentoDAO();
             $gatewayPagamentoArray = $gatewayPagamentoDao->buscarPorId($meioPagamento->getGatewayId());
+
+            if(!$gatewayPagamentoArray || count($gatewayPagamentoArray) < 1){
+                echo json_encode(['erro' => 'Gateway de pagamento não encontrado']);
+                exit();
+            }
+
             $gatewayPagamento = new GatewayPagamento($gatewayPagamentoArray['plataforma'], $gatewayPagamentoArray['endPoint'], $gatewayPagamentoArray['token'], $gatewayPagamentoArray['status']);
             $gatewayPagamento->setId($meioPagamento->getGatewayId());
 
@@ -359,6 +371,12 @@ class ContribuicaoLogController
             //Procura pelo serviço de pagamento através do id do gateway de pagamento
             $gatewayPagamentoDao = new GatewayPagamentoDAO();
             $gatewayPagamentoArray = $gatewayPagamentoDao->buscarPorId($meioPagamento->getGatewayId());
+
+            if(!$gatewayPagamentoArray || count($gatewayPagamentoArray) < 1){
+                echo json_encode(['erro' => 'Gateway de pagamento não encontrado']);
+                exit();
+            }
+
             $gatewayPagamento = new GatewayPagamento($gatewayPagamentoArray['plataforma'], $gatewayPagamentoArray['endPoint'], $gatewayPagamentoArray['token'], $gatewayPagamentoArray['status']);
             $gatewayPagamento->setId($meioPagamento->getGatewayId());
 

@@ -115,15 +115,20 @@ class GatewayPagamentoDAO
     public function buscarPorId($id)
     {
         //definir consulta sql
-        $sqlBuscarPorId = "SELECT * FROM contribuicao_gatewayPagamento WHERE id=:id";
+        $sqlBuscarPorId = "SELECT * FROM contribuicao_gatewayPagamento WHERE id=:id AND status=1";
         //utilizar prepared statements
         $stmt = $this->pdo->prepare($sqlBuscarPorId);
         $stmt->bindParam(':id', $id);
         //executar
         $stmt->execute();
-        //resultado
-        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
-        //retornar resultado
-        return $resultado;
+
+        if ($stmt->rowCount() === 1) {
+            //resultado
+            $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+            //retornar resultado
+            return $resultado;
+        }
+
+        return false;
     }
 }
