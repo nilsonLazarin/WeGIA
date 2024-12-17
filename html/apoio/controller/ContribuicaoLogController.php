@@ -6,6 +6,7 @@ require_once '../model/Socio.php';
 require_once '../dao/SocioDAO.php';
 require_once '../dao/MeioPagamentoDAO.php';
 require_once '../dao/GatewayPagamentoDAO.php';
+require_once '../dao/RegraPagamentoDAO.php';
 require_once '../model/GatewayPagamento.php';
 require_once '../model/ContribuicaoLogCollection.php';
 require_once '../../../config.php';
@@ -48,11 +49,17 @@ class ContribuicaoLogController
                 exit();
             }
 
+            //Verificar regras
+            $regraPagamentoDao = new RegraPagamentoDAO();
+            $conjuntoRegrasPagamento = $regraPagamentoDao->buscaConjuntoRegrasPagamentoPorIdMeioPagamento($meioPagamento->getId());
+
+            $this->verificarRegras($valor, $conjuntoRegrasPagamento);
+
             //Procura pelo serviço de pagamento através do id do gateway de pagamento
             $gatewayPagamentoDao = new GatewayPagamentoDAO();
             $gatewayPagamentoArray = $gatewayPagamentoDao->buscarPorId($meioPagamento->getGatewayId());
 
-            if(!$gatewayPagamentoArray || count($gatewayPagamentoArray) < 1){
+            if (!$gatewayPagamentoArray || count($gatewayPagamentoArray) < 1) {
                 echo json_encode(['erro' => 'Gateway de pagamento não encontrado']);
                 exit();
             }
@@ -165,11 +172,17 @@ class ContribuicaoLogController
                 exit();
             }
 
+            //Verificar regras
+            $regraPagamentoDao = new RegraPagamentoDAO();
+            $conjuntoRegrasPagamento = $regraPagamentoDao->buscaConjuntoRegrasPagamentoPorIdMeioPagamento($meioPagamento->getId());
+
+            $this->verificarRegras($valor, $conjuntoRegrasPagamento);
+
             //Procura pelo serviço de pagamento através do id do gateway de pagamento
             $gatewayPagamentoDao = new GatewayPagamentoDAO();
             $gatewayPagamentoArray = $gatewayPagamentoDao->buscarPorId($meioPagamento->getGatewayId());
 
-            if(!$gatewayPagamentoArray || count($gatewayPagamentoArray) < 1){
+            if (!$gatewayPagamentoArray || count($gatewayPagamentoArray) < 1) {
                 echo json_encode(['erro' => 'Gateway de pagamento não encontrado']);
                 exit();
             }
@@ -270,7 +283,7 @@ class ContribuicaoLogController
 
                 $diasPermitidos = [1, 5, 10, 15, 20, 25];
 
-                if(!in_array($diaVencimento, $diasPermitidos)){
+                if (!in_array($diaVencimento, $diasPermitidos)) {
                     http_response_code(400);
                     echo json_encode(['erro' => 'Dia de vencimento inválido']);
                     exit();
@@ -326,7 +339,7 @@ class ContribuicaoLogController
                 $this->pdo->rollBack();
             } else {
                 //loop foreach para alterar o código no banco de dados das respectivas contribuições recebidas
-                foreach($resultado['contribuicoes'] as $contribuicao){
+                foreach ($resultado['contribuicoes'] as $contribuicao) {
                     $contribuicaoLogDao->alterarCodigoPorId($contribuicao->getCodigo(), $contribuicao->getId());
                 }
 
@@ -368,11 +381,17 @@ class ContribuicaoLogController
                 exit('Meio de pagamento não encontrado');
             }
 
+            //Verificar regras
+            $regraPagamentoDao = new RegraPagamentoDAO();
+            $conjuntoRegrasPagamento = $regraPagamentoDao->buscaConjuntoRegrasPagamentoPorIdMeioPagamento($meioPagamento->getId());
+
+            $this->verificarRegras($valor, $conjuntoRegrasPagamento);
+
             //Procura pelo serviço de pagamento através do id do gateway de pagamento
             $gatewayPagamentoDao = new GatewayPagamentoDAO();
             $gatewayPagamentoArray = $gatewayPagamentoDao->buscarPorId($meioPagamento->getGatewayId());
 
-            if(!$gatewayPagamentoArray || count($gatewayPagamentoArray) < 1){
+            if (!$gatewayPagamentoArray || count($gatewayPagamentoArray) < 1) {
                 echo json_encode(['erro' => 'Gateway de pagamento não encontrado']);
                 exit();
             }
@@ -462,6 +481,25 @@ class ContribuicaoLogController
             $contribuicaoLogDao->pagarPorId($idContribuicaoLog);
         } catch (PDOException $e) {
             echo 'Erro: ' . $e->getMessage(); //substituir posteriormente por redirecionamento com mensagem de feedback
+        }
+    }
+
+    private function verificarRegras($valor, $conjuntoRegrasPagamento)
+    {
+        if ($conjuntoRegrasPagamento && count($conjuntoRegrasPagamento) > 0) {
+            foreach ($conjuntoRegrasPagamento as $regraPagamento) {
+                if ($regraPagamento['id_regra'] == 1) {
+                    if ($valor < $regraPagamento['valor']) {
+                        echo json_encode(['erro' => "O valor informado está abaixo do permitido (R\${$regraPagamento['valor']})."]);
+                        exit;
+                    }
+                } else if ($regraPagamento['id_regra'] == 2) {
+                    if ($valor > $regraPagamento['valor']) {
+                        echo json_encode(['erro' => "O valor informado está acima do permitido (R\${$regraPagamento['valor']})."]);
+                        exit;
+                    }
+                }
+            }
         }
     }
 }
