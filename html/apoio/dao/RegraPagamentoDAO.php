@@ -60,6 +60,26 @@ class RegraPagamentoDAO
         return $resultado;
     }
 
+    public function buscaConjuntoRegrasPagamentoPorNomeMeioPagamento(string $nomeMeioPagamento){
+        //definir consulta sql
+        $sql = "SELECT ccr.id, ccr.id_meioPagamento, ccr.id_regra, ccr.valor, ccr.status, cmp.meio, cr.regra, cgp.plataforma, cgp.endpoint   
+        FROM contribuicao_conjuntoRegras ccr 
+        JOIN contribuicao_meioPagamento cmp ON(cmp.id=ccr.id_meioPagamento) 
+        JOIN contribuicao_gatewayPagamento cgp ON(cgp.id = cmp.id_plataforma) 
+        JOIN contribuicao_regras cr ON(cr.id=ccr.id_regra) 
+        WHERE cmp.meio =:nomeMeioPagamento AND ccr.status=1";
+        
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindParam(':nomeMeioPagamento', $nomeMeioPagamento);
+
+        $stmt->execute();
+
+        $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        //retornar resultado
+        return $resultado;
+    }
+
     /**
      * Inseri um novo conjunto de regras no banco de dados da aplicação
      */
