@@ -1,4 +1,10 @@
 let acao = 'boleto';
+let regras;
+
+async function configurarRegrasDePagamento() {
+    regras = await buscarRegrasDePagamento('Boleto');
+    console.log('Conjunto de regras: ' + regras);
+}
 
 async function decidirAcao() {
     switch (acao) {
@@ -53,3 +59,4 @@ configurarAvancaContato(verificarContato);
 configurarAvancaTerminar(decidirAcao);
 configurarMudancaOpcao(alternarPfPj);
 configurarConsulta(buscarSocio);
+configurarRegrasDePagamento();

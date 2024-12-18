@@ -91,7 +91,7 @@ function validarDocumento(documento) {
             return false;
         }
 
-        if(!testaCPF(documentoSomenteNumeros)){
+        if (!testaCPF(documentoSomenteNumeros)) {
             return false;
         }
     } else if (opcao == 'juridica') {
@@ -136,13 +136,24 @@ function configurarConsulta(funcao) {
  * @returns 
  */
 function verificarValor(valor) {
-    //Substituir para fazer uma busca dinâmica sobre o valor mínimo de uma doação
-    if (!valor || valor < 30) {
-        alert('O valor informado está abaixo do mínimo de 30 reais permitido.');
-        return false;
-    }
+    if (regras && regras.length > 0) {
+        console.log('Existem regras cadastradas no sistema');
 
-    return true;
+        for (const regra of regras) {
+            if (regra.id_regra == 1 && parseFloat(valor) < regra.valor) {
+                alert(`O valor está abaixo do mínimo de R$${regra.valor}`);
+                return false;
+            } else if (regra.id_regra == 2 && parseFloat(valor) > regra.valor) {
+                alert(`O valor está acima do máximo de R$${regra.valor}`);
+                return false;
+            }
+        }
+
+        return true;
+    } else {
+        console.log('Não existem regras cadastradas');
+        return true;
+    }
 }
 
 /**
@@ -505,6 +516,32 @@ function buscarSocio() {
         });
 
     console.log("Consulta realizada");
+}
+
+async function buscarRegrasDePagamento(meioPagamento) {
+    console.log("Buscando regras de pagamento ...");
+
+    const url = `../controller/control.php?nomeClasse=RegraPagamentoController&metodo=buscaConjuntoRegrasPagamentoPorNomeMeioPagamento&meio-pagamento=${encodeURIComponent(meioPagamento)}`;
+
+    try {
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            throw new Error('Erro na consulta: ' + response.statusText);
+        }
+
+        const data = await response.json();
+
+        if (data.regras) {
+            return data.regras; // Retorna o conjunto de regras
+        } else if (data.erro) {
+            alert(data.erro);
+            return false; // Retorna null em caso de erro específico
+        }
+    } catch (error) {
+        console.error('Erro ao realizar a consulta:', error);
+        return false; // Retorna null em caso de erro genérico
+    }
 }
 
 function setLoader(btn) {

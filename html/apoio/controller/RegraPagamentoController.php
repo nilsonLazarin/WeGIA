@@ -31,7 +31,7 @@ class RegraPagamentoController
     public function buscaConjuntoRegrasPagamentoPorNomeMeioPagamento()
     {
 
-        $nomeMeioPagamento = trim(filter_input(INPUT_GET, 'nome-meio-pagamento', FILTER_SANITIZE_STRING));
+        $nomeMeioPagamento = trim(filter_input(INPUT_GET, 'meio-pagamento', FILTER_SANITIZE_STRING));
 
         try {
             $regraPagamentoDao = new RegraPagamentoDAO();
