@@ -139,6 +139,11 @@ class PagarMeCarneService implements ApiCarneServiceInterface
             }
         }
 
+        //Pega os códigos retornados pela API e atribuí na propriedade codigo das contribuicoes de contribuicaoLogCollection
+        foreach ($contribuicaoLogCollection as $index => $contribuicaoLog) {
+            $contribuicaoLog->setCodigo($codigosAPI[$index]);
+        }
+
         //print_r($pdf_links);
         $arquivos = $this->salvarTemp($pdf_links);
 
@@ -148,13 +153,8 @@ class PagarMeCarneService implements ApiCarneServiceInterface
         $caminho = $this->guardarSegundaVia($arquivos, $cpfSemMascara, $ultimaParcela);
         $this->removerTemp();
 
-        if(!$caminho || empty($caminho)){
+        if (!$caminho || empty($caminho)) {
             return false;
-        }
-
-        //Pega os códigos retornados pela API e atribuí na propriedade codigo das contribuicoes de contribuicaoLogCollection
-        foreach($contribuicaoLogCollection as $index => $contribuicaoLog){
-            $contribuicaoLog->setCodigo($codigosAPI[$index]);
         }
 
         //Retorna o link e a coleção de contribuições
@@ -286,13 +286,13 @@ class PagarMeCarneService implements ApiCarneServiceInterface
         }
 
 
-        $numeroAleatorio = $ultimaParcela->getCodigo();
+        $numeroAleatorio = str_replace('_', '-', $ultimaParcela->getCodigo());
         $ultimaDataVencimento = $ultimaParcela->getDataVencimento();
         $ultimaDataVencimento = str_replace('-', '', $ultimaDataVencimento);
 
         // Salva o arquivo PDF unido
         $pdf->Output('F', '../pdfs/' . $numeroAleatorio . '_' . $cpfSemMascara . '_' . $ultimaDataVencimento . '_' . $ultimaParcela->getValor() . '.pdf');
 
-        return 'pdfs/'. $numeroAleatorio . '_' . $cpfSemMascara . '_' . $ultimaDataVencimento . '_' . $ultimaParcela->getValor() . '.pdf';
+        return 'pdfs/' . $numeroAleatorio . '_' . $cpfSemMascara . '_' . $ultimaDataVencimento . '_' . $ultimaParcela->getValor() . '.pdf';
     }
 }
