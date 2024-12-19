@@ -404,31 +404,35 @@
 								<h4>Saúde Pet</h4>
 							</div>
 						</a>
+						<!--
 						<a href="#">
 							<div class="col-lg-2 col-md-8 i category-item-second" data-toggle="collapse" href="#padrinhos">
 								<i class="fa fa-user"></i></i><i class="fas fa-paw"></i>
-								<h4>Padrinhos</h4>
+								<h4>Adotantes</h4>
 							</div>
 						</a>
+						-->
 					</div>
 				</div>
+
+				<!--
 				<div class="row category-row-third">
 					<div  id="padrinhos" class="removeIn collapse">
 						<a href="../html/pet/padrinho/pre_cadastro_padrinho.php">	
 							<div class="col-lg-2 col-md-8 i">
 								<i  class="fa fa-address-book"></i>
-								<h4>Cadastrar Padrinhos</h4>
+								<h4>Cadastrar Adotante</h4>
 							</div>
 						</a>
 						<a href="../controle/control.php?metodo=listarTodos&nomeClasse=PadrinhoControle&nextPage=./html/pet/padrinho/informacao_padrinho.php">
 							<div class="col-lg-2 col-md-8 i">
 								<i  class="far fa-address-card"></i>
-								<h4>Informações Padrinhos</h4>
+								<h4>Informações Adotantes</h4>
 							</div>
 						</a>
 					</div>
 				</div>
-
+				-->
 				<div class="row category-row-third">
 					<div  id="saudePet" class="removeIn collapse">
 						<a href="../html/pet/cadastro_ficha_medica_pet.php">	

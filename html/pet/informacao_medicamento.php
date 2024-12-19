@@ -35,7 +35,7 @@ if (!is_null($resultado)) {
     if (!is_null($id_cargo)) {
         $id_cargo = $id_cargo['id_cargo'];
     }
-    $resultado = mysqli_query($conexao, "SELECT * FROM permissao p JOIN acao a ON(p.id_acao=a.id_acao) JOIN recurso r ON(p.id_recurso=r.id_recurso) WHERE id_cargo=$id_cargo AND a.descricao = 'LER, GRAVAR E EXECUTAR' AND r.descricao='Módulo Saúde'");
+    $resultado = mysqli_query($conexao, "SELECT * FROM permissao p JOIN acao a ON(p.id_acao=a.id_acao) JOIN recurso r ON(p.id_recurso=r.id_recurso) WHERE id_cargo=$id_cargo AND a.descricao = 'LER, GRAVAR E EXECUTAR' AND r.descricao='Saúde Pet'");
     if (!is_bool($resultado) and mysqli_num_rows($resultado)) {
         $permissao = mysqli_fetch_array($resultado);
         if ($permissao['id_acao'] < 7) {

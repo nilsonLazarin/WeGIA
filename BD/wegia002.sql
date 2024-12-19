@@ -113,6 +113,8 @@ INSERT INTO `recurso` (`id_recurso`, `descricao`) VALUES
 ('7', 'Módulo Contribuição'),
 ('61', 'Cadastrar Pet'),
 ('62', 'Saúde Pet'),
+('63', 'Informações Pet'),
+('64', 'Adotantes Pet'),
 ('9', 'Configurações'),
 ('91', 'Permissões');
 
@@ -146,6 +148,8 @@ INSERT INTO `permissao` (`id_cargo`, `id_acao`, `id_recurso`) VALUES
 (1, 7, 52),
 (1, 7, 61),
 (1, 7, 62),
+(1, 7, 63),
+(1, 7, 64),
 (1, 7, 91);
 
 INSERT INTO `sistema_pagamento` (`id`, `nome_sistema`) VALUES 

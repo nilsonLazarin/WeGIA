@@ -92,7 +92,7 @@ class PetDAO{
                 $pets[$x]=array('id'=> $linha['id'], 'nome'=>$linha['nome'],'raca'=>$linha['raca'],'cor'=>$linha['cor']);
                 $x++;
             }
-        }catch (PDOExeption $e){
+        }catch (PDOException $e){
             echo 'Error: ' .  $e->getMessage();
         }
         return json_encode($pets);

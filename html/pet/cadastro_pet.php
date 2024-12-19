@@ -27,23 +27,26 @@ if (!is_null($resultado)) {
   if (!is_null($id_cargo)) {
     $id_cargo = $id_cargo['id_cargo'];
   }
-  $resultado = mysqli_query($conexao, "SELECT * FROM permissao WHERE id_cargo=$id_cargo and id_recurso=11");
+  $resultado = mysqli_query($conexao, "SELECT * FROM permissao p JOIN acao a ON(p.id_acao=a.id_acao) JOIN recurso r ON(p.id_recurso=r.id_recurso) WHERE id_cargo=$id_cargo AND a.descricao = 'LER, GRAVAR E EXECUTAR' AND r.descricao='Cadastrar Pet'");
+  //$resultado = mysqli_query($conexao, "SELECT * FROM permissao WHERE id_cargo=$id_cargo and id_recurso=61");
   if (!is_bool($resultado) and mysqli_num_rows($resultado)) {
     $permissao = mysqli_fetch_array($resultado);
     if ($permissao['id_acao'] < 3) {
       $msg = "Você não tem as permissões necessárias para essa página.";
-      //header("Location: ../home.php?msg_c=$msg");
+      header("Location: ../home.php?msg_c=$msg");
     }
     $permissao = $permissao['id_acao'];
-  } else {
-    $permissao = 1;
+  } elseif($permissao = 1) {
     $msg = "Você não tem as permissões necessárias para essa página.";
-    //header("Location: ../home.php?msg_c=$msg");
+    header("Location: ../home.php?msg_c=$msg");
+  } else {
+    $id_cargo = 2;
+    $msg = "Você não tem as permissões necessárias para essa página.";
   }
 } else {
   $permissao = 1;
   $msg = "Você não tem as permissões necessárias para essa página.";
-  //header("Location: ../home.php?msg_c=$msg");
+  header("Location: ../home.php?msg_c=$msg");
 }
 //ret
 

@@ -1,4 +1,7 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 $config_path = "config.php";
 if(file_exists($config_path)){
     require_once($config_path);
@@ -9,10 +12,11 @@ if(file_exists($config_path)){
     }
     require_once($config_path);
 }
-include_once ROOT."/dao/Conexao.php";
-include_once ROOT.'/classes/pet/padrinho/Padrinho.php';
-include_once ROOT.'/dao/pet/padrinho/PadrinhoDAO.php';
-include_once ROOT.'/dao/PermissaoDAO.php';
+
+include_once ROOT . "/dao/Conexao.php";
+include_once ROOT . '/classes/pet/padrinho/Padrinho.php';
+include_once ROOT . '/dao/pet/padrinho/PadrinhoDAO.php';
+include_once ROOT . '/dao/PermissaoDAO.php';
 require_once ROOT . '/classes/Util.php';
 
 
@@ -33,6 +37,11 @@ class PadrinhoControle
         // Extrai os dados da requisição
         extract($_REQUEST);
 
+        echo '<pre>';
+        var_dump($_REQUEST);
+        echo '</pre>';
+
+        $sexo = $_REQUEST['gender'];
         // Validações de campos obrigatórios
         if (empty($nome)) {
             $msg = "Nome do padrinho não informado. Por favor, informe um nome!";
@@ -73,9 +82,20 @@ class PadrinhoControle
         $rua = !empty($rua) ? $rua : ''; 
         $numeroEndereco = !empty($numeroEndereco) ? $numeroEndereco : ''; 
         $complemento = !empty($complemento) ? $complemento : '';
+        
+        $registroGeral = !empty($registroGeral) ? $registroGeral : '';
+        $orgaoEmissor = !empty($orgaoEmissor) ? $orgaoEmissor : '';
+        $dataExpedicao = !empty($dataExpedicao) ? $dataExpedicao : '';
+        $nomeMae = !empty($nomeMae) ? $nomeMae : '';
+        $nomePai = !empty($nomePai) ? $nomePai : '';
+        $tipoSanguineo = !empty($tipoSanguineo) ? $tipoSanguineo : '';
+        $senha = !empty($senha) ? $senha : '';
+        $imagem = !empty($imagem) ? $imagem : '';
+        $ibge = !empty($ibge) ? $ibge : '';
+        
 
         // Criação da instância do padrinho (herda de Pessoa)
-        $padrinho = new Padrinho($cpf, $nome, $sobrenome, $sexo, $nascimento, $telefone, $cep, $estado, $cidade, $bairro, $rua, $numeroEndereco, $complemento);
+        $padrinho = new Padrinho($cpf, $nome, $sobrenome, $sexo, $nascimento, $telefone, $cep, $estado, $cidade, $bairro, $rua, $numeroEndereco, $complemento, $registroGeral,$orgaoEmissor,$dataExpedicao,$nomeMae,$nomePai,$tipoSanguineo,$senha,$imagem,$ibge);
 
         // Retorno da instância do padrinho
         return $padrinho;
@@ -126,23 +146,19 @@ class PadrinhoControle
         }
     
         // Instanciando a classe 'Padrinho', que herda de 'Pessoa'
-        $padrinho = new Padrinho( // A classe 'Padrinho' vai herdar os atributos de 'Pessoa'
-            $cpf, $nome, $sobrenome, $sexo, $nascimento, 
-            $telefone, $cep, $estado, $cidade, 
-            $bairro, $rua, $numeroEndereco, $complemento,
-        );
-    
+        $padrinho = new Padrinho($cpf, $nome, $sobrenome, $sexo, $nascimento, $telefone, $cep, $estado, $cidade, $bairro, $rua, $numeroEndereco, $complemento, $registroGeral,$orgaoEmissor,$dataExpedicao,$nomeMae,$nomePai,$tipoSanguineo,$senha,$imagem,$ibge);
         // Retorna o objeto Padrinho
         return $padrinho;
     }
+    
     
 
     public function retornarIdPessoa($id_padrinho)
     {   
         // Avaliar se este método está sendo utilizado em alguma parte do sistema
-        $padrinhoDAO = new PadrinhoDAO(); // Usando PadrinhoDAO ao invés de FuncionarioDAO
+        $padrinhoDAO = new PadrinhoDAO();
         $pessoa = $padrinhoDAO->retornarIdPessoa($id_padrinho);
-        $_SESSION['id_pessoa'] = $pessoa; // Armazena o id da pessoa na sessão
+        $_SESSION['id_pessoa'] = $pessoa;
     }
 
     public function listarTodos()
@@ -172,18 +188,18 @@ class PadrinhoControle
             $_SESSION['padrinho'] = $padrinho; // Armazena o padrinho na sessão
             header('Location: ' . $nextPage); // Redireciona para a próxima página
         } catch (PDOException $e) {
-            echo $e->getMessage(); // Caso haja erro, exibe a mensagem
+            echo $e->getMessage();
         }
     }
     public function selecionarCadastro(){
-        $cpf = $_GET['cpf']; // Obtém o CPF da requisição GET
-        $validador = new Util(); // Instancia a classe de validação (presumivelmente para validar CPF)
+        $cpf = isset($_REQUEST['cpf']) ? $_REQUEST['cpf'] : null; // Obtém o CPF da requisição GET
+        $validador = new Util();
     
-        // Valida o CPF usando a função validarCPF da classe Util
-        if(!$validador->validarCPF($cpf)){
-            http_response_code(400); // Retorna código de erro 400 caso o CPF não seja válido
-            exit('Erro, o CPF informado não é válido'); // Encerra o script com mensagem de erro
+        if (!$validador->validarCPF($cpf)) {
+            http_response_code(400);
+            exit('Erro, o CPF informado não é válido');
         }
+
     
         $padrinhoDAO = new PadrinhoDAO(); // Instancia o PadrinhoDAO
         $padrinhoDAO->selecionarCadastro($cpf); // Chama o método para selecionar o cadastro do padrinho
@@ -193,21 +209,20 @@ class PadrinhoControle
     
 
     public function incluir(){
-        // Verifica os dados do padrinho
         $padrinho = $this->verificarPadrinho(); 
         $horario = $this->verificarHorario();
-        $cpf = $_GET['cpf']; // Obtém o CPF da requisição
-        $validador = new Util(); // Instancia a classe de validação do CPF
+        $cpf = $_GET['cpf']; 
+        $validador = new Util(); 
     
         // Valida o CPF
         if(!$validador->validarCPF($cpf)){
-            http_response_code(400); // Retorna erro 400 caso o CPF seja inválido
+            http_response_code(400); 
             exit('Erro, o CPF informado não é válido');
         }
     
         // Verifica a data de nascimento do padrinho
-        if($padrinho->getDataNascimento() > Padrinho::getDataNascimentoMaxima() || $padrinho->getDataNascimento() < Padrinho::getDataNascimentoMinima()){
-            http_response_code(400); // Retorna erro 400 caso a data de nascimento esteja fora do limite
+        if ($padrinho->getDataNascimento() > Padrinho::getDataNascimentoMaxima() || $padrinho->getDataNascimento() < Padrinho::getDataNascimentoMinima()) {
+            http_response_code(400);
             exit('Erro, a data de nascimento do padrinho não está dentro dos limites permitidos.');
         }
     
@@ -268,7 +283,7 @@ class PadrinhoControle
         extract($_REQUEST);
         
         // Cria um objeto Padrinho com os dados recebidos
-        $padrinho = new Padrinho('',$nome,$sobrenome,$sexo,$nascimento,'','','','',$telefone,'','','','','','','','','');
+        $padrinho = new Padrinho('',$nome,$sobrenome,$sexo,$nascimento,'','','','',$telefone,'','','','','','','','','','','','','');
         $padrinho->setId_pessoa($id_pessoa);  // Assumindo que o id do padrinho é 'id_pessoa'
 
         $padrinhoDAO = new PadrinhoDAO();  // Instancia o PadrinhoDAO
@@ -277,7 +292,7 @@ class PadrinhoControle
             // Altera as informações pessoais do padrinho
             $padrinhoDAO->alterarInfPessoal($padrinho);
             // Redireciona para o perfil do padrinho
-            header("Location:" . ROOT . "/html/pet/padrinho/profile_padrinho.php?id_pessoa=" . $id_pessoa);
+            header("Location: " . ROOT . "/html/pet/padrinho/profile_padrinho.php?id_pessoa=" . urlencode($id_pessoa));
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -289,7 +304,7 @@ class PadrinhoControle
         extract($_REQUEST);
 
         // Cria um objeto Padrinho com os dados de documentação recebidos
-        $padrinho = new Padrinho($cpf, '', '', '', '', $rg, $orgao_emissor, $data_expedicao, '', '', '', '', '', '', '', '', '', '', '', '');
+        $padrinho = new Padrinho($cpf, '', '', '', '', $rg, $orgao_emissor, $data_expedicao, '', '', '', '', '', '', '', '', '', '', '', '','','','');
 
         $padrinho->setId_pessoa($id_pessoa);  // Assumindo que o id do padrinho é 'id_pessoa'
         $padrinhoDAO = new PadrinhoDAO();  // Instancia o PadrinhoDAO
@@ -298,7 +313,7 @@ class PadrinhoControle
             // Altera os dados de documentação do padrinho
             $padrinhoDAO->alterarDocumentacao($padrinho);
             // Redireciona para o perfil do padrinho
-            header("Location:" . ROOT . "/html/pet/padrinho/profile_padrinho.php?id_pessoa=" . $id_pessoa);
+            header("Location: " . ROOT . "/html/pet/padrinho/profile_padrinho.php?id_pessoa=" . urlencode($id_pessoa));
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -310,7 +325,7 @@ class PadrinhoControle
         extract($_REQUEST);
 
         // Definir valores padrões caso estejam vazios
-        if((!isset($numero_residencia)) || empty(($numero_residencia))){
+        if (!isset($numero_residencia) || empty($numero_residencia)) {
             $numero_residencia = "null";
         }
 
@@ -324,7 +339,7 @@ class PadrinhoControle
             // Altera os dados de endereço do padrinho
             $padrinhoDAO->alterarEndereco($padrinho);
             // Redireciona para o perfil do padrinho
-            header("Location:" . ROOT . "/html/pet/padrinho/profile_padrinho.php?id_pessoa=" . $id_pessoa);
+            header("Location: " . ROOT . "/html/pet/padrinho/profile_padrinho.php?id_pessoa=" . urlencode($id_pessoa));
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
