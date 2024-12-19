@@ -64,20 +64,20 @@ if ($resultado && $row = $resultado->fetch_assoc()) {
     if ($resultado && $row = $resultado->fetch_assoc()) {
         // Check the permission level
         if ($row['id_acao'] < 7) {
-            $msg = "Erro de Permissão.";
+            $msg = "Você não tem as permissões necessárias para essa página.";
             header("Location: ../home.php?msg_c=" . urlencode($msg));
             exit;
         }
         $permissao = $row['id_acao'];
     } else {
         $permissao = 1;
-        $msg = "Erro de Permissão.";
+        $msg = "Você não tem as permissões necessárias para essa página.";
         header("Location: ../home.php?msg_c=" . urlencode($msg));
         exit;
     }
 } else {
     $permissao = 1;
-    $msg = "Erro de Permissão.";
+    $msg = "Você não tem as permissões necessárias para essa página.";
     header("Location: ../home.php?msg_c=" . urlencode($msg));
     exit;
 }

@@ -63,7 +63,7 @@ if ($resultado && $row = $resultado->fetch_assoc()) {
         // Check the permission level
         if ($row['id_acao'] < 7) {
             $msg = "Você não tem as permissões necessárias para essa página.";
-            //header("Location: ../home.php?msg_c=" . urlencode($msg));
+            header("Location: ../home.php?msg_c=" . urlencode($msg));
             exit;
         }
         $permissao = $row['id_acao'];
@@ -71,14 +71,14 @@ if ($resultado && $row = $resultado->fetch_assoc()) {
         // No valid permission found
         $permissao = 1;
         $msg = "Você não tem as permissões necessárias para essa página.";
-        //header("Location: ../home.php?msg_c=" . urlencode($msg));
+        header("Location: ../home.php?msg_c=" . urlencode($msg));
         exit;
     }
 } else {
     // No valid cargo found
     $permissao = 1;
     $msg = "Você não tem as permissões necessárias para essa página.";
-    //header("Location: ../home.php?msg_c=" . urlencode($msg));
+    header("Location: ../home.php?msg_c=" . urlencode($msg));
     exit;
 }
 
