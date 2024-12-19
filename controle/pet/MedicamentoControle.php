@@ -20,7 +20,7 @@ class MedicamentoControle{
         if($id){
            header("Location: ../../html/pet/profile_pet.php?id_pet=".$id);
         }else{
-            header("Location: ../../html/pet/cadastrar_medicamento.php");
+            header("Location: ../html/pet/informacao_medicamento.php");
         }
     }
 

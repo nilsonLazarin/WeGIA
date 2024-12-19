@@ -33,7 +33,7 @@ if (!$conexao) {
 }
 
 // Start the session
-session_start();
+//session_start();
 
 // Get user ID from session
 $id_pessoa = $_SESSION['id_pessoa'];
@@ -55,7 +55,7 @@ if ($resultado && $row = $resultado->fetch_assoc()) {
         JOIN recurso r ON p.id_recurso = r.id_recurso 
         WHERE p.id_cargo = ? 
         AND a.descricao = 'LER, GRAVAR E EXECUTAR' 
-        AND r.descricao = 'Módulo Saúde'"
+        AND r.descricao = 'Saúde Pet'"
     );
     $stmt->bind_param("i", $id_cargo);
     $stmt->execute();

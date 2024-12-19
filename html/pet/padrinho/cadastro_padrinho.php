@@ -38,12 +38,6 @@ if ($cpf) {
 $dataNascimentoMaxima = Padrinho::getDataNascimentoMaxima();
 $dataNascimentoMinima = Padrinho::getDataNascimentoMinima();
 
-
-// Definição de limites de datas
-$dataNascimentoMaxima = Padrinho::getDataNascimentoMaxima();
-$dataNascimentoMinima = Padrinho::getDataNascimentoMinima();
-
-
 ?>
 <!DOCTYPE html>
 <html class="fixed">
@@ -74,7 +68,7 @@ $dataNascimentoMinima = Padrinho::getDataNascimentoMinima();
   <!-- Theme Custom CSS -->
   <link rel="stylesheet" href="../../../assets/stylesheets/theme-custom.css">
 
-  <?php echo $informacoesPadrinho ?>; 
+  <?php //echo $informacoesPadrinho ?>; 
     
    
 
@@ -114,7 +108,7 @@ $dataNascimentoMinima = Padrinho::getDataNascimentoMinima();
             </ul>
             <div class="tab-content">
               <div id="overview" class="tab-pane active">
-                <form class="form-horizontal" method="GET" action="../../../controle/control.php">
+                <form class="form-horizontal" id="formulario" method="GET" action="../../../controle/control.php">
                   <h4 class="mb-xlg">Informações Pessoais</h4>
                   <h5 class="obrig">Campos Obrigatórios(*)</h5>
                   <div class="form-group">
@@ -132,8 +126,8 @@ $dataNascimentoMinima = Padrinho::getDataNascimentoMinima();
                   <div class="form-group">
                     <label class="col-md-3 control-label" for="profileLastName">Sexo<sup class="obrig">*</sup></label>
                     <div class="col-md-8">
-                      <label><input type="radio" name="gender" id="radioM" id="M" value="m" style="margin-top: 10px; margin-left: 15px;" required><i class="fa fa-male" style="font-size: 20px;"></i></label>
-                      <label><input type="radio" name="gender" id="radioF" id="F" value="f" style="margin-top: 10px; margin-left: 15px;" ><i class="fa fa-female" style="font-size: 20px;"></i> </label>
+                      <label><input type="radio" name="gender" class="radioM" id="M" value="m" style="margin-top: 10px; margin-left: 15px;" required><i class="fa fa-male" style="font-size: 20px;"></i></label>
+                      <label><input type="radio" name="gender" class="radioF" id="F" value="f" style="margin-top: 10px; margin-left: 15px;" ><i class="fa fa-female" style="font-size: 20px;"></i> </label>
                     </div>
                   </div>
                   <div class="form-group">
@@ -153,10 +147,11 @@ $dataNascimentoMinima = Padrinho::getDataNascimentoMinima();
                   <div class="form-group">
                     <label class="col-md-3 control-label" for="cpf">Número do CPF<sup class="obrig">*</sup></label>
                     <div class="col-md-6">
-                      <input type="text" class="form-control" id="cpf" id="cpf" name="cpf" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##', this, event)" value="<?php
-                                                                                                                                                                                                                                                                          if (isset($cpf) && !is_null(trim($cpf))) {
-                                                                                                                                                                                                                                                                            echo $cpf;
-                                                                                                                                                                                                                                                                          } ?>" required>
+                      <input type="text" class="form-control" id="cpf" id="cpf" name="cpf" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##', this, event)" value="
+                      <?php
+                        if (isset($cpf) && !is_null(trim($cpf))) {
+                          echo $cpf;
+                        } ?>" required>
                     </div>
                   </div>
                   <div class="form-group">
@@ -225,19 +220,28 @@ $dataNascimentoMinima = Padrinho::getDataNascimentoMinima();
     }
   </style>
   <script>
- 
-   $(function() {
+   document.addEventListener("DOMContentLoaded", function(){
+    $(function() {
       $("#header").load("../../header.php");
       $(".menuu").load("../../menu.php");
     });
+
     function funcao1() {
   
-    var send = $("#enviar");
-    var cpfs = <?php
-        require_once ROOT . "/dao/pet/padrinho/PadrinhoDAO.php";
-        $padrinhoDAO = new PadrinhoDAO();
-        echo json_encode($padrinhoDAO->listarCPFPessoas());
-    ?>;
+      var send = $("#enviar");
+
+      var cpfs = <?php
+          require_once ROOT . "/dao/pet/padrinho/PadrinhoDAO.php";
+          $padrinhoDAO = new PadrinhoDAO();
+          echo $padrinhoDAO->listarCPFPessoas(); 
+      ?>;
+
+      console.log(cpfs);
+
+      cpfs.forEach(function(cpfItem) {
+          console.log(cpfItem.cpf);
+      });
+    
     var cpfFuncionario = limparCPF($("#cpf").val());
     var apoio = 0;
 
@@ -254,34 +258,40 @@ $dataNascimentoMinima = Padrinho::getDataNascimentoMinima();
         alert("Cadastrado com sucesso!");
     }
 
-      
 }
 
+document.querySelector("#enviar").addEventListener("click", validarPadrinho);
 
-document.querySelector("#enviar").addEventListener("click" , validarPadrinho)
+function validarPadrinho(event) {
+  event.preventDefault(); 
 
-function validarPadrinho(ev) {
-  ev.preventDefault() 
-
-   if(validar()){
+  if (validar()) {
     var btn = $("#enviar");
-    var cpfCadastrado = <?php
-        echo json_encode($padrinhoDAO->listarCPFPessoas());
-    ?>;
+
+    var cpfCadastrado = <?php echo json_encode($padrinhoDAO->listarCPFPessoas()); ?>;
+    
+    cpfCadastrado = JSON.parse(cpfCadastrado);
+
     var cpf = limparCPF($("#cpf").val());
+    var cpfExistente = false;
 
     $.each(cpfCadastrado, function(i, item) {
-        if (item.cpf === cpf) {
-            alert("Cadastro não realizado! O CPF informado já está cadastrado no sistema");
-            btn.attr('disabled', 'disabled');
-            return false; // Para sair do loop
-        }
+      if (item.cpf === cpf) {
+        alert("Cadastro não realizado! O CPF informado já está cadastrado no sistema");
+        btn.attr('disabled', 'disabled');  
+        cpfExistente = true;
+        return false;
+      }
     });
-  
+
+    if (!cpfExistente) {
+      var formulario = document.getElementById("formulario");
+      formulario.submit();
+    }
   }
+
+  //console.log(cpfCadastrado);
 }
-
-
 
 function okDisplay() {
     document.getElementById("okButton").style.backgroundColor = "#0275d8"; // azul
@@ -299,17 +309,28 @@ function limparCPF(cpf) {
     return cpf.replaceAll(".", "").replaceAll("-", "");
 }
 
- function validar() {
-
+function validar() {
   var nome = document.getElementById('profileFirstName').value;
-
   var sobrenome = document.getElementById('sobrenome').value;
-
-  var sexo = document.querySelector('input[name="gender"]:checked')?.value;
+  
+  let sexo = null;
+  
+  const sexoSelecionado = document.querySelector('input[name="gender"]:checked');
+  if (sexoSelecionado) {
+    sexo = sexoSelecionado.value;
+    sexo = String(sexo);
+    sexo = sexo.trim();
+  }
 
   var telefone = document.getElementById('telefone').value;
-
   var dt_nasc = document.getElementById('nascimento').value;
+
+  //console.log(nome);
+  //console.log(nome);
+  //console.log(sobrenome);
+  //console.log(sexo); 
+  //console.log(telefone);
+  //console.log(dt_nasc);
 
   let dataNascimentoMaxima = "<?=$dataNascimentoMaxima?>";
   dataNascimentoMaxima = dataNascimentoMaxima.replaceAll('-', '');
@@ -319,31 +340,27 @@ function limparCPF(cpf) {
 
   dt_nasc = dt_nasc.replaceAll('-', '');
 
-  if (nome && sobrenome && sexo && telefone && dt_nasc) {
-    alert("Cadastrado com sucesso!");
-    
-    return true
-  }else{
+  if (!nome || !sobrenome || !sexo || !telefone || !dt_nasc) {
     alert("Insira todas as informações!");
-  }
-   
-  if(!validarTelefone()) {
-
-    alert('Telefone invalido')
-    return false;
-  }
-  if(dt_nasc > dataNascimentoMaxima){
-    alert('Data de Nascimento inválida')
     return false;
   }
 
-  if(dt_nasc < dataNascimentoMinima){
-    alert('Data de Nascimento inválida')
+  if (!validarTelefone()) {
+    alert('Telefone inválido');
     return false;
   }
 
- //cpf,$nome,$sobrenome,$sexo,$dataNascimento,$registroGeral,$orgaoEmissor,$dataExpedicao,$nomeMae,$nomePai,$tipoSanguineo,$senha,$telefone,$imagem,$cep,$estado,$cidade,$bairro,$logradouro,$numeroEndereco,$complemento,$ibge
+  if (dt_nasc > dataNascimentoMaxima) {
+    alert('Data de Nascimento inválida');
+    return false;
+  }
 
+  if (dt_nasc < dataNascimentoMinima) {
+    alert('Data de Nascimento inválida');
+    return false;
+  }
+
+  return true;
 }
 
 function numero_residencial() {
@@ -445,7 +462,7 @@ var numValidos = "0123456789-()";
     var i;
     let  telefone = document.getElementById('telefone');
     function validarTelefone() {
-      console.log(telefone.value)
+      //console.log(telefone.value)
       //Verificando quantos dígitos existem no campo, para controlarmos o looping;
       digitos = telefone.value.length;
 
@@ -464,7 +481,7 @@ var numValidos = "0123456789-()";
         }
       } return true
     }
-   
+   });  
   </script>
 
   <!-- Head Libs -->
@@ -489,7 +506,7 @@ var numValidos = "0123456789-()";
   <div align="right">
     <iframe src="https://www.wegia.org/software/footer/funcionario.html" width="200" height="60" style="border:none;"></iframe>
   </div>
-  <script src="./script/cadastro_padrinho.js" type="module"></script>
+  
 </body>
 
 </html>

@@ -38,7 +38,7 @@
     require_once($config_path);
   }
   require_once "../permissao/permissao.php";
-  permissao($_SESSION['id_pessoa'], 11, 7);
+  permissao($_SESSION['id_pessoa'], 63, 7);
   require_once "../personalizacao_display.php";
   require_once "../../dao/Conexao.php";
   require_once "../geral/msg.php";
@@ -499,7 +499,7 @@
                           <input type="hidden" name="id_pet" value=<?php echo $_GET['id_pet'] ?>>
                           <button type="button" class="not-printable btn btn-primary" id="editarPet" onclick="return editar_informacoes_pet()">Editar</button>
                           <input type="submit" class="not-printable btn btn-primary" disabled="true" value="Salvar" id="salvarPet">
-                          <button type="button" style="!important;" class="not-printable mb-xs mt-xs mr-xs btn btn-default" id="btnPrint">Imprimir <i class="fa-solid fa-print" style = "color:black"></i></button>
+                          <button type="button" class="not-printable mb-xs mt-xs mr-xs btn btn-default" id="btnPrint">Imprimir <i class="fa-solid fa-print" style = "color:black"></i></button>
                         </fieldset>
                       
                     </form>
