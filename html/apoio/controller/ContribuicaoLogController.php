@@ -220,7 +220,8 @@ class ContribuicaoLogController
 
             if (!$qtdParcelas || $qtdParcelas < 2) {
                 //implementar mensagem de erro
-                exit('O mínimo de parcelas deve ser 2');
+                echo json_encode(['erro' => 'O mínimo de parcelas deve ser 2']);
+                exit();
             }
 
             // Pegar a data atual
