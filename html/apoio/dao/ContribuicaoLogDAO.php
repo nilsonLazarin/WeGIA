@@ -4,6 +4,7 @@ require_once '../dao/ConexaoDAO.php';
 
 //requisitar model
 require_once '../model/ContribuicaoLog.php';
+require_once '../model/ContribuicaoLogCollection.php';
 
 class ContribuicaoLogDAO{
     private $pdo;
@@ -76,5 +77,36 @@ class ContribuicaoLogDAO{
         $stmt->bindParam(':id', $id);
 
         $stmt->execute();
+    }
+
+    public function listarPorDocumento(string $documento){
+        $sql = "SELECT cl.id, cl.codigo, cl.valor, cl.data_geracao, cl.data_vencimento, cl.status_pagamento FROM contribuicao_log cl JOIN socio s ON (cl.id_socio=s.id_socio) JOIN pessoa p ON(s.id_pessoa=p.id_pessoa) WHERE cpf=:documento";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindParam(':documento', $documento);
+
+        $stmt->execute();
+
+        if($stmt->rowCount() < 1){
+            return null;
+        }
+
+        $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $contribuicaoLogCollection = new ContribuicaoLogCollection();
+
+        foreach($resultado as $contribuicaoLog){
+            $contribuicaoLogObject = new ContribuicaoLog();
+            $contribuicaoLogObject
+                ->setId($contribuicaoLog['id'])
+                ->setCodigo($contribuicaoLog['codigo'])
+                ->setValor($contribuicaoLog['valor'])
+                ->setDataGeracao($contribuicaoLog['data_geracao'])
+                ->setDataVencimento($contribuicaoLog['data_vencimento'])
+                ->setStatusPagamento($contribuicaoLog['status_pagamento']);
+
+            $contribuicaoLogCollection->add($contribuicaoLogObject);
+        }
+
+        return $contribuicaoLogCollection;
     }
 }

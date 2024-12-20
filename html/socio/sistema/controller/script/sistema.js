@@ -385,9 +385,11 @@ $(document).ready(function(){
                         $("#qtd_socios").html(Number($("#qtd_socios").html())+1);
                         resetaForm("#frm_novo_socio");
                     },1000);
-                }else{
-                    modalSimples("Status", "Erro ao cadastrar sócio, verifique os dados e tente novamente.", "erro");
                 }
+            }).fail(function(resposta){
+                console.log(resposta);
+                resposta = JSON.parse(resposta.responseText)
+                modalSimples("Status", `Erro ao cadastrar sócio, ${resposta.erro}.`, "erro");
             });
         }else{
             if(DesabilitaverificaCpf == true){
@@ -434,9 +436,11 @@ $(document).ready(function(){
                             $("#qtd_socios").html(Number($("#qtd_socios").html())+1);
                             resetaForm("#frm_novo_socio");
                         },1000);
-                    }else{
-                        modalSimples("Status", "Erro ao cadastrar sócio, verifique os dados e tente novamente.", "erro");
                     }
+                }).fail(function(resposta){
+                    console.log(resposta);
+                    resposta = JSON.parse(resposta.responseText)
+                    modalSimples("Status", `Erro ao cadastrar sócio, ${resposta.erro}.`, "erro");
                 });
             }else{
                 modalSimples("Status", "O CPF/CNPJ informado é inválido!", "erro");

@@ -1,4 +1,10 @@
 let acao = 'qrcode';
+let regras;
+
+async function configurarRegrasDePagamento() {
+    regras = await buscarRegrasDePagamento('Pix');
+    console.log('Conjunto de regras: ' + regras);
+}
 
 async function decidirAcao() {
     switch (acao) {
@@ -100,3 +106,4 @@ configurarAvancaContato(verificarContato);
 configurarAvancaTerminar(decidirAcao);
 configurarMudancaOpcao(alternarPfPj);
 configurarConsulta(buscarSocio);
+configurarRegrasDePagamento();

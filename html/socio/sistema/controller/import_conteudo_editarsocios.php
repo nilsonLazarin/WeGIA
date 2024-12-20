@@ -181,8 +181,8 @@
                   while($row = $tags->fetch_array(MYSQLI_NUM))
                   {
                       if($row[0] == $tag){
-                        echo("<option value=".$row[0]." selected>".$row[1]."</option>");
-                      }else echo ("<option value=".$row[0].">".$row[1]."</option>");
+                        echo("<option value=".htmlspecialchars($row[0])." selected>".htmlspecialchars($row[1])."</option>");
+                      }else echo ("<option value=".htmlspecialchars($row[0]).">".htmlspecialchars($row[1])."</option>");
                   }
            
             ?>

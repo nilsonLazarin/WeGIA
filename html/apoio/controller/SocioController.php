@@ -1,6 +1,8 @@
 <?php
 require_once '../model/Socio.php';
+require_once '../model/ContribuicaoLogCollection.php';
 require_once '../dao/SocioDAO.php';
+require_once '../dao/ContribuicaoLogDAO.php';
 require_once '../helper/Util.php';
 require_once '../dao/ConexaoDAO.php';
 class SocioController
@@ -77,18 +79,17 @@ class SocioController
             $this->pdo->beginTransaction();
             $socioDao->registrarLogPorDocumento($socio->getDocumento(), 'Atualização recente');
 
-            if($socioDao->atualizarSocio($socio)){
+            if ($socioDao->atualizarSocio($socio)) {
                 $this->pdo->commit();
                 http_response_code(200);
                 echo json_encode(['mensagem' => 'Atualizado com sucesso!']);
                 exit();
-            }else{
+            } else {
                 $this->pdo->rollBack();
                 http_response_code(500);
                 echo json_encode(['erro' => 'Erro ao atualizar sócio no sistema']);
                 exit();
             }
-            
         } catch (PDOException $e) {
             http_response_code(500);
             echo json_encode(['erro' => $e->getMessage()]);
@@ -264,11 +265,23 @@ class SocioController
 
         $boletosEncontrados = [];
 
+        //Pegar coleção de contribuição log
+        $contribuicaoLogDao = new ContribuicaoLogDAO();
+        $contribuicaoLogCollection = $contribuicaoLogDao->listarPorDocumento($doc);
+
         foreach ($arrayBoletos as $boleto) {
             // Extrair o documento do nome do arquivo
             $documentoArquivo = explode('_', $boleto)[1];
             if ($documentoArquivo == $docLimpo) {
                 $boletosEncontrados[] = $boleto;
+            } else if ($contribuicaoLogCollection) {
+                $partes = explode('_', $boleto)[0];
+                $documentoArquivo = str_replace('-', '_', $partes);
+                foreach ($contribuicaoLogCollection as $contribuicaoLog) {
+                    if ($documentoArquivo == $contribuicaoLog->getCodigo()) {
+                        $boletosEncontrados[] = $boleto;
+                    }
+                }
             }
         }
 

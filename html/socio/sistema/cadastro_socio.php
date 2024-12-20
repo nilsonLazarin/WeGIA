@@ -82,6 +82,22 @@ if (!$tipo_contribuicao || !is_numeric($tipo_contribuicao) || $tipo_contribuicao
 
 // si = sem informação
 
+$stmtBuscaSocio = $conexao->prepare("SELECT p.id_pessoa FROM pessoa p JOIN socio s ON(s.id_pessoa=p.id_pessoa) WHERE cpf=?");
+$stmtBuscaSocio->bind_param('s', $cpf_cnpj);
+
+if($stmtBuscaSocio->execute()){
+    $resultado = $stmtBuscaSocio->get_result();
+    if($stmtBuscaSocio->affected_rows > 0){
+        http_response_code(400);
+        echo json_encode(['erro' => 'já existe um sócio com esse CPF']);
+        exit();
+    }
+}else{
+    http_response_code(500);
+    echo json_encode(['erro' => 'erro ao buscar o sócio no banco de dados']);
+    exit();
+}
+
 $stmt = $conexao->prepare("INSERT INTO pessoa (cpf, nome, telefone, data_nascimento, cep, estado, cidade, bairro, logradouro, numero_endereco, complemento) 
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 

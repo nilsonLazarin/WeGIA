@@ -12,6 +12,8 @@ $tipoContribuicao = 'BOLETO';
         <!--Adiciona a logo e o título ao topo da página-->
         <?php include('./components/contribuicao_brand.php'); ?>
 
+        <p class="text-center">Campos obrigatórios <span class="obrigatorio">*</span></p>
+
         <form id="formulario">
 
             <input type="hidden" name="forma-contribuicao" id="forma-contribuicao" value="boleto">
