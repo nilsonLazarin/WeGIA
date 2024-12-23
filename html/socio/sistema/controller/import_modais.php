@@ -238,7 +238,7 @@ try {
                     foreach($socios as $socio){
                       $idSocio = $socio->getId();
                       $nomeSocio = $socio->getNome();
-                      $opcoesSocio .= "<option value=\"$idSocio\">$nomeSocio</option>";
+                      $opcoesSocio .= "<option value=\"$idSocio\">".htmlspecialchars($nomeSocio)."</option>";
                     }
 
                     echo $opcoesSocio;
@@ -499,13 +499,17 @@ try {
                 $query = mysqli_query($conexao, "SELECT *, s.id_socio as socioid, DATE_FORMAT(p.data_nascimento, '%d/%m') as aniversario FROM socio AS s LEFT JOIN pessoa AS p ON s.id_pessoa = p.id_pessoa  WHERE p.data_nascimento LIKE '%-$mes_atual-%'");
                 while ($resultado = mysqli_fetch_array($query)) {
 
-                  $id = $resultado['socioid'];
-                  $cpf_cnpj = $resultado['cpf'];
-                  $aniversario = $resultado['aniversario'];
-                  $nome_s = $resultado['nome'];
-                  $email = $resultado['email'];
-                  $telefone = $resultado['telefone'];
-                  $endereco = $resultado['logradouro'] . " " . $resultado['numero_endereco'] . ", " . $resultado['bairro'] . ", " . $resultado['cidade'] . " - " . $resultado['estado'];
+                  $id = htmlspecialchars($resultado['socioid']);
+                  $cpf_cnpj = htmlspecialchars($resultado['cpf']);
+                  $nome_s = htmlspecialchars($resultado['nome']);
+                  $email = htmlspecialchars($resultado['email']);
+                  $telefone = htmlspecialchars($resultado['telefone']);
+                  $tipo_socio = htmlspecialchars($resultado['tipo']);
+                  if ($resultado['logradouro'] == "") {
+                    $endereco = "Endereço não informado/incompleto.";
+                  } else {
+                    $endereco = htmlspecialchars($resultado['logradouro']) . " " . htmlspecialchars($resultado['numero_endereco']) . ", " . htmlspecialchars($resultado['bairro']) . ", " . htmlspecialchars($resultado['cidade']) . " - " . htmlspecialchars($resultado['estado']);
+                  }
                   if (strlen($telefone) == 14) {
                     $tel_url = preg_replace("/[^0-9]/", "", $telefone);
                     $telefone = "<a target='_blank' href='http://wa.me/55$tel_url'>$telefone</a>";
