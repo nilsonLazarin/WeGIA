@@ -91,6 +91,11 @@ header("Location: ../home.php?msg_c=$msg");
 
   $alergias = $pdo->query("SELECT sf.id_CID, sf.data_diagnostico, sf.status, stc.descricao FROM saude_enfermidades sf JOIN saude_tabelacid stc ON sf.id_CID = stc.id_CID WHERE stc.CID LIKE 'T78.4%' AND sf.status = 1 AND id_fichamedica= ".$_GET['id_fichamedica']);
   $alergias = $alergias->fetchAll(PDO::FETCH_ASSOC);
+
+  /*foreach($alergias as $index => $alergia){
+    $alergias[$index]['descricao'] = htmlspecialchars($alergia['descricao']);
+  }*/
+
   $alergias = json_encode($alergias);
 
   $sinaisvitais = $pdo->query("SELECT data, saturacao, pressao_arterial, frequencia_cardiaca, frequencia_respiratoria, temperatura, hgt, p.nome, p.sobrenome FROM saude_sinais_vitais sv JOIN funcionario f ON(sv.id_funcionario = f.id_funcionario) JOIN pessoa p ON (f.id_pessoa = p.id_pessoa) WHERE sv.id_fichamedica = " .$id)->fetchAll(PDO::FETCH_ASSOC);
@@ -724,7 +729,7 @@ header("Location: ../home.php?msg_c=$msg");
                                         }
                                         if(!$found)
                                         {
-                                           echo "<option value=" . $row[0] . ">" . $row[2] . "</option>";
+                                           echo "<option value=" . $row[0] . ">" . htmlspecialchars($row[2]) . "</option>";
                                         }
                                       }?>
                                     </select>
