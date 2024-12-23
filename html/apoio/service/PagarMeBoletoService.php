@@ -113,7 +113,8 @@ class PagarMeBoletoService implements ApiBoletoServiceInterface
             //pegar o id do pedido na plataforma
             $idPagarMe = $responseData['id'];
 
-            //armazena copía para segunda via
+            //armazena copia para segunda via
+            $contribuicaoLog->setCodigo($idPagarMe);
             $this->guardarSegundaVia($pdf_link, $contribuicaoLog);
 
             //envia resposta para o front-end
@@ -148,7 +149,8 @@ class PagarMeBoletoService implements ApiBoletoServiceInterface
         //$numeroAleatorio = gerarCodigoAleatorio();
         $ultimaDataVencimento = $contribuicaoLog->getDataVencimento();
         $ultimaDataVencimento = str_replace('-', '', $ultimaDataVencimento);
-        $nomeArquivo = $saveDir . $contribuicaoLog->getCodigo() . '_' . $cpfSemMascara . '_' . $ultimaDataVencimento . '_' . $contribuicaoLog->getValor() . '.pdf';
+        $codigo = str_replace('_', '-', $contribuicaoLog->getCodigo());
+        $nomeArquivo = $saveDir . $codigo . '_' . $cpfSemMascara . '_' . $ultimaDataVencimento . '_' . $contribuicaoLog->getValor() . '.pdf';
 
         // Inicia uma sessão cURL
         $ch = curl_init($pdf_link);

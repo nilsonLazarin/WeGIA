@@ -1,4 +1,10 @@
 let acao = 'mensalidade';
+let regras;
+
+async function configurarRegrasDePagamento() {
+    regras = await buscarRegrasDePagamento('Carne');
+    console.log('Conjunto de regras: ' + regras);
+}
 
 async function decidirAcao() {
     switch (acao) {
@@ -44,21 +50,29 @@ function gerarMensalidade() {
         });
 }
 
-function verificarValorMensalidade(valor, parcelas, diaVencimento){
-    //Substituir para fazer uma busca dinâmica sobre o valor mínimo de uma doação
-    if (!valor || valor < 30) {
-        alert('O valor informado está abaixo do mínimo permitido.');
-        return false;
+function verificarValorMensalidade(valor, parcelas, diaVencimento) {
+    if (regras && regras.length > 0) {
+        console.log('Existem regras cadastradas no sistema');
+
+        for (const regra of regras) {
+            if (regra.id_regra == 1 && parseFloat(valor) < regra.valor) {
+                alert(`O valor está abaixo do mínimo de R$${regra.valor}`);
+                return false;
+            } else if (regra.id_regra == 2 && parseFloat(valor) > regra.valor) {
+                alert(`O valor está acima do máximo de R$${regra.valor}`);
+                return false;
+            }
+        }
     }
 
-    if(!parcelas || parcelas < 2 || parcelas > 12){
+    if (!parcelas || parcelas < 2 || parcelas > 12) {
         alert('A quantidade de parcelas deve ser um número entre 2 e 12.');
         return false;
     }
 
     const diasValidos = [1, 5, 10, 15, 20, 25];
 
-    if(undefined === diasValidos.find((dia) => {return dia == diaVencimento})){
+    if (undefined === diasValidos.find((dia) => { return dia == diaVencimento })) {
         alert('O dia de vencimento escolhido não é válido');
         return false;
     }
@@ -74,7 +88,7 @@ function configurarAvancaValorMensalidade(funcao) {
         const parcelas = document.getElementById('parcelas').value;
         const diaVencimentoObject = document.querySelector("input[name='dia']:checked");
 
-        if(!diaVencimentoObject){
+        if (!diaVencimentoObject) {
             alert('Selecione um dia de vencimento');
             return;
         }
@@ -99,3 +113,4 @@ configurarAvancaContato(verificarContato);
 configurarAvancaTerminar(decidirAcao);
 configurarMudancaOpcao(alternarPfPj);
 configurarConsulta(buscarSocio);
+configurarRegrasDePagamento();
