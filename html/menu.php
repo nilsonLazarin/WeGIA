@@ -178,7 +178,7 @@
 									</li>
 								</ul>
 							</li>
-							<!--
+							
 							<li class="nav-parent nav-active">
 								<a>
 									<i class="fa fa-user"></i></i><i class="fas fa-paw"></i>
@@ -186,18 +186,18 @@
 								</a>
 								<ul class="nav nav-children">
 									<li>
-										<a href="<?= WWW ?>html/pet/padrinho/pre_cadastro_padrinho.php">
+										<a href="<?= WWW ?>/html/pet/adotantes/pre_cadastro_adotante.php">
 											<span>Cadastrar Adotante</span>
 										</a>
 									</li>
 									<li>
-										<a href="<?= WWW ?>controle/control.php?metodo=listarTodos&nomeClasse=PadrinhoControle&nextPage=./html/pet/padrinho/informacao_padrinho.php">
+										<a href="<?= WWW ?>/html/pet/adotantes/informacao_adotantes.php">
 											<span>Informações Adotantes</span>
 										</a>
 									</li>
 								</ul>					
 							</li>
-							-->
+							
 						</ul>
 					</li>
 

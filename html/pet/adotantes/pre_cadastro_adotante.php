@@ -1,11 +1,6 @@
 <?php
-
-
-session_start();
-
-if(!isset($_SESSION['usuario'])){
-    header ("Location: ../index.php");
-}
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
 $config_path = "config.php";
 if(file_exists($config_path)){
@@ -17,56 +12,41 @@ if(file_exists($config_path)){
     }
     require_once($config_path);
 }
-$conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-$id_pessoa = $_SESSION['id_pessoa'];
-$resultado = mysqli_query($conexao, "SELECT * FROM funcionario WHERE id_pessoa=$id_pessoa");
-if(!is_null($resultado)){
-    $id_cargo = mysqli_fetch_array($resultado);
-    if(!is_null($id_cargo)){
-        $id_cargo = $id_cargo['id_cargo'];
-    }
-    $resultado = mysqli_query($conexao, "SELECT * FROM permissao p JOIN acao a ON(p.id_acao=a.id_acao) JOIN recurso r ON(p.id_recurso=r.id_recurso) WHERE id_cargo=$id_cargo AND a.descricao = 'LER, GRAVAR E EXECUTAR' AND r.descricao='Adotantes Pet'");
-    if(!is_bool($resultado) and mysqli_num_rows($resultado)){
-        $permissao = mysqli_fetch_array($resultado);
-        if($permissao['id_acao'] < 5){
-    $msg = "Você não tem as permissões necessárias para essa página.";
-    header("Location: ../home.php?msg_c=$msg");
-        }
-        $permissao = $permissao['id_acao'];
-    }else{
-        $permissao = 1;
-      $msg = "Você não tem as permissões necessárias para essa página.";
-      header("Location: ../home.php?msg_c=$msg");
-    }	
-}else{
-    $permissao = 1;
-    $msg = "Você não tem as permissões necessárias para essa página.";
-    header("Location: ../../home.php?msg_c=$msg");
-}
 session_start();
 if(!isset($_SESSION['usuario'])){
     header ("Location: ".WWW."html/index.php");
 }
 
-// Carregar as classes necessárias
-require_once ROOT."/controle/PadrinhoControle.php";  // Controle do Padrinho
-
-// Criar objetos das classes de controle
-$padrinhos = new PadrinhoControle;
-$padrinhos->listarCpf();  // Listar todos os padrinhos
-
-// Conectar ao banco de dados
-$conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-
-// Carregar controle do Padrinho
-require_once ROOT."/controle/PadrinhoControle.php";
-
-
+  $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+  $id_pessoa = $_SESSION['id_pessoa'];
+  $resultado = mysqli_query($conexao, "SELECT * FROM funcionario WHERE id_pessoa=$id_pessoa");
+  if(!is_null($resultado)){
+    $id_cargo = mysqli_fetch_array($resultado);
+    if(!is_null($id_cargo)){
+      $id_cargo = $id_cargo['id_cargo'];
+    }
+    $resultado = mysqli_query($conexao, "SELECT * FROM permissao p JOIN acao a ON(p.id_acao=a.id_acao) JOIN recurso r ON(p.id_recurso=r.id_recurso) WHERE id_cargo=$id_cargo AND a.descricao = 'LER, GRAVAR E EXECUTAR' AND r.descricao='Adotantes Pet'");
+    if(!is_bool($resultado) and mysqli_num_rows($resultado)){
+      $permissao = mysqli_fetch_array($resultado);
+      if($permissao['id_acao'] == 1){
+        $msg = "Você não tem as permissões necessárias para essa página.";
+        header("Location: ".WWW."html/home.php?msg_c=$msg");
+      }
+      $permissao = $permissao['id_acao'];
+    }else{
+          $permissao = 1;
+          $msg = "Você não tem as permissões necessárias para essa página.";
+          header("Location: ".WWW."html/home.php?msg_c=$msg");
+    } 
+  }else{
+    $permissao = 1;
+    $msg = "Você não tem as permissões necessárias para essa página.";
+    header("Location: ".WWW."html/home.php?msg_c=$msg");
+  } 
 
 // Adiciona a Função display_campo($nome_campo, $tipo_campo)
 require_once ROOT."/html/personalizacao_display.php";
 ?>
-
 
 <!DOCTYPE html>
 
@@ -75,7 +55,7 @@ require_once ROOT."/html/personalizacao_display.php";
     <!-- Basic -->
     <meta charset="UTF-8">
 
-    <title>Cadastro de Padrinhos</title>
+    <title>Cadastro de Adotante</title>
         
     <!-- Mobile Metas -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -86,7 +66,7 @@ require_once ROOT."/html/personalizacao_display.php";
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.1.1/css/all.css">
     <link rel="stylesheet" href="<?php echo WWW;?>assets/vendor/magnific-popup/magnific-popup.css" />
     <link rel="stylesheet" href="<?php echo WWW;?>assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
-    
+    <!-- <link rel="icon" href="<?php //display_campo("Logo",'file');?>" type="image/x-icon" id="logo-icon"> -->
 
     <!-- Specific Page Vendor CSS -->
     <link rel="stylesheet" href="<?php echo WWW;?>assets/vendor/select2/select2.css" />
@@ -262,13 +242,12 @@ require_once ROOT."/html/personalizacao_display.php";
                             </header>
                             <div class="panel-body">
                            
-                                <form method="GET" action="../../../controle/control.php">
+                                <form method="GET" action="./cadastro_adotante.php">
+                                    <!-- <label class="col-md-3 control-label" for="cpf">Número do CPF<sup class="obrig">*</sup></label> -->
                                     <input type="text" class="form-control" id="cpf" id="cpf" name="cpf" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##',this,event)" required>
                                     <p id="cpfInvalido" style="display: none; color: #b30000">CPF INVÁLIDO!</p>
                                     <br>
-                                    <input type="hidden" name="nomeClasse" value="PadrinhoControle">
-                                    <input type="hidden" name="metodo" value="selecionarCadastro">
-                                    <input type='submit' value='Enviar' name='enviar' id='enviar' class='mb-xs mt-xs mr-xs btn btn-primary'> 
+                                    <input type='submit' value='Enviar' id='enviar' class='mb-xs mt-xs mr-xs btn btn-primary'> 
                                 </form>
                             </div>
                         </section>
@@ -314,8 +293,10 @@ require_once ROOT."/html/personalizacao_display.php";
         <script src="<?php echo WWW;?>assets/javascripts/tables/examples.datatables.tabletools.js"></script>
       
 	<div align="right">
-		<iframe src="https://www.wegia.org/software/footer/pessoa.html" width="200" height="60" style="border:none;"></iframe>
+		<iframe src="https://www.wegia.org/software/footer/pet.html" width="200" height="60" style="border:none;"></iframe>
 	</div>   
     </body>
 
 </html>
+
+
