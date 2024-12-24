@@ -234,7 +234,7 @@
 					if(isset($_GET['msg_c'])){
 						$msg = $_GET['msg_c'];
 						echo('<div class="alert alert-danger alerta_c" role="alert">
-						'. $msg .'
+						'. htmlspecialchars($msg) .'
 					  </div>');
 					}
 				?>
