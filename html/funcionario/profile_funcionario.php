@@ -1062,7 +1062,7 @@ $dependente = json_encode($dependente);
                               <option selected disabled>Selecionar</option>
                               <?php
                               while ($row = $situacao->fetch_array(MYSQLI_NUM)) {
-                                echo "<option value=" . $row[0] . ">" . $row[1] . "</option>";
+                                echo "<option value=" . $row[0] . ">" . htmlspecialchars($row[1]) . "</option>";
                               }
                               ?>
                             </select>
