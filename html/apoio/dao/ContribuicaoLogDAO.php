@@ -109,4 +109,17 @@ class ContribuicaoLogDAO{
 
         return $contribuicaoLogCollection;
     }
+
+    public function getAgradecimento(){
+        $sql = "SELECT paragrafo FROM selecao_paragrafo WHERE nome_campo = 'agradecimento_doador'";
+
+        $agradecimento = $this->pdo->query($sql)->fetch(PDO::FETCH_ASSOC)['paragrafo'];
+
+        if($agradecimento && strlen($agradecimento) > 0){
+            return $agradecimento;
+        }else{
+            return 'Obrigado pela contribuição!';
+        }
+    }
+
 }

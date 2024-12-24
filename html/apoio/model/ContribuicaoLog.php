@@ -14,6 +14,7 @@ class ContribuicaoLog
     private GatewayPagamento $gatewayPagamento;
     private MeioPagamento $meioPagamento;
     private $statusPagamento = 0;
+    private $agradecimento;
 
     /**
      * Recebe como parâmetro um inteiro e retorna um código de caracteres aleatórios do tamanho informado
@@ -205,6 +206,26 @@ class ContribuicaoLog
     public function setMeioPagamento(MeioPagamento $meioPagamento)
     {
         $this->meioPagamento = $meioPagamento;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of agradecimento
+     */ 
+    public function getAgradecimento()
+    {
+        return $this->agradecimento;
+    }
+
+    /**
+     * Set the value of agradecimento
+     *
+     * @return  self
+     */ 
+    public function setAgradecimento(string $agradecimento)
+    {
+        $this->agradecimento = $agradecimento;
 
         return $this;
     }

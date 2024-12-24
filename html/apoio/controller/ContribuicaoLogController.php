@@ -123,6 +123,10 @@ class ContribuicaoLogController
             $contribuicaoLogDao = new ContribuicaoLogDAO($this->pdo);
             $contribuicaoLog = $contribuicaoLogDao->criar($contribuicaoLog);
 
+            //Adicionar mensagem de agradecimento
+            $agradecimento = $contribuicaoLogDao->getAgradecimento();
+            $contribuicaoLog->setAgradecimento($agradecimento);
+
             //Registrar na tabela de socio_log
             $mensagem = "Boleto gerado recentemente";
             $socioDao->registrarLog($contribuicaoLog->getSocio(), $mensagem);
@@ -215,6 +219,9 @@ class ContribuicaoLogController
 
             $contribuicaoLogDao = new ContribuicaoLogDAO($this->pdo);
 
+            //Adicionar mensagem de agradecimento
+            $agradecimento = $contribuicaoLogDao->getAgradecimento();
+
             //Criar coleção de contribuições
             $contribuicaoLogCollection = new ContribuicaoLogCollection();
 
@@ -273,7 +280,8 @@ class ContribuicaoLogController
                         ->setDataVencimento($dataVencimento)
                         ->setSocio($socio)
                         ->setGatewayPagamento($gatewayPagamento)
-                        ->setMeioPagamento($meioPagamento);
+                        ->setMeioPagamento($meioPagamento)
+                        ->setAgradecimento($agradecimento);
 
                     //inserir na collection o resultado do método criar de contribuicaoDao 
                     $contribuicaoLog = $contribuicaoLogDao->criar($contribuicaoLog);
@@ -319,7 +327,8 @@ class ContribuicaoLogController
                         ->setDataVencimento($dataVencimento->format('Y-m-d'))
                         ->setSocio($socio)
                         ->setGatewayPagamento($gatewayPagamento)
-                        ->setMeioPagamento($meioPagamento);
+                        ->setMeioPagamento($meioPagamento)
+                        ->setAgradecimento($agradecimento);
 
                     //inserir na collection o resultado do método criar de contribuicaoDao 
                     $contribuicaoLog = $contribuicaoLogDao->criar($contribuicaoLog);

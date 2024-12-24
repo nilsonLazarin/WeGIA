@@ -25,7 +25,7 @@ class PagarMeBoletoService implements ApiBoletoServiceInterface
         }
 
         //Buscar mensagem de agradecimento no BD
-        $msg = 'Agradecimento';
+        $msg = $contribuicaoLog->getAgradecimento();
         //Configurar cabeçalho da requisição
         $headers = [
             'Authorization: Basic ' . base64_encode($gatewayPagamento['token'] . ':'),

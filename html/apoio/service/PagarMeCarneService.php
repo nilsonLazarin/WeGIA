@@ -31,8 +31,6 @@ class PagarMeCarneService implements ApiCarneServiceInterface
             echo 'Erro: ' . $e->getMessage();
         }
 
-        //Buscar mensagem de agradecimento no BD
-        $msg = 'Agradecimento';
         //Configurar cabeçalho da requisição
         $headers = [
             'Authorization: Basic ' . base64_encode($gatewayPagamento['token'] . ':'),
@@ -73,7 +71,7 @@ class PagarMeCarneService implements ApiCarneServiceInterface
                     [
                         "payment_method" => "boleto",
                         "boleto" => [
-                            "instructions" => $msg,
+                            "instructions" => $contribuicaoLog->getAgradecimento(),
                             "document_number" => $numeroDocumento,
                             "due_at" => $contribuicaoLog->getDataVencimento(),
                             "type" => $type
