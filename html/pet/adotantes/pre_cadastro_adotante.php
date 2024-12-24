@@ -43,7 +43,7 @@ if(!isset($_SESSION['usuario'])){
     $msg = "Você não tem as permissões necessárias para essa página.";
     header("Location: ".WWW."html/home.php?msg_c=$msg");
   } 
-
+  
 // Adiciona a Função display_campo($nome_campo, $tipo_campo)
 require_once ROOT."/html/personalizacao_display.php";
 ?>

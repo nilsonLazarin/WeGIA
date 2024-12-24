@@ -55,36 +55,27 @@
     	header("Location: ../../home.php?msg_c=$msg");
 	}	
 
-	// Dados vindos pelo método GET do arquivo cadastro_adotante.php
-	$nome = $_GET["nome"];
-	$sobrenome = $_GET["sobrenome"];
-	$genero = $_GET["gender"];
-	$telefone = $_GET["telefone"];
-	$nascimento = $_GET["nascimento"];
-	$cpf = $_GET["cpf"];
-	$cep = $_GET["cep"];
-	$uf = $_GET["uf"];
-	$cidade = $_GET["cidade"];
-	$bairro = $_GET["bairro"];
-	$logradouro = $_GET["logradouro"];
-	$numero = $_GET["numero_endereco"];
-	$complemento = $_GET["complemento"];
+	// Lógica para listar os adotantes
+	$dsn = 'mysql:host=localhost;dbname=wegia;charset=utf8';  
+	$username = 'wegiauser'; 
+	$password = 'senha';
+	try {
+		$conexao = new PDO($dsn, $username, $password);
+		$conexao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	
+		$sqlListarAdotantes = "SELECT cpf, nome, sobrenome, sexo, telefone, data_nascimento, imagem, cep, 
+										estado, cidade, bairro, logradouro, numero_endereco, complemento
+								FROM pessoa;";
+		
+		$stmt = $conexao->prepare($sqlListarAdotantes);
+		$stmt->execute();
+	
+		$resultadosListarAdotantes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-	/*
-	echo $nome . "<br>";
-	echo $sobrenome . "<br>";
-	echo $telefone . "<br>";
-	echo $nascimento . "<br>";
-	echo $cpf . "<br>";
-	echo $cep . "<br>";
-	echo $uf . "<br>";
-	echo $cidade . "<br>";
-	echo $bairro . "<br>";
-	echo $logradouro . "<br>";
-	echo $numero . "<br>";
-	echo $complemento;
-	*/
-?>
+	} catch (PDOException $e) {
+		echo 'Erro ao conectar ao banco de dados: ' . $e->getMessage();
+	}
+?>	
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -176,9 +167,31 @@
 							</thead>
 							<tbody id="tabela">
 	  						<?php
-								// Lógica para adicionar no banco de dados
-								
-							?>
+								// Listagem de todos os adotantes
+								foreach ($resultadosListarAdotantes as $linha) {
+
+									if (!empty($linha['cpf']) && !empty($linha['nome']) && !empty($linha['sobrenome']) && 
+										!empty($linha['telefone']) && !empty($linha['data_nascimento']) && !empty($linha['cep']) && 
+										!empty($linha['estado']) && !empty($linha['cidade']) && !empty($linha['bairro']) && 
+										!empty($linha['logradouro']) && !empty($linha['numero_endereco']) && !empty($linha['complemento'])) {
+					
+										echo '<tr>';
+										echo '<td>' . $linha['nome'] . '</td>';
+										echo '<td>' . $linha['sobrenome'] . '</td>';
+										echo '<td>' . $linha['telefone'] . '</td>';
+										echo '<td>' . date('d/m/Y', strtotime($linha['data_nascimento'])) . '</td>'; // Formatar a data
+										echo '<td>' . $linha['cpf'] . '</td>';
+										echo '<td>' . $linha['cep'] . '</td>';
+										echo '<td>' . $linha['estado'] . '</td>';
+										echo '<td>' . $linha['cidade'] . '</td>';
+										echo '<td>' . $linha['bairro'] . '</td>';
+										echo '<td>' . $linha['logradouro'] . '</td>';
+										echo '<td>' . $linha['numero_endereco'] . '</td>';
+										echo '<td>' . $linha['complemento'] . '</td>';
+										echo '</tr>';
+									}
+								}
+								?>
 							</tbody>
 						</table>
 					</div>

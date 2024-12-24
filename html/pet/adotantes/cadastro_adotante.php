@@ -45,7 +45,7 @@ if (!is_null($resultado)) {
   header("Location: ../../home.php?msg_c=$msg");
 }
 
-// Pega o CPF
+// Pega o CPF passado via GET
 $cpf = $_GET["cpf"];
 
 // Lógica para listar pets
@@ -53,74 +53,93 @@ $sqlConsultaPet = "SELECT id_pet, nome FROM pet;";
 $resultadoConsultaPet = mysqli_query($conexao, $sqlConsultaPet);
 
 // Lógica para adicionar na tabela pessoa
-$cpf = !empty($_GET["cpf"]) ? $_GET["cpf"] : NULL;
-$nome = !empty($_GET["nome"]) ? $_GET["nome"] : NULL;
-$sobrenome = !empty($_GET["sobrenome"]) ? $_GET["sobrenome"] : NULL;
-$sexo = !empty($_GET["gender"]) ? $_GET["gender"] : NULL;
-$telefone = !empty($_GET["telefone"]) ? $_GET["telefone"] : NULL;
-$data_nascimento = !empty($_GET["nascimento"]) ? $_GET["nascimento"] : NULL;
-$imagem = !empty($_GET["imgperfil"]) ? $_GET["imgperfil"] : NULL;
-$cep = !empty($_GET["cep"]) ? $_GET["cep"] : NULL;
-$estado = !empty($_GET["uf"]) ? $_GET["uf"] : NULL;
-$cidade = !empty($_GET["cidade"]) ? $_GET["cidade"] : NULL;
-$bairro = !empty($_GET["bairro"]) ? $_GET["bairro"] : NULL;
-$logradouro = !empty($_GET["logradouro"]) ? $_GET["logradouro"] : NULL;
-$numero_endereco = !empty($_GET["numero_endereco"]) ? $_GET["numero_endereco"] : NULL;
-$complemento = !empty($_GET["complemento"]) ? $_GET["complemento"] : NULL;
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $cpf = !empty($_POST["cpf"]) ? $_POST["cpf"] : NULL;
+    $nome = !empty($_POST["nome"]) ? $_POST["nome"] : NULL;
+    $sobrenome = !empty($_POST["sobrenome"]) ? $_POST["sobrenome"] : NULL;
+    $sexo = !empty($_POST["gender"]) ? $_POST["gender"] : NULL;
+    $telefone = !empty($_POST["telefone"]) ? $_POST["telefone"] : NULL;
+    $data_nascimento = !empty($_POST["nascimento"]) ? $_POST["nascimento"] : NULL;
+    $imagem = !empty($_POST["imgperfil"]) ? $_POST["imgperfil"] : NULL;
+    $cep = !empty($_POST["cep"]) ? $_POST["cep"] : NULL;
+    $estado = !empty($_POST["uf"]) ? $_POST["uf"] : NULL;
+    $cidade = !empty($_POST["cidade"]) ? $_POST["cidade"] : NULL;
+    $bairro = !empty($_POST["bairro"]) ? $_POST["bairro"] : NULL;
+    $logradouro = !empty($_POST["logradouro"]) ? $_POST["logradouro"] : NULL;
+    $numero_endereco = !empty($_POST["numero_endereco"]) ? $_POST["numero_endereco"] : NULL;
+    $complemento = !empty($_POST["complemento"]) ? $_POST["complemento"] : NULL;
 
-$sqlAdicionarPessoa = "INSERT INTO pessoa ( 
-    cpf, 
-    senha, 
-    nome, 
-    sobrenome, 
-    sexo, 
-    telefone, 
-    data_nascimento, 
-    imagem, 
-    cep, 
-    estado, 
-    cidade, 
-    bairro, 
-    logradouro, 
-    numero_endereco, 
-    complemento, 
-    ibge, 
-    registro_geral, 
-    orgao_emissor, 
-    data_expedicao, 
-    nome_pai, 
-    nome_mae, 
-    tipo_sanguineo, 
-    nivel_acesso, 
-    adm_configurado 
-    ) 
+    if (empty($cpf) || empty($nome) || empty($sobrenome)) {
+        die('Campos obrigatórios não preenchidos.');
+    }
 
-    VALUES (
-    $cpf,
-    NULL,
-    $nome,
-    $sobrenome,
-    $sexo,
-    $telefone,
-    $data_nascimento,
-    $imagem,
-    $cep,
-    $estado,
-    $cidade,
-    $bairro,
-    $logradouro,
-    $numero_endereco,
-    $complemento,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    0,
-    0
-    )";
+    $sqlAdicionarPessoa = "
+        INSERT INTO pessoa (
+            cpf, 
+            nome, 
+            sobrenome, 
+            sexo, 
+            telefone, 
+            data_nascimento, 
+            imagem, 
+            cep, 
+            estado, 
+            cidade, 
+            bairro, 
+            logradouro, 
+            numero_endereco, 
+            complemento
+        ) 
+        VALUES (
+            :cpf,
+            :nome,
+            :sobrenome,
+            :sexo,
+            :telefone,
+            :data_nascimento,
+            :imagem,
+            :cep,
+            :estado,
+            :cidade,
+            :bairro,
+            :logradouro,
+            :numero_endereco,
+            :complemento
+        )
+    ";
+
+    $dsn = 'mysql:host=localhost;dbname=wegia;charset=utf8';  
+    $username = 'wegiauser'; 
+    $password = 'senha';
+
+    try {
+        $conexao = new PDO($dsn, $username, $password);
+        $conexao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        
+        $stmt = $conexao->prepare($sqlAdicionarPessoa);
+        
+        $stmt->bindParam(':cpf', $cpf);
+        $stmt->bindParam(':nome', $nome);
+        $stmt->bindParam(':sobrenome', $sobrenome);
+        $stmt->bindParam(':sexo', $sexo);
+        $stmt->bindParam(':telefone', $telefone);
+        $stmt->bindParam(':data_nascimento', $data_nascimento);
+        $stmt->bindParam(':imagem', $imagem);
+        $stmt->bindParam(':cep', $cep);
+        $stmt->bindParam(':estado', $estado);
+        $stmt->bindParam(':cidade', $cidade);
+        $stmt->bindParam(':bairro', $bairro);
+        $stmt->bindParam(':logradouro', $logradouro);
+        $stmt->bindParam(':numero_endereco', $numero_endereco);
+        $stmt->bindParam(':complemento', $complemento);
+        
+        $stmt->execute();
+
+        header('Location: ./informacao_adotantes.php');
+    } catch (PDOException $e) {
+        echo 'Erro ao conectar ao banco de dados: ' . $e->getMessage();
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -303,7 +322,7 @@ $sqlAdicionarPessoa = "INSERT INTO pessoa (
 
             <div class="tab-content">
               <div id="overview" class="tab-pane active">
-                <form class="form-horizontal" id="form-adotante" method="GET" action="cadastro_adotante.php">
+                <form class="form-horizontal" id="form-adotante" method="POST" action="cadastro_adotante.php">
                   <h4 class="mb-xlg">Informações Pessoais</h4>
                   <h5 class="obrig">Campos Obrigatórios(*)</h5>
                   
@@ -357,35 +376,6 @@ $sqlAdicionarPessoa = "INSERT INTO pessoa (
                     <label class="col-md-3 control-label" for="profileCompany"></label>
                     <div class="col-md-6">
                       <p id="cpfInvalido" style="display: none; color: #b30000">CPF INVÁLIDO!</p>
-                    </div>
-                  </div>
-
-                  <!-- INFO PET -->
-                  <hr class="dotted short">
-                  <h4 class="mb-xlg doch4">Informações do pet</h4> 
-                  
-                  <div class="form-group">
-                    <label for="pet" class="col-md-3 control-label">Pet<sup class="obrig">*</sup></label>
-                    <div class="col-md-6">
-                      <select class="form-control input-lg mb-md" name="pet" id="pet_input" required>
-                        <option selected disabled value="">Selecionar</option>
-                        <?php
-                        // Lista todos os pets da tabela pet
-                          $pets = [];
-                          if($resultado->num_rows > 0){
-                            while($row = $resultadoConsultaPet->fetch_assoc()){
-                              echo "<option value=''" . $row["id"] ."'>" . $row["nome"] . "</option>";
-                            }
-                          }
-                        ?>
-                      </select>
-                    </div>
-                  </div>
-
-                  <div class="form-group">
-                    <label class="col-md-3 control-label" for="data-adocao">Data da adoção<sup class="obrig">*</sup></label>
-                    <div class="col-md-8">
-                      <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="data-adocao" id="data-adocao" max="<?php echo date('Y-m-d')?>" required>
                     </div>
                   </div>
 
@@ -459,25 +449,23 @@ $sqlAdicionarPessoa = "INSERT INTO pessoa (
                   </div>
 
                   <div class="form-group">
-                    <label class="col-md-3 control-label" for="numero_endereco">Número</label>
+                    <label class="col-md-3 control-label" for="numero_endereco">Número<sup class="obrig">*</sup></label>
                     <div class="col-md-8">
-                      <input type="number" class="form-control" maxlength="9999" minlength="0" name="numero_endereco" id="numero_endereco">
+                      <input type="number" class="form-control" maxlength="9999" minlength="0" name="numero_endereco" id="numero_endereco" required>
                     </div>
                   </div>
 
                   <div class="form-group">
-                    <label class="col-md-3 control-label" for="complemento">Complemento</label>
+                    <label class="col-md-3 control-label" for="complemento">Complemento<sup class="obrig">*</sup></label>
                     <div class="col-md-8">
-                      <input type="text" class="form-control" maxlength="9999" name="complemento" id="complemento">
+                      <input type="text" class="form-control" maxlength="9999" name="complemento" id="complemento" required>
                     </div>
                   </div>
 
                   <div class="panel-footer">
                     <div class="row">
                       <div class="col-md-9 col-md-offset-3">
-                      <input id="enviar" type="submit" class="btn btn-primary" value="Salvar"  >
-                      <!-- onclick="enviarERedirecionar()" -->
-
+                      <input id="enviar" type="submit" class="btn btn-primary" value="Salvar" onclick="enviarFormularios()">
                         <input type="reset" class="btn btn-default">
                       </div>
                     </div>
@@ -569,17 +557,9 @@ $sqlAdicionarPessoa = "INSERT INTO pessoa (
         }
 
         // Funções para submeter o funcionário
-        function enviarFormulario(){
+        function enviarFormularios(){
           document.getElementById("form-adotante").submit();
-        }
-
-        function redirecioar(){
-          window.location.href("./informacao_adotantes.php");
-        }
-
-        function enviarERedirecionar(){
-          enviarFormulario();
-          setTimeout(redirecioar, 500);
+          document.getElementById("formsubmit").submit();
         }
       </script>                                                                                                                                                                                                                                                                        
 
