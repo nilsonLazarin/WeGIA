@@ -13,10 +13,10 @@ class CargoControle {
             // Decodifica o JSON
             $data = json_decode($json, true);
 
-            $cargoDescricao = trim($data["cargo"]);
+            $cargoDescricao = trim(filter_var($data['cargo'], FILTER_SANITIZE_STRING));
         } else {
             // Recebe os dados do formulário normalmente
-            $cargoDescricao = trim($_POST["cargo"]);
+            $cargoDescricao = trim(filter_input(INPUT_POST, 'cargo', FILTER_SANITIZE_STRING));
         }
 
         try {

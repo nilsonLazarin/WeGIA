@@ -8,6 +8,7 @@ try {
 	$cargos = array();
 	$resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
 	if ($resultado) {
+		$resultado['cargo'] = htmlspecialchars($resultado['cargo']);
 		$cargos = $resultado;
 	}
 
