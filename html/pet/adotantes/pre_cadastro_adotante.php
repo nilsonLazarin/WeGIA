@@ -25,24 +25,31 @@ if(!isset($_SESSION['usuario'])){
     if(!is_null($id_cargo)){
       $id_cargo = $id_cargo['id_cargo'];
     }
-    $resultado = mysqli_query($conexao, "SELECT * FROM permissao p JOIN acao a ON(p.id_acao=a.id_acao) JOIN recurso r ON(p.id_recurso=r.id_recurso) WHERE id_cargo=$id_cargo AND a.descricao = 'LER, GRAVAR E EXECUTAR' AND r.descricao='Adotantes Pet'");
-    if(!is_bool($resultado) and mysqli_num_rows($resultado)){
-      $permissao = mysqli_fetch_array($resultado);
-      if($permissao['id_acao'] == 1){
-        $msg = "Você não tem as permissões necessárias para essa página.";
-        header("Location: ".WWW."html/home.php?msg_c=$msg");
-      }
-      $permissao = $permissao['id_acao'];
-    }else{
-          $permissao = 1;
+    $resultado = mysqli_query($conexao, "SELECT * FROM permissao p JOIN acao a ON(p.id_acao=a.id_acao) JOIN recurso r ON(p.id_recurso=r.id_recurso) WHERE id_cargo=$id_cargo AND a.descricao = 'LER, GRAVAR E EXECUTAR' AND r.descricao='Cadastrar Pet'");
+    if(!is_bool($resultado) and mysqli_num_rows($resultado))
+    {
+        $permissao = mysqli_fetch_array($resultado);
+        if($permissao['id_acao'] < 5)
+        {
+            $msg = "Você não tem as permissões necessárias para essa página.";
+            header("Location: ../../home.php?msg_c=$msg");
+        }
+        $permissao = $permissao['id_acao'];
+    }
+    else
+    {
+        $permissao = 1;
           $msg = "Você não tem as permissões necessárias para essa página.";
-          header("Location: ".WWW."html/home.php?msg_c=$msg");
-    } 
-  }else{
-    $permissao = 1;
-    $msg = "Você não tem as permissões necessárias para essa página.";
-    header("Location: ".WWW."html/home.php?msg_c=$msg");
-  } 
+          header("Location: ../../home.php?msg_c=$msg");
+    }	
+    
+    }
+    else
+    {
+        $permissao = 1;
+        $msg = "Você não tem as permissões necessárias para essa página.";
+        header("Location: ../../home.php?msg_c=$msg");
+    }	 
   
 // Adiciona a Função display_campo($nome_campo, $tipo_campo)
 require_once ROOT."/html/personalizacao_display.php";
