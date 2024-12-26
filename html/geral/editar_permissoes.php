@@ -211,7 +211,7 @@ require_once ROOT."/html/personalizacao_display.php";
 											if(isset($_GET['msg_c'])){
 												$msg = $_GET['msg_c'];
 												echo('<div class="alert alert-success" role="alert">
-												'. $msg .'
+												'. htmlspecialchars($msg) .'
 											  </div>');
 											}
 											if($permissao == 1){
