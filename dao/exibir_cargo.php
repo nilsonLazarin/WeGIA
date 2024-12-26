@@ -5,14 +5,14 @@ try {
 
 	$sql = 'SELECT * FROM cargo';
 	$stmt = $pdo->query($sql);
-	$cargos = array();
 	$resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
-	if ($resultado) {
-		$resultado['cargo'] = htmlspecialchars($resultado['cargo']);
-		$cargos = $resultado;
+	
+	foreach($resultado as $index => $cargo){
+		$resultado[$index]['cargo'] = htmlspecialchars($cargo['cargo']);
 	}
 
-	echo json_encode($cargos);
+	echo json_encode($resultado);
 } catch (PDOException $e) {
+	http_response_code(500);
 	echo 'Erro ao exibir cargos: '.$e->getMessage();
 }

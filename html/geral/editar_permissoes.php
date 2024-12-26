@@ -230,7 +230,7 @@ require_once ROOT."/html/personalizacao_display.php";
                                                             while($row = $cargo->fetch_array(MYSQLI_NUM))
                                                             {
 															 if($row[0] != 2)
-                                                             echo "<option value=".$row[0].">".$row[1]."</option>";
+                                                             echo "<option value=".$row[0].">". htmlspecialchars($row[1])."</option>";
                                                             }             
                                                         ?>
 													</select>
