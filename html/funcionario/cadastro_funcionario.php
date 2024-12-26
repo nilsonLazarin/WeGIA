@@ -233,7 +233,7 @@ require_once "../personalizacao_display.php";
                     <div class="col-md-6">
                       <input type="text" class="form-control" id="cpf" id="cpf" name="cpf" placeholder="Ex: 222.222.222-22" maxlength="14" onblur="validarCPF(this.value)" onkeypress="return Onlynumbers(event)" onkeyup="mascara('###.###.###-##', this, event)" value="<?php
                                                                                                                                                                                                                                                                           if (isset($cpf) && !is_null(trim($cpf))) {
-                                                                                                                                                                                                                                                                            echo $cpf;
+                                                                                                                                                                                                                                                                            echo htmlspecialchars($cpf);
                                                                                                                                                                                                                                                                           } ?>" required>
                     </div>
                   </div>
@@ -257,7 +257,7 @@ require_once "../personalizacao_display.php";
                         <option selected disabled>Selecionar</option>
                         <?php
                         while ($row = $situacao->fetch_array(MYSQLI_NUM)) {
-                          echo "<option value=" . $row[0] . ">" . $row[1] . "</option>";
+                          echo "<option value=" . $row[0] . ">" . htmlspecialchars($row[1]) . "</option>";
                         }                            ?>
                       </select>
                     </div>
@@ -270,7 +270,7 @@ require_once "../personalizacao_display.php";
                         <option selected disabled>Selecionar</option>
                         <?php
                         while ($row = $cargo->fetch_array(MYSQLI_NUM)) {
-                          echo "<option value=" . $row[0] . ">" . $row[1] . "</option>";
+                          echo "<option value=" . $row[0] . ">" . htmlspecialchars($row[1]) . "</option>";
                         }
                         ?>
                       </select>
