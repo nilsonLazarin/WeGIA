@@ -1,5 +1,5 @@
 <?php
-require_once '../model/Imagem.php';
+require_once dirname(__DIR__).'/model/Imagem.php';
 
 class ImagemDAO{
     private $pdo;

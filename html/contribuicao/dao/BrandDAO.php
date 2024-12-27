@@ -1,5 +1,5 @@
 <?php
-require_once '../dao/ImagemDAO.php';
+require_once __DIR__.'/ImagemDAO.php';
 
 class BrandDAO{
     private $pdo;

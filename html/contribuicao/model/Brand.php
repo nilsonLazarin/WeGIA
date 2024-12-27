@@ -1,5 +1,5 @@
 <?php
-require_once '../model/Imagem.php';
+require_once __DIR__.'/Imagem.php';
 
 class Brand{
 

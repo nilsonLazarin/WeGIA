@@ -1,7 +1,7 @@
 <?php
-require_once '../dao/ConexaoDAO.php';
-require_once '../dao/BrandDAO.php';
-require_once '../model/Brand.php';
+require_once dirname(__DIR__).'/dao/ConexaoDAO.php';
+require_once dirname(__DIR__).'/dao/BrandDAO.php';
+require_once dirname(__DIR__).'/model/Brand.php';
 
 class BrandController
 {
