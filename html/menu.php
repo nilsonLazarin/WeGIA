@@ -433,19 +433,19 @@
 						</a>
 						<ul class="nav nav-children">
 						<li >
-								<a href="<?= WWW ?>html/apoio/view/gateway_pagamento.php">
+								<a href="<?= WWW ?>html/contribuicao/view/gateway_pagamento.php">
 									<i class="fa-solid fa-building"></i>
 									Gateway de pagamento
 								</a>
 							</li>
 							<li >
-								<a href="<?= WWW ?>html/apoio/view/meio_pagamento.php">
+								<a href="<?= WWW ?>html/contribuicao/view/meio_pagamento.php">
 									<i class="fa-regular fa-credit-card"></i>
 									Meio de pagamento
 								</a>
 							</li>
 							<li >
-								<a href="<?= WWW ?>html/apoio/view/regra_pagamento.php">
+								<a href="<?= WWW ?>html/contribuicao/view/regra_pagamento.php">
 									<i class="fa-solid fa-circle-exclamation"></i>
 									Regras de pagamento
 								</a>
@@ -473,11 +473,6 @@
 							<li >
 								<a href="<?= WWW ?>html/configuracao/configuracao_geral.php">
 									Configurações Gerais
-								</a>
-							</li>
-							<li >
-								<a href="<?= WWW ?>html/contribuicao/php/configuracao_doacao.php">
-									Contribuição
 								</a>
 							</li>
 							<li >
