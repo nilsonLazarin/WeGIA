@@ -1,27 +1,35 @@
 <?php
-    $config_path = "config.php";
-	if(file_exists($config_path)){
-		require_once($config_path);
-	}else{
-		while(true){
-			$config_path = "../" . $config_path;
-			if(file_exists($config_path)) break;
-		}
-		require_once($config_path);
-	}
-    extract($_REQUEST);
-    $conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-    $resultado = mysqli_query($conexao, "SELECT `id_recurso` FROM `permissao` WHERE id_cargo = $cargo");
+require_once '../config.php';
+require_once './Conexao.php';
 
-    $recursos = array();
-    $i = 0;
-    while($recurso = $resultado->fetch_array(MYSQLI_NUM))
-    {
-        $recursos[$i] = $recurso[0];
-        $i++;
+$cargo = trim(filter_input(INPUT_POST, 'cargo', FILTER_SANITIZE_NUMBER_INT));
+
+if (!$cargo || $cargo < 1) {
+    http_response_code(400);
+    echo json_encode(['erro' => 'O id de um cargo deve ser um inteiro positivo maior ou igual a 1.']);
+    exit();
+}
+
+try {
+    $pdo = Conexao::connect();
+
+    $sql = 'SELECT id_recurso FROM permissao WHERE id_cargo=:cargo';
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':cargo', $cargo);
+
+    $stmt->execute();
+
+    $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $recursos = [];
+
+    foreach($resultados as $resultado){
+        $recursos []= $resultado['id_recurso'];
     }
+
     echo json_encode($recursos);
-   
-
-
-?>
+} catch (PDOException $e) {
+    http_response_code(500);
+    echo json_encode(['erro' => 'Falha ao estabelecer conexão com o servidor.']);
+}
