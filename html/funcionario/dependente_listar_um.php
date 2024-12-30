@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-if (!isset($_SESSION["usuario"])){
+if (!isset($_SESSION["usuario"])) {
     header("Location: ../../index.php");
 }
 
@@ -9,19 +9,32 @@ if (!isset($_SESSION["usuario"])){
 require_once '../permissao/permissao.php';
 permissao($_SESSION['id_pessoa'], 11, 7);
 
+$id_dependente = trim(filter_input(INPUT_POST, 'id_dependente', FILTER_SANITIZE_NUMBER_INT));
 
-require_once "../../dao/Conexao.php";
-$pdo = Conexao::connect();
-$id_dependente = $_POST["id_dependente"];
+if (!$id_dependente || $id_dependente < 1) {
+    http_response_code(400);
+    echo json_encode(['erro' => 'O id de um dependente deve ser um inteiro positivo maior ou igual a 1.']);
+    exit();
+}
 
-$dependente = $pdo->query("SELECT *, par.descricao AS parentesco
-FROM funcionario_dependentes fdep
-LEFT JOIN pessoa p ON p.id_pessoa = fdep.id_pessoa
-LEFT JOIN funcionario_dependente_parentesco par ON par.id_parentesco = fdep.id_parentesco
-WHERE fdep.id_dependente = $id_dependente;");
-$dependente = $dependente->fetchAll(PDO::FETCH_ASSOC)[0];
-$dependente = json_encode($dependente);
+try {
+    require_once "../../dao/Conexao.php";
+    $pdo = Conexao::connect();
 
-echo $dependente;
+    $stmt = $pdo->prepare('SELECT *, par.descricao AS parentesco
+    FROM funcionario_dependentes fdep
+    LEFT JOIN pessoa p ON p.id_pessoa = fdep.id_pessoa
+    LEFT JOIN funcionario_dependente_parentesco par ON par.id_parentesco = fdep.id_parentesco
+    WHERE fdep.id_dependente = :idDependente');
 
-die();
+    $stmt->bindParam(':idDependente', $id_dependente);
+    $stmt->execute();
+
+    $dependente = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    echo  json_encode($dependente);
+} catch (PDOException $e) {
+    http_response_code(500);
+    echo json_encode(['erro' => 'Erro no servidor ao listar dependente.']);
+    exit();
+}
