@@ -286,7 +286,7 @@ require_once "../personalizacao_display.php";
                         $pdo = Conexao::connect();
                         $escala = $pdo->query("SELECT * FROM escala_quadro_horario;")->fetchAll(PDO::FETCH_ASSOC);
                         foreach ($escala as $key => $value) {
-                          echo ("<option value=" . $value["id_escala"] . ">" . $value["descricao"] . "</option>");
+                          echo ("<option value=" . $value["id_escala"] . ">" . htmlspecialchars($value["descricao"]) . "</option>");
                         }
                         ?>
                       </select>
@@ -302,7 +302,7 @@ require_once "../personalizacao_display.php";
                         $pdo = Conexao::connect();
                         $tipo = $pdo->query("SELECT * FROM tipo_quadro_horario;")->fetchAll(PDO::FETCH_ASSOC);
                         foreach ($tipo as $key => $value) {
-                          echo ("<option value=" . $value["id_tipo"] . ">" . $value["descricao"] . "</option>");
+                          echo ("<option value=" . $value["id_tipo"] . ">" . htmlspecialchars($value["descricao"]) . "</option>");
                         }
                         ?>
                       </select>
