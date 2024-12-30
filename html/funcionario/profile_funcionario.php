@@ -1275,7 +1275,7 @@ $dependente = json_encode($dependente);
                               $pdo = Conexao::connect();
                               $escala = $pdo->query("SELECT * FROM escala_quadro_horario;")->fetchAll(PDO::FETCH_ASSOC);
                               foreach ($escala as $key => $value) {
-                                echo ("<option id='escala_" . $value["id_escala"] . "' value=" . $value["id_escala"] . ">" . $value["descricao"] . "</option>");
+                                echo ("<option id='escala_" . $value["id_escala"] . "' value=" . $value["id_escala"] . ">" . htmlspecialchars($value["descricao"]) . "</option>");
                               }
                               ?>
                             </select>

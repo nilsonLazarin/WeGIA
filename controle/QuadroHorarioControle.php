@@ -43,7 +43,15 @@ class QuadroHorarioControle
     }
 
     public function adicionarEscala(){
-        extract($_REQUEST);
+        $escala = trim(filter_input(INPUT_POST, 'escala', FILTER_SANITIZE_STRING));
+        $nextPage = trim(filter_input(INPUT_POST, 'nextPage', FILTER_SANITIZE_URL));
+
+        if(!$escala || strlen($escala) == 0){
+            http_response_code(400);
+            echo json_encode(['erro' => 'A escala não pode ser vazia.']);
+            exit();
+        }
+
         session_start();
         try {
             $log = (new QuadroHorarioDAO())->adicionarEscala($escala);
@@ -54,7 +62,10 @@ class QuadroHorarioControle
             $_SESSION['flag'] = "erro";
         }
         $_SESSION['btnVoltar'] = true;
-        header("Location: $nextPage");
+
+        if($nextPage){
+            header("Location: $nextPage");
+        }
     }
 
     public function removerEscala(){
