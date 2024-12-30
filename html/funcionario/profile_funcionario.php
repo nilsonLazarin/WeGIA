@@ -1144,7 +1144,7 @@ $dependente = json_encode($dependente);
                                       <?php
                                       $descricao = $pdo->query("SELECT * FROM funcionario_listainfo;")->fetchAll(PDO::FETCH_ASSOC);
                                       foreach ($descricao as $key => $value) {
-                                        echo ("<option id='desc' value=" . $value["idfuncionario_listainfo"] . ">" . $value["descricao"] . "</option>");
+                                        echo ("<option id='desc' value=" . $value["idfuncionario_listainfo"] . ">" . htmlspecialchars($value["descricao"]) . "</option>");
                                       }
                                       ?>
                                     </select>
