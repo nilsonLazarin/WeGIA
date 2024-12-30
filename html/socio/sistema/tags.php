@@ -166,12 +166,12 @@ $recurso = mysqli_query($conexao, "SELECT * FROM recurso");
 							if (isset($_GET['msg_c'])) {
 								$msg = $_GET['msg_c'];
 								echo ('<div class="alert alert-success" role="alert">
-										' . $msg . '
+										' . htmlspecialchars($msg) . '
 									  </div>');
 							} else if (isset($_GET['msg_e'])) {
 								$msg = $_GET['msg_e'];
 								echo ('<div class="alert alert-danger" role="alert">
-										' . $msg . '
+										' . htmlspecialchars($msg) . '
 									  </div>');
 							}
 							?>
