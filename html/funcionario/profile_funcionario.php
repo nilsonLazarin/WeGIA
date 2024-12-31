@@ -1062,7 +1062,7 @@ $dependente = json_encode($dependente);
                               <option selected disabled>Selecionar</option>
                               <?php
                               while ($row = $situacao->fetch_array(MYSQLI_NUM)) {
-                                echo "<option value=" . $row[0] . ">" . $row[1] . "</option>";
+                                echo "<option value=" . $row[0] . ">" . htmlspecialchars($row[1]) . "</option>";
                               }
                               ?>
                             </select>
@@ -1076,7 +1076,7 @@ $dependente = json_encode($dependente);
                               <option selected disabled>Selecionar</option>
                               <?php
                               while ($row = $cargo->fetch_array(MYSQLI_NUM)) {
-                                echo "<option value=" . $row[0] . ">" . $row[1] . "</option>";
+                                echo "<option value=" . $row[0] . ">" . htmlspecialchars($row[1]) . "</option>";
                               }
                               ?>
                             </select>
@@ -1144,7 +1144,7 @@ $dependente = json_encode($dependente);
                                       <?php
                                       $descricao = $pdo->query("SELECT * FROM funcionario_listainfo;")->fetchAll(PDO::FETCH_ASSOC);
                                       foreach ($descricao as $key => $value) {
-                                        echo ("<option id='desc' value=" . $value["idfuncionario_listainfo"] . ">" . $value["descricao"] . "</option>");
+                                        echo ("<option id='desc' value=" . $value["idfuncionario_listainfo"] . ">" . htmlspecialchars($value["descricao"]) . "</option>");
                                       }
                                       ?>
                                     </select>
@@ -1275,7 +1275,7 @@ $dependente = json_encode($dependente);
                               $pdo = Conexao::connect();
                               $escala = $pdo->query("SELECT * FROM escala_quadro_horario;")->fetchAll(PDO::FETCH_ASSOC);
                               foreach ($escala as $key => $value) {
-                                echo ("<option id='escala_" . $value["id_escala"] . "' value=" . $value["id_escala"] . ">" . $value["descricao"] . "</option>");
+                                echo ("<option id='escala_" . $value["id_escala"] . "' value=" . $value["id_escala"] . ">" . htmlspecialchars($value["descricao"]) . "</option>");
                               }
                               ?>
                             </select>

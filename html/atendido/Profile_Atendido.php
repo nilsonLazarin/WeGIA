@@ -642,7 +642,6 @@ $dependente = json_encode($dependente);
     });
   </script>
 
-  <script src="../contribuicao/js/validacpfcnpj.js"></script>
 </head>
 
 <body>

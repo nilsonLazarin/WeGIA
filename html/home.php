@@ -234,7 +234,7 @@
 					if(isset($_GET['msg_c'])){
 						$msg = $_GET['msg_c'];
 						echo('<div class="alert alert-danger alerta_c" role="alert">
-						'. $msg .'
+						'. htmlspecialchars($msg) .'
 					  </div>');
 					}
 				?>
@@ -726,19 +726,19 @@
 				<!--parte interna de #contribuicao-->
 				<div class="row">
 					<div  id="contribuicao" class="collapse">
-						<a href="../html/apoio/view/gateway_pagamento.php">
+						<a href="../html/contribuicao/view/gateway_pagamento.php">
 							<div class="col-lg-2 col-md-8 i" >
 								<i class="fa-solid fa-building"></i>
 								<h4>Gateway de pagamentos</h4>
 							</div>
 						</a>
-						<a href="../html/apoio/view/meio_pagamento.php">
+						<a href="../html/contribuicao/view/meio_pagamento.php">
 							<div class="col-lg-2 col-md-8 i" >
 								<i class="fa-regular fa-credit-card"></i>
 								<h4>Meio de pagamento</h4>
 							</div>
 						</a>
-						<a href="../html/apoio/view/regra_pagamento.php">
+						<a href="../html/contribuicao/view/regra_pagamento.php">
 							<div class="col-lg-2 col-md-8 i" >
 								<i class="fa-solid fa-circle-exclamation"></i>
 								<h4>Regras de pagamento</h4>
@@ -767,12 +767,6 @@
 							<div class="col-lg-2 col-md-8 i" >
 								<i  class="fas fa-cog"></i>
 								<h4>Configurações Gerais</h4>
-							</div>
-						</a>
-						<a href="../html/contribuicao/php/configuracao_doacao.php">
-							<div class="col-lg-2 col-md-8 i" >
-								<i  class="fa fa-credit-card"></i>
-								<h4>Contribuição</h4>
 							</div>
 						</a>
 						<a href="../html/geral/editar_permissoes.php">
