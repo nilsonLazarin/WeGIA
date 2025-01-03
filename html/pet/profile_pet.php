@@ -38,13 +38,64 @@
     require_once($config_path);
   }
   require_once "../permissao/permissao.php";
-  permissao($_SESSION['id_pessoa'], 11, 7);
+  permissao($_SESSION['id_pessoa'], 63, 7);
   require_once "../personalizacao_display.php";
   require_once "../../dao/Conexao.php";
   require_once "../geral/msg.php";
  
-  
+  // Lógica para listar os adotantes
+  $dsn = 'mysql:host=localhost;dbname=wegia;charset=utf8';  
+  $username = 'wegiauser'; 
+  $password = 'senha';
+
+  try {
+      $conexao = new PDO($dsn, $username, $password);
+      $conexao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+      $sqlListarAdotantes = "SELECT id_pessoa, nome, sobrenome FROM pessoa;";
+      
+      $stmt = $conexao->prepare($sqlListarAdotantes);
+      $stmt->execute();
+
+      $resultadosListarAdotantes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+  } catch (PDOException $e) {
+      echo 'Erro ao conectar ao banco de dados: ' . $e->getMessage();
+  }
+
+  // Lógica para adicionar no banco de dados
+  if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $adotante = !empty($_POST["adotante_input"]) ? $_POST["adotante_input"] : NULL;
+    $dataAdocao = !empty($_POST["dataAdocao"]) ? $_POST["dataAdocao"] : NULL;
+    $idPet = !empty($_POST["id_pet"]) ? $_POST["id_pet"] : NULL;
+
+    if ($adotante && $dataAdocao && $idPet) {
+        $sqlAdicionarPetAdotado = "INSERT INTO pet_adocao (id_pessoa, id_pet, data_adocao) VALUES (:adotante, :idPet, :dataAdocao)";
+
+        try {
+            $conexao = new PDO($dsn, $username, $password);
+            $conexao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $stmt = $conexao->prepare($sqlAdicionarPetAdotado);
+            $stmt->bindParam(':adotante', $adotante);
+            $stmt->bindParam(':idPet', $idPet);
+            $stmt->bindParam(':dataAdocao', $dataAdocao);
+
+            $stmt->execute();
+            
+            header('Location: profile_pet.php?id_pet='.$idPet);
+            exit;
+        } catch (PDOException $e) {
+            echo 'Erro ao conectar ao banco de dados: ' . $e->getMessage();
+        }
+    } else {
+        echo "Por favor, preencha todos os campos corretamente.";
+    }
+}
+
+
 ?>
+
 <!doctype html>
 <html class="fixed">
   <head>
@@ -499,7 +550,7 @@
                           <input type="hidden" name="id_pet" value=<?php echo $_GET['id_pet'] ?>>
                           <button type="button" class="not-printable btn btn-primary" id="editarPet" onclick="return editar_informacoes_pet()">Editar</button>
                           <input type="submit" class="not-printable btn btn-primary" disabled="true" value="Salvar" id="salvarPet">
-                          <button type="button" style="!important;" class="not-printable mb-xs mt-xs mr-xs btn btn-default" id="btnPrint">Imprimir <i class="fa-solid fa-print" style = "color:black"></i></button>
+                          <button type="button" class="not-printable mb-xs mt-xs mr-xs btn btn-default" id="btnPrint">Imprimir <i class="fa-solid fa-print" style = "color:black"></i></button>
                         </fieldset>
                       
                     </form>
@@ -806,59 +857,67 @@
                 </div>
                 <!-- fim historico medico -->
 
-                <!-- Adocao -->
+                <!-- Adoção -->
                 <div id="adocao" class="tab-pane">
-                  <section class="panel">
-                      <header class="panel-heading">
-                        <div class="panel-actions">
-                          <a href="#" class="fa fa-caret-down"></a>
-                        </div>
-                        <h2 class="panel-title">Adoção do Pet</h2>
-                      </header>
-                      <div class="panel-body">
-                        <form class="form-horizontal" method="post" action="../../controle/control.php">
-                          <input type="hidden" name="nomeClasse" value="AdocaoControle">
-                          <input type="hidden" name="metodo" value="modificarAdocao">
-                          <input type="hidden" name="modulo" value="pet">
-                          <fieldset>
-                            <div class="form-group">
-                              <label class="col-md-3 control-label" for="profileLastName">Adotado</label>
-                              <div class="col-md-8">
-                                <label><input type="radio" name="adotado" id="adotadoS" id="S" value="S" style="margin-top: 10px; margin-left: 15px;" > <i class="fa" style="font-size: 20px;">Sim</i></label>
-                                <label><input type="radio" checked name="adotado" id="adotadoN" id="N" value="N" style="margin-top: 10px; margin-left: 15px;" > <i class="fa" style="font-size: 20px;">Não</i></label>
-                              </div>
+                    <section class="panel">
+                        <header class="panel-heading">
+                            <div class="panel-actions">
+                                <a href="#" class="fa fa-caret-down"></a>
                             </div>
-                            <div id="dadosAdocao">
-                              <div class="form-group">
-                                <label class="col-md-3 control-label" for="profileName">Nome</label>
-                                <div class="col-md-8">
-                                  <input type="text" class="form-control" name="nomeAdotante" id="nomeAdotante" onkeypress="return Onlychars(event)" required>
-                                </div>
-                              </div>
+                            <h2 class="panel-title">Adoção do Pet</h2>
+                        </header>
+                        <div class="panel-body">
+                            <form class="form-horizontal" id="form_adocao" method="post" action="">
+                                <fieldset>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label" for="profileLastName">Adotado</label>
+                                        <div class="col-md-8">
+                                            <label><input type="radio" name="adotado" id="adotadoS" value="S" style="margin-top: 10px; margin-left: 15px;"> <i class="fa" style="font-size: 20px;">Sim</i></label>
+                                            <label><input type="radio" checked name="adotado" id="adotadoN" value="N" style="margin-top: 10px; margin-left: 15px;"> <i class="fa" style="font-size: 20px;">Não</i></label>
+                                        </div>
+                                    </div>
+                                    <div id="dadosAdocao">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="profileName">Nome do Adotante</label>
+                                            <div class="col-md-8">
+                                                <select class="form-control input-lg mb-md" name="adotante_input" id="adotante_input" required>
+                                                    <option selected disabled value="">Selecionar</option>
+                                                    <?php
+                                                    // Lista todos os adotantes
+                                                    foreach ($resultadosListarAdotantes as $resultado) {
+                                                        if ($resultado["id_pessoa"] != 1 && $resultado["id_pessoa"] != 2) {
+                                                            echo "<option value='" . $resultado["id_pessoa"] . "'>" . $resultado["nome"] . " " . $resultado["sobrenome"] . "</option>";
+                                                        }
+                                                    }
 
-                              <!--RG -->
-                              <div class="form-group">
-                                <label class="col-md-3 control-label" for="profileRG">RG do adotante</label>
-                                <div class="col-md-8">
-                                  <input type="text" class="form-control" name="rgAdotante" id="rgAdotante" placeholder="Digite apenas números" required>
-                                </div>
-                              </div>
-                              <!-- -->
-                              <div class="form-group">
-                                <label class="col-md-3 control-label" for="profileCompany">Data da adoção</label>
-                                <div class="col-md-8">
-                                  <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="dataAdocao" id="dataAdocao" max=<?php echo date('Y-m-d');?> required>
-                                </div>
-                              </div>
-                            </div>   
-                            </br>
-                            <input type="hidden" name="id_pet" value=<?php echo $_GET['id_pet'] ?>>
-                            <button type="button" class="btn btn-primary" id="editarAdocao" onclick="return editarAdocaoPet()">Editar Adoção</button>
-                            <input type="submit" class="btn btn-primary" value="Salvar Adoção" id="salvarAdocao">
-                          </fieldset>
-                        </form>
-                      </div>
-                  </section>                  
+                                                    if (count($resultadosListarAdotantes) == 0 || !array_filter($resultadosListarAdotantes, function ($adotante) {
+                                                        return $adotante["id_pessoa"] != 1 && $adotante["id_pessoa"] != 2;
+                                                    })) {
+                                                        echo "<option value=''>Adotantes não encontrados.</option>";
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <!-- DATA ADOÇÃO -->
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="profileCompany">Data da adoção</label>
+                                            <div class="col-md-8">
+                                                <input type="date" placeholder="dd/mm/aaaa" maxlength="10" class="form-control" name="dataAdocao" id="dataAdocao" max="<?php echo date('Y-m-d'); ?>" required>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    </br>
+
+                                    <input type="hidden" name="id_pet" value="<?php echo $idPet; ?>">
+                                    <button type="button" class="btn btn-primary" id="editarAdocao" onclick="return editarAdocaoPet()">Editar Adoção</button>
+                                    <button type="submit" class="btn btn-primary" id="submit_adocao" name="submit_adocao" onclick="return enviarFormulário(event)">Salvar</button>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </section>
                 </div>
                 <!-- fim adocao-->
 
@@ -868,9 +927,13 @@
         </section>
       </div>
     </section>
-    <!--script pedro-->
+    
     <script type="text/javascript">
-      //============pedro_script
+      const botaoAdocao = document.getElementById("submit_adocao");
+      botaoAdocao.addEventListener("click", function() {
+          alert("Adoção registrada com sucesso!");
+      });
+
       //Adoção
       let nomeAdotante = document.querySelector("#nomeAdotante");
       let adotadoS = document.querySelector("#adotadoS");
@@ -878,25 +941,18 @@
       let dataAdocao = document.querySelector("#dataAdocao");
       let editarAdocao = document.querySelector("#editarAdocao");
       let salvarAdocao = document.querySelector("#salvarAdocao");
-      let rgAdotante = document.querySelector("#rgAdotante");// registro geral identidade
+      let adotante_input = document.querySelector("#adotante_input");
 
-      (()=>{
-        adotadoS.disabled = true;
-        adotadoN.disabled = true;
-        nomeAdotante.disabled = true;
-        dataAdocao.disabled = true;
-        salvarAdocao.disabled = true;
-        rgAdotante.disabled = true;
-      })();
+      adotadoS.disabled = true;
+      adotadoN.disabled = true;
       
-
       function editarAdocaoPet(){
         if(editarAdocao.innerHTML == "Editar Adoção"){
           adotadoS.disabled = false;
           adotadoN.disabled = false;
           dataAdocao.disabled = false;
           salvarAdocao.disabled = false;
-          rgAdotante.disabled = false;
+          adotante_input.disabled = false;
           editarAdocao.innerHTML = "Cancelar";
         }else{
           document.location.reload();
@@ -910,17 +966,29 @@
       adotadoS.addEventListener("click", ()=>{
         document.querySelector("#dadosAdocao").style.display = "";
         nomeAdotante.value = '';
-        rgAdotante.value = '';
+        adotante_input.value = '';
         dataAdocao.value = '';
       })
 
       adotadoN.addEventListener("click", ()=>{
         document.querySelector("#dadosAdocao").style.display = "none";
         nomeAdotante.value = '*';
-        rgAdotante.value = '*';
+        adotante_input.value = '*';
         dataAdocao.value = '1111-11-11';
       })
 
+
+      (()=>{
+        adotadoS.disabled = true;
+        adotadoN.disabled = true;
+        nomeAdotante.disabled = true;
+        dataAdocao.disabled = true;
+        salvarAdocao.disabled = true;
+        adotante_input.disabled = true;
+      })();
+      
+
+     
       let dadoRG = '';
       rgAdotante.addEventListener("input", ()=>{
         let rg = [];
@@ -1389,7 +1457,7 @@
       //switchForm("editar_cargaHoraria", false)
     </script>
     <div align="right">
-	  <iframe src="https://www.wegia.org/software/footer/funcionario.html" width="200" height="60" style="border:none;"></iframe>
+	  <iframe src="https://www.wegia.org/software/footer/pet.html" width="200" height="60" style="border:none;"></iframe>
     </div>
   </body>
 </html>

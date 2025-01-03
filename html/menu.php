@@ -178,26 +178,30 @@
 									</li>
 								</ul>
 							</li>
+							
 							<li class="nav-parent nav-active">
 								<a>
 									<i class="fa fa-user"></i></i><i class="fas fa-paw"></i>
-									<span>Padrinhos</span>
+									<span>Adotantes</span>
 								</a>
 								<ul class="nav nav-children">
 									<li>
-										<a href="<?= WWW ?>html/pet/padrinho/pre_cadastro_padrinho.php">
-											<span>Cadastrar Padrinho</span>
+										<a href="<?= WWW ?>/html/pet/adotantes/pre_cadastro_adotante.php">
+											<span>Cadastrar Adotante</span>
 										</a>
 									</li>
 									<li>
-										<a href="<?= WWW ?>controle/control.php?metodo=listarTodos&nomeClasse=PadrinhoControle&nextPage=./html/pet/padrinho/informacao_padrinho.php">
-											<span>Informações Padrinho</span>
+										<a href="<?= WWW ?>/html/pet/adotantes/informacao_adotantes.php">
+											<span>Informações Adotantes</span>
 										</a>
 									</li>
-								</ul>
+								</ul>					
 							</li>
+							
 						</ul>
 					</li>
+
+
 						
 					<li class="nav-parent nav-active" id="2">
 						<a>
@@ -429,19 +433,19 @@
 						</a>
 						<ul class="nav nav-children">
 						<li >
-								<a href="<?= WWW ?>html/apoio/view/gateway_pagamento.php">
+								<a href="<?= WWW ?>html/contribuicao/view/gateway_pagamento.php">
 									<i class="fa-solid fa-building"></i>
 									Gateway de pagamento
 								</a>
 							</li>
 							<li >
-								<a href="<?= WWW ?>html/apoio/view/meio_pagamento.php">
+								<a href="<?= WWW ?>html/contribuicao/view/meio_pagamento.php">
 									<i class="fa-regular fa-credit-card"></i>
 									Meio de pagamento
 								</a>
 							</li>
 							<li >
-								<a href="<?= WWW ?>html/apoio/view/regra_pagamento.php">
+								<a href="<?= WWW ?>html/contribuicao/view/regra_pagamento.php">
 									<i class="fa-solid fa-circle-exclamation"></i>
 									Regras de pagamento
 								</a>
@@ -469,11 +473,6 @@
 							<li >
 								<a href="<?= WWW ?>html/configuracao/configuracao_geral.php">
 									Configurações Gerais
-								</a>
-							</li>
-							<li >
-								<a href="<?= WWW ?>html/contribuicao/php/configuracao_doacao.php">
-									Contribuição
 								</a>
 							</li>
 							<li >

@@ -65,7 +65,7 @@ class SaudePetDAO
                 $pd->execute();
             }
             
-            header('Location: ../../html/pet/profile_pet.php?id_pet='.$id_pet);
+            header('Location: ../html/pet/profile_pet.php?id_pet='.$id_pet);
         } catch (PDOException $e) {
             echo 'Error: <b>  na tabela pet_ficha_medica = ' . $sql . '</b> <br /><br />' . $e->getMessage();
         }        
@@ -103,8 +103,8 @@ class SaudePetDAO
                 $pets[$x]=array('id_ficha_medica'=>$linha['id_ficha_medica'],'id_pet'=>$linha['id_pet'],'nome'=>$linha['nome'],'raca'=>$linha['raca'],'cor'=>$linha['cor'],'necessidades_especiais'=>$linha['necessidades_especiais']);
                 $x++;
             }
-            } catch (PDOExeption $e){
-                echo 'Error:' . $e->getMessage;
+            } catch (PDOException $e){
+                echo 'Error:' . $e->getMessage();
             }
         return json_encode($pets);
     }
@@ -194,7 +194,6 @@ class SaudePetDAO
         }
 
        header("Location: ../../html/pet/profile_pet.php?id_pet=".$id_pet);
-        
     }
 
     public function foiVacinado($id){

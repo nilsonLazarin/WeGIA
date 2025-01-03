@@ -28,9 +28,9 @@
 				<a href='#' class='close' onclick='closeMsg()' data-dismiss='alert' aria-label='close'>
 					&times;
 				</a>
-				$sccs
-				$pre
-			</div>"
+				". htmlspecialchars($sccs).
+				$pre.
+			"</div>"
 		);
 	}
 
@@ -44,10 +44,10 @@
 			<i class='fas fa-exclamation-triangle' style='font-size: 13px !important; margin: 0 15px;'></i>
 				<a href='#' class='close' onclick='closeMsg()' data-dismiss='alert' aria-label='close'>
 					&times;
-				</a>
-				$warn
-				$pre
-			</div>"
+				</a>".
+				htmlspecialchars($warn) .
+				$pre .
+			"</div>"
 		);
 	}
 
@@ -61,10 +61,10 @@
 				<i class='fas fa-times-circle' style='font-size: 13px !important; margin: 0 15px;'></i>
 				<a href='#' class='close' onclick='closeMsg()' data-dismiss='alert' aria-label='close'>
 					&times;
-				</a>
-				$error
-				$pre
-			</div>"
+				</a>" .
+				htmlspecialchars($error) .
+				$pre .
+			"</div>"
 		);
 	}
 

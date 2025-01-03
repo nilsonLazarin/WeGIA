@@ -213,7 +213,7 @@
 											$resultado_situacao = mysqli_query($conexao, $result_situacao);
 											while($row_situacao = mysqli_fetch_assoc($resultado_situacao)){?>
 												<option value = "<?php echo $row_situacao['id_situacao']; ?>">
-													<?php echo $row_situacao['situacoes'];?>
+													<?php echo htmlspecialchars($row_situacao['situacoes']);?>
 												</option> <?php 
 											}
 											?>

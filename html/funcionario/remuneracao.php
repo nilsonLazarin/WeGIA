@@ -10,6 +10,7 @@ require_once '../permissao/permissao.php';
 permissao($_SESSION['id_pessoa'], 11, 7);
 
 extract($_REQUEST);
+$action = trim($_REQUEST['action']);
 
 try {
     require_once "../../dao/Conexao.php";
@@ -21,7 +22,7 @@ try {
 }
 
 if ($action == "tipo_adicionar") {
-    //$descricao = addslashes($descricao);
+    $descricao = trim(filter_input(INPUT_POST, 'descricao', FILTER_SANITIZE_STRING));
     $query = "SELECT * FROM funcionario_remuneracao_tipo WHERE descricao = :descricao";
     $sql = "INSERT INTO funcionario_remuneracao_tipo VALUES (default , :descricao)";
     try {

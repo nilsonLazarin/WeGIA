@@ -26,6 +26,7 @@ function processaRequisicao($nomeClasse, $metodo, $modulo = null)
 			'AvisoNotificacaoControle' => [5],
 			'CargoControle' => [11],
 			'CategoriaControle' => [21, 2],
+			'controleSaudePet' => [6, 61, 62, 63],
 			'DestinoControle' => [21, 2],
 			'DocumentoControle' => [5],
 			'EnderecoControle' => [9, 12],
@@ -36,15 +37,18 @@ function processaRequisicao($nomeClasse, $metodo, $modulo = null)
 			'InternoControle' => [],
 			'IsaidaControle' => [24],
 			'ModuloControle' => [91],
+			'MedicamentoControle' => [6, 61, 62, 63],
 			'OrigemControle' => [23],
 			'ProdutoControle' => [22, 23, 24],
+			'PetControle' => [6, 61, 62, 63],
+			'AtendimentoControle' => [6, 61, 62, 63],
 			'QuadroHorarioControle' => [11],
 			'SaidaControle' => [22, 24],
 			'SaudeControle' => [5, 12],
 			'SinaisVitaisControle' => [5],
 			'TipoEntradaControle' => [23],
 			'TipoSaidaControle' => [22, 24],
-			'UnidadeControle' => [22],
+			'UnidadeControle' => [22]			
 		];
 
 		/*Por padrão o control.php irá recusar qualquer controladora informada,

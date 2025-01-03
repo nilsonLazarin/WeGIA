@@ -13,20 +13,18 @@ require_once '../../dao/Conexao.php';
 
 try {
     $pdo = Conexao::connect();
-    $descricao = $_POST["descricao"];
 
+    $descricao = trim(filter_input(INPUT_POST, 'descricao', FILTER_SANITIZE_STRING));
     
     if (empty($descricao)) {
         echo "Descrição não pode estar vazia.";
         exit();
     }
 
-    
     $stmt = $pdo->prepare("INSERT INTO funcionario_dependente_parentesco (descricao) VALUES (:descricao)");
     $stmt->bindParam(':descricao', $descricao); 
     $stmt->execute();
 
-    
     echo "Dependente adicionado com sucesso.";
 } catch (PDOException $e) {
     

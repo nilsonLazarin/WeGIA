@@ -1,8 +1,7 @@
 <?php
 require_once '../../dao/Conexao.php';
 
-$alergiaNome = $_POST["nome"];
-$alergiaNome = trim($alergiaNome);
+$alergiaNome = trim(filter_input(INPUT_POST, 'nome', FILTER_SANITIZE_STRING));
 if(!$alergiaNome){
 	echo 'O nome de uma alergia não pode ser vazio!';
 	exit(400);

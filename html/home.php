@@ -234,7 +234,7 @@
 					if(isset($_GET['msg_c'])){
 						$msg = $_GET['msg_c'];
 						echo('<div class="alert alert-danger alerta_c" role="alert">
-						'. $msg .'
+						'. htmlspecialchars($msg) .'
 					  </div>');
 					}
 				?>
@@ -404,31 +404,32 @@
 								<h4>Saúde Pet</h4>
 							</div>
 						</a>
+						
 						<a href="#">
-							<div class="col-lg-2 col-md-8 i category-item-second" data-toggle="collapse" href="#padrinhos">
+							<div class="col-lg-2 col-md-8 i category-item-second" data-toggle="collapse" href="#adotante">
 								<i class="fa fa-user"></i></i><i class="fas fa-paw"></i>
-								<h4>Padrinhos</h4>
-							</div>
-						</a>
-					</div>
-				</div>
-				<div class="row category-row-third">
-					<div  id="padrinhos" class="removeIn collapse">
-						<a href="../html/pet/padrinho/pre_cadastro_padrinho.php">	
-							<div class="col-lg-2 col-md-8 i">
-								<i  class="fa fa-address-book"></i>
-								<h4>Cadastrar Padrinhos</h4>
-							</div>
-						</a>
-						<a href="../controle/control.php?metodo=listarTodos&nomeClasse=PadrinhoControle&nextPage=./html/pet/padrinho/informacao_padrinho.php">
-							<div class="col-lg-2 col-md-8 i">
-								<i  class="far fa-address-card"></i>
-								<h4>Informações Padrinhos</h4>
+								<h4>Adotantes</h4>
 							</div>
 						</a>
 					</div>
 				</div>
 
+				<div class="row category-row-third">
+					<div  id="adotante" class="removeIn collapse">
+						<a href="../html/pet/adotantes/pre_cadastro_adotante.php">	
+							<div class="col-lg-2 col-md-8 i">
+								<i  class="fa fa-address-book"></i>
+								<h4>Cadastrar Adotante</h4>
+							</div>
+						</a>
+						<a href="../html/pet/adotantes/informacao_adotantes.php">
+							<div class="col-lg-2 col-md-8 i">
+								<i  class="far fa-address-card"></i>
+								<h4>Informações Adotantes</h4>
+							</div>
+						</a>
+					</div>
+				</div>
 				<div class="row category-row-third">
 					<div  id="saudePet" class="removeIn collapse">
 						<a href="../html/pet/cadastro_ficha_medica_pet.php">	
@@ -725,19 +726,19 @@
 				<!--parte interna de #contribuicao-->
 				<div class="row">
 					<div  id="contribuicao" class="collapse">
-						<a href="../html/apoio/view/gateway_pagamento.php">
+						<a href="../html/contribuicao/view/gateway_pagamento.php">
 							<div class="col-lg-2 col-md-8 i" >
 								<i class="fa-solid fa-building"></i>
 								<h4>Gateway de pagamentos</h4>
 							</div>
 						</a>
-						<a href="../html/apoio/view/meio_pagamento.php">
+						<a href="../html/contribuicao/view/meio_pagamento.php">
 							<div class="col-lg-2 col-md-8 i" >
 								<i class="fa-regular fa-credit-card"></i>
 								<h4>Meio de pagamento</h4>
 							</div>
 						</a>
-						<a href="../html/apoio/view/regra_pagamento.php">
+						<a href="../html/contribuicao/view/regra_pagamento.php">
 							<div class="col-lg-2 col-md-8 i" >
 								<i class="fa-solid fa-circle-exclamation"></i>
 								<h4>Regras de pagamento</h4>
@@ -766,12 +767,6 @@
 							<div class="col-lg-2 col-md-8 i" >
 								<i  class="fas fa-cog"></i>
 								<h4>Configurações Gerais</h4>
-							</div>
-						</a>
-						<a href="../html/contribuicao/php/configuracao_doacao.php">
-							<div class="col-lg-2 col-md-8 i" >
-								<i  class="fa fa-credit-card"></i>
-								<h4>Contribuição</h4>
 							</div>
 						</a>
 						<a href="../html/geral/editar_permissoes.php">

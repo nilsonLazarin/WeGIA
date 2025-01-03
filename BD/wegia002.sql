@@ -19,7 +19,8 @@ INSERT INTO `selecao_paragrafo` (`id_selecao`, `nome_campo`, `paragrafo`, `origi
 (3, 'Conheça', 'O WEGIA é um software livre licenciado pela GNU/GPL v3.', 1),
 (4, 'Objetivo', 'Promover uma boa administração ao fornecer serviços de ajuda e controle de estoques, gerenciamento de funcionários e pessoal, visando um maior proveito de recursos.\r\n\r\nEntre com suas credenciais padrão de administrador para configurar o sistema:\r\n\r\nusuário: admin\r\nsenha: wegia', 1),
 (5, 'Rodapé', 'WeGIA - Desenvolvido pelo Cefet/RJ UnED Nova Friburgo', 1),
-(6, 'ContribuiçãoMSG', 'Contribua você também!', '1');
+(6, 'ContribuiçãoMSG', 'Contribua você também!', 1),
+(7, 'agradecimento_doador', 'Mensagem de Agradecimento ao DOADOR', 1);
 
 INSERT INTO `campo_imagem` (`id_campo`, `nome_campo`, `tipo`) VALUES 
 (1, 'Logo', 'img'), 
@@ -113,6 +114,8 @@ INSERT INTO `recurso` (`id_recurso`, `descricao`) VALUES
 ('7', 'Módulo Contribuição'),
 ('61', 'Cadastrar Pet'),
 ('62', 'Saúde Pet'),
+('63', 'Informações Pet'),
+('64', 'Adotantes Pet'),
 ('9', 'Configurações'),
 ('91', 'Permissões');
 
@@ -146,6 +149,8 @@ INSERT INTO `permissao` (`id_cargo`, `id_acao`, `id_recurso`) VALUES
 (1, 7, 52),
 (1, 7, 61),
 (1, 7, 62),
+(1, 7, 63),
+(1, 7, 64),
 (1, 7, 91);
 
 INSERT INTO `sistema_pagamento` (`id`, `nome_sistema`) VALUES 
