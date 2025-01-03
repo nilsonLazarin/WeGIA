@@ -97,6 +97,7 @@ $meiosPagamento = $meioPagamentoController->buscaTodos();
 
                 <div class="row">
                     <div class="col-md-10 col-md-offset-1">
+                    <h2><a href="forma_contribuicao.php">Clique aqui para acessar a página de Pagamento</a></h2>
                         <div class="panel panel-primary">
                             <div class="panel-heading">
                                 <h3 class="panel-title text-center">Cadastro de um novo Meio de Pagamento</h3>
