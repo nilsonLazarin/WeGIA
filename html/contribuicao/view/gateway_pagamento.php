@@ -90,6 +90,7 @@ $gateways = $gatewayPagamentoController->buscaTodos();
                 </header>
                 <div class="row">
                     <div class="col-md-10 col-md-offset-1">
+                        <a href="forma_contribuicao.php">Página de Pagamento</a>
                         <div class="panel panel-primary">
                             <div class="panel-heading">
                                 <h3 class="panel-title text-center">Cadastro de um novo Gateway</h3>
