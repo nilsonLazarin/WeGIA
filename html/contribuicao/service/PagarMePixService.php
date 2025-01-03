@@ -18,7 +18,7 @@ class PagarMePixService implements ApiPixServiceInterface
         }
 
         // Configuração dos dados para a API
-        $description = 'Doação';
+        $description = $contribuicaoLog->getAgradecimento();
         $expires_in = 3600;
 
         $headers = [
@@ -63,8 +63,8 @@ class PagarMePixService implements ApiPixServiceInterface
                         'expires_in' => $expires_in,
                         'additional_information' => [
                             [
-                                'name' => 'Teste',
-                                'value' => '1'
+                                'name' => "Doação via pix",
+                                'value' => "{$contribuicaoLog->getValor()}"
                             ]
                         ]
                     ]
