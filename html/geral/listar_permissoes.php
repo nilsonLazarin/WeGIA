@@ -161,14 +161,14 @@ require_once ROOT."/html/personalizacao_display.php";
 						<div class="panel-body">
 						<?php
 									if(isset($_GET['msg_c'])){
-										$msg = $_GET['msg_c'];
+										$msg = trim(filter_input(INPUT_GET, 'msg_c', FILTER_SANITIZE_STRING));
 										echo('<div class="alert alert-success" role="alert">
-										'. $msg .'
+										'. htmlspecialchars($msg) .'
 									  </div>');
 									}else if(isset($_GET['msg_e'])){
-										$msg = $_GET['msg_e'];
+										$msg = trim(filter_input(INPUT_GET, 'msg_e', FILTER_SANITIZE_STRING));
 										echo('<div class="alert alert-danger" role="alert">
-										'. $msg .'
+										'. htmlspecialchars($msg) .'
 									  </div>');
 									}
 							?>
