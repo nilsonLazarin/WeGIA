@@ -452,7 +452,11 @@ class ContribuicaoLogController
             caso o serviço de pagamento tenha sido executado*/
             $this->pdo->beginTransaction();
             $contribuicaoLogDao = new ContribuicaoLogDAO($this->pdo);
-            $contribuicaoLogDao->criar($contribuicaoLog);
+            $contribuicaoLog = $contribuicaoLogDao->criar($contribuicaoLog);
+
+            //Adicionar mensagem de agradecimento
+            $agradecimento = $contribuicaoLogDao->getAgradecimento();
+            $contribuicaoLog->setAgradecimento($agradecimento);
 
             //Registrar na tabela de socio_log
             $mensagem = "Pix gerado recentemente";

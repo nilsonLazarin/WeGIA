@@ -317,11 +317,12 @@ function quickQuery($query, $column)
 								<th scope="col" width="11%">Quantidade</th>
 								<th scope="col">Descrição</th>
 								<?php if ($_POST['tipo_relatorio'] != 'estoque') {
+									echo ('<th scope="col" width="14%">Data de Registro</th>');
 									echo ('<th scope="col" width="14%">Valor Unitário</th>');
 								} else {
 									echo ('<th scope="col" width="14%">Preço Médio</th>');
 								} ?>
-								<th scope="col" width="12%" class="tot">Total</th>
+								<th scope="col" width="14%" class="tot">Total</th>
 							</tr>
 						</thead>
 						<tbody>

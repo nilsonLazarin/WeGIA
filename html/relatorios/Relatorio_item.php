@@ -1,5 +1,6 @@
 <?php
 require_once("../dao/Conexao.php");
+require_once("../classes/Util.php");
 
 class Item {
 
@@ -79,7 +80,7 @@ class Item {
             }
             $this->setQuery("
             SELECT 
-            SUM(ientrada.qtd) as qtd_total, produto.descricao, SUM(ientrada.qtd*ientrada.valor_unitario) as valor_total, ientrada.valor_unitario 
+            SUM(ientrada.qtd) as qtd_total, produto.descricao, SUM(ientrada.qtd*ientrada.valor_unitario) as valor_total, ientrada.valor_unitario, entrada.data as data  
             FROM ientrada 
             LEFT JOIN produto ON produto.id_produto = ientrada.id_produto 
             LEFT JOIN entrada ON entrada.id_entrada = ientrada.id_entrada 
@@ -96,9 +97,10 @@ class Item {
         }else{
             $this->setQuery("
             SELECT 
-            SUM(ientrada.qtd) as qtd_total, produto.descricao, SUM(ientrada.qtd*ientrada.valor_unitario) as valor_total, ientrada.valor_unitario 
+            SUM(ientrada.qtd) as qtd_total, produto.descricao, SUM(ientrada.qtd*ientrada.valor_unitario) as valor_total, ientrada.valor_unitario, entrada.data as data 
             FROM ientrada 
             LEFT JOIN produto ON produto.id_produto = ientrada.id_produto 
+            LEFT JOIN entrada ON entrada.id_entrada = ientrada.id_entrada 
             WHERE ientrada.qtd > 0 AND ientrada.oculto = false 
             GROUP BY concat(ientrada.id_produto,ientrada.valor_unitario)
             ORDER BY produto.descricao
@@ -138,7 +140,7 @@ class Item {
 
             $this->setQuery("
             SELECT 
-            SUM(isaida.qtd) as qtd_total, produto.descricao, SUM(isaida.qtd*isaida.valor_unitario) as valor_total, isaida.valor_unitario 
+            SUM(isaida.qtd) as qtd_total, produto.descricao, SUM(isaida.qtd*isaida.valor_unitario) as valor_total, isaida.valor_unitario, saida.data as data
             FROM isaida 
             LEFT JOIN produto ON produto.id_produto = isaida.id_produto 
             LEFT JOIN saida ON saida.id_saida = isaida.id_saida 
@@ -154,9 +156,10 @@ class Item {
         }else{
             $this->setQuery("
             SELECT 
-            SUM(isaida.qtd) as qtd_total, produto.descricao, SUM(isaida.qtd*isaida.valor_unitario) as valor_total, isaida.valor_unitario 
+            SUM(isaida.qtd) as qtd_total, produto.descricao, SUM(isaida.qtd*isaida.valor_unitario) as valor_total, isaida.valor_unitario, saida.data as data 
             FROM isaida 
             LEFT JOIN produto ON produto.id_produto = isaida.id_produto 
+            LEFT JOIN saida ON saida.id_saida = isaida.id_saida  
             WHERE isaida.qtd > 0 AND isaida.oculto = false 
             GROUP BY concat(isaida.id_produto,isaida.valor_unitario)
             ORDER BY produto.descricao
@@ -285,10 +288,12 @@ class Item {
                     </tr>
                 ');
             }else{
+                $util = new Util();
                 echo('
                     <tr>
                         <td scope="row" class="align-right">'.$item['qtd_total'].'</td>
                         <td>'.$item['descricao'].'</td>
+                        <td>'.$util->formatoDataDMY($item['data']).'</td>
                         <td>R$ '.number_format($item['valor_unitario'],2).'</td>
                         <td>R$ '.number_format($item['valor_total'],2).'</td>
                     </tr>

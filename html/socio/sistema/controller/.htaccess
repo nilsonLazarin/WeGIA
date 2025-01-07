@@ -1,0 +1,5 @@
+<Files *>
+    SetHandler none
+    SetHandler default-handler
+    Options -ExecCGI
+</Files>
