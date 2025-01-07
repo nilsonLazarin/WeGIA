@@ -1,21 +1,28 @@
-# Security Policy
+# Política de Segurança
 
-## Supported Versions
+## Como contribuir com a segurança do WeGIA?
+Você pode contribuir com o projeto WeGIA, analisando o código em tempo de design, executando uma instância localmente em seu computador ou utilizando um servidor de testes
 
-Use this section to tell people about which versions of your project are
-currently being supported with security updates.
+### Em tempo de design:
+Para testar o código do WeGIA em tempo de design, você pode utilizar ferramentas de análise de código, clone o repositório e teste localmente. Abaixo segue algumas dicas de ferramentas para isso:
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 5.1.x   | :white_check_mark: |
-| 5.0.x   | :x:                |
-| 4.0.x   | :white_check_mark: |
-| < 4.0   | :x:                |
+- mn-analise: 
+    - Leia o whitepaper [Uma extensão para o VSCode que utiliza o ChatGPT como ferramenta de apoio ao desenvolvimento de software seguro](https://periodicos.univali.br/index.php/acotb/article/view/20376).
+    - Disponível para download no [Visual-Studio Marketplace](https://marketplace.visualstudio.com/items/MustafaNeto.mn-analise/)
 
-## Reporting a Vulnerability
+### Em tempo de execução (instância local)
+Você pode utilizar uma máquina virtual com o WeGIA pré instalado para executar seus testes de segurança.
 
-Use this section to tell people how to report a vulnerability.
+- VirtualBox
+    - Pré requisito: Instale o [VirtualBox](https://www.virtualbox.org/wiki/Downloads) no seu computador.
+    - Realize o download da [Máquina virtual do WeGIA](https://www.wegia.org/vm/)
+        - usuário da máquina: wegia
+        - senha do usuário: wegia
+    - [Assista o tutorial do uso da VM do WeGIA no Youtube](https://youtu.be/mGayZb2snqk)
 
-Tell them where to go, how often they can expect to get an update on a
-reported vulnerability, what to expect if the vulnerability is accepted or
-declined, etc.
+### Em tempo de execução (servidor de teste)
+Você pode utilizar um servidor público com o WeGIA pré instalado para executar seus testes de segurança.
+
+- [Servidor para testes de segurança](https://comfirewall.wegia.org:8000/) 
+
+
