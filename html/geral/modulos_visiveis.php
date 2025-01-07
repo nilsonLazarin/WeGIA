@@ -176,13 +176,13 @@ require_once ROOT."/html/personalizacao_display.php";
 										<form method="post" id="formulario" action="<?php echo(WWW.'controle/control.php'); ?>">
 										<?php
 											if(isset($_GET['msg_c'])){
-												$msg = $_GET['msg_c'];
+												$msg = filter_input(INPUT_GET, 'msg_c', FILTER_SANITIZE_STRING);
 												echo('<div class="alert alert-success" role="alert">
-												'. $msg .'
+												'. htmlspecialchars($msg) .'
 											  </div>');
 											}
 											if($permissao == 1){
-												echo($msg." - ".$permissao);
+												echo(htmlspecialchars($msg)." - ".$permissao);
 											}else{
 										?>
 											<div class="form-group">

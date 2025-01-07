@@ -1,31 +1,56 @@
 <?php
-// Inicializa a resposta padrão
-$r = array(
-    "resultado" => false,
-    "mensagem" => "Ocorreu um erro ao processar o arquivo."
-);
+//verificar privilégios do solicitante
+session_start();
+require_once(dirname(__DIR__, 3) . '/permissao/permissao.php');
 
-// Diretório seguro para armazenamento de arquivos
-$diretorio = "../tabelas/";
-
-// Cria os diretórios necessários, se não existirem
-if (!is_dir($diretorio)) {
-    if (!mkdir($diretorio, 0755, true)) {
-        $r['mensagem'] = "Erro ao criar diretório de upload.";
-        echo json_encode($r);
-        exit;
-    }
+if (!isset($_SESSION['id_pessoa'])) {
+    http_response_code(401);
+    echo json_encode(['erro' => 'Acesso não autorizado, usuário não está logado.']);
+    exit();
 }
 
-if (!empty($_FILES['arquivo']['name'])) {
-    // Lista de extensões e tipos MIME permitidos
-    $extensoesPermitidas = array('jpg', 'jpeg', 'png', 'gif');
-    $tiposMimePermitidos = array('image/jpeg', 'image/png', 'image/gif');
+permissao($_SESSION['id_pessoa'], 4, 3);
 
-    // Obtém o nome e extensão do arquivo
-    $file_name_original = basename($_FILES['arquivo']['name']);
-    $extensao = strtolower(pathinfo($file_name_original, PATHINFO_EXTENSION));
+    // Inicializa a resposta padrão
+    $r = array(
+        "resultado" => false,
+        "mensagem" => "Ocorreu um erro ao processar o arquivo."
+    );
 
+    // Diretório seguro para armazenamento de arquivos
+    $diretorio = "../tabelas/";
+
+    // Cria os diretórios necessários, se não existirem
+    if (!is_dir($diretorio)) {
+        if (!mkdir($diretorio, 0755, true)) {
+            $r['mensagem'] = "Erro ao criar diretório de upload.";
+            echo json_encode($r);
+            exit;
+        }
+    }
+
+    if (!empty($_FILES['arquivo']['name'])) {
+        // Lista de extensões e tipos MIME permitidos
+        $extensoesPermitidas = array('jpg', 'jpeg', 'png', 'gif');
+        $tiposMimePermitidos = array('image/jpeg', 'image/png', 'image/gif');
+
+        // Obtém o nome e extensão do arquivo
+        $file_name_original = basename($_FILES['arquivo']['name']);
+        $extensao = strtolower(pathinfo($file_name_original, PATHINFO_EXTENSION));
+
+        if (in_array($extensao, $permitidos)) {
+            $file_name = preg_replace("/[^a-zA-Z0-9\._-]/", "_", basename($_FILES['arquivo']['name']));
+
+            if (move_uploaded_file($_FILES['arquivo']['tmp_name'], "../tabelas/" . $file_name)) {
+                $r['resultado'] = true;
+                $r['url'] = "./tabelas/" . htmlspecialchars($file_name, ENT_QUOTES, 'UTF-8');
+            } else {
+                $r['url'] = "Erro ao mover o arquivo.";
+            }
+        } else {
+            $r['url'] = "Tipo de arquivo não permitido.";
+        }
+    }
     // Verifica se a extensão é permitida
     if (!in_array($extensao, $extensoesPermitidas)) {
         $r['mensagem'] = "Extensão de arquivo não permitida.";
@@ -72,10 +97,5 @@ if (!empty($_FILES['arquivo']['name'])) {
     } else {
         $r['mensagem'] = "Erro ao mover o arquivo para o diretório de destino.";
     }
-} else {
-    $r['mensagem'] = "Nenhum arquivo foi enviado.";
-}
 
-// Retorna a resposta em JSON
-echo json_encode($r);
-?>
+echo (json_encode($r));
