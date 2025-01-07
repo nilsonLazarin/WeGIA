@@ -963,7 +963,10 @@ $(document).ready(function(){
 
                 oReq.send();
 
+            }else{
+                request.abort();
             }
+            
       }
     }
     // Upload de cobranças xlsx
