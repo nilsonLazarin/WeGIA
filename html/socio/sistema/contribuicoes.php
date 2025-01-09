@@ -84,7 +84,7 @@ require_once ROOT . "/html/personalizacao_display.php";
   <link rel="stylesheet" href="controller/bower_components/bootstrap-daterangepicker/daterangepicker.css">
   <!-- bootstrap wysihtml5 - text editor -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
- 
+
   <link rel="stylesheet" href="controller/css/animacoes.css">
   <link rel="stylesheet" href="controller/css/tabelas.css">
   <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&display=swap" rel="stylesheet">
@@ -173,7 +173,7 @@ require_once ROOT . "/html/personalizacao_display.php";
 
       <section role="main" class="content-body">
         <header class="page-header">
-          <h2>Cobranças (Antigo)</h2>
+          <h2>Contribuições</h2>
 
           <div class="right-wrapper pull-right">
             <ol class="breadcrumbs">
@@ -183,14 +183,54 @@ require_once ROOT . "/html/personalizacao_display.php";
                 </a>
               </li>
               <li><span>Páginas</span></li>
-              <li><span>Cobranças (Antigo)</span></li>
+              <li><span>Contribuições</span></li>
             </ol>
 
             <a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
           </div>
         </header>
 
+        <!-- start: page -->
+        <div class="row">
+          <div class="box box-warning">
+            <div class="box-header with-border">
+              <h3 class="box-title">Controle de Contribuições</h3>
+
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+              </div>
+              <!-- /.box-tools -->
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body box_tabela_cobranca">
+
+              <table id="tabela-contribuicoes" class="table table-hover" style="width: 100%">
+                <thead>
+                  <tr>
+                    <th>Cod.</th>
+                    <th>N. Sócio</th>
+                    <th>D. emissão</th>
+                    <th>D. vencimento</th>
+                    <th>D. pagamento</th>
+                    <th>Valor</th>
+                    <th>Status</th>
+                    <th>Opções</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+              </table>
+            
+            </div>
+            <!-- /.box-body -->
+          </div>
+        </div>
+        <!-- end: page -->
       </section>
+
+
 
       <?php require_once("./controller/import_scripts.php"); ?>
 
