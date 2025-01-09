@@ -18,7 +18,7 @@ setlocale(LC_ALL, $locale);
 
     <section role="main" class="content-body">
         <header class="page-header">
-            <h2>Cobranças</h2>
+            <h2>Cobranças (Antigo)</h2>
             
             <div class="right-wrapper pull-right">
                 <ol class="breadcrumbs">
@@ -28,7 +28,7 @@ setlocale(LC_ALL, $locale);
                         </a>
                     </li>
                     <li><span>Páginas</span></li>
-                    <li><span>Cobranças</span></li>
+                    <li><span>Cobranças (Antigo)</span></li>
                 </ol>
             
                 <a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
@@ -39,7 +39,7 @@ setlocale(LC_ALL, $locale);
         <div class="row">
 <div class="box box-warning">
     <div class="box-header with-border">
-      <h3 class="box-title">Controle de cobranças</h3>
+      <h3 class="box-title">Controle de cobranças (Antigo)</h3>
 
       <div class="box-tools pull-right">
         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
