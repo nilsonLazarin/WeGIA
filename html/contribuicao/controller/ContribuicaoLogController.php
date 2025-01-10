@@ -301,6 +301,7 @@ class ContribuicaoLogController
                 // Verificar se o dia informado já passou neste mês
                 if ($diaVencimento <= $dataAtual->format('d')) {
                     // Se o dia informado já passou, começar a partir do próximo mês
+                    $dataGeracao = $dataAtual->format('Y-m-d');
                     $dataAtual->modify('first day of next month');
                 }
 
@@ -323,7 +324,7 @@ class ContribuicaoLogController
                     $contribuicaoLog
                         ->setValor($valor)
                         ->setCodigo($contribuicaoLog->gerarCodigo())
-                        ->setDataGeracao($dataAtual->format('Y-m-d'))
+                        ->setDataGeracao($dataGeracao)
                         ->setDataVencimento($dataVencimento->format('Y-m-d'))
                         ->setSocio($socio)
                         ->setGatewayPagamento($gatewayPagamento)
