@@ -825,7 +825,19 @@ $(document).ready(function(){
         $('#tabela-contribuicoes').DataTable( {
             "processing": true,
             "searching": true,
-            "ajax": "processa_cobrancas_tabela.php",
+            "ajax": "../../contribuicao/controller/control.php?nomeClasse=ContribuicaoLogController&metodo=getContribuicoesLogJSON",
+            "columns": [
+                { "data": "codigo" },
+                { "data": "nomeSocio" },
+                { "data": "dataGeracao", "render": (data, type) => {return formataDataBr(data, type)}},
+                { "data": "dataVencimento", "render": (data, type) => {return formataDataBr(data, type)}},
+                { "data": "dataPagamento", "render": (data, type) => {return formataDataBr(data, type)}},
+                { "data": "valor" },
+                { "data": "status",  "render": function(data, type, row) {
+                    return data == 1 ? "Pago" : "Não Pago";
+                } },
+            ],
+            "order": [[2, 'desc']],  // Ordena pela primeira coluna (dataGeracao) de forma decrescente
             "language": {
                 "sEmptyTable": "Nenhuma contribuição encontrada no sistema.",
                 "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
@@ -851,6 +863,17 @@ $(document).ready(function(){
             }
         } );
     } );
+
+    function formataDataBr(data, type){
+        if (type === 'display' || type === 'filter') {
+            if(!data){
+                return data;
+            }
+            let dateParts = data.split("-");
+            return `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
+        }
+        return data;
+    }
 
     // Modal tabela sócios
     $("#btn_socios").click(function(){

@@ -1,7 +1,15 @@
 <?php
-//Sanitizes the request parameters
-$controller = trim(htmlspecialchars($_REQUEST['nomeClasse']));
-$function = trim(htmlspecialchars($_REQUEST['metodo']));
+// Tenta decodificar o JSON do corpo da requisição
+$inputJson = json_decode(file_get_contents('php://input'), true);
+
+// Se o JSON for válido, use os valores de lá; caso contrário, use $_REQUEST
+if (json_last_error() === JSON_ERROR_NONE && isset($inputJson['nomeClasse']) && isset($inputJson['metodo'])) {
+    $controller = trim(htmlspecialchars($inputJson['nomeClasse']));
+    $function = trim(htmlspecialchars($inputJson['metodo']));
+} else {
+    $controller = trim(htmlspecialchars($_REQUEST['nomeClasse']));
+    $function = trim(htmlspecialchars($_REQUEST['metodo']));
+}
 
 try {
     if (!$controller || !$function) {

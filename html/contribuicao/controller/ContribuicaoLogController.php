@@ -498,6 +498,22 @@ class ContribuicaoLogController
         }
     }
 
+    /**
+     * Retorna um JSON das contribuições registradas no banco de dados da aplicação
+     */
+    public function getContribuicoesLogJSON()
+    {
+        try {
+            $contribuicaoLogDao = new ContribuicaoLogDAO();
+            $contribuicoes = $contribuicaoLogDao->getContribuicoes();
+
+            echo json_encode(["data" => $contribuicoes]);
+        } catch (PDOException $e) {
+            http_response_code(500);
+            echo json_encode(['erro' => 'Erro ao buscar contribuições no banco de dados.']);
+        }
+    }
+
     private function verificarRegras($valor, $conjuntoRegrasPagamento)
     {
         if ($conjuntoRegrasPagamento && count($conjuntoRegrasPagamento) > 0) {
