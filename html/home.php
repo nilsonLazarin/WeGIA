@@ -649,6 +649,12 @@
 								<h4>Controle Cobranças (Antigo)</h4>
 							</div>
 						</a>
+						<a href="../html/socio/sistema/contribuicoes.php">
+							<div class="col-lg-2 col-md-8 i">
+								<i  class="far fa-chart-bar"></i>
+								<h4>Controle Contribuições</h4>
+							</div>
+						</a>
 						<a href="../html/socio/sistema/psocio_geracao.php">	
 							<div class="col-lg-2 col-md-8 i">
 								<i  class="fas fa-hand-holding-usd"></i>
