@@ -53,11 +53,6 @@ if (!is_null($resultado)) {
 // Adiciona a Função display_campo($nome_campo, $tipo_campo)
 require_once ROOT . "/html/personalizacao_display.php";
 
-// require_once "../../../dao/Conexao.php";
-// $pdo = Conexao::connect();
-
-// $teste = $pdo->query("SELECT * FROM pessoa where id_pessoa=1")->fetchAll(PDO::FETCH_ASSOC);
-// $teste = json_encode($teste);
 ?>
 <!DOCTYPE html>
 <html class="fixed">
@@ -67,7 +62,7 @@ require_once ROOT . "/html/personalizacao_display.php";
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Cobranças (Antigo)</title>
+  <title>Contribuições</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -89,12 +84,7 @@ require_once ROOT . "/html/personalizacao_display.php";
   <link rel="stylesheet" href="controller/bower_components/bootstrap-daterangepicker/daterangepicker.css">
   <!-- bootstrap wysihtml5 - text editor -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-  <!--[if lt IE 9]>
-  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-  <![endif]-->
+
   <link rel="stylesheet" href="controller/css/animacoes.css">
   <link rel="stylesheet" href="controller/css/tabelas.css">
   <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&display=swap" rel="stylesheet">
@@ -112,7 +102,6 @@ require_once ROOT . "/html/personalizacao_display.php";
   <link rel="stylesheet" href="<?php echo WWW; ?>assets/vendor/select2/select2.css" />
   <link rel="stylesheet" href="<?php echo WWW; ?>assets/vendor/jquery-datatables-bs3/assets/css/datatables.css" />
 
-
   <!-- Theme CSS -->
   <link rel="stylesheet" href="<?php echo WWW; ?>assets/stylesheets/theme.css" />
 
@@ -129,9 +118,6 @@ require_once ROOT . "/html/personalizacao_display.php";
   <script src="<?php echo WWW; ?>assets/vendor/jquery/jquery.min.js"></script>
   <script src="<?php echo WWW; ?>assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
   <script src="<?php echo WWW; ?>assets/vendor/nanoscroller/nanoscroller.js"></script>
-
-  <!--Com defeito<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>-->
-
   <script src="<?php echo WWW; ?>assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
   <script src="<?php echo WWW; ?>assets/vendor/magnific-popup/magnific-popup.js"></script>
   <script src="<?php echo WWW; ?>assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
@@ -170,14 +156,87 @@ require_once ROOT . "/html/personalizacao_display.php";
 </head>
 
 <body>
-  <?php require_once("./controller/import_conteudo_cobrancas.php"); ?>
-  <?php require_once("./controller/import_modais.php"); ?>
-  <?php require_once("./controller/import_scripts.php"); ?>
-  <?php require_once("./controller/import_scripts_socio.php"); ?>
 
-  <div align="right">
-    <iframe src="https://www.wegia.org/software/footer/socio.html" width="200" height="60" style="border:none;"></iframe>
-  </div>
+  <section class="body">
+
+    <!-- start: header -->
+    <header id="header" class="header">
+
+      <!-- end: search & user box -->
+    </header>
+
+    <!-- end: header -->
+    <div class="inner-wrapper">
+      <!-- start: sidebar -->
+      <aside id="sidebar-left" class="sidebar-left menuu"></aside>
+      <!-- end: sidebar -->
+
+      <section role="main" class="content-body">
+        <header class="page-header">
+          <h2>Contribuições</h2>
+
+          <div class="right-wrapper pull-right">
+            <ol class="breadcrumbs">
+              <li>
+                <a href="../../home.php">
+                  <i class="fa fa-home"></i>
+                </a>
+              </li>
+              <li><span>Páginas</span></li>
+              <li><span>Contribuições</span></li>
+            </ol>
+
+            <a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
+          </div>
+        </header>
+
+        <!-- start: page -->
+        <div class="row">
+          <div class="box box-warning">
+            <div class="box-header with-border">
+              <h3 class="box-title">Controle de Contribuições</h3>
+
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+              </div>
+              <!-- /.box-tools -->
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body box_tabela_cobranca">
+
+              <table id="tabela-contribuicoes" class="table table-hover" style="width: 100%">
+                <thead>
+                  <tr>
+                    <th>Cod.</th>
+                    <th>N. Sócio</th>
+                    <th>D. emissão</th>
+                    <th>D. vencimento</th>
+                    <th>D. pagamento</th>
+                    <th>Valor</th>
+                    <th>Status</th>
+                    <th>Opções</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+              </table>
+            
+            </div>
+            <!-- /.box-body -->
+          </div>
+        </div>
+        <!-- end: page -->
+      </section>
+
+
+
+      <?php require_once("./controller/import_scripts.php"); ?>
+
+      <div align="right">
+        <iframe src="https://www.wegia.org/software/footer/socio.html" width="200" height="60" style="border:none;"></iframe>
+      </div>
 
 </body>
 

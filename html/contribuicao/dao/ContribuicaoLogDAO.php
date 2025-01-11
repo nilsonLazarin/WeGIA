@@ -110,6 +110,25 @@ class ContribuicaoLogDAO{
         return $contribuicaoLogCollection;
     }
 
+    public function getContribuicoes(){
+        $sql = 
+        "SELECT 
+            cl.codigo, 
+            p.nome as nomeSocio, 
+            cl.data_geracao as dataGeracao, 
+            cl.data_vencimento as dataVencimento, 
+            cl.data_pagamento as dataPagamento, 
+            cl.valor, 
+            cl.status_pagamento as status 
+        FROM contribuicao_log cl 
+        JOIN socio s ON (s.id_socio=cl.id_socio) 
+        JOIN pessoa p ON (p.id_pessoa=s.id_pessoa) 
+        ORDER BY cl.data_geracao DESC";
+
+        $contribuicoesArray = $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+        return $contribuicoesArray;
+    }
+
     public function getAgradecimento(){
         $sql = "SELECT paragrafo FROM selecao_paragrafo WHERE nome_campo = 'agradecimento_doador'";
 

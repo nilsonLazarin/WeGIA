@@ -107,10 +107,10 @@ $conjuntoRegrasPagamento = $regraPagamentoController->buscaConjuntoRegrasPagamen
                             <div class="panel-heading">
                                 <h3 class="panel-title text-center">Cadastro de uma nova regra de pagamento</h3>
                                 <div class="panel-actions">
-                                    <a href="#" class="fa fa-caret-down" title="Mostrar/ocultar"></a>
+                                    <a href="#" class="fa fa-caret-up" title="Mostrar/ocultar"></a>
                                 </div>
                             </div>
-                            <div class="panel-body">
+                            <div class="panel-body" style="display: none;">
                                 <div id="mensagem-cadastro">
                                     <?php if (isset($msg) && $msg == 'cadastrar-sucesso'): ?>
                                         <div class="alert alert-success text-center alert-dismissible" role="alert">
