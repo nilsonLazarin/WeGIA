@@ -301,6 +301,7 @@ class ContribuicaoLogController
                 // Verificar se o dia informado já passou neste mês
                 if ($diaVencimento <= $dataAtual->format('d')) {
                     // Se o dia informado já passou, começar a partir do próximo mês
+                    $dataGeracao = $dataAtual->format('Y-m-d');
                     $dataAtual->modify('first day of next month');
                 }
 
@@ -323,7 +324,7 @@ class ContribuicaoLogController
                     $contribuicaoLog
                         ->setValor($valor)
                         ->setCodigo($contribuicaoLog->gerarCodigo())
-                        ->setDataGeracao($dataAtual->format('Y-m-d'))
+                        ->setDataGeracao($dataGeracao)
                         ->setDataVencimento($dataVencimento->format('Y-m-d'))
                         ->setSocio($socio)
                         ->setGatewayPagamento($gatewayPagamento)
@@ -495,6 +496,22 @@ class ContribuicaoLogController
             $contribuicaoLogDao->pagarPorId($idContribuicaoLog);
         } catch (PDOException $e) {
             echo 'Erro: ' . $e->getMessage(); //substituir posteriormente por redirecionamento com mensagem de feedback
+        }
+    }
+
+    /**
+     * Retorna um JSON das contribuições registradas no banco de dados da aplicação
+     */
+    public function getContribuicoesLogJSON()
+    {
+        try {
+            $contribuicaoLogDao = new ContribuicaoLogDAO();
+            $contribuicoes = $contribuicaoLogDao->getContribuicoes();
+
+            echo json_encode(["data" => $contribuicoes]);
+        } catch (PDOException $e) {
+            http_response_code(500);
+            echo json_encode(['erro' => 'Erro ao buscar contribuições no banco de dados.']);
         }
     }
 

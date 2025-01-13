@@ -1,6 +1,6 @@
 <?php
 session_start();
-ini_set('display_errors', true);
+ini_set('display_errors', false);
 error_reporting(E_ALL);
 
 if (!isset($_SESSION['usuario'])) {
@@ -310,9 +310,9 @@ function quickQuery($query, $column)
 					?>
 
 					<?php
-						try{
+						try {
 							if ($idProduto && $idAlmoxarifado) {
-								$stmtEntradas = $pdo->prepare("
+								$query = "
 									SELECT 
 										entrada.data AS data_entrada,
 										entrada.hora AS hora_entrada,
@@ -339,77 +339,92 @@ function quickQuery($query, $column)
 										AND estoque.id_almoxarifado = almoxarifado.id_almoxarifado
 									WHERE 
 										almoxarifado.id_almoxarifado = :idAlmoxarifado
-										AND produto.id_produto = :idProduto
-										AND entrada.data IN (" . implode(', ', array_map(function ($index) {
-											return ":data_entrada_$index";
-										}, array_keys($datasArray))) . ")
-								");
+										AND produto.id_produto = :idProduto";
+						
+								if (!empty($datasArray)) {
+									$placeholders = implode(', ', array_map(function ($index) {
+										return ":data_entrada_$index";
+									}, array_keys($datasArray)));
+									$query .= " AND entrada.data IN ($placeholders)";
+								}
+						
+								$stmtEntradas = $pdo->prepare($query);
 								$stmtEntradas->bindParam(':idProduto', $idProduto, PDO::PARAM_INT);
 								$stmtEntradas->bindParam(':idAlmoxarifado', $idAlmoxarifado, PDO::PARAM_INT);
-							
-								foreach ($datasArray as $index => $data) {
-									$stmtEntradas->bindValue(":data_entrada_$index", $data, PDO::PARAM_STR);
+						
+								if (!empty($datasArray)) {
+									foreach ($datasArray as $index => $data) {
+										$stmtEntradas->bindValue(":data_entrada_$index", $data, PDO::PARAM_STR);
+									}
 								}
-							
+						
 								$stmtEntradas->execute();
-							
+						
 								if ($stmtEntradas->rowCount() > 0) {
 									$entradas = $stmtEntradas->fetchAll(PDO::FETCH_ASSOC);
 								} else {
 									$entradas = [];
 								}
 							}
-						} catch(PDOException $e){
+						} catch (PDOException $e) {
 							echo "Não registrado" . $e->getMessage();
 						}
 						
-					try{
-						$stmtSaidas = $pdo->prepare("
-						SELECT 
-							saida.data AS data_saida,
-							saida.hora AS hora_saida,
-							almoxarifado.descricao_almoxarifado,
-							produto.descricao,
-							categoria_produto.descricao_categoria,
-							isaida.qtd AS quantidade_saida,
-							tipo_saida.descricao AS descricao_tipo_saida
-						FROM 
-							isaida
-						JOIN 
-							saida ON isaida.id_saida = saida.id_saida
-						JOIN 
-							almoxarifado ON saida.id_almoxarifado = almoxarifado.id_almoxarifado
-						JOIN 
-							produto ON isaida.id_produto = produto.id_produto
-						LEFT JOIN 
-							categoria_produto ON produto.id_categoria_produto = categoria_produto.id_categoria_produto
-						LEFT JOIN 
-							tipo_saida ON saida.id_tipo = tipo_saida.id_tipo
-						WHERE 
-							almoxarifado.id_almoxarifado = :idAlmoxarifado
-							AND produto.id_produto = :idProduto
-							AND saida.data IN (" . implode(', ', array_map(function ($index) {
-										return ":data_saida_$index";
-									}, array_keys($datasArray))) . ")
-					");
-					
-					$stmtSaidas->bindParam(':idProduto', $idProduto, PDO::PARAM_INT);
-					$stmtSaidas->bindParam(':idAlmoxarifado', $idAlmoxarifado, PDO::PARAM_INT);
-
-					foreach ($datasArray as $index => $data) {
-						$stmtSaidas->bindValue(":data_saida_$index", $data, PDO::PARAM_STR);
-					}
-
-					$stmtSaidas->execute();
-					if ($stmtSaidas->rowCount() > 0) {
-						$saidas = $stmtSaidas->fetchAll(PDO::FETCH_ASSOC);
-					} else {
-						$saidas = [];
-					}
-
-					} catch(PDOException $e){
-						echo"Não registrado" . $e->getMessage();
-					}
+						
+						try {
+							$query = "
+								SELECT 
+									saida.data AS data_saida,
+									saida.hora AS hora_saida,
+									almoxarifado.descricao_almoxarifado,
+									produto.descricao,
+									categoria_produto.descricao_categoria,
+									isaida.qtd AS quantidade_saida,
+									tipo_saida.descricao AS descricao_tipo_saida
+								FROM 
+									isaida
+								JOIN 
+									saida ON isaida.id_saida = saida.id_saida
+								JOIN 
+									almoxarifado ON saida.id_almoxarifado = almoxarifado.id_almoxarifado
+								JOIN 
+									produto ON isaida.id_produto = produto.id_produto
+								LEFT JOIN 
+									categoria_produto ON produto.id_categoria_produto = categoria_produto.id_categoria_produto
+								LEFT JOIN 
+									tipo_saida ON saida.id_tipo = tipo_saida.id_tipo
+								WHERE 
+									almoxarifado.id_almoxarifado = :idAlmoxarifado
+									AND produto.id_produto = :idProduto";
+						
+							if (!empty($datasArray)) {
+								$placeholders = implode(', ', array_map(function ($index) {
+									return ":data_saida_$index";
+								}, array_keys($datasArray)));
+								$query .= " AND saida.data IN ($placeholders)";
+							}
+						
+							$stmtSaidas = $pdo->prepare($query);
+							$stmtSaidas->bindParam(':idProduto', $idProduto, PDO::PARAM_INT);
+							$stmtSaidas->bindParam(':idAlmoxarifado', $idAlmoxarifado, PDO::PARAM_INT);
+						
+							if (!empty($datasArray)) {
+								foreach ($datasArray as $index => $data) {
+									$stmtSaidas->bindValue(":data_saida_$index", $data, PDO::PARAM_STR);
+								}
+							}
+						
+							$stmtSaidas->execute();
+						
+							if ($stmtSaidas->rowCount() > 0) {
+								$saidas = $stmtSaidas->fetchAll(PDO::FETCH_ASSOC);
+							} else {
+								$saidas = [];
+							}
+						} catch (PDOException $e) {
+							echo "Não registrado" . $e->getMessage();
+						}
+						
 					?>
 
 					<table class="table table-striped">

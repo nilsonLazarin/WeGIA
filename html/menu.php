@@ -357,7 +357,10 @@
 									</li>
 									<li>
 										<a href="<?= WWW ?>html/socio/sistema/cobrancas.php">
-											<span>Controle de Cobranças</span>
+											<span>Controle de Cobranças (Antigo)</span>
+										</a>
+										<a href="<?= WWW ?>html/socio/sistema/contribuicoes.php">
+											<span>Controle de Contribuições</span>
 										</a>
 									</li>
 								</ul>
