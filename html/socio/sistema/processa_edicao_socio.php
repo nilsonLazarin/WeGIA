@@ -66,6 +66,20 @@ $sqlUpdatePessoa = "UPDATE pessoa
 
 $stmt = mysqli_prepare($conexao, $sqlUpdatePessoa);
 
+//sanitização das entradas
+$cpf_cnpj = filter_var($cpf_cnpj,FILTER_SANITIZE_STRING);
+$socio_nome = filter_var($socio_nome, FILTER_SANITIZE_STRING);
+$telefone = filter_var($telefone, FILTER_SANITIZE_STRING);
+//$data_nasc = filter_var($data_nasc, FILTER_SANITIZE_STRING);
+$cep = filter_var($cep, FILTER_SANITIZE_STRING);
+$estado = filter_var($estado, FILTER_SANITIZE_STRING);
+$cidade = filter_var($cidade, FILTER_SANITIZE_STRING);
+$bairro = filter_var($bairro, FILTER_SANITIZE_STRING);
+$rua = filter_var($rua, FILTER_SANITIZE_STRING);
+$numero = filter_var($numero, FILTER_SANITIZE_STRING);
+$complemento = filter_var($complemento, FILTER_SANITIZE_STRING);
+$id_pessoa = filter_var($id_pessoa, FILTER_SANITIZE_NUMBER_INT);
+
 if ($stmt) {
     // Bind dos parâmetros (tipos: 's' para string, 'i' para inteiro, 'd' para float/double)
     $stmt->bind_param(
@@ -194,6 +208,13 @@ if ($stmt) {
                    WHERE id_socio = ?";
 
         $stmt = mysqli_prepare($conexao, $sqlUpdateSocio);
+
+        $status = filter_var($status, FILTER_SANITIZE_STRING);         // String (id_sociostatus)
+        $email = filter_var($email, FILTER_SANITIZE_EMAIL);          // String (email)
+        $data_referencia = filter_var($data_referencia, FILTER_SANITIZE_STRING); // String (data_referencia)
+        $valor_periodo = filter_var($valor_periodo, FILTER_SANITIZE_NUMBER_FLOAT); // Double (valor_periodo)
+        $tag = filter_var($tag, FILTER_SANITIZE_NUMBER_INT);            // Inteiro (id_sociotag)
+        $id_socio = filter_var($id_socio, FILTER_SANITIZE_NUMBER_INT);       // Inteiro (id_socio)
 
         if ($stmt) {
             // Bind dos parâmetros
