@@ -436,4 +436,39 @@ class AtendidoControle
             echo $e->getMessage();
         }
     }
+
+    public function alterarStatus(){
+        $id = filter_input(INPUT_POST, 'idatendido', FILTER_SANITIZE_NUMBER_INT);
+        $operacao = filter_input(INPUT_POST, 'operacao', FILTER_SANITIZE_STRING);
+
+        if(!$id || $id < 1){
+            http_response_code(400);
+            echo json_encode(['erro' => 'O id informado não é válido'. " $id"]);
+            exit();
+        }
+
+        if($operacao != 'desativar' && $operacao != 'ativar'){
+            http_response_code(400);
+            echo json_encode(['erro' => 'A operação informada é inválida']);
+            exit();
+        }
+
+        try{
+            $status = null;
+
+            switch($operacao){
+                case 'desativar': $status = 2;break;
+                case 'ativar': $status = 1;break;
+            }
+
+            $atendidoDAO = new AtendidoDAO();
+            $atendidoDAO->alterarStatus($id, $status);
+
+            header('Location: ./control.php?metodo=listarTodos&nomeClasse=AtendidoControle&nextPage=../html/atendido/Informacao_Atendido.php');
+        }catch(PDOException){
+            http_response_code(500);
+            echo json_encode(['erro' => 'Erro no servidor ao alterar o status do atendido.']);
+            exit();
+        }
+    }
 }

@@ -813,7 +813,23 @@ $dependente = json_encode($dependente);
                     <div class="panel-footer">
                       <div class="row">
                         <div class="col-md-9 col-md-offset-3">
-                          <button id="excluir" type="button" class="btn btn-danger" data-toggle="modal" data-target="#exclusao">Excluir</button>
+                          <?php 
+                            $atend = json_decode($atend)[0];
+                            //print_r($atend);
+                            if($atend->status == 1):
+                          ?>
+                          <button id="excluir" type="button" class="btn btn-danger" data-toggle="modal" data-target="#exclusao">Desativar</button>
+                          <?php
+                            elseif ($atend->status == 2):
+                          ?>
+                          <form action="../../controle/control.php?metodo=alterarStatus&nomeClasse=AtendidoControle" method="post">
+                            <input type="hidden" name="idatendido" value= <?= $_GET['idatendido']?>>
+                            <input type="hidden" name="operacao" value= 'ativar'>
+                            <button class="btn btn-primary" type="submit">Ativar</button>
+                          </form>
+                          <?php
+                            endif;
+                          ?>
                         </div>
                       </div>
                     </div>
@@ -823,13 +839,18 @@ $dependente = json_encode($dependente);
                         <div class="modal-content">
                           <div class="modal-header">
                             <button type="button" class="close" aba-dismiss="modal">×</button>
-                            <h3>Excluir um atendido</h3>
+                            <h3>Desativar um atendido</h3>
                           </div>
                           <div class="modal-body">
-                            <p> Tem certeza que deseja excluir esse atendido? Essa ação não poderá ser desfeita e todas as informações referentes a esse atendido serão perdidas!</p>
-                            <a href="../../controle/control.php?metodo=excluir&nomeClasse=AtendidoControle&idatendido=<?php echo $_GET['idatendido']; ?>"><button button type="button" class="btn btn-success">Confirmar</button></a>
-                            <button button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                              <p>Tem certeza que deseja desativar esse atendido?</p>
+                              <form action="../../controle/control.php?metodo=alterarStatus&nomeClasse=AtendidoControle" method="post" class="d-flex">
+                                  <input type="hidden" name="idatendido" value= <?= $_GET['idatendido']?>>
+                                  <input type="hidden" name="operacao" value= 'desativar'>
+                                  <button class="btn btn-primary me-2" type="submit">Desativar</button>
+                                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                              </form>
                           </div>
+
                         </div>
                       </div>
                     </div>
