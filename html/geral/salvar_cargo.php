@@ -1,6 +1,20 @@
 <?php
+
+function fecharConexao(mysqli_stmt $stmt, mysqli $conexao)
+{
+    // Fechar o primeiro statement
+    mysqli_stmt_close($stmt);
+
+    // Fechar a conexão
+    mysqli_close($conexao);
+}
+
 session_start();
 if (!isset($_SESSION['usuario'])) die("Você não está logado(a).");
+
+require_once '../permissao/permissao.php';
+permissao($_SESSION['id_pessoa'], 11, 3);
+
 $config_path = "config.php";
 if (file_exists($config_path)) {
     require_once($config_path);
@@ -44,7 +58,10 @@ if (mysqli_affected_rows($conexao)) {
     $_SESSION['msg'] = "Cargo salvo com sucesso.";
     $_SESSION['link'] = "./geral/cargos.php";
     $_SESSION['proxima'] = "Listar cargos";
+
+    fecharConexao($stmt, $conexao);
     header("Location: ../sucesso.php");
 } else {
+    fecharConexao($stmt, $conexao);
     header("Location: ./cargos.php?msg_e=Erro ao modificar cargo.");
 }
