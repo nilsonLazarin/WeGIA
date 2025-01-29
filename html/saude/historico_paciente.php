@@ -75,7 +75,15 @@ if (!isset($teste)) {
 $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
 $exibimedparaenfermeiro = $pdo->query("SELECT * FROM saude_medicacao sm JOIN saude_atendimento sa ON(sm.id_atendimento=sa.id_atendimento) JOIN saude_fichamedica sf ON(sa.id_fichamedica=sf.id_fichamedica) WHERE sm.saude_medicacao_status_idsaude_medicacao_status = 1 and sf.id_fichamedica=" . $_GET['id_fichamedica']);
-$exibimedparaenfermeiro = $exibimedparaenfermeiro->fetchAll(PDO::FETCH_ASSOC);
+
+$sqlMedicacao = "SELECT * FROM saude_medicacao sm JOIN saude_atendimento sa ON(sm.id_atendimento=sa.id_atendimento) JOIN saude_fichamedica sf ON(sa.id_fichamedica=sf.id_fichamedica) WHERE sm.saude_medicacao_status_idsaude_medicacao_status = 1 and sf.id_fichamedica=:idFichaMedica";
+
+$stmtMedicacao = $pdo->prepare($sqlMedicacao);
+
+$stmtMedicacao->bindParam(':idFichaMedica', $id);
+$stmtMedicacao->execute();
+
+$exibimedparaenfermeiro = $stmtMedicacao->fetchAll(PDO::FETCH_ASSOC);
 $exibimedparaenfermeiro = json_encode($exibimedparaenfermeiro);
 
 $a = $_GET['id_fichamedica'];
