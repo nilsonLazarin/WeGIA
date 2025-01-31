@@ -357,7 +357,16 @@
 								<h4>Cadastrar Atendido</h4>
 							</div>
 						</a>
-						=
+
+						<a href="../controle/control.php?metodo=listarTodos&nomeClasse=AtendidoControle&nextPage=../html/atendido/Informacao_Atendido.php">
+							<div class="col-lg-2 col-md-8 i">
+								<form id="listarAtendido" method="POST" action="../controle/control.php">
+									<i  class="far fa-address-card" id="listarAtendido"></i>
+									<h4>Informação Atendidos</h4>
+								</form>
+							</div>
+						</a>
+						
 					</div>
 				</div>
 

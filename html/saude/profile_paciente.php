@@ -87,6 +87,15 @@ header("Location: ../home.php?msg_c=$msg");
 
   $enfermidades = $pdo->query("SELECT sf.id_CID, sf.data_diagnostico, sf.status, stc.descricao FROM saude_enfermidades sf JOIN saude_tabelacid stc ON sf.id_CID = stc.id_CID WHERE stc.CID NOT LIKE 'T78.4%' AND sf.status = 1 AND id_fichamedica= ".$_GET['id_fichamedica']);
   $enfermidades = $enfermidades->fetchAll(PDO::FETCH_ASSOC);
+
+  //Formata data das enfermidades para o formato brasileiro
+  require_once '../../classes/Util.php';
+  $util = new Util();
+
+  foreach($enfermidades as $index => $enfermidade){
+    $enfermidades[$index]['data_diagnostico'] = $util->formatoDataDMY($enfermidade['data_diagnostico']);
+  }
+
   $enfermidades = json_encode($enfermidades);
 
   $alergias = $pdo->query("SELECT sf.id_CID, sf.data_diagnostico, sf.status, stc.descricao FROM saude_enfermidades sf JOIN saude_tabelacid stc ON sf.id_CID = stc.id_CID WHERE stc.CID LIKE 'T78.4%' AND sf.status = 1 AND id_fichamedica= ".$_GET['id_fichamedica']);

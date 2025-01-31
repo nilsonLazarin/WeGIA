@@ -295,7 +295,7 @@ class AtendidoDAO
             $pdo = Conexao::connect();
             /*$sql = "SELECT p.imagem,p.nome,p.sobrenome,p.cpf, p.senha, p.sexo, p.telefone,p.data_nascimento, p.cep,p.estado,p.cidade,p.bairro,p.logradouro,p.numero_endereco,p.complemento,p.ibge,p.registro_geral,p.orgao_emissor,p.data_expedicao,p.nome_pai,p.nome_mae,p.tipo_sanguineo, d.id_documento FROM pessoa p LEFT JOIN atendido a ON p.id_pessoa = a.pessoa_id_pessoa left join documento d on p.id_pessoa=d.id_pessoa WHERE a.idatendido=:id";*/
 
-            $sql = "SELECT p.imagem,p.nome,p.sobrenome,p.cpf, p.senha, p.sexo, p.telefone,p.data_nascimento, p.cep,p.estado,p.cidade,p.bairro,p.logradouro,p.numero_endereco,p.complemento,p.ibge,p.registro_geral,p.orgao_emissor,p.data_expedicao,p.nome_pai,p.nome_mae,p.tipo_sanguineo FROM pessoa p LEFT JOIN atendido a ON p.id_pessoa = a.pessoa_id_pessoa WHERE a.idatendido=:id";
+            $sql = "SELECT p.imagem,p.nome,p.sobrenome,p.cpf, p.senha, p.sexo, p.telefone,p.data_nascimento, p.cep,p.estado,p.cidade,p.bairro,p.logradouro,p.numero_endereco,p.complemento,p.ibge,p.registro_geral,p.orgao_emissor,p.data_expedicao,p.nome_pai,p.nome_mae,p.tipo_sanguineo, a.atendido_status_idatendido_status FROM pessoa p LEFT JOIN atendido a ON p.id_pessoa = a.pessoa_id_pessoa WHERE a.idatendido=:id";
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':id',$id);
 
@@ -303,11 +303,11 @@ class AtendidoDAO
             $pessoa=array();
             while ($linha = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 if ($linha['cpf']==="Não informado") {
-                $pessoa[]=array('imagem'=>$linha['imagem'],'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'cpf'=>$linha['cpf'], 'senha'=>$linha['senha'], 'sexo'=>$linha['sexo'], 'telefone'=>$linha['telefone'],'data_nascimento'=>$linha['data_nascimento'], 'cep'=>$linha['cep'], 'estado'=>$linha['estado'],'cidade'=>$linha['cidade'],'bairro'=>$linha['bairro'],'logradouro'=>$linha['logradouro'],'numero_endereco'=>$linha['numero_endereco'],'complemento'=>$linha['complemento'],'ibge'=>$linha['ibge'],'registro_geral'=>$linha['registro_geral'],'orgao_emissor'=>$linha['orgao_emissor'],'data_expedicao'=>$linha['data_expedicao'],'nome_pai'=>$linha['nome_pai'],'nome_mae'=>$linha['nome_mae'],'tipo_sanguineo'=>$linha['tipo_sanguineo'],'idatendido'=>$linha['pessoa_id_pessoa'],'imgdoc'=>$linha['imgdoc'],'descricao'=>$linha['descricao'],'id_documento'=>$linha['id_documento']);
+                $pessoa[]=array('imagem'=>$linha['imagem'],'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'cpf'=>$linha['cpf'], 'senha'=>$linha['senha'], 'sexo'=>$linha['sexo'], 'telefone'=>$linha['telefone'],'data_nascimento'=>$linha['data_nascimento'], 'cep'=>$linha['cep'], 'estado'=>$linha['estado'],'cidade'=>$linha['cidade'],'bairro'=>$linha['bairro'],'logradouro'=>$linha['logradouro'],'numero_endereco'=>$linha['numero_endereco'],'complemento'=>$linha['complemento'],'ibge'=>$linha['ibge'],'registro_geral'=>$linha['registro_geral'],'orgao_emissor'=>$linha['orgao_emissor'],'data_expedicao'=>$linha['data_expedicao'],'nome_pai'=>$linha['nome_pai'],'nome_mae'=>$linha['nome_mae'],'tipo_sanguineo'=>$linha['tipo_sanguineo'],'idatendido'=>$linha['pessoa_id_pessoa'],'imgdoc'=>$linha['imgdoc'],'descricao'=>$linha['descricao'],'id_documento'=>$linha['id_documento'], 'status' => $linha['atendido_status_idatendido_status']);
                 
             }
             else{
-                $pessoa[]=array('imagem'=>$linha['imagem'],'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'cpf'=>$linha['cpf'], 'senha'=>$linha['senha'], 'sexo'=>$linha['sexo'], 'telefone'=>$linha['telefone'],'data_nascimento'=>$linha['data_nascimento'], 'cep'=>$linha['cep'],'estado'=>$linha['estado'],'cidade'=>$linha['cidade'],'bairro'=>$linha['bairro'],'logradouro'=>$linha['logradouro'],'numero_endereco'=>$linha['numero_endereco'],'complemento'=>$linha['complemento'],'ibge'=>$linha['ibge'],'registro_geral'=>$linha['registro_geral'],'orgao_emissor'=>$linha['orgao_emissor'],'data_expedicao'=>$linha['data_expedicao'],'nome_pai'=>$linha['nome_pai'],'nome_mae'=>$linha['nome_mae'],'tipo_sanguineo'=>$linha['tipo_sanguineo'],'idatendido'=>$linha['pessoa_id_pessoa'],'imgdoc'=>$linha['imgdoc'],'descricao'=>$linha['descricao'],'id_documento'=>$linha['id_documento']);
+                $pessoa[]=array('imagem'=>$linha['imagem'],'nome'=>$linha['nome'],'sobrenome'=>$linha['sobrenome'],'cpf'=>$linha['cpf'], 'senha'=>$linha['senha'], 'sexo'=>$linha['sexo'], 'telefone'=>$linha['telefone'],'data_nascimento'=>$linha['data_nascimento'], 'cep'=>$linha['cep'],'estado'=>$linha['estado'],'cidade'=>$linha['cidade'],'bairro'=>$linha['bairro'],'logradouro'=>$linha['logradouro'],'numero_endereco'=>$linha['numero_endereco'],'complemento'=>$linha['complemento'],'ibge'=>$linha['ibge'],'registro_geral'=>$linha['registro_geral'],'orgao_emissor'=>$linha['orgao_emissor'],'data_expedicao'=>$linha['data_expedicao'],'nome_pai'=>$linha['nome_pai'],'nome_mae'=>$linha['nome_mae'],'tipo_sanguineo'=>$linha['tipo_sanguineo'],'idatendido'=>$linha['pessoa_id_pessoa'],'imgdoc'=>$linha['imgdoc'],'descricao'=>$linha['descricao'],'id_documento'=>$linha['id_documento'], 'status' => $linha['atendido_status_idatendido_status']);
             }
         }
         }catch (PDOException $e){
@@ -510,7 +510,18 @@ class AtendidoDAO
         return json_encode($funcionario);
     }
 
-    
+    public function alterarStatus($idAtendido, $idStatus){
+        $sql = 'UPDATE atendido SET atendido_status_idatendido_status=:idStatus WHERE idatendido=:idAtendido';
+
+        $pdo = Conexao::connect();
+
+        $stmt = $pdo->prepare($sql);
+
+        $stmt->bindParam(':idStatus', $idStatus);
+        $stmt->bindParam(':idAtendido', $idAtendido);
+
+        $stmt->execute();
+    }
 
 }
 ?>
