@@ -74,8 +74,6 @@ if (!isset($teste)) {
 }
 $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
-$exibimedparaenfermeiro = $pdo->query("SELECT * FROM saude_medicacao sm JOIN saude_atendimento sa ON(sm.id_atendimento=sa.id_atendimento) JOIN saude_fichamedica sf ON(sa.id_fichamedica=sf.id_fichamedica) WHERE sm.saude_medicacao_status_idsaude_medicacao_status = 1 and sf.id_fichamedica=" . $_GET['id_fichamedica']);
-
 $sqlMedicacao = "SELECT * FROM saude_medicacao sm JOIN saude_atendimento sa ON(sm.id_atendimento=sa.id_atendimento) JOIN saude_fichamedica sf ON(sa.id_fichamedica=sf.id_fichamedica) WHERE sm.saude_medicacao_status_idsaude_medicacao_status = 1 and sf.id_fichamedica=:idFichaMedica";
 
 $stmtMedicacao = $pdo->prepare($sqlMedicacao);
@@ -85,8 +83,6 @@ $stmtMedicacao->execute();
 
 $exibimedparaenfermeiro = $stmtMedicacao->fetchAll(PDO::FETCH_ASSOC);
 $exibimedparaenfermeiro = json_encode($exibimedparaenfermeiro);
-
-$a = $_GET['id_fichamedica'];
 
 $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 $medicamentoenfermeiro = $mysqli->query("SELECT * FROM saude_medicacao");
@@ -99,19 +95,41 @@ $funcionario_id = $teste[0]['id_funcionario'];
 
 $sinaisvitais = $pdo->query("SELECT id_sinais_vitais, data, saturacao, pressao_arterial, frequencia_cardiaca, frequencia_respiratoria, temperatura, hgt, p.nome, p.sobrenome FROM saude_sinais_vitais sv JOIN funcionario f ON(sv.id_funcionario = f.id_funcionario) JOIN pessoa p ON (f.id_pessoa = p.id_pessoa) WHERE sv.id_fichamedica = " . $_SESSION['id_upload_med'])->fetchAll(PDO::FETCH_ASSOC);
 //formatar data
-foreach($sinaisvitais as $key => $value){
+foreach ($sinaisvitais as $key => $value) {
   $data = new DateTime($value['data']);
   $sinaisvitais[$key]['data'] = $data->format('d/m/Y H:i');
 }
 
 $sinaisvitais = json_encode($sinaisvitais);
 
-$prontuariopublico = $pdo->query("SELECT descricao FROM saude_fichamedica_descricoes WHERE id_fichamedica= " . $_GET['id_fichamedica']);
-$prontuariopublico = $prontuariopublico->fetchAll(PDO::FETCH_ASSOC);
+$sqlProntuarioPublico = "SELECT descricao FROM saude_fichamedica_descricoes WHERE id_fichamedica=:idFichaMedica";
+
+$stmtProntuarioPublico = $pdo->prepare($sqlProntuarioPublico);
+
+$stmtProntuarioPublico->bindValue(':idFichaMedica', $_GET['id_fichamedica']);
+
+if (!$stmtProntuarioPublico->execute()) {
+  http_response_code(500);
+  echo json_encode(['erro' => 'Erro ao buscar descrição da ficha médica']);
+  exit();
+}
+
+$prontuariopublico = $stmtProntuarioPublico->fetchAll(PDO::FETCH_ASSOC);
 $prontuariopublico = json_encode($prontuariopublico);
 
-$idPaciente = $pdo->query("SELECT id_pessoa FROM saude_fichamedica WHERE id_fichamedica =" .$_GET['id_fichamedica']);
-$idPaciente = $idPaciente->fetch(PDO::FETCH_ASSOC);
+$sqlPaciente = "SELECT id_pessoa FROM saude_fichamedica WHERE id_fichamedica =:idFichaMedica";
+
+$stmtPaciente = $pdo->prepare($sqlPaciente);
+
+$stmtPaciente->bindValue(':idFichaMedica', $_GET['id_fichamedica']);
+
+if (!$stmtPaciente->execute()) {
+  http_response_code(500);
+  echo json_encode(['erro' => 'Erro ao buscar paciente']);
+  exit();
+}
+
+$idPaciente = $stmtPaciente->fetch(PDO::FETCH_ASSOC);
 
 ?>
 <!-- Vendor -->
@@ -353,22 +371,21 @@ $idPaciente = $idPaciente->fetch(PDO::FETCH_ASSOC);
       color: rgb(255, 0, 0);
     }
 
-    #btn-cadastrar-emergencia{
-      margin-top:10px;
+    #btn-cadastrar-emergencia {
+      margin-top: 10px;
     }
 
-    #prontuario_publico tr p{
-        max-width: 450px;
-        word-wrap: break-word;
+    #prontuario_publico tr p {
+      max-width: 450px;
+      word-wrap: break-word;
     }
 
-    @media(max-width:768px){
-        #prontuario_publico tr p{
+    @media(max-width:768px) {
+      #prontuario_publico tr p {
         max-width: 250px;
         word-wrap: break-word;
+      }
     }
-    }
-      
   </style>
 
 </head>
@@ -612,13 +629,13 @@ $idPaciente = $idPaciente->fetch(PDO::FETCH_ASSOC);
                       <form method="post" action="../../controle/control.php">
                         <input type="hidden" name="nomeClasse" value="AvisoControle">
                         <input type="hidden" name="metodo" value="incluir">
-                        <input type="hidden" name="idpaciente" value="<?php echo $idPaciente['id_pessoa'];?>">
-                        <input type="hidden" name="idfuncionario" value="<?php echo $funcionario_id;?>">
-                        <input type="hidden" name="idfichamedica" value="<?php echo $id;?>">
+                        <input type="hidden" name="idpaciente" value="<?php echo $idPaciente['id_pessoa']; ?>">
+                        <input type="hidden" name="idfuncionario" value="<?php echo $funcionario_id; ?>">
+                        <input type="hidden" name="idfichamedica" value="<?php echo $id; ?>">
 
                         <div class="form-group">
                           <label for="descricao_emergencia">Descrição da Intercorrência</label>
-                          <textarea class="form-control" name="descricao_emergencia" id="" cols="30" rows="10" placeholder="Insira aqui a descrição do ocorrido..." required ></textarea>
+                          <textarea class="form-control" name="descricao_emergencia" id="" cols="30" rows="10" placeholder="Insira aqui a descrição do ocorrido..." required></textarea>
                         </div>
 
                         <input type="submit" id="btn-cadastrar-emergencia" class="btn btn-primary" value="Cadastrar">
