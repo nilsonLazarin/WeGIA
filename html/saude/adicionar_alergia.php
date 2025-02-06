@@ -1,6 +1,14 @@
 <?php
 require_once '../../dao/Conexao.php';
 
+if (!isset($_SESSION["usuario"])){
+    header("Location: ../index.php");
+}
+
+// Verifica Permissão do Usuário
+require_once '../permissao/permissao.php';
+permissao($_SESSION['id_pessoa'], 53, 7);
+
 $alergiaNome = trim(filter_input(INPUT_POST, 'nome', FILTER_SANITIZE_STRING));
 if(!$alergiaNome){
 	echo 'O nome de uma alergia não pode ser vazio!';
