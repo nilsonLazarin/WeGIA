@@ -12,6 +12,10 @@ if (!isset($_SESSION["usuario"])){
     header("Location: ../../index.php");
 }
 
+// Verifica Permissão do Usuário
+require_once '../permissao/permissao.php';
+permissao($_SESSION['id_pessoa'], 53, 7);
+
 if ($_POST){
     require_once "../../dao/Conexao.php";	 
     

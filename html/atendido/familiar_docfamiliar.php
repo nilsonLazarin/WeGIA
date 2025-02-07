@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-if (!isset($_SESSION["usuario"])){
+if (!isset($_SESSION["usuario"])) {
     header("Location: ../../index.php");
 }
 
@@ -29,34 +29,45 @@ define("TYPEOF_EXTENSION", [
     'odp' => 'application/odp',
 ]);
 
-if ($action == "download" || $g_action == "download"){
-    $sql = "SELECT extensao_arquivo, nome_arquivo, UNCOMPRESS(arquivo) AS arquivo FROM funcionario_dependentes_docs WHERE id_doc=$g_id_doc;";
+if ($action == "download" || $g_action == "download") {
+    $sql = "SELECT extensao_arquivo, nome_arquivo, UNCOMPRESS(arquivo) AS arquivo FROM funcionario_dependentes_docs WHERE id_doc=:idDoc";
     try {
-        $docdependente = $pdo->query($sql);
-        $docdependente = $docdependente->fetch(PDO::FETCH_ASSOC);
-        header("Content-type: ".TYPEOF_EXTENSION[$docdependente["extensao_arquivo"]]);
-        header("Content-Disposition: attachment; filename=".$docdependente["nome_arquivo"]);
+        $stmt = $pdo->prepare($sql);
+
+        $stmt->bindParam(':idDoc', $g_id_doc);
+
+        $stmt->execute();
+
+        $docdependente = $stmt->fetch(PDO::FETCH_ASSOC);
+        header("Content-type: " . TYPEOF_EXTENSION[$docdependente["extensao_arquivo"]]);
+        header("Content-Disposition: attachment; filename=" . $docdependente["nome_arquivo"]);
         ob_clean();
         flush();
         echo base64_decode($docdependente["arquivo"]);
     } catch (PDOException $th) {
         echo "[{'exception': ['$th'], 'action': ['post': '$action', 'get': '$g_action'], 'id_doc': ['post': '$id_doc', 'get': '$g_id_doc']}]";
     }
-}else if ($action == "excluir" || $g_action == "excluir"){
-    $sql = [
-        "DELETE FROM funcionario_dependentes_docs WHERE id_doc=$id_doc;",
-        "SELECT doc.nome_docdependente AS descricao, ddoc.data, ddoc.id_doc FROM funcionario_dependentes_docs ddoc LEFT JOIN funcionario_docdependentes doc ON doc.id_docdependentes = ddoc.id_docdependentes WHERE ddoc.id_dependente=$id_dependente;"
-    ];
+} else if ($action == "excluir" || $g_action == "excluir") {
+    $sql1 = "DELETE FROM funcionario_dependentes_docs WHERE id_doc=:idDoc";
+
+    $sql2 = "SELECT doc.nome_docdependente AS descricao, ddoc.data, ddoc.id_doc FROM funcionario_dependentes_docs ddoc LEFT JOIN funcionario_docdependentes doc ON doc.id_docdependentes = ddoc.id_docdependentes WHERE ddoc.id_dependente=:idDependente";
+    
     try {
-        $pdo->query($sql[0]);
-        $docdependente = $pdo->query($sql[1]);
-        $docdependente = $docdependente->fetchAll(PDO::FETCH_ASSOC);
+        $stmt1 = $pdo->prepare($sql1);
+        $stmt1->bindParam(':idDoc', $id_doc);
+        $stmt1->execute();
+
+        $stmt2 = $pdo->prepare($sql2);
+        $stmt2->bindParam(':idDependente', $id_dependente);
+        $stmt2->execute();
+
+        $docdependente = $stmt2->fetchAll(PDO::FETCH_ASSOC);
         $docdependente = json_encode($docdependente);
         echo $docdependente;
     } catch (PDOException $th) {
         echo "[{'exception': ['$th'], 'action': ['post': '$action', 'get': '$g_action'], 'id_doc': ['post': '$id_doc', 'get': '$g_id_doc']}]";
     }
-}else if ($action = "adicionar" || $g_action == "adicionar"){
+} else if ($action = "adicionar" || $g_action == "adicionar") {
     $sql = [
         "INSERT INTO funcionario_docdependentes (nome_docdependente) VALUES (:n);",
         "SELECT * FROM funcionario_docdependentes;"

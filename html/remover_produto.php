@@ -2,7 +2,11 @@
 	session_start();
 	if(!isset($_SESSION['usuario'])){
 		header ("Location: ../index.php");
+		exit();
 	}
+
+	require_once './permissao/permissao.php';
+	permissao($_SESSION['id_pessoa'], 22, 7);
 
 	$config_path = "config.php";
 	if(file_exists($config_path)){
@@ -13,32 +17,6 @@
 			if(file_exists($config_path)) break;
 		}
 		require_once($config_path);
-	}
-	$conexao = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-	$id_pessoa = $_SESSION['id_pessoa'];
-	$resultado = mysqli_query($conexao, "SELECT * FROM funcionario WHERE id_pessoa=$id_pessoa");
-	if(!is_null($resultado)){
-		$id_cargo = mysqli_fetch_array($resultado);
-		if(!is_null($id_cargo)){
-			$id_cargo = $id_cargo['id_cargo'];
-		}
-		$resultado = mysqli_query($conexao, "SELECT * FROM permissao WHERE id_cargo=$id_cargo and id_recurso=22");
-		if(!is_bool($resultado) and mysqli_num_rows($resultado)){
-			$permissao = mysqli_fetch_array($resultado);
-			if($permissao['id_acao'] < 7){
-        $msg = "Você não tem as permissões necessárias para essa página.";
-        header("Location: ./home.php?msg_c=$msg");
-			}
-			$permissao = $permissao['id_acao'];
-		}else{
-        	$permissao = 1;
-          $msg = "Você não tem as permissões necessárias para essa página.";
-          header("Location: ./home.php?msg_c=$msg");
-		}	
-	}else{
-		$permissao = 1;
-    $msg = "Você não tem as permissões necessárias para essa página.";
-    header("Location: ./home.php?msg_c=$msg");
 	}	
 	if (!isset($_GET['id_produto'])){
         header("Location: listar_produto.php");
@@ -147,14 +125,26 @@
         <?php
             $pdo = Conexao::connect();
             $idProduto = $_GET['id_produto'];
-            $query = $pdo->query("SELECT p.id_produto, p.preco, p.descricao,p.codigo, p.id_categoria_produto, c.descricao_categoria, p.id_unidade, u.descricao_unidade 
+
+			$sql1 = "SELECT p.id_produto, p.preco, p.descricao,p.codigo, p.id_categoria_produto, c.descricao_categoria, p.id_unidade, u.descricao_unidade 
             FROM produto p 
             INNER JOIN categoria_produto c ON p.id_categoria_produto = c.id_categoria_produto 
             INNER JOIN unidade u ON p.id_unidade = u.id_unidade 
-            WHERE p.id_produto = $idProduto;");
-			$item = $query->fetch(PDO::FETCH_ASSOC);
-			$query = $pdo->query("SELECT qtd FROM estoque WHERE id_produto=$idProduto;");
-			$item['qtd'] = ($query->fetch(PDO::FETCH_ASSOC))['qtd'];
+            WHERE p.id_produto =:idProduto";
+
+            $stmt1 = $pdo->prepare($sql1);
+			$stmt1->bindParam(':idProduto', $idProduto);
+			$stmt1->execute();
+
+			$item = $stmt1->fetch(PDO::FETCH_ASSOC);
+
+			$sql2 = "SELECT qtd FROM estoque WHERE id_produto=:idProduto";
+
+			$stmt2 = $pdo->prepare($sql2);
+			$stmt2->bindParam(':idProduto', $idProduto);
+			$stmt2->execute();
+
+			$item['qtd'] = ($stmt2->fetch(PDO::FETCH_ASSOC))['qtd'];
         ?>
         const itemEstoque = <?= JSON_encode($item) ?>;
         var descOf = {};
