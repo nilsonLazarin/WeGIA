@@ -268,6 +268,12 @@ try {
   .titulo-prontuario {
     font-weight: bold;
   }
+
+  .panel-informacoes-gerais{
+    border-width: 1px;
+    border-style: solid;
+    border-color: #428bca;
+  }
 </style>
 
 
@@ -584,7 +590,7 @@ try {
             <div class="tabs">
               <ul class="nav nav-tabs tabs-primary">
                 <li class="active">
-                  <a href="#overview" data-toggle="tab">Informações Gerais</a>
+                  <a href="#overview" data-toggle="tab" >Informações Gerais</a>
                 </li>
                 <li>
                   <a href="#cadastro_alergias" data-toggle="tab">Alergias</a>
@@ -615,7 +621,7 @@ try {
                 <div id="overview" class="tab-pane active">
                   <form class="form-horizontal" method="post" action="../../controle/control.php">
                     <input type="hidden" name="nomeClasse" value="SaudeControle">
-                    <section class="panel">
+                    <section class="panel panel-primary">
                       <header class="panel-heading">
                         <div class="panel-actions">
                           <a class="fa fa-caret-down" title="Mostrar/Ocultar"></a>
@@ -623,7 +629,7 @@ try {
                         <h2 class="panel-title">Informações pessoais</h2>
                       </header>
 
-                      <div class="panel-body">
+                      <div class="panel-body panel-informacoes-gerais">
                         <hr class="dotted short">
                         <fieldset>
 
@@ -692,7 +698,7 @@ try {
                   </form>
 
                   <div id="lista-alergias" class="tab-pane">
-                    <section class="panel">
+                    <section class="panel panel-primary">
                       <header class="panel-heading">
                         <div class="panel-actions">
                           <a class="fa fa-caret-up" title="Mostrar/Ocultar"></a>
@@ -700,12 +706,44 @@ try {
                         <h2 class="panel-title">Lista de Alergias</h2>
                       </header>
 
-                      <div class="panel-body" style="display: none;">
+                      <div class="panel-body panel-informacoes-gerais" style="display: none;">
+                        <?php 
+                           $alergiasArray = json_decode($alergias, true);
+                           if(count($alergiasArray) == 0):
+                        ?>
+                          <p>O paciente não possuí alergias cadastradas.</p>
+                        <?php
+                          else:
+                        ?>      
+                        <table class="table table-hover">
+                          <thead>
+                            <th>#</th>
+                            <th class="text-center">Descrição</th>
+                          </thead>
+
+                          <tbody>
+                            <!--Lista de alergias -->
+                            <?php 
+                              foreach($alergiasArray as $index => $alergia):
+                            ?>
+                            <tr>
+                              <td><?=$index+1?></td>
+                              <td class="text-center"><?=$alergia['descricao']?></td>
+                            </tr>
+                            <?php
+                              endforeach; 
+                            ?>
+                          </tbody>
+                        </table>
+
+                        <?php
+                          endif;
+                        ?>
                       </div>
                 </div>
 
                 <div id="lista-comorbidades" class="tab-pane">
-                    <section class="panel">
+                    <section class="panel panel-primary">
                       <header class="panel-heading">
                         <div class="panel-actions">
                           <a class="fa fa-caret-up" title="Mostrar/Ocultar"></a>
@@ -713,12 +751,12 @@ try {
                         <h2 class="panel-title">Lista de Comorbidades</h2>
                       </header>
 
-                      <div class="panel-body" style="display: none;">
+                      <div class="panel-body panel-informacoes-gerais" style="display: none;">
                       </div>
                 </div>
 
                 <div id="lista-medicacoes-uso" class="tab-pane">
-                    <section class="panel">
+                    <section class="panel panel-primary">
                       <header class="panel-heading">
                         <div class="panel-actions">
                           <a class="fa fa-caret-up" title="Mostrar/Ocultar"></a>
@@ -726,7 +764,7 @@ try {
                         <h2 class="panel-title">Lista de Medicações em uso</h2>
                       </header>
 
-                      <div class="panel-body" style="display: none;">
+                      <div class="panel-body panel-informacoes-gerais" style="display: none;">
                       </div>
                 </div>
                   
