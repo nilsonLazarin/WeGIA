@@ -584,7 +584,7 @@ try {
             <div class="tabs">
               <ul class="nav nav-tabs tabs-primary">
                 <li class="active">
-                  <a href="#overview" data-toggle="tab">Informações Pessoais</a>
+                  <a href="#overview" data-toggle="tab">Informações Gerais</a>
                 </li>
                 <li>
                   <a href="#cadastro_alergias" data-toggle="tab">Alergias</a>
@@ -618,7 +618,7 @@ try {
                     <section class="panel">
                       <header class="panel-heading">
                         <div class="panel-actions">
-                          <a href="#" class="fa fa-caret-down"></a>
+                          <a class="fa fa-caret-down" title="Mostrar/Ocultar"></a>
                         </div>
                         <h2 class="panel-title">Informações pessoais</h2>
                       </header>
@@ -690,6 +690,46 @@ try {
                       </div>
                     </section>
                   </form>
+
+                  <div id="lista-alergias" class="tab-pane">
+                    <section class="panel">
+                      <header class="panel-heading">
+                        <div class="panel-actions">
+                          <a class="fa fa-caret-up" title="Mostrar/Ocultar"></a>
+                        </div>
+                        <h2 class="panel-title">Lista de Alergias</h2>
+                      </header>
+
+                      <div class="panel-body" style="display: none;">
+                      </div>
+                </div>
+
+                <div id="lista-comorbidades" class="tab-pane">
+                    <section class="panel">
+                      <header class="panel-heading">
+                        <div class="panel-actions">
+                          <a class="fa fa-caret-up" title="Mostrar/Ocultar"></a>
+                        </div>
+                        <h2 class="panel-title">Lista de Comorbidades</h2>
+                      </header>
+
+                      <div class="panel-body" style="display: none;">
+                      </div>
+                </div>
+
+                <div id="lista-medicacoes-uso" class="tab-pane">
+                    <section class="panel">
+                      <header class="panel-heading">
+                        <div class="panel-actions">
+                          <a class="fa fa-caret-up" title="Mostrar/Ocultar"></a>
+                        </div>
+                        <h2 class="panel-title">Lista de Medicações em uso</h2>
+                      </header>
+
+                      <div class="panel-body" style="display: none;">
+                      </div>
+                </div>
+                  
                   <form action="../../controle/control.php" method="POST" id="editarProntuario">
                     <input type="hidden" name="nomeClasse" value="SaudeControle">
                     <input type="hidden" name="metodo" value="alterarProntuario">
